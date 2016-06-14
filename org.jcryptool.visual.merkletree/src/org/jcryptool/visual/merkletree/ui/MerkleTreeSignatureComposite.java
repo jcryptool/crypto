@@ -1,6 +1,6 @@
 package org.jcryptool.visual.merkletree.ui;
 
-import java.security.SecureRandom;
+//import java.security.SecureRandom;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -12,15 +12,19 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+//import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.merkletree.Descriptions;
 import org.jcryptool.visual.merkletree.algorithm.ISimpleMerkle;
+import org.jcryptool.visual.merkletree.algorithm.SimpleMerkleTree;
+import org.jcryptool.visual.merkletree.algorithm.XMSSTree;
+import org.jcryptool.visual.merkletree.ui.MerkleConst.SUIT;
 
 /**
  * Composite for the Tabpage "Signatur"
  * @author Kevin Muehlboeck
+ * @author Christoph Sonnberger
  *
  */
 public class MerkleTreeSignatureComposite extends Composite {
@@ -38,8 +42,11 @@ public class MerkleTreeSignatureComposite extends Composite {
 	StyledText styledTextSignSize;
 	Label lSignaturSize;
 	Label lkeyNumber;
+	Label SingatureExpl;
+
 	StyledText styledTextKeyNumber;
 	ISimpleMerkle merkle;
+	private String usedText;
 	public MerkleTreeSignatureComposite(Composite parent, int style, ISimpleMerkle merkle) {
 		super(parent, SWT.NONE);
 		this.setLayout(new GridLayout(MerkleConst.H_SPAN_MAIN, true));
@@ -73,14 +80,30 @@ public class MerkleTreeSignatureComposite extends Composite {
 		styledTextSignSize.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,false,MerkleConst.H_SPAN_MAIN/5,1));
 		styledTextSignSize.setText("");
 		
+		SingatureExpl = new Label(this, SWT.NONE);
+		SingatureExpl.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, MerkleConst.H_SPAN_MAIN, 1));
+		
+		/**
+		 * @author Christoph Sonnberger
+		 * The Text is based on the used suite
+		 * if there will implemented an other suite, just add an else if and type the name of the instance
+		 * Example for MultiTree -> merkle instanceof XMSSMT
+		 */
+		if(merkle instanceof XMSSTree){
+			SingatureExpl.setText(Descriptions.XMSS.Tab2_Txt0);
+			SingatureExpl.setText(Descriptions.XMSS.Tab2_Txt0);
+		}
+		else if(merkle instanceof SimpleMerkleTree){
+			SingatureExpl.setText(Descriptions.MSS.Tab2_Txt0);
+			SingatureExpl.setText(Descriptions.MSS.Tab2_Txt0);
+		}
+		
 		styledTextSign = new StyledText(this, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
-		styledTextSign.setText(Descriptions.MerkleTreeSign_3);
-		//gd_styledTextTree.widthHint = 960;
-		//gd_styledTextTree.heightHint = 40;;
 		GridData gd_textTextSign = new GridData(SWT.FILL,SWT.FILL,true,true,MerkleConst.H_SPAN_MAIN,1);
 		styledTextSign.setLayoutData(gd_textTextSign);
-		
 		createSign.addSelectionListener(new SelectionAdapter() {
+			
+			
 			/* (non-Javadoc)
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 			 * Event to create a Signature
@@ -89,27 +112,18 @@ public class MerkleTreeSignatureComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				if( textSign.getText()!= "") {
 				String signature = merkle.sign(textSign.getText());
-				String[]splittedSign = signature.split("\n");
-				String otSign = "";
-				String keyIndex = "";
-				if(splittedSign.length> 1){
-					otSign =splittedSign[0];
-					keyIndex =splittedSign[1];
-				}
-				styledTextSignSize.setText(Integer
-						.toString(org.jcryptool.visual.merkletree.files.Converter._stringToByte(otSign).length / 2)
-						+ "/" + (merkle.getOneTimeSignatureAlgorithmus().getN() * merkle.getOneTimeSignatureAlgorithmus().getL()) + " Bytes");
-				styledTextKeyNumber.setText(keyIndex);
-				if(signature == "") {
-					styledTextSign.setText(Descriptions.MerkleTreeSign_4);
-				}
-				else
-					styledTextSign.setText(signature);
+				usedText=textSign.getText();
+
+				/**
+				 * updated the field of the Signature, KeyIndex and SignatureLength
+				 */
+				styledTextSign.setText(signature);
+				styledTextSignSize.setText(getSignatureLength(signature) +" Byte");
+				styledTextKeyNumber.setText(getKeyIndex(signature));
 				}
 				else {
-					styledTextSign.setText(Descriptions.MerkleTreeSign_5);
+					styledTextSign.setText("lol");
 				}
-				
 			}
 		});
 		textSign.addModifyListener(new ModifyListener() {
@@ -131,7 +145,47 @@ public class MerkleTreeSignatureComposite extends Composite {
 	 * @return Signature
 	 */
 	public String getSignatureFromForm() {
+		if (this.styledTextSign.getText().equals(Descriptions.MSS.Tab2_Txt0) ||
+				this.styledTextSign.getText().equals(Descriptions.MerkleTreeSign_4) ||
+				this.styledTextSign.getText().equals(Descriptions.MerkleTreeSign_5))
+			return "";
+		
 		return this.styledTextSign.getText();
+	}
+	
+	public String getMessageFromForm() {
+		return usedText;
+	}
+	
+	/**
+	 * @author christoph sonnberger
+	 * returns the Length of the Siganture as String
+	 * used for styledTextSignSize in GUI
+	 * @param signature
+	 * @return length of the Signature
+	 */
+	public String getSignatureLength(String signature){
+		int length = signature.length();
+		//divide by 2 to get the length in bytes
+		length = length/2;
+		StringBuilder sb = new StringBuilder();
+		sb.append("");
+		sb.append(length);
+		String sigLength = sb.toString();
+		return sigLength;
+	}
+	
+	/**
+	 * @author christoph sonnberger
+	 * returns the Index of a given signature as String
+	 * the Index is the first Letter of the signature
+	 * @param signature
+	 * @return index
+	 */
+	public String getKeyIndex(String signature){
+		int iend = signature.indexOf("|");
+		String subString= signature.substring(0 , iend);
+		return subString;
 	}
 
 	/**

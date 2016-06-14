@@ -5,27 +5,19 @@ import java.util.ArrayList;
 public interface ISimpleMerkle {
 	// Variablen
 
-	public void addPrivateSeed(byte[] privateSeed);
-
-	public void addPublicSeed(byte[] publiSeed);
-
-	public void addTreeLeaf(byte[] LeafContent, String pubKey);
+	public void setSeed(byte[] seed);
 
 	public byte[] getMerkleRoot();
 
-	public byte[] getPrivateSeed();
-
-	public byte[] getPublicSeed();
-	
-	public int getKeyLength();
+	public byte[] getSeed();
 
 	public int getLeafCounter();
 
 	public boolean isGenerated();
 
 	public Node getTreeLeaf(int treeLeaveNumber);
-
-	public byte[] getNodeContentbyIndex(int index);
+	
+	public void generateKeyPairsAndLeaves();
 
 	public ArrayList<Node> getTree();
 
@@ -35,10 +27,11 @@ public interface ISimpleMerkle {
 
 	public boolean verify(String message, String signature);
 
+	public boolean verify(String message, String signature, int keyIndex);
 	// Options
-	public void selectHashAlgorithmus(String hAlgo);
 
-	public void selectOneTimeSignatureAlgorithmus(String hash, String algo);
+	public void selectOneTimeSignatureAlgorithm(String hash, String algo);
+			
+	public void setLeafCount(int i);
 	
-	public OTS getOneTimeSignatureAlgorithmus();
 }
