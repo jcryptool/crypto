@@ -77,8 +77,14 @@ import de.flexiprovider.common.math.ellipticcurves.EllipticCurve;
 import de.flexiprovider.common.math.ellipticcurves.Point;
 
 public class ECDHComposite extends Composite implements PaintListener {
+	
     private Group groupMain = null;
+    private Group groupParameters = null;
     private Canvas canvasMain = null;
+    
+//    private Composite compositeBtn = null;
+    private Canvas canvasBtn = null;
+    
     private Button btnSetPublicParameters = null;
     private Button btnChooseSecrets = null;
     private Button btnCreateSharedKeys = null;
@@ -135,8 +141,9 @@ public class ECDHComposite extends Composite implements PaintListener {
     public ECDHComposite(Composite parent, int style, ECDHView view) {
         super(parent, style);
         this.view = view;
-        setLayout(new GridLayout());
+        setLayout(new GridLayout(2, false));
         createCompositeIntro();
+        createCanvasBtn();
         createGroupMain();
 
         serviceLocator = PlatformUI.getWorkbench();
@@ -190,7 +197,169 @@ public class ECDHComposite extends Composite implements PaintListener {
         	ECDHPlugin.getImageDescriptor("icons/reset.gif"), null, SWT.PUSH); //$NON-NLS-1$
     }
 
-    private void defineCommand(final String commandId, final String name, AbstractHandler handler) {
+    private void createCanvasBtn() {
+		// TODO Auto-generated method stub
+    	canvasBtn = new Canvas(this, SWT.NO_REDRAW_RESIZE);
+    	canvasBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+    	canvasBtn.setLayout(new GridLayout());
+    	
+    	// All the Buttons and Listener should go here
+    	btnSetPublicParameters = new Button(canvasBtn, SWT.NONE);
+    	GridData gd_btnSetPublicParameters = new GridData(SWT.FILL, SWT.FILL, true, false);
+    	gd_btnSetPublicParameters.heightHint = 60;
+    	btnSetPublicParameters.setLayoutData(gd_btnSetPublicParameters);
+        btnSetPublicParameters.setBackground(cRed);
+        btnSetPublicParameters.setText(Messages.getString("ECDHView.setPublicParameters")); //$NON-NLS-1$
+        btnSetPublicParameters.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                try {
+                    if (showInformationDialogs) {
+                        MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+                                | SWT.OK);
+                        messageBox.setText(Messages.getString("ECDHView.setPublicParameters")); //$NON-NLS-1$
+                        messageBox.setMessage(Messages.getString("ECDHView.Step1")); //$NON-NLS-1$
+                        messageBox.open();
+                    }
+
+                    PublicParametersWizard wiz = new PublicParametersWizard(curve, generator);
+                    WizardDialog dialog = new WizardDialog(new Shell(Display.getCurrent()), wiz);
+                    if (dialog.open() == Window.OK) {
+                        reset(1);
+                        large = wiz.isLarge();
+                        if (large) {
+                            largeCurve = wiz.getLargeCurve();
+                            pointG = wiz.getLargeGenerator();
+                            largeOrder = wiz.getLargeOrder();
+                            textCurve.setText(largeCurve.toString());
+                            textGenerator.setText("" + pointG.getXAffin() + ", " + pointG.getYAffin() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        } else {
+                            curve = wiz.getCurve();
+                            if (curve != null && curve.getType() == ECFm.ECFm)
+                                elements = ((ECFm) curve).getElements();
+                            textCurve.setText(curve.toString());
+                            generator = wiz.getGenerator();
+                            valueN = wiz.getOrder();
+                            textGenerator.setText(generator.toString());
+                        }
+
+                        btnChooseSecrets.setEnabled(true);
+                        btnSetPublicParameters.setBackground(cGreen);
+                        canvasMain.redraw();
+                    }
+                } catch (Exception ex) {
+                    LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
+                }
+            }
+        });
+        
+        
+        btnChooseSecrets = new Button(canvasBtn, SWT.NONE);
+        GridData gd_btnChooseSecrets = new GridData(SWT.FILL, SWT.FILL, true, false);
+        gd_btnChooseSecrets.verticalIndent = 60;
+        gd_btnChooseSecrets.heightHint = 60;
+        btnChooseSecrets.setLayoutData(gd_btnChooseSecrets);
+        btnChooseSecrets.setEnabled(false);
+        btnChooseSecrets.setBackground(cRed);
+        btnChooseSecrets.setText(Messages.getString("ECDHView.chooseSecrets")); //$NON-NLS-1$
+        btnChooseSecrets.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                if (showInformationDialogs) {
+                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+                            | SWT.OK);
+                    messageBox.setText(Messages.getString("ECDHView.chooseSecrets")); //$NON-NLS-1$
+                    messageBox.setMessage(Messages.getString("ECDHView.Step2")); //$NON-NLS-1$
+                    messageBox.open();
+                }
+                btnSecretA.setEnabled(true);
+                btnSecretB.setEnabled(true);
+                btnChooseSecrets.setBackground(cGreen);
+            }
+        });
+        
+        
+        btnCreateSharedKeys = new Button(canvasBtn, SWT.NONE);
+        GridData gd_btnCreateSharedKeys = new GridData(SWT.FILL, SWT.FILL, true, false);
+        gd_btnCreateSharedKeys.verticalIndent = 60;
+        gd_btnCreateSharedKeys.heightHint = 60;
+        btnCreateSharedKeys.setLayoutData(gd_btnCreateSharedKeys);
+        btnCreateSharedKeys.setEnabled(false);
+        btnCreateSharedKeys.setBackground(cRed);
+        btnCreateSharedKeys.setText(Messages.getString("ECDHView.createSharedKeys")); //$NON-NLS-1$
+        btnCreateSharedKeys.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                if (showInformationDialogs) {
+                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+                            | SWT.OK);
+                    messageBox.setText(Messages.getString("ECDHView.createSharedKeys")); //$NON-NLS-1$
+                    messageBox.setMessage(Messages.getString("ECDHView.Step3")); //$NON-NLS-1$
+                    messageBox.open();
+                }
+                btnCalculateSharedA.setEnabled(true);
+                btnCalculateSharedB.setEnabled(true);
+                btnCreateSharedKeys.setBackground(cGreen);
+            }
+        });
+        
+        
+        btnExchangeKeys = new Button(canvasBtn, SWT.NONE);
+        GridData gd_btnExchangeKeys = new GridData(SWT.FILL, SWT.FILL, true, false);
+        gd_btnExchangeKeys.verticalIndent = 60;
+        gd_btnExchangeKeys.heightHint = 60;
+        btnExchangeKeys.setLayoutData(gd_btnExchangeKeys);
+        btnExchangeKeys.setEnabled(false);
+        btnExchangeKeys.setBackground(cRed);
+        btnExchangeKeys.setText(Messages.getString("ECDHView.exchangeSharedKeys")); //$NON-NLS-1$
+        btnExchangeKeys.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                if (showInformationDialogs) {
+                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+                            | SWT.OK);
+                    messageBox.setText(Messages.getString("ECDHView.exchangeSharedKeys")); //$NON-NLS-1$
+                    messageBox.setMessage(Messages.getString("ECDHView.Step4")); //$NON-NLS-1$
+                    messageBox.open();
+                }
+                new Animate().run();
+                btnGenerateKey.setEnabled(true);
+                btnExchangeKeys.setBackground(cGreen);
+                canvasMain.redraw();
+            }
+        });
+    	
+        btnGenerateKey = new Button(canvasBtn, SWT.NONE);
+        GridData gd_btnGenerateKey = new GridData(SWT.FILL, SWT.FILL, true, false);
+        gd_btnGenerateKey.verticalIndent = 60;
+        gd_btnGenerateKey.heightHint = 60;
+        btnGenerateKey.setLayoutData(gd_btnGenerateKey);
+        btnGenerateKey.setEnabled(false);
+        btnGenerateKey.setBackground(cRed);
+        btnGenerateKey.setText(Messages.getString("ECDHView.generateCommonKey")); //$NON-NLS-1$
+        btnGenerateKey.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                if (showInformationDialogs) {
+                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+                            | SWT.OK);
+                    messageBox.setText(Messages.getString("ECDHView.generateCommonKey")); //$NON-NLS-1$
+                    messageBox.setMessage(Messages.getString("ECDHView.Step5")); //$NON-NLS-1$
+                    messageBox.open();
+                }
+                btnCalculateKeyA.setEnabled(true);
+                btnCalculateKeyB.setEnabled(true);
+                btnGenerateKey.setBackground(cGreen);
+            }
+        });
+        
+        canvasBtn.addPaintListener(new PaintListener() {
+			
+			@Override
+			public void paintControl(PaintEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+	}
+
+	private void defineCommand(final String commandId, final String name, AbstractHandler handler) {
         ICommandService commandService = (ICommandService)serviceLocator.getService(ICommandService.class);
     	Command command = commandService.getCommand(commandId);
     	command.define(name,  null, commandService.getCategory(CommandManager.AUTOGENERATED_CATEGORY_ID));
@@ -251,8 +420,9 @@ public class ECDHComposite extends Composite implements PaintListener {
      */
     private void createGroupMain() {
         groupMain = new Group(this, SWT.NONE);
-        groupMain.setLayout(new GridLayout());
-        groupMain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        groupMain.setLayout(new GridLayout(2, false));
+//        groupMain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        groupMain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
         createCanvasMain();
         groupMain.setText(Messages.getString("ECDHView.groupMain")); //$NON-NLS-1$
     }
@@ -264,164 +434,171 @@ public class ECDHComposite extends Composite implements PaintListener {
     private void createCanvasMain() {
         GridData gridData6 = new GridData(SWT.BEGINNING, SWT.BEGINNING, true, true);
         gridData6.widthHint = 774;
+//        gridData6.widthHint = 900;
         gridData6.heightHint = 539;
-        canvasMain = new Canvas(groupMain, SWT.DOUBLE_BUFFERED);
-        canvasMain.setLayout(new FormLayout());
-        canvasMain.setLayoutData(gridData6);
-        canvasMain.addPaintListener(this);
-        btnSetPublicParameters = new Button(canvasMain, SWT.NONE);
-        btnSetPublicParameters.setBackground(cRed);
-        btnSetPublicParameters.setText(Messages.getString("ECDHView.setPublicParameters")); //$NON-NLS-1$
-        FormData formData = new FormData(180, 60);
-        formData.left = new FormAttachment(4);
-        formData.top = new FormAttachment(4);
-        btnSetPublicParameters.setLayoutData(formData);
-        btnSetPublicParameters.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                try {
-                    if (showInformationDialogs) {
-                        MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
-                                | SWT.OK);
-                        messageBox.setText(Messages.getString("ECDHView.setPublicParameters")); //$NON-NLS-1$
-                        messageBox.setMessage(Messages.getString("ECDHView.Step1")); //$NON-NLS-1$
-                        messageBox.open();
-                    }
-
-                    PublicParametersWizard wiz = new PublicParametersWizard(curve, generator);
-                    WizardDialog dialog = new WizardDialog(new Shell(Display.getCurrent()), wiz);
-                    if (dialog.open() == Window.OK) {
-                        reset(1);
-                        large = wiz.isLarge();
-                        if (large) {
-                            largeCurve = wiz.getLargeCurve();
-                            pointG = wiz.getLargeGenerator();
-                            largeOrder = wiz.getLargeOrder();
-                            textCurve.setText(largeCurve.toString());
-                            textGenerator.setText("" + pointG.getXAffin() + ", " + pointG.getYAffin() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                        } else {
-                            curve = wiz.getCurve();
-                            if (curve != null && curve.getType() == ECFm.ECFm)
-                                elements = ((ECFm) curve).getElements();
-                            textCurve.setText(curve.toString());
-                            generator = wiz.getGenerator();
-                            valueN = wiz.getOrder();
-                            textGenerator.setText(generator.toString());
-                        }
-
-                        btnChooseSecrets.setEnabled(true);
-                        btnSetPublicParameters.setBackground(cGreen);
-                        canvasMain.redraw();
-                    }
-                } catch (Exception ex) {
-                    LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
-                }
-            }
-        });
+//        canvasMain = new Canvas(groupMain, SWT.DOUBLE_BUFFERED);
+//        canvasMain.setLayout(new FormLayout());
+//        canvasMain.setLayoutData(gridData6);
+//        canvasMain.addPaintListener(this);
+        
+        //TODO only an anchor
+//        createCompositeButtons(canvasMain);
+        
+//        btnSetPublicParameters = new Button(canvasMain, SWT.NONE);
+//        btnSetPublicParameters.setBackground(cRed);
+//        btnSetPublicParameters.setText(Messages.getString("ECDHView.setPublicParameters")); //$NON-NLS-1$
+//        FormData formData = new FormData(180, 60);
+//        formData.left = new FormAttachment(4);
+//        formData.top = new FormAttachment(4);
+//        btnSetPublicParameters.setLayoutData(formData);
+//        btnSetPublicParameters.addSelectionListener(new SelectionAdapter() {
+//            public void widgetSelected(SelectionEvent e) {
+//                try {
+//                    if (showInformationDialogs) {
+//                        MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+//                                | SWT.OK);
+//                        messageBox.setText(Messages.getString("ECDHView.setPublicParameters")); //$NON-NLS-1$
+//                        messageBox.setMessage(Messages.getString("ECDHView.Step1")); //$NON-NLS-1$
+//                        messageBox.open();
+//                    }
+//
+//                    PublicParametersWizard wiz = new PublicParametersWizard(curve, generator);
+//                    WizardDialog dialog = new WizardDialog(new Shell(Display.getCurrent()), wiz);
+//                    if (dialog.open() == Window.OK) {
+//                        reset(1);
+//                        large = wiz.isLarge();
+//                        if (large) {
+//                            largeCurve = wiz.getLargeCurve();
+//                            pointG = wiz.getLargeGenerator();
+//                            largeOrder = wiz.getLargeOrder();
+//                            textCurve.setText(largeCurve.toString());
+//                            textGenerator.setText("" + pointG.getXAffin() + ", " + pointG.getYAffin() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+//                        } else {
+//                            curve = wiz.getCurve();
+//                            if (curve != null && curve.getType() == ECFm.ECFm)
+//                                elements = ((ECFm) curve).getElements();
+//                            textCurve.setText(curve.toString());
+//                            generator = wiz.getGenerator();
+//                            valueN = wiz.getOrder();
+//                            textGenerator.setText(generator.toString());
+//                        }
+//
+//                        btnChooseSecrets.setEnabled(true);
+//                        btnSetPublicParameters.setBackground(cGreen);
+//                        canvasMain.redraw();
+//                    }
+//                } catch (Exception ex) {
+//                    LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
+//                }
+//            }
+//        });
         createGroupParameters();
-        btnChooseSecrets = new Button(canvasMain, SWT.NONE);
-        btnChooseSecrets.setEnabled(false);
-        btnChooseSecrets.setBackground(cRed);
-        formData = new FormData(180, 60);
-        formData.left = new FormAttachment(4);
-        formData.top = new FormAttachment(22);
-        btnChooseSecrets.setLayoutData(formData);
-        btnChooseSecrets.setText(Messages.getString("ECDHView.chooseSecrets")); //$NON-NLS-1$
-        btnChooseSecrets.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                if (showInformationDialogs) {
-                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
-                            | SWT.OK);
-                    messageBox.setText(Messages.getString("ECDHView.chooseSecrets")); //$NON-NLS-1$
-                    messageBox.setMessage(Messages.getString("ECDHView.Step2")); //$NON-NLS-1$
-                    messageBox.open();
-                }
-                btnSecretA.setEnabled(true);
-                btnSecretB.setEnabled(true);
-                btnChooseSecrets.setBackground(cGreen);
-            }
-        });
-        btnCreateSharedKeys = new Button(canvasMain, SWT.NONE);
-        btnCreateSharedKeys.setEnabled(false);
-        btnCreateSharedKeys.setBackground(cRed);
-        formData = new FormData(180, 60);
-        formData.left = new FormAttachment(4);
-        formData.top = new FormAttachment(40);
-        btnCreateSharedKeys.setLayoutData(formData);
-        btnCreateSharedKeys.setText(Messages.getString("ECDHView.createSharedKeys")); //$NON-NLS-1$
-        btnCreateSharedKeys.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                if (showInformationDialogs) {
-                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
-                            | SWT.OK);
-                    messageBox.setText(Messages.getString("ECDHView.createSharedKeys")); //$NON-NLS-1$
-                    messageBox.setMessage(Messages.getString("ECDHView.Step3")); //$NON-NLS-1$
-                    messageBox.open();
-                }
-                btnCalculateSharedA.setEnabled(true);
-                btnCalculateSharedB.setEnabled(true);
-                btnCreateSharedKeys.setBackground(cGreen);
-            }
-        });
-        btnExchangeKeys = new Button(canvasMain, SWT.NONE);
-        btnExchangeKeys.setEnabled(false);
-
-        btnExchangeKeys.setBackground(cRed);
-        formData = new FormData(180, 60);
-        formData.left = new FormAttachment(4);
-        formData.top = new FormAttachment(57);
-        btnExchangeKeys.setLayoutData(formData);
-        btnExchangeKeys.setText(Messages.getString("ECDHView.exchangeSharedKeys")); //$NON-NLS-1$
-        btnExchangeKeys.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                if (showInformationDialogs) {
-                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
-                            | SWT.OK);
-                    messageBox.setText(Messages.getString("ECDHView.exchangeSharedKeys")); //$NON-NLS-1$
-                    messageBox.setMessage(Messages.getString("ECDHView.Step4")); //$NON-NLS-1$
-                    messageBox.open();
-                }
-                new Animate().run();
-                btnGenerateKey.setEnabled(true);
-                btnExchangeKeys.setBackground(cGreen);
-                canvasMain.redraw();
-            }
-        });
-        btnGenerateKey = new Button(canvasMain, SWT.NONE);
-        btnGenerateKey.setEnabled(false);
-        btnGenerateKey.setBackground(cRed);
-        formData = new FormData(180, 60);
-        formData.left = new FormAttachment(4);
-        formData.top = new FormAttachment(75);
-        btnGenerateKey.setLayoutData(formData);
-        btnGenerateKey.setText(Messages.getString("ECDHView.generateCommonKey")); //$NON-NLS-1$
-        btnGenerateKey.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                if (showInformationDialogs) {
-                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
-                            | SWT.OK);
-                    messageBox.setText(Messages.getString("ECDHView.generateCommonKey")); //$NON-NLS-1$
-                    messageBox.setMessage(Messages.getString("ECDHView.Step5")); //$NON-NLS-1$
-                    messageBox.open();
-                }
-                btnCalculateKeyA.setEnabled(true);
-                btnCalculateKeyB.setEnabled(true);
-                btnGenerateKey.setBackground(cGreen);
-            }
-        });
+//        btnChooseSecrets = new Button(canvasMain, SWT.NONE);
+//        btnChooseSecrets.setEnabled(false);
+//        btnChooseSecrets.setBackground(cRed);
+//        formData = new FormData(180, 60);
+//        formData.left = new FormAttachment(4);
+//        formData.top = new FormAttachment(22);
+//        btnChooseSecrets.setLayoutData(formData);
+//        btnChooseSecrets.setText(Messages.getString("ECDHView.chooseSecrets")); //$NON-NLS-1$
+//        btnChooseSecrets.addSelectionListener(new SelectionAdapter() {
+//            public void widgetSelected(SelectionEvent e) {
+//                if (showInformationDialogs) {
+//                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+//                            | SWT.OK);
+//                    messageBox.setText(Messages.getString("ECDHView.chooseSecrets")); //$NON-NLS-1$
+//                    messageBox.setMessage(Messages.getString("ECDHView.Step2")); //$NON-NLS-1$
+//                    messageBox.open();
+//                }
+//                btnSecretA.setEnabled(true);
+//                btnSecretB.setEnabled(true);
+//                btnChooseSecrets.setBackground(cGreen);
+//            }
+//        });
+//        btnCreateSharedKeys = new Button(canvasMain, SWT.NONE);
+//        btnCreateSharedKeys.setEnabled(false);
+//        btnCreateSharedKeys.setBackground(cRed);
+//        formData = new FormData(180, 60);
+//        formData.left = new FormAttachment(4);
+//        formData.top = new FormAttachment(40);
+//        btnCreateSharedKeys.setLayoutData(formData);
+//        btnCreateSharedKeys.setText(Messages.getString("ECDHView.createSharedKeys")); //$NON-NLS-1$
+//        btnCreateSharedKeys.addSelectionListener(new SelectionAdapter() {
+//            public void widgetSelected(SelectionEvent e) {
+//                if (showInformationDialogs) {
+//                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+//                            | SWT.OK);
+//                    messageBox.setText(Messages.getString("ECDHView.createSharedKeys")); //$NON-NLS-1$
+//                    messageBox.setMessage(Messages.getString("ECDHView.Step3")); //$NON-NLS-1$
+//                    messageBox.open();
+//                }
+//                btnCalculateSharedA.setEnabled(true);
+//                btnCalculateSharedB.setEnabled(true);
+//                btnCreateSharedKeys.setBackground(cGreen);
+//            }
+//        });
+        
+        
+//        btnExchangeKeys = new Button(canvasMain, SWT.NONE);
+//        btnExchangeKeys.setEnabled(false);
+//        btnExchangeKeys.setBackground(cRed);
+//        formData = new FormData(180, 60);
+//        formData.left = new FormAttachment(4);
+//        formData.top = new FormAttachment(57);
+//        btnExchangeKeys.setLayoutData(formData);
+//        btnExchangeKeys.setText(Messages.getString("ECDHView.exchangeSharedKeys")); //$NON-NLS-1$
+//        btnExchangeKeys.addSelectionListener(new SelectionAdapter() {
+//            public void widgetSelected(SelectionEvent e) {
+//                if (showInformationDialogs) {
+//                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+//                            | SWT.OK);
+//                    messageBox.setText(Messages.getString("ECDHView.exchangeSharedKeys")); //$NON-NLS-1$
+//                    messageBox.setMessage(Messages.getString("ECDHView.Step4")); //$NON-NLS-1$
+//                    messageBox.open();
+//                }
+//                new Animate().run();
+//                btnGenerateKey.setEnabled(true);
+//                btnExchangeKeys.setBackground(cGreen);
+//                canvasMain.redraw();
+//            }
+//        });
+//        btnGenerateKey = new Button(canvasMain, SWT.NONE);
+//        btnGenerateKey.setEnabled(false);
+//        btnGenerateKey.setBackground(cRed);
+//        formData = new FormData(180, 60);
+//        formData.left = new FormAttachment(4);
+//        formData.top = new FormAttachment(75);
+//        btnGenerateKey.setLayoutData(formData);
+//        btnGenerateKey.setText(Messages.getString("ECDHView.generateCommonKey")); //$NON-NLS-1$
+//        btnGenerateKey.addSelectionListener(new SelectionAdapter() {
+//            public void widgetSelected(SelectionEvent e) {
+//                if (showInformationDialogs) {
+//                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ICON_INFORMATION
+//                            | SWT.OK);
+//                    messageBox.setText(Messages.getString("ECDHView.generateCommonKey")); //$NON-NLS-1$
+//                    messageBox.setMessage(Messages.getString("ECDHView.Step5")); //$NON-NLS-1$
+//                    messageBox.open();
+//                }
+//                btnCalculateKeyA.setEnabled(true);
+//                btnCalculateKeyB.setEnabled(true);
+//                btnGenerateKey.setBackground(cGreen);
+//            }
+//        });
         createGroupAlice();
         createGroupBob();
     }
 
-    /**
+	/**
      * This method initializes groupParameters
      *
      */
     private void createGroupParameters() {
         GridLayout gridLayout = new GridLayout(2, false);
-        Group groupParameters = new Group(canvasMain, SWT.NONE);
+        groupParameters = new Group(canvasMain, SWT.NONE);
         groupParameters.setText(Messages.getString("ECDHView.groupParameters")); //$NON-NLS-1$
         FormData formData = new FormData(525, SWT.DEFAULT);
-        formData.left = new FormAttachment(28);
+//        formData.left = new FormAttachment(28);
+        formData.left = new FormAttachment(canvasBtn, 0);
         formData.top = new FormAttachment(3);
         groupParameters.setLayoutData(formData);
         groupParameters.setLayout(gridLayout);
@@ -443,8 +620,10 @@ public class ECDHComposite extends Composite implements PaintListener {
         groupAlice = new Group(canvasMain, SWT.NONE);
         groupAlice.setText("Alice"); //$NON-NLS-1$
         FormData formData = new FormData(200, 360);
-        formData.left = new FormAttachment(28);
-        formData.top = new FormAttachment(21);
+//        formData.left = new FormAttachment(28);
+        formData.left = new FormAttachment(canvasBtn, 0);
+//        formData.top = new FormAttachment(21);
+        formData.top = new FormAttachment(groupParameters, 0);
         groupAlice.setLayoutData(formData);
         groupAlice.setLayout(new GridLayout(2, false));
         btnSecretA = new Button(groupAlice, SWT.NONE);
@@ -606,7 +785,8 @@ public class ECDHComposite extends Composite implements PaintListener {
         groupBob.setText("Bob"); //$NON-NLS-1$
         FormData formData = new FormData(200, 360);
         formData.left = new FormAttachment(70);
-        formData.top = new FormAttachment(21);
+//        formData.top = new FormAttachment(21);
+        formData.top = new FormAttachment(groupParameters, 0);
         groupBob.setLayoutData(formData);
         groupBob.setLayout(new GridLayout(2, false));
         btnSecretB = new Button(groupBob, SWT.NONE);
@@ -766,6 +946,7 @@ public class ECDHComposite extends Composite implements PaintListener {
         Color grey = new Color(Display.getCurrent(), 140, 138, 140);
         Color lightGrey = new Color(Display.getCurrent(), 180, 177, 180);
         gc.setBackground(grey);
+        // Strich der die Buttons verbindet
         int x = 100;
         int y = 70;
         int width = 10;
@@ -798,8 +979,11 @@ public class ECDHComposite extends Composite implements PaintListener {
             Image img = new Image(Display.getCurrent(), imD);
             gc.drawImage(img, 400, 480);
         }
+        
         gc.fillRectangle(x, y + height, width, totalheight - height);
+        // wagerechter Strich unten unter Gernerate Common key
         gc.fillRectangle(x, y + totalheight, 60, width);
+        //Pfeilspitze
         Path p = new Path(Display.getCurrent());
         p.moveTo(160, 495);
         p.lineTo(160, 515);
@@ -811,6 +995,7 @@ public class ECDHComposite extends Composite implements PaintListener {
             gc.setBackground(lightGrey);
         else
             gc.setBackground(grey);
+        //Pfad von a nach B
         Path ab = new Path(Display.getCurrent());
         x = 422;
         y = 257;
@@ -831,6 +1016,7 @@ public class ECDHComposite extends Composite implements PaintListener {
         gc.fillPath(ab);
         ab.dispose();
 
+        //Pfad von b nach A
         Path ba = new Path(Display.getCurrent());
         x = 543;
         y = 257;
