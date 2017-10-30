@@ -139,13 +139,16 @@ public class ECDHComposite extends Composite implements PaintListener {
     private final String saveToFileCommandId = "org.jcryptool.visual.ecdh.commands.saveToFile";
     private AbstractHandler saveToFileHandler;
     private IServiceLocator serviceLocator;
+    private Color grey = new Color(Display.getCurrent(), 140, 138, 140);
+    private Color lightGrey = new Color(Display.getCurrent(), 180, 177, 180);
     
     public ECDHComposite(Composite parent, int style, ECDHView view) {
         super(parent, style);
         this.view = view;
-        setLayout(new GridLayout(2, false));
+//        setLayout(new GridLayout(2, false));
+        setLayout(new GridLayout());
         createCompositeIntro();
-        createCanvasBtn();
+//        createCanvasBtn();
         createGroupMain();
 
         serviceLocator = PlatformUI.getWorkbench();
@@ -199,9 +202,9 @@ public class ECDHComposite extends Composite implements PaintListener {
         	ECDHPlugin.getImageDescriptor("icons/reset.gif"), null, SWT.PUSH); //$NON-NLS-1$
     }
 
-    private void createCanvasBtn() {
-    	canvasBtn = new Canvas(this, SWT.NO_REDRAW_RESIZE);
-    	canvasBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+    private void createCanvasBtn(Group parent) {
+    	canvasBtn = new Canvas(parent, SWT.NO_REDRAW_RESIZE);
+    	canvasBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
     	canvasBtn.setLayout(new GridLayout());
     	
     	// All the Buttons and Buttonlistener are here
@@ -354,7 +357,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 			@Override
 			public void paintControl(PaintEvent e) {
 				// TODO Auto-generated method stub
-				
+				GC gc = e.gc;
 			}
 		});
 		
@@ -394,7 +397,8 @@ public class ECDHComposite extends Composite implements PaintListener {
     private void createCompositeIntro() {
         Composite compositeIntro = new Composite(this, SWT.NONE);
         compositeIntro.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        compositeIntro.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+//        compositeIntro.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+        compositeIntro.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         compositeIntro.setLayout(new GridLayout(1, false));
 
         Label label = new Label(compositeIntro, SWT.NONE);
@@ -421,20 +425,22 @@ public class ECDHComposite extends Composite implements PaintListener {
      */
     private void createGroupMain() {
         groupMain = new Group(this, SWT.NONE);
-        groupMain.setLayout(new GridLayout(3, false));
+        groupMain.setLayout(new GridLayout(4, false));
         groupMain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 
+        createCanvasBtn(groupMain);
         createGroupParameters(groupMain);
         createGroupAlice(groupMain);
         createCanvasExchange(groupMain);
         createGroupBob(groupMain);
+        
         groupMain.setText(Messages.getString("ECDHView.groupMain")); //$NON-NLS-1$
     }
 
     private void createCanvasExchange(Group parent) {
     	canvasExchange = new Canvas(parent, SWT.NO_REDRAW_RESIZE);
     	GridData gd_canvasExchange = new GridData(SWT.FILL, SWT.FILL, false, false);
-		gd_canvasExchange.widthHint = 100;
+		gd_canvasExchange.widthHint = 200;
 		canvasExchange.setLayoutData(gd_canvasExchange);
 		// TODO here should the visual key exchange happen
 		
@@ -446,7 +452,7 @@ public class ECDHComposite extends Composite implements PaintListener {
      */
     private void createGroupParameters(Group parent) {
         groupParameters = new Group(parent, SWT.NONE);
-        groupParameters.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+        groupParameters.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
         groupParameters.setText(Messages.getString("ECDHView.groupParameters")); //$NON-NLS-1$
         GridLayout gridLayout = new GridLayout(2, false);
         groupParameters.setLayout(gridLayout);
@@ -466,12 +472,13 @@ public class ECDHComposite extends Composite implements PaintListener {
      */
     private void createGroupAlice(Group parent) {
         groupAlice = new Group(parent, SWT.NONE);
-        groupAlice.setLayoutData(new GridData(SWT.FILL | SWT.LEFT, SWT.FILL | SWT.TOP, false, false));
+        groupAlice.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
         groupAlice.setText("Alice"); //$NON-NLS-1$
         groupAlice.setLayout(new GridLayout(2, false));
+        
         btnSecretA = new Button(groupAlice, SWT.NONE);
         btnSecretA.setText(Messages.getString("ECDHView.secret")); //$NON-NLS-1$
-        btnSecretA.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1));
+        btnSecretA.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 2, 1));
         btnSecretA.setBackground(cRed);
         btnSecretA.setEnabled(false);
         btnSecretA.addSelectionListener(new SelectionAdapter() {
@@ -513,15 +520,17 @@ public class ECDHComposite extends Composite implements PaintListener {
         });
         Label label = new Label(groupAlice, SWT.NONE);
         label.setText("a ="); //$NON-NLS-1$
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
+        
         textSecretA = new Text(groupAlice, SWT.BORDER | SWT.PASSWORD | SWT.READ_ONLY);
-        textSecretA.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        textSecretA.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
+        
         btnCalculateSharedA = new Button(groupAlice, SWT.NONE);
         btnCalculateSharedA.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
         btnCalculateSharedA.setEnabled(false);
         btnCalculateSharedA.setBackground(cRed);
-        GridData gridData = new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1);
-        gridData.verticalIndent = 40;
-        btnCalculateSharedA.setLayoutData(gridData);
+        
+        btnCalculateSharedA.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
         btnCalculateSharedA.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 if (large) {
@@ -548,14 +557,15 @@ public class ECDHComposite extends Composite implements PaintListener {
         });
         label = new Label(groupAlice, SWT.NONE);
         label.setText("A ="); //$NON-NLS-1$
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+        
         textSharedA = new Text(groupAlice, SWT.BORDER | SWT.READ_ONLY);
-        textSharedA.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        textSharedA.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+        
         btnCalculateKeyA = new Button(groupAlice, SWT.NONE);
         btnCalculateKeyA.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
         btnCalculateKeyA.setEnabled(false);
-        gridData = new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1);
-        gridData.verticalIndent = 130;
-        btnCalculateKeyA.setLayoutData(gridData);
+        btnCalculateKeyA.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, true, 2, 1));
         btnCalculateKeyA.setBackground(cRed);
         btnCalculateKeyA.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -613,10 +623,13 @@ public class ECDHComposite extends Composite implements PaintListener {
             }
 
         });
+        
         label = new Label(groupAlice, SWT.NONE);
         label.setText("S ="); //$NON-NLS-1$
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
+        
         textCommonKeyA = new Text(groupAlice, SWT.BORDER | SWT.READ_ONLY);
-        textCommonKeyA.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        textCommonKeyA.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
     }
 
     /**
@@ -625,13 +638,16 @@ public class ECDHComposite extends Composite implements PaintListener {
      */
     private void createGroupBob(Group parent) {
         groupBob = new Group(parent, SWT.NONE);
-        groupBob.setLayoutData(new GridData(SWT.FILL | SWT.RIGHT, SWT.FILL | SWT.TOP, false, false));
+//        groupBob.setLayoutData(new GridData(SWT.FILL | SWT.RIGHT, SWT.FILL | SWT.TOP, false, true));
+        groupBob.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
         groupBob.setText("Bob"); //$NON-NLS-1$
         groupBob.setLayout(new GridLayout(2, false));
+        
         btnSecretB = new Button(groupBob, SWT.NONE);
         btnSecretB.setText(Messages.getString("ECDHView.secret")); //$NON-NLS-1$
         btnSecretB.setEnabled(false);
-        btnSecretB.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1));
+//        btnSecretB.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1));
+        btnSecretB.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 2, 1));
         btnSecretB.setBackground(cRed);
         btnSecretB.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -674,14 +690,19 @@ public class ECDHComposite extends Composite implements PaintListener {
         });
         Label label = new Label(groupBob, SWT.NONE);
         label.setText("b ="); //$NON-NLS-1$
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
+        
         textSecretB = new Text(groupBob, SWT.BORDER | SWT.PASSWORD | SWT.READ_ONLY);
-        textSecretB.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//        textSecretB.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        textSecretB.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
+        
         btnCalculateSharedB = new Button(groupBob, SWT.NONE);
         btnCalculateSharedB.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
         btnCalculateSharedB.setEnabled(false);
-        GridData gridData = new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1);
-        gridData.verticalIndent = 40;
-        btnCalculateSharedB.setLayoutData(gridData);
+//        GridData gridData = new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1);
+//        gridData.verticalIndent = 40;
+//        btnCalculateSharedB.setLayoutData(gridData);
+        btnCalculateSharedB.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
         btnCalculateSharedB.setBackground(cRed);
         btnCalculateSharedB.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -710,14 +731,19 @@ public class ECDHComposite extends Composite implements PaintListener {
         });
         label = new Label(groupBob, SWT.NONE);
         label.setText("B ="); //$NON-NLS-1$
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+        
         textSharedB = new Text(groupBob, SWT.BORDER | SWT.READ_ONLY);
-        textSharedB.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//        textSharedB.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        textSharedB.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+        
         btnCalculateKeyB = new Button(groupBob, SWT.NONE);
         btnCalculateKeyB.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
         btnCalculateKeyB.setEnabled(false);
-        gridData = new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1);
-        gridData.verticalIndent = 130;
-        btnCalculateKeyB.setLayoutData(gridData);
+//        gridData = new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1);
+//        gridData.verticalIndent = 130;
+//        btnCalculateKeyB.setLayoutData(gridData);
+        btnCalculateKeyB.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, true, 2, 1));
         btnCalculateKeyB.setBackground(cRed);
         btnCalculateKeyB.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -776,8 +802,11 @@ public class ECDHComposite extends Composite implements PaintListener {
         });
         label = new Label(groupBob, SWT.NONE);
         label.setText("S ="); //$NON-NLS-1$
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
+        
         textCommonKeyB = new Text(groupBob, SWT.BORDER | SWT.READ_ONLY);
-        textCommonKeyB.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//        textCommonKeyB.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        textCommonKeyB.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
     }
 
     public void paintControl(PaintEvent e) {
@@ -1054,7 +1083,8 @@ public class ECDHComposite extends Composite implements PaintListener {
         	command = commandService.getCommand(saveToFileCommandId);
         	command.setHandler(null);
         }
-        canvasMain.redraw();
+//        canvasMain.redraw();
+        groupMain.redraw();
         layout();
     }
 
