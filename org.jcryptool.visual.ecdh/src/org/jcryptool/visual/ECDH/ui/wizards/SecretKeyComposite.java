@@ -132,7 +132,6 @@ public class SecretKeyComposite extends Composite {
 			falseValue.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false, 3, 1));
 			falseValue.setFont(FontService.getSmallFont());
 			falseValue.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
-//			falseValue.setVisible(false);
 			falseValue.setText(Messages.getString("SecretKeyComposite.2")); //$NON-NLS-1$
 		} else {
 			spnrSecret = new Spinner(groupSecret, SWT.NONE);

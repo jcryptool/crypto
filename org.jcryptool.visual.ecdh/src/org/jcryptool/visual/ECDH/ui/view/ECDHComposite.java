@@ -13,8 +13,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-//import javax.sound.midi.Patch;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.CommandManager;
@@ -39,9 +37,6 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Path;
-//import org.eclipse.swt.layout.FormAttachment;
-//import org.eclipse.swt.layout.FormData;
-//import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -136,9 +131,9 @@ public class ECDHComposite extends Composite implements PaintListener {
 	private FlexiBigInt largeOrder;
 	private boolean showAnimation = true;
 	private boolean showInformationDialogs = true;
-	private final String saveToEditorCommandId = "org.jcryptool.visual.ecdh.commands.saveToEditor";
+	private final String saveToEditorCommandId = "org.jcryptool.visual.ecdh.commands.saveToEditor"; //$NON-NLS-1$
 	private AbstractHandler saveToEditorHandler;
-	private final String saveToFileCommandId = "org.jcryptool.visual.ecdh.commands.saveToFile";
+	private final String saveToFileCommandId = "org.jcryptool.visual.ecdh.commands.saveToFile"; //$NON-NLS-1$
 	private AbstractHandler saveToFileHandler;
 	private IServiceLocator serviceLocator;
 	private Color grey = new Color(Display.getCurrent(), 140, 138, 140);
@@ -157,23 +152,23 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 		serviceLocator = PlatformUI.getWorkbench();
 		IMenuManager dropDownMenu = view.getViewSite().getActionBars().getMenuManager();
-		final String showAnimationCommandId = "org.jcryptool.visual.ecdh.commands.showAnimation";
+		final String showAnimationCommandId = "org.jcryptool.visual.ecdh.commands.showAnimation"; //$NON-NLS-1$
 		AbstractHandler showAnimationHandler = new AbstractHandler() {
 			public Object execute(ExecutionEvent event) {
 				toggleAnimation();
 				return null;
 			}
 		};
-		defineCommand(showAnimationCommandId, Messages.getString("ECDHComposite.0"), showAnimationHandler);
+		defineCommand(showAnimationCommandId, Messages.getString("ECDHComposite.0"), showAnimationHandler); //$NON-NLS-1$
 		addContributionItem(dropDownMenu, showAnimationCommandId, null, null, SWT.CHECK);
-		final String showInfoDialogsCommandId = "org.jcryptool.visual.ecdh.commands.showInfoDialogs";
+		final String showInfoDialogsCommandId = "org.jcryptool.visual.ecdh.commands.showInfoDialogs"; //$NON-NLS-1$
 		AbstractHandler showInfoDialogsHandler = new AbstractHandler() {
 			public Object execute(ExecutionEvent event) {
 				toggleInformationDialogs();
 				return null;
 			}
 		};
-		defineCommand(showInfoDialogsCommandId, Messages.getString("ECDHComposite.1"), showInfoDialogsHandler);
+		defineCommand(showInfoDialogsCommandId, Messages.getString("ECDHComposite.1"), showInfoDialogsHandler); //$NON-NLS-1$
 		addContributionItem(dropDownMenu, showInfoDialogsCommandId, null, null, SWT.CHECK);
 		dropDownMenu.add(new Separator());
 		saveToEditorHandler = new AbstractHandler() {
@@ -182,7 +177,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 				return null;
 			}
 		};
-		defineCommand(saveToEditorCommandId, Messages.getString("ECDHComposite.2"), null); // don't enable the command
+		defineCommand(saveToEditorCommandId, Messages.getString("ECDHComposite.2"), null); // don't enable the command //$NON-NLS-1$
 																							// until we have results to
 																							// save
 		addContributionItem(dropDownMenu, saveToEditorCommandId, null, null, SWT.PUSH);
@@ -192,13 +187,13 @@ public class ECDHComposite extends Composite implements PaintListener {
 				return null;
 			}
 		};
-		defineCommand(saveToFileCommandId, Messages.getString("ECDHComposite.3"), null); // don't enable the command
+		defineCommand(saveToFileCommandId, Messages.getString("ECDHComposite.3"), null); // don't enable the command //$NON-NLS-1$
 																							// until we have results to
 																							// save
 		addContributionItem(dropDownMenu, saveToFileCommandId, null, null, SWT.PUSH);
 
 		IToolBarManager toolBarMenu = view.getViewSite().getActionBars().getToolBarManager();
-		final String resetCommandId = "org.jcryptool.visual.ecdh.commands.reset";
+		final String resetCommandId = "org.jcryptool.visual.ecdh.commands.reset"; //$NON-NLS-1$
 		AbstractHandler resetHandler = new AbstractHandler() {
 			public Object execute(ExecutionEvent event) {
 				reset(0);
@@ -214,12 +209,12 @@ public class ECDHComposite extends Composite implements PaintListener {
 		settings = new Group(this, SWT.NONE);
 		settings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		settings.setLayout(new GridLayout());
-		settings.setText("Einstellungen");
+		settings.setText("Einstellungen"); //$NON-NLS-1$
 		
 		btn_showInfos = new Button(settings, SWT.CHECK);
 		btn_showInfos.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		btn_showInfos.setSelection(showInformationDialogs);
-		btn_showInfos.setText("Zeige Info Pop-ups");
+		btn_showInfos.setText(Messages.getString("ECDHComposite.5")); //$NON-NLS-1$
 		btn_showInfos.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -236,7 +231,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 		btn_showAnimation = new Button(settings, SWT.CHECK);
 		btn_showAnimation.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		btn_showAnimation.setSelection(showAnimation);
-		btn_showAnimation.setText("Zeige Animation");
+		btn_showAnimation.setText(Messages.getString("ECDHComposite.6")); //$NON-NLS-1$
 		btn_showAnimation.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -276,6 +271,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 					PublicParametersWizard wiz = new PublicParametersWizard(curve, generator);
 					WizardDialog dialog = new WizardDialog(new Shell(Display.getCurrent()), wiz);
+					dialog.setHelpAvailable(false);
 					if (dialog.open() == Window.OK) {
 						reset(1);
 						large = wiz.isLarge();
@@ -491,7 +487,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 				Style);
 		if (icon != null)
 			param.icon = icon;
-		if (tooltip != null && !tooltip.equals(""))
+		if (tooltip != null && !tooltip.equals("")) //$NON-NLS-1$
 			param.tooltip = tooltip;
 		CommandContributionItem item = new CommandContributionItem(param);
 		manager.add(item);
@@ -727,6 +723,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 				else
 					wiz = new SecretKeyWizard("Alice", secretA, valueN); //$NON-NLS-1$
 				WizardDialog dialog = new WizardDialog(new Shell(Display.getCurrent()), wiz);
+				dialog.setHelpAvailable(false);
 				dialog.setPageSize(600, 80);
 				if (dialog.open() == Window.OK) {
 					reset(2);
@@ -750,7 +747,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 								SWT.ICON_INFORMATION | SWT.OK);
 						messageBox.setText("Alice " + Messages.getString("ECDHView.messageSecretKeyTitle")); //$NON-NLS-1$ //$NON-NLS-2$
 						messageBox.setMessage("Alice " + Messages.getString("ECDHView.messageSecretKey") + " Alice" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-								+ Messages.getString("ECDHView.messageSecretKey2"));
+								+ Messages.getString("ECDHView.messageSecretKey2")); //$NON-NLS-1$
 						messageBox.open();
 					}
 				}
@@ -788,7 +785,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 				if ((large && shareLargeA != null && shareLargeB != null)
 						|| (!large && shareA != null && shareB != null)) {
 					btnExchangeKeys.setEnabled(true);
-//					canvasMain.redraw();
 					groupMain.redraw();
 				}
 			}
@@ -895,6 +891,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 					wiz = new SecretKeyWizard("Bob", secretB, valueN); //$NON-NLS-1$
 
 				WizardDialog dialog = new WizardDialog(new Shell(Display.getCurrent()), wiz);
+				dialog.setHelpAvailable(false);
 				dialog.setPageSize(600, 80);
 				if (dialog.open() == Window.OK) {
 					reset(2);
@@ -902,7 +899,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 						secretLargeB = wiz.getLargeSecret();
 						if (secretLargeA != null && secretLargeB != null) {
 							btnCreateSharedKeys.setEnabled(true);
-							canvasMain.redraw();
+							groupMain.redraw();
 						}
 					} else {
 						secretB = wiz.getSecret();
@@ -918,7 +915,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 								SWT.ICON_INFORMATION | SWT.OK);
 						messageBox.setText("Bob " + Messages.getString("ECDHView.messageSecretKeyTitle")); //$NON-NLS-1$ //$NON-NLS-2$
 						messageBox.setMessage("Bob " + Messages.getString("ECDHView.messageSecretKey") + " Bob" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-								+ Messages.getString("ECDHView.messageSecretKey2"));
+								+ Messages.getString("ECDHView.messageSecretKey2")); //$NON-NLS-1$
 						messageBox.open();
 					}
 				}
