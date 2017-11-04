@@ -146,10 +146,12 @@ public class PublicParametersComposite extends Composite {
         gridData3.verticalAlignment = org.eclipse.swt.layout.GridData.FILL;
         GridLayout gridLayout1 = new GridLayout();
         gridLayout1.numColumns = 2;
+        
         groupCurveType = new Group(groupCurve, SWT.NONE);
         groupCurveType.setText(Messages.getString("ECDHWizPP.groupCurveType")); //$NON-NLS-1$
         groupCurveType.setLayoutData(gridData3);
         groupCurveType.setLayout(gridLayout1);
+        
         rbtnFP = new Button(groupCurveType, SWT.RADIO);
         rbtnFP.setText("F(p)"); //$NON-NLS-1$
         rbtnFP.setLayoutData(gridData5);
@@ -250,14 +252,17 @@ public class PublicParametersComposite extends Composite {
         gridData1.verticalAlignment = org.eclipse.swt.layout.GridData.FILL;
         GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 4;
+        
         groupGenerator = new Group(this, SWT.NONE);
         groupGenerator.setText(Messages.getString("ECDHWizPP.groupGenerator")); //$NON-NLS-1$
         groupGenerator.setLayoutData(gridData1);
         groupGenerator.setLayout(gridLayout);
+        
         stGenerator = new StyledText(groupGenerator, SWT.READ_ONLY);
         stGenerator.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
         stGenerator.setLayoutData(gridData15);
         stGenerator.setText(Messages.getString("ECDHWizPP.textGenerator")); //$NON-NLS-1$
+        
         btnCreateGenerator = new Button(groupGenerator, SWT.READ_ONLY);
         btnCreateGenerator.setText(Messages.getString("ECDHWizPP.btnCreateGenerator")); //$NON-NLS-1$
         btnCreateGenerator.setLayoutData(gridData17);
@@ -302,10 +307,12 @@ public class PublicParametersComposite extends Composite {
         gridData4.grabExcessVerticalSpace = true;
         GridLayout gridLayout2 = new GridLayout();
         gridLayout2.numColumns = 2;
+        
         groupCurveSize = new Group(groupCurve, SWT.NONE);
         groupCurveSize.setText(Messages.getString("ECDHWizPP.groupCurveSize")); //$NON-NLS-1$
         groupCurveSize.setLayoutData(gridData4);
         groupCurveSize.setLayout(gridLayout2);
+        
         rbtnSmall = new Button(groupCurveSize, SWT.RADIO);
         rbtnSmall.setText(Messages.getString("ECDHWizPP.small")); //$NON-NLS-1$
         rbtnSmall.setLayoutData(gridData7);
@@ -350,7 +357,7 @@ public class PublicParametersComposite extends Composite {
                         ((ECFm) curve).setB(cB.getSelectionIndex(), true);
                     }
                 }
-
+                
                 setGeneratorPoints(curve.getPoints());
                 fillCSelection();
                 groupAttributes.layout();
@@ -633,73 +640,6 @@ public class PublicParametersComposite extends Composite {
         });
         GridData gridData3 = new GridData();
         gridData3.horizontalSpan = 2;
-        
-//        btnGenerateCurveFm = new Button(contentFm, SWT.NONE);
-//        btnGenerateCurveFm.setText(Messages.getString("ECDHWizPP.btnGenerateCurve")); //$NON-NLS-1$
-//        btnGenerateCurveFm.setLayoutData(gridData3);
-//        btnGenerateCurveFm.addSelectionListener(new SelectionListener() {
-//            public void widgetDefaultSelected(SelectionEvent e) {
-//                widgetSelected(e);
-//            }
-//
-//            public void widgetSelected(SelectionEvent e) {
-//                Random r = new Random();
-//                int m = r.nextInt(3); // Set m
-//                while (m == 1) {
-//                    m = r.nextInt(3);
-//                }
-//                m += 3;
-//                spnrM.setSelection(m);
-//                ((ECFm) curve).setM(m);
-//                int[] ip = ((ECFm) curve).getIrreduciblePolinomials();
-//                String[] s = new String[ip.length];
-//                for (int i = 0; i < s.length; i++)
-//                    s[i] = intToBitString(ip[i]);
-//                cG.setItems(s);
-//                if (ip.length == 1)
-//                    cG.select(0);
-//                else
-//                    cG.select(r.nextInt(ip.length));
-//                ((ECFm) curve).setG(cG.getSelectionIndex(), true); // set G
-//
-//                elements = ((ECFm) curve).getElements();
-//                setComboAB(-1, -1);
-//
-//                if (m == 3) {
-//                    int a = r.nextInt(3);
-//                    if (a == 0)
-//                        cA.select(3);
-//                    else if (a == 1)
-//                        cA.select(5);
-//                    else
-//                        cA.select(6);
-//                    ((ECFm) curve).setA(cA.getSelectionIndex(), true);
-//                    cB.select(0);
-//                    ((ECFm) curve).setB(cB.getSelectionIndex(), true);
-//                    setGeneratorPoints(curve.getPoints());
-//                } else {
-//                    cA.select(r.nextInt(cA.getItemCount()));
-//                    ((ECFm) curve).setA(cA.getSelectionIndex(), true);
-//                    int b = r.nextInt(cB.getItemCount());
-//                    int count = 0;
-//                    do {
-//                        cB.select(b);
-//                        ((ECFm) curve).setB(cB.getSelectionIndex(), true);
-//                        setGeneratorPoints(curve.getPoints());
-//                        b = (b + 1) % cB.getItemCount();
-//                        count++;
-//                    } while (cGenerator.getItemCount() == 0 && count < cB.getItemCount());
-//
-//                    if (count >= cB.getItemCount()) {
-//                        try {
-//                            throw new Exception("Generator fault, could not find correct curve"); //$NON-NLS-1$
-//                        } catch (Exception ex) {
-//                            LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
-//                        }
-//                    }
-//                }
-//            }
-//        });
     }
 
     private void createContentLarge() {
