@@ -13,7 +13,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-import javax.sound.midi.Patch;
+//import javax.sound.midi.Patch;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.Command;
@@ -33,14 +33,15 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Path;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
+//import org.eclipse.swt.layout.FormAttachment;
+//import org.eclipse.swt.layout.FormData;
+//import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -84,11 +85,10 @@ public class ECDHComposite extends Composite implements PaintListener {
 	private Group groupParameters = null;
 	private Canvas canvasMain = null;
 
-	// private Composite compositeBtn = null;
-	private Composite compositeMain = null;
 	private Canvas canvasBtn = null;
 	private Canvas canvasExchange = null;
 
+	private Label placeholder;
 	private Button btnSetPublicParameters = null;
 	private Button btnChooseSecrets = null;
 	private Button btnCreateSharedKeys = null;
@@ -143,15 +143,17 @@ public class ECDHComposite extends Composite implements PaintListener {
 	private IServiceLocator serviceLocator;
 	private Color grey = new Color(Display.getCurrent(), 140, 138, 140);
 	private Color lightGrey = new Color(Display.getCurrent(), 180, 177, 180);
+	private Group settings;
+	private Button btn_showInfos;
+	private Button btn_showAnimation;
 
 	public ECDHComposite(Composite parent, int style, ECDHView view) {
 		super(parent, style);
 		this.view = view;
-		// setLayout(new GridLayout(2, false));
 		setLayout(new GridLayout());
 		createCompositeIntro();
-		// createCanvasBtn();
 		createGroupMain();
+		createInfoGroup();
 
 		serviceLocator = PlatformUI.getWorkbench();
 		IMenuManager dropDownMenu = view.getViewSite().getActionBars().getMenuManager();
@@ -208,6 +210,47 @@ public class ECDHComposite extends Composite implements PaintListener {
 				SWT.PUSH);
 	}
 
+	private void createInfoGroup() {
+		settings = new Group(this, SWT.NONE);
+		settings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		settings.setLayout(new GridLayout());
+		settings.setText("Einstellungen");
+		
+		btn_showInfos = new Button(settings, SWT.CHECK);
+		btn_showInfos.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+		btn_showInfos.setSelection(showInformationDialogs);
+		btn_showInfos.setText("Zeige Info Pop-ups");
+		btn_showInfos.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				showInformationDialogs = showInformationDialogs ? false : true;
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		
+		btn_showAnimation = new Button(settings, SWT.CHECK);
+		btn_showAnimation.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+		btn_showAnimation.setSelection(showAnimation);
+		btn_showAnimation.setText("Zeige Animation");
+		btn_showAnimation.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				showAnimation = showAnimation ? false : true;
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+	}
+
 	private void createCanvasBtn(Group parent) {
 		canvasBtn = new Canvas(parent, SWT.NO_REDRAW_RESIZE);
 		canvasBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
@@ -254,7 +297,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 						btnChooseSecrets.setEnabled(true);
 						btnSetPublicParameters.setBackground(cGreen);
-						// canvasMain.redraw();
 						groupMain.redraw();
 					}
 				} catch (Exception ex) {
@@ -265,7 +307,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 		btnChooseSecrets = new Button(canvasBtn, SWT.NONE);
 		GridData gd_btnChooseSecrets = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_btnChooseSecrets.verticalIndent = 60;
+		gd_btnChooseSecrets.verticalIndent = 40;
 		gd_btnChooseSecrets.heightHint = 60;
 		btnChooseSecrets.setLayoutData(gd_btnChooseSecrets);
 		btnChooseSecrets.setEnabled(false);
@@ -284,7 +326,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 					btnSecretA.setEnabled(true);
 					btnSecretB.setEnabled(true);
 					btnChooseSecrets.setBackground(cGreen);
-					// war vorher nicht da
 					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
@@ -294,7 +335,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 		btnCreateSharedKeys = new Button(canvasBtn, SWT.NONE);
 		GridData gd_btnCreateSharedKeys = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_btnCreateSharedKeys.verticalIndent = 60;
+		gd_btnCreateSharedKeys.verticalIndent = 40;
 		gd_btnCreateSharedKeys.heightHint = 60;
 		btnCreateSharedKeys.setLayoutData(gd_btnCreateSharedKeys);
 		btnCreateSharedKeys.setEnabled(false);
@@ -313,7 +354,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 					btnCalculateSharedA.setEnabled(true);
 					btnCalculateSharedB.setEnabled(true);
 					btnCreateSharedKeys.setBackground(cGreen);
-					// War vorher nicht da
 					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
@@ -323,7 +363,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 		btnExchangeKeys = new Button(canvasBtn, SWT.NONE);
 		GridData gd_btnExchangeKeys = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_btnExchangeKeys.verticalIndent = 60;
+		gd_btnExchangeKeys.verticalIndent = 40;
 		gd_btnExchangeKeys.heightHint = 60;
 		btnExchangeKeys.setLayoutData(gd_btnExchangeKeys);
 		btnExchangeKeys.setEnabled(false);
@@ -342,7 +382,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 					new Animate().run();
 					btnGenerateKey.setEnabled(true);
 					btnExchangeKeys.setBackground(cGreen);
-//					canvasMain.redraw();
 					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
@@ -352,7 +391,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 		btnGenerateKey = new Button(canvasBtn, SWT.NONE);
 		GridData gd_btnGenerateKey = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_btnGenerateKey.verticalIndent = 60;
+		gd_btnGenerateKey.verticalIndent = 40;
 		gd_btnGenerateKey.heightHint = 60;
 		btnGenerateKey.setLayoutData(gd_btnGenerateKey);
 		btnGenerateKey.setEnabled(false);
@@ -383,19 +422,60 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 			@Override
 			public void paintControl(PaintEvent e) {
-				// TODO Auto-generated method stub
-				GC gc = e.gc;
+
 				// der Strich soll bei 1/3 links der Buttonbreite verlaufen
-				int x = btnSetPublicParameters.getBounds().x + (btnSetPublicParameters.getBounds().width/3);
-				int y = btnSetPublicParameters.getBounds().y;
+				int x1 = btnSetPublicParameters.getBounds().x + (btnSetPublicParameters.getBounds().width/3) - 5;
+				int y1 = btnSetPublicParameters.getBounds().y;
 				int width = 10;
-				// länge des Strichs. y btn unten + y btn oben +60(Bereich, wo der Strich einen knick nach rechts macht
-				int height = btnGenerateKey.getBounds().y - btnSetPublicParameters.getBounds().y + 60;
-				gc.setBackground(grey);
-				gc.fillRectangle(x, y, width, height);
+				
+				Path connection = new Path(Display.getCurrent());
+				//waagerechte linie Oben 
+				connection.moveTo(x1, y1);
+				
+				int x2 = x1 + width;
+				connection.lineTo(x2, y1);
+				
+				// 60(Buttonhöhe) + 40(Abstand der auch zeischen den anderen bUttons ist) - 5(damit ser Strich mittig ist)
+				int y3 = btnGenerateKey.getBounds().y + 100 - 5;
+				connection.lineTo(x2, y3);
+				
+				//40 Platz den die Pfeilspitze haben soll
+				int x4 = canvasBtn.getBounds().x + canvasBtn.getBounds().width - 40;
+				connection.lineTo(x4, y3);
+				
+				// Strich geht 10 nach oben
+				int y5 = y3 - 10;
+				connection.lineTo(x4, y5);
+				
+				//Pfeilspitze
+				int x6 = canvasBtn.getBounds().x + canvasBtn.getBounds().width - 10;
+				int y6 = y5+15;
+				connection.lineTo(x6, y6);
+				
+				int y7 = y6 + 15;
+				connection.lineTo(x4, y7);
+				
+				int y8 = y7 -10;
+				connection.lineTo(x4, y8);
+				
+				//weiter zur linken unteren Ecke 
+				connection.lineTo(x1, y8);
+				
+				// und wieder nach oben
+				connection.lineTo(x1, y1);
+				
+				e.gc.setBackground(grey);
+				e.gc.fillPath(connection);
 			}
 		});
 
+		placeholder = new Label(canvasBtn, SWT.NONE);
+		GridData gd_placeholder = new GridData(SWT.LEFT, SWT.CENTER, false, false);
+		gd_placeholder.verticalIndent = 45;
+		gd_placeholder.heightHint = 10;
+		placeholder.setLayoutData(gd_placeholder);
+		placeholder.setVisible(false);
+		
 	}
 
 	private void defineCommand(final String commandId, final String name, AbstractHandler handler) {
@@ -431,8 +511,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 	private void createCompositeIntro() {
 		Composite compositeIntro = new Composite(this, SWT.NONE);
 		compositeIntro.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		// compositeIntro.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2,
-		// 1));
 		compositeIntro.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compositeIntro.setLayout(new GridLayout(1, false));
 
@@ -441,9 +519,11 @@ public class ECDHComposite extends Composite implements PaintListener {
 		label.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 		label.setText(Messages.getString("ECDHView.title")); //$NON-NLS-1$
 
-		StyledText stDescription = new StyledText(compositeIntro, SWT.READ_ONLY);
+		StyledText stDescription = new StyledText(compositeIntro, SWT.READ_ONLY | SWT.WRAP);
 		stDescription.setText(Messages.getString("ECDHView.description")); //$NON-NLS-1$
-		stDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		GridData gd_stDescription = new GridData(SWT.FILL, SWT.FILL, true, false);
+		gd_stDescription.widthHint = label.getBounds().width;
+		stDescription.setLayoutData(gd_stDescription);
 	}
 
 	protected void toggleInformationDialogs() {
@@ -475,218 +555,129 @@ public class ECDHComposite extends Composite implements PaintListener {
 	private void createCanvasExchange(Group parent) {
 		canvasExchange = new Canvas(parent, SWT.NO_REDRAW_RESIZE);
 		GridData gd_canvasExchange = new GridData(SWT.FILL, SWT.FILL, false, false);
-		gd_canvasExchange.widthHint = 100;
+		gd_canvasExchange.widthHint = 150;
 		canvasExchange.setLayoutData(gd_canvasExchange);
-		// TODO here should the visual key exchange happen
+		// INFO here should the visual key exchange happen
 		canvasExchange.addPaintListener(new PaintListener() {
 			
 			@Override
 			public void paintControl(PaintEvent e) {
-//				//FIXME the path is relative to the top left corner and not to the the 
-//				//full display like the getBounds() points
-//				
-				// Pfad von a nach b 
+
 				GC gc = e.gc;
 				Path ab = new Path(Display.getCurrent());
-//				
-//				int x1 = groupAlice.getBounds().x + groupAlice.getBounds().width;
-//				// Strich beginnt mitte dem Textfeld für shared A - 5(weil der Strich 10 dick ist.
-//				int y1 = textSharedA.getBounds().y + (textSharedA.getBounds().height/2) - 5;
-//				ab.moveTo(0, y1);
-//				
-//				System.out.print("Punkt 1: ");
-//				System.out.print(x1);
-//				System.out.print(", ");
-//				System.out.println(y1);
-//				
-//				// wagerecht
-//				// x2 ist ein drittel horizontal +5 des canvasExchange
-//				// y2 ist das selbe wie y1
-//				int x2 = x1 + (canvasExchange.getBounds().width/3) + 5;
-//				ab.lineTo(x2, y1);
-//				
-//				System.out.print("Punkt 2: ");
-//				System.out.print(x2);
-//				System.out.print(", ");
-//				System.out.println(y1);
-//				
-//				// x3 ist gleich wie x2
-//				// y3 ist die hölfte des Abstand zwischen textSharedA und textCommonKeyA
-//				// FIXME y koordinate ist falsch
-//				int y3 = y1 + textCommonKeyB.getBounds().y + (textCommonKeyB.getBounds().height/2) +5;
-//				ab.lineTo(x2, y3);
-//				
-//				System.out.print("Punkt 3: ");
-//				System.out.print(x2);
-//				System.out.print(", ");
-//				System.out.println(y3);
-//				
-//				//x4 ist der Rand von groupBob
-//				//y4 ist die höhe der mitte von textCommonKeyB -5
-//				int x4 = groupBob.getBounds().x;
-//				int y4 = textCommonKeyB.getBounds().y + (textCommonKeyB.getBounds().height/2) - 5;
-//				ab.lineTo(x4, y4);
-//				
-//				System.out.print("Punkt 4: ");
-//				System.out.print(x4);
-//				System.out.print(", ");
-//				System.out.println(y4);
-//				
-//				//x5 ist gleich mit x4
-//				//y5 ist y4 +10(dicke des Strichs
-//				int y5 = y4 + 10;
-//				ab.lineTo(x4, y5);
-//				
-//				System.out.print("Punkt 5: ");
-//				System.out.print(x4);
-//				System.out.print(", ");
-//				System.out.println(y5);
-//				
-//				//x6 ist x2/x3 -10
-//				//y6 ist y3
-//				int x6 = x2 - 10;
-//				ab.lineTo(x6, y3);
-//				
-//				System.out.print("Punkt 6: ");
-//				System.out.print(x6);
-//				System.out.print(", ");
-//				System.out.println(y3);
-//				
-//				//x7 ist x2 -10
-//				//y7 ist y2 +10
-//				int x7 = x2 - 10;
-//				int y7 = y1 + 10;
-//				ab.lineTo(x7, y7);
-//				
-//				System.out.print("Punkt 7: ");
-//				System.out.print(x7);
-//				System.out.print(", ");
-//				System.out.println(y7);
-//				
-//				//x8 das selbe wie x1
-//				//y8 y1 +10
-//				int y8 = y1+10;
-//				ab.lineTo(x1, y8);
-//				
-//				System.out.print("Punkt 8: ");
-//				System.out.print(x1);
-//				System.out.print(", ");
-//				System.out.println(y8);
-//				
-//				//zurück zum startpunkt
-//				ab.lineTo(0, y1);
-//				
-//				System.out.print("Punkt 9: ");
-//				System.out.print(x1);
-//				System.out.print(", ");
-//				System.out.println(y1);
-				
+
 				int canvasWidth = canvasExchange.getBounds().width;
-				int canvasHeight = canvasExchange.getBounds().height;
-				
+//				int canvasHeight = canvasExchange.getBounds().height;
+
 				// zweite Idee
-				//linker rand des canvas
+				// linker rand des canvas
 				int x1 = 0;
 				// mitte von textSharedA -5
-				int y1 = textSharedA.getBounds().y + (textSharedA.getBounds().height/2) -5;
+				int y1 = textSharedA.getBounds().y + (textSharedA.getBounds().height / 2) - 5;
 				ab.moveTo(x1, y1);
-				
-				//linkes drittel des canvas
-				int x2 = (canvasWidth/3) + 5;
-				//selbe höhe wie Punkt 1
+
+				// linkes viertel des Canvas
+				int x2 = (canvasWidth / 4) + 5;
 				ab.lineTo(x2, y1);
-				
-				//selbe breite wie punkt2
-				//schwierig zu beschreiben - hoffentlich funktionierts. -2 dabei, damit das schräge ausgelichen wird
-				int y3 = textCommonKeyB.getBounds().y + (textCommonKeyB.getBounds().height/2) - (canvasWidth*2/3) - 2;
+
+				// schwierig zu beschreiben
+				int y3 = textCommonKeyB.getBounds().y + (textCommonKeyB.getBounds().height / 2) - (canvasWidth * 2 / 4);
 				ab.lineTo(x2, y3);
-				
-				//rechter rand des canvas
-				int x4 = canvasWidth;
-				//mitte von textCommonKeyB -5 (eigentlich -7.5 weil der Strich 10px dick sein soll
-				int y4 = textCommonKeyB.getBounds().y + (textCommonKeyB.getBounds().height/2) - 7;
+
+				// rechter rand des canvas
+				int x4 = canvasWidth - canvasWidth / 4;
+				int y4 = textCommonKeyB.getBounds().y + textCommonKeyB.getBounds().height / 2 - 5;
 				ab.lineTo(x4, y4);
-				
-				//x bleibt gleich. rechter rand des canvas
-				//y +14
-				int y5 = y4+14;
-				ab.lineTo(x4, y5);
-				
-				//FIXME hier sind die Variablen nicht richtig durchnummeriert.
-				// breite wie 2 nur mit -10
-				int x5 = x2-10;
-				//höhe gleich mit Punkt 3
-				ab.lineTo(x5, y3 + 4);
-				
-				//breite wie punkt 5
-				//höhe wie Punkt 1 nur +10
-				int y6 = y1 +10;
+
+				// rechter Rand des Canvas - 20(Platz für den Pfeil)
+				int x5 = canvasWidth - 20;
+				ab.lineTo(x5, y4);
+
+				int y6 = y4 - 5;
 				ab.lineTo(x5, y6);
-				
-				//linker rand des canvas -> 0=x1
-				//höhe wie Punkt 6
-				ab.lineTo(x1, y6);
-				
-				//und zurück zum anfang
+
+				// Pfeilspitze
+				int x7 = canvasWidth;
+				int y7 = textCommonKeyB.getBounds().y + textCommonKeyB.getBounds().height / 2;
+				ab.lineTo(x7, y7);
+
+				int y8 = y4 + 15;
+				ab.lineTo(x5, y8);
+
+				int y9 = y8 - 5;
+				ab.lineTo(x5, y9);
+
+				int x10 = x4 - 4;
+				ab.lineTo(x10, y9);
+
+				int x11 = x2 - 10;
+				int y11 = y3+4;
+				ab.lineTo(x11, y11);
+
+				int y12 = y1 + 10;
+				ab.lineTo(x11, y12);
+
+				ab.lineTo(x1, y12);
+
+				// und zurück zum anfang
 				ab.lineTo(x1, y1);
-				
+
 				gc.setBackground(grey);
 				gc.fillPath(ab);
+
 				
 				
 				Path ba = new Path(Display.getCurrent());
-				// right border of the composite canvasExchange
-				int abX1 = canvasWidth;
-				// height of the textSharedB -5
-				int baY1 = textSharedB.getBounds().y + (textSharedB.getBounds().height/2) - 5;
-				ba.moveTo(abX1, baY1);
 				
+				int bax1 = canvasWidth;
+				int bay1 = textSharedB.getBounds().y + (textSharedB.getBounds().height / 2) - 5;
+				ba.moveTo(bax1, bay1);
 				
+				int bax2 = (3*canvasWidth / 4) - 5;
+				ba.lineTo(bax2, bay1);
 				
-				//rechtes drittel des canvasExchange
-//				-5 damit die mitte getroffen wird
-				int baX2 = canvasWidth*2/3 -5;
-				//höhe ist die selbe wie beim startpunkt
-				ba.lineTo(baX2, baY1);
+				int bay3 = textCommonKeyA.getBounds().y + (textCommonKeyA.getBounds().height / 2) - (canvasWidth * 2 / 4);
+				ba.lineTo(bax2, bay3);
 				
+				// linker rand des canvas
+				int bax4 = canvasWidth / 4;
+				int bay4 = textCommonKeyA.getBounds().y + textCommonKeyA.getBounds().height / 2 - 5;
+				ba.lineTo(bax4, bay4);
 				
-				// So wie beim Punkt 3 von Path ab - schwierig zu beschreiben - X BLEIBT GLEICH
-				// y ändert sich auf die entfernung von 2/3 des canvasExchange zum linken Rand  
-			// als die höhe bis der der Strich gezogen wird(ungenauigkeit der Breite der des 45° Grad
-				// strich nicht einbezigen (ergibt sich übrigens aus sqrt(2)*gewünschte breite
+				// rechter Rand des Canvas - 20(Platz für den Pfeil)
+				int bax5 = 20;
+				ba.lineTo(bax5, bay4);
+				
+				int bay6 = bay4 - 5;
+				ba.lineTo(bax5, bay6);
+				
+				// Pfeilspitze
+				int bax7 = 0;
+				int bay7 = textCommonKeyA.getBounds().y + textCommonKeyA.getBounds().height / 2;
+				ba.lineTo(bax7, bay7);
+				
+				int bay8 = bay4 + 15;
+				ba.lineTo(bax5, bay8);
+				
+				int bay9 = bay8 - 5;
+				ba.lineTo(bax5, bay9);
+				
+				int bax10 = bax4 + 4;
+				ba.lineTo(bax10, bay9);
+				
+				int bax11 = bax2 + 10;
+				int bay11 = bay3+4;
+				ba.lineTo(bax11, bay11);
+				
+				int bay12 = bay1 + 10;
+				ba.lineTo(bax11, bay12);
 
-				int baY3 = textCommonKeyA.getBounds().y + (textCommonKeyA.getBounds().height/2) - (canvasWidth*2/3) - 2;
-				ba.lineTo(baX2, baY3);
+				ba.lineTo(bax1, bay12);
+
+				// und zurück zum anfang
+				ba.lineTo(bax1, bay1);
 				
-				
-				//x ist 0 <=> linker rand des cE
-				int baY4 = textCommonKeyA.getBounds().y + (textCommonKeyA.getBounds().height/2) - 7;
-				ba.lineTo(0, baY4);
-				
-				// x bleib gleich 
-				//y +14 
-				int baY5 = baY4 + 14;
-				ba.lineTo(0, baY5);
-				
-				//breite wie baX2 nur +10
-				int baX6 = baX2 + 10;
-				//höhe wie Punkt 3 + 4 um die 14 px linie auszugleichen
-				int baY6 = baY3 + 4;
-				ba.lineTo(baX6, baY6);
-				
-				//breite wie baX6
-				//höhe wie baY1 +10
-				int baY7 = baY1 + 10;
-				ba.lineTo(baX6, baY7);
-				
-				//nach rechts an den rand
-				ba.lineTo(canvasWidth, baY7);
-				
-				//und zurück zum Anfang
-				ba.lineTo(canvasWidth, baY1);
-				
-				gc.fillPath(ba);
-				
+				e.gc.fillPath(ba);
 			}
 		});
 
@@ -718,7 +709,8 @@ public class ECDHComposite extends Composite implements PaintListener {
 	 */
 	private void createGroupAlice(Group parent) {
 		groupAlice = new Group(parent, SWT.NONE);
-		groupAlice.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+//		groupAlice.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		groupAlice.setLayoutData(new GridData(SWT.DEFAULT, SWT.FILL, false, true));
 		groupAlice.setText("Alice"); //$NON-NLS-1$
 		groupAlice.setLayout(new GridLayout(2, false));
 
@@ -775,7 +767,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 		btnCalculateSharedA.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
 		btnCalculateSharedA.setEnabled(false);
 		btnCalculateSharedA.setBackground(cRed);
-
 		btnCalculateSharedA.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		btnCalculateSharedA.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -797,7 +788,8 @@ public class ECDHComposite extends Composite implements PaintListener {
 				if ((large && shareLargeA != null && shareLargeB != null)
 						|| (!large && shareA != null && shareB != null)) {
 					btnExchangeKeys.setEnabled(true);
-					canvasMain.redraw();
+//					canvasMain.redraw();
+					groupMain.redraw();
 				}
 			}
 		});
@@ -884,17 +876,14 @@ public class ECDHComposite extends Composite implements PaintListener {
 	 */
 	private void createGroupBob(Group parent) {
 		groupBob = new Group(parent, SWT.NONE);
-		// groupBob.setLayoutData(new GridData(SWT.FILL | SWT.RIGHT, SWT.FILL | SWT.TOP,
-		// false, true));
-		groupBob.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+//		groupBob.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		groupBob.setLayoutData(new GridData(SWT.DEFAULT, SWT.FILL, false, true));
 		groupBob.setText("Bob"); //$NON-NLS-1$
 		groupBob.setLayout(new GridLayout(2, false));
 
 		btnSecretB = new Button(groupBob, SWT.NONE);
 		btnSecretB.setText(Messages.getString("ECDHView.secret")); //$NON-NLS-1$
 		btnSecretB.setEnabled(false);
-		// btnSecretB.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 2,
-		// 1));
 		btnSecretB.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 2, 1));
 		btnSecretB.setBackground(cRed);
 		btnSecretB.addSelectionListener(new SelectionAdapter() {
@@ -919,7 +908,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 						secretB = wiz.getSecret();
 						if (secretA > 0 && secretB > 0) {
 							btnCreateSharedKeys.setEnabled(true);
-//							canvasMain.redraw();
 							groupMain.redraw();
 						}
 					}
@@ -942,15 +930,11 @@ public class ECDHComposite extends Composite implements PaintListener {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
 
 		textSecretB = new Text(groupBob, SWT.BORDER | SWT.PASSWORD | SWT.READ_ONLY);
-		// textSecretB.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		textSecretB.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
 
 		btnCalculateSharedB = new Button(groupBob, SWT.NONE);
 		btnCalculateSharedB.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
 		btnCalculateSharedB.setEnabled(false);
-		// GridData gridData = new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1);
-		// gridData.verticalIndent = 40;
-		// btnCalculateSharedB.setLayoutData(gridData);
 		btnCalculateSharedB.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		btnCalculateSharedB.setBackground(cRed);
 		btnCalculateSharedB.addSelectionListener(new SelectionAdapter() {
@@ -973,7 +957,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 				if ((large && shareLargeA != null && shareLargeB != null)
 						|| (!large && shareA != null && shareB != null)) {
 					btnExchangeKeys.setEnabled(true);
-//					canvasMain.redraw();
 					groupMain.redraw();
 				}
 			}
@@ -984,15 +967,11 @@ public class ECDHComposite extends Composite implements PaintListener {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 
 		textSharedB = new Text(groupBob, SWT.BORDER | SWT.READ_ONLY);
-		// textSharedB.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		textSharedB.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 
 		btnCalculateKeyB = new Button(groupBob, SWT.NONE);
 		btnCalculateKeyB.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
 		btnCalculateKeyB.setEnabled(false);
-		// gridData = new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1);
-		// gridData.verticalIndent = 130;
-		// btnCalculateKeyB.setLayoutData(gridData);
 		btnCalculateKeyB.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, true, 2, 1));
 		btnCalculateKeyB.setBackground(cRed);
 		btnCalculateKeyB.addSelectionListener(new SelectionAdapter() {
@@ -1025,7 +1004,8 @@ public class ECDHComposite extends Composite implements PaintListener {
 					command.setHandler(saveToEditorHandler);
 					command = commandService.getCommand(saveToFileCommandId);
 					command.setHandler(saveToFileHandler);
-					canvasMain.redraw();
+//					canvasMain.redraw();
+					groupMain.redraw();
 					if (large)
 						b = keyLargeA.getXAffin().equals(keyLargeB.getXAffin());
 					else
@@ -1055,14 +1035,11 @@ public class ECDHComposite extends Composite implements PaintListener {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
 
 		textCommonKeyB = new Text(groupBob, SWT.BORDER | SWT.READ_ONLY);
-		// textCommonKeyB.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		textCommonKeyB.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
 	}
 
 	public void paintControl(PaintEvent e) {
 		GC gc = e.gc;
-		Color grey = new Color(Display.getCurrent(), 140, 138, 140);
-		Color lightGrey = new Color(Display.getCurrent(), 180, 177, 180);
 		gc.setBackground(grey);
 		// Strich der die Buttons verbindet
 		int x = 100;
@@ -1097,65 +1074,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 			Image img = new Image(Display.getCurrent(), imD);
 			gc.drawImage(img, 400, 480);
 		}
-
-		gc.fillRectangle(x, y + height, width, totalheight - height);
-		// wagerechter Strich unten unter Gernerate Common key
-		gc.fillRectangle(x, y + totalheight, 60, width);
-		// Pfeilspitze
-		Path p = new Path(Display.getCurrent());
-		p.moveTo(160, 495);
-		p.lineTo(160, 515);
-		p.lineTo(190, 505);
-		p.lineTo(160, 495);
-		gc.fillPath(p);
-
-		if (btnGenerateKey == null || !btnGenerateKey.getEnabled())
-			gc.setBackground(lightGrey);
-		else
-			gc.setBackground(grey);
-		// Pfad von a nach B
-		Path ab = new Path(Display.getCurrent());
-		x = 422;
-		y = 257;
-		ab.moveTo(x, y);
-		ab.lineTo(x + 35, y);
-		ab.lineTo(x + 90, y + 65);
-		ab.lineTo(x + 90, y + 180);
-		ab.lineTo(x + 100, y + 180);
-		ab.lineTo(x + 100, y + 175);
-		ab.lineTo(x + 120, y + 185);
-		ab.lineTo(x + 100, y + 195);
-		ab.lineTo(x + 100, y + 190);
-		ab.lineTo(x + 80, y + 190);
-		ab.lineTo(x + 80, y + 70);
-		ab.lineTo(x + 30, y + 10);
-		ab.lineTo(x, y + 10);
-		ab.lineTo(x, y);
-		gc.fillPath(ab);
-		ab.dispose();
-
-		// Pfad von b nach A
-		Path ba = new Path(Display.getCurrent());
-		x = 543;
-		y = 257;
-		ba.moveTo(x, y);
-		ba.lineTo(x - 35, y);
-		ba.lineTo(x - 90, y + 65);
-		ba.lineTo(x - 90, y + 180);
-		ba.lineTo(x - 100, y + 180);
-		ba.lineTo(x - 100, y + 175);
-		ba.lineTo(x - 120, y + 185);
-		ba.lineTo(x - 100, y + 195);
-		ba.lineTo(x - 100, y + 190);
-		ba.lineTo(x - 80, y + 190);
-		ba.lineTo(x - 80, y + 70);
-		ba.lineTo(x - 30, y + 10);
-		ba.lineTo(x, y + 10);
-		ba.lineTo(x, y);
-		gc.fillPath(ba);
-		ba.dispose();
-		grey.dispose();
-		lightGrey.dispose();
 	}
 
 	private String intToBitString(int i, int length) {
@@ -1337,7 +1255,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 			command = commandService.getCommand(saveToFileCommandId);
 			command.setHandler(null);
 		}
-		// canvasMain.redraw();
 		groupMain.redraw();
 		layout();
 	}
@@ -1356,15 +1273,10 @@ public class ECDHComposite extends Composite implements PaintListener {
 	class Animate extends Thread {
 		public void run() {
 			if (showAnimation) {
-				// TODO this seems to be an Animation obviously. Has to be changed. simpelest solution would be if it takes
-				// c instead of canvasMain
-//				GC gc = new GC(canvasMain);
 				GC gc = new GC(canvasExchange);
-//				Image original = new Image(canvasMain.getDisplay(), 150, 210);
 				Image original = new Image(canvasExchange.getDisplay(), canvasExchange.getBounds().width, canvasExchange.getBounds().height);
-//				gc.copyArea(original, 400, 250);
-				gc.copyArea(original, canvasExchange.getBounds().x, canvasExchange.getBounds().y);
-				// keine idee wofür x und y sind
+				gc.copyArea(original, 0, 0);
+				// x und y bestimmen die startposition von den 1 und 0
 				double x = -50;
 				double y = 0;
 				String msg;
@@ -1379,15 +1291,14 @@ public class ECDHComposite extends Composite implements PaintListener {
 						msg = intToBitString(shareA.x, 5) + " " + intToBitString(shareA.y, 5); //$NON-NLS-1$
 				}
 				for (int i = 0; i < 140; i++) {
-//					Image im = new Image(canvasMain.getDisplay(), original, SWT.IMAGE_COPY);
 					Image im = new Image(canvasExchange.getDisplay(), original, SWT.IMAGE_COPY);
 					GC gcI = new GC(im);
 					gcI.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_BLACK));
 					gcI.setFont(FontService.getHeaderFont());
 					gcI.drawText(msg, (int) x, (int) y, true);
 
-//					gc.drawImage(im, 400, 250);
-					gc.drawImage(im, canvasExchange.getBounds().x, canvasExchange.getBounds().y);
+					gc.drawImage(im, 0, (canvasExchange.getBounds().height/2));
+					// Hier wird der Verlauf der 1 und 0 bestimmt
 					if (i < 12) {
 						x += 5;
 					} else if (i < 23) {
