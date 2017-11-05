@@ -518,7 +518,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 		StyledText stDescription = new StyledText(compositeIntro, SWT.READ_ONLY | SWT.WRAP);
 		stDescription.setText(Messages.getString("ECDHView.description")); //$NON-NLS-1$
 		GridData gd_stDescription = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_stDescription.widthHint = label.getBounds().width;
+		gd_stDescription.widthHint = label.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
 		stDescription.setLayoutData(gd_stDescription);
 	}
 
