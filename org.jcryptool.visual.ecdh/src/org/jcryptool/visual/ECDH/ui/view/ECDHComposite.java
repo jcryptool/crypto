@@ -35,7 +35,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -69,43 +68,43 @@ import org.jcryptool.visual.ECDH.algorithm.ECFm;
 import org.jcryptool.visual.ECDH.algorithm.ECPoint;
 import org.jcryptool.visual.ECDH.ui.wizards.PublicParametersWizard;
 import org.jcryptool.visual.ECDH.ui.wizards.SecretKeyWizard;
-
 import de.flexiprovider.common.math.FlexiBigInt;
 import de.flexiprovider.common.math.ellipticcurves.EllipticCurve;
 import de.flexiprovider.common.math.ellipticcurves.Point;
 
-public class ECDHComposite extends Composite implements PaintListener {
+public class ECDHComposite extends Composite {
 
-	private Group groupMain = null;
-	private Group groupParameters = null;
-	private Canvas canvasMain = null;
-
-	private Canvas canvasBtn = null;
-	private Canvas canvasExchange = null;
-
-	private Label placeholder;
 	private Button btnSetPublicParameters = null;
 	private Button btnChooseSecrets = null;
 	private Button btnCreateSharedKeys = null;
 	private Button btnExchangeKeys = null;
 	private Button btnGenerateKey = null;
+	private Button btnSecretA = null;
+	private Button btnCalculateSharedA = null;
+	private Button btnCalculateKeyA = null;
+	private Button btnSecretB = null;
+	private Button btnCalculateSharedB = null;
+	private Button btnCalculateKeyB = null;
+	private Button btn_showInfos;
+	private Button btn_showAnimation;
+	private Canvas canvasBtn = null;
+	private Canvas canvasExchange = null;
+	private Color cRed = new Color(Display.getCurrent(), 247, 56, 51);
+	private Color cGreen = new Color(Display.getCurrent(), 0, 255, 64); 
+	private Color grey = new Color(Display.getCurrent(), 140, 138, 140);
 	private Group groupAlice = null;
 	private Group groupBob = null;
+	private Group groupMain = null;
+	private Group groupParameters = null;
+	private Group settings;
+	private Label placeholder;
 	private Text textCurve = null;
 	private Text textGenerator = null;
-	private Button btnSecretA = null;
-	private Color cRed = new Color(Display.getCurrent(), 247, 56, 51);
-	private Color cGreen = new Color(Display.getCurrent(), 0, 255, 64); // @jve:decl-index=0:
-	private Button btnCalculateSharedA = null;
 	private Text textSecretA = null;
 	private Text textSharedA = null;
-	private Button btnCalculateKeyA = null;
 	private Text textCommonKeyA = null;
-	private Button btnSecretB = null;
 	private Text textSecretB = null;
-	private Button btnCalculateSharedB = null;
 	private Text textSharedB = null;
-	private Button btnCalculateKeyB = null;
 	private Text textCommonKeyB = null;
 	private EC curve; // @jve:decl-index=0:
 	private int[] elements;
@@ -130,17 +129,14 @@ public class ECDHComposite extends Composite implements PaintListener {
 	private Point pointG;
 	private FlexiBigInt largeOrder;
 	private boolean showAnimation = true;
-	private boolean showInformationDialogs = true;
+	private boolean showInformationDialogs = false;
 	private final String saveToEditorCommandId = "org.jcryptool.visual.ecdh.commands.saveToEditor"; //$NON-NLS-1$
 	private AbstractHandler saveToEditorHandler;
 	private final String saveToFileCommandId = "org.jcryptool.visual.ecdh.commands.saveToFile"; //$NON-NLS-1$
 	private AbstractHandler saveToFileHandler;
 	private IServiceLocator serviceLocator;
-	private Color grey = new Color(Display.getCurrent(), 140, 138, 140);
-	private Color lightGrey = new Color(Display.getCurrent(), 180, 177, 180);
-	private Group settings;
-	private Button btn_showInfos;
-	private Button btn_showAnimation;
+	private boolean keyAPressed = false;
+	private boolean keyBPressed = false;
 
 	public ECDHComposite(Composite parent, int style, ECDHView view) {
 		super(parent, style);
@@ -293,7 +289,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 						btnChooseSecrets.setEnabled(true);
 						btnSetPublicParameters.setBackground(cGreen);
-						groupMain.redraw();
+//						groupMain.redraw();
 					}
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
@@ -322,7 +318,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 					btnSecretA.setEnabled(true);
 					btnSecretB.setEnabled(true);
 					btnChooseSecrets.setBackground(cGreen);
-					groupMain.redraw();
+//					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
 				}
@@ -350,7 +346,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 					btnCalculateSharedA.setEnabled(true);
 					btnCalculateSharedB.setEnabled(true);
 					btnCreateSharedKeys.setBackground(cGreen);
-					groupMain.redraw();
+//					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
 				}
@@ -378,7 +374,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 					new Animate().run();
 					btnGenerateKey.setEnabled(true);
 					btnExchangeKeys.setBackground(cGreen);
-					groupMain.redraw();
+//					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
 				}
@@ -407,7 +403,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 					btnCalculateKeyB.setEnabled(true);
 					btnGenerateKey.setBackground(cGreen);
 					// War vorher nicht da 
-					groupMain.redraw();
+//					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
 				}
@@ -553,127 +549,106 @@ public class ECDHComposite extends Composite implements PaintListener {
 		GridData gd_canvasExchange = new GridData(SWT.FILL, SWT.FILL, false, false);
 		gd_canvasExchange.widthHint = 150;
 		canvasExchange.setLayoutData(gd_canvasExchange);
-		// INFO here should the visual key exchange happen
+		canvasExchange.setLayout(new GridLayout());
+		
+//		key = new Label(canvasExchange, SWT.NONE);
+//		key.setImage(ECDHPlugin.getImageDescriptor("icons/key.png").createImage());
+//		key.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, true, true));
+//		key.set
+//		key.setVisible(false);
+		
 		canvasExchange.addPaintListener(new PaintListener() {
 			
 			@Override
 			public void paintControl(PaintEvent e) {
 
+				int canvasWidth = canvasExchange.getBounds().width;
+				
 				GC gc = e.gc;
 				Path ab = new Path(Display.getCurrent());
-
-				int canvasWidth = canvasExchange.getBounds().width;
-//				int canvasHeight = canvasExchange.getBounds().height;
-
-				// zweite Idee
 				// linker rand des canvas
 				int x1 = 0;
 				// mitte von textSharedA -5
 				int y1 = textSharedA.getBounds().y + (textSharedA.getBounds().height / 2) - 5;
 				ab.moveTo(x1, y1);
-
 				// linkes viertel des Canvas
 				int x2 = (canvasWidth / 4) + 5;
 				ab.lineTo(x2, y1);
-
 				// schwierig zu beschreiben
 				int y3 = textCommonKeyB.getBounds().y + (textCommonKeyB.getBounds().height / 2) - (canvasWidth * 2 / 4);
 				ab.lineTo(x2, y3);
-
 				// rechter rand des canvas
 				int x4 = canvasWidth - canvasWidth / 4;
 				int y4 = textCommonKeyB.getBounds().y + textCommonKeyB.getBounds().height / 2 - 5;
 				ab.lineTo(x4, y4);
-
 				// rechter Rand des Canvas - 20(Platz für den Pfeil)
 				int x5 = canvasWidth - 20;
 				ab.lineTo(x5, y4);
-
 				int y6 = y4 - 5;
 				ab.lineTo(x5, y6);
-
 				// Pfeilspitze
 				int x7 = canvasWidth;
 				int y7 = textCommonKeyB.getBounds().y + textCommonKeyB.getBounds().height / 2;
 				ab.lineTo(x7, y7);
-
 				int y8 = y4 + 15;
 				ab.lineTo(x5, y8);
-
 				int y9 = y8 - 5;
 				ab.lineTo(x5, y9);
-
 				int x10 = x4 - 4;
 				ab.lineTo(x10, y9);
-
 				int x11 = x2 - 10;
 				int y11 = y3+4;
 				ab.lineTo(x11, y11);
-
 				int y12 = y1 + 10;
 				ab.lineTo(x11, y12);
-
 				ab.lineTo(x1, y12);
-
 				// und zurück zum anfang
 				ab.lineTo(x1, y1);
-
 				gc.setBackground(grey);
 				gc.fillPath(ab);
-
-				
 				
 				Path ba = new Path(Display.getCurrent());
 				
 				int bax1 = canvasWidth;
 				int bay1 = textSharedB.getBounds().y + (textSharedB.getBounds().height / 2) - 5;
 				ba.moveTo(bax1, bay1);
-				
 				int bax2 = (3*canvasWidth / 4) - 5;
-				ba.lineTo(bax2, bay1);
-				
+				ba.lineTo(bax2, bay1);			
 				int bay3 = textCommonKeyA.getBounds().y + (textCommonKeyA.getBounds().height / 2) - (canvasWidth * 2 / 4);
 				ba.lineTo(bax2, bay3);
-				
 				// linker rand des canvas
 				int bax4 = canvasWidth / 4;
 				int bay4 = textCommonKeyA.getBounds().y + textCommonKeyA.getBounds().height / 2 - 5;
 				ba.lineTo(bax4, bay4);
-				
 				// rechter Rand des Canvas - 20(Platz für den Pfeil)
 				int bax5 = 20;
 				ba.lineTo(bax5, bay4);
-				
 				int bay6 = bay4 - 5;
 				ba.lineTo(bax5, bay6);
-				
 				// Pfeilspitze
 				int bax7 = 0;
 				int bay7 = textCommonKeyA.getBounds().y + textCommonKeyA.getBounds().height / 2;
 				ba.lineTo(bax7, bay7);
-				
 				int bay8 = bay4 + 15;
 				ba.lineTo(bax5, bay8);
-				
 				int bay9 = bay8 - 5;
 				ba.lineTo(bax5, bay9);
-				
 				int bax10 = bax4 + 4;
 				ba.lineTo(bax10, bay9);
-				
 				int bax11 = bax2 + 10;
 				int bay11 = bay3+4;
 				ba.lineTo(bax11, bay11);
-				
 				int bay12 = bay1 + 10;
 				ba.lineTo(bax11, bay12);
-
 				ba.lineTo(bax1, bay12);
-
 				// und zurück zum anfang
 				ba.lineTo(bax1, bay1);
-				
 				e.gc.fillPath(ba);
+				
+				if (keyAPressed && keyBPressed) {
+					Image id = ECDHPlugin.getImageDescriptor("icons/key.png").createImage();
+					e.gc.drawImage(id, 0, canvasExchange.getBounds().height - 59);
+				}
 			}
 		});
 
@@ -705,8 +680,10 @@ public class ECDHComposite extends Composite implements PaintListener {
 	 */
 	private void createGroupAlice(Group parent) {
 		groupAlice = new Group(parent, SWT.NONE);
-//		groupAlice.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		groupAlice.setLayoutData(new GridData(SWT.DEFAULT, SWT.FILL, false, true));
+//		groupAlice.setLayoutData(new GridData(SWT.DEFAULT, SWT.FILL, false, true));
+		GridData gd_groupAlice = new GridData(SWT.DEFAULT, SWT.FILL, false, true);
+//		gd_groupAlice.widthHint = 300;
+		groupAlice.setLayoutData(gd_groupAlice);
 		groupAlice.setText("Alice"); //$NON-NLS-1$
 		groupAlice.setLayout(new GridLayout(2, false));
 
@@ -731,13 +708,13 @@ public class ECDHComposite extends Composite implements PaintListener {
 						secretLargeA = wiz.getLargeSecret();
 						if (secretLargeA != null && secretLargeB != null) {
 							btnCreateSharedKeys.setEnabled(true);
-							canvasMain.redraw();
+//							groupMain.redraw();
 						}
 					} else {
 						secretA = wiz.getSecret();
 						if (secretA > 0 && secretB > 0) {
 							btnCreateSharedKeys.setEnabled(true);
-							canvasMain.redraw();
+//							groupMain.redraw();
 						}
 					}
 					textSecretA.setText("xxxxxxxxxxxxxxxxxxxxxx"); //$NON-NLS-1$
@@ -785,7 +762,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 				if ((large && shareLargeA != null && shareLargeB != null)
 						|| (!large && shareA != null && shareB != null)) {
 					btnExchangeKeys.setEnabled(true);
-					groupMain.redraw();
+//					groupMain.redraw();
 				}
 			}
 		});
@@ -803,6 +780,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 		btnCalculateKeyA.setBackground(cRed);
 		btnCalculateKeyA.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				keyAPressed = true;
 				if (large) {
 					keyLargeA = multiplyLargePoint(shareLargeB, secretLargeA);
 					textCommonKeyA.setText(keyLargeA.getXAffin().toString());
@@ -831,7 +809,8 @@ public class ECDHComposite extends Composite implements PaintListener {
 					command.setHandler(saveToEditorHandler);
 					command = commandService.getCommand(saveToFileCommandId);
 					command.setHandler(saveToFileHandler);
-					canvasMain.redraw();
+//					canvasMain.redraw();
+//					groupMain.redraw();
 					if (large)
 						b = keyLargeA.getXAffin().equals(keyLargeB.getXAffin());
 					else
@@ -854,6 +833,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 						}
 					}
 				}
+				canvasExchange.redraw();
 			}
 
 		});
@@ -872,8 +852,9 @@ public class ECDHComposite extends Composite implements PaintListener {
 	 */
 	private void createGroupBob(Group parent) {
 		groupBob = new Group(parent, SWT.NONE);
-//		groupBob.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		groupBob.setLayoutData(new GridData(SWT.DEFAULT, SWT.FILL, false, true));
+		GridData gd_groupBob = new GridData(SWT.DEFAULT, SWT.FILL, false, true);
+//		gd_groupBob.widthHint = 300;
+		groupBob.setLayoutData(gd_groupBob);
 		groupBob.setText("Bob"); //$NON-NLS-1$
 		groupBob.setLayout(new GridLayout(2, false));
 
@@ -899,13 +880,13 @@ public class ECDHComposite extends Composite implements PaintListener {
 						secretLargeB = wiz.getLargeSecret();
 						if (secretLargeA != null && secretLargeB != null) {
 							btnCreateSharedKeys.setEnabled(true);
-							groupMain.redraw();
+//							groupMain.redraw();
 						}
 					} else {
 						secretB = wiz.getSecret();
 						if (secretA > 0 && secretB > 0) {
 							btnCreateSharedKeys.setEnabled(true);
-							groupMain.redraw();
+//							groupMain.redraw();
 						}
 					}
 					textSecretB.setText("xxxxxxxxxxxxxxxxxxxxxx"); //$NON-NLS-1$
@@ -954,7 +935,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 				if ((large && shareLargeA != null && shareLargeB != null)
 						|| (!large && shareA != null && shareB != null)) {
 					btnExchangeKeys.setEnabled(true);
-					groupMain.redraw();
+//					groupMain.redraw();
 				}
 			}
 
@@ -973,6 +954,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 		btnCalculateKeyB.setBackground(cRed);
 		btnCalculateKeyB.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				keyBPressed = true;
 				if (large) {
 					keyLargeB = multiplyLargePoint(shareLargeA, secretLargeB);
 					textCommonKeyB.setText(keyLargeB.getXAffin().toString());
@@ -1001,8 +983,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 					command.setHandler(saveToEditorHandler);
 					command = commandService.getCommand(saveToFileCommandId);
 					command.setHandler(saveToFileHandler);
-//					canvasMain.redraw();
-					groupMain.redraw();
+//					groupMain.redraw();
 					if (large)
 						b = keyLargeA.getXAffin().equals(keyLargeB.getXAffin());
 					else
@@ -1025,6 +1006,7 @@ public class ECDHComposite extends Composite implements PaintListener {
 						}
 					}
 				}
+				canvasExchange.redraw();
 			}
 		});
 		label = new Label(groupBob, SWT.NONE);
@@ -1033,44 +1015,6 @@ public class ECDHComposite extends Composite implements PaintListener {
 
 		textCommonKeyB = new Text(groupBob, SWT.BORDER | SWT.READ_ONLY);
 		textCommonKeyB.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
-	}
-
-	public void paintControl(PaintEvent e) {
-		GC gc = e.gc;
-		gc.setBackground(grey);
-		// Strich der die Buttons verbindet
-		int x = 100;
-		int y = 70;
-		int width = 10;
-		int height = 0;
-		int totalheight = 430;
-		boolean b;
-		if (large)
-			b = keyLargeA == null || keyLargeB == null || !keyLargeA.getXAffin().equals(keyLargeB.getXAffin());
-		else
-			b = keyA == null || keyB == null || !keyA.equals(keyB);
-		if (btnChooseSecrets == null || !btnChooseSecrets.getEnabled()) {
-			height = 0;
-		} else if (!btnCreateSharedKeys.getEnabled()) {
-			height = 50;
-		} else if (!btnExchangeKeys.getEnabled()) {
-			height = 150;
-		} else if (!btnGenerateKey.getEnabled()) {
-			height = 250;
-		} else if (b) {
-			height = 350;
-		} else
-			height = totalheight;
-		gc.fillRectangle(x, y, width, height);
-		if (b) {
-			gc.setBackground(lightGrey);
-		} else {
-			ImageDescriptor id = ECDHPlugin.getImageDescriptor("icons/key.png"); //$NON-NLS-1$
-			ImageData imD = id.getImageData();
-			imD.transparentPixel = 16777215; // white
-			Image img = new Image(Display.getCurrent(), imD);
-			gc.drawImage(img, 400, 480);
-		}
 	}
 
 	private String intToBitString(int i, int length) {
@@ -1272,11 +1216,16 @@ public class ECDHComposite extends Composite implements PaintListener {
 			if (showAnimation) {
 				GC gc = new GC(canvasExchange);
 				Image original = new Image(canvasExchange.getDisplay(), canvasExchange.getBounds().width, canvasExchange.getBounds().height);
-				gc.copyArea(original, 0, 0);
+				gc.copyArea(original, 0, canvasExchange.getBounds().height/2);
+				
+				int canvasExchangeWidth = canvasExchange.getBounds().width;
+				int canvasExchangeHeight = canvasExchange.getBounds().height;
+				
 				// x und y bestimmen die startposition von den 1 und 0
-				double x = -50;
-				double y = 0;
+				int x = -70;
+				int y = 10;
 				String msg;
+				
 				if (large) {
 					msg = shareLargeA.getXAffin().toString(2).substring(0, 4) + " " //$NON-NLS-1$
 							+ shareLargeA.getYAffin().toString(2).substring(0, 4);
@@ -1287,27 +1236,22 @@ public class ECDHComposite extends Composite implements PaintListener {
 					else
 						msg = intToBitString(shareA.x, 5) + " " + intToBitString(shareA.y, 5); //$NON-NLS-1$
 				}
-				for (int i = 0; i < 140; i++) {
-					Image im = new Image(canvasExchange.getDisplay(), original, SWT.IMAGE_COPY);
-					GC gcI = new GC(im);
-					gcI.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_BLACK));
-					gcI.setFont(FontService.getHeaderFont());
-					gcI.drawText(msg, (int) x, (int) y, true);
-
-					gc.drawImage(im, 0, (canvasExchange.getBounds().height/2));
+				
+				for (int i = 0; i < 136; i++) {
 					// Hier wird der Verlauf der 1 und 0 bestimmt
 					if (i < 12) {
-						x += 5;
-					} else if (i < 23) {
-						x += 5 * 11 / 12;
-						y += 5;
-					} else if (i < 48) {
-						y += 5;
+						x += canvasExchangeWidth/(4*12);
+					} else if (i < 36) {
+						// Die -72 machen 18 Pixel aus, da 72/(4*12)=1,5*12=18
+						y += (canvasExchangeHeight)/(4*24);
+					} else if (i < 60) {
+						x += canvasExchangeWidth/(2*24);
+						y += (canvasExchangeHeight-72)/(4*24);
 					} else if (i < 68) {
-						x += 5;
+						x += canvasExchangeWidth/(4*8);
 					} else if (i == 68) {
-						y = 0;
-						x = 120;
+						y = 10;
+						x = canvasExchangeWidth - 70;
 						if (large) {
 							msg = shareLargeB.getXAffin().toString(2).substring(0, 4) + " " //$NON-NLS-1$
 									+ shareLargeB.getYAffin().toString(2).substring(0, 4);
@@ -1318,23 +1262,34 @@ public class ECDHComposite extends Composite implements PaintListener {
 							else
 								msg = intToBitString(shareB.x, 5) + " " + intToBitString(shareB.y, 5); //$NON-NLS-1$
 						}
-					} else if (i < 83) {
-						x -= 5;
-					} else if (i < 94) {
-						x -= 5 * 11 / 12;
-						y += 4;
-					} else if (i < 121) {
-						y += 5;
-					} else {
-						x -= 5;
+					} else if (i < 80) {
+						x -= canvasExchangeWidth/(4*12);
+					} else if (i < 104) {
+						// Die -72 machen 18 Pixel aus, da 72/(4*12)=1,5*12=18
+						y += (canvasExchangeHeight)/(4*24);
+					} else if (i < 128) {
+						x -= canvasExchangeWidth/(2*24);
+						y += (canvasExchangeHeight-72)/(4*24);
+					} else  if (i < 136) {
+						x -= canvasExchangeWidth/(4*8);
 					}
+					
+					Image im = new Image(canvasExchange.getDisplay(), original, SWT.IMAGE_COPY);
+					GC gcI = new GC(im);
+					gcI.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_BLACK));
+					gcI.setFont(FontService.getHeaderFont());
+					gcI.drawText(msg, x, y, true);
+					gc.drawImage(im, 0, (canvasExchange.getBounds().height/2));
 
 					try {
 						sleep(50);
 					} catch (InterruptedException ex) {
 						LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
 					}
+					gcI.dispose();
 				}
+				gc.dispose();
+				canvasExchange.redraw();
 			}
 		}
 	}
