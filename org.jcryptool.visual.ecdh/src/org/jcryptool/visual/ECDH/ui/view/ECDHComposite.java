@@ -137,6 +137,7 @@ public class ECDHComposite extends Composite {
 	private IServiceLocator serviceLocator;
 	private boolean keyAPressed = false;
 	private boolean keyBPressed = false;
+	private Image id;
 
 	public ECDHComposite(Composite parent, int style, ECDHView view) {
 		super(parent, style);
@@ -491,6 +492,7 @@ public class ECDHComposite extends Composite {
 
 	@Override
 	public void dispose() {
+		id.dispose();
 		cRed.dispose();
 		cGreen.dispose();
 		super.dispose();
@@ -550,12 +552,6 @@ public class ECDHComposite extends Composite {
 		gd_canvasExchange.widthHint = 150;
 		canvasExchange.setLayoutData(gd_canvasExchange);
 		canvasExchange.setLayout(new GridLayout());
-		
-//		key = new Label(canvasExchange, SWT.NONE);
-//		key.setImage(ECDHPlugin.getImageDescriptor("icons/key.png").createImage());
-//		key.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, true, true));
-//		key.set
-//		key.setVisible(false);
 		
 		canvasExchange.addPaintListener(new PaintListener() {
 			
@@ -645,8 +641,8 @@ public class ECDHComposite extends Composite {
 				ba.lineTo(bax1, bay1);
 				e.gc.fillPath(ba);
 				
-				if (keyAPressed && keyBPressed) {
-					Image id = ECDHPlugin.getImageDescriptor("icons/key.png").createImage();
+				id = ECDHPlugin.getImageDescriptor("icons/key.png").createImage();
+				if (keyAPressed && keyBPressed) {	
 					e.gc.drawImage(id, 0, canvasExchange.getBounds().height - 59);
 				}
 			}
@@ -708,13 +704,11 @@ public class ECDHComposite extends Composite {
 						secretLargeA = wiz.getLargeSecret();
 						if (secretLargeA != null && secretLargeB != null) {
 							btnCreateSharedKeys.setEnabled(true);
-//							groupMain.redraw();
 						}
 					} else {
 						secretA = wiz.getSecret();
 						if (secretA > 0 && secretB > 0) {
 							btnCreateSharedKeys.setEnabled(true);
-//							groupMain.redraw();
 						}
 					}
 					textSecretA.setText("xxxxxxxxxxxxxxxxxxxxxx"); //$NON-NLS-1$
@@ -762,7 +756,6 @@ public class ECDHComposite extends Composite {
 				if ((large && shareLargeA != null && shareLargeB != null)
 						|| (!large && shareA != null && shareB != null)) {
 					btnExchangeKeys.setEnabled(true);
-//					groupMain.redraw();
 				}
 			}
 		});
@@ -809,8 +802,6 @@ public class ECDHComposite extends Composite {
 					command.setHandler(saveToEditorHandler);
 					command = commandService.getCommand(saveToFileCommandId);
 					command.setHandler(saveToFileHandler);
-//					canvasMain.redraw();
-//					groupMain.redraw();
 					if (large)
 						b = keyLargeA.getXAffin().equals(keyLargeB.getXAffin());
 					else
@@ -880,13 +871,11 @@ public class ECDHComposite extends Composite {
 						secretLargeB = wiz.getLargeSecret();
 						if (secretLargeA != null && secretLargeB != null) {
 							btnCreateSharedKeys.setEnabled(true);
-//							groupMain.redraw();
 						}
 					} else {
 						secretB = wiz.getSecret();
 						if (secretA > 0 && secretB > 0) {
 							btnCreateSharedKeys.setEnabled(true);
-//							groupMain.redraw();
 						}
 					}
 					textSecretB.setText("xxxxxxxxxxxxxxxxxxxxxx"); //$NON-NLS-1$
@@ -935,7 +924,6 @@ public class ECDHComposite extends Composite {
 				if ((large && shareLargeA != null && shareLargeB != null)
 						|| (!large && shareA != null && shareB != null)) {
 					btnExchangeKeys.setEnabled(true);
-//					groupMain.redraw();
 				}
 			}
 
@@ -983,7 +971,6 @@ public class ECDHComposite extends Composite {
 					command.setHandler(saveToEditorHandler);
 					command = commandService.getCommand(saveToFileCommandId);
 					command.setHandler(saveToFileHandler);
-//					groupMain.redraw();
 					if (large)
 						b = keyLargeA.getXAffin().equals(keyLargeB.getXAffin());
 					else
@@ -1172,7 +1159,10 @@ public class ECDHComposite extends Composite {
 			shareLargeB = null;
 			keyLargeA = null;
 			keyLargeB = null;
+			keyAPressed = false;
+			keyBPressed = false;
 
+			id.dispose();
 			btnCreateSharedKeys.setBackground(cRed);
 			btnCalculateSharedA.setEnabled(false);
 			btnCalculateSharedA.setBackground(cRed);
