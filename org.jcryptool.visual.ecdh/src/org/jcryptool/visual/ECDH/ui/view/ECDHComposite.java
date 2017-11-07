@@ -676,9 +676,8 @@ public class ECDHComposite extends Composite {
 	 */
 	private void createGroupAlice(Group parent) {
 		groupAlice = new Group(parent, SWT.NONE);
-//		groupAlice.setLayoutData(new GridData(SWT.DEFAULT, SWT.FILL, false, true));
 		GridData gd_groupAlice = new GridData(SWT.DEFAULT, SWT.FILL, false, true);
-//		gd_groupAlice.widthHint = 300;
+		gd_groupAlice.widthHint = 300;
 		groupAlice.setLayoutData(gd_groupAlice);
 		groupAlice.setText("Alice"); //$NON-NLS-1$
 		groupAlice.setLayout(new GridLayout(2, false));
@@ -729,7 +728,7 @@ public class ECDHComposite extends Composite {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
 
 		textSecretA = new Text(groupAlice, SWT.BORDER | SWT.PASSWORD | SWT.READ_ONLY);
-		textSecretA.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
+		textSecretA.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true));
 
 		btnCalculateSharedA = new Button(groupAlice, SWT.NONE);
 		btnCalculateSharedA.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
@@ -764,7 +763,7 @@ public class ECDHComposite extends Composite {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 
 		textSharedA = new Text(groupAlice, SWT.BORDER | SWT.READ_ONLY);
-		textSharedA.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		textSharedA.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		btnCalculateKeyA = new Button(groupAlice, SWT.NONE);
 		btnCalculateKeyA.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
@@ -834,7 +833,7 @@ public class ECDHComposite extends Composite {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
 
 		textCommonKeyA = new Text(groupAlice, SWT.BORDER | SWT.READ_ONLY);
-		textCommonKeyA.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
+		textCommonKeyA.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 	}
 
 	/**
@@ -844,7 +843,7 @@ public class ECDHComposite extends Composite {
 	private void createGroupBob(Group parent) {
 		groupBob = new Group(parent, SWT.NONE);
 		GridData gd_groupBob = new GridData(SWT.DEFAULT, SWT.FILL, false, true);
-//		gd_groupBob.widthHint = 300;
+		gd_groupBob.widthHint = 300;
 		groupBob.setLayoutData(gd_groupBob);
 		groupBob.setText("Bob"); //$NON-NLS-1$
 		groupBob.setLayout(new GridLayout(2, false));
@@ -897,7 +896,7 @@ public class ECDHComposite extends Composite {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
 
 		textSecretB = new Text(groupBob, SWT.BORDER | SWT.PASSWORD | SWT.READ_ONLY);
-		textSecretB.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
+		textSecretB.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true));
 
 		btnCalculateSharedB = new Button(groupBob, SWT.NONE);
 		btnCalculateSharedB.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
@@ -933,7 +932,7 @@ public class ECDHComposite extends Composite {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 
 		textSharedB = new Text(groupBob, SWT.BORDER | SWT.READ_ONLY);
-		textSharedB.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		textSharedB.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		btnCalculateKeyB = new Button(groupBob, SWT.NONE);
 		btnCalculateKeyB.setText(Messages.getString("ECDHView.calculate")); //$NON-NLS-1$
@@ -1001,7 +1000,7 @@ public class ECDHComposite extends Composite {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false));
 
 		textCommonKeyB = new Text(groupBob, SWT.BORDER | SWT.READ_ONLY);
-		textCommonKeyB.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
+		textCommonKeyB.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 	}
 
 	private String intToBitString(int i, int length) {
