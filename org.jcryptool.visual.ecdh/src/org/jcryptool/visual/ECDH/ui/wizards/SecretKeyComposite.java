@@ -57,6 +57,9 @@ public class SecretKeyComposite extends Composite {
 			spnrSecret.setSelection(s);
 	}
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public SecretKeyComposite(Composite parent, int style, String n, FlexiBigInt s, FlexiBigInt m) {
 		super(parent, style);
 		large = true;
@@ -82,14 +85,24 @@ public class SecretKeyComposite extends Composite {
 	private void createGroupSecret() {
 		GridData gridData1 = new GridData();
 		gridData1.grabExcessHorizontalSpace = true;
-		gridData1.horizontalAlignment = org.eclipse.swt.layout.GridData.FILL;
+		gridData1.horizontalAlignment = SWT.FILL;
+		gridData1.verticalAlignment = SWT.FILL;
 		gridData1.verticalIndent = 4;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
+		
 		groupSecret = new Group(this, SWT.NONE);
 		groupSecret.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		groupSecret.setLayout(gridLayout);
 		groupSecret.setText(name + Messages.getString("ECDHWizSK.groupSecret")); //$NON-NLS-1$
+		
+		if (large) {
+			Label order = new Label(groupSecret, SWT.NONE);
+			order.setFont(FontService.getSmallFont());
+			order.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+			order.setText(Messages.getString("SecretKeyComposite.0") + bigMax + "."); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		
 		Label label = new Label(groupSecret, SWT.NONE);
 		label.setText(Messages.getString("SecretKeyComposite.1")); //$NON-NLS-1$
 
