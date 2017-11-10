@@ -277,7 +277,7 @@ public class ECDHComposite extends Composite {
 							largeCurve = wiz.getLargeCurve();
 							pointG = wiz.getLargeGenerator();
 							largeOrder = wiz.getLargeOrder();
-							textCurve.setText(largeCurve.toString().replace("\n", " "));
+							textCurve.setText(largeCurve.toString().replace("\n", " ").replace("<sup>", "^").replace("</sup>", ""));
 							textGenerator.setText("" + pointG.getXAffin() + ", " + pointG.getYAffin() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						} else {
 							curve = wiz.getCurve();
