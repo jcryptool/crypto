@@ -89,6 +89,7 @@ public class ECDHComposite extends Composite {
 	private Button btn_showAnimation;
 	private Canvas canvasBtn = null;
 	private Canvas canvasExchange = null;
+	private Canvas canvasKey = null;
 	private Color cRed = new Color(Display.getCurrent(), 247, 56, 51);
 	private Color cGreen = new Color(Display.getCurrent(), 0, 255, 64); 
 	private Color grey = new Color(Display.getCurrent(), 140, 138, 140);
@@ -245,7 +246,7 @@ public class ECDHComposite extends Composite {
 
 	private void createCanvasBtn(Group parent) {
 		canvasBtn = new Canvas(parent, SWT.NO_REDRAW_RESIZE);
-		canvasBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
+		canvasBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 3));
 		canvasBtn.setLayout(new GridLayout());
 
 		// All the Buttons and Buttonlistener are here
@@ -290,7 +291,6 @@ public class ECDHComposite extends Composite {
 
 						btnChooseSecrets.setEnabled(true);
 						btnSetPublicParameters.setBackground(cGreen);
-//						groupMain.redraw();
 					}
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
@@ -300,7 +300,7 @@ public class ECDHComposite extends Composite {
 
 		btnChooseSecrets = new Button(canvasBtn, SWT.NONE);
 		GridData gd_btnChooseSecrets = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_btnChooseSecrets.verticalIndent = 40;
+		gd_btnChooseSecrets.verticalIndent = 50;
 		gd_btnChooseSecrets.heightHint = 60;
 		btnChooseSecrets.setLayoutData(gd_btnChooseSecrets);
 		btnChooseSecrets.setEnabled(false);
@@ -319,7 +319,6 @@ public class ECDHComposite extends Composite {
 					btnSecretA.setEnabled(true);
 					btnSecretB.setEnabled(true);
 					btnChooseSecrets.setBackground(cGreen);
-//					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
 				}
@@ -328,7 +327,7 @@ public class ECDHComposite extends Composite {
 
 		btnCreateSharedKeys = new Button(canvasBtn, SWT.NONE);
 		GridData gd_btnCreateSharedKeys = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_btnCreateSharedKeys.verticalIndent = 40;
+		gd_btnCreateSharedKeys.verticalIndent = 50;
 		gd_btnCreateSharedKeys.heightHint = 60;
 		btnCreateSharedKeys.setLayoutData(gd_btnCreateSharedKeys);
 		btnCreateSharedKeys.setEnabled(false);
@@ -347,7 +346,6 @@ public class ECDHComposite extends Composite {
 					btnCalculateSharedA.setEnabled(true);
 					btnCalculateSharedB.setEnabled(true);
 					btnCreateSharedKeys.setBackground(cGreen);
-//					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
 				}
@@ -356,7 +354,7 @@ public class ECDHComposite extends Composite {
 
 		btnExchangeKeys = new Button(canvasBtn, SWT.NONE);
 		GridData gd_btnExchangeKeys = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_btnExchangeKeys.verticalIndent = 40;
+		gd_btnExchangeKeys.verticalIndent = 50;
 		gd_btnExchangeKeys.heightHint = 60;
 		btnExchangeKeys.setLayoutData(gd_btnExchangeKeys);
 		btnExchangeKeys.setEnabled(false);
@@ -375,7 +373,6 @@ public class ECDHComposite extends Composite {
 					new Animate().run();
 					btnGenerateKey.setEnabled(true);
 					btnExchangeKeys.setBackground(cGreen);
-//					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
 				}
@@ -384,7 +381,7 @@ public class ECDHComposite extends Composite {
 
 		btnGenerateKey = new Button(canvasBtn, SWT.NONE);
 		GridData gd_btnGenerateKey = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_btnGenerateKey.verticalIndent = 40;
+		gd_btnGenerateKey.verticalIndent = 50;
 		gd_btnGenerateKey.heightHint = 60;
 		btnGenerateKey.setLayoutData(gd_btnGenerateKey);
 		btnGenerateKey.setEnabled(false);
@@ -403,8 +400,6 @@ public class ECDHComposite extends Composite {
 					btnCalculateKeyA.setEnabled(true);
 					btnCalculateKeyB.setEnabled(true);
 					btnGenerateKey.setBackground(cGreen);
-					// War vorher nicht da 
-//					groupMain.redraw();
 				} catch (Exception ex) {
 					LogUtil.logError(ECDHPlugin.PLUGIN_ID, ex);
 				}
@@ -429,7 +424,7 @@ public class ECDHComposite extends Composite {
 				connection.lineTo(x2, y1);
 				
 				// 60(Buttonhöhe) + 40(Abstand der auch zeischen den anderen bUttons ist) - 5(damit ser Strich mittig ist)
-				int y3 = btnGenerateKey.getBounds().y + 100 - 5;
+				int y3 = btnGenerateKey.getBounds().y + 120 - 5;
 				connection.lineTo(x2, y3);
 				
 				//40 Platz den die Pfeilspitze haben soll
@@ -464,7 +459,7 @@ public class ECDHComposite extends Composite {
 
 		placeholder = new Label(canvasBtn, SWT.NONE);
 		GridData gd_placeholder = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-		gd_placeholder.verticalIndent = 45;
+		gd_placeholder.verticalIndent = 65;
 		gd_placeholder.heightHint = 10;
 		placeholder.setLayoutData(gd_placeholder);
 		placeholder.setVisible(false);
@@ -542,14 +537,38 @@ public class ECDHComposite extends Composite {
 		createGroupAlice(groupMain);
 		createCanvasExchange(groupMain);
 		createGroupBob(groupMain);
+		createCanvasKey(groupMain);
 
 		groupMain.setText(Messages.getString("ECDHView.groupMain")); //$NON-NLS-1$
+	}
+
+	private void createCanvasKey(Group parent) {
+		// TODO Auto-generated method stub
+		canvasKey = new Canvas(parent, SWT.NO_REDRAW_RESIZE);
+		GridData gd_canvasKey = new GridData(SWT.FILL, SWT.FILL, false, true, 3, 1);
+		gd_canvasKey.verticalIndent = 10;
+		gd_canvasKey.widthHint = 750;
+		gd_canvasKey.heightHint = 69;
+		canvasKey.setLayoutData(gd_canvasKey);
+		
+		canvasKey.addPaintListener(new PaintListener() {
+			
+			@Override
+			public void paintControl(PaintEvent e) {
+				// TODO Auto-generated method stub
+				id = ECDHPlugin.getImageDescriptor("icons/key.png").createImage();
+				if (keyAPressed && keyBPressed) {	
+					e.gc.drawImage(id, 305, 0);
+				}
+			}
+		});
 	}
 
 	private void createCanvasExchange(Group parent) {
 		canvasExchange = new Canvas(parent, SWT.NO_REDRAW_RESIZE);
 		GridData gd_canvasExchange = new GridData(SWT.FILL, SWT.FILL, false, false);
 		gd_canvasExchange.widthHint = 150;
+		gd_canvasExchange.heightHint = 400;
 		canvasExchange.setLayoutData(gd_canvasExchange);
 		canvasExchange.setLayout(new GridLayout());
 		
@@ -640,11 +659,6 @@ public class ECDHComposite extends Composite {
 				// und zurück zum anfang
 				ba.lineTo(bax1, bay1);
 				e.gc.fillPath(ba);
-				
-				id = ECDHPlugin.getImageDescriptor("icons/key.png").createImage();
-				if (keyAPressed && keyBPressed) {	
-					e.gc.drawImage(id, 0, canvasExchange.getBounds().height - 59);
-				}
 			}
 		});
 
@@ -678,6 +692,7 @@ public class ECDHComposite extends Composite {
 		groupAlice = new Group(parent, SWT.NONE);
 		GridData gd_groupAlice = new GridData(SWT.DEFAULT, SWT.FILL, false, true);
 		gd_groupAlice.widthHint = 300;
+		gd_groupAlice.heightHint = 400;
 		groupAlice.setLayoutData(gd_groupAlice);
 		groupAlice.setText("Alice"); //$NON-NLS-1$
 		groupAlice.setLayout(new GridLayout(2, false));
@@ -823,7 +838,8 @@ public class ECDHComposite extends Composite {
 						}
 					}
 				}
-				canvasExchange.redraw();
+//				canvasExchange.redraw();
+				canvasKey.redraw();
 			}
 
 		});
@@ -844,6 +860,7 @@ public class ECDHComposite extends Composite {
 		groupBob = new Group(parent, SWT.NONE);
 		GridData gd_groupBob = new GridData(SWT.DEFAULT, SWT.FILL, false, true);
 		gd_groupBob.widthHint = 300;
+		gd_groupBob.heightHint = 400;
 		groupBob.setLayoutData(gd_groupBob);
 		groupBob.setText("Bob"); //$NON-NLS-1$
 		groupBob.setLayout(new GridLayout(2, false));
@@ -992,7 +1009,8 @@ public class ECDHComposite extends Composite {
 						}
 					}
 				}
-				canvasExchange.redraw();
+//				canvasExchange.redraw();
+				canvasKey.redraw();
 			}
 		});
 		label = new Label(groupBob, SWT.NONE);
