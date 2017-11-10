@@ -277,7 +277,7 @@ public class ECDHComposite extends Composite {
 							largeCurve = wiz.getLargeCurve();
 							pointG = wiz.getLargeGenerator();
 							largeOrder = wiz.getLargeOrder();
-							textCurve.setText(largeCurve.toString());
+							textCurve.setText(largeCurve.toString().replace("\n", " "));
 							textGenerator.setText("" + pointG.getXAffin() + ", " + pointG.getYAffin() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						} else {
 							curve = wiz.getCurve();
@@ -543,7 +543,6 @@ public class ECDHComposite extends Composite {
 	}
 
 	private void createCanvasKey(Group parent) {
-		// TODO Auto-generated method stub
 		canvasKey = new Canvas(parent, SWT.NO_REDRAW_RESIZE);
 		GridData gd_canvasKey = new GridData(SWT.FILL, SWT.FILL, false, true, 3, 1);
 		gd_canvasKey.verticalIndent = 10;
@@ -555,7 +554,6 @@ public class ECDHComposite extends Composite {
 			
 			@Override
 			public void paintControl(PaintEvent e) {
-				// TODO Auto-generated method stub
 				id = ECDHPlugin.getImageDescriptor("icons/key.png").createImage();
 				if (keyAPressed && keyBPressed) {	
 					e.gc.drawImage(id, 305, 0);
@@ -838,7 +836,6 @@ public class ECDHComposite extends Composite {
 						}
 					}
 				}
-//				canvasExchange.redraw();
 				canvasKey.redraw();
 			}
 
@@ -1009,7 +1006,6 @@ public class ECDHComposite extends Composite {
 						}
 					}
 				}
-//				canvasExchange.redraw();
 				canvasKey.redraw();
 			}
 		});
