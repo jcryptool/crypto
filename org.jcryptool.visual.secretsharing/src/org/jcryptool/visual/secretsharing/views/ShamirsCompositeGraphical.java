@@ -606,13 +606,15 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
      * Creates the settings group
      */
     private void createGroupSettings() {
-        GridData gridData2 = new GridData(SWT.FILL, SWT.FILL, false, false);
-        gridData2.heightHint = 508;
-        gridData2.widthHint = 300;
         groupSettings = new Group(content, SWT.NONE);
         groupSettings.setLayout(new GridLayout());
         groupSettings.setText(MESSAGE_SETTINGS);
-        groupSettings.setLayoutData(gridData2);
+        GridData gd_groupSettings = new GridData(SWT.FILL, SWT.FILL, false, false);
+//        gd_groupSettings.heightHint = 508;
+//        gd_groupSettings.widthHint = 300;
+        gd_groupSettings.heightHint = 608;
+        gd_groupSettings.widthHint = 350;
+        groupSettings.setLayoutData(gd_groupSettings);
 
         createGroupModus();
         createGroupParameter();
@@ -654,12 +656,13 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
      */
     private void createGroupParameter() {
         groupParameter = new Group(groupSettings, SWT.NONE);
-        final GridData gd_groupParameter = new GridData(SWT.FILL, SWT.CENTER, true, false);
+        groupParameter.setLayout(new GridLayout(6, false));
+        final GridData gd_groupParameter = new GridData(SWT.FILL, SWT.CENTER, false, false);
         groupParameter.setLayoutData(gd_groupParameter);
         groupParameter.setText(MESSAGE_PARAMETER);
 
         numberOfConcernedLabel = new Label(groupParameter, SWT.NONE);
-        numberOfConcernedLabel.setBounds(10, 20, 174, 15);
+        numberOfConcernedLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 4, 1));
         numberOfConcernedLabel.setText(MESSAGE_CONCERNED_PERSONS);
 
         spnrN = new Spinner(groupParameter, SWT.BORDER);
@@ -671,12 +674,12 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
 
             }
         });
-        spnrN.setBounds(225, 17, 55, 20);
+        spnrN.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
         spnrN.setMinimum(2);
         spnrN.setMaximum(500);
 
         numberForReconstructionLabel = new Label(groupParameter, SWT.NONE);
-        numberForReconstructionLabel.setBounds(10, 46, 210, 15);
+        numberForReconstructionLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 4, 1));
         numberForReconstructionLabel.setText(MESSAGE_RECONSTRUCT_PERSONS);
 
         spnrT = new Spinner(groupParameter, SWT.BORDER);
@@ -690,16 +693,16 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
             }
 
         });
-        spnrT.setBounds(225, 43, 55, 20);
+        spnrT.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
         spnrT.setMinimum(2);
         spnrT.setMaximum(2);
 
         modulLabel = new Label(groupParameter, SWT.NONE);
-        modulLabel.setBounds(10, 72, 152, 15);
+        modulLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
         modulLabel.setText(MESSAGE_MODUL);
 
         modulText = new Text(groupParameter, SWT.BORDER);
-        modulText.setBounds(168, 69, 113, 20);
+        modulText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
         numberOnlyVerifyListenerModul = new VerifyListener() {
             public void verifyText(VerifyEvent e) {
@@ -723,10 +726,10 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
 
         secretLabel = new Label(groupParameter, SWT.NONE);
         secretLabel.setText(MESSAGE_SECRET);
-        secretLabel.setBounds(10, 101, 105, 15);
+        secretLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
 
         secretText = new Text(groupParameter, SWT.BORDER);
-        secretText.setBounds(121, 98, 159, 20);
+        secretText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
         numberOnlyVerifyListenerSecret = new VerifyListener() {
             public void verifyText(VerifyEvent e) {
@@ -750,7 +753,7 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
 
         coefficentLabel = new Label(groupParameter, SWT.NONE);
         coefficentLabel.setText(MESSAGE_COEFFICIENT);
-        coefficentLabel.setBounds(10, 127, 58, 15);
+        coefficentLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
 
         selectCoefficientButton = new Button(groupParameter, SWT.NONE);
         selectCoefficientButton.addSelectionListener(new SelectionAdapter() {
@@ -847,18 +850,18 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
             }
         });
         selectCoefficientButton.setText(MESSAGE_SELECT);
-        selectCoefficientButton.setBounds(107, 124, 173, 20);
+        selectCoefficientButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
         polynomLabel = new Label(groupParameter, SWT.NONE);
         polynomLabel.setText(MESSAGE_POLYNOM);
-        polynomLabel.setBounds(10, 148, 270, 15);
-
-        stPolynom = new StyledText(groupParameter, SWT.READ_ONLY | SWT.BORDER);
-        stPolynom.setBounds(44, 169, 236, 20);
+        polynomLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 6, 1));
 
         pxLabel = new Label(groupParameter, SWT.NONE);
         pxLabel.setText(MESSAGE_P);
-        pxLabel.setBounds(10, 169, 28, 15);
+        pxLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        
+        stPolynom = new StyledText(groupParameter, SWT.READ_ONLY | SWT.BORDER);
+        stPolynom.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 5, 1));
 
         computeSharesButton = new Button(groupParameter, SWT.NONE);
         computeSharesButton.addSelectionListener(new SelectionAdapter() {
@@ -888,7 +891,7 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
         });
         computeSharesButton.setEnabled(false);
         computeSharesButton.setText(MESSAGE_COMPUTE_SHARES);
-        computeSharesButton.setBounds(10, 195, 270, 20);
+        computeSharesButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 6, 1));
 
     }
 
