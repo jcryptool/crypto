@@ -55,17 +55,17 @@ public class ChooseKPage extends WizardPage {
     }
 
     public void createControl(final Composite parent) {
-        final Composite c = new Composite(parent, SWT.NONE);
-        final int ncol = 2;
-        c.setLayout(new GridLayout(ncol, false));
-        final GridData gd2 = new GridData(SWT.LEFT, SWT.CENTER, true, true, ncol, 1);
-        Label l = new Label(c, SWT.WRAP);
+        final Composite composite = new Composite(parent, SWT.NONE);
+
+        composite.setLayout(new GridLayout(2, false));
+        Label l = new Label(composite, SWT.WRAP);
         l.setText(Messages.ChooseKPage_select_k_text);
-        l.setLayoutData(gd2);
-        l = new Label(c, SWT.NONE);
-        l.setText("k"); //$NON-NLS-1$
-        combo = new Combo(c, SWT.DROP_DOWN | SWT.READ_ONLY);
+        l.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+        l = new Label(composite, SWT.NONE);
+        l.setText("k = "); //$NON-NLS-1$
+        combo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
         fill(combo);
+        combo.select(15);
         combo.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(final SelectionEvent e) {
                 data.setK(new BigInteger(combo.getText()));

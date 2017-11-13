@@ -92,7 +92,7 @@ public class LoadPublicKeyPage extends WizardPage {
      */
     public final void createControl(final Composite parent) {
         final Composite composite = new Composite(parent, SWT.NONE);
-        // TODO in between do stuff like layout et al
+//      do stuff like layout et al
         final GridLayout gl = new GridLayout();
         gl.marginWidth = 50;
         composite.setLayout(gl);

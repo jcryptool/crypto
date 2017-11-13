@@ -82,7 +82,9 @@ public class SaveKeypairPage extends SaveWizardPage {
     public final void createControl(final Composite parent) {
         final Composite composite = new Composite(parent, SWT.NONE);
         // do stuff like layout et al
-        composite.setLayout(new GridLayout());
+        GridLayout gl_composite = new GridLayout();
+        gl_composite.marginWidth = 50;
+        composite.setLayout(gl_composite);
         final Label own = new Label(composite, SWT.NONE);
         own.setText(Messages.SaveKeypairPage_name);
         own.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));

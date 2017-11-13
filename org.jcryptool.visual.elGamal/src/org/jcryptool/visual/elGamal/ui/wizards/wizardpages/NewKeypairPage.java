@@ -120,6 +120,7 @@ public class NewKeypairPage extends WizardPage {
         // set layout
         final int ncol = 4;
         final GridLayout gl = new GridLayout(ncol, false);
+        gl.marginWidth = 50;
         composite.setLayout(gl);
         final GridData gd = new GridData(SWT.FILL, SWT.CENTER, true, false, ncol, 1);
         final GridData gd1 = new GridData(SWT.FILL, SWT.CENTER, true, false, ncol, 1);
@@ -130,7 +131,8 @@ public class NewKeypairPage extends WizardPage {
         final GridData gd6 = new GridData(SWT.FILL, SWT.CENTER, true, false, ncol, 1);
         final GridData gd7 = new GridData(SWT.FILL, SWT.CENTER, true, false, ncol, 1);
         final GridData gd8 = new GridData(SWT.FILL, SWT.CENTER, true, false, ncol, 1);
-        final GridData gd9 = new GridData(SWT.FILL, SWT.CENTER, true, false, ncol, 1);
+        final GridData gd9 = new GridData(SWT.FILL, SWT.CENTER, true, true, ncol, 1);
+        final GridData gd10 = new GridData(SWT.FILL, SWT.CENTER, true, false, ncol, 1);
         // begin stuff
         // modulus
         Label label = new Label(composite, SWT.NONE);
@@ -139,7 +141,7 @@ public class NewKeypairPage extends WizardPage {
         label = new Label(composite, SWT.NONE);
         label.setLayoutData(gd1);
         label.setText(Messages.NewKeypairPage_choose_q_text);
-        new Label(composite, SWT.NONE).setText("p"); //$NON-NLS-1$
+        new Label(composite, SWT.NONE).setText("p = "); //$NON-NLS-1$
         pfield = new Combo(composite, SWT.SINGLE);
         pfield.addVerifyListener(VL);
         pfield.addSelectionListener(new SelectionAdapter() {
@@ -169,7 +171,7 @@ public class NewKeypairPage extends WizardPage {
             }
         });
         fillP();
-        new Label(composite, SWT.NONE).setText("q"); //$NON-NLS-1$
+        new Label(composite, SWT.NONE).setText("q = "); //$NON-NLS-1$
         qfield = new Text(composite, SWT.BORDER);
         qfield.addVerifyListener(VL);
         qfield.addModifyListener(new ModifyListener() {
@@ -195,7 +197,7 @@ public class NewKeypairPage extends WizardPage {
         label = new Label(composite, SWT.NONE);
         label.setLayoutData(gd4);
         label.setText(Messages.NewKeypairPage_real_g_values);
-        new Label(composite, SWT.NONE).setText("g"); //$NON-NLS-1$
+        new Label(composite, SWT.NONE).setText("g = "); //$NON-NLS-1$
         gfield = new Combo(composite, SWT.SINGLE | SWT.READ_ONLY);
         // Separator
         new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(gd5);
@@ -206,7 +208,7 @@ public class NewKeypairPage extends WizardPage {
         label = new Label(composite, SWT.NONE);
         label.setText(Messages.NewKeypairPage_A_explanation);
         label.setLayoutData(gd7);
-        new Label(composite, SWT.NONE).setText("a"); //$NON-NLS-1$
+        new Label(composite, SWT.NONE).setText("a = "); //$NON-NLS-1$
         afield = new Text(composite, SWT.SINGLE | SWT.BORDER);
         afield.addVerifyListener(VL);
         afield.addModifyListener(new ModifyListener() {
@@ -230,16 +232,19 @@ public class NewKeypairPage extends WizardPage {
             }
         });
 
-        new Label(composite, SWT.NONE).setText("A"); //$NON-NLS-1$
+        new Label(composite, SWT.NONE).setText("A = "); //$NON-NLS-1$
         atext = new Text(composite, SWT.READ_ONLY | SWT.BORDER);
 
+        //Spacer 
+        new Label(composite, SWT.NONE).setLayoutData(gd9);
+       
         // Separator
         new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(gd8);
         // Save?
         saveKeypairButton = new Button(composite, SWT.CHECK);
         saveKeypairButton.setText(Messages.NewKeypairPage_save_keypair);
         saveKeypairButton.setToolTipText(Messages.NewKeypairPage_save_keypair_popup);
-        saveKeypairButton.setLayoutData(gd9);
+        saveKeypairButton.setLayoutData(gd10);
         saveKeypairButton.setSelection(data.isStandalone());
         saveKeypairButton.setEnabled(!data.isStandalone());
         saveKeypairButton.addSelectionListener(new SelectionAdapter() {

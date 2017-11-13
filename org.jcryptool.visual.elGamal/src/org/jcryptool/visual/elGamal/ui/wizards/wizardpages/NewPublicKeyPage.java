@@ -10,7 +10,6 @@
 package org.jcryptool.visual.elGamal.ui.wizards.wizardpages;
 
 import java.math.BigInteger;
-import java.util.Random;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -97,8 +96,9 @@ public class NewPublicKeyPage extends WizardPage {
     public final void createControl(final Composite parent) {
         // do stuff like layout et al
         composite = new Composite(parent, SWT.NONE);
-//        composite.setLayout(new GridLayout(2, false));
-        composite.setLayout(new GridLayout(3, false));
+        GridLayout gl_composite = new GridLayout(3, false);
+        gl_composite.marginWidth = 50;
+        composite.setLayout(gl_composite);
 
         Label label = new Label(composite, SWT.NONE);
         label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
@@ -114,8 +114,9 @@ public class NewPublicKeyPage extends WizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (ptext.getText().equals("")) { //$NON-NLS-1$
-					//Get a reandom Prime
-					ptext.setText(Integer.toString(getRandomPrime()));
+					//Get a random Prime
+					int rndm = (int) (Math.random() * 19500 + 257);
+					ptext.setText(Integer.toString(Lib.PRIMES.lower(rndm)));
 				} else {
 					//Get a prime near the entered value
 					ptext.setText(Integer.toString(Lib.PRIMES.lower(Integer.parseInt(ptext.getText()))));
@@ -188,6 +189,9 @@ public class NewPublicKeyPage extends WizardPage {
 			}
 		});
 
+        //Spacer 
+        new Label(composite, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+        
         // Separator
         new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
                 false, 3, 1));
@@ -220,7 +224,7 @@ public class NewPublicKeyPage extends WizardPage {
      * 
      * @param generator a value near a generator for the prime
      * @param prime a prime number
-     * @return a genarator to the given prime
+     * @return a generator to the given prime
      */
 	protected BigInteger getRandomGenerator(String generator, String prime) {
 		BigInteger p = new BigInteger(prime);
@@ -229,24 +233,6 @@ public class NewPublicKeyPage extends WizardPage {
 			g = g.add(BigInteger.ONE);
 		}
 		return g;
-	}
-
-	/**
-     * Gets a random Prime from 1 to 19997
-     * @return a prime from Lib.PRIMES
-     */
-	protected int getRandomPrime() {
-		int size = Lib.PRIMES.size();
-		int item = new Random().nextInt(size);
-		int i = 0;
-		for (int obj : Lib.PRIMES) {
-			if (i == item)
-				return obj;
-			i++;
-		}
-		// in case something went wrong return 307. 
-		// Is a prime over 256 so everything should work.
-		return 307;
 	}
 
 	/**
