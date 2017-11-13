@@ -31,7 +31,7 @@ public class SavePublicKeyPage extends SaveWizardPage {
     private static final int MARGIN = 50;
 
     /** minimum height for a textfield so it diesn't cut the text. */
-    private static final int TEXTFIELD_MIN_HEIGHT = 15;
+//    private static final int TEXTFIELD_MIN_HEIGHT = 15;
 
     /** unique pagename to get this page from inside a wizard. */
     private static final String PAGENAME = "Save Public Key Page"; //$NON-NLS-1$
@@ -68,7 +68,7 @@ public class SavePublicKeyPage extends SaveWizardPage {
         composite.setLayout(gl);
         final GridData gd = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
         // needed so textfields don't cut text
-        gd.heightHint = TEXTFIELD_MIN_HEIGHT;
+//        gd.heightHint = TEXTFIELD_MIN_HEIGHT;
         final GridData gd2 = new GridData(SWT.FILL, SWT.CENTER, false, false, ncol, 1);
         final Label own = new Label(composite, SWT.NONE);
         own.setText(Messages.SavePublicKeyPage_enter_name);
