@@ -327,7 +327,7 @@ public class ElGamalComposite extends Composite {
         this.textEnter.setEnabled(false);
         this.textEnter.setText(Messages.ElGamalComposite_enter_text);
         GridData gd_textEnter = new GridData(SWT.FILL, SWT.FILL, false, false);
-        gd_textEnter.verticalIndent = 50;
+        gd_textEnter.verticalIndent = 10;
         gd_textEnter.heightHint = 60;
         this.textEnter.setLayoutData(gd_textEnter);
         this.textEnter.addSelectionListener(new SelectionAdapter() {
@@ -381,7 +381,7 @@ public class ElGamalComposite extends Composite {
         this.runCalc.setText(Messages.ElGamalComposite_calculate);
         this.runCalc.setToolTipText(Messages.ElGamalComposite_calculate_popup);
         GridData gd_runCalc = new GridData(SWT.FILL, SWT.FILL, false, false);
-        gd_runCalc.verticalIndent = 50;
+        gd_runCalc.verticalIndent = 90;
         gd_runCalc.heightHint = 60;
         this.runCalc.setLayoutData(gd_runCalc);
         this.runCalc.addSelectionListener(new SelectionAdapter() {
@@ -512,24 +512,24 @@ public class ElGamalComposite extends Composite {
      */
     private void createCalcGroup(final Composite parent) {
         groupCalculations = new Group(parent, SWT.NONE);
-        final int numColumns = 3;
-        groupCalculations.setLayout(new GridLayout(numColumns, false));
+        groupCalculations.setLayout(new GridLayout(3, false));
         groupCalculations.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         groupCalculations.setText(Messages.ElGamalComposite_calculations);
 
+        
         this.stepButton = new Button(groupCalculations, SWT.PUSH);
         this.stepButton.setText(Messages.ElGamalComposite_start);
         this.stepButton.setEnabled(false);
         this.stepButton.setToolTipText(Messages.ElGamalComposite_start_calc);
-        this.stepButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
+        this.stepButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
         this.stepButton.addSelectionListener(this.startSelectionListener);
 
         this.stepLabel = new Label(groupCalculations, SWT.LEAD | SWT.BORDER);
-        this.stepLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+        this.stepLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
         // set up a composite to draw final the fast exp shit on
         this.fastExpTable = new Composite(groupCalculations, SWT.NONE);
-        GridData gd_fastExpTable = new GridData(SWT.FILL, SWT.CENTER, true, true, numColumns, 1);
+        GridData gd_fastExpTable = new GridData(SWT.FILL, SWT.CENTER, true, true, 3, 1);
         gd_fastExpTable.minimumHeight = 100;
         this.fastExpTable.setLayoutData(gd_fastExpTable);
         this.fastExpTable.setBackground(ColorService.GREEN);
@@ -538,7 +538,7 @@ public class ElGamalComposite extends Composite {
         final Label l = new Label(groupCalculations, SWT.NONE);
         l.setText(Messages.ElGamalComposite_stepresult);
         this.stepResult = new Text(groupCalculations, SWT.BORDER | SWT.READ_ONLY);
-        this.stepResult.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+        this.stepResult.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
     }
 
     /**
