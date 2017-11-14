@@ -3,12 +3,6 @@
  */
 package org.jcryptool.visual.elGamal.ui;
 
-//import static org.jcryptool.visual.library.Constants.BIGBUTTONHEIGHT;
-//import static org.jcryptool.visual.library.Constants.BIGBUTTONVERTICALSPACE;
-//import static org.jcryptool.visual.library.Constants.BIGBUTTONWIDTH;
-//import static org.jcryptool.visual.library.Constants.HORIZONTAL_SPACING;
-//import static org.jcryptool.visual.library.Constants.MARGIN_WIDTH;
-
 import java.math.BigInteger;
 import java.util.HashMap;
 
@@ -22,29 +16,24 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.TextLayout;
 import org.eclipse.swt.graphics.TextStyle;
-//import org.eclipse.swt.layout.FormAttachment;
-//import org.eclipse.swt.layout.FormData;
-//import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-//import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -142,6 +131,18 @@ public class ElGamalComposite extends Composite {
 
     /** label to display the current step count */
     private Label stepLabel;
+    
+    /** Group for the key arguments */
+    private Group groupKey;
+    
+    /** Group for the Text */
+    private Group groupText;
+    
+    /** Group for the calculations */
+    private Group groupCalculations;
+    
+    /** Group for the results */
+    private Group groupResult;
 
     /** listener for stepping through the calculation */
     private final SelectionAdapter stepSelectionListener = new SelectionAdapter() {
@@ -252,15 +253,13 @@ public class ElGamalComposite extends Composite {
         final Group groupAlgorithm = new Group(this, SWT.NONE);
         groupAlgorithm.setText(Messages.ElGamalComposite_algorithm);
         final GridLayout gl = new GridLayout(2, false);
-//        gl.marginWidth = MARGIN_WIDTH;
-//        gl.horizontalSpacing = HORIZONTAL_SPACING;
         groupAlgorithm.setLayout(gl);
         groupAlgorithm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         this.createButtonArea(groupAlgorithm);
         this.createAlgoArea(groupAlgorithm);
     }
 
-    /**
+	/**
      * called to set the values of the key selection to their fields.
      */
     private void keySelected() {
@@ -288,9 +287,9 @@ public class ElGamalComposite extends Composite {
     private void createButtonArea(final Composite parent) {
         // set up the canvas for the Buttons
     	final Composite compositeButtons = new Composite(parent, SWT.NONE);
-        compositeButtons.setBackground(new Color(Display.getCurrent(), 50, 50, 50));
         compositeButtons.setLayout(new GridLayout());
         GridData gd_btnComposite = new GridData(SWT.FILL, SWT.FILL, false, true);
+        gd_btnComposite.verticalIndent = 10;
         gd_btnComposite.horizontalIndent = 80;
         compositeButtons.setLayoutData(gd_btnComposite);
 
@@ -316,14 +315,9 @@ public class ElGamalComposite extends Composite {
 				WizardDialog keySelDialog = new WizardDialog(ElGamalComposite.this.getShell(), new KeySelectionWizard(
 						ElGamalComposite.this.data.getAction(), ElGamalComposite.this.data, false));
 				keySelDialog.setHelpAvailable(false);
-				// if (new WizardDialog(ElGamalComposite.this.getShell(), new
-				// KeySelectionWizard(
-				// ElGamalComposite.this.data.getAction(), ElGamalComposite.this.data,
-				// false)).open() == Window.OK) {
 				if (keySelDialog.open() == Window.OK) {
 					ElGamalComposite.this.keySelected();
 				}
-				// }
             }
         });
 
@@ -353,11 +347,6 @@ public class ElGamalComposite extends Composite {
 				if (textEnterDialog.open() == Window.OK) {
 					ElGamalComposite.this.textEntered();
 				}
-				// if (new WizardDialog(ElGamalComposite.this.getShell(), new
-				// TextEntryWizard(ElGamalComposite.this.data
-				// .getAction(), ElGamalComposite.this.data)).open() == Window.OK) {
-				// ElGamalComposite.this.textEntered();
-				// }
 			}
 
         });
@@ -379,9 +368,6 @@ public class ElGamalComposite extends Composite {
             	WizardDialog uniqueKeyButtonDialog = new WizardDialog(ElGamalComposite.this.getShell(), 
             			new UniqueKeyWizard(ElGamalComposite.this.data));
             	uniqueKeyButtonDialog.setHelpAvailable(false);
-            	
-//                if (new WizardDialog(ElGamalComposite.this.getShell(), new UniqueKeyWizard(ElGamalComposite.this.data))
-//                        .open() == Window.OK) {
             	if (uniqueKeyButtonDialog.open() == Window.OK) {
                     ElGamalComposite.this.bEntered();
                 }
@@ -450,48 +436,32 @@ public class ElGamalComposite extends Composite {
      * @param parent the parent
      */
     private void createKeyGroup(final Composite parent) {
-//        final GridLayout gl = new GridLayout(9, true);
-        final Group groupKey = new Group(parent, SWT.SHADOW_NONE);
+        groupKey = new Group(parent, SWT.SHADOW_NONE);
         groupKey.setText(Messages.ElGamalComposite_key);
-//        groupKey.setLayout(gl);
         groupKey.setLayout(new GridLayout(9, true));
         groupKey.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         Label label = new Label(groupKey, SWT.NONE);
-//        label.setText("p"); //$NON-NLS-1$
         label.setText("p = ");
-//        label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
         label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
         this.pText = new Text(groupKey, SWT.READ_ONLY | SWT.BORDER);
-//        this.pText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         this.pText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         label = new Label(groupKey, SWT.NONE);
-//        label.setText("g"); //$NON-NLS-1$
         label.setText("g = ");
-//        label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
         label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
         this.gText = new Text(groupKey, SWT.READ_ONLY | SWT.BORDER);
-//        this.gText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         this.gText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         label = new Label(groupKey, SWT.NONE);
-//        label.setText("A"); //$NON-NLS-1$
         label.setText("A = ");
-//        label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
         label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
         this.bigAText = new Text(groupKey, SWT.READ_ONLY | SWT.BORDER);
-//        this.bigAText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         this.bigAText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         label = new Label(groupKey, SWT.NONE);
-//        label.setText("a"); //$NON-NLS-1$
         label.setText("a = ");
-//        label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
         label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
         this.aText = new Text(groupKey, SWT.READ_ONLY | SWT.BORDER);
-//        this.aText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         this.aText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         // Spacer
         label = new Label(groupKey, SWT.NONE);
-//        label.setText("    "); //$NON-NLS-1$
-//        label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
         label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
     }
 
@@ -501,7 +471,7 @@ public class ElGamalComposite extends Composite {
      * @param parent the parent
      */
     private void createTextGroup(final Composite parent) {
-        final Group groupText = new Group(parent, SWT.NONE);
+        groupText = new Group(parent, SWT.NONE);
         groupText.setLayout(new GridLayout());
         groupText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         new Label(groupText, SWT.NONE).setText(Messages.ElGamalComposite_text);
@@ -541,10 +511,9 @@ public class ElGamalComposite extends Composite {
      * @param parent the parent
      */
     private void createCalcGroup(final Composite parent) {
-        final Group groupCalculations = new Group(parent, SWT.NONE);
+        groupCalculations = new Group(parent, SWT.NONE);
         final int numColumns = 3;
         groupCalculations.setLayout(new GridLayout(numColumns, false));
-//        groupCalculations.setLayout(new GridLayout(3, false));
         groupCalculations.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         groupCalculations.setText(Messages.ElGamalComposite_calculations);
 
@@ -560,17 +529,16 @@ public class ElGamalComposite extends Composite {
 
         // set up a composite to draw final the fast exp shit on
         this.fastExpTable = new Composite(groupCalculations, SWT.NONE);
-        this.fastExpTable.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, numColumns, 1));
-//        this.fastExpTable.setBackground(ColorService.WHITE);
+        GridData gd_fastExpTable = new GridData(SWT.FILL, SWT.CENTER, true, true, numColumns, 1);
+        gd_fastExpTable.minimumHeight = 100;
+        this.fastExpTable.setLayoutData(gd_fastExpTable);
         this.fastExpTable.setBackground(ColorService.GREEN);
         this.fastExpTable.setVisible(false);
 
         final Label l = new Label(groupCalculations, SWT.NONE);
         l.setText(Messages.ElGamalComposite_stepresult);
         this.stepResult = new Text(groupCalculations, SWT.BORDER | SWT.READ_ONLY);
-//        this.stepResult.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         this.stepResult.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-//        new Label(groupCalculations, SWT.NONE);
     }
 
     /**
@@ -608,12 +576,12 @@ public class ElGamalComposite extends Composite {
         this.subscript.rise = -baseline / 2 + 2;
         this.fastExpTable.setVisible(true);
         // add a paint listener which paints the text everytime it's needed
-        this.fastExpTable.addListener(SWT.Paint, new Listener() {
-
-            public void handleEvent(final Event event) {
-                ElGamalComposite.this.fastExpText.draw(event.gc, 0, 0);
-            }
-        });
+        this.fastExpTable.addPaintListener(new PaintListener() {
+			@Override
+			public void paintControl(PaintEvent e) {
+				ElGamalComposite.this.fastExpText.draw(e.gc, 0, 0);
+			}
+		});
     }
 
     /**
@@ -867,7 +835,7 @@ public class ElGamalComposite extends Composite {
      * @param parent the parent
      */
     private void createResultGroup(final Composite parent) {
-        final Group groupResult = new Group(parent, SWT.NONE);
+        groupResult = new Group(parent, SWT.NONE);
         groupResult.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         groupResult.setLayout(new GridLayout(3, false));
         groupResult.setText(Messages.ElGamalComposite_result);
@@ -933,10 +901,15 @@ public class ElGamalComposite extends Composite {
         keyButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
         keyButton.addSelectionListener(new SelectionAdapter() {
 
-            @Override
-            public void widgetSelected(final SelectionEvent e) {
-                new WizardDialog(new Shell(Display.getDefault()), new KeySelectionWizard(null, null, true)).open();
-            }
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				// new WizardDialog(new Shell(Display.getDefault()), new
+				// KeySelectionWizard(null, null, true)).open();
+				WizardDialog keyButtonDialog = new WizardDialog(new Shell(Display.getDefault()),
+						new KeySelectionWizard(null, null, true));
+				keyButtonDialog.setHelpAvailable(false);
+				keyButtonDialog.open();
+			}
         });
 
         // initialize copy data selector
@@ -1043,6 +1016,7 @@ public class ElGamalComposite extends Composite {
         this.stepButton.setText(Messages.ElGamalComposite_start);
         this.stepButton.setToolTipText(Messages.ElGamalComposite_start_calc);
         this.stepButton.pack();
+        this.stepLabel.setText("");
         this.resultText.setText(""); //$NON-NLS-1$
         this.copyButton.setEnabled(false);
         this.verifiedText.setText(""); //$NON-NLS-1$
