@@ -275,7 +275,7 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 	}
 
 	/**
-	 * Creates the info header
+	 * Creates the info group
 	 */
 	private void createGroupInfo() {
 		Group infoGroup = new Group(groupSettings, SWT.NONE);
