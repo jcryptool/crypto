@@ -129,9 +129,15 @@ public class NewPublicKeyPage extends WizardPage {
 			}
 		});
 
+        Label separator1 = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+        GridData gd_separator1 = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
+        gd_separator1.verticalIndent = 10;
+        separator1.setLayoutData(gd_separator1);
         label = new Label(composite, SWT.NONE);
         label.setText(Messages.NewPublicKeyPage_select_g);
-        label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+        GridData gd_label = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
+        gd_label.verticalIndent = 10;
+        label.setLayoutData(gd_label);
         new Label(composite, SWT.NONE).setText("g = "); //$NON-NLS-1$
         gtext = new Text(composite, SWT.BORDER);
         gtext.addVerifyListener(VL);
@@ -159,9 +165,16 @@ public class NewPublicKeyPage extends WizardPage {
 			}
 		});
 
+        Label separator2 = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+        GridData gd_separator2 = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
+        gd_separator2.verticalIndent = 20;
+        separator2.setLayoutData(gd_separator2);
         label = new Label(composite, SWT.NONE);
         label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
         label.setText(Messages.NewPublicKeyPage_select_A);
+        GridData gd_label2 = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
+        gd_label2.verticalIndent = 10;
+        label.setLayoutData(gd_label2);
         new Label(composite, SWT.NONE).setText("A = "); //$NON-NLS-1$
         atext = new Text(composite, SWT.BORDER);
         atext.addVerifyListener(VL);
@@ -188,13 +201,15 @@ public class NewPublicKeyPage extends WizardPage {
 				widgetSelected(e);
 			}
 		});
-
-        //Spacer 
-        new Label(composite, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
         
+        //Spacer
+        new Label(composite, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+
         // Separator
-        new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-                false, 3, 1));
+        Label separator3 = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+        GridData gd_separator3 = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
+        gd_separator3.verticalIndent = 10;
+        separator3.setLayoutData(gd_separator3);
 
         // should this key be saved?
         saveButton = new Button(composite, SWT.CHECK);
