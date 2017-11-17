@@ -16,6 +16,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
@@ -58,10 +60,9 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 
 	private Composite content;
 	private Button deselectAllButton;
-	private Group groupCurve;
 	private Group groupParameter;
 	private Group groupReconstruction;
-	private Group groupSettings;
+	private Group groupSecretSharing;
 	private Group groupShares;
 	private Group groupModus;
 	private BigInteger modul;
@@ -80,7 +81,7 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 	private Label secretLabel;
 	private Text secretText;
 	private Button selectAllButton;
-	private Button selectButton;
+	private Button selectCoefficientButton;
 	private ShamirsSecretSharing shamirsSecretSharing;
 	private Vector<BigInteger[]> subpolynomial;
 	private Point[] shares;
@@ -97,6 +98,9 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 	private StyledText stValue;
 	private SecretSharingView view;
 	private VerifyListener numberOnlyVerifyListenerSecret;
+	private Button resetButton;
+	private Composite leftColumn;
+	private Composite rightColumn;
 
 	/**
 	 * Create the composite
@@ -113,19 +117,15 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 		scrolledComposite.setExpandVertical(true);
 
 		content = new Composite(scrolledComposite, SWT.NONE);
-
 		GridLayout gridLayout = new GridLayout(2, false);
 		gridLayout.verticalSpacing = 2;
 		content.setLayout(gridLayout);
 
 		createCompositeIntro();
 		createGroupSecretSharing();
-		createGroupSettings();
 
 		scrolledComposite.setContent(content);
-		scrolledComposite.setMinSize(content.computeSize(862, 585));
-
-		//
+		scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	/**
@@ -155,11 +155,12 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 		modulText.addVerifyListener(numberOnlyVerifyListenerModul);
 		stPolynom.setText("");
 		stPolynom.setEnabled(true);
-		selectButton.setEnabled(true);
+		selectCoefficientButton.setEnabled(true);
 		computeSharesButton.setEnabled(false);
 		reconstructButton.setEnabled(false);
 		selectAllButton.setEnabled(false);
 		deselectAllButton.setEnabled(false);
+		selectCoefficientButton.setEnabled(false);
 
 		Control[] tmpWidgets = compositeShares.getChildren();
 		for (int i = 0; i < tmpWidgets.length; i++) {
@@ -184,7 +185,6 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 		reconstructEquivalenzLabel1.setEnabled(false);
 		reconstructEquivalenzLabel2.setEnabled(false);
 		infoText.setEnabled(false);
-
 	}
 
 	@Override
@@ -259,29 +259,14 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 	}
 
 	/**
-	 * This method initializes groupCurve
-	 */
-	private void createGroupSecretSharing() {
-		GridData gridData8 = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gridData8.heightHint = 483;
-		groupCurve = new Group(content, SWT.NONE);
-		groupCurve.setLayout(new GridLayout());
-		groupCurve.setLayoutData(gridData8);
-		groupCurve.setText(MESSAGE_TITLE);
-
-		createGroupShares();
-
-		createGroupReconstruction();
-	}
-
-	/**
 	 * Creates the info group
 	 */
 	private void createGroupInfo() {
-		Group infoGroup = new Group(groupSettings, SWT.NONE);
+		Group infoGroup = new Group(leftColumn, SWT.NONE);
 		infoGroup.setEnabled(false);
 		infoGroup.setText(MESSAGE_INFO_GROUP);
 		final GridData gd_infoGroup = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd_infoGroup.widthHint = 250;
 		infoGroup.setLayoutData(gd_infoGroup);
 		infoGroup.setLayout(new GridLayout());
 
@@ -295,6 +280,7 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 		stInfo.setEditable(false);
 		stInfo.setEnabled(false);
 		final GridData gd_stInfo = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd_stInfo.heightHint = 70;
 		stInfo.setLayoutData(gd_stInfo);
 	}
 
@@ -302,10 +288,9 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 	 * This method creates the parameter group
 	 */
 	private void createGroupParameter() {
-		groupParameter = new Group(groupSettings, SWT.NONE);
+		groupParameter = new Group(leftColumn, SWT.NONE);
 		groupParameter.setLayout(new GridLayout(6, false));
 		final GridData gd_groupParameter = new GridData(SWT.FILL, SWT.CENTER, false, false);
-//		gd_groupParameter.heightHint = 210;
 		groupParameter.setLayoutData(gd_groupParameter);
 		groupParameter.setText(MESSAGE_PARAMETER);
 
@@ -346,10 +331,19 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 		modulLabel = new Label(groupParameter, SWT.NONE);
         modulLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
 		modulLabel.setText(MESSAGE_MODUL);
+		
+        ModifyListener modulAndSecretEmptyListener = new ModifyListener () {
+			public void modifyText(ModifyEvent e) {
+				if (!secretText.getText().isEmpty() && !modulText.getText().isEmpty()) {
+					selectCoefficientButton.setEnabled(true);
+				} else {
+					selectCoefficientButton.setEnabled(false);
+				}
+			}	
+        };
 
 		modulText = new Text(groupParameter, SWT.BORDER);
         modulText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-
 		numberOnlyVerifyListenerModul = new VerifyListener() {
 			public void verifyText(VerifyEvent e) {
 				/*
@@ -369,6 +363,7 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 			}
 		};
 		modulText.addVerifyListener(numberOnlyVerifyListenerModul);
+        modulText.addModifyListener(modulAndSecretEmptyListener);
 
 		secretLabel = new Label(groupParameter, SWT.NONE);
 		secretLabel.setText(MESSAGE_SECRET);
@@ -376,7 +371,6 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 
 		secretText = new Text(groupParameter, SWT.BORDER);
         secretText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-
 		numberOnlyVerifyListenerSecret = new VerifyListener() {
 			public void verifyText(VerifyEvent e) {
 				/*
@@ -396,13 +390,14 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 			}
 		};
 		secretText.addVerifyListener(numberOnlyVerifyListenerSecret);
+		secretText.addModifyListener(modulAndSecretEmptyListener);
 
 		coefficentLabel = new Label(groupParameter, SWT.NONE);
 		coefficentLabel.setText(MESSAGE_COEFFICIENT);
         coefficentLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
 
-		selectButton = new Button(groupParameter, SWT.NONE);
-		selectButton.addSelectionListener(new SelectionAdapter() {
+		selectCoefficientButton = new Button(groupParameter, SWT.NONE);
+		selectCoefficientButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				// spnrN.setEnabled(false);
@@ -492,15 +487,15 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 								spnrT.setEnabled(false);
 								spnrN.setEnabled(false);
 								spnrT.setEnabled(false);
-								selectButton.setEnabled(false);
+								selectCoefficientButton.setEnabled(false);
 							}
 						}
 					}
 				}
 			}
 		});
-		selectButton.setText(MESSAGE_SELECT);
-		selectButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		selectCoefficientButton.setText(MESSAGE_SELECT);
+		selectCoefficientButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
 		polynomLabel = new Label(groupParameter, SWT.NONE);
 		polynomLabel.setText(MESSAGE_POLYNOM);
@@ -540,142 +535,19 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 		computeSharesButton.setText(MESSAGE_COMPUTE_SHARES);
         computeSharesButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 6, 1));
 
-		reconstructPxLabel.setEnabled(true);
-		reconstructSumLabel.setEnabled(true);
-		reconstructEquivalenzLabel1.setEnabled(true);
+
 	}
 
 	/**
 	 * This method initializes groupReconstruction
 	 */
 	private void createGroupReconstruction() {
-		groupReconstruction = new Group(groupCurve, SWT.NONE);
-		GridLayout gridLayout5 = new GridLayout();
-		gridLayout5.numColumns = 5;
-		GridData gridData11 = new GridData(SWT.FILL, SWT.FILL, true, true);
-
-		groupReconstruction.setLayoutData(gridData11);
-		groupReconstruction.setLayout(gridLayout5);
+		groupReconstruction = new Group(rightColumn, SWT.NONE);
+		groupReconstruction.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		groupReconstruction.setLayout(new GridLayout(5, false));
 		groupReconstruction.setText(MESSAGE_RECONSTRUT);
-
-		scrolledReconstruction = new ScrolledComposite(groupReconstruction, SWT.V_SCROLL | SWT.BORDER);
-		scrolledReconstruction.setExpandHorizontal(true);
-		final GridData gd_scrolledReconstruction = new GridData(SWT.FILL, SWT.FILL, true, true, 5, 1);
-		scrolledReconstruction.setLayoutData(gd_scrolledReconstruction);
-
-		compositeReconstruction = new Composite(scrolledReconstruction, SWT.NONE);
-		compositeReconstruction.setLocation(0, 0);
-		final GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 3;
-		compositeReconstruction.setLayout(gridLayout);
-
-		reconstructPxLabel = new Label(groupReconstruction, SWT.NONE);
-		reconstructPxLabel.setEnabled(false);
-		reconstructPxLabel.setText(MESSAGE_P_);
-
-		reconstructEquivalenzLabel1 = new Label(groupReconstruction, SWT.NONE);
-		reconstructEquivalenzLabel1.setEnabled(false);
-		reconstructEquivalenzLabel1.setText(MESSAGE_EQUAL);
-
-		reconstructSumLabel = new Label(groupReconstruction, SWT.NONE);
-		reconstructSumLabel.setEnabled(false);
-		reconstructSumLabel.setText(uSum + " w" + uI);
-
-		reconstructEquivalenzLabel2 = new Label(groupReconstruction, SWT.NONE);
-		reconstructEquivalenzLabel2.setEnabled(false);
-		reconstructEquivalenzLabel2.setText(MESSAGE_EQUAL);
-
-		stValue = new StyledText(groupReconstruction, SWT.READ_ONLY | SWT.BORDER);
-		stValue.setEnabled(false);
-
-		final GridData gd_stValue = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		stValue.setLayoutData(gd_stValue);
-
-		compositeReconstruction.pack();
-		scrolledReconstruction.setContent(compositeReconstruction);
-	}
-
-	/**
-	 * This method initializes groupSettings
-	 */
-	private void createGroupSettings() {
-		GridData gd_groupSettings = new GridData(SWT.FILL, SWT.FILL, false, false);
-		gd_groupSettings.heightHint = 608;
-		gd_groupSettings.widthHint = 350;
-//		gridData2.heightHint = 413;
-//		gridData2.widthHint = 300;
-		groupSettings = new Group(content, SWT.NONE);
-		groupSettings.setLayout(new GridLayout());
-		groupSettings.setText(MESSAGE_SETTINGS);
-		groupSettings.setLayoutData(gd_groupSettings);
-
-		createGroupModus();
-		createGroupParameter();
-		createGroupInfo();
-	}
-
-	/**
-	 * This method initializes groupShares
-	 */
-	private void createGroupShares() {
-		groupShares = new Group(groupCurve, SWT.NONE);
-		GridLayout gridLayout5 = new GridLayout();
-		gridLayout5.numColumns = 3;
-		GridData gridData11 = new GridData();
-		gridData11.horizontalAlignment = org.eclipse.swt.layout.GridData.FILL;
-		gridData11.grabExcessHorizontalSpace = true;
-		groupShares.setLayoutData(gridData11);
-		groupShares.setLayout(gridLayout5);
-		groupShares.setText(MESSAGE_SHARES);
-
-		scrolledShares = new ScrolledComposite(groupShares, SWT.V_SCROLL | SWT.BORDER);
-		scrolledShares.setExpandHorizontal(true);
-		final GridData gd_scrolledShares = new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1);
-		gd_scrolledShares.widthHint = 492;
-		gd_scrolledShares.heightHint = 213;
-		scrolledShares.setLayoutData(gd_scrolledShares);
-
-		compositeShares = new Composite(scrolledShares, SWT.NONE);
-		compositeShares.setLocation(0, 0);
-		final GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 8;
-		compositeShares.setLayout(gridLayout);
-
-		/*
-		 * BEGIN dummy for design only
-		 */
-		// Label sharesPLabel = new Label(compositeShares, SWT.NONE);
-		// sharesPLabel.setText("Share 1");
-		//
-		// Label sharesEquivalentLabel = new Label(compositeShares, SWT.NONE);
-		// sharesEquivalentLabel.setText("=");
-		//
-		// Label sharesOpenBracetLabel = new Label(compositeShares, SWT.NONE);
-		// sharesOpenBracetLabel.setText("(");
-		//
-		// Label sharesXCoordinateLabel = new Label(compositeShares, SWT.NONE);
-		// sharesXCoordinateLabel.setText(String.valueOf("1234"));
-		//
-		// Label sharesSeperatorLabel = new Label(compositeShares, SWT.NONE);
-		// sharesSeperatorLabel.setText("|");
-		//
-		// sharesYCoordinateText = new Text(compositeShares, SWT.READ_ONLY | SWT.BORDER);
-		// sharesYCoordinateText.setText("5678");
-		// GridData gd_sharesYCoordinateText = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		// sharesYCoordinateText.setLayoutData(gd_sharesYCoordinateText);
-		//
-		// Label sharesCloseBarcetLabel = new Label(compositeShares, SWT.NONE);
-		// sharesCloseBarcetLabel.setText(")");
-		// compositeShares.setSize(517, 210);
-		//
-		// Button sharesUseCheckButton = new Button(compositeShares, SWT.CHECK);
-		/*
-		 * END dummy
-		 */
-
-		compositeShares.pack();
-
-		reconstructButton = new Button(groupShares, SWT.NONE);
+		
+		reconstructButton = new Button(groupReconstruction, SWT.NONE);
 		reconstructButton.setEnabled(false);
 		reconstructButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -741,6 +613,147 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 			}
 		});
 		reconstructButton.setText(MESSAGE_RECONSTRUCT);
+		reconstructButton.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 5, 1));
+
+		scrolledReconstruction = new ScrolledComposite(groupReconstruction, SWT.V_SCROLL | SWT.BORDER);
+		scrolledReconstruction.setExpandHorizontal(true);
+		final GridData gd_scrolledReconstruction = new GridData(SWT.FILL, SWT.FILL, true, true, 5, 1);
+		gd_scrolledReconstruction.heightHint = 109;
+		scrolledReconstruction.setLayoutData(gd_scrolledReconstruction);
+
+		compositeReconstruction = new Composite(scrolledReconstruction, SWT.NONE);
+		compositeReconstruction.setLocation(0, 0);
+		final GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 3;
+		compositeReconstruction.setLayout(gridLayout);
+
+		reconstructPxLabel = new Label(groupReconstruction, SWT.NONE);
+		reconstructPxLabel.setEnabled(false);
+		reconstructPxLabel.setText(MESSAGE_P_);
+
+		reconstructEquivalenzLabel1 = new Label(groupReconstruction, SWT.NONE);
+		reconstructEquivalenzLabel1.setEnabled(false);
+		reconstructEquivalenzLabel1.setText(MESSAGE_EQUAL);
+
+		reconstructSumLabel = new Label(groupReconstruction, SWT.NONE);
+		reconstructSumLabel.setEnabled(false);
+		reconstructSumLabel.setText(uSum + " w" + uI);
+
+		reconstructEquivalenzLabel2 = new Label(groupReconstruction, SWT.NONE);
+		reconstructEquivalenzLabel2.setEnabled(false);
+		reconstructEquivalenzLabel2.setText(MESSAGE_EQUAL);
+
+		stValue = new StyledText(groupReconstruction, SWT.READ_ONLY | SWT.BORDER);
+		stValue.setEnabled(false);
+
+		final GridData gd_stValue = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		stValue.setLayoutData(gd_stValue);
+		
+		reconstructPxLabel.setEnabled(true);
+		reconstructSumLabel.setEnabled(true);
+		reconstructEquivalenzLabel1.setEnabled(true);
+
+		compositeReconstruction.pack();
+		scrolledReconstruction.setContent(compositeReconstruction);
+	}
+
+	/**
+	 * This method initializes groupSettings
+	 */
+	private void createGroupSecretSharing() {
+		GridData gd_groupSecretSharing = new GridData(SWT.FILL, SWT.FILL, true, true);
+		groupSecretSharing = new Group(content, SWT.NONE);
+		groupSecretSharing.setLayout(new GridLayout(2, false));
+		groupSecretSharing.setText(MESSAGE_TITLE);
+		groupSecretSharing.setLayoutData(gd_groupSecretSharing);
+
+		leftColumn = new Composite(groupSecretSharing, SWT.NONE);
+	    GridData gd_leftColumn = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
+	    leftColumn.setLayoutData(gd_leftColumn);
+	    leftColumn.setLayout(new GridLayout());		
+		createGroupModus();
+		createGroupParameter();
+		createGroupInfo();
+        
+        rightColumn = new Composite(groupSecretSharing, SWT.NONE);
+        GridData gd_rightColumn = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+        gd_rightColumn.widthHint = 300;
+        rightColumn.setLayoutData(gd_rightColumn);
+        rightColumn.setLayout(new GridLayout());
+		createGroupShares();
+		createGroupReconstruction();
+		
+        resetButton = new Button(groupSecretSharing, SWT.NONE);
+        resetButton.addSelectionListener(new SelectionAdapter() {
+        	@Override
+        	public void widgetSelected(final SelectionEvent e) {
+        		adjustButtons();
+        		
+        		coefficients = null;
+        		shamirsSecretSharing = null;
+        		shares = null;
+        		result = null;
+        		sharesUseCheckButtonSet = null;
+        		subpolynomial = null;
+        	}
+        });
+        resetButton.setText(MESSAGE_RESET);
+        resetButton.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 2, 1));
+	}
+
+	/**
+	 * This method initializes groupShares
+	 */
+	private void createGroupShares() {
+		groupShares = new Group(rightColumn, SWT.NONE);
+		groupShares.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		groupShares.setLayout(new GridLayout(3, false));
+		groupShares.setText(MESSAGE_SHARES);
+
+		scrolledShares = new ScrolledComposite(groupShares, SWT.V_SCROLL | SWT.BORDER);
+		scrolledShares.setExpandHorizontal(true);
+		final GridData gd_scrolledShares = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
+		gd_scrolledShares.widthHint = 300;
+		gd_scrolledShares.heightHint = 109;
+		scrolledShares.setLayoutData(gd_scrolledShares);
+
+		compositeShares = new Composite(scrolledShares, SWT.NONE);
+		compositeShares.setLocation(0, 0);
+		final GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 8;
+		compositeShares.setLayout(gridLayout);
+
+		/*
+		 * BEGIN dummy for design only
+		 */
+		// Label sharesPLabel = new Label(compositeShares, SWT.NONE);
+		// sharesPLabel.setText("Share 1");
+		//
+		// Label sharesEquivalentLabel = new Label(compositeShares, SWT.NONE);
+		// sharesEquivalentLabel.setText("=");
+		//
+		// Label sharesOpenBracetLabel = new Label(compositeShares, SWT.NONE);
+		// sharesOpenBracetLabel.setText("(");
+		//
+		// Label sharesXCoordinateLabel = new Label(compositeShares, SWT.NONE);
+		// sharesXCoordinateLabel.setText(String.valueOf("1234"));
+		//
+		// Label sharesSeperatorLabel = new Label(compositeShares, SWT.NONE);
+		// sharesSeperatorLabel.setText("|");
+		//
+		// sharesYCoordinateText = new Text(compositeShares, SWT.READ_ONLY | SWT.BORDER);
+		// sharesYCoordinateText.setText("5678");
+		// GridData gd_sharesYCoordinateText = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		// sharesYCoordinateText.setLayoutData(gd_sharesYCoordinateText);
+		//
+		// Label sharesCloseBarcetLabel = new Label(compositeShares, SWT.NONE);
+		// sharesCloseBarcetLabel.setText(")");
+		// compositeShares.setSize(517, 210);
+		//
+		// Button sharesUseCheckButton = new Button(compositeShares, SWT.CHECK);
+		/*
+		 * END dummy
+		 */
 
 		selectAllButton = new Button(groupShares, SWT.NONE);
 		selectAllButton.setEnabled(false);
@@ -768,10 +781,12 @@ public class ShamirsCompositeNumerical extends Composite implements Constants {
 		deselectAllButton.setEnabled(false);
 		deselectAllButton.setText(MESSAGE_DESELECT_ALL);
 		scrolledShares.setContent(compositeShares);
+		
+		compositeShares.pack();
 	}
 
 	private void createGroupModus() {
-        groupModus = new Group(groupSettings, SWT.NONE);
+        groupModus = new Group(leftColumn, SWT.NONE);
         groupModus.setText(MESSAGE_MODUS);
         groupModus.setLayout(new GridLayout(2, true));
         groupModus.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));

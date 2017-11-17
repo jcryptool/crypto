@@ -9,7 +9,6 @@
 // -----END DISCLAIMER-----
 package org.jcryptool.visual.secretsharing.views;
 
-import java.awt.Color;
 import java.math.BigInteger;
 import java.util.Vector;
 
@@ -17,6 +16,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -41,7 +42,6 @@ import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.visual.secretsharing.algorithm.Point;
 import org.jcryptool.visual.secretsharing.algorithm.ShamirsSecretSharing;
-import org.jcryptool.visual.secretsharing.handler.RestartHandler;
 
 /**
  * @author Oryal Inel
@@ -87,7 +87,7 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
 
     private Group groupCurve = null;
 
-    private Group groupSettings = null;
+    private Group groupSecretSharing = null;
 
     private Group groupModus = null;
     private Group groupParameter = null;
@@ -135,6 +135,8 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
 	private Composite rightColumn;
 	private Text infoText;
 	private Composite sharePointInfo;
+	
+	private String polynomialString = "";
 
     /**
      * Create the composite
@@ -158,11 +160,10 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
         content.setLayout(gridLayout);
 
         createCompositeIntro();
-        createGroupSettings();
+        createGroupSecretSharing();
         createGroupCurve();
 
         scrolledComposite.setContent(content);
-//        scrolledComposite.setMinSize(content.computeSize(862, 658));
         scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
     }
 
@@ -291,7 +292,8 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
 
         canvasCurve.addPaintListener(new PaintListener() {
             public void paintControl(PaintEvent e) {
-                if (!selectCoefficientButton.isEnabled()) {
+//                if (!selectCoefficientButton.isEnabled()) {
+            	if (!polynomialString.isEmpty()) {
                     drawPolynomial(e);
                 }
             }
@@ -503,21 +505,16 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
     }
 
     /**
-     * Creates the settings group
+     * Creates the settings group (Title: Shamir's Secret Sharing)
      */
-    private void createGroupSettings() {
-        groupSettings = new Group(content, SWT.NONE);
-        groupSettings.setLayout(new GridLayout(10, false));
-//        groupSettings.setText(MESSAGE_SETTINGS);
-        groupSettings.setText(MESSAGE_TITLE);
-        GridData gd_groupSettings = new GridData(SWT.FILL, SWT.FILL, false, true);
-//        gd_groupSettings.heightHint = 508;
-//        gd_groupSettings.widthHint = 300;
-//        gd_groupSettings.heightHint = 708;
-//        gd_groupSettings.widthHint = 350;
-        groupSettings.setLayoutData(gd_groupSettings);
+    private void createGroupSecretSharing() {
+        groupSecretSharing = new Group(content, SWT.NONE);
+        groupSecretSharing.setLayout(new GridLayout(10, false));
+        groupSecretSharing.setText(MESSAGE_TITLE);
+        GridData gd_groupSecretSharing = new GridData(SWT.FILL, SWT.FILL, false, true);
+        groupSecretSharing.setLayoutData(gd_groupSecretSharing);
 
-        leftColumn = new Composite(groupSettings, SWT.NONE);
+        leftColumn = new Composite(groupSecretSharing, SWT.NONE);
         GridData gd_leftColumn = new GridData(SWT.FILL, SWT.FILL, true, true, 5, 1);
         leftColumn.setLayoutData(gd_leftColumn);
         leftColumn.setLayout(new GridLayout());
@@ -525,7 +522,7 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
         createGroupParameter();
         createGroupInfo();
         
-        rightColumn = new Composite(groupSettings, SWT.NONE);
+        rightColumn = new Composite(groupSecretSharing, SWT.NONE);
         GridData gd_rightColumn = new GridData(SWT.FILL, SWT.FILL, true, true, 5, 1);
         gd_rightColumn.widthHint = 300;
         rightColumn.setLayoutData(gd_rightColumn);
@@ -533,7 +530,7 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
         createGroupShares();
         createGroupReconstruction();
         
-        resetButton = new Button(groupSettings, SWT.NONE);
+        resetButton = new Button(groupSecretSharing, SWT.NONE);
         resetButton.addSelectionListener(new SelectionAdapter() {
         	@Override
         	public void widgetSelected(final SelectionEvent e) {
@@ -554,12 +551,12 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
         resetButton.setText(MESSAGE_RESET);
         resetButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
         
-        reconstructPxLabel = new Label(groupSettings, SWT.NONE);
+        reconstructPxLabel = new Label(groupSecretSharing, SWT.NONE);
         reconstructPxLabel.setEnabled(false);
         reconstructPxLabel.setText(MESSAGE_RECONSTRUCTION);
         reconstructPxLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
-        stValue = new StyledText(groupSettings, SWT.READ_ONLY | SWT.BORDER);
+        stValue = new StyledText(groupSecretSharing, SWT.READ_ONLY | SWT.BORDER);
         stValue.setEnabled(false);
         final GridData gd_stValue = new GridData(SWT.FILL, SWT.CENTER, true, false, 8, 1);
         stValue.setLayoutData(gd_stValue);
@@ -644,10 +641,19 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
         modulLabel = new Label(groupParameter, SWT.NONE);
         modulLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
         modulLabel.setText(MESSAGE_MODUL);
+        
+        ModifyListener modulAndSecretEmptyListener = new ModifyListener () {
+			public void modifyText(ModifyEvent e) {
+				if (!secretText.getText().isEmpty() && !modulText.getText().isEmpty()) {
+					selectCoefficientButton.setEnabled(true);
+				} else {
+					selectCoefficientButton.setEnabled(false);
+				}
+			}	
+        };
 
         modulText = new Text(groupParameter, SWT.BORDER);
         modulText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-
         numberOnlyVerifyListenerModul = new VerifyListener() {
             public void verifyText(VerifyEvent e) {
                 /*
@@ -667,6 +673,7 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
             }
         };
         modulText.addVerifyListener(numberOnlyVerifyListenerModul);
+        modulText.addModifyListener(modulAndSecretEmptyListener);
 
         secretLabel = new Label(groupParameter, SWT.NONE);
         secretLabel.setText(MESSAGE_SECRET);
@@ -674,7 +681,6 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
 
         secretText = new Text(groupParameter, SWT.BORDER);
         secretText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-
         numberOnlyVerifyListenerSecret = new VerifyListener() {
             public void verifyText(VerifyEvent e) {
                 /*
@@ -694,6 +700,7 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
             }
         };
         secretText.addVerifyListener(numberOnlyVerifyListenerSecret);
+        secretText.addModifyListener(modulAndSecretEmptyListener);
 
         coefficentLabel = new Label(groupParameter, SWT.NONE);
         coefficentLabel.setText(MESSAGE_COEFFICIENT);
@@ -757,7 +764,6 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
                          * if the precondition is correct and the input is not empty than select the coefficients
                          */
                         if (statusPrime == 0 && statusSecret == 0) {
-                            String polynomialString = "";
                             CoefficientDialog cdialog = new CoefficientDialog(getDisplay().getActiveShell(), spnrT
                                     .getSelection(), secret, coefficients, modul);
                             int statusCoefficient = cdialog.open();
@@ -795,6 +801,7 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
         });
         selectCoefficientButton.setText(MESSAGE_SELECT);
         selectCoefficientButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+        selectCoefficientButton.setEnabled(false);
 
         polynomLabel = new Label(groupParameter, SWT.NONE);
         polynomLabel.setText(MESSAGE_POLYNOM);
@@ -946,12 +953,8 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
      */
     private void createGroupReconstruction() {
         groupReconstruction = new Group(rightColumn, SWT.NONE);
-        GridLayout gridLayout5 = new GridLayout();
-        GridData gd_groupReconstruction = new GridData(SWT.FILL, SWT.FILL, true, true);
-//        gd_groupReconstruction.heightHint = 97;
-
-        groupReconstruction.setLayoutData(gd_groupReconstruction);
-        groupReconstruction.setLayout(gridLayout5);
+        groupReconstruction.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        groupReconstruction.setLayout(new GridLayout());
         groupReconstruction.setText(MESSAGE_RECONSTRUT);
         
         reconstructButton = new Button(groupReconstruction, SWT.NONE);
@@ -1272,12 +1275,14 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
         modulText.setEnabled(true);
         modulText.addVerifyListener(numberOnlyVerifyListenerModul);
         stPolynom.setText("");
+        polynomialString = "";
         stPolynom.setEnabled(true);
         selectCoefficientButton.setEnabled(true);
         computeSharesButton.setEnabled(false);
         reconstructButton.setEnabled(false);
         selectAllButton.setEnabled(false);
         deselectAllButton.setEnabled(false);
+        selectCoefficientButton.setEnabled(false);
 
         Control[] tmpWidgets = compositeShares.getChildren();
         for (int i = 0; i < tmpWidgets.length; i++) {
