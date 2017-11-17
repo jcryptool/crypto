@@ -221,9 +221,7 @@ public class CoefficientDialog extends TitleAreaDialog implements Constants {
 	 */
 	@Override
 	protected Point getInitialSize() {
-//		return new Point(336, 395);
 		return new Point(380, 395);
-//		return size;
 	}
 
 	@Override

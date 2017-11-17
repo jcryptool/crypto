@@ -292,7 +292,6 @@ public class ShamirsCompositeGraphical extends Composite implements Constants {
 
         canvasCurve.addPaintListener(new PaintListener() {
             public void paintControl(PaintEvent e) {
-//                if (!selectCoefficientButton.isEnabled()) {
             	if (!polynomialString.isEmpty()) {
                     drawPolynomial(e);
                 }

@@ -24,7 +24,6 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -107,24 +106,6 @@ public class PrimeDialog extends TitleAreaDialog implements Constants {
                 }
 			}	
 		});
-//        primeText.addVerifyListener(new VerifyListener() {
-//            public void verifyText(VerifyEvent e) {
-//                /*
-//                 * keyCode == 8 is BACKSPACE and keyCode == 48 is ZERO and keyCode == 127 is DEL
-//                 */
-//                if (e.text.matches("[0-9]") || e.keyCode == 8 || e.keyCode == 127) {
-//                    if (primeText.getText().length() == 0 && e.text.compareTo("0") == 0) {
-//                        e.doit = false;
-//                    } else if (primeText.getSelection().x == 0 && e.keyCode == 48) {
-//                        e.doit = false;
-//                    } else {
-//                        e.doit = true;
-//                    }
-//                } else {
-//                    e.doit = false;
-//                }
-//            }
-//        });
 		primeText.addExtendedModifyListener(new ExtendedModifyListener() {
 			public void modifyText(final ExtendedModifyEvent event) {
 				style = new StyleRange();
