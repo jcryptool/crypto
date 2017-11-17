@@ -129,8 +129,8 @@ public class ElGamalComposite extends Composite {
     /** combo to list all pages to inherit data from another operation */
     private Combo inheritCombo;
 
-    /** label to display the current step count */
-    private Label stepLabel;
+    /** text that replaces stepLabel */
+    private Text stepText;
     
     /** Group for the key arguments */
     private Group groupKey;
@@ -149,9 +149,12 @@ public class ElGamalComposite extends Composite {
 
         @Override
         public void widgetSelected(final SelectionEvent e) {
+        	System.out.println("numberIndex bei drücken von weiter: " + ElGamalComposite.this.numberIndex);
             ++ElGamalComposite.this.numberIndex;
+            System.out.println("numberIndex nach ++ElGa...: " + ElGamalComposite.this.numberIndex);
             ElGamalComposite.this.updateTable();
             ElGamalComposite.this.updateLabel();
+            System.out.println("numberIndex vor der if Abfrage in stepSelectionListener: " + ElGamalComposite.this.numberIndex);
             if (ElGamalComposite.this.numberIndex == ElGamalComposite.this.numbers.length - 1) {
                 ElGamalComposite.this.stepButton.setEnabled(false);
                 ElGamalComposite.this.runCalc.setEnabled(false);
@@ -166,16 +169,20 @@ public class ElGamalComposite extends Composite {
 
         @Override
         public void widgetSelected(final SelectionEvent e) {
+            // FIXME this part is done two times
+        	System.out.println("numberIndex bei drücken von start: " + ElGamalComposite.this.numberIndex);
             ElGamalComposite.this.uniqueKeyButton.setEnabled(false);
             ElGamalComposite.this.textEnter.setEnabled(false);
             ElGamalComposite.this.numbers = ElGamalComposite.this.numberText.getText().split(" "); //$NON-NLS-1$
             ElGamalComposite.this.numberIndex = 0;
+            System.out.println("numberindex nach zurücksetzten auf 0: " + ElGamalComposite.this.numberIndex);
             ElGamalComposite.this.stepButton
                     .setEnabled(ElGamalComposite.this.numberIndex != ElGamalComposite.this.numbers.length - 1);
             // startButton.setEnabled(false);
             ElGamalComposite.this.initTable();
             ElGamalComposite.this.updateTable();
             ElGamalComposite.this.updateLabel();
+            System.out.println("numberIndex vor der if Abfrage im startSelectionlistener: " + ElGamalComposite.this.numberIndex);
             if (ElGamalComposite.this.numberIndex == ElGamalComposite.this.numbers.length - 1) {
                 ElGamalComposite.this.runCalc.setEnabled(false);
                 ElGamalComposite.this.runCalc.setBackground(ColorService.GREEN);
@@ -185,6 +192,7 @@ public class ElGamalComposite extends Composite {
             ElGamalComposite.this.stepButton.addSelectionListener(ElGamalComposite.this.stepSelectionListener);
             ElGamalComposite.this.stepButton.setText(Messages.ElGamalComposite_step);
             ElGamalComposite.this.stepButton.pack();
+            System.out.println("Ende des startSelectionListeners erreicht");
         }
 
     };
@@ -193,8 +201,11 @@ public class ElGamalComposite extends Composite {
      * updates the label that shows the current calculated step
      */
 	private void updateLabel() {
-		this.stepLabel.setText(
+//		this.stepLabel.setText(
+//				NLS.bind(Messages.ElGamalComposite_step1, new Object[] { this.numberIndex + 1, this.numbers.length }));
+		this.stepText.setText(
 				NLS.bind(Messages.ElGamalComposite_step1, new Object[] { this.numberIndex + 1, this.numbers.length }));
+
 	}
 
     /**
@@ -524,15 +535,15 @@ public class ElGamalComposite extends Composite {
         this.stepButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
         this.stepButton.addSelectionListener(this.startSelectionListener);
 
-        this.stepLabel = new Label(groupCalculations, SWT.LEAD | SWT.BORDER);
-        this.stepLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+        this.stepText = new Text(groupCalculations, SWT.BORDER);
+        this.stepText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+        this.stepText.setEnabled(false);
 
         // set up a composite to draw final the fast exp shit on
         this.fastExpTable = new Composite(groupCalculations, SWT.NONE);
         GridData gd_fastExpTable = new GridData(SWT.FILL, SWT.CENTER, true, true, 3, 1);
         gd_fastExpTable.minimumHeight = 100;
         this.fastExpTable.setLayoutData(gd_fastExpTable);
-        this.fastExpTable.setBackground(ColorService.GREEN);
         this.fastExpTable.setVisible(false);
 
         final Label l = new Label(groupCalculations, SWT.NONE);
@@ -758,6 +769,7 @@ public class ElGamalComposite extends Composite {
         offset2 = sb.length();
         sb.append(x.toString(Constants.HEXBASE));
         sb.append(" ∙ "); //$NON-NLS-1$
+        System.out.println("UpdateDecrypt(): this.numberIndex: " + this.numberIndex + " ElGamal...this.numberIndex: " + ElGamalComposite.this.numberIndex);
         sb.append(this.numbers[this.numberIndex]);
         sb.append(" mod "); //$NON-NLS-1$
         sb.append(modulus.toString(Constants.HEXBASE));
@@ -776,6 +788,7 @@ public class ElGamalComposite extends Composite {
         // set result
         this.stepResult.setText("m = " + (char) value.intValue()); //$NON-NLS-1$
         this.resultText.setText(this.resultText.getText() + (char) value.intValue());
+        System.out.println(this.resultText.getText());
     }
 
     /**
@@ -807,6 +820,7 @@ public class ElGamalComposite extends Composite {
         offset2 = sb.length();
         sb.append(this.data.getB().toString(Constants.HEXBASE));
         sb.append(" ∙ "); //$NON-NLS-1$
+        System.out.println("UpdateEncrypt(): this.numberIndex: " + this.numberIndex + " ElGamal...this.numberIndex: " + ElGamalComposite.this.numberIndex);
         sb.append(this.numbers[this.numberIndex]);
         sb.append(" mod "); //$NON-NLS-1$
         sb.append(modulus);
@@ -826,7 +840,11 @@ public class ElGamalComposite extends Composite {
                 + this.data.getB().toString(Constants.HEXBASE).length() - 1);
         // set to stepresult
         this.stepResult.setText("c = " + value.toString(Constants.HEXBASE)); //$NON-NLS-1$
-        this.resultText.setText(this.resultText.getText() + " " + value.toString(Constants.HEXBASE)); //$NON-NLS-1$
+        if (this.resultText.getText().equals("")) {
+        	this.resultText.setText(value.toString(Constants.HEXBASE));
+        } else {
+        	this.resultText.setText(this.resultText.getText() + " " + value.toString(Constants.HEXBASE)); //$NON-NLS-1$
+        }
     }
 
     /**
@@ -1016,7 +1034,7 @@ public class ElGamalComposite extends Composite {
         this.stepButton.setText(Messages.ElGamalComposite_start);
         this.stepButton.setToolTipText(Messages.ElGamalComposite_start_calc);
         this.stepButton.pack();
-        this.stepLabel.setText("");
+        this.stepText.setText("");
         this.resultText.setText(""); //$NON-NLS-1$
         this.copyButton.setEnabled(false);
         this.verifiedText.setText(""); //$NON-NLS-1$
@@ -1053,7 +1071,6 @@ public class ElGamalComposite extends Composite {
     /**
      * finished up after the operation by setting the plaintext ciphertext or signature to the data object
      */
-    @SuppressWarnings("incomplete-switch")
     private void finish() {
         switch (this.data.getAction()) {
             case EncryptAction:
@@ -1065,6 +1082,8 @@ public class ElGamalComposite extends Composite {
             case SignAction:
                 this.data.setSignature(this.resultText.getText());
                 break;
+		default:
+			break;
         }
     }
 
