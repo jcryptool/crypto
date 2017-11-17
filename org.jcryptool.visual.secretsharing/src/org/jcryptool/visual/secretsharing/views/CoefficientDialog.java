@@ -87,7 +87,6 @@ public class CoefficientDialog extends TitleAreaDialog implements Constants {
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		coefficientsGroup.setLayout(gridLayout);
-		coefficientsGroup.setSize(329, 224);
 		scrolledComposite.setContent(coefficientsGroup);
 
 		generateCoefficientsButton = new Button(area, SWT.NONE);
