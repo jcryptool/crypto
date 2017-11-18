@@ -149,12 +149,12 @@ public class ElGamalComposite extends Composite {
 
         @Override
         public void widgetSelected(final SelectionEvent e) {
-        	System.out.println("numberIndex bei drücken von weiter: " + ElGamalComposite.this.numberIndex);
+        	System.out.println("numberIndex bei drücken von weiter: " + ElGamalComposite.this.numberIndex); //$NON-NLS-1$
             ++ElGamalComposite.this.numberIndex;
-            System.out.println("numberIndex nach ++ElGa...: " + ElGamalComposite.this.numberIndex);
+            System.out.println("numberIndex nach ++ElGa...: " + ElGamalComposite.this.numberIndex); //$NON-NLS-1$
             ElGamalComposite.this.updateTable();
             ElGamalComposite.this.updateLabel();
-            System.out.println("numberIndex vor der if Abfrage in stepSelectionListener: " + ElGamalComposite.this.numberIndex);
+            System.out.println("numberIndex vor der if Abfrage in stepSelectionListener: " + ElGamalComposite.this.numberIndex); //$NON-NLS-1$
             if (ElGamalComposite.this.numberIndex == ElGamalComposite.this.numbers.length - 1) {
                 ElGamalComposite.this.stepButton.setEnabled(false);
                 ElGamalComposite.this.runCalc.setEnabled(false);
@@ -170,19 +170,19 @@ public class ElGamalComposite extends Composite {
         @Override
         public void widgetSelected(final SelectionEvent e) {
             // FIXME this part is done two times
-        	System.out.println("numberIndex bei drücken von start: " + ElGamalComposite.this.numberIndex);
+        	System.out.println("numberIndex bei drücken von start: " + ElGamalComposite.this.numberIndex); //$NON-NLS-1$
             ElGamalComposite.this.uniqueKeyButton.setEnabled(false);
             ElGamalComposite.this.textEnter.setEnabled(false);
             ElGamalComposite.this.numbers = ElGamalComposite.this.numberText.getText().split(" "); //$NON-NLS-1$
             ElGamalComposite.this.numberIndex = 0;
-            System.out.println("numberindex nach zurücksetzten auf 0: " + ElGamalComposite.this.numberIndex);
+            System.out.println("numberindex nach zurücksetzten auf 0: " + ElGamalComposite.this.numberIndex); //$NON-NLS-1$
             ElGamalComposite.this.stepButton
                     .setEnabled(ElGamalComposite.this.numberIndex != ElGamalComposite.this.numbers.length - 1);
             // startButton.setEnabled(false);
             ElGamalComposite.this.initTable();
             ElGamalComposite.this.updateTable();
             ElGamalComposite.this.updateLabel();
-            System.out.println("numberIndex vor der if Abfrage im startSelectionlistener: " + ElGamalComposite.this.numberIndex);
+            System.out.println("numberIndex vor der if Abfrage im startSelectionlistener: " + ElGamalComposite.this.numberIndex); //$NON-NLS-1$
             if (ElGamalComposite.this.numberIndex == ElGamalComposite.this.numbers.length - 1) {
                 ElGamalComposite.this.runCalc.setEnabled(false);
                 ElGamalComposite.this.runCalc.setBackground(ColorService.GREEN);
@@ -192,7 +192,7 @@ public class ElGamalComposite extends Composite {
             ElGamalComposite.this.stepButton.addSelectionListener(ElGamalComposite.this.stepSelectionListener);
             ElGamalComposite.this.stepButton.setText(Messages.ElGamalComposite_step);
             ElGamalComposite.this.stepButton.pack();
-            System.out.println("Ende des startSelectionListeners erreicht");
+            System.out.println("Ende des startSelectionListeners erreicht"); //$NON-NLS-1$
         }
 
     };
@@ -238,24 +238,47 @@ public class ElGamalComposite extends Composite {
         this.createOptionsArea();
     }
 
-    /**
-     * creates the description head of the window to display informations about the Algorithm itself.
-     */
-    private void createHead() {
-        final Composite head = new Composite(this, SWT.NONE);
-        head.setBackground(ColorService.WHITE);
-        head.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-        head.setLayout(new GridLayout());
+	/**
+	 * creates the description head of the window to display informations about the
+	 * Algorithm itself.
+	 */
+	private void createHead() {
+		final Composite head = new Composite(this, SWT.NONE);
+		head.setBackground(ColorService.WHITE);
+		head.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		head.setLayout(new GridLayout());
 
-        final Label label = new Label(head, SWT.NONE);
-        label.setFont(FontService.getHeaderFont());
-        label.setBackground(ColorService.WHITE);
-        label.setText(Messages.ElGamalComposite_title);
+		final Label label = new Label(head, SWT.NONE);
+		label.setFont(FontService.getHeaderFont());
+		label.setBackground(ColorService.WHITE);
+		label.setText(Messages.ElGamalComposite_title);
 
-        final StyledText stDescription = new StyledText(head, SWT.READ_ONLY);
-        stDescription.setText(Messages.ElGamalComposite_description);
-        stDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-    }
+		final StyledText stDescription = new StyledText(head, SWT.READ_ONLY | SWT.MULTI);
+		switch (this.data.getAction()) {
+		case EncryptAction:
+			stDescription.setText(
+					Messages.ElGamalComposite_description_encrypt);
+			break;
+
+		case DecryptAction:
+			stDescription.setText(
+					Messages.ElGamalComposite_description_decrypt);
+			break;
+
+		case SignAction:
+			stDescription.setText(
+					Messages.ElGamalComposite_description_sign);
+			break;
+		case VerifyAction:
+			stDescription.setText(
+					Messages.ElGamalComposite_description_verify);
+		default:
+			break;
+		}
+
+		// Hinweis für die engl Übersetzung: The ElGamal cryptosystem is an asymmetric cryptosystem.
+		stDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+	}
 
     /**
      * creates the main area where everything except head and options is contained.
@@ -452,22 +475,22 @@ public class ElGamalComposite extends Composite {
         groupKey.setLayout(new GridLayout(9, true));
         groupKey.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         Label label = new Label(groupKey, SWT.NONE);
-        label.setText("p = ");
+        label.setText("p = "); //$NON-NLS-1$
         label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
         this.pText = new Text(groupKey, SWT.READ_ONLY | SWT.BORDER);
         this.pText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         label = new Label(groupKey, SWT.NONE);
-        label.setText("g = ");
+        label.setText("g = "); //$NON-NLS-1$
         label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
         this.gText = new Text(groupKey, SWT.READ_ONLY | SWT.BORDER);
         this.gText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         label = new Label(groupKey, SWT.NONE);
-        label.setText("A = ");
+        label.setText("A = "); //$NON-NLS-1$
         label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
         this.bigAText = new Text(groupKey, SWT.READ_ONLY | SWT.BORDER);
         this.bigAText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         label = new Label(groupKey, SWT.NONE);
-        label.setText("a = ");
+        label.setText("a = "); //$NON-NLS-1$
         label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
         this.aText = new Text(groupKey, SWT.READ_ONLY | SWT.BORDER);
         this.aText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -769,7 +792,7 @@ public class ElGamalComposite extends Composite {
         offset2 = sb.length();
         sb.append(x.toString(Constants.HEXBASE));
         sb.append(" ∙ "); //$NON-NLS-1$
-        System.out.println("UpdateDecrypt(): this.numberIndex: " + this.numberIndex + " ElGamal...this.numberIndex: " + ElGamalComposite.this.numberIndex);
+        System.out.println("UpdateDecrypt(): this.numberIndex: " + this.numberIndex + " ElGamal...this.numberIndex: " + ElGamalComposite.this.numberIndex); //$NON-NLS-1$ //$NON-NLS-2$
         sb.append(this.numbers[this.numberIndex]);
         sb.append(" mod "); //$NON-NLS-1$
         sb.append(modulus.toString(Constants.HEXBASE));
@@ -820,7 +843,7 @@ public class ElGamalComposite extends Composite {
         offset2 = sb.length();
         sb.append(this.data.getB().toString(Constants.HEXBASE));
         sb.append(" ∙ "); //$NON-NLS-1$
-        System.out.println("UpdateEncrypt(): this.numberIndex: " + this.numberIndex + " ElGamal...this.numberIndex: " + ElGamalComposite.this.numberIndex);
+        System.out.println("UpdateEncrypt(): this.numberIndex: " + this.numberIndex + " ElGamal...this.numberIndex: " + ElGamalComposite.this.numberIndex); //$NON-NLS-1$ //$NON-NLS-2$
         sb.append(this.numbers[this.numberIndex]);
         sb.append(" mod "); //$NON-NLS-1$
         sb.append(modulus);
@@ -840,7 +863,7 @@ public class ElGamalComposite extends Composite {
                 + this.data.getB().toString(Constants.HEXBASE).length() - 1);
         // set to stepresult
         this.stepResult.setText("c = " + value.toString(Constants.HEXBASE)); //$NON-NLS-1$
-        if (this.resultText.getText().equals("")) {
+        if (this.resultText.getText().equals("")) { //$NON-NLS-1$
         	this.resultText.setText(value.toString(Constants.HEXBASE));
         } else {
         	this.resultText.setText(this.resultText.getText() + " " + value.toString(Constants.HEXBASE)); //$NON-NLS-1$
@@ -1034,7 +1057,7 @@ public class ElGamalComposite extends Composite {
         this.stepButton.setText(Messages.ElGamalComposite_start);
         this.stepButton.setToolTipText(Messages.ElGamalComposite_start_calc);
         this.stepButton.pack();
-        this.stepText.setText("");
+        this.stepText.setText(""); //$NON-NLS-1$
         this.resultText.setText(""); //$NON-NLS-1$
         this.copyButton.setEnabled(false);
         this.verifiedText.setText(""); //$NON-NLS-1$

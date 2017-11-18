@@ -96,6 +96,9 @@ public class NewKeypairPage extends WizardPage {
 
     /** field for entering the public a */
     private Text atext;
+    
+    /** text for the p changed note */
+    private Label pchanged;
 
     /**
      * Constructor, setting description completeness-status and data-object.
@@ -118,7 +121,8 @@ public class NewKeypairPage extends WizardPage {
         final Composite composite = new Composite(parent, SWT.NONE);
         // do stuff like layout et al
         // set layout
-        final int ncol = 4;
+//        final int ncol = 4;
+        final int ncol = 5;
         final GridLayout gl = new GridLayout(ncol, false);
         gl.marginWidth = 50;
         composite.setLayout(gl);
@@ -162,6 +166,7 @@ public class NewKeypairPage extends WizardPage {
                     }
                 } else {
                     setErrorMessage(null);
+                    pchanged.setVisible(false);
                 }
                 if (modulus.compareTo(TWOFIVESIX) <= 0) {
                     setErrorMessage(Messages.NewKeypairPage_error_p_lt_256);
@@ -183,11 +188,17 @@ public class NewKeypairPage extends WizardPage {
                 if (Lib.isPrime(q)) {
                     setErrorMessage(null);
                     pfield.setText(q.multiply(Constants.TWO).add(ONE).toString());
+                    pchanged.setVisible(true);
                 } else {
                     setErrorMessage(Messages.NewKeypairPage_error_q_not_prime);
+                    pchanged.setVisible(false);
                 }
             }
         });
+        
+        pchanged = new Label(composite, SWT.NONE);
+        pchanged.setVisible(false);
+        pchanged.setText(Messages.NewKeypairPage_pChanged);
         // Separator
         new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(gd2);
         // primitive root
