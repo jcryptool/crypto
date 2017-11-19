@@ -103,6 +103,7 @@ public class ECContentFp extends Composite{
 	private Composite content;
 	private Group groupSize;
 	private Button rbtnSmall;
+    private ScrolledComposite scrolledCompositeSettings;
 
 
 	public ECContentFp(Composite parent, int style, ECView view) {
@@ -117,7 +118,7 @@ public class ECContentFp extends Composite{
 		content = new Composite(scrolledComposite, SWT.NONE);
 
 		GridLayout gridLayout = new GridLayout(2, false);
-		gridLayout.verticalSpacing = 2;
+//		gridLayout.verticalSpacing = 2;
 		content.setLayout(gridLayout);
 
 		createCompositeIntro();
@@ -196,17 +197,26 @@ public class ECContentFp extends Composite{
 	 *
 	 */
 	private void createGroupSettings() {
-		groupSettings = new Group(content, SWT.NONE);
-		groupSettings.setText(Messages.getString("ECContentFp.6")); //$NON-NLS-1$
-		groupSettings.setLayout(new GridLayout(1, false));
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2);
-		gridData.widthHint = 300;
-		groupSettings.setLayoutData(gridData);
+    	scrolledCompositeSettings = new ScrolledComposite(content, SWT.V_SCROLL);
+    	scrolledCompositeSettings.setExpandVertical(true);
+    	scrolledCompositeSettings.setExpandHorizontal(true);
+    	scrolledCompositeSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2));
+    	scrolledCompositeSettings.setLayout(new GridLayout());
+    	scrolledCompositeSettings.setAlwaysShowScrollBars(true);
+    	
+    	groupSettings = new Group(scrolledCompositeSettings, SWT.NONE);
+        groupSettings.setText(Messages.getString("ECContentFp.6")); //$NON-NLS-1$
+        groupSettings.setLayout(new GridLayout());
+        groupSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
 		createGroupSize();
 		createGroupCurveType();
 		createGroupCurveAttributes();
 		createGroupCalculations();
 		createGroupSave();
+		
+        scrolledCompositeSettings.setContent(groupSettings);
+        scrolledCompositeSettings.setMinSize(groupSettings.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	/**
@@ -574,7 +584,8 @@ public class ECContentFp extends Composite{
 		label.setBackground(white);
 		label.setText(Messages.getString("ECView.Title")); //$NON-NLS-1$
 
-		stDescription = new StyledText(compositeIntro, SWT.READ_ONLY);
+//		stDescription = new StyledText(compositeIntro, SWT.READ_ONLY);
+		stDescription = new StyledText(compositeIntro, SWT.READ_ONLY | SWT.WRAP);
 		stDescription.setText(Messages.getString("ECView.Description")); //$NON-NLS-1$
 		stDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 	}
