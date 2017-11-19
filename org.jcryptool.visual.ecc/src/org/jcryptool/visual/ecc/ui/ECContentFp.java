@@ -103,7 +103,6 @@ public class ECContentFp extends Composite{
 	private Composite content;
 	private Group groupSize;
 	private Button rbtnSmall;
-    private ScrolledComposite scrolledCompositeSettings;
 
 
 	public ECContentFp(Composite parent, int style, ECView view) {
@@ -118,7 +117,6 @@ public class ECContentFp extends Composite{
 		content = new Composite(scrolledComposite, SWT.NONE);
 
 		GridLayout gridLayout = new GridLayout(2, false);
-//		gridLayout.verticalSpacing = 2;
 		content.setLayout(gridLayout);
 
 		createCompositeIntro();
@@ -126,7 +124,7 @@ public class ECContentFp extends Composite{
 		createGroupSettings();
 
 		scrolledComposite.setContent(content);
-		scrolledComposite.setMinSize(content.computeSize(862, 804));
+		scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		createGroupAttributesFp();
 		createGroupPoints();
@@ -197,26 +195,16 @@ public class ECContentFp extends Composite{
 	 *
 	 */
 	private void createGroupSettings() {
-    	scrolledCompositeSettings = new ScrolledComposite(content, SWT.V_SCROLL);
-    	scrolledCompositeSettings.setExpandVertical(true);
-    	scrolledCompositeSettings.setExpandHorizontal(true);
-    	scrolledCompositeSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2));
-    	scrolledCompositeSettings.setLayout(new GridLayout());
-    	scrolledCompositeSettings.setAlwaysShowScrollBars(true);
-    	
-    	groupSettings = new Group(scrolledCompositeSettings, SWT.NONE);
+		groupSettings = new Group(content, SWT.NONE);
         groupSettings.setText(Messages.getString("ECContentFp.6")); //$NON-NLS-1$
         groupSettings.setLayout(new GridLayout());
-        groupSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        groupSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2));
 		
 		createGroupSize();
 		createGroupCurveType();
 		createGroupCurveAttributes();
 		createGroupCalculations();
 		createGroupSave();
-		
-        scrolledCompositeSettings.setContent(groupSettings);
-        scrolledCompositeSettings.setMinSize(groupSettings.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	/**

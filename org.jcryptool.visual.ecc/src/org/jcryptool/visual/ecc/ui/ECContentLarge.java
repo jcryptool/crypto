@@ -111,7 +111,7 @@ public class ECContentLarge extends Composite {
 	private Button btnSave = null;
 	private Label lblP = null;
 	private Composite content;
-    private ScrolledComposite scrolledCompositeSettings;
+//    private ScrolledComposite scrolledCompositeSettings;
 
 	public ECContentLarge(Composite parent, int style, ECView v) {
 		super(parent, style);
@@ -126,7 +126,6 @@ public class ECContentLarge extends Composite {
 
 
 		GridLayout gridLayout = new GridLayout(2, false);
-		gridLayout.verticalSpacing = 2;
 		content.setLayout(gridLayout);
 
 		createCompositeIntro();
@@ -134,7 +133,7 @@ public class ECContentLarge extends Composite {
 		createGroupSettings();
 
 		scrolledComposite.setContent(content);
-		scrolledComposite.setMinSize(content.computeSize(862, 804));
+		scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		fillCSelection();
 		updateScreen();
@@ -198,17 +197,10 @@ public class ECContentLarge extends Composite {
 	 *
 	 */
 	private void createGroupSettings() {
-    	scrolledCompositeSettings = new ScrolledComposite(content, SWT.V_SCROLL);
-    	scrolledCompositeSettings.setExpandVertical(true);
-    	scrolledCompositeSettings.setExpandHorizontal(true);
-    	scrolledCompositeSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-    	scrolledCompositeSettings.setLayout(new GridLayout());
-    	scrolledCompositeSettings.setAlwaysShowScrollBars(true);
-    	
-    	groupSettings = new Group(scrolledCompositeSettings, SWT.NONE);
+		groupSettings = new Group(content, SWT.NONE);
         groupSettings.setText(Messages.getString("ECView.Settings")); //$NON-NLS-1$
         groupSettings.setLayout(new GridLayout());
-        groupSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        groupSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
         
 		createGroupSize();
 		createGroupType();
@@ -216,9 +208,6 @@ public class ECContentLarge extends Composite {
 		createGroupRadix();
 		createGroupCalculations();
 		createGroupSave();
-		
-        scrolledCompositeSettings.setContent(groupSettings);
-        scrolledCompositeSettings.setMinSize(groupSettings.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	/**
@@ -429,7 +418,7 @@ public class ECContentLarge extends Composite {
 		groupCurve = new Group(content, SWT.NONE);
 		groupCurve.setLayout(new GridLayout());
 		GridData gd_groupCurve = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_groupCurve.minimumWidth = 700;
+		gd_groupCurve.minimumWidth = 600;
 		groupCurve.setLayoutData(gd_groupCurve);
 		createGroupAttributes();
 		groupCurve.setText(Messages.getString("ECView.EllipticCurve")); //$NON-NLS-1$

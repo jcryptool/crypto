@@ -90,7 +90,6 @@ public class ECContentReal extends Composite {
     private Composite content;
     private Group groupSize;
     private Button rbtnSmall;
-    private ScrolledComposite scrolledCompositeSettings;
 
     public ECContentReal(Composite parent, int style, ECView view) {
         super(parent, style);
@@ -112,7 +111,7 @@ public class ECContentReal extends Composite {
         createGroupSettings();
 
         scrolledComposite.setContent(content);
-        scrolledComposite.setMinSize(content.computeSize(862, 664));
+        scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
         createGroupAttributesR();
 
@@ -226,26 +225,16 @@ public class ECContentReal extends Composite {
      *
      */
     private void createGroupSettings() {
-    	scrolledCompositeSettings = new ScrolledComposite(content, SWT.V_SCROLL);
-    	scrolledCompositeSettings.setExpandVertical(true);
-    	scrolledCompositeSettings.setExpandHorizontal(true);
-    	scrolledCompositeSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-    	scrolledCompositeSettings.setLayout(new GridLayout());
-    	scrolledCompositeSettings.setAlwaysShowScrollBars(true);
-    	
-    	groupSettings = new Group(scrolledCompositeSettings, SWT.NONE);
+    	groupSettings = new Group(content, SWT.NONE);
         groupSettings.setText(Messages.getString("ECContentReal.9")); //$NON-NLS-1$
         groupSettings.setLayout(new GridLayout());
-        groupSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        groupSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
         
         createGroupSize();
         createGroupCurveType();
         createGroupCurveAttributes();
         createGroupCalculations();
         createGroupSave();
-        
-        scrolledCompositeSettings.setContent(groupSettings);
-        scrolledCompositeSettings.setMinSize(groupSettings.computeSize(SWT.DEFAULT, SWT.DEFAULT));
     }
 
     /**
