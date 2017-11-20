@@ -154,7 +154,6 @@ public class View extends ViewPart {
         }
         
         scrolledComposite_canvas.setMinSize(canvas.computeSize(20+5*values.get(0)[0], 100+45*values.size()));
-        System.out.println(canvas.getSize().x+" "+canvas.getSize().y);
         Device device = this.getSite().getShell().getDisplay();
         imageBuffer = new ImageBuffer(device, canvas.getSize().x, canvas.getSize().y);
         imageBuffer.paintImage(values);
