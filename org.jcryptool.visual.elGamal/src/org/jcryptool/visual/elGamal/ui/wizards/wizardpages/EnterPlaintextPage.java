@@ -83,9 +83,7 @@ public class EnterPlaintextPage extends TextWizardPage {
         label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
         label.setText(Messages.EnterPlaintextPage_textentry);
         text = new Text(composite, SWT.BORDER | SWT.WRAP);
-        GridData gd_text = new GridData(SWT.FILL, SWT.FILL, true, true);
-        gd_text.minimumHeight = 80;
-        text.setLayoutData(gd_text);
+        text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         text.setTextLimit(TEXTLIMIT);
         text.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {

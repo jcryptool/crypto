@@ -63,9 +63,7 @@ public class ChooseKeytypePage extends WizardPage {
     public final void createControl(final Composite parent) {
         final Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        GridLayout gl_composite = new GridLayout();
-        gl_composite.marginWidth = 50;
-        composite.setLayout(gl_composite);
+        composite.setLayout(new GridLayout(1, false));
 
         keypairButton = new Button(composite, SWT.RADIO);
         keypairButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));

@@ -115,7 +115,7 @@ public class ElGamalData {
                 this.privateAlias = oldData.privateAlias;
                 this.password = oldData.password;
             } else {
-            	this.privateAlias = KeyStoreManager.getInstance().getPrivateForPublic(this.publicAlias);
+                this.privateAlias = KeyStoreManager.getInstance().getPrivateForPublic(this.privateAlias);
                 final InputDialog passDialog = new InputDialog(Display.getCurrent().getActiveShell(),
                         Messages.ElGamalData_inherit_password_text, Messages.ElGamalData_inherit_password_title, "",
                         null);
