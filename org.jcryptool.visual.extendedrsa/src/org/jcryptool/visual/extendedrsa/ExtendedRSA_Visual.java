@@ -24,7 +24,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.jcryptool.core.logging.utils.LogUtil;
@@ -48,8 +47,8 @@ public class ExtendedRSA_Visual extends ViewPart {
     private final String BLANK = Messages.ExtendedRSA_Visual_3;
 
     private ScrolledComposite sc;
+    private ScrolledComposite sc_explain;
     private Composite composite;
-    private GridLayout gl;
     private Composite headComposite;
     private StyledText head_description;
     private Group grp_id_mgmt;
@@ -72,11 +71,8 @@ public class ExtendedRSA_Visual extends ViewPart {
         sc.setContent(composite);
         sc.setExpandHorizontal(true);
         sc.setExpandVertical(true);
-        sc.setMinSize(composite.computeSize(1000, 680));
 
-        gl = new GridLayout(1, false);
-        gl.verticalSpacing = 20;
-        composite.setLayout(gl);
+        composite.setLayout(new GridLayout());
 
         // Begin - Header
         headComposite = new Composite(composite, SWT.NONE);
@@ -88,14 +84,17 @@ public class ExtendedRSA_Visual extends ViewPart {
         label.setFont(FontService.getHeaderFont());
         label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         label.setText(Messages.ExtendedRSA_Visual_4);
-        head_description = new StyledText(headComposite, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP);
-        head_description.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        
+        head_description = new StyledText(headComposite, SWT.READ_ONLY | SWT.WRAP);
+        GridData gd_head_description = new GridData(SWT.FILL, SWT.FILL, true, true);
+        gd_head_description.widthHint = 600;
+        head_description.setLayoutData(gd_head_description);
         head_description.setText(Messages.ExtendedRSA_Visual_5);
         // End - Header
 
         grp_id_mgmt = new Group(composite, SWT.NONE);
         grp_id_mgmt.setText(Messages.ExtendedRSA_Visual_6);
-        grp_id_mgmt.setLayout(new GridLayout(3, true));
+        grp_id_mgmt.setLayout(new GridLayout(3, false));
 
         btn_newID = new Button(grp_id_mgmt, SWT.PUSH);
         btn_manageID = new Button(grp_id_mgmt, SWT.PUSH);
@@ -104,7 +103,10 @@ public class ExtendedRSA_Visual extends ViewPart {
         btn_newID.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                new WizardDialog(getSite().getShell(), new NewIdentityWizard(tabFolder, btn_delID)).open();
+                WizardDialog newIdentityWizard = new WizardDialog(getSite().getShell(), new NewIdentityWizard(tabFolder, btn_delID));
+                newIdentityWizard.setHelpAvailable(false);
+                newIdentityWizard.setPageSize(667, SWT.DEFAULT);
+                newIdentityWizard.open();
                 grp_id_mgmt.update();
             }
         });
@@ -117,7 +119,10 @@ public class ExtendedRSA_Visual extends ViewPart {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                new WizardDialog(getSite().getShell(), new ManageVisibleIdentitesWizard(tabFolder, txtExplain)).open();
+                WizardDialog manageVisibleIdentitiesWizard = new WizardDialog(getSite().getShell(), new ManageVisibleIdentitesWizard(tabFolder, txtExplain));
+                manageVisibleIdentitiesWizard.setHelpAvailable(false);
+                manageVisibleIdentitiesWizard.setPageSize(667, SWT.DEFAULT);
+                manageVisibleIdentitiesWizard.open();
             }
 
             @Override
@@ -128,42 +133,62 @@ public class ExtendedRSA_Visual extends ViewPart {
         btn_delID.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                new WizardDialog(getSite().getShell(), new DeleteIdentityWizard(tabFolder, btn_delID)).open();
+                WizardDialog deleteIdentityWizard = new WizardDialog(getSite().getShell(), new DeleteIdentityWizard(tabFolder, btn_delID));
+                deleteIdentityWizard.setHelpAvailable(false);
+                deleteIdentityWizard.setPageSize(667, SWT.DEFAULT);
+                deleteIdentityWizard.open();
                 grp_id_mgmt.update();
             }
         });
         btn_delID.setText(Messages.ExtendedRSA_Visual_9);
         btn_delID.setEnabled(ContactManager.getInstance().getContactSize() > 2);
-
         btn_newID.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
+        
+        // Beginn des TabFolders
         comp_center = new Composite(composite, SWT.NONE);
-        // 2 columns (tabs and explanation) --> new GridLayout(2, false);
         comp_center.setLayout(new GridLayout(2, false));
-        comp_center.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        comp_center.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
         tabFolder = new ExtendedTabFolder(comp_center, SWT.NONE);
-        tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
+        GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+//        gd_tabFolder.minimumWidth = 900;
+//        gd_tabFolder.widthHint = 600;
+        tabFolder.setLayoutData(gd_tabFolder);
+        
         Group grp_explain = new Group(comp_center, SWT.NONE);
         grp_explain.setLayout(new GridLayout(1, true));
-        GridData gd_explain = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
-        gd_explain.widthHint = 300;
-
         grp_explain.setText(Messages.ExtendedRSA_Visual_10);
+        GridData gd_explain = new GridData(SWT.FILL, SWT.FILL, false, true);
+        gd_explain.widthHint = 400;
+        grp_explain.setLayoutData(gd_explain);
+        
+        sc_explain = new ScrolledComposite(grp_explain, SWT.V_SCROLL);
+        sc_explain.setContent(txtExplain);
+        sc_explain.setExpandVertical(true);
+        sc_explain.setLayout(new GridLayout());
+        GridData gd_sc_explain = new GridData(SWT.FILL, SWT.FILL, true, true);
+        sc_explain.setLayoutData(gd_sc_explain);
 
-        txtExplain = new Label(grp_explain, SWT.WRAP);
-        GridData gd_txtEplain = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-        gd_txtEplain.heightHint = 300;
+        //TODO Hier hab ich auch ein Problem. Im Plugin ist rechts ein Bereich, in dem immer ein
+        //Beschreibungstext angezeigt wird. Die Texte sind relativ lang und der Platz reicht nicht immer
+        //aus um sie ganz anzuzeigen.  Deshalb will ich das in ein ScrolledComposite packen. Bis dahin
+        //hat auch alles ganz gut funktioniert. leider werden die Texte nicht mehr umgebrochen, trotz
+        //widthHint.
+
+        txtExplain = new Label(sc_explain, SWT.WRAP);
+        GridData gd_txtEplain = new GridData(SWT.FILL, SWT.FILL, true, true);
+        gd_txtEplain.widthHint = 400;
         txtExplain.setLayoutData(gd_txtEplain);
 
-        grp_explain.setLayoutData(gd_explain);
-
-        initKeystore(tabFolder);
+        initKeystore();
+        
+        sc_explain.setMinSize(txtExplain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
     }
 
-    private void initKeystore(TabFolder tabfolder) {
+    private void initKeystore() {
         try {
             IdentityManager iMgr = IdentityManager.getInstance();
             Vector<String> contactNames = iMgr.getContacts();
@@ -226,6 +251,7 @@ public class ExtendedRSA_Visual extends ViewPart {
         } catch (Exception e) {
             LogUtil.logError(e);
         }
+        
     }
 
     @Override

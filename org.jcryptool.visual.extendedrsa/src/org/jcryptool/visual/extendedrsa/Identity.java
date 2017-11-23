@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
@@ -80,10 +81,6 @@ public class Identity extends TabItem {
     private Group actionGroup_2;
     private Group actionGroup_3;
     private Group actionGroup_4;
-    private GridLayout actionLayout_1;
-    private GridLayout actionLayout_2;
-    private GridLayout actionLayout_3;
-    private GridLayout actionLayout_4;
     private Label initActions;
     private Label initActions2;
     private Text subjectInput;
@@ -99,10 +96,10 @@ public class Identity extends TabItem {
     private Button receive_and_decrypt;
     private Button attackPublicKey;
     private Button keymanagement;
-    private GridData group_1;
-    private GridData group_2;
-    private GridData group_3;
-    private GridData group_4;
+    private GridData gd_actionGroup_1;
+    private GridData gd_actionGroup_2;
+    private GridData gd_actionGroup_3;
+    private GridData gd_actionGroup_4;
     private int forerunner;
     private int id;
     private Combo selectMessage;
@@ -210,6 +207,7 @@ public class Identity extends TabItem {
     private Label attack_success;
     private Button reconstructKey;
     private Label clipboardtext;
+    private ScrolledComposite sc_groupMain;
 
     private final String EXPLAIN_INIT = Messages.Identity_0;
     private final String EXPLAIN_ENCRYPT = Messages.Identity_1;
@@ -286,10 +284,30 @@ public class Identity extends TabItem {
         // set the text of the TabItem
         this.setText(identityName);
         forerunner = 0;
+        
+        //TODO Hier habe ich versucht den Inhalt des TabFolders in ein ScrolledComposite zu packen, da es 
+        //passieren kann, dass der Platz nicht ausreicht um alles anzuzeigen. 
+        //z. B. bei "nachricht entschlüsseln" wird der Button "Nachricht löschen" bei zur hälfte abgeschnitten,
+        //wenn man das Fenster ganz schmal zeiht.
+        
+        //Alles was hier auskommentiert ist habe ich neu hinzugefügt.
+        
+        // Wenn man das re auskommentiert wird, wird die Group generalGroup nicht mehr angezeigt. Da komm ich
+        //nicht mehr weiter.
+        
+//        sc_groupMain = new ScrolledComposite(parent, SWT.V_SCROLL);
+//        sc_groupMain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//        sc_groupMain.setLayout(new GridLayout());
+//        sc_groupMain.setExpandVertical(true);
+//        sc_groupMain.setContent(generalGroup);
+//        this.setControl(sc_groupMain);
+        
 
         // define the layout for the whole TabItem now
         generalGroup = new Group(parent, SWT.NONE);
-        generalGroup.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+//        generalGroup = new Group(sc_groupMain, SWT.NONE);
+        generalGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+//        generalGroup.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW));
 
         // 2 columns (actions and the actionswindow)
         generalGroup.setLayout(new GridLayout(2, false));
@@ -298,18 +316,19 @@ public class Identity extends TabItem {
         // Grid-Layout for all the buttons on the left side
         composite = new Composite(generalGroup, SWT.NONE);
         composite.setLayout(new GridLayout(1, true));
-        composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
 
         label = new Label(composite, SWT.CENTER);
-
         label.setFont(FontService.getNormalBoldFont());
         label.setText(Messages.Identity_28);
-        label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+        label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
         new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-                true, 1, 1));
+                false, 1, 1));
 
         enc_and_send = new Button(composite, SWT.PUSH);
+        enc_and_send.setText(Messages.Identity_36);
+        enc_and_send.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
         enc_and_send.addSelectionListener(new SelectionAdapter() {
             @Override
             // Button 1
@@ -323,41 +342,38 @@ public class Identity extends TabItem {
                     actionGroup_4.dispose();
 
                     txtExplain.setText(EXPLAIN_ENCRYPT);
+                    txtExplain.pack();
 
                     initActions.dispose();
                     Label lbl_subj = new Label(actionGroup_1, SWT.NONE);
                     lbl_subj.setText(Messages.Identity_29);
-                    GridData gd_sub = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
-                    gd_sub.heightHint = 20;
-                    lbl_subj.setLayoutData(gd_sub);
+                    lbl_subj.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 
                     subjectInput = new Text(actionGroup_1, SWT.BORDER);
-                    GridData gd_subject = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_subject.heightHint = 20;
-                    subjectInput.setLayoutData(gd_subject);
+                    subjectInput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
                     subjectInput.addModifyListener(new ModifyListener() {
 
                         @Override
                         public void modifyText(ModifyEvent e) {
                             txtExplain.setText(EXPLAIN_ENCRYPT);
+                            txtExplain.pack();
                         }
                     });
-                    createSpacer(actionGroup_1);
 
                     label = new Label(actionGroup_1, SWT.NONE);
                     label.setText(Messages.Identity_30);
-                    GridData gd_message = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_message.heightHint = 20;
-                    label.setLayoutData(gd_message);
+                    GridData gd_label = new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1);
+                    gd_label.verticalIndent = 20;
+                    label.setLayoutData(gd_label);
 
-                    label = new Label(actionGroup_1, SWT.NONE);
+                    label = new Label(actionGroup_1, SWT.WRAP);
                     label.setText(Messages.Identity_31);
-                    GridData gd_enc_message = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_enc_message.heightHint = 20;
-                    label.setLayoutData(gd_enc_message);
+                    label.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1));
 
                     clearMessage = new Text(actionGroup_1, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
-                    clearMessage.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 33));
+                    GridData gd_clearMessage = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+                    gd_clearMessage.minimumHeight = 100;
+                    clearMessage.setLayoutData(gd_clearMessage);
                     clearMessage.addModifyListener(new ModifyListener() {
 
                         @Override
@@ -367,26 +383,25 @@ public class Identity extends TabItem {
                                 addRecipientsToCombo();
                             }
                             txtExplain.setText(EXPLAIN_ENCRYPT);
+                            txtExplain.pack();
                         }
 
                     });
                     encryptedMessage = new Text(actionGroup_1, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL
                             | SWT.READ_ONLY);
-                    encryptedMessage.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 33));
+                    GridData gd_encryptedMessage = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+                    gd_encryptedMessage.minimumHeight = 100;
+                    encryptedMessage.setLayoutData(gd_encryptedMessage);
                     encryptedMessage.setFont(new Font(getDisplay(), "Courier", 10, SWT.NONE));
-
-                    createSpacer(actionGroup_1);
-                    createSpacer(actionGroup_1);
 
                     label = new Label(actionGroup_1, SWT.NONE);
                     label.setText(Messages.Identity_32);
-                    label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-                    createSpacer(actionGroup_1);
+                    GridData gd_label2 = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
+                    gd_label2.verticalIndent = 20;
+                    label.setLayoutData(gd_label2);
 
                     messageRecipient = new Combo(actionGroup_1, SWT.READ_ONLY);
-                    GridData gd_recp = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_recp.heightHint = 20;
-                    messageRecipient.setLayoutData(gd_recp);
+                    messageRecipient.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
                     messageRecipient.addSelectionListener(new SelectionListener() {
 
                         @Override
@@ -400,7 +415,50 @@ public class Identity extends TabItem {
                         }
                     });
 
+                    new Label(actionGroup_1, SWT.NONE);
+
+                    label = new Label(actionGroup_1, SWT.NONE);
+                    label.setText(Messages.Identity_34);
+                    GridData gd_label_3 = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
+                    gd_label_3.verticalIndent = 20;
+                    label.setLayoutData(gd_label_3);
+
+                    recipientKeys = new Combo(actionGroup_1, SWT.READ_ONLY);
+                    recipientKeys.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+                    recipientKeys.addSelectionListener(new SelectionListener() {
+
+                        @Override
+                        public void widgetSelected(SelectionEvent e) {
+                            changeButtonVisibility();
+                            pubKeyParameters = iMgr.getPublicKeyParameters(rec.get(recipientKeys.getText()));
+                        }
+
+                        @Override
+                        public void widgetDefaultSelected(SelectionEvent e) {
+                        }
+                    });
+                    
+                    new Label(actionGroup_1, SWT.NONE);
+
+                    encryptMessage = new Button(actionGroup_1, SWT.PUSH);
+                    GridData gd_encryptMessage = new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1);
+                    gd_encryptMessage.verticalIndent = 20;
+                    encryptMessage.setLayoutData(gd_encryptMessage);
+                    encryptMessage.setText(Messages.Identity_35);
+                    encryptMessage.setEnabled(false);
+                    encryptMessage.addSelectionListener(new SelectionAdapter() {
+                        @Override
+                        public void widgetSelected(final SelectionEvent e) {
+                            encryptedMessage.setText(rsa_impl.encrypt(clearMessage.getText(), pubKeyParameters.get(1),
+                                    pubKeyParameters.get(0)));
+                            sendMessage.setEnabled(true);
+                        }
+                    });
+                    
                     sendMessage = new Button(actionGroup_1, SWT.PUSH);
+                    GridData gd_sendMessage = new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1);
+                    gd_sendMessage.verticalIndent = 20;
+                    sendMessage.setLayoutData(gd_sendMessage);
                     sendMessage.setText(Messages.Identity_33);
                     sendMessage.setEnabled(false);
                     sendMessage.addSelectionListener(new SelectionAdapter() {
@@ -418,6 +476,7 @@ public class Identity extends TabItem {
                             clearMessage.setText(NOTHING);
 
                             txtExplain.setText(EXPLAIN_SENDED);
+                            txtExplain.pack();
 
                             recipientKeys.removeAll();
                             messageRecipient.removeAll();
@@ -425,49 +484,6 @@ public class Identity extends TabItem {
                             sendMessage.setEnabled(false);
                         }
                     });
-                    sendMessage.setLayoutData(new GridData(SWT.RIGHT, SWT.RIGHT, true, false, 1, 1));
-
-                    label = new Label(actionGroup_1, SWT.NONE);
-                    label.setText(Messages.Identity_34);
-                    GridData gd_lbl_rk = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_lbl_rk.heightHint = 20;
-                    label.setLayoutData(gd_lbl_rk);
-                    createSpacer(actionGroup_1);
-
-                    recipientKeys = new Combo(actionGroup_1, SWT.READ_ONLY);
-                    recipientKeys.addSelectionListener(new SelectionListener() {
-
-                        @Override
-                        public void widgetSelected(SelectionEvent e) {
-                            changeButtonVisibility();
-                            pubKeyParameters = iMgr.getPublicKeyParameters(rec.get(recipientKeys.getText()));
-                        }
-
-                        @Override
-                        public void widgetDefaultSelected(SelectionEvent e) {
-                        }
-                    });
-                    GridData gd_rk = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_rk.heightHint = 20;
-                    recipientKeys.setLayoutData(gd_rk);
-                    createSpacer(actionGroup_1);
-
-                    createSpacer(actionGroup_1);
-                    createSpacer(actionGroup_1);
-
-                    encryptMessage = new Button(actionGroup_1, SWT.PUSH);
-                    encryptMessage.setText(Messages.Identity_35);
-                    encryptMessage.setEnabled(false);
-                    encryptMessage.addSelectionListener(new SelectionAdapter() {
-                        @Override
-                        public void widgetSelected(final SelectionEvent e) {
-                            encryptedMessage.setText(rsa_impl.encrypt(clearMessage.getText(), pubKeyParameters.get(1),
-                                    pubKeyParameters.get(0)));
-                            sendMessage.setEnabled(true);
-                        }
-                    });
-                    encryptMessage.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, true, false, 1, 1));
-                    createSpacer(actionGroup_1);
 
                     actionGroup_1.redraw();
                     actionGroup_1.layout();
@@ -477,8 +493,9 @@ public class Identity extends TabItem {
                 forerunner = 1;
             }
         });
-        enc_and_send.setText(Messages.Identity_36);
-        enc_and_send.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+        
+        
 
         receive_and_decrypt = new Button(composite, SWT.PUSH);
         receive_and_decrypt.addSelectionListener(new SelectionAdapter() {
@@ -487,6 +504,7 @@ public class Identity extends TabItem {
             public void widgetSelected(SelectionEvent e) {
                 if (forerunner != 2) {
                     txtExplain.setText(EXPLAIN_DECRYPT);
+                    txtExplain.pack();
 
                     actionGroup_1.dispose();
                     actionGroup_3.dispose();
@@ -496,21 +514,15 @@ public class Identity extends TabItem {
 
                     initActions2 = new Label(actionGroup_2, SWT.NONE);
                     initActions2.setText(Messages.Identity_37);
-                    GridData chMsg = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-                    chMsg.heightHint = 20;
-                    initActions2.setLayoutData(chMsg);
+                    initActions2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 
                     infolabel_tab2 = new Label(actionGroup_2, SWT.WRAP);
                     infolabel_tab2.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
                     infolabel_tab2.setText(NOTHING);
-                    GridData infomess = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 2);
-                    infomess.heightHint = 40;
-                    infolabel_tab2.setLayoutData(infomess);
+                    infolabel_tab2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2));
 
                     selectMessage = new Combo(actionGroup_2, SWT.READ_ONLY);
-                    GridData gd_combo = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_combo.heightHint = 20;
-                    selectMessage.setLayoutData(gd_combo);
+                    selectMessage.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
                     selectMessage.addSelectionListener(new SelectionListener() {
 
                         @Override
@@ -550,6 +562,7 @@ public class Identity extends TabItem {
                             deleteMessage.setEnabled(false);
                             decryptedMessage.setText(NOTHING);
                             txtExplain.setText(EXPLAIN_DECRYPT);
+                            txtExplain.pack();
                         }
 
                         @Override
@@ -557,20 +570,20 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    label = new Label(actionGroup_2, SWT.NONE);
+                    label = new Label(actionGroup_2, SWT.WRAP);
                     label.setText(Messages.Identity_38);
-                    GridData gd_message = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_message.heightHint = 20;
-                    label.setLayoutData(gd_message);
+                    label.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1));
 
                     label = new Label(actionGroup_2, SWT.NONE);
                     label.setText(Messages.Identity_39);
-                    GridData gd_message_2 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_message_2.heightHint = 20;
-                    label.setLayoutData(gd_message_2);
+                    GridData gd_label2 = new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1);
+                    gd_label2.verticalIndent = 20;
+                    label.setLayoutData(gd_label2);
 
                     encryptedMessage_Tab2 = new Text(actionGroup_2, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
-                    encryptedMessage_Tab2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 33));
+                    GridData gd_encryptedMessage_Tab2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+                    gd_encryptedMessage_Tab2.minimumHeight = 100;
+                    encryptedMessage_Tab2.setLayoutData(gd_encryptedMessage_Tab2);
                     encryptedMessage_Tab2.setFont(new Font(getDisplay(), "Courier", 10, SWT.NONE));
                     encryptedMessage_Tab2.addVerifyListener(VL_HEX);
                     encryptedMessage_Tab2.addModifyListener(new ModifyListener() {
@@ -583,17 +596,18 @@ public class Identity extends TabItem {
 
                     decryptedMessage = new Text(actionGroup_2, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL
                             | SWT.READ_ONLY);
-                    decryptedMessage.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 33));
-
-                    createSpacer(actionGroup_2);
-                    createSpacer(actionGroup_2);
+                    GridData gd_decryptedMessage = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+                    gd_decryptedMessage.minimumHeight = 100;
+                    decryptedMessage.setLayoutData(gd_decryptedMessage);
 
                     label = new Label(actionGroup_2, SWT.NONE);
                     label.setText(Messages.Identity_40);
-                    label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-                    createSpacer(actionGroup_2);
+                    GridData gd_label3 = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
+                    gd_label3.verticalIndent = 20;
+                    label.setLayoutData(gd_label3);
 
                     decryptionKeys = new Combo(actionGroup_2, SWT.READ_ONLY);
+                    decryptionKeys.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
                     decryptionKeys.setEnabled(false);
                     decryptionKeys.addSelectionListener(new SelectionListener() {
 
@@ -611,40 +625,18 @@ public class Identity extends TabItem {
                         public void widgetDefaultSelected(SelectionEvent e) {
                         }
                     });
-                    GridData gd_dk = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_dk.heightHint = 20;
-                    decryptionKeys.setLayoutData(gd_dk);
-                    deleteMessage = new Button(actionGroup_2, SWT.PUSH);
-                    deleteMessage.setText(Messages.Identity_41);
-                    deleteMessage.setEnabled(false);
-                    deleteMessage.addSelectionListener(new SelectionAdapter() {
-                        @Override
-                        public void widgetSelected(final SelectionEvent e) {
-                            extTF.deleteMessageWithID(Integer.parseInt(selectMessage.getText().substring(
-                                    selectMessage.getText().lastIndexOf(' ') + 1)));
-
-                            txtExplain.setText(EXPLAIN_DELETED);
-
-                            selectMessage.removeAll();
-                            fillSelectMessage();
-
-                            encryptedMessage_Tab2.setText(NOTHING);
-                            decryptionKeys.removeAll();
-                            pwPrivKey.setText(NOTHING);
-                            pwPrivKey.setEnabled(false);
-                            decryptedMessage.setText(NOTHING);
-                            decryptMessage.setEnabled(false);
-                            deleteMessage.setEnabled(false);
-                        }
-                    });
-                    deleteMessage.setLayoutData(new GridData(SWT.RIGHT, SWT.RIGHT, true, false, 1, 1));
+                    
+                    new Label(actionGroup_2, SWT.NONE);
 
                     label = new Label(actionGroup_2, SWT.NONE);
                     label.setText(Messages.Identity_42);
-                    GridData gd_pw = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_pw.heightHint = 20;
-                    label.setLayoutData(gd_pw);
-                    createSpacer(actionGroup_2);
+                    GridData gd_label4 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
+                    gd_label4.verticalIndent = 20;
+                    label.setLayoutData(gd_label4);
+                    
+                    lbl_pwWrong = new Label(actionGroup_2, SWT.WRAP);
+                    lbl_pwWrong.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+                    lbl_pwWrong.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 3));
 
                     pwPrivKey = new Text(actionGroup_2, SWT.BORDER | SWT.PASSWORD);
                     pwPrivKey.setEnabled(false);
@@ -655,21 +647,12 @@ public class Identity extends TabItem {
                             changeButtonVisibilityTab2();
                         }
                     });
-
-                    GridData gd_key = new GridData(SWT.LEFT, SWT.LEFT, true, false, 1, 1);
-                    gd_key.widthHint = 200;
-                    gd_key.heightHint = 20;
-                    pwPrivKey.setLayoutData(gd_key);
-
-                    lbl_pwWrong = new Label(actionGroup_2, SWT.WRAP);
-                    lbl_pwWrong.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
-                    GridData gd_pwWrong = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
-                    gd_pwWrong.heightHint = 20;
-                    lbl_pwWrong.setLayoutData(gd_pwWrong);
-
-                    createSpacer(actionGroup_2);
+                    pwPrivKey.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
                     decryptMessage = new Button(actionGroup_2, SWT.PUSH);
+                    GridData gd_decryptMessage = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+                    gd_decryptMessage.verticalIndent = 20;
+                    decryptMessage.setLayoutData(gd_decryptMessage);
                     decryptMessage.setText(Messages.Identity_43);
                     decryptMessage.setEnabled(false);
                     decryptMessage.addSelectionListener(new SelectionAdapter() {
@@ -699,8 +682,34 @@ public class Identity extends TabItem {
 
                         }
                     });
-                    decryptMessage.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, true, false, 1, 1));
-                    createSpacer(actionGroup_2);
+                    
+                    deleteMessage = new Button(actionGroup_2, SWT.PUSH);
+                    deleteMessage.setText(Messages.Identity_41);
+                    deleteMessage.setEnabled(false);
+                    deleteMessage.addSelectionListener(new SelectionAdapter() {
+                        @Override
+                        public void widgetSelected(final SelectionEvent e) {
+                            extTF.deleteMessageWithID(Integer.parseInt(selectMessage.getText().substring(
+                                    selectMessage.getText().lastIndexOf(' ') + 1)));
+
+                            txtExplain.setText(EXPLAIN_DELETED);
+                            txtExplain.pack();
+
+                            selectMessage.removeAll();
+                            fillSelectMessage();
+
+                            encryptedMessage_Tab2.setText(NOTHING);
+                            decryptionKeys.removeAll();
+                            pwPrivKey.setText(NOTHING);
+                            pwPrivKey.setEnabled(false);
+                            decryptedMessage.setText(NOTHING);
+                            decryptMessage.setEnabled(false);
+                            deleteMessage.setEnabled(false);
+                        }
+                    });
+                    GridData gd_deleteMessagem = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 2, 1);
+                    gd_deleteMessagem.verticalIndent = 20;
+                    deleteMessage.setLayoutData(gd_deleteMessagem);
 
                     fillSelectMessage();
 
@@ -721,6 +730,7 @@ public class Identity extends TabItem {
             public void widgetSelected(SelectionEvent e) {
                 if (forerunner != 3) {
                     txtExplain.setText(EXPLAIN_KEYMGMT_TAB1);
+                    txtExplain.pack();
 
                     actionGroup_1.dispose();
                     actionGroup_2.dispose();
@@ -733,7 +743,7 @@ public class Identity extends TabItem {
                     createActionGroup3();
 
                     tf_keyMgmt = new TabFolder(actionGroup_3, SWT.NONE);
-                    tf_keyMgmt.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+                    tf_keyMgmt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
                     tf_keyMgmt.addSelectionListener(new SelectionListener() {
                         @Override
                         public void widgetSelected(SelectionEvent e) {
@@ -741,6 +751,7 @@ public class Identity extends TabItem {
 
                             if (tf_keyMgmt.getSelectionIndex() == 0) {
                                 txtExplain.setText(EXPLAIN_KEYMGMT_TAB1);
+                                txtExplain.pack();
                                 eIsValid = false;
                                 if (password1 != null && !password1.isDisposed()) {
                                     password1.setEnabled(false);
@@ -767,12 +778,14 @@ public class Identity extends TabItem {
                             }
                             if (tf_keyMgmt.getSelectionIndex() == 1) {
                                 txtExplain.setText(EXPLAIN_KEYMGMT_TAB2);
+                                txtExplain.pack();
                                 ext_password1.setText(NOTHING);
                                 ext_password2.setText(NOTHING);
                                 lbl_notification_tab2.setText(NOTHING);
                             }
                             if (tf_keyMgmt.getSelectionIndex() == 2) {
                                 txtExplain.setText(EXPLAIN_KEYMGMT_TAB3);
+                                txtExplain.pack();
 
                                 allKeys_keydata = iMgr
                                         .loadAllKeysForIdentityAndOtherPublics(Identity.this.identityName);
@@ -799,10 +812,11 @@ public class Identity extends TabItem {
                     keyMgmt_1 = new TabItem(tf_keyMgmt, SWT.NONE);
                     keyMgmt_1.setText(Messages.Identity_45);
                     tab1 = new Composite(tf_keyMgmt, SWT.NONE);
+                    tab1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
                     tab1.setLayout(new GridLayout(1, false));
                     keyMgmt_1.setControl(tab1);
 
-                    init_tab1 = new Label(tab1, SWT.NONE);
+                    init_tab1 = new Label(tab1, SWT.WRAP);
                     init_tab1.setText(ENTER_TWO_PRIMES);
                     init_tab1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
@@ -830,13 +844,12 @@ public class Identity extends TabItem {
 
                     // composite for the labels and dropdows
                     rsaComposite = new Composite(tab1, SWT.NONE);
-                    rsaComposite.setLayout(new GridLayout(10, false));
+                    rsaComposite.setLayout(new GridLayout(4, false));
+                    rsaComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 
                     Label rsaP = new Label(rsaComposite, SWT.NONE);
                     rsaP.setText(Messages.Identity_47);
-                    GridData gd_rsa_p = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_p.heightHint = 20;
-                    rsaP.setLayoutData(gd_rsa_p);
+                    rsaP.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
                     combo_rsaP = new Combo(rsaComposite, SWT.NONE);
                     fillPrimesTo(combo_rsaP);
@@ -875,23 +888,19 @@ public class Identity extends TabItem {
                         public void keyPressed(KeyEvent e) {
                         }
                     });
-                    GridData gd_combo_rsaP = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_rsaP.heightHint = 20;
-                    combo_rsaP.setLayoutData(gd_combo_rsaP);
+                    combo_rsaP.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 
                     Label rsaQ = new Label(rsaComposite, SWT.NONE);
                     rsaQ.setText(Messages.Identity_48);
-                    GridData gd_rsa_q = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_q.heightHint = 20;
-                    rsaQ.setLayoutData(gd_rsa_q);
+                    GridData gd_rsaQ = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+                    gd_rsaQ.horizontalIndent = 20;
+                    rsaQ.setLayoutData(gd_rsaQ);
 
                     combo_rsaQ = new Combo(rsaComposite, SWT.NONE);
                     fillPrimesTo(combo_rsaQ);
                     combo_rsaQ.addModifyListener(ml);
                     combo_rsaQ.addVerifyListener(VL);
-                    GridData gd_combo_rsaQ = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_rsaQ.heightHint = 20;
-                    combo_rsaQ.setLayoutData(gd_combo_rsaQ);
+                    combo_rsaQ.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
                     combo_rsaQ.addSelectionListener(new SelectionListener() {
 
                         @Override
@@ -925,23 +934,14 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    for (int i = 0; i < 6; i++) {
-                        createSpacer(rsaComposite);
-                    }
-
                     Label rsaE = new Label(rsaComposite, SWT.NONE);
                     rsaE.setText(Messages.Identity_49);
-                    GridData gd_rsa_e = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_e.heightHint = 20;
-                    rsaE.setLayoutData(gd_rsa_e);
+                    rsaE.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
                     combo_rsaE = new Combo(rsaComposite, SWT.NONE);
                     combo_rsaE.setEnabled(false);
-                    GridData gd_combo_rsaE = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_rsaE.heightHint = 20;
-                    gd_combo_rsaE.widthHint = 100;
                     combo_rsaE.addVerifyListener(VL);
-                    combo_rsaE.setLayoutData(gd_combo_rsaE);
+                    combo_rsaE.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
                     combo_rsaE.addKeyListener(new KeyListener() {
 
                         @Override
@@ -975,7 +975,7 @@ public class Identity extends TabItem {
                     pickRandomE = new Button(rsaComposite, SWT.PUSH);
                     pickRandomE.setText(Messages.Identity_50);
                     pickRandomE.setEnabled(false);
-                    pickRandomE.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
+                    pickRandomE.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
                     pickRandomE.addSelectionListener(new SelectionListener() {
 
                         public void widgetSelected(SelectionEvent e) {
@@ -992,10 +992,6 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    for (int i = 0; i < 3; i++) {
-                        createSpacer(rsaComposite);
-                    }
-
                     radio_ExtRSA = new Button(tab1, SWT.RADIO);
                     radio_ExtRSA.addSelectionListener(new SelectionListener() {
 
@@ -1009,27 +1005,26 @@ public class Identity extends TabItem {
                         public void widgetDefaultSelected(SelectionEvent e) {
                         }
                     });
-                    radio_ExtRSA.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1));
+                    GridData gd_radio_ExtRSA = new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1);
+                    gd_radio_ExtRSA.verticalIndent = 20;
+                    radio_ExtRSA.setLayoutData(gd_radio_ExtRSA);
                     radio_ExtRSA.setText(Messages.Identity_51);
 
                     // composite for the labels and dropdows
                     rsaExMainComposite = new Composite(tab1, SWT.NONE);
                     rsaExMainComposite.setLayout(new GridLayout(1, false));
+                    rsaExMainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
                     rsaExComposite1 = new Composite(rsaExMainComposite, SWT.NONE);
-                    rsaExComposite1.setLayout(new GridLayout(10, true));
+                    rsaExComposite1.setLayout(new GridLayout(2, false));
+                    rsaExComposite1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 
                     Label rsa_ex_Anz = new Label(rsaExComposite1, SWT.NONE);
                     rsa_ex_Anz.setText(Messages.Identity_52);
-                    GridData gd_rsa_ex_Anz = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_ex_Anz.heightHint = 20;
-                    rsaP.setLayoutData(gd_rsa_ex_Anz);
+                    rsa_ex_Anz.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
                     numberOfPrimesExRSA = new Combo(rsaExComposite1, SWT.READ_ONLY);
-                    GridData gd_combo_numberP = new GridData(SWT.LEFT, SWT.LEFT, true, false, 1, 1);
-                    gd_combo_numberP.heightHint = 20;
-                    gd_combo_numberP.widthHint = 50;
-                    numberOfPrimesExRSA.setLayoutData(gd_combo_numberP);
+                    numberOfPrimesExRSA.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
                     numberOfPrimesExRSA.setEnabled(false);
                     numberOfPrimesExRSA.addSelectionListener(new SelectionListener() {
 
@@ -1076,24 +1071,18 @@ public class Identity extends TabItem {
                         numberOfPrimesExRSA.add(NOTHING + i);
                     }
                     numberOfPrimesExRSA.select(0);
-                    for (int i = 0; i < 8; i++) {
-                        createSpacer(rsaExComposite1);
-                    }
 
                     rsaExComposite2 = new Composite(rsaExMainComposite, SWT.NONE);
                     rsaExComposite2.setLayout(new GridLayout(10, false));
+                    rsaExComposite2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 
                     // P
                     Label rsa_ex_P = new Label(rsaExComposite2, SWT.NONE);
                     rsa_ex_P.setText(Messages.Identity_53);
-                    GridData gd_rsa_exP = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_exP.heightHint = 20;
-                    rsa_ex_P.setLayoutData(gd_rsa_exP);
+                    rsa_ex_P.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+                    
                     combo_ExrsaP = new Combo(rsaExComposite2, SWT.NONE);
-                    GridData gd_combo_ExrsaP = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_ExrsaP.heightHint = 20;
-                    gd_combo_ExrsaP.widthHint = 100;
-                    combo_ExrsaP.setLayoutData(gd_combo_ExrsaP);
+                    combo_ExrsaP.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
                     combo_ExrsaP.addVerifyListener(VL);
                     combo_ExrsaP.setEnabled(false);
                     fillPrimesTo(combo_ExrsaP);
@@ -1129,14 +1118,12 @@ public class Identity extends TabItem {
                     // Q
                     Label rsa_ex_Q = new Label(rsaExComposite2, SWT.NONE);
                     rsa_ex_Q.setText(Messages.Identity_54);
-                    GridData gd_rsa_exQ = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_exQ.heightHint = 20;
-                    rsa_ex_Q.setLayoutData(gd_rsa_exQ);
+                    GridData gd_rsa_ex_Q = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+                    gd_rsa_ex_Q.horizontalIndent = 20;
+                    rsa_ex_Q.setLayoutData(gd_rsa_ex_Q);
+                    
                     combo_ExrsaQ = new Combo(rsaExComposite2, SWT.NONE);
-                    GridData gd_combo_ExrsaQ = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_ExrsaQ.heightHint = 20;
-                    gd_combo_ExrsaQ.widthHint = 100;
-                    combo_ExrsaQ.setLayoutData(gd_combo_ExrsaQ);
+                    combo_ExrsaQ.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
                     combo_ExrsaQ.addVerifyListener(VL);
                     combo_ExrsaQ.setEnabled(false);
                     fillPrimesTo(combo_ExrsaQ);
@@ -1170,14 +1157,12 @@ public class Identity extends TabItem {
                     // R
                     Label rsa_ex_R = new Label(rsaExComposite2, SWT.NONE);
                     rsa_ex_R.setText(Messages.Identity_55);
-                    GridData gd_rsa_exR = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_exR.heightHint = 20;
-                    rsa_ex_R.setLayoutData(gd_rsa_exR);
+                    GridData gd_rsa_ex_R = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+                    gd_rsa_ex_R.horizontalIndent = 20;
+                    rsa_ex_R.setLayoutData(gd_rsa_ex_R);
+                    
                     combo_ExrsaR = new Combo(rsaExComposite2, SWT.NONE);
-                    GridData gd_combo_ExrsaR = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_ExrsaR.heightHint = 20;
-                    gd_combo_ExrsaR.widthHint = 100;
-                    combo_ExrsaR.setLayoutData(gd_combo_ExrsaR);
+                    combo_ExrsaR.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
                     combo_ExrsaR.addVerifyListener(VL);
                     combo_ExrsaR.setEnabled(false);
                     fillPrimesTo(combo_ExrsaR);
@@ -1211,15 +1196,13 @@ public class Identity extends TabItem {
                     // S
                     rsa_ex_S = new Label(rsaExComposite2, SWT.NONE);
                     rsa_ex_S.setText(Messages.Identity_56);
-                    GridData gd_rsa_exS = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_exS.heightHint = 20;
-                    rsa_ex_S.setLayoutData(gd_rsa_exS);
+                    GridData gd_rsa_ex_S = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+                    gd_rsa_ex_S.horizontalIndent = 20;
+                    rsa_ex_S.setLayoutData(gd_rsa_ex_S);
                     rsa_ex_S.setVisible(false);
+                    
                     combo_ExrsaS = new Combo(rsaExComposite2, SWT.NONE);
-                    GridData gd_combo_ExrsaS = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_ExrsaS.heightHint = 20;
-                    gd_combo_ExrsaS.widthHint = 100;
-                    combo_ExrsaS.setLayoutData(gd_combo_ExrsaS);
+                    combo_ExrsaS.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
                     combo_ExrsaS.addVerifyListener(VL);
                     combo_ExrsaS.setEnabled(false);
                     combo_ExrsaS.setVisible(false);
@@ -1254,15 +1237,13 @@ public class Identity extends TabItem {
                     // T
                     rsa_ex_T = new Label(rsaExComposite2, SWT.NONE);
                     rsa_ex_T.setText(Messages.Identity_57);
-                    GridData gd_rsa_exT = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_exT.heightHint = 20;
-                    rsa_ex_T.setLayoutData(gd_rsa_exT);
+                    GridData gd_rsa_ex_T = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+                    gd_rsa_ex_T.horizontalIndent = 20;
+                    rsa_ex_T.setLayoutData(gd_rsa_ex_T);
                     rsa_ex_T.setVisible(false);
+                    
                     combo_ExrsaT = new Combo(rsaExComposite2, SWT.NONE);
-                    GridData gd_combo_ExrsaT = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_ExrsaT.heightHint = 20;
-                    gd_combo_ExrsaT.widthHint = 100;
-                    combo_ExrsaT.setLayoutData(gd_combo_ExrsaT);
+                    combo_ExrsaT.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
                     combo_ExrsaT.addVerifyListener(VL);
                     combo_ExrsaT.setEnabled(false);
                     combo_ExrsaT.setVisible(false);
@@ -1297,14 +1278,10 @@ public class Identity extends TabItem {
                     // E
                     Label rsa_ex_E = new Label(rsaExComposite2, SWT.NONE);
                     rsa_ex_E.setText(Messages.Identity_58);
-                    GridData gd_rsa_exE = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_exE.heightHint = 20;
-                    rsa_ex_E.setLayoutData(gd_rsa_exE);
+                    rsa_ex_E.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+                    
                     combo_ExrsaE = new Combo(rsaExComposite2, SWT.NONE);
-                    GridData gd_combo_ExrsaE = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_ExrsaE.heightHint = 20;
-                    gd_combo_ExrsaE.widthHint = 100;
-                    combo_ExrsaE.setLayoutData(gd_combo_ExrsaE);
+                    combo_ExrsaE.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
                     combo_ExrsaE.addVerifyListener(VL);
                     combo_ExrsaE.setEnabled(false);
                     combo_ExrsaE.addKeyListener(new KeyListener() {
@@ -1337,7 +1314,7 @@ public class Identity extends TabItem {
                     pickRandomExtE = new Button(rsaExComposite2, SWT.PUSH);
                     pickRandomExtE.setText(Messages.Identity_59);
                     pickRandomExtE.setEnabled(false);
-                    pickRandomExtE.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
+                    pickRandomExtE.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 8, 1));
                     pickRandomExtE.addSelectionListener(new SelectionListener() {
 
                         public void widgetSelected(SelectionEvent e) {
@@ -1354,27 +1331,20 @@ public class Identity extends TabItem {
                     });
 
                     new Label(rsaExMainComposite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(SWT.FILL,
-                            SWT.FILL, true, true, 1, 1));
+                            SWT.FILL, true, false, 10, 1));
 
                     rsaExComposite3 = new Composite(rsaExMainComposite, SWT.NONE);
-                    rsaExComposite3.setLayout(new GridLayout(5, true));
-
-                    for (int i = 0; i < 3; i++) {
-                        createSpacer(rsaExComposite3);
-                    }
+                    rsaExComposite3.setLayout(new GridLayout(2, true));
+                    rsaExComposite3.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false, 1, 1));
 
                     // enter password
                     Label rsa_password = new Label(rsaExComposite3, SWT.NONE);
                     rsa_password.setText(Messages.Identity_60);
-                    GridData gd_rsa_pw = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_pw.heightHint = 20;
-                    rsa_password.setLayoutData(gd_rsa_pw);
+                    rsa_password.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+                    
                     password1 = new Text(rsaExComposite3, SWT.PASSWORD | SWT.BORDER);
-                    GridData gd_combo_pw1 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_pw1.heightHint = 20;
-                    gd_combo_pw1.widthHint = 100;
                     password1.setEnabled(false);
-                    password1.setLayoutData(gd_combo_pw1);
+                    password1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
                     password1.addModifyListener(new ModifyListener() {
 
                         @Override
@@ -1384,21 +1354,14 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    for (int i = 0; i < 3; i++) {
-                        createSpacer(rsaExComposite3);
-                    }
                     // enter password again
                     Label rsa_password2 = new Label(rsaExComposite3, SWT.NONE);
                     rsa_password2.setText(Messages.Identity_61);
-                    GridData gd_rsa_pw2 = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_pw2.heightHint = 20;
-                    rsa_password2.setLayoutData(gd_rsa_pw2);
+                    rsa_password2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+                    
                     password2 = new Text(rsaExComposite3, SWT.PASSWORD | SWT.BORDER);
-                    GridData gd_combo_pw2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_pw2.heightHint = 20;
-                    gd_combo_pw2.widthHint = 100;
                     password2.setEnabled(false);
-                    password2.setLayoutData(gd_combo_pw2);
+                    password2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
                     password2.addModifyListener(new ModifyListener() {
 
                         @Override
@@ -1408,17 +1371,10 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    for (int i = 0; i < 4; i++) {
-                        createSpacer(rsaExComposite3);
-                    }
-
                     createKey = new Button(rsaExComposite3, SWT.PUSH);
                     createKey.setText(Messages.Identity_62);
                     createKey.setEnabled(false);
-                    GridData gd_createKey = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_createKey.heightHint = 20;
-                    gd_createKey.widthHint = 100;
-                    createKey.setLayoutData(gd_createKey);
+                    createKey.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 2, 1));
                     createKey.addSelectionListener(new SelectionListener() {
 
                         @Override
@@ -1483,22 +1439,20 @@ public class Identity extends TabItem {
                     keyMgmt_2.setText(Messages.Identity_66);
                     tab2 = new Composite(tf_keyMgmt, SWT.NONE);
                     tab2.setLayout(new GridLayout(1, false));
-
                     keyMgmt_2.setControl(tab2);
 
-                    Label lbl_init_tab2 = new Label(tab2, SWT.NONE);
+                    Label lbl_init_tab2 = new Label(tab2, SWT.WRAP);
                     lbl_init_tab2.setText(TAB2_INIT);
-                    GridData gd_init_tab2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_init_tab2.heightHint = 20;
-                    lbl_init_tab2.setLayoutData(gd_init_tab2);
+                    lbl_init_tab2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 
-                    lbl_notification_tab2 = new Label(tab2, SWT.NONE);
-                    GridData gd_noti_tab2 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-                    gd_noti_tab2.heightHint = 20;
-                    lbl_notification_tab2.setLayoutData(gd_noti_tab2);
+                    lbl_notification_tab2 = new Label(tab2, SWT.WRAP);
+                    lbl_notification_tab2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+                    lbl_notification_tab2.setText("\n\n\n");
 
                     radio_RSA_tab2 = new Button(tab2, SWT.RADIO);
-                    radio_RSA_tab2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+                    GridData gd_radio_RSA_tab2 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+                    gd_radio_RSA_tab2.verticalIndent = 20;
+                    radio_RSA_tab2.setLayoutData(gd_radio_RSA_tab2);
                     radio_RSA_tab2.setText(Messages.Identity_67);
                     radio_RSA_tab2.setSelection(true);
                     radio_RSA_tab2.addSelectionListener(new SelectionListener() {
@@ -1514,13 +1468,12 @@ public class Identity extends TabItem {
                     });
 
                     Composite rsaComp = new Composite(tab2, SWT.NONE);
+                    rsaComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
                     rsaComp.setLayout(new GridLayout(2, false));
 
                     Label rsa_label = new Label(rsaComp, SWT.NONE);
                     rsa_label.setText(Messages.Identity_68);
-                    GridData gd_rsa_lab = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_lab.heightHint = 20;
-                    rsa_label.setLayoutData(gd_rsa_lab);
+                    rsa_label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
                     rsa_length = new Combo(rsaComp, SWT.READ_ONLY);
                     rsa_length.add(Messages.Identity_69);
@@ -1538,18 +1491,13 @@ public class Identity extends TabItem {
                         public void widgetDefaultSelected(SelectionEvent e) {
                         }
                     });
-
-                    GridData gd_rsa_length_comb = new GridData(SWT.LEFT, SWT.LEFT, true, true, 1, 1);
-                    gd_rsa_length_comb.heightHint = 20;
+                    rsa_length.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
                     rsa_length.select(0);
-                    rsa_length.setLayoutData(gd_rsa_length_comb);
-
-                    for (int i = 0; i < 4; i++) {
-                        createSpacer(rsaComp);
-                    }
 
                     radio_ExtRSA_tab2 = new Button(tab2, SWT.RADIO);
-                    radio_ExtRSA_tab2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+                    GridData gd_radio_ExtRSA_tab2 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+                    gd_radio_ExtRSA_tab2.verticalIndent = 20;
+                    radio_ExtRSA_tab2.setLayoutData(gd_radio_ExtRSA_tab2);
                     radio_ExtRSA_tab2.setText(Messages.Identity_71);
                     radio_ExtRSA_tab2.addSelectionListener(new SelectionListener() {
 
@@ -1564,19 +1512,14 @@ public class Identity extends TabItem {
                     });
 
                     Composite rsaExtComp = new Composite(tab2, SWT.NONE);
+                    rsaExtComp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
                     rsaExtComp.setLayout(new GridLayout(2, false));
 
                     Label rsa_extLabel = new Label(rsaExtComp, SWT.NONE);
                     rsa_extLabel.setText(Messages.Identity_72);
-                    GridData gd_rsa_extlab = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_extlab.heightHint = 20;
-                    rsa_extLabel.setLayoutData(gd_rsa_extlab);
 
                     extRsa_numberPrimes_tab2 = new Combo(rsaExtComp, SWT.READ_ONLY);
-                    GridData gd_combo_ExtnumberP = new GridData(SWT.LEFT, SWT.LEFT, true, false, 1, 1);
-                    gd_combo_ExtnumberP.heightHint = 20;
-                    gd_combo_ExtnumberP.widthHint = 50;
-                    extRsa_numberPrimes_tab2.setLayoutData(gd_combo_ExtnumberP);
+                    extRsa_numberPrimes_tab2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
                     extRsa_numberPrimes_tab2.setEnabled(false);
                     for (int i = 3; i < 6; i++) {
                         extRsa_numberPrimes_tab2.add(NOTHING + i);
@@ -1598,9 +1541,7 @@ public class Identity extends TabItem {
 
                     Label rsa_extlength = new Label(rsaExtComp, SWT.NONE);
                     rsa_extlength.setText(Messages.Identity_73);
-                    GridData gd_rsa_extlength = new GridData(SWT.LEFT, SWT.LEFT, true, true, 1, 1);
-                    gd_rsa_extlength.heightHint = 20;
-                    rsa_extlength.setLayoutData(gd_rsa_extlength);
+                    rsa_extlength.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
                     extRsa_length = new Combo(rsaExtComp, SWT.READ_ONLY);
                     extRsa_length.add(Messages.Identity_74);
@@ -1618,37 +1559,24 @@ public class Identity extends TabItem {
                         public void widgetDefaultSelected(SelectionEvent e) {
                         }
                     });
-
-                    GridData gd_Extrsa_length_comb = new GridData(SWT.LEFT, SWT.LEFT, true, true, 1, 1);
-                    gd_Extrsa_length_comb.heightHint = 20;
                     extRsa_length.select(0);
-                    extRsa_length.setLayoutData(gd_Extrsa_length_comb);
+                    extRsa_length.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
                     extRsa_length.setEnabled(false);
-
-                    new Label(tab2, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-                    new Label(tab2, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
                     new Label(tab2, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(SWT.FILL, SWT.FILL,
                             false, false, 1, 1));
 
                     rsaExComposite3 = new Composite(tab2, SWT.NONE);
-                    rsaExComposite3.setLayout(new GridLayout(5, true));
-
-                    for (int i = 0; i < 3; i++) {
-                        createSpacer(rsaExComposite3);
-                    }
+                    rsaExComposite3.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 1, 1));
+                    rsaExComposite3.setLayout(new GridLayout(2, true));
 
                     // enter password
                     Label rsa_password_2 = new Label(rsaExComposite3, SWT.NONE);
                     rsa_password_2.setText(Messages.Identity_76);
-                    GridData gd_rsa_pw_2 = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_pw_2.heightHint = 20;
-                    rsa_password_2.setLayoutData(gd_rsa_pw_2);
+                    rsa_password2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+                    
                     ext_password1 = new Text(rsaExComposite3, SWT.PASSWORD | SWT.BORDER);
-                    GridData gd_combo_pw1_2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_pw1_2.heightHint = 20;
-                    gd_combo_pw1_2.widthHint = 100;
-                    ext_password1.setLayoutData(gd_combo_pw1_2);
+                    ext_password1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
                     ext_password1.addModifyListener(new ModifyListener() {
 
                         @Override
@@ -1658,20 +1586,13 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    for (int i = 0; i < 3; i++) {
-                        createSpacer(rsaExComposite3);
-                    }
                     // enter password again
                     Label rsa_password2_2 = new Label(rsaExComposite3, SWT.NONE);
                     rsa_password2_2.setText(Messages.Identity_77);
-                    GridData gd_rsa_pw2_2 = new GridData(SWT.RIGHT, SWT.RIGHT, true, true, 1, 1);
-                    gd_rsa_pw2_2.heightHint = 20;
-                    rsa_password2_2.setLayoutData(gd_rsa_pw2_2);
+                    rsa_password2_2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+                    
                     ext_password2 = new Text(rsaExComposite3, SWT.PASSWORD | SWT.BORDER);
-                    GridData gd_combo_pw2_2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_combo_pw2_2.heightHint = 20;
-                    gd_combo_pw2_2.widthHint = 100;
-                    ext_password2.setLayoutData(gd_combo_pw2_2);
+                    ext_password2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
                     ext_password2.addModifyListener(new ModifyListener() {
 
                         @Override
@@ -1681,16 +1602,9 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    for (int i = 0; i < 4; i++) {
-                        createSpacer(rsaExComposite3);
-                    }
-
                     createKey_Tab2 = new Button(rsaExComposite3, SWT.PUSH);
                     createKey_Tab2.setText(Messages.Identity_78);
-                    GridData gd_createKey_2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-                    gd_createKey_2.heightHint = 20;
-                    gd_createKey_2.widthHint = 100;
-                    createKey_Tab2.setLayoutData(gd_createKey_2);
+                    createKey_Tab2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
                     createKey_Tab2.setEnabled(false);
                     createKey_Tab2.addSelectionListener(new SelectionListener() {
 
@@ -1725,29 +1639,25 @@ public class Identity extends TabItem {
                     keyMgmt_3 = new TabItem(tf_keyMgmt, SWT.NONE);
                     keyMgmt_3.setText(Messages.Identity_81);
                     tab3 = new Composite(tf_keyMgmt, SWT.NONE);
-                    ;
                     tab3.setLayout(new GridLayout(1, false));
                     keyMgmt_3.setControl(tab3);
 
                     Label lbl_init_tab3 = new Label(tab3, SWT.WRAP);
                     lbl_init_tab3.setText(TAB3_INIT);
+                    // Ist etwas gepfuscht, aber es tut was es soll. Der Hinweis Text wird auf 3 Zeilen verteilt.
                     lbl_init_tab3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 3));
 
                     Composite myKeyData = new Composite(tab3, SWT.NONE);
-                    myKeyData.setLayout(new GridLayout(4, false));
-                    myKeyData.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+                    myKeyData.setLayout(new GridLayout(3, false));
+                    myKeyData.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
                     // combo "select key"
                     Label lbl_selectKey = new Label(myKeyData, SWT.WRAP);
                     lbl_selectKey.setText(Messages.Identity_82);
-                    GridData gd_lbl_selKey = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-                    gd_lbl_selKey.heightHint = 20;
-                    lbl_selectKey.setLayoutData(gd_lbl_selKey);
+                    lbl_selectKey.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+                    
                     selectedKey_Keydata = new Combo(myKeyData, SWT.READ_ONLY);
-                    GridData gd_selKey = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-                    gd_selKey.heightHint = 20;
-                    gd_selKey.widthHint = 300;
-                    selectedKey_Keydata.setLayoutData(gd_selKey);
+                    selectedKey_Keydata.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
                     selectedKey_Keydata.addSelectionListener(new SelectionListener() {
 
@@ -1790,10 +1700,7 @@ public class Identity extends TabItem {
 
                     // button "show keydata"
                     showKeydata = new Button(myKeyData, SWT.PUSH);
-                    GridData gd_showKeydata = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-                    gd_showKeydata.heightHint = 20;
-                    gd_showKeydata.widthHint = 100;
-                    showKeydata.setLayoutData(gd_showKeydata);
+                    showKeydata.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
                     showKeydata.setText(Messages.Identity_84);
                     showKeydata.setEnabled(false);
                     showKeydata.addSelectionListener(new SelectionListener() {
@@ -1899,20 +1806,14 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    createSpacer(myKeyData);
-
                     // textfield "enter password"
                     lbl_enterPW = new Label(myKeyData, SWT.NONE);
                     lbl_enterPW.setText(Messages.Identity_125);
-                    GridData gd_enterPW = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-                    gd_enterPW.heightHint = 20;
-                    lbl_enterPW.setLayoutData(gd_enterPW);
+                    lbl_enterPW.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
                     lbl_enterPW.setVisible(false);
+                    
                     password_keydata = new Text(myKeyData, SWT.PASSWORD | SWT.BORDER);
-                    GridData gd_pw = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-                    gd_pw.heightHint = 20;
-                    gd_pw.widthHint = 200;
-                    password_keydata.setLayoutData(gd_pw);
+                    password_keydata.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
                     password_keydata.setVisible(false);
                     password_keydata.addKeyListener(new KeyListener() {
 
@@ -1926,26 +1827,24 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    createSpacer(myKeyData);
-                    createSpacer(myKeyData);
+                    new Label(myKeyData, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
                     wrongPW_keydata = new Label(myKeyData, SWT.WRAP);
-                    GridData gd_wrongPW_kd = new GridData(SWT.FILL, SWT.FILL, false, false, 4, 1);
-                    gd_wrongPW_kd.heightHint = 30;
-                    gd_wrongPW_kd.widthHint = 200;
-                    wrongPW_keydata.setLayoutData(gd_wrongPW_kd);
+                    wrongPW_keydata.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+                    //Ist auch gepfuscht. So hat der Text genügen Platz. Man müsste eigentlich den Text setzen und d
+                    //dann wieder löschen, damit genügend Platz reserviert wird oder sobald der Text aufgerufen wird pack()
+                    //aufrufen
+                    wrongPW_keydata.setText("\n\n");
                     wrongPW_keydata.setFont(FontService.getNormalBoldFont());
                     wrongPW_keydata.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 
-                    new Label(tab3, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-                            true, true, 1, 1));
+                    new Label(tab3, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+                            true, false, 1, 1));
 
                     clipboardtext = new Label(tab3, SWT.NONE);
                     clipboardtext.setText(CLIPBOARDTEXT_TEXT);
                     clipboardtext.setVisible(false);
-                    GridData gd_cli = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-                    gd_cli.heightHint = 20;
-                    clipboardtext.setLayoutData(gd_cli);
+                    clipboardtext.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
                     keyData = new Table(tab3, SWT.BORDER | SWT.FULL_SELECTION);
                     GridData gd_table = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
@@ -1970,11 +1869,11 @@ public class Identity extends TabItem {
                     });
 
                     column_parameter = new TableColumn(keyData, SWT.NONE);
-                    column_parameter.setWidth(100);
+                    column_parameter.setWidth(150);
                     column_parameter.setText(Messages.Identity_127);
 
                     column_value = new TableColumn(keyData, SWT.NONE);
-                    column_value.setWidth(500);
+                    column_value.setWidth(300);
                     column_value.setText(Messages.Identity_128);
 
                     generalGroup.redraw();
@@ -1993,6 +1892,7 @@ public class Identity extends TabItem {
             public void widgetSelected(SelectionEvent e) {
                 if (forerunner != 4) {
                     txtExplain.setText(EXPLAIN_ATTACK_PUBKEY);
+                    txtExplain.pack();
 
                     actionGroup_1.dispose();
                     actionGroup_2.dispose();
@@ -2000,28 +1900,19 @@ public class Identity extends TabItem {
 
                     createActionGroup4();
 
-                    lbl_noKeyToAttack = new Label(actionGroup_4, SWT.NONE);
+                    lbl_noKeyToAttack = new Label(actionGroup_4, SWT.WRAP);
                     lbl_noKeyToAttack.setFont(FontService.getNormalBoldFont());
                     lbl_noKeyToAttack.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-                    GridData gd_lbl_noKey = new GridData(SWT.FILL, SWT.FILL, true, false, 4, 1);
-                    gd_lbl_noKey.heightHint = 20;
-                    lbl_noKeyToAttack.setLayoutData(gd_lbl_noKey);
+                    lbl_noKeyToAttack.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+                    //Wieder gepfuscht
+                    lbl_noKeyToAttack.setText("\n\n\n");
 
                     Label l = new Label(actionGroup_4, SWT.NONE);
                     l.setText(Messages.Identity_130);
-                    GridData gd_lbl_attack = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
-                    gd_lbl_attack.heightHint = 20;
-                    l.setLayoutData(gd_lbl_attack);
-
-                    for (int i = 0; i < 2; i++) {
-                        createSpacer(actionGroup_4);
-                    }
+                    l.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
                     keyToAttack = new Combo(actionGroup_4, SWT.READ_ONLY);
-                    GridData combo_attack = new GridData(SWT.LEFT, SWT.LEFT, true, false, 1, 1);
-                    combo_attack.heightHint = 20;
-                    combo_attack.widthHint = 250;
-                    keyToAttack.setLayoutData(combo_attack);
+                    keyToAttack.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
                     attackableKeys = iMgr.getAttackablePublicKeys(Identity.this.identityName);
                     if (attackableKeys.size() == 0) {
                         keyToAttack.setEnabled(false);
@@ -2060,10 +1951,7 @@ public class Identity extends TabItem {
                     attackKey = new Button(actionGroup_4, SWT.PUSH);
                     attackKey.setText(Messages.Identity_134);
                     attackKey.setEnabled(false);
-                    GridData btn_attack = new GridData(SWT.LEFT, SWT.LEFT, true, false, 1, 1);
-                    btn_attack.heightHint = 20;
-                    btn_attack.widthHint = 250;
-                    attackKey.setLayoutData(btn_attack);
+                    attackKey.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
                     attackKey.addSelectionListener(new SelectionListener() {
 
                         @Override
@@ -2085,16 +1973,11 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    createSpacer(actionGroup_4);
-
                     reconstructKey = new Button(actionGroup_4, SWT.PUSH);
                     reconstructKey.setText(Messages.Identity_176);
                     reconstructKey.setEnabled(false);
                     reconstructKey.setVisible(false);
-                    GridData btn_rec_key = new GridData(SWT.LEFT, SWT.LEFT, true, false, 1, 1);
-                    btn_rec_key.heightHint = 20;
-                    btn_rec_key.widthHint = 250;
-                    reconstructKey.setLayoutData(btn_rec_key);
+                    reconstructKey.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
                     reconstructKey.addSelectionListener(new SelectionListener() {
 
                         @Override
@@ -2181,26 +2064,18 @@ public class Identity extends TabItem {
                         }
                     });
 
-                    for (int i = 0; i < 4; i++) {
-                        createSpacer(actionGroup_4);
-                    }
-
-                    attack_hint = new Label(actionGroup_4, SWT.WRAP | SWT.V_SCROLL | SWT.H_SCROLL);
-                    GridData at_hint = new GridData(SWT.FILL, SWT.FILL, false, false, 4, 2);
-                    at_hint.heightHint = 40;
-                    attack_hint.setLayoutData(at_hint);
+                    attack_hint = new Label(actionGroup_4, SWT.WRAP);
+                    attack_hint.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+                    attack_hint.setText("\n\n\n");
 
                     keydataN = new Text(actionGroup_4, SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI | SWT.WRAP
                             | SWT.READ_ONLY | SWT.BORDER);
-                    GridData gd_N = new GridData(SWT.FILL, SWT.FILL, false, false, 4, 1);
-                    gd_N.heightHint = 50;
-                    keydataN.setLayoutData(gd_N);
+                    keydataN.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+                    keydataN.setText("\n\n\n\n");
                     keydataN.setVisible(false);
 
                     attack_success = new Label(actionGroup_4, SWT.WRAP | SWT.V_SCROLL | SWT.H_SCROLL);
-                    GridData at_success = new GridData(SWT.FILL, SWT.FILL, false, false, 4, 1);
-                    at_success.heightHint = 40;
-                    attack_success.setLayoutData(at_success);
+                    attack_success.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 
                     keyData_attacked = new Table(actionGroup_4, SWT.BORDER | SWT.FULL_SELECTION);
                     GridData gd_table = new GridData(SWT.FILL, SWT.FILL, false, false, 4, 1);
@@ -2227,24 +2102,22 @@ public class Identity extends TabItem {
         attackPublicKey.setText(Messages.Identity_137);
         attackPublicKey.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
-        // add spacer to the buttons on the left (for further actions :) )
-        for (int i = 0; i < 15; i++) {
-            createSpacer(composite);
-        }
-
         createActionGroup1();
 
         createActionGroup2();
-        group_2.exclude = true;
+        gd_actionGroup_2.exclude = true;
         actionGroup_2.setVisible(false);
 
         createActionGroup3();
-        group_3.exclude = true;
+        gd_actionGroup_3.exclude = true;
         actionGroup_3.setVisible(false);
 
         createActionGroup4();
         actionGroup_4.setVisible(false);
-        group_4.exclude = true;
+        gd_actionGroup_4.exclude = true;
+        
+//        parent.setSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        sc_groupMain.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
     }
 
     /**
@@ -2557,6 +2430,7 @@ public class Identity extends TabItem {
 
         errorLabel_1.setText(NOTHING);
         txtExplain.setText(EXPLAIN_KEYMGMT_TAB1);
+        txtExplain.pack();
         resetRSAValues();
     }
 
@@ -2668,56 +2542,48 @@ public class Identity extends TabItem {
     private void createActionGroup1() {
         actionGroup_1 = new Group(generalGroup, SWT.NONE);
         actionGroup_1.setText(Messages.Identity_162);
-        actionLayout_1 = new GridLayout(2, true);
-        actionLayout_1.horizontalSpacing = 80;
-        actionGroup_1.setLayout(actionLayout_1);
-        group_1 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-        group_1.exclude = false;
-        actionGroup_1.setLayoutData(group_1);
+        actionGroup_1.setLayout(new GridLayout(2, true));
+        gd_actionGroup_1 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+        gd_actionGroup_1.minimumWidth = 600;
+        gd_actionGroup_1.widthHint = 600;
+        actionGroup_1.setLayoutData(gd_actionGroup_1);
 
         initActions = new Label(actionGroup_1, SWT.WRAP);
         initActions.setText(Messages.Identity_163 + identityName + Messages.Identity_164);
-        GridData gd_initActions = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
-        gd_initActions.heightHint = 40;
-        initActions.setLayoutData(gd_initActions);
-        actionGroup_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+        initActions.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 
         txtExplain.setText(EXPLAIN_INIT);
+        txtExplain.pack();
     }
 
     private void createActionGroup2() {
         actionGroup_2 = new Group(generalGroup, SWT.NONE);
         actionGroup_2.setText(Messages.Identity_165);
-        actionLayout_2 = new GridLayout(2, true);
-        actionLayout_2.horizontalSpacing = 80;
-        actionGroup_2.setLayout(actionLayout_2);
-        group_2 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-        actionGroup_2.setLayoutData(group_2);
+        actionGroup_2.setLayout(new GridLayout(2, true));
+        gd_actionGroup_2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+        gd_actionGroup_2.minimumWidth = 600;
+        gd_actionGroup_2.widthHint = 600;
+        actionGroup_2.setLayoutData(gd_actionGroup_2);
     }
 
     private void createActionGroup3() {
         actionGroup_3 = new Group(generalGroup, SWT.NONE);
         actionGroup_3.setText(Messages.Identity_166);
-        actionLayout_3 = new GridLayout(1, false);
-        actionLayout_3.horizontalSpacing = 80;
-        actionGroup_3.setLayout(actionLayout_3);
-        group_3 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-        actionGroup_3.setLayoutData(group_3);
+        actionGroup_3.setLayout(new GridLayout());
+        gd_actionGroup_3 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+        gd_actionGroup_3.minimumWidth = 600;
+        gd_actionGroup_3.widthHint = 600;
+        actionGroup_3.setLayoutData(gd_actionGroup_3);
     }
 
     private void createActionGroup4() {
         actionGroup_4 = new Group(generalGroup, SWT.NONE);
         actionGroup_4.setText(Messages.Identity_167);
-        actionLayout_4 = new GridLayout(4, false);
-        actionGroup_4.setLayout(actionLayout_4);
-        group_4 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-        actionGroup_4.setLayoutData(group_4);
-    }
-
-    private Label createSpacer(final Composite location) {
-        Label spacer = new Label(location, SWT.NONE);
-        spacer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-        return spacer;
+        actionGroup_4.setLayout(new GridLayout(2, false));
+        gd_actionGroup_4 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+        gd_actionGroup_4.minimumWidth = 600;
+        gd_actionGroup_4.widthHint = 600;
+        actionGroup_4.setLayoutData(gd_actionGroup_4);
     }
 
     public final String getIdentityName() {
