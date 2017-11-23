@@ -2117,7 +2117,7 @@ public class Identity extends TabItem {
         gd_actionGroup_4.exclude = true;
         
 //        parent.setSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-        sc_groupMain.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+//        sc_groupMain.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
     }
 
     /**
