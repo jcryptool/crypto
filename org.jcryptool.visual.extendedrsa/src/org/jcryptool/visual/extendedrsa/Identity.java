@@ -273,7 +273,7 @@ public class Identity extends TabItem {
         this.organisation = contact.getOrganization();
         this.region = contact.getRegion();
         this.id = parent.getItemCount();
-        this.txtExplain = explain;
+        this.txtExplain = explain;      
 
         iMgr = IdentityManager.getInstance();
         rsa_impl = new RsaImplementation();
@@ -343,6 +343,8 @@ public class Identity extends TabItem {
 
                     txtExplain.setText(EXPLAIN_ENCRYPT);
                     txtExplain.pack();
+//                    txtExplain.getParent().pack();
+                    txtExplain.getParent().setSize(txtExplain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
                     initActions.dispose();
                     Label lbl_subj = new Label(actionGroup_1, SWT.NONE);

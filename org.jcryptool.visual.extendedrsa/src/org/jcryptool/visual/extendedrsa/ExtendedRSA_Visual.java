@@ -22,6 +22,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
@@ -162,13 +163,17 @@ public class ExtendedRSA_Visual extends ViewPart {
         GridData gd_explain = new GridData(SWT.FILL, SWT.FILL, false, true);
         gd_explain.widthHint = 400;
         grp_explain.setLayoutData(gd_explain);
+        grp_explain.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW));
         
-        sc_explain = new ScrolledComposite(grp_explain, SWT.V_SCROLL);
+        sc_explain = new ScrolledComposite(grp_explain, SWT.V_SCROLL | SWT.H_SCROLL);
         sc_explain.setContent(txtExplain);
         sc_explain.setExpandVertical(true);
+        sc_explain.setExpandHorizontal(true);
         sc_explain.setLayout(new GridLayout());
         GridData gd_sc_explain = new GridData(SWT.FILL, SWT.FILL, true, true);
+        gd_sc_explain.widthHint = 400;
         sc_explain.setLayoutData(gd_sc_explain);
+        sc_explain.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_MAGENTA));
 
         //TODO Hier hab ich auch ein Problem. Im Plugin ist rechts ein Bereich, in dem immer ein
         //Beschreibungstext angezeigt wird. Die Texte sind relativ lang und der Platz reicht nicht immer
@@ -180,10 +185,12 @@ public class ExtendedRSA_Visual extends ViewPart {
         GridData gd_txtEplain = new GridData(SWT.FILL, SWT.FILL, true, true);
         gd_txtEplain.widthHint = 400;
         txtExplain.setLayoutData(gd_txtEplain);
+        txtExplain.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 
         initKeystore();
         
         sc_explain.setMinSize(txtExplain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        
         sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
     }
