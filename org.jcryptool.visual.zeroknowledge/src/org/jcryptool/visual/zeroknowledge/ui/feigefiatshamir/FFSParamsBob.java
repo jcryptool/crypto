@@ -39,12 +39,14 @@ public class FFSParamsBob extends ParamsPerson {
      * (einer für die Beschreibung und einer für den Wert)
      *
      * @param bob Objekt, dessen Werte dargestellt werden sollen
-     * @param s Parent für die graphische Oberfläche
+     * @param parent Parent für die graphische Oberfläche
      */
-    public FFSParamsBob(FFSBob bob, Composite s) {
-        super(s);
+    public FFSParamsBob(FFSBob bob, Composite parent) {
+        super(parent);
         this.bob = bob;
-        // group.setSize(300, 170);
+        
+        //überschreiben der GridData aus der abstrakten Klasse
+        group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         group.setText(Messages.FFS_ParamsBob_0);
 
         b = new FFSCombiLabel(Messages.FFS_ParamsBob_1, true, group);
@@ -69,9 +71,10 @@ public class FFSParamsBob extends ParamsPerson {
         verifiziert.setFont(FontService.getNormalBoldFont());
         verifiziert.setText(Messages.FFS_ParamsBob_4);
         verifiziert.setVisible(false);
-        GridData gridData = new GridData();
-        gridData.widthHint = 200;
-        verifiziert.setLayoutData(gridData);
+//        GridData gridData = new GridData();
+//        gridData.widthHint = 200;
+//        verifiziert.setLayoutData(gridData);
+        verifiziert.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         setVisible(true);
     }
 
