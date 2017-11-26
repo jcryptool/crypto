@@ -50,30 +50,17 @@ public class FFSParamsBob extends ParamsPerson {
         group.setText(Messages.FFS_ParamsBob_0);
 
         b = new FFSCombiLabel(Messages.FFS_ParamsBob_1, true, group);
-        // b.getComp().setLocation(90, 45);
 
         yHoch2 = new FFSCombiLabel(Messages.FFS_ParamsBob_2, false, group);
-        // yHoch2.getComp().setLocation(90, 75);
         yHoch2.getComp().setVisible(false);
 
         xMalVHochB = new FFSCombiLabel(Messages.FFS_ParamsBob_3, false, group);
-        // xMalVHochB.setFont(ZeroKnowledge.normal);
-        // xMalVHochB.setText(" x * v^b :");
-        // xMalVHochB.setBounds(72, 105, 50, 20);
         xMalVHochB.getComp().setVisible(false);
-
-        // xMalContent = new Label(group, 0);
-        // xMalContent.setFont(ZeroKnowledge.normal);
-        // xMalContent.setBounds(140, 105, 150, 20);
-        // xMalContent.setVisible(false);
 
         verifiziert = new Label(group, SWT.None);
         verifiziert.setFont(FontService.getNormalBoldFont());
         verifiziert.setText(Messages.FFS_ParamsBob_4);
         verifiziert.setVisible(false);
-//        GridData gridData = new GridData();
-//        gridData.widthHint = 200;
-//        verifiziert.setLayoutData(gridData);
         verifiziert.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         setVisible(true);
     }
