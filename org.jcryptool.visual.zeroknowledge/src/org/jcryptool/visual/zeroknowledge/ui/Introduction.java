@@ -140,9 +140,6 @@ public class Introduction {
 
             }
         });
-//        label = new Label(group, 0);
-//        label.setText(Messages.Introduction_29);
-        group.setVisible(true);
     }
 
     /**

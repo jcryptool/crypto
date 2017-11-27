@@ -16,6 +16,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.jcryptool.visual.zeroknowledge.algorithm.feigefiatshamir.FFSAlice;
 import org.jcryptool.visual.zeroknowledge.algorithm.feigefiatshamir.FFSCarol;
 import org.jcryptool.visual.zeroknowledge.algorithm.feigefiatshamir.FFSPerson;
@@ -77,7 +78,13 @@ public class FFSParamsAliceCarol extends ParamsPerson {
 
         if (!isAlice) {
             c = new FFSCombiLabel(Messages.FFS_ParamsAliceCarol_7, true, group_public);
+        } else {
+            //als Spacer. hält Platz für c frei
+            new Label(group_public, SWT.NONE);
+            
         }
+        
+        setVisible(true);
     }
 
     /**

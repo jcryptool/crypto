@@ -284,6 +284,7 @@ public class Generator extends Dialog {
                 // q generieren
                 try {
                     q.setErgebnis(Primzahlen.primzahl(unten_q, oben_q));
+                    nehmen.setFocus();
                 } catch (IllegalArgumentException e) {
                     setExceptionLabel(e.getMessage());
                 }
