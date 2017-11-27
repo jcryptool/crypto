@@ -175,7 +175,7 @@ public class Identity extends TabItem {
     private Table keyData;
     private TableColumn column_parameter;
     private TableColumn column_value;
-    private Label txtExplain;
+    private Text txtExplain;
     private Label init_tab1;
     private String pw1;
     private String pw2;
@@ -264,7 +264,7 @@ public class Identity extends TabItem {
         }
     };
 
-    public Identity(ExtendedTabFolder parent, int style, Contact contact, Label explain) {
+    public Identity(ExtendedTabFolder parent, int style, Contact contact, Text explain) {
         super(parent, style);
         this.extTF = parent;
         this.identityName = contact.getName();
