@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.jcryptool.core.logging.utils.LogUtil;
@@ -47,7 +48,7 @@ public class ExtendedRSA_Visual extends ViewPart {
     private final String BLANK = Messages.ExtendedRSA_Visual_3;
 
     private ScrolledComposite sc;
-    private ScrolledComposite sc_explain;
+    private Composite sc_explain;
     private Composite composite;
     private Composite headComposite;
     private StyledText head_description;
@@ -57,7 +58,7 @@ public class ExtendedRSA_Visual extends ViewPart {
     private Button btn_delID;
     private Composite comp_center;
     private ExtendedTabFolder tabFolder;
-    private Label txtExplain;
+    private Text txtExplain;
 
     public ExtendedRSA_Visual() {
     }
@@ -163,9 +164,7 @@ public class ExtendedRSA_Visual extends ViewPart {
         gd_explain.widthHint = 400;
         grp_explain.setLayoutData(gd_explain);
         
-        sc_explain = new ScrolledComposite(grp_explain, SWT.V_SCROLL);
-        sc_explain.setContent(txtExplain);
-        sc_explain.setExpandVertical(true);
+        sc_explain = new Composite(grp_explain, SWT.NONE);
         sc_explain.setLayout(new GridLayout());
         GridData gd_sc_explain = new GridData(SWT.FILL, SWT.FILL, true, true);
         sc_explain.setLayoutData(gd_sc_explain);
@@ -176,14 +175,14 @@ public class ExtendedRSA_Visual extends ViewPart {
         //hat auch alles ganz gut funktioniert. leider werden die Texte nicht mehr umgebrochen, trotz
         //widthHint.
 
-        txtExplain = new Label(sc_explain, SWT.WRAP);
-        GridData gd_txtEplain = new GridData(SWT.FILL, SWT.FILL, true, true);
-        gd_txtEplain.widthHint = 400;
+        txtExplain = new Text(sc_explain, SWT.V_SCROLL | SWT.WRAP);
+        GridData gd_txtEplain = new GridData(SWT.FILL, SWT.FILL, true, false);
+//        gd_txtEplain.widthHint = 400;
         txtExplain.setLayoutData(gd_txtEplain);
+        txtExplain.setEditable(false);
 
         initKeystore();
         
-        sc_explain.setMinSize(txtExplain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
         sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
     }
