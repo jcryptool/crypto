@@ -54,36 +54,21 @@ public class FiatShamirView extends ViewPart implements Observer, ModNCalculator
     @Override
     public void createPartControl(Composite parent) {
         this.parent = parent;
-        // Define layout elements
-//        GridData gridData = new GridData();
-//        gridData.grabExcessVerticalSpace = false;
-//        gridData.grabExcessHorizontalSpace = true;
-//        gridData.horizontalAlignment = SWT.FILL;
-//        gridData.verticalAlignment = SWT.BEGINNING;
-//        GridLayout gridLayout = new GridLayout();
-//        gridLayout.numColumns = 1;
-//        gridLayout.makeColumnsEqualWidth = true;
-        // parent.setLayoutData(gridData);
 
         // Create srollable composite and composite within it
         ScrolledComposite sc =
                 new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
         sc.setExpandHorizontal(true);
         sc.setExpandVertical(true);
-//        sc.setLayoutData(gridData);
         sc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         // gridlayout for elements
         Composite pageComposite = new Composite(sc, SWT.NONE);
         sc.setContent(pageComposite);
-//        pageComposite.setLayout(gridLayout);
         pageComposite.setLayout(new GridLayout());
-//        pageComposite.setLayoutData(gridData);
         pageComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		headerComp = new ZKHeaderComposite(pageComposite);
-//		headerComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false,
-//				4, 1));
 		headerComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
 				4, 1));
 		headerComp.setTitle(Messages.FiatShamirView_title);
@@ -104,28 +89,16 @@ public class FiatShamirView extends ViewPart implements Observer, ModNCalculator
         alice.addObserver(this);
         carol.addObserver(this);
 
-//        GridData gridData2 = new GridData();
-//        gridData2.grabExcessVerticalSpace = false;
-//        gridData2.grabExcessHorizontalSpace = true;
-//        gridData2.horizontalAlignment = GridData.FILL;
-
-//        Introduction situation = new Introduction(this, main, "FS"); //$NON-NLS-1$
+        //Group Situatuation
         new Introduction(this, main, "FS");
-//        situation.getGroup().setLayoutData(gridData2);
 
         // Modul zum Erstellen von n
         prime = new PrimeGenerator(this, main);
-        // prime.getGroup().setLocation(0, 89);
 
         // Layout for Action-Flow group
-//        GridLayout gridLayoutP = new GridLayout();
-//        gridLayoutP.numColumns = 1;
-//        gridLayoutP.makeColumnsEqualWidth = false;
         Group action = new Group(main, SWT.None);
         action.setText(Messages.FiatShamirView_1);
-//        action.setLayout(gridLayoutP);
         action.setLayout(new GridLayout());
-//        action.setLayoutData(gridData);
         action.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         
 
@@ -138,17 +111,7 @@ public class FiatShamirView extends ViewPart implements Observer, ModNCalculator
 
         // Layout for information group
         info = new Group(main, SWT.None);
-//        GridLayout gridLayoutI = new GridLayout();
-//        gridLayoutI.numColumns = 2;
-//        gridLayoutI.makeColumnsEqualWidth = false;
-//        GridData gridDataI = new GridData();
-//        gridDataI.grabExcessVerticalSpace = false;
-//        gridDataI.grabExcessHorizontalSpace = true;
-//        gridDataI.horizontalAlignment = GridData.FILL;
-//        gridDataI.horizontalSpan = 1;
-//        info.setLayout(gridLayoutI);
         info.setLayout(new GridLayout(2, false));
-//        info.setLayoutData(gridDataI);
         info.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         info.setText(Messages.FiatShamirView_2);
 
@@ -157,12 +120,6 @@ public class FiatShamirView extends ViewPart implements Observer, ModNCalculator
 
         // Modul zum Darstellen der Parameter von Alice
         paramsAC = new FSParamsAliceCarol(alice, info);
-
-        // Modul zum Darstellen der Parameter von Carol
-        // params_carol = new FS_ParamsAliceCarol(carol, info);
-        // params_carol.getGroup().setVisible(false);
-
-//        main.setVisible(true);
 
         sc.setMinSize(pageComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
