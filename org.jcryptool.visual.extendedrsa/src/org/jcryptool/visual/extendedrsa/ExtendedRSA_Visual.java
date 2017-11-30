@@ -151,37 +151,25 @@ public class ExtendedRSA_Visual extends ViewPart {
         comp_center = new Composite(composite, SWT.NONE);
         comp_center.setLayout(new GridLayout(2, false));
         comp_center.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+        
 
-        tabFolder = new ExtendedTabFolder(comp_center, SWT.NONE);
+        tabFolder = new ExtendedTabFolder(comp_center, SWT.V_SCROLL);
+        tabFolder.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_GREEN));
         GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-//        gd_tabFolder.minimumWidth = 900;
-//        gd_tabFolder.widthHint = 600;
         tabFolder.setLayoutData(gd_tabFolder);
         
         Group grp_explain = new Group(comp_center, SWT.NONE);
         grp_explain.setLayout(new GridLayout(1, true));
         grp_explain.setText(Messages.ExtendedRSA_Visual_10);
-        GridData gd_explain = new GridData(SWT.FILL, SWT.FILL, false, true);
-        gd_explain.widthHint = 400;
-        grp_explain.setLayoutData(gd_explain);
-        grp_explain.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW));
+        grp_explain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
         
         sc_explain = new Composite(grp_explain, SWT.NONE);
         sc_explain.setLayout(new GridLayout());
-        GridData gd_sc_explain = new GridData(SWT.FILL, SWT.FILL, true, true);
-        gd_sc_explain.widthHint = 400;
-        sc_explain.setLayoutData(gd_sc_explain);
-        sc_explain.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_MAGENTA));
-
-        //TODO Hier hab ich auch ein Problem. Im Plugin ist rechts ein Bereich, in dem immer ein
-        //Beschreibungstext angezeigt wird. Die Texte sind relativ lang und der Platz reicht nicht immer
-        //aus um sie ganz anzuzeigen.  Deshalb will ich das in ein ScrolledComposite packen. Bis dahin
-        //hat auch alles ganz gut funktioniert. leider werden die Texte nicht mehr umgebrochen, trotz
-        //widthHint.
+        sc_explain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         txtExplain = new Text(sc_explain, SWT.V_SCROLL | SWT.WRAP);
-        GridData gd_txtEplain = new GridData(SWT.FILL, SWT.FILL, true, false);
-//        gd_txtEplain.widthHint = 400;
+        GridData gd_txtEplain = new GridData(SWT.FILL, SWT.FILL, true, true);
+        gd_txtEplain.widthHint = 400;
         txtExplain.setLayoutData(gd_txtEplain);
         txtExplain.setEditable(false);
 
