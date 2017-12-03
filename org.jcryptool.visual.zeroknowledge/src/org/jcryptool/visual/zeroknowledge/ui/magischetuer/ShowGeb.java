@@ -49,7 +49,7 @@ public class ShowGeb implements PaintListener {
         this.door = door;
         canv = new Canvas(parent, SWT.BORDER);
         canv.setBackground(canv.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-        canv.setSize(200, 190);
+        canv.setSize(200, 200);
         canv.addPaintListener(this);
     }
 
