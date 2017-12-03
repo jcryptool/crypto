@@ -277,103 +277,78 @@ public class MagicDoorView extends ViewPart implements Observer, Protocol {
     public void setText(int fall) {
         descAliceCarol.setText(""); //$NON-NLS-1$
         descBob.setText(""); //$NON-NLS-1$
-        //TODO return's durch breaks ersetzen und am Ende der funktion pageComposite.layout()
-        //aufrufen, damit der Text auch angezeigt wird.
         switch (fall) {
             case 0:
                 descAliceCarol.setText(Messages.MagicDoorView_1);
-//                return;
                 break;
             case 1:
                 descAliceCarol.setText(Messages.MagicDoorView_2);
-//                return;
                 break;
             case 2:
                 descAliceCarol.setText(Messages.MagicDoorView_3);
-//                return;
                 break;
             case 3:
                 descAliceCarol.setText(Messages.MagicDoorView_4);
-//                return;
                 break;
             case 8:
                 descAliceCarol.setText(Messages.MagicDoorView_5);
-//                return;
                 break;
             case 9:
                 descAliceCarol.setText(Messages.MagicDoorView_6);
-//                return;
                 break;
             case 16:
                 descAliceCarol.setText(Messages.MagicDoorView_7);
-//                return;
                 break;
             case 17:
                 descAliceCarol.setText(Messages.MagicDoorView_8);
-//                return;
                 break;
             case 32:
                 descAliceCarol.setText(Messages.MagicDoorView_9);
                 descBob.setText(Messages.MagicDoorView_10);
-//                return;
                 break;
             case 33:
                 descAliceCarol.setText(Messages.MagicDoorView_11);
                 descBob.setText(Messages.MagicDoorView_12);
-//                return;
                 break;
             case 64:
                 descAliceCarol.setText(Messages.MagicDoorView_13);
                 descBob.setText(Messages.MagicDoorView_14);
-//                return;
                 break;
             case 65:
                 descAliceCarol.setText(Messages.MagicDoorView_15);
                 descBob.setText(Messages.MagicDoorView_16);
-//                return;
                 break;
             case 128:
                 descAliceCarol.setText(Messages.MagicDoorView_17);
                 descBob.setText(Messages.MagicDoorView_18);
-//                return;
                 break;
             case 129:
                 descAliceCarol.setText(Messages.MagicDoorView_19);
                 descBob.setText(Messages.MagicDoorView_20);
-//                return;
                 break;
             case 256:
                 descAliceCarol.setText(Messages.MagicDoorView_21);
                 descBob.setText(Messages.MagicDoorView_22);
-//                return;
                 break;
             case 257:
                 descAliceCarol.setText(Messages.MagicDoorView_23);
                 descBob.setText(Messages.MagicDoorView_24);
-//                return;
                 break;
             case 512:
                 descAliceCarol.setText(Messages.MagicDoorView_25);
-//                return;
                 break;
             case 513:
                 descAliceCarol.setText(Messages.MagicDoorView_26);
-//                return;
                 break;
             case 1024:
                 descBob.setText(Messages.MagicDoorView_27);
-//                return;
                 break;
             case 1025:
                 descBob.setText(Messages.MagicDoorView_28);
                 break;
         }
-//        sc
-//        parent.layout();
         pageComposite.layout();
-//        pageComposite.redraw();
         return;
-//        parent.redraw();
     }
 
     /**
