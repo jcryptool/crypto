@@ -2190,6 +2190,8 @@ public class Identity extends TabItem {
 								keyData_attacked.setVisible(true);
 								reconstructKey.setEnabled(true);
 								reconstructKey.setVisible(true);
+								actionGroup_4.layout();
+								
 								TableItem ti_p;
 								TableItem ti_q;
 								TableItem ti_r;
