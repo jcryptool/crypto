@@ -35,7 +35,7 @@ public class GParamsAliceCarol extends ParamsPerson {
 
     private GCombiLabel h;
 
-    private GBeweiser p;
+    private GBeweiser person;
 
     /**
      * Konstruktor, der die graphischen Komponenten erstellt und eingefügt. Die Group besteht aus je
@@ -46,77 +46,36 @@ public class GParamsAliceCarol extends ParamsPerson {
      */
     public GParamsAliceCarol(GBeweiser beweiser, Composite comp) {
         super(comp);
-        this.p = beweiser;
+        this.person = beweiser;
 
-        GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = 2;
-        gridLayout.makeColumnsEqualWidth = true;
-        GridData gridData = new GridData();
-        gridData.grabExcessVerticalSpace = true;
-        gridData.grabExcessHorizontalSpace = true;
-        gridData.horizontalAlignment = GridData.FILL;
-        GridData gridData2 = new GridData();
-        gridData2.verticalAlignment = GridData.FILL;
-        gridData2.grabExcessVerticalSpace = true;
-        gridData2.grabExcessHorizontalSpace = true;
-
-        group.setLayout(gridLayout);
-        group.setLayoutData(gridData);
+        group.setLayout(new GridLayout(2, true));
+        group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         group.setText(beweiser.getName());
+        
         boolean secret = (beweiser instanceof GAlice);
 
-        GridLayout gridLayout2 = new GridLayout();
-        gridLayout2.numColumns = 1;
-        gridLayout2.makeColumnsEqualWidth = true;
+        Group group_secret = new Group(group, SWT.NONE);
+        group_secret.setText(Messages.GParamsAliceCarol_0);
+        group_secret.setLayout(new GridLayout());
+        group_secret.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-        Group group_2 = new Group(group, 0);
-        group_2.setText(Messages.GParamsAliceCarol_0);
-        group_2.setLayout(gridLayout2);
-        group_2.setLayoutData(gridData);
-        // group_2.setBounds(1, 15, 149, 105);
-        // group_2.setVisible(true);
+        f = new GCombiLabel(Messages.GParamsAliceCarol_1, secret, group_secret);
 
-        f = new GCombiLabel(Messages.GParamsAliceCarol_1, secret, group_2);
-        // f.getComp().setLocation(2, 20);
+        a = new GCombiLabel(Messages.GParamsAliceCarol_2, secret, group_secret);
 
-        a = new GCombiLabel(Messages.GParamsAliceCarol_2, secret, group_2);
-        // a.getComp().setLocation(2, 50);
-        // a.getComp().setSize(140, 20);
+        g = new GCombiLabel(Messages.GParamsAliceCarol_3, secret, group_secret);
 
-        g = new GCombiLabel(Messages.GParamsAliceCarol_3, secret, group_2);
-        // g.getComp().setLocation(2, 70);
-        group_2.layout();
-
-        group_2 = new Group(group, 0);
-        group_2.setText(Messages.GParamsAliceCarol_4);
-
-        gridLayout2 = new GridLayout();
-        gridLayout2.numColumns = 1;
-        gridLayout2.makeColumnsEqualWidth = true;
-
-        group_2.setLayout(gridLayout2);
-        group_2.setLayoutData(gridData2);
-        //
-        Label pub = new Label(group_2, SWT.CENTER);
+        Group group_public = new Group(group, SWT.NONE);
+        group_public.setLayout(new GridLayout());
+        group_public.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        group_public.setText(Messages.GParamsAliceCarol_4);
+        
+        Label pub = new Label(group_public, SWT.CENTER);
         pub.setText(Messages.GParamsAliceCarol_5);
-        // //pub.setBounds(2, 20, 146, 20);
-        //
-        h = new GCombiLabel(Messages.GParamsAliceCarol_6, secret, group_2);
-        // //h.getComp().setLocation(2, 50);
-        //
-        // setVisible(true);
-    }
+        
+        h = new GCombiLabel(Messages.GParamsAliceCarol_6, secret, group_public);
 
-    /**
-     * Methode zum updaten des Panels
-     *
-     * @see ParamsPerson#update()
-     */
-    public void update() {
-        a.update(p.getA());
-        f.update(p.getF());
-        g.update(p.getG());
-        h.update(p.getH());
+        setVisible(true);
     }
 
     /**
@@ -125,7 +84,20 @@ public class GParamsAliceCarol extends ParamsPerson {
      * @param b neuer Beweisender
      */
     public void setBeweiser(GBeweiser b) {
-        this.p = b;
+        this.person = b;
         update();
+    }
+
+    /**
+     * Methode zum updaten des Panels
+     *
+     * @see ParamsPerson#update()
+     */
+    @Override
+	public void update() {
+        a.update(person.getA());
+        f.update(person.getF());
+        g.update(person.getG());
+        h.update(person.getH());
     }
 }
