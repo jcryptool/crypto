@@ -39,14 +39,12 @@ public class GraphenisomorphieView extends ViewPart implements Observer, Protoco
     private GBob bob;
     private Buttons buttons;
     private GCarol carol;
-    private Introduction constOne;
     private boolean firstcase = true;
     private GFlow flow;
     private Zeichenflaeche graphH;
     private Zeichenflaeche graphHGb;
     private ShowGraphen graphAlice;
     private ShowGraphen graphCarol;
-    private Composite main;
     private GParamsAliceCarol paramsAlice;
     private GParamsBob paramsBob;
     private GParamsAliceCarol paramsCarol;
@@ -59,34 +57,20 @@ public class GraphenisomorphieView extends ViewPart implements Observer, Protoco
     public void createPartControl(Composite parent) {
         this.parent = parent;
 
-        // Define layout elements
-        GridData gridData = new GridData();
-        gridData.grabExcessVerticalSpace = true;
-        gridData.grabExcessHorizontalSpace = true;
-        gridData.horizontalAlignment = GridData.FILL;
-        parent.setLayoutData(gridData);
-
         // Create srollable composite and composite within it
-        ScrolledComposite sc =
-                new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL /*| SWT.BORDER*/);
+        ScrolledComposite sc = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
         sc.setExpandHorizontal(true);
         sc.setExpandVertical(true);
-        sc.setLayoutData(gridData);
 
         // gridlayout for elements
         Composite pageComposite = new Composite(sc, SWT.NONE);
         sc.setContent(pageComposite);
-        pageComposite.setLayout(new GridLayout(1, true));
-        pageComposite.setLayoutData(gridData);
+        pageComposite.setLayout(new GridLayout());
 
 		headerComp = new ZKHeaderComposite(pageComposite);
-		headerComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false,
-				4, 1));
+		headerComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		headerComp.setTitle(Messages.GraphenisomorphieView_title);
 		headerComp.setDescription(Messages.GraphenisomorphieView_text);
-
-		// pointer main points to pageComposite
-        main = pageComposite;
 
         // Modelle
         alice = new GAlice(6);
@@ -99,21 +83,17 @@ public class GraphenisomorphieView extends ViewPart implements Observer, Protoco
         carol.addObserver(this);
 
         // Einfuehrung und Auswahl, ob das Geheimnis bekannt sein soll
-        constOne = new Introduction(this, main, "G"); //$NON-NLS-1$
-        constOne.getGroup().setLocation(0, 0);
+        new Introduction(this, pageComposite, "G");
 
-        // graphgroup = new Composite(main, SWT.None);
-        // graphen_alice = new ShowGraphen(graphgroup, alice.getG0(), alice.getG1(), alice);
-
-        // Layout for Action-Flow group
-        action = new Group(main, SWT.None);
+        action = new Group(pageComposite, SWT.NONE);
         action.setText(Messages.GraphenisomorphieView_1);
-        action.setLayout(new GridLayout(1, false));
-        action.setLayoutData(gridData);
+        action.setLayout(new GridLayout());
+        action.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
         // Label zum Erklären der unterschiedlichen Nummern
-        Label label = new Label(action, 0);
+        Label label = new Label(action, SWT.NONE);
         label.setText(Messages.GraphenisomorphieView_2);
+        label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
         // add Graph to action-flow
         graphAlice = new ShowGraphen(action, alice.getG0(), alice.getG1(), alice);
@@ -126,14 +106,9 @@ public class GraphenisomorphieView extends ViewPart implements Observer, Protoco
         flow.enableFirst();
 
         // Layout for information group
-        info = new Group(main, SWT.None);
-        GridData gridDataI = new GridData();
-        gridDataI.grabExcessVerticalSpace = true;
-        gridDataI.grabExcessHorizontalSpace = true;
-        gridDataI.horizontalAlignment = GridData.FILL;
-        gridDataI.horizontalSpan = 1;
-        info.setLayout(new GridLayout(2, false));
-        info.setLayoutData(gridDataI);
+        info = new Group(pageComposite, SWT.NONE);
+        info.setLayout(new GridLayout(2, true));
+        info.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         info.setText(Messages.GraphenisomorphieView_3);
 
         // Modul zum Darstellen der Parameter von Bob
@@ -145,8 +120,6 @@ public class GraphenisomorphieView extends ViewPart implements Observer, Protoco
         // Modul zum Darstellen der Parameter von Carol
         // params_carol = new G_ParamsAliceCarol(carol, info);
         // params_carol.setVisible(false);
-
-        main.setVisible(true);
 
         // make whole content scrollable
         sc.setMinSize(pageComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
@@ -204,9 +177,11 @@ public class GraphenisomorphieView extends ViewPart implements Observer, Protoco
      * Methode zum Erhalten des Composites
      *
      * @return SheComposite, in der alle graphischen Objekte enthalten sind
+     * @unused
      */
     public Composite getMain() {
-        return main;
+//        return main;
+    	return parent;
     }
 
     /**
@@ -225,143 +200,6 @@ public class GraphenisomorphieView extends ViewPart implements Observer, Protoco
      */
     public boolean isFirstcase() {
         return firstcase;
-    }
-
-    /**
-     * macht das "Verifiziert"-Feld unsichtbar
-     */
-    public void removeVerifingItem() {
-        paramsBob.getVerifiziert().setVisible(false);
-    }
-
-    /**
-     * setzt das Protokoll auf seinen Startzustand
-     *
-     * @see Protocol#reset()
-     */
-    public void reset() {
-        alice.reset();
-        carol.reset();
-        bob.reset();
-        alice.generateSecret(6);
-        carol.generateSecret(6);
-        removeMiddleGraphs();
-        removeVerifingItem();
-        flow.enableFirst();
-        flow.setStep(0);
-        buttons.enableOK(false);
-        paramsBob.verifizieren(false);
-    }
-
-    /**
-     * setzt alle Werte außer dem Geheimnis, G<sub>0</sub> und G<sub>1</sub> zurück
-     *
-     * @see Protocol#resetNotSecret()
-     */
-    public void resetNotSecret() {
-        removeMiddleGraphs();
-        alice.resetNotSecret();
-        bob.resetNotSecret();
-        carol.resetNotSecret();
-        buttons.enableOK(false);
-        flow.enableFirst();
-        flow.setStep(0);
-        removeVerifingItem();
-        paramsBob.verifizieren(false);
-    }
-
-    /**
-     * macht in Abhängigkeit von b die graphischen Komponenten sichtbar
-     *
-     * @param b true, wenn die Komponenten für den ersten Fall sichtbar sein sollen, false sonst
-     * @see Protocol#setFirstCase(boolean)
-     */
-    public void setFirstCase(boolean b) {
-        firstcase = b;
-        resetNotSecret();
-        flow.setFirstCase(b);
-
-        if (b) {
-            paramsCarol.getGroup().dispose();
-            paramsCarol = null;
-            graphCarol.dispose();
-            flow.getGroup().dispose();
-            flow = null;
-            buttons.getGroup().dispose();
-            buttons = null;
-
-            paramsAlice = new GParamsAliceCarol(alice, info);
-            graphAlice = new ShowGraphen(action, alice.getG0(), alice.getG1(), alice);
-        } else {
-            paramsAlice.getGroup().dispose();
-            paramsAlice = null;
-            graphAlice.dispose();
-            flow.getGroup().dispose();
-            flow = null;
-            buttons.getGroup().dispose();
-            buttons = null;
-
-            paramsCarol = new GParamsAliceCarol(carol, info);
-            graphCarol = new ShowGraphen(action, alice.getG0(), alice.getG1(), carol);
-        }
-        flow = new GFlow(this, action);
-        buttons = new Buttons(this, action, null, null);
-        resetNotSecret();
-        flow.setFirstCase(b);
-
-        info.layout(true);
-        action.layout(true);
-    }
-
-    /**
-     * setzt die Zeichenfläche des Graphen H (der Graph, den Bob von Alice bzw. Carol erhält)
-     *
-     * @param g Graph, den Bob bei seiner Überprüfung erhält und der gezeichnet werden soll
-     */
-    public void setH(Graph g) {
-        if (graphH != null && !graphH.isDisposed())
-            removeMiddleGraphs();
-        // if case=alice then set H to alice else to carol
-        if (firstcase) {
-            graphAlice.setH(g, alice);
-            graphH = graphAlice.getH();
-        } else {
-            graphCarol.setH(g, carol);
-            graphH = graphCarol.getH();
-        }
-    }
-
-    /**
-     * setzt die Zeichenfläche des Graphen H_G_b (der Graph, den Bob bei seiner Überprüfung erhält)
-     *
-     * @param g Graph, den Bob bei seiner Überprüfung erhält und der gezeichnet werden soll
-     */
-    public void setH_G_b(Graph g) {
-        if (graphHGb != null && !graphH.isDisposed()) {
-            removeH_G_b();
-        }
-        if (firstcase) {
-            graphAlice.setH_G_b(g, bob);
-            graphHGb = graphAlice.getH_G_b();
-        } else {
-            graphCarol.setH_G_b(g, bob);
-            graphHGb = graphCarol.getH_G_b();
-        }
-    }
-
-    /**
-     * Methode zum Updaten der Hauptframes. Dies geschieht in erster Linie durch das Updaten der
-     * einzelnen Komponenten des MainFrame
-     */
-    public void update(Observable arg0, Object arg1) {
-        this.paramsBob.update();
-        if (paramsAlice != null) {
-            this.paramsAlice.update();
-            this.graphAlice.update();
-        } else {
-            this.paramsCarol.update();
-            this.graphCarol.update();
-        }
     }
 
     /**
@@ -409,8 +247,149 @@ public class GraphenisomorphieView extends ViewPart implements Observer, Protoco
         }
     }
 
+    /**
+     * macht das "Verifiziert"-Feld unsichtbar
+     */
+    public void removeVerifingItem() {
+        paramsBob.getVerifiziert().setVisible(false);
+    }
+
+    /**
+     * setzt das Protokoll auf seinen Startzustand
+     *
+     * @see Protocol#reset()
+     */
+    @Override
+	public void reset() {
+        alice.reset();
+        carol.reset();
+        bob.reset();
+        alice.generateSecret(6);
+        carol.generateSecret(6);
+        removeMiddleGraphs();
+        removeVerifingItem();
+        flow.enableFirst();
+        flow.setStep(0);
+        buttons.enableOK(false);
+        paramsBob.verifizieren(false);
+    }
+
+    /**
+     * setzt alle Werte außer dem Geheimnis, G<sub>0</sub> und G<sub>1</sub> zurück
+     *
+     * @see Protocol#resetNotSecret()
+     */
+    @Override
+	public void resetNotSecret() {
+        removeMiddleGraphs();
+        alice.resetNotSecret();
+        bob.resetNotSecret();
+        carol.resetNotSecret();
+        buttons.enableOK(false);
+        flow.enableFirst();
+        flow.setStep(0);
+        removeVerifingItem();
+        paramsBob.verifizieren(false);
+    }
+
+    /**
+     * macht in Abhängigkeit von b die graphischen Komponenten sichtbar
+     *
+     * @param b true, wenn die Komponenten für den ersten Fall sichtbar sein sollen, false sonst
+     * @see Protocol#setFirstCase(boolean)
+     */
+    @Override
+	public void setFirstCase(boolean b) {
+        firstcase = b;
+        resetNotSecret();
+        flow.setFirstCase(b);
+
+        if (b) {
+            paramsCarol.getGroup().dispose();
+            paramsCarol = null;
+            graphCarol.dispose();
+            flow.getGroup().dispose();
+            flow = null;
+            buttons.getGroup().dispose();
+            buttons = null;
+
+            paramsAlice = new GParamsAliceCarol(alice, info);
+            graphAlice = new ShowGraphen(action, alice.getG0(), alice.getG1(), alice);
+        } else {
+            paramsAlice.getGroup().dispose();
+            paramsAlice = null;
+            graphAlice.dispose();
+            flow.getGroup().dispose();
+            flow = null;
+            buttons.getGroup().dispose();
+            buttons = null;
+
+            paramsCarol = new GParamsAliceCarol(carol, info);
+            graphCarol = new ShowGraphen(action, alice.getG0(), alice.getG1(), carol);
+        }
+        flow = new GFlow(this, action);
+        buttons = new Buttons(this, action, null, null);
+        resetNotSecret();
+        flow.setFirstCase(b);
+
+        info.layout(true);
+        action.layout(true);
+    }
+
     @Override
     public void setFocus() {
         parent.setFocus();
+    }
+
+    /**
+     * setzt die Zeichenfläche des Graphen H (der Graph, den Bob von Alice bzw. Carol erhält)
+     *
+     * @param g Graph, den Bob bei seiner Überprüfung erhält und der gezeichnet werden soll
+     */
+    public void setH(Graph g) {
+        if (graphH != null && !graphH.isDisposed())
+            removeMiddleGraphs();
+        // if case=alice then set H to alice else to carol
+        if (firstcase) {
+            graphAlice.setH(g, alice);
+            graphH = graphAlice.getH();
+        } else {
+            graphCarol.setH(g, carol);
+            graphH = graphCarol.getH();
+        }
+    }
+
+    /**
+     * setzt die Zeichenfläche des Graphen H_G_b (der Graph, den Bob bei seiner Überprüfung erhält)
+     *
+     * @param g Graph, den Bob bei seiner Überprüfung erhält und der gezeichnet werden soll
+     */
+    public void setH_G_b(Graph g) {
+        if (graphHGb != null && !graphH.isDisposed()) {
+            removeH_G_b();
+        }
+        if (firstcase) {
+            graphAlice.setH_G_b(g, bob);
+            graphHGb = graphAlice.getH_G_b();
+        } else {
+            graphCarol.setH_G_b(g, bob);
+            graphHGb = graphCarol.getH_G_b();
+        }
+    }
+
+    /**
+     * Methode zum Updaten der Hauptframes. Dies geschieht in erster Linie durch das Updaten der
+     * einzelnen Komponenten des MainFrame
+     */
+    @Override
+	public void update(Observable arg0, Object arg1) {
+        this.paramsBob.update();
+        if (paramsAlice != null) {
+            this.paramsAlice.update();
+            this.graphAlice.update();
+        } else {
+            this.paramsCarol.update();
+            this.graphCarol.update();
+        }
     }
 }
