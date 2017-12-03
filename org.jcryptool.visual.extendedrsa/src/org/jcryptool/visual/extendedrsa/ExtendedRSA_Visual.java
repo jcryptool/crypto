@@ -44,208 +44,210 @@ import org.jcryptool.visual.extendedrsa.ui.wizards.NewIdentityWizard;
  */
 public class ExtendedRSA_Visual extends ViewPart {
 
-    private final String ALICE = Messages.ExtendedRSA_Visual_1;
-    private final String BOB = Messages.ExtendedRSA_Visual_2;
-    private final String BLANK = Messages.ExtendedRSA_Visual_3;
+	private final String ALICE = Messages.ExtendedRSA_Visual_1;
+	private final String BOB = Messages.ExtendedRSA_Visual_2;
+	private final String BLANK = Messages.ExtendedRSA_Visual_3;
 
-    private ScrolledComposite sc;
-    private Composite sc_explain;
-    private Composite composite;
-    private Composite headComposite;
-    private StyledText head_description;
-    private Group grp_id_mgmt;
-    private Button btn_newID;
-    private Button btn_manageID;
-    private Button btn_delID;
-    private Composite comp_center;
-    private ExtendedTabFolder tabFolder;
-    private Text txtExplain;
+	private ScrolledComposite sc;
+	private Composite sc_explain;
+	private Composite composite;
+	private Composite headComposite;
+	private StyledText head_description;
+	private Group grp_id_mgmt;
+	private Button btn_newID;
+	private Button btn_manageID;
+	private Button btn_delID;
+	private Composite comp_center;
+	private ExtendedTabFolder tabFolder;
+	private Text txtExplain;
 
-    public ExtendedRSA_Visual() {
-    }
+	public ExtendedRSA_Visual() {
+	}
 
-    @Override
-    public void createPartControl(Composite parent) {
+	@Override
+	public void createPartControl(Composite parent) {
 
-        // make the composite scrollable
-        sc = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-        composite = new Composite(sc, SWT.NONE);
-        sc.setContent(composite);
-        sc.setExpandHorizontal(true);
-        sc.setExpandVertical(true);
+		// make the composite scrollable
+		sc = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		composite = new Composite(sc, SWT.NONE);
+		sc.setContent(composite);
+		sc.setExpandHorizontal(true);
+		sc.setExpandVertical(true);
 
-        composite.setLayout(new GridLayout());
+		composite.setLayout(new GridLayout());
 
-        // Begin - Header
-        headComposite = new Composite(composite, SWT.NONE);
-        headComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        headComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-        headComposite.setLayout(new GridLayout());
+		// Begin - Header
+		headComposite = new Composite(composite, SWT.NONE);
+		headComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		headComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		headComposite.setLayout(new GridLayout());
 
-        Label label = new Label(headComposite, SWT.NONE);
-        label.setFont(FontService.getHeaderFont());
-        label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        label.setText(Messages.ExtendedRSA_Visual_4);
-        
-        head_description = new StyledText(headComposite, SWT.READ_ONLY | SWT.WRAP);
-        GridData gd_head_description = new GridData(SWT.FILL, SWT.FILL, true, true);
-        gd_head_description.widthHint = 600;
-        head_description.setLayoutData(gd_head_description);
-        head_description.setText(Messages.ExtendedRSA_Visual_5);
-        // End - Header
+		Label label = new Label(headComposite, SWT.NONE);
+		label.setFont(FontService.getHeaderFont());
+		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label.setText(Messages.ExtendedRSA_Visual_4);
 
-        grp_id_mgmt = new Group(composite, SWT.NONE);
-        grp_id_mgmt.setText(Messages.ExtendedRSA_Visual_6);
-        grp_id_mgmt.setLayout(new GridLayout(3, false));
+		head_description = new StyledText(headComposite, SWT.READ_ONLY | SWT.WRAP);
+		GridData gd_head_description = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd_head_description.widthHint = 600;
+		head_description.setLayoutData(gd_head_description);
+		head_description.setText(Messages.ExtendedRSA_Visual_5);
+		// End - Header
 
-        btn_newID = new Button(grp_id_mgmt, SWT.PUSH);
-        btn_manageID = new Button(grp_id_mgmt, SWT.PUSH);
-        btn_delID = new Button(grp_id_mgmt, SWT.PUSH);
+		grp_id_mgmt = new Group(composite, SWT.NONE);
+		grp_id_mgmt.setText(Messages.ExtendedRSA_Visual_6);
+		grp_id_mgmt.setLayout(new GridLayout(3, false));
 
-        btn_newID.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                WizardDialog newIdentityWizard = new WizardDialog(getSite().getShell(), new NewIdentityWizard(tabFolder, btn_delID));
-                newIdentityWizard.setHelpAvailable(false);
-                newIdentityWizard.setPageSize(667, SWT.DEFAULT);
-                newIdentityWizard.open();
-                grp_id_mgmt.update();
-            }
-        });
-        btn_newID.setText(Messages.ExtendedRSA_Visual_7);
-        btn_newID.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		btn_newID = new Button(grp_id_mgmt, SWT.PUSH);
+		btn_manageID = new Button(grp_id_mgmt, SWT.PUSH);
+		btn_delID = new Button(grp_id_mgmt, SWT.PUSH);
 
-        btn_manageID.setText(Messages.ExtendedRSA_Visual_8);
-        btn_manageID.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-        btn_manageID.addSelectionListener(new SelectionListener() {
+		btn_newID.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WizardDialog newIdentityWizard = new WizardDialog(getSite().getShell(),
+						new NewIdentityWizard(tabFolder, btn_delID));
+				newIdentityWizard.setHelpAvailable(false);
+				newIdentityWizard.setPageSize(667, SWT.DEFAULT);
+				newIdentityWizard.open();
+				grp_id_mgmt.update();
+			}
+		});
+		btn_newID.setText(Messages.ExtendedRSA_Visual_7);
+		btn_newID.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                WizardDialog manageVisibleIdentitiesWizard = new WizardDialog(getSite().getShell(), new ManageVisibleIdentitesWizard(tabFolder, txtExplain));
-                manageVisibleIdentitiesWizard.setHelpAvailable(false);
-                manageVisibleIdentitiesWizard.setPageSize(667, SWT.DEFAULT);
-                manageVisibleIdentitiesWizard.open();
-            }
+		btn_manageID.setText(Messages.ExtendedRSA_Visual_8);
+		btn_manageID.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		btn_manageID.addSelectionListener(new SelectionListener() {
 
-            @Override
-            public void widgetDefaultSelected(SelectionEvent e) {
-            }
-        });
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WizardDialog manageVisibleIdentitiesWizard = new WizardDialog(getSite().getShell(),
+						new ManageVisibleIdentitesWizard(tabFolder, txtExplain));
+				manageVisibleIdentitiesWizard.setHelpAvailable(false);
+				manageVisibleIdentitiesWizard.setPageSize(667, SWT.DEFAULT);
+				manageVisibleIdentitiesWizard.open();
+			}
 
-        btn_delID.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                WizardDialog deleteIdentityWizard = new WizardDialog(getSite().getShell(), new DeleteIdentityWizard(tabFolder, btn_delID));
-                deleteIdentityWizard.setHelpAvailable(false);
-                deleteIdentityWizard.setPageSize(667, SWT.DEFAULT);
-                deleteIdentityWizard.open();
-                grp_id_mgmt.update();
-            }
-        });
-        btn_delID.setText(Messages.ExtendedRSA_Visual_9);
-        btn_delID.setEnabled(ContactManager.getInstance().getContactSize() > 2);
-        btn_newID.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 
-        
-        // Beginn des TabFolders
-        comp_center = new Composite(composite, SWT.NONE);
-        comp_center.setLayout(new GridLayout(2, false));
-        comp_center.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-        
+		btn_delID.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WizardDialog deleteIdentityWizard = new WizardDialog(getSite().getShell(),
+						new DeleteIdentityWizard(tabFolder, btn_delID));
+				deleteIdentityWizard.setHelpAvailable(false);
+				deleteIdentityWizard.setPageSize(667, SWT.DEFAULT);
+				deleteIdentityWizard.open();
+				grp_id_mgmt.update();
+			}
+		});
+		btn_delID.setText(Messages.ExtendedRSA_Visual_9);
+		btn_delID.setEnabled(ContactManager.getInstance().getContactSize() > 2);
+		btn_newID.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
-        tabFolder = new ExtendedTabFolder(comp_center, SWT.V_SCROLL);
-        tabFolder.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_GREEN));
-        GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-        tabFolder.setLayoutData(gd_tabFolder);
-        
-        Group grp_explain = new Group(comp_center, SWT.NONE);
-        grp_explain.setLayout(new GridLayout(1, true));
-        grp_explain.setText(Messages.ExtendedRSA_Visual_10);
-        grp_explain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-        
-        sc_explain = new Composite(grp_explain, SWT.NONE);
-        sc_explain.setLayout(new GridLayout());
-        sc_explain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		// Beginn des TabFolders
+		comp_center = new Composite(composite, SWT.NONE);
+		comp_center.setLayout(new GridLayout(2, false));
+		comp_center.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-        txtExplain = new Text(sc_explain, SWT.V_SCROLL | SWT.WRAP);
-        GridData gd_txtEplain = new GridData(SWT.FILL, SWT.FILL, true, true);
-        gd_txtEplain.widthHint = 400;
-        txtExplain.setLayoutData(gd_txtEplain);
-        txtExplain.setEditable(false);
+		tabFolder = new ExtendedTabFolder(comp_center, SWT.V_SCROLL);
+		tabFolder.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_GREEN));
+		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		tabFolder.setLayoutData(gd_tabFolder);
 
-        initKeystore();
-        
-        sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		Group grp_explain = new Group(comp_center, SWT.NONE);
+		grp_explain.setLayout(new GridLayout(1, true));
+		grp_explain.setText(Messages.ExtendedRSA_Visual_10);
+		grp_explain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 
-    }
+		sc_explain = new Composite(grp_explain, SWT.NONE);
+		sc_explain.setLayout(new GridLayout());
+		sc_explain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-    private void initKeystore() {
-        try {
-            IdentityManager iMgr = IdentityManager.getInstance();
-            Vector<String> contactNames = iMgr.getContacts();
-            if (!contactNames.contains(ALICE)) {
-                // create Alice in the keystore
-                iMgr.createIdentity(ALICE, Messages.ExtendedRSA_Visual_11, Messages.ExtendedRSA_Visual_12, 1024);
-            }
-            Vector<String> keyAlgos = iMgr.getAsymmetricKeyAlgorithms(ALICE);
+		txtExplain = new Text(sc_explain, SWT.V_SCROLL | SWT.WRAP);
+		GridData gd_txtEplain = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd_txtEplain.widthHint = 400;
+		txtExplain.setLayoutData(gd_txtEplain);
+		txtExplain.setEditable(false);
 
-            int count = 0;
-            int count2 = 0;
-            for (int i = 0; i < keyAlgos.size(); i++) {
-                if (keyAlgos.get(i).startsWith(Messages.ExtendedRSA_Visual_13)) {
-                    count++;
-                }
-                if (keyAlgos.get(i).startsWith(Messages.ExtendedRSA_Visual_14)) {
-                    count2++;
-                }
-            }
-            if (count == 0) {
-                iMgr.createIdentity(ALICE, Messages.ExtendedRSA_Visual_15, Messages.ExtendedRSA_Visual_16, 1024);
-            }
-            if (count2 == 0) {
-                iMgr.createIdentity(ALICE, Messages.ExtendedRSA_Visual_17, Messages.ExtendedRSA_Visual_18, 1024);
-            }
+		initKeystore();
 
-            String[] alice_split = ALICE.split(BLANK);
-            new Identity(tabFolder, SWT.NONE, new Contact(ALICE, alice_split[0], alice_split[1],
-                    Messages.ExtendedRSA_Visual_19, Messages.ExtendedRSA_Visual_20), txtExplain);
+		sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
-            if (!contactNames.contains(BOB)) {
-                // create Bob in the keystore
-                iMgr.createIdentity(BOB, Messages.ExtendedRSA_Visual_21, Messages.ExtendedRSA_Visual_22, 1024);
-            }
-            keyAlgos = iMgr.getAsymmetricKeyAlgorithms(BOB);
+	}
 
-            count = 0;
-            count2 = 0;
-            for (int i = 0; i < keyAlgos.size(); i++) {
-                if (keyAlgos.get(i).startsWith(Messages.ExtendedRSA_Visual_23)) {
-                    count++;
-                }
-                if (keyAlgos.get(i).startsWith(Messages.ExtendedRSA_Visual_24)) {
-                    count2++;
-                }
-            }
-            if (count == 0) {
-                // create an MpRSA-Key
-                iMgr.createIdentity(BOB, Messages.ExtendedRSA_Visual_25, Messages.ExtendedRSA_Visual_26, 1024);
-            }
-            if (count2 == 0) {
-                // create an RSA-Key
-                iMgr.createIdentity(BOB, Messages.ExtendedRSA_Visual_27, Messages.ExtendedRSA_Visual_28, 1024);
-            }
+	private void initKeystore() {
+		try {
+			IdentityManager iMgr = IdentityManager.getInstance();
+			Vector<String> contactNames = iMgr.getContacts();
+			if (!contactNames.contains(ALICE)) {
+				// create Alice in the keystore
+				iMgr.createIdentity(ALICE, Messages.ExtendedRSA_Visual_11, Messages.ExtendedRSA_Visual_12, 1024);
+			}
+			Vector<String> keyAlgos = iMgr.getAsymmetricKeyAlgorithms(ALICE);
 
-            String[] bob_split = BOB.split(BLANK);
-            new Identity(tabFolder, SWT.NONE, new Contact(BOB, bob_split[0], bob_split[1],
-                    Messages.ExtendedRSA_Visual_29, Messages.ExtendedRSA_Visual_30), txtExplain);
+			int count = 0;
+			int count2 = 0;
+			for (int i = 0; i < keyAlgos.size(); i++) {
+				if (keyAlgos.get(i).startsWith(Messages.ExtendedRSA_Visual_13)) {
+					count++;
+				}
+				if (keyAlgos.get(i).startsWith(Messages.ExtendedRSA_Visual_14)) {
+					count2++;
+				}
+			}
+			if (count == 0) {
+				iMgr.createIdentity(ALICE, Messages.ExtendedRSA_Visual_15, Messages.ExtendedRSA_Visual_16, 1024);
+			}
+			if (count2 == 0) {
+				iMgr.createIdentity(ALICE, Messages.ExtendedRSA_Visual_17, Messages.ExtendedRSA_Visual_18, 1024);
+			}
 
-        } catch (Exception e) {
-            LogUtil.logError(e);
-        }
-        
-    }
+			String[] alice_split = ALICE.split(BLANK);
+			new Identity(tabFolder, SWT.NONE, new Contact(ALICE, alice_split[0], alice_split[1],
+					Messages.ExtendedRSA_Visual_19, Messages.ExtendedRSA_Visual_20), txtExplain);
 
-    @Override
-    public void setFocus() {
-    }
+			if (!contactNames.contains(BOB)) {
+				// create Bob in the keystore
+				iMgr.createIdentity(BOB, Messages.ExtendedRSA_Visual_21, Messages.ExtendedRSA_Visual_22, 1024);
+			}
+			keyAlgos = iMgr.getAsymmetricKeyAlgorithms(BOB);
+
+			count = 0;
+			count2 = 0;
+			for (int i = 0; i < keyAlgos.size(); i++) {
+				if (keyAlgos.get(i).startsWith(Messages.ExtendedRSA_Visual_23)) {
+					count++;
+				}
+				if (keyAlgos.get(i).startsWith(Messages.ExtendedRSA_Visual_24)) {
+					count2++;
+				}
+			}
+			if (count == 0) {
+				// create an MpRSA-Key
+				iMgr.createIdentity(BOB, Messages.ExtendedRSA_Visual_25, Messages.ExtendedRSA_Visual_26, 1024);
+			}
+			if (count2 == 0) {
+				// create an RSA-Key
+				iMgr.createIdentity(BOB, Messages.ExtendedRSA_Visual_27, Messages.ExtendedRSA_Visual_28, 1024);
+			}
+
+			String[] bob_split = BOB.split(BLANK);
+			new Identity(tabFolder, SWT.NONE, new Contact(BOB, bob_split[0], bob_split[1],
+					Messages.ExtendedRSA_Visual_29, Messages.ExtendedRSA_Visual_30), txtExplain);
+
+		} catch (Exception e) {
+			LogUtil.logError(e);
+		}
+
+	}
+
+	@Override
+	public void setFocus() {
+		sc.setFocus();
+	}
 }
