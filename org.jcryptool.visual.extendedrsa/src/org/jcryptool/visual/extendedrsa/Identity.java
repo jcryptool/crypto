@@ -208,6 +208,8 @@ public class Identity extends TabItem {
 	private Button reconstructKey;
 	private Label clipboardtext;
 	private ScrolledComposite sc_identity;
+	private Group actionGroup_5;
+	private GridData gd_actionGroup_5;
 
 	private final String EXPLAIN_INIT = Messages.Identity_0;
 	private final String EXPLAIN_ENCRYPT = Messages.Identity_1;
@@ -330,17 +332,18 @@ public class Identity extends TabItem {
 			@Override
 			// Button 1
 			public void widgetSelected(final SelectionEvent e) {
-				if (actionGroup_1.isDisposed()) {
-					createActionGroup1();
-				}
 				if (forerunner != 1) {
+					actionGroup_1.dispose();
 					actionGroup_2.dispose();
 					actionGroup_3.dispose();
 					actionGroup_4.dispose();
-
+					actionGroup_5.dispose();
+					
+					createActionGroup1();
+					actionGroup_1.setText(Messages.Identity_36);
+					
 					txtExplain.setText(EXPLAIN_ENCRYPT);
 
-					initActions.dispose();
 					Label lbl_subj = new Label(actionGroup_1, SWT.NONE);
 					lbl_subj.setText(Messages.Identity_29);
 					lbl_subj.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
@@ -477,12 +480,12 @@ public class Identity extends TabItem {
 							sendMessage.setEnabled(false);
 						}
 					});
-				}
-				actionGroup_1.layout();
-				actionGroup_1.redraw();
-				sc_identity.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+					generalGroup.layout();
+					generalGroup.redraw();
+					sc_identity.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
-				forerunner = 1;
+					forerunner = 1;
+				}
 			}
 		});
 
@@ -493,12 +496,15 @@ public class Identity extends TabItem {
 			public void widgetSelected(SelectionEvent e) {
 				if (forerunner != 2) {
 					txtExplain.setText(EXPLAIN_DECRYPT);
-
+					
 					actionGroup_1.dispose();
+					actionGroup_2.dispose();
 					actionGroup_3.dispose();
 					actionGroup_4.dispose();
+					actionGroup_5.dispose();
 
 					createActionGroup2();
+					actionGroup_2.setText(Messages.Identity_44);
 
 					initActions2 = new Label(actionGroup_2, SWT.NONE);
 					initActions2.setText(Messages.Identity_37);
@@ -699,16 +705,12 @@ public class Identity extends TabItem {
 
 					fillSelectMessage();
 
-					actionGroup_2.layout();
-					actionGroup_2.redraw();
-					sc_identity.setMinSize(actionGroup_2.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+					generalGroup.layout();
+					generalGroup.redraw();
+					sc_identity.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 					forerunner = 2;
 				}
-				actionGroup_2.layout();
-				actionGroup_2.redraw();
-				sc_identity.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-
 			}
 		});
 		receive_and_decrypt.setText(Messages.Identity_44);
@@ -724,13 +726,16 @@ public class Identity extends TabItem {
 
 					actionGroup_1.dispose();
 					actionGroup_2.dispose();
+					actionGroup_3.dispose();
 					actionGroup_4.dispose();
+					actionGroup_5.dispose();
+					
+					createActionGroup3();
+					actionGroup_3.setText(Messages.Identity_129);
 
 					bi_rsaE = null;
 					bi_rsaP = null;
 					bi_rsaQ = null;
-
-					createActionGroup3();
 
 					tf_keyMgmt = new TabFolder(actionGroup_3, SWT.NONE);
 					tf_keyMgmt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
@@ -1431,7 +1436,7 @@ public class Identity extends TabItem {
 						@Override
 						public void widgetDefaultSelected(SelectionEvent e) {
 						}
-					});
+});
 
 					// Tab "New Key (extended)"
 					keyMgmt_2 = new TabItem(tf_keyMgmt, SWT.NONE);
@@ -1884,6 +1889,7 @@ public class Identity extends TabItem {
 				}
 			}
 		});
+
 		keymanagement.setText(Messages.Identity_129);
 		keymanagement.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
@@ -1898,8 +1904,11 @@ public class Identity extends TabItem {
 					actionGroup_1.dispose();
 					actionGroup_2.dispose();
 					actionGroup_3.dispose();
-
+					actionGroup_4.dispose();
+					actionGroup_5.dispose();
+					
 					createActionGroup4();
+					actionGroup_4.setText(Messages.Identity_137);
 
 					lbl_noKeyToAttack = new Label(actionGroup_4, SWT.WRAP);
 					lbl_noKeyToAttack.setFont(FontService.getNormalBoldFont());
@@ -2095,8 +2104,8 @@ public class Identity extends TabItem {
 					column_parameter_attacked.setWidth(500);
 					column_parameter_attacked.setText(Messages.Identity_136);
 
-					actionGroup_4.layout();
-					actionGroup_4.redraw();
+					generalGroup.layout();
+					generalGroup.redraw();
 					sc_identity.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 					forerunner = 4;
@@ -2107,19 +2116,23 @@ public class Identity extends TabItem {
 		attackPublicKey.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		createActionGroup1();
+		actionGroup_1.dispose();
 
 		createActionGroup2();
-		gd_actionGroup_2.exclude = true;
-		actionGroup_2.setVisible(false);
+		actionGroup_2.dispose();
 
 		createActionGroup3();
-		gd_actionGroup_3.exclude = true;
-		actionGroup_3.setVisible(false);
+		actionGroup_3.dispose();
 
 		createActionGroup4();
-		actionGroup_4.setVisible(false);
-		gd_actionGroup_4.exclude = true;
+		actionGroup_4.dispose();
 
+		//This is the page that is displayed at the beginning.
+		createActionGroup5();
+		
+		generalGroup.layout();
+		generalGroup.redraw();
+		sc_identity.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	/**
@@ -2552,17 +2565,10 @@ public class Identity extends TabItem {
 		gd_actionGroup_1 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_actionGroup_1.widthHint = 700;
 		actionGroup_1.setLayoutData(gd_actionGroup_1);
-
-		initActions = new Label(actionGroup_1, SWT.WRAP);
-		initActions.setText(Messages.Identity_163 + identityName + Messages.Identity_164);
-		initActions.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-
-		txtExplain.setText(EXPLAIN_INIT);
 	}
 
 	private void createActionGroup2() {
 		actionGroup_2 = new Group(generalGroup, SWT.NONE);
-		actionGroup_2.setText(Messages.Identity_165);
 		actionGroup_2.setLayout(new GridLayout(2, true));
 		gd_actionGroup_2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_actionGroup_2.widthHint = 700;
@@ -2571,7 +2577,6 @@ public class Identity extends TabItem {
 
 	private void createActionGroup3() {
 		actionGroup_3 = new Group(generalGroup, SWT.NONE);
-		actionGroup_3.setText(Messages.Identity_166);
 		actionGroup_3.setLayout(new GridLayout());
 		gd_actionGroup_3 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_actionGroup_3.widthHint = 700;
@@ -2580,11 +2585,25 @@ public class Identity extends TabItem {
 
 	private void createActionGroup4() {
 		actionGroup_4 = new Group(generalGroup, SWT.NONE);
-		actionGroup_4.setText(Messages.Identity_167);
 		actionGroup_4.setLayout(new GridLayout(2, false));
 		gd_actionGroup_4 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_actionGroup_4.widthHint = 700;
 		actionGroup_4.setLayoutData(gd_actionGroup_4);
+	}
+	
+	private void createActionGroup5() {
+		actionGroup_5 = new Group(generalGroup, SWT.NONE);
+		actionGroup_5.setText(Messages.Identity_162);
+		actionGroup_5.setLayout(new GridLayout());
+		gd_actionGroup_5 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gd_actionGroup_5.widthHint = 700;
+		actionGroup_5.setLayoutData(gd_actionGroup_5);
+
+		initActions = new Label(actionGroup_5, SWT.WRAP);
+		initActions.setText(Messages.Identity_163 + identityName + Messages.Identity_164);
+		initActions.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+
+		txtExplain.setText(EXPLAIN_INIT);
 	}
 
 	public final String getIdentityName() {
