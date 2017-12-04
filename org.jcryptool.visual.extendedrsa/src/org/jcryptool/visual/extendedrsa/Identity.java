@@ -1881,8 +1881,8 @@ public class Identity extends TabItem {
 					column_value.setWidth(300);
 					column_value.setText(Messages.Identity_128);
 
-					actionGroup_3.layout();
-					actionGroup_3.redraw();
+					generalGroup.layout();
+					generalGroup.redraw();
 					sc_identity.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 					forerunner = 3;
@@ -1939,8 +1939,8 @@ public class Identity extends TabItem {
 
 								String name = keyToAttack.getText().substring(0,
 										keyToAttack.getText().indexOf('-') - 1);
-								attack_hint.setText(Messages.Identity_131 + name + Messages.Identity_132 + " "
-										+ actualKey.get(0).bitLength() + Messages.Identity_133);
+								attack_hint.setText(Messages.Identity_131 + name + " " + Messages.Identity_132 + " "
+										+ actualKey.get(0).bitLength() + " " + Messages.Identity_133);
 								keydataN.setVisible(true);
 								keydataN.setText(Messages.Identity_173 + actualKey.get(0));
 								attack_success.setText(NOTHING);
