@@ -10,6 +10,8 @@ package org.jcryptool.analysis.vigenere.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorReference;
@@ -37,19 +39,24 @@ public class VigenereBreakerGui extends ContentDelegator {
     }
 
     private void initGUI() {
-        try {
-            FormLayout thisLayout = new FormLayout();
-            setLayout(thisLayout);
-            setSize(800, 620);
-
-            getParent().setFont(FontService.getNormalFont());
-
-            content = new SummaryGui(this, SWT.NONE);
-
-            this.layout();
-        } catch (Exception ex) {
-            LogUtil.logError(ex);
-        }
+//        try {
+//            FormLayout thisLayout = new FormLayout();
+//            setLayout(thisLayout);
+//            setSize(800, 620);
+//
+//            getParent().setFont(FontService.getNormalFont());
+//
+//            content = new SummaryGui(this, SWT.NONE);
+//
+//            this.layout();
+//        } catch (Exception ex) {
+//            LogUtil.logError(ex);
+//        }
+//    	this.setSize(1000,500);
+    	
+    	this.setLayout(new GridLayout());
+    	this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+    	content = new SummaryGui(this, SWT.NONE);
     }
 
     private String filterChiffre(String chiff)
