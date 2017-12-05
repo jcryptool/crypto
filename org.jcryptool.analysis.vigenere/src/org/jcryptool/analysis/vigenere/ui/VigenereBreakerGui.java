@@ -156,7 +156,7 @@ public class VigenereBreakerGui extends ContentDelegator {
         content.dispose();
         content = new FrequencyGui(this, chiff, length, edtitle);
         ((FrequencyGui) content).showCompletePass(phrase);
-        getVigenereBreakerView().scrollToTop();
+//        getVigenereBreakerView().scrollToTop();
     }
 
 	public void setView(VigenereBreakerView vigenereBreakerView) {
