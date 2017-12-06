@@ -22,6 +22,7 @@ import org.jcryptool.analysis.vigenere.exceptions.IllegalInputException;
 import org.jcryptool.analysis.vigenere.exceptions.NoContentException;
 import org.jcryptool.analysis.vigenere.interfaces.DataProvider;
 import org.jcryptool.core.logging.utils.LogUtil;
+import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
 
 /**
@@ -104,6 +105,7 @@ public class FrequencyGui extends Content {
 			lsone.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 			lsone.setText(Messages.VigenereGlobal_navi_friedman);
 			lsone.setFont(FontService.getLargeFont());
+			lsone.setForeground(ColorService.GRAY);
 
 			lstwo = new Label(cselection, SWT.BORDER | SWT.CENTER);
 			lstwo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -114,6 +116,7 @@ public class FrequencyGui extends Content {
 			lsthree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 			lsthree.setText(Messages.VigenereGlobal_navi_decryption);
 			lsthree.setFont(FontService.getLargeFont());
+			lsthree.setForeground(ColorService.GRAY);
 
 			mainComposite = new Composite(this, SWT.NONE);
 			mainComposite.setLayout(new GridLayout(2, true));
@@ -140,6 +143,7 @@ public class FrequencyGui extends Content {
 			thelp = new Text(mainComposite, SWT.MULTI | SWT.WRAP);
 			thelp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2));
 			thelp.setText(String.format(Messages.FrequencyGui_text_help, plength) + Messages.FrequencyGui_0);
+			thelp.setFont(FontService.getSmallFont());
 			thelp.setEditable(false);
 
 			llength = new Label(mainComposite, SWT.NONE);

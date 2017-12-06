@@ -12,6 +12,8 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -141,6 +143,9 @@ public class QuickDecryptGui extends Content {
 
 	private void initGUI() {
 		try {
+            FontData coudat = new FontData(VigenereBreakerGui.COURIER, 10, SWT.NORMAL);
+            Font coufont = new Font(getDisplay(), coudat);
+			
 			this.setLayout(new GridLayout());
 			this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 			
@@ -224,7 +229,7 @@ public class QuickDecryptGui extends Content {
 
 			textComposite = new Composite(this, SWT.NONE);
 			textComposite.setLayout(new GridLayout());
-			textComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			textComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 			// Label Geheimtext
 			lableChiffre = new Label(textComposite, SWT.NONE);
@@ -233,12 +238,14 @@ public class QuickDecryptGui extends Content {
 
 			// Gehimtext Text
 			textChiffre = new Text(textComposite, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
-			GridData gd_tchiffre = new GridData(SWT.FILL, SWT.FILL, true, false);
+			GridData gd_tchiffre = new GridData(SWT.FILL, SWT.FILL, true, true);
 			gd_tchiffre.widthHint = 600;
 			gd_tchiffre.heightHint = 150;
+			gd_tchiffre.minimumHeight = 150;
 			textChiffre.setLayoutData(gd_tchiffre);
 			textChiffre.setEditable(false);
 			textChiffre.setText(chiffre);
+			textChiffre.setFont(coufont);
 
 			lablePlain = new Label(textComposite, SWT.NONE);
 			GridData gd_lplain = new GridData(SWT.FILL, SWT.FILL, true, false);
@@ -247,12 +254,14 @@ public class QuickDecryptGui extends Content {
 			lablePlain.setText(Messages.QuickDecrypGui_label_plain);
 
 			textPlain = new Text(textComposite, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
-			GridData gd_tplain = new GridData(SWT.FILL, SWT.FILL, true, false);
+			GridData gd_tplain = new GridData(SWT.FILL, SWT.FILL, true, true);
 			gd_tplain.widthHint = 600;
 			gd_tplain.heightHint = 150;
+			gd_tplain.minimumHeight = 150;
 			textPlain.setLayoutData(gd_tplain);
 			textPlain.setEditable(false);
 			textPlain.setText(plain);
+			textPlain.setFont(coufont);
 
 			lableSeperator = new Label(this, SWT.SEPARATOR | SWT.HORIZONTAL);
 			lableSeperator.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
