@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -149,9 +150,9 @@ public class FrequencyGui extends Content {
 			llength = new Label(mainComposite, SWT.NONE);
 			llength.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 			llength.setText(Messages.FrequencyGui_label_length + " " + String.valueOf(plength));
-
+			
 			cphrase = new Composite(mainComposite, SWT.NONE);
-			cphrase.setLayout(new GridLayout());
+			cphrase.setLayout(new RowLayout());
 			cphrase.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 			// Seperator
@@ -259,7 +260,6 @@ public class FrequencyGui extends Content {
 			container.enableButtons(cphrase);
 			container.show();
 			this.layout();
-			// this.pack();
 		} catch (NoContentException ncEx) {
 			// not my fault. just in case.
 			String message = Messages.FrequencyGui_mbox_missing;

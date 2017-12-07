@@ -61,14 +61,10 @@ public class VigenereBreakerView extends ViewPart {
         
         pageComposite = new Composite(scroll, SWT.NONE);
         pageComposite.setLayout(new GridLayout());
-//        gui = new VigenereBreakerGui(scroll, SWT.NONE);
+        
         gui = new VigenereBreakerGui(pageComposite, SWT.NONE);
-//        gui.setView(this);
-//        gui.layout();
-//        scroll.setContent(gui);
+        
         scroll.setContent(pageComposite);
-//        scroll.setMinSize(780, 720);
-//        scroll.layout();
         scroll.setMinSize(pageComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
         
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent,

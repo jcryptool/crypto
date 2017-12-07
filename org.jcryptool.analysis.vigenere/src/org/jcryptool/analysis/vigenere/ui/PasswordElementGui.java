@@ -70,7 +70,6 @@ public class PasswordElementGui {
 
 		comp = new Composite(parent, SWT.NONE);
 		comp.setLayout(new GridLayout());
-		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		comp.setCursor(new Cursor(parent.getDisplay(), SWT.CURSOR_HAND));
 		comp.addMouseListener(new MouseAdapter() {
 			@Override
@@ -84,6 +83,7 @@ public class PasswordElementGui {
 		text.setText(String.valueOf(charnumber));
 		text.setCursor(new Cursor(parent.getDisplay(), SWT.CURSOR_HAND));
 		text.setEditable(false);
+		text.setEnabled(false);
 	}
 
 	public boolean isFound() {

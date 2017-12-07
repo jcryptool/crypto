@@ -7,13 +7,11 @@
 package org.jcryptool.analysis.vigenere.ui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -21,13 +19,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.IEditorReference;
 import org.jcryptool.analysis.vigenere.exceptions.IllegalActionException;
 import org.jcryptool.analysis.vigenere.exceptions.IllegalInputException;
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
-import org.jcryptool.core.util.ui.SingleVanishTooltipLauncher;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI Builder, which is free for non-commercial
@@ -143,12 +141,13 @@ public class FriedmanGui extends Content {
             thelp.setEditable(false);
             
             passwordComposite = new Composite(mainComposite, SWT.NONE);
-            passwordComposite.setLayout(new GridLayout(2, false));
+            passwordComposite.setLayout(new GridLayout(2, true));
             passwordComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false));
             
             llength = new Label(passwordComposite, SWT.NONE);
             llength.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
             llength.setText(Messages.FriedmanGui_0);
+            
             tlength = new Text(passwordComposite, SWT.BORDER);
             tlength.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
             tlength.setTextLimit(3);
@@ -162,6 +161,23 @@ public class FriedmanGui extends Content {
                 }
             });
             autodetect();
+            
+            final ToolTip tip = new ToolTip(tlength.getShell(), SWT.BALLOON);
+            tip.setMessage(Messages.FriedmanGui_2);
+//            tip.setLocation(new Point(tlength.getBounds().x, tlength.getBounds().y));
+            tip.addSelectionListener(new SelectionListener() {
+				
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					tip.dispose();
+				}
+				
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					
+				}
+			});
+            tip.setVisible(true);
             
             lsepend = new Label(this, SWT.SEPARATOR | SWT.HORIZONTAL);
             lsepend.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -192,20 +208,6 @@ public class FriedmanGui extends Content {
                 }
             });
             
-            this.layout();
-            
-            //FIXME der ToolTipText soll über dem Textfeld für die Länge des passwort angezeigt werden rechts unten
-            final SingleVanishTooltipLauncher launcher = new SingleVanishTooltipLauncher(this.getShell());
-//            launcher.showNewTooltip(tlength.toDisplay(new Point(tlength.getBounds().width - 1, 1)), 20000,
-//                    Messages.FriedmanGui_1, Messages.FriedmanGui_2);
-            launcher.showNewTooltip(new Point(1000, 300), 20000,
-                    Messages.FriedmanGui_1, Messages.FriedmanGui_2);
-            this.addDisposeListener(new DisposeListener() {
-                @Override
-				public void widgetDisposed(DisposeEvent e) {
-                    launcher.dispose();
-                }
-            });
         } catch (Exception ex) {
             LogUtil.logError(ex);
         }
