@@ -93,12 +93,16 @@ public class SummaryGui extends Content {
 
 			//Picture step two
 			litwo = new Label(gsteps, SWT.CENTER);
-			litwo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			GridData gd_litwo = new GridData(SWT.FILL, SWT.FILL, true, false);
+			gd_litwo.verticalIndent = 15;
+			litwo.setLayoutData(gd_litwo);
 			litwo.setImage(DataProvider.getInstance().getImage(2));
 
 			//Picture sstep three
 			lithree = new Label(gsteps, SWT.CENTER);
-			lithree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			GridData gd_lithree = new GridData(SWT.FILL, SWT.FILL, true, false);
+			gd_lithree.verticalIndent = 15;
+			lithree.setLayoutData(gd_lithree);
 			lithree.setImage(DataProvider.getInstance().getImage(3));
 
 			centerComposite = new Composite(this, SWT.NONE);
