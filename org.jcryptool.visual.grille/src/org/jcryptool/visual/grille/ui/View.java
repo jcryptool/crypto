@@ -102,6 +102,10 @@ public class View extends ViewPart {
         scrolledComposite.layout();
     }
 
+    /**
+     * Created the illustration (letters in squares that get turned) and the step buttons. 
+     * @param parent The parent composite.
+     */
     private void createIllustrationAndExecType(Composite parent) {
     	composite_illustration = new Composite(parent, SWT.NONE);
     	composite_illustration.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 4, 1));
@@ -127,6 +131,10 @@ public class View extends ViewPart {
 		});
 	}
 
+    /**
+     * Creates the text fields for input and output of the plain-/ciphertext.
+     * @param parent The composite the control should be displayed in.
+     */
 	private void createInOutComposite(Composite parent) {
 		inOutText = new Composite(parent, SWT.NONE);
 		inOutText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 2));
@@ -168,8 +176,11 @@ public class View extends ViewPart {
 
     }
 
+	/**
+	 * Creates the buttons for each step.
+	 * @param parent The parent composite.
+	 */
     private void createExecutionControls(Composite parent) {
-
         Composite execType = new Composite(parent, SWT.NONE);
         GridLayout gl_execType = new GridLayout();
         gl_execType.marginWidth = 0;
@@ -178,7 +189,6 @@ public class View extends ViewPart {
         execType.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2));
         createTypeSelection(execType);
         createSteps(execType);
-
     }
 
     private void createTypeSelection(Composite execType) {
@@ -186,10 +196,10 @@ public class View extends ViewPart {
         Group typeSelection = new Group(execType, SWT.NONE);
         typeSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
         typeSelection.setText(Messages.getString("View.type")); //$NON-NLS-1$
-        typeSelection.setLayout(new GridLayout(3, true));
+        typeSelection.setLayout(new GridLayout(2, true));
 
         button_direct = new Button(typeSelection, SWT.RADIO);
-        button_direct.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 3, 1));
+        button_direct.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
         button_direct.setText(Messages.getString("View.direct")); //$NON-NLS-1$
         button_direct.setSelection(true);
         button_direct.addSelectionListener(new SelectionListener() {
@@ -202,52 +212,51 @@ public class View extends ViewPart {
             }
         });
 
-                button_okay = new Button(typeSelection, SWT.NONE);
-                button_okay.setImage(GrillePlugin.getImageDescriptor("icons/run_exc.gif").createImage()); //$NON-NLS-1$
-                button_okay.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1));
-                button_okay.setText(Messages.getString("View.start")); //$NON-NLS-1$
-                button_okay.setEnabled(false);
-                button_okay.addSelectionListener(new SelectionListener() {
-                    public void widgetDefaultSelected(SelectionEvent e) {
-                        widgetSelected(e);
-                    }
+		button_okay = new Button(typeSelection, SWT.NONE);
+		button_okay.setImage(GrillePlugin.getImageDescriptor("icons/run_exc.gif").createImage()); //$NON-NLS-1$
+		button_okay.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 2));
+		button_okay.setText(Messages.getString("View.start")); //$NON-NLS-1$
+		button_okay.setEnabled(false);
+		button_okay.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
 
-                    public void widgetSelected(SelectionEvent e) {
-                        reset();
-                        if (button_direct.getSelection()) {
-                            if (setEncrypt == true) {
-                                String checkedText = model.check(text_input.getText());
-                                text_input.setText(checkedText);
-                                text_output.setText(model.encrypt(checkedText));
-                            } else {
-                                String checkedText = model.check(text_input.getText());
-                                if (checkedText.length() == text_input.getText().length())
-                                    text_output.setText(model.decrypt(text_input.getText()));
-                                else {
-                                    MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ERROR);
-                                    messageBox.setText(Messages.getString("View.error")); //$NON-NLS-1$
-                                    messageBox.setMessage(Messages.getString("View.length_error")); //$NON-NLS-1$
-                                    messageBox.open();
-                                }
+			public void widgetSelected(SelectionEvent e) {
+				reset();
+				if (button_direct.getSelection()) {
+					if (setEncrypt == true) {
+						String checkedText = model.check(text_input.getText());
+						text_input.setText(checkedText);
+						text_output.setText(model.encrypt(checkedText));
+					} else {
+						String checkedText = model.check(text_input.getText());
+						if (checkedText.length() == text_input.getText().length())
+							text_output.setText(model.decrypt(text_input.getText()));
+						else {
+							MessageBox messageBox = new MessageBox(new Shell(Display.getCurrent()), SWT.ERROR);
+							messageBox.setText(Messages.getString("View.error")); //$NON-NLS-1$
+							messageBox.setMessage(Messages.getString("View.length_error")); //$NON-NLS-1$
+							messageBox.open();
+						}
+					}
+				} else {
+					demonstration = new Demonstration(model, text_input.getText());
+					demonstration.showStep1();
+					canvas_demonstration
+							.addPaintListener(new DemonstrationPainter(canvas_demonstration, demonstration));
+					canvas_demonstration.redraw();
+					canvas_schluessel.removeMouseListener(schluessel_listener);
+					button_step1.setEnabled(true);
+					label_step1.setEnabled(true);
+				}
 
-                            }
-                        } else {
-                            demonstration = new Demonstration(model, text_input.getText());
-                            demonstration.showStep1();
-                            canvas_demonstration
-                                    .addPaintListener(new DemonstrationPainter(canvas_demonstration, demonstration));
-                            canvas_demonstration.redraw();
-                            canvas_schluessel.removeMouseListener(schluessel_listener);
-                            button_step1.setEnabled(true);
-                            label_step1.setEnabled(true);
-                        }
+			}
 
-                    }
-
-                });
+		});
 
         button_stepwise = new Button(typeSelection, SWT.RADIO);
-        button_stepwise.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 3, 1));
+        button_stepwise.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
         button_stepwise.setText(Messages.getString("View.stepwise")); //$NON-NLS-1$
         
         button_stepwise.addSelectionListener(new SelectionListener() {
@@ -430,6 +439,10 @@ public class View extends ViewPart {
         label_step6.setEnabled(false);
     }
 
+    /**
+     * Creates the illustration of the key grille.
+     * @param parent The parent composite.
+     */
     private void createDemonstration(Composite parent) {
         Group illustration = new Group(parent, SWT.NONE);
         illustration.setLayout(new FillLayout());
@@ -464,6 +477,10 @@ public class View extends ViewPart {
         });
     }
 
+    /**
+     * Creates the schablone animation and the belonging buttons
+     * @param parent The parent composite.
+     */
     private void createSchablone(Composite parent) {
         Group schablone = new Group(parent, SWT.NONE);
         schablone.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
@@ -573,11 +590,16 @@ public class View extends ViewPart {
         
     }
 
+    /**
+     * Creates the options group. Group with two radio buttons, encryption and decryption.
+     * @param parent The parent composite the control should be displayed in.
+     */
     private void createOptions(Composite parent) {
         Group options = new Group(parent, SWT.NONE);
         options.setLayout(new GridLayout(2, true));
         options.setText(Messages.getString("View.operation")); //$NON-NLS-1$
         options.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+        
         button_encrypt = new Button(options, SWT.RADIO);
         button_encrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
         button_encrypt.setText(Messages.getString("View.encryption")); //$NON-NLS-1$
@@ -617,6 +639,10 @@ public class View extends ViewPart {
         });
     }
 
+    /**
+     * Creates the description part of the GUI.
+     * @param parent The parent composite.
+     */
     private void createDescription(Composite parent) {
         Composite compositeIntro = new Composite(parent, SWT.NONE);
         compositeIntro.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
