@@ -167,6 +167,13 @@ public class DemonstrationPainter implements PaintListener {
         }
     }
 
+	/**
+	 * 
+	 * @param e
+	 * @param x
+	 * @param y
+	 * @param c
+	 */
     private void fillCell(PaintEvent e, int x, int y, char c) {
         Point eckeLO = new Point(x * cellWidth, y * cellHeight);
         int fontSize =  (int) (0.5 * cellHeight);

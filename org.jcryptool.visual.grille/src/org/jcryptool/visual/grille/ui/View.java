@@ -18,6 +18,9 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -46,7 +49,7 @@ public class View extends ViewPart {
     private Text text_input;
     private Button button_encrypt;
     private Button button_decrypt;
-    private Button button_step6;
+//    private Button button_step6;
     private Button button_step5;
     private Button button_step4;
     private Button button_step3;
@@ -76,6 +79,7 @@ public class View extends ViewPart {
 	private Composite viewParent;
 	private Composite inOutText;
 	private Composite composite_illustration;
+	private Composite composite_canvas_demonstration;
 
     public View() {
         model = new Grille();
@@ -113,22 +117,11 @@ public class View extends ViewPart {
     	gl_composite_illustration.marginWidth = 0;
     	gl_composite_illustration.marginHeight = 0;
 		composite_illustration.setLayout(gl_composite_illustration);
+	
 		createDemonstration(composite_illustration);
 		createExecutionControls(composite_illustration);
 		
-		final ToolTip tip = new ToolTip(composite_illustration.getShell(), SWT.BALLOON);
-		tip.setMessage(Messages.getString("View.2")); //$NON-NLS-1$
-		
-		Label help = new Label(composite_illustration, SWT.NONE);
-		help.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
-		help.setImage(GrillePlugin.getImageDescriptor("platform:/plugin/org.eclipse.ui/icons/full/etool16/help_contents.png").createImage()); //$NON-NLS-1$
-		help.addListener(SWT.MouseDown, new Listener() {
-			
-			@Override
-			public void handleEvent(Event event) {
-				tip.setVisible(true);
-			}
-		});
+
 	}
 
     /**
@@ -186,7 +179,7 @@ public class View extends ViewPart {
         gl_execType.marginWidth = 0;
         gl_execType.marginHeight = 0;
         execType.setLayout(gl_execType);
-        execType.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2));
+        execType.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         createTypeSelection(execType);
         createSteps(execType);
     }
@@ -309,7 +302,7 @@ public class View extends ViewPart {
 
         Group step2 = new Group(steps, SWT.NONE);
         step2.setLayout(new GridLayout(2, false));
-        step2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+        step2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         step2.setText(Messages.getString("View.step2")); //$NON-NLS-1$
         label_step2 = new Label(step2, SWT.NONE);
         label_step2.setText(Messages.getString("View.first_turn")); //$NON-NLS-1$
@@ -336,7 +329,7 @@ public class View extends ViewPart {
 
         Group step3 = new Group(steps, SWT.NONE);
         step3.setLayout(new GridLayout(2, false));
-        step3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+        step3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         step3.setText(Messages.getString("View.step3")); //$NON-NLS-1$
         label_step3 = new Label(step3, SWT.NONE);
         label_step3.setText(Messages.getString("View.second_turn")); //$NON-NLS-1$
@@ -363,7 +356,7 @@ public class View extends ViewPart {
 
         Group step4 = new Group(steps, SWT.NONE);
         step4.setLayout(new GridLayout(2, false));
-        step4.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+        step4.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         step4.setText(Messages.getString("View.step4")); //$NON-NLS-1$
         label_step4 = new Label(step4, SWT.NONE);
         label_step4.setText(Messages.getString("View.third_turn")); //$NON-NLS-1$
@@ -390,7 +383,7 @@ public class View extends ViewPart {
 
         Group step5 = new Group(steps, SWT.NONE);
         step5.setLayout(new GridLayout(2, false));
-        step5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+        step5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         step5.setText(Messages.getString("View.step5")); //$NON-NLS-1$
         label_step5 = new Label(step5, SWT.NONE);
         label_step5.setText(Messages.getString("View.fourth_turn")); //$NON-NLS-1$
@@ -409,33 +402,36 @@ public class View extends ViewPart {
                 canvas_schluessel.redraw();
                 button_step5.setEnabled(false);
                 label_step5.setEnabled(false);
-                button_step6.setEnabled(true);
+//                button_step6.setEnabled(true);
                 label_step6.setEnabled(true);
+                text_output.setText(demonstration.getOutput());
             }
         });
         label_step5.setEnabled(false);
 
         Group step6 = new Group(steps, SWT.NONE);
         step6.setLayout(new GridLayout(2, false));
-        step6.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+        step6.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         step6.setText(Messages.getString("View.step6")); //$NON-NLS-1$
+        
         label_step6 = new Label(step6, SWT.NONE);
         label_step6.setText(Messages.getString("View.linewise")); //$NON-NLS-1$
-        label_step6.setLayoutData(new GridData(SWT.FILL | SWT.LEFT, SWT.FILL, true, false));
-        button_step6 = new Button(step6, SWT.NONE);
-        button_step6.setText(Messages.getString("View.proceed")); //$NON-NLS-1$
-        button_step6.setEnabled(false);
-        button_step6.addSelectionListener(new SelectionListener() {
-            public void widgetDefaultSelected(SelectionEvent e) {
-                widgetSelected(e);
-            }
-
-            public void widgetSelected(SelectionEvent e) {
-                text_output.setText(demonstration.getOutput());
-                button_step6.setEnabled(false);
-                label_step6.setEnabled(false);
-            }
-        });
+        label_step6.setLayoutData(new GridData(SWT.FILL | SWT.LEFT, SWT.FILL, true, false, 2, 1));
+        
+//        button_step6 = new Button(step6, SWT.NONE);
+//        button_step6.setText(Messages.getString("View.proceed")); //$NON-NLS-1$
+//        button_step6.setEnabled(false);
+//        button_step6.addSelectionListener(new SelectionListener() {
+//            public void widgetDefaultSelected(SelectionEvent e) {
+//                widgetSelected(e);
+//            }
+//
+//            public void widgetSelected(SelectionEvent e) {
+//                text_output.setText(demonstration.getOutput());
+//                button_step6.setEnabled(false);
+//                label_step6.setEnabled(false);
+//            }
+//        });
         label_step6.setEnabled(false);
     }
 
@@ -444,11 +440,39 @@ public class View extends ViewPart {
      * @param parent The parent composite.
      */
     private void createDemonstration(Composite parent) {
+		
         Group illustration = new Group(parent, SWT.NONE);
-        illustration.setLayout(new FillLayout());
+        illustration.setLayout(new GridLayout());
         illustration.setText(Messages.getString("View.visualisation")); //$NON-NLS-1$
         illustration.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        canvas_demonstration = new Canvas(illustration, SWT.DOUBLE_BUFFERED);
+        
+		final ToolTip tip = new ToolTip(composite_illustration.getShell(), SWT.BALLOON);
+		tip.setMessage(Messages.getString("View.2")); //$NON-NLS-1$
+		
+		Label help = new Label(illustration, SWT.NONE);
+		help.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
+		help.setImage(GrillePlugin.getImageDescriptor("platform:/plugin/org.eclipse.ui/icons/full/etool16/help_contents.png").createImage()); //$NON-NLS-1$
+		help.addListener(SWT.MouseDown, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				tip.setVisible(true);
+			}
+		});
+		
+		composite_canvas_demonstration = new Composite(illustration, SWT.NONE);
+		composite_canvas_demonstration.setLayout(new FormLayout());
+		GridData gd_composite_canvas_demonstration = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd_composite_canvas_demonstration.minimumWidth = 400;
+		composite_canvas_demonstration.setLayoutData(gd_composite_canvas_demonstration);
+        
+        canvas_demonstration = new Canvas(composite_canvas_demonstration, SWT.DOUBLE_BUFFERED);
+        FormData fd_canvas_demonstration = new FormData();
+        fd_canvas_demonstration.top = new FormAttachment(0);
+        fd_canvas_demonstration.left = new FormAttachment(0);
+        fd_canvas_demonstration.right = new FormAttachment(100);
+        fd_canvas_demonstration.bottom = new FormAttachment(100);
+        canvas_demonstration.setLayoutData(fd_canvas_demonstration);
         canvas_demonstration.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
         
         int width_Canvas_demonstration = canvas_demonstration.getSize().x;
@@ -671,7 +695,7 @@ public class View extends ViewPart {
         button_step3.setEnabled(false);
         button_step4.setEnabled(false);
         button_step5.setEnabled(false);
-        button_step6.setEnabled(false);
+//        button_step6.setEnabled(false);
         label_step1.setEnabled(false);
         label_step2.setEnabled(false);
         label_step3.setEnabled(false);
