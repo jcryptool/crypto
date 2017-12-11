@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.visual.grille.GrillePlugin;
@@ -100,6 +101,8 @@ public class View extends ViewPart {
         scrolledComposite.setExpandHorizontal(true);
         scrolledComposite.setExpandVertical(true);
         scrolledComposite.layout();
+        
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewParent, "org.jcryptool.visual.grille.grille");
     }
 
     private void createIllustrationAndExecType(Composite parent) {

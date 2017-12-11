@@ -8,15 +8,15 @@
 
 <h1>Fleißnersche Schablone</h1>
 
-<p>Die "Fleißner-Schablone" (engl. turning grille) ist ein historisches Verschlüsselungsverfahren, erfunden von Eduard Fleißner von Wostrowitz im Jahr 1881. Sie wurde 1916 von den Deutschen im 1. Weltkrieg benutzt.<\p>
-<p>Dieses Plugin soll den Menschen helfen, diese spezielle Variante einer Transpositions-Verschlüsselung zu verstehen, indem sie das Verfahren visualisiert und ein einfaches Werkzeug anbietet, eigene Nachrichten zu verschlüsseln und zu entschlüsseln.<\p>
-<p>Das Verfahren wird als <b>pädagogisches</b> Beispiel historischer Kryptographie vorgestellt. Verwenden Sie das Tool <b>nicht</b> zum Verschlüsseln Ihrer Korrespondenz, da es sich nicht um eine starke Verschlüsselung handelt.<\p>
+<p>Die "Fleißner-Schablone" (engl. turning grille) ist ein historisches Verschlüsselungsverfahren, erfunden von Eduard Fleißner von Wostrowitz im Jahr 1881. Sie wurde 1916 von den Deutschen im 1. Weltkrieg benutzt.</p>
+<p>Dieses Plugin soll den Menschen helfen, diese spezielle Variante einer Transpositions-Verschlüsselung zu verstehen, indem sie das Verfahren visualisiert und ein einfaches Werkzeug anbietet, eigene Nachrichten zu verschlüsseln und zu entschlüsseln.</p>
+<p>Das Verfahren wird als <b>pädagogisches</b> Beispiel historischer Kryptographie vorgestellt. Verwenden Sie das Tool <b>nicht</b> zum Verschlüsseln Ihrer Korrespondenz, da es sich nicht um eine starke Verschlüsselung handelt.</p>
 
 <h3>Technik</h3>
 
-<p>Die Fleißner-Schablone selbst ist ein quadratisches Stück Papier mit n^2 Feldern, nÎ N,n > 0. Jedes vierte Feld ist herausgeschnitten. Der zu verschlüsselnde Text wird – durch die Löcher dieser Maske – zeilenweise auf ein darunter liegendes Blatt geschrieben. Sind alle Löcher gefüllt, so wird die Schablone um 90° im Uhrzeigersinn gedreht und das Einschreiben des Textes fortgesetzt, dies wird noch 2 mal wiederholt. Am Ende sollte jedes Feld des darunter liegenden Papiers genau mit einem Zeichen gefüllt sein. Damit dies so funktioniert, müssen die Löcher in einer bestimmten Weise auf der Schablone verteilt sein.</p>
+<p>Die Fleißner-Schablone selbst ist ein quadratisches Stück Papier mit n² Feldern, n&#8712;&#8469;, n > 0. Jedes vierte Feld ist herausgeschnitten. Der zu verschlüsselnde Text wird – durch die Löcher dieser Maske – zeilenweise auf ein darunter liegendes Blatt geschrieben. Sind alle Löcher gefüllt, so wird die Schablone um 90° im Uhrzeigersinn gedreht und das Einschreiben des Textes fortgesetzt, dies wird noch 2 mal wiederholt. Am Ende sollte jedes Feld des darunter liegenden Papiers genau mit einem Zeichen gefüllt sein. Damit dies so funktioniert, müssen die Löcher in einer bestimmten Weise auf der Schablone verteilt sein.</p>
 <p>Der resultierende Geheimtext wird zeilenweise ausgelesen. Zum Entschlüsseln wird eine identische Schablone einfach auf die Nachricht gelegt, welche zuvor wieder in ein quadratisches Raster von vorgegebener Seitenlänge geschrieben wurde.</p>
-<p>Ist die Schablonengröße (Kantenlänge) eine gerade Zahl gibt es (n^2) / 4 Löcher. Ist die Schablonengröße eine ungerade Zahl, gibt es ein ausgezeichnetes Feld in der Mitte, das bei keiner Rotation freiliegt. Damit ergeben sich (n²-1)/4 Löcher.</p>
+<p>Ist die Schablonengröße (Kantenlänge) eine gerade Zahl gibt es (n²) / 4 Löcher. Ist die Schablonengröße eine ungerade Zahl, gibt es ein ausgezeichnetes Feld in der Mitte, das bei keiner Rotation freiliegt. Damit ergeben sich (n²-1)/4 Löcher.</p>
 
 <h3>Geschichte</h3>
 
@@ -26,25 +26,25 @@
 <h3>Erzeugung der Schablone</h3>
 
 <p>Anders als bei vielen anderen Verfahren ist hier der Schlüssel nicht beliebig wählbar, sondern unterliegt bestimmten Regeln. Unterteilt man die Schablone in 4 Quadranten, kann eine Zahl nur in einem der Quadranten ausgestochen sein.</p>
-<p>Für den Standardfall mit einer gerade Seitenlänge gibt es S = 4 ^ (n^2 / 4) mögliche Schlüssel. Die möglichen Transpositionen hängen nicht von der Textlänge sondern nur von der Schlüsselgröße ab. Bei einer Seitenlänge von n=6 sind dies 262.144 mögliche Schlüssel.</p>
+<p>Für den Standardfall mit einer gerade Seitenlänge gibt es S = 4 ^ (n² / 4) mögliche Schlüssel. Die möglichen Transpositionen hängen nicht von der Textlänge sondern nur von der Schlüsselgröße ab. Bei einer Seitenlänge von n=6 sind dies 262.144 mögliche Schlüssel.</p>
 
 <h3>Bedienung</h3>
 
-<u>1) Schnell zum Verschlüsselungsergebnis</u>
+<u><b>1) Schnell zum Verschlüsselungsergebnis</b></u>
 <p>Wenn man die Standardeinstellung für Größe und Verteilung der Löcher in der Schablone auf den initialen Werten lässt, kann man direkt den Klartext eingeben. Klickt man nun auf den Button "Starten", sieht man im Klartextfeld den gepaddeten Text hinter dem eigentlichen Klartext und im Geheimtext-Feld das verschlüsselter Ergebnis.</p>
-<p><img src="direct.png" alt="Layout der Benutzeroberfläche bei driekter Analyse"></p>
-<u>2) Schrittweises Vorgehen</u>
+<p><img src="direct.png" width="700" height="464" alt="Layout der Benutzeroberfläche bei driekter Analyse"></p>
+<u><b>2) Schrittweises Vorgehen</b></u>
 <p>Im folgenden Beispiel wurde die Größe auf 8 erhöht und dann der Button "Löcher zufällig setzen" gedrückt. Wieder wurde als Klartext "Dies ist ein Test" gewählt. Vor dem Drücken des Buttons "Starten" wurde der Typ (Vorgehensweise) auf "Schrittweise" gesetzt.</p>
 <p>(1) Nach dem Klick auf "Starten", werden links in der Gruppierung "Visualisierung" das Padding und seine Länge (47) angezeigt. Zusammen mit dem Klartext der Länge 17 ergeben sich 64 Byte.</p>
-<p><img src="type.png" alt="Layout der Benutzeroberfläche bei Auswahl des Typs"></p>
+<p><img src="type.png" width="700" height="470" alt="Layout der Benutzeroberfläche bei Auswahl des Typs"></p>
 <p>(2) Nach dem Klick auf "Weiter" in Schritt 1, werden links in der Gruppierung "Visualisierung" die ersten 16 Zeichen verteilt – direkt erkennen kann man nur 13 rote Buchstaben, denn die 3 verteilten Blanks sieht man nicht.</p>
-<p><img src="step2.png" alt="Layout der Benutzeroberfläche bei Schritt 2"></p>
+<p><img src="step2.png" width="700" height="470" alt="Layout der Benutzeroberfläche bei Schritt 2"></p>
 <p>Die blaune Linie zeigt das Loch in der Schablone und den zugehörigen Buchstaben auf dem darunter liegenden Papier.</p>
 <p>(3) Nach dem Klick auf "Weiter" in Schritt 2, werden links in der Gruppierung "Visualisierung" die nächsten 16 Zeichen verteilt (diesmal schwarz dargestellt).</p>
-<p><img src="step3.png" alt="Layout der Benutzeroberfläche bei Schritt 3"></p>
+<p><img src="step3.png" width="700" height="470" alt="Layout der Benutzeroberfläche bei Schritt 3"></p>
 <p>Die Schlüsselschablone oben wird mitgedreht angezeigt.</p>
 <p>(4) Am Ende (nach Drücken von "Weiter" in Schritt 6) sieht man den fertigen Geheimtext, der zeilenweise aus dem unter der Schablone liegenden Papier ausgelesen wird.</p>
-<p><img src="finish.png" alt="Layout der Benutzeroberfläche bei Schritt 5"></p>
+<p><img src="finish.png" width="700" height="470" alt="Layout der Benutzeroberfläche bei Schritt 5"></p>
 
 <h3>Bemerkung</h3>
 <p>Wenn Sie nochmal auf "Starten" klicken, geht es von vorne los.</p>
