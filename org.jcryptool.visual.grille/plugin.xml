@@ -4,6 +4,7 @@
    <extension
          point="org.jcryptool.core.operations.visuals">
       <Visual
+      		contextHelpId="org.jcryptool.analysis.grille.grille"
             name="%Visual.name.0"
             viewId="org.jcryptool.visual.grille.view">
       </Visual>
@@ -32,6 +33,7 @@
             commandId="org.jcryptool.visual.grille.restartCommand">
       </handler>
       <handler
+      		class="org.jcryptool.visual.grille.handlers.HelpHandler"
             commandId="org.jcryptool.visual.grille.helpCommand">
       </handler>
    </extension>
@@ -55,12 +57,22 @@
                icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/new_wiz.png"
                style="push">
          </command>
+         <command 
+               commandId="org.jcryptool.visual.grille.helpCommand"
+               icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/help_contents.png"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
             locationURI="toolbar:org.jcryptool.visual.grille.view">
          <command
                commandId="org.jcryptool.visual.grille.restartCommand"
                icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/new_wiz.png"
+               style="push">
+         </command>
+         <command
+               commandId="org.jcryptool.visual.grille.helpCommand"
+               icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/help_contents.png"
                style="push">
          </command>
       </menuContribution>
