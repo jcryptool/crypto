@@ -56,7 +56,7 @@ public class InputFileComposite extends Composite implements SelectionListener {
         
         Button btnBrowse = new Button(this, SWT.NONE);
         GridData gd_btnBrowse = new GridData(SWT.FILL, SWT.FILL, false, false);
-        gd_btnBrowse.widthHint = 100;
+        gd_btnBrowse.widthHint = 150;
         btnBrowse.setLayoutData(gd_btnBrowse);
         btnBrowse.setText(Messages.InputFileWirard_btnBrowse);
         btnBrowse.addSelectionListener(this);

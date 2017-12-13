@@ -116,7 +116,7 @@ public class ShowSig extends Shell {
         
         // text field to show signature as hex, octal or decimal
         Label txtSigNum = new Label(sigComp, SWT.BORDER | SWT.WRAP );
-        GridData gd_txtSigNum = new GridData(SWT.CENTER, SWT.FILL, false, false, 2, 1);
+        GridData gd_txtSigNum = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
         gd_txtSigNum.widthHint = 490;
         gd_txtSigNum.heightHint = 151;
         gd_txtSigNum.exclude = true;
@@ -332,7 +332,6 @@ public class ShowSig extends Shell {
         Label lblTextopeneditor = new Label(composite, SWT.WRAP | SWT.CENTER | SWT.V_SCROLL);
         lblTextopeneditor.setAlignment(SWT.LEFT);
         GridData gd_lblTextopeneditor = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
-        gd_lblTextopeneditor.heightHint = 60;
         lblTextopeneditor.setLayoutData(gd_lblTextopeneditor);
         lblTextopeneditor.setText(Messages.ShowSig_editorDescripton);
         lblTextopeneditor.setBackground(new Color(Display.getCurrent(), 255, 255, 255));
@@ -401,8 +400,8 @@ public class ShowSig extends Shell {
      */
     protected void createContents() {
         setText(Messages.ShowSig_title);
-        setSize(computeSize(520, SWT.DEFAULT));
-        setMinimumSize(computeSize(520, SWT.DEFAULT));
+        setSize(computeSize(600, SWT.DEFAULT));
+        setMinimumSize(computeSize(600, SWT.DEFAULT));
 
     }
 

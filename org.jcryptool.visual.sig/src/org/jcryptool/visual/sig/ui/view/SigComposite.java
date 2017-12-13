@@ -228,7 +228,7 @@ public class SigComposite extends Composite {
         btnChooseInput = new Button(columnLeft, SWT.NONE);
         GridData gd_btnChooseInput = new GridData(SWT.CENTER, SWT.FILL, false, false);
         gd_btnChooseInput.heightHint = 41;
-        gd_btnChooseInput.widthHint = 136;
+        gd_btnChooseInput.widthHint = 150;
         btnChooseInput.setLayoutData(gd_btnChooseInput);
         btnChooseInput.setText(Messages.SigComposite_btnChooseInput);
         
@@ -440,7 +440,7 @@ public class SigComposite extends Composite {
         
         btnSignature = new Button(canvasBtmCenter, SWT.NONE);
         GridData gd_btnSignature = new GridData(SWT.CENTER, SWT.FILL, true, false, 3, 1);
-        gd_btnSignature.widthHint = 136;
+        gd_btnSignature.widthHint = 150;
         gd_btnSignature.heightHint = 60;
         btnSignature.setLayoutData(gd_btnSignature);
         btnSignature.setEnabled(false);
@@ -567,15 +567,15 @@ public class SigComposite extends Composite {
                     // everything to this step (keep the chosen algorithms)
                     reset(0);
 
-                    // Create the HashWirard
+                    // Create the HashWizard
                     InputWizard wiz = new InputWizard();
                     // Display it
                     WizardDialog dialog = new WizardDialog(new Shell(Display.getCurrent()), wiz) {
                         @Override
                         protected void configureShell(Shell newShell) {
                             super.configureShell(newShell);
-                            newShell.setSize(640, 480);  // set size of the wizard-window (x,y)
-                            newShell.setMinimumSize(640, 480);
+                            newShell.setSize(740, 480);  // set size of the wizard-window (x,y)
+                            newShell.setMinimumSize(740, 480);
                         }
                     };
                     if (dialog.open() == Window.OK) {
