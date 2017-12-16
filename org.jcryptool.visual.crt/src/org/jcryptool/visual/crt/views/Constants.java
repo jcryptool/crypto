@@ -46,12 +46,13 @@ public interface Constants {
     String MESSAGE_VERIFY_GROUP = Messages.CRTConstants_Veify;
     String MESSAGE_NEXT = Messages.CRTConstants_Next;
     String MESSAGE_PREVIOUS = Messages.CRTConstants_Previous;
-    String MESSAGE_GROUP_EQUATION = (Messages.CRTConstants_EquationGroup);
+    String MESSAGE_GROUP_EQUATION = Messages.CRTConstants_EquationGroup;
 
     String MESSAGE_STEP_1_GROUP = Messages.CRTConstants_Step1Title;
     String MESSAGE_STEP_2_GROUP = Messages.CRTConstants_Step2Title;
     String MESSAGE_STEP_3_GROUP = Messages.CRTConstants_Step3Title;
     String MESSAGE_STEP_4_GROUP = Messages.CRTConstants_Step4Title;
+    String MESSAGE_NEXT_STEP = Messages.CRTConstants_nextStep;
 
     /*
      * Dialog messages

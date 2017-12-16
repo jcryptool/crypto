@@ -28,6 +28,7 @@ public class Messages extends NLS {
 	public static String CRTConstants_Inverse;
 	public static String CRTConstants_MoreSolution;
 	public static String CRTConstants_Next;
+	public static String CRTConstants_nextStep;
 	public static String CRTConstants_Previous;
 	public static String CRTConstants_Result;
 	public static String CRTConstants_Step1;
