@@ -63,13 +63,16 @@ public class Equation implements Constants {
 		final GridData gd_text = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		textfieldA.setLayoutData(gd_text);
 		aTextfieldVerifyListiner = new VerifyListener() {
+			@Override
 			public void verifyText(VerifyEvent e) {
 				/*
 				 * keyCode == 8 is BACKSPACE and keyCode == 48 is ZERO and keyCode == 127 is DEL
 				 */
 				if (e.text.matches("[0-9]") || e.keyCode == 8 || e.keyCode == 127) { //$NON-NLS-1$
+					//TODO change the e.text.compareTo("0") to < 0. 0 sollten zugelassen werden.
 					if (textfieldA.getText().length() == 0 && e.text.compareTo("0") == 0) { //$NON-NLS-1$
 						e.doit = false;
+						//TODO die getSelection Begrenzung müsste auch raus.
 					} else if (textfieldA.getSelection().x == 0 && e.keyCode == 48) {
 						e.doit = false;
 					} else {
@@ -91,11 +94,11 @@ public class Equation implements Constants {
 		final GridData gd_text_1 = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		textfieldM.setLayoutData(gd_text_1);
 		mTextfieldVerifyListiner = new VerifyListener() {
+			@Override
 			public void verifyText(VerifyEvent e) {
 				/*
 				 * keyCode == 8 is BACKSPACE and keyCode == 48 is ZERO and keyCode == 127 is DEL
 				 */
-//				if (e.text.matches("[0-9]") || e.keyCode == 8 || e.keyCode == 127) {
 				if (e.text.matches("[0-9]") || e.keyCode == 8 || e.keyCode == 127) { //$NON-NLS-1$
 					if (textfieldM.getText().length() == 0 && e.text.compareTo("0") == 0) { //$NON-NLS-1$
 						e.doit = false;
@@ -113,7 +116,6 @@ public class Equation implements Constants {
 		textfieldM.addVerifyListener(mTextfieldVerifyListiner);
 
 		plusButton = new Button(equationGroup, SWT.NONE);
-//		plusButton.setLayoutData(new GridData(30, 20));
 		plusButton.setLayoutData(new GridData(30, 25));
 		plusButton.setText("+"); //$NON-NLS-1$
 		plusButton.setToolTipText(Messages.Equation_0);
@@ -143,14 +145,11 @@ public class Equation implements Constants {
 					equation.textfieldA.addVerifyListener(equation.aTextfieldVerifyListiner);
 					equation.textfieldM.addVerifyListener(equation.mTextfieldVerifyListiner);
 				}
-				equationGroup.pack();
-				if (equationSet.size() <= 4) {
-					ScrolledComposite scroll = (ScrolledComposite) equationGroup.getParent();
-					scroll.setExpandVertical(true);
-				} else {
-					ScrolledComposite scroll = (ScrolledComposite) equationGroup.getParent();
-					scroll.setExpandVertical(false);
-				}
+				
+				//Resize the scrolledComposite
+				equationGroup.layout();
+				ScrolledComposite scroll = (ScrolledComposite) equationGroup.getParent();
+				scroll.setMinSize(equationGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 				if (equations.getNumberOfEquations() < 3) {
 					minusButton.setEnabled(false);
@@ -159,13 +158,10 @@ public class Equation implements Constants {
 						equation.minusButton.setEnabled(true);
 					}
 				}
-
 			}
-
 		});
 
 		minusButton = new Button(equationGroup, SWT.NONE);
-//		minusButton.setLayoutData(new GridData(30, 20));
 		minusButton.setLayoutData(new GridData(30, 25));
 		minusButton.setText("-"); //$NON-NLS-1$
 		minusButton.setToolTipText(Messages.Equation_1);
@@ -189,14 +185,9 @@ public class Equation implements Constants {
 						equationSet.firstElement().setEnableMinusButton(false);
 						equationSet.get(1).setEnableMinusButton(false);
 					}
-					equationGroup.pack();
-					if (equationSet.size() <= 5) {
-						ScrolledComposite scroll = (ScrolledComposite) equationGroup.getParent();
-						scroll.setExpandVertical(true);
-					} else {
-						ScrolledComposite scroll = (ScrolledComposite) equationGroup.getParent();
-						scroll.setExpandVertical(false);
-					}
+					equationGroup.layout();
+					ScrolledComposite scroll = (ScrolledComposite) equationGroup.getParent();
+					scroll.setMinSize(equationGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 				}
 			}
 		});

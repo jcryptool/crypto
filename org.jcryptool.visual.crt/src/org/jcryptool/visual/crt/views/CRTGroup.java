@@ -130,13 +130,9 @@ public class CRTGroup extends Composite implements Constants {
 
         step1Text = new Text(step1Group, SWT.MULTI);
         step1Text.setEditable(false);
-//        final GridData gd_step1Text = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
-//        GridData gd_step1Text = new GridData(SWT.FILL, SWT.FILL, true, false);
-//        step1Text.setLayoutData(gd_step1Text);
         step1Text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         step1Text.setText(MESSAGE_STEP1);
         step1Text.setFont(FontService.getSmallBoldFont());
-//        new Label(step1Group, SWT.NONE);
 
         step1nextButton = new Button(step1Group, SWT.NONE);
         step1nextButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, true));
@@ -275,29 +271,29 @@ public class CRTGroup extends Composite implements Constants {
         });
         final GridData gd_step1nextButton = new GridData(SWT.RIGHT, SWT.BOTTOM, false, false);
         step1nextButton.setLayoutData(gd_step1nextButton);
-        step1nextButton.setText(MESSAGE_STEP_2_GROUP);
+        step1nextButton.setText(MESSAGE_NEXT_STEP);
 
-        scrolledEquation = new Group(content, SWT.V_SCROLL);
-        scrolledEquation.setLayout(new GridLayout(1, false));
+        scrolledEquation = new Group(content, SWT.NONE);
+        scrolledEquation.setLayout(new GridLayout());
         scrolledEquation.setText(MESSAGE_GROUP_EQUATION);
-        scrolledEquation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2));
+        GridData gd_scrolledEquation  = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
+        gd_scrolledEquation.heightHint = 100;
+        scrolledEquation.setLayoutData(gd_scrolledEquation);
 
         ScrolledComposite scrolledComposite = new ScrolledComposite(scrolledEquation, SWT.H_SCROLL | SWT.V_SCROLL);
-
-        GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-        gridData.heightHint = 62;
-        scrolledComposite.setLayoutData(gridData);
-
+        scrolledComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
         scrolledComposite.setExpandHorizontal(true);
         scrolledComposite.setExpandVertical(true);
 
         equationGroup = new Composite(scrolledComposite, SWT.NONE);
+        equationGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         final GridLayout gridLayout_equationGroup = new GridLayout();
         gridLayout_equationGroup.numColumns = 7;
         equationGroup.setLayout(gridLayout_equationGroup);
         equations.createEquation(0, equationGroup, this);
         equations.createEquation(1, equationGroup, this);
-        scrolledComposite.setContent(equationGroup);
+        
+        scrolledComposite.setContent(equationGroup); 
 
         step2Group = new Group(content, SWT.NONE);
         step2Group.setEnabled(false);
@@ -427,7 +423,7 @@ public class CRTGroup extends Composite implements Constants {
         step2nextButton.setEnabled(false);
         final GridData gd_step2nextButton = new GridData(SWT.RIGHT, SWT.BOTTOM, false, false);
         step2nextButton.setLayoutData(gd_step2nextButton);
-        step2nextButton.setText(MESSAGE_STEP_3_GROUP);
+        step2nextButton.setText(MESSAGE_NEXT_STEP);
 
         step3Group = new Group(content, SWT.NONE);
         step3Group.setEnabled(false);
@@ -478,15 +474,12 @@ public class CRTGroup extends Composite implements Constants {
         step3nextButton.setEnabled(false);
         final GridData gd_step3nextButton = new GridData(SWT.RIGHT, SWT.BOTTOM, false, false);
         step3nextButton.setLayoutData(gd_step3nextButton);
-        step3nextButton.setText(MESSAGE_STEP_4_GROUP);
+        step3nextButton.setText(MESSAGE_NEXT_STEP);
 
         scrolledInverse = new Group(content, SWT.V_SCROLL);
         scrolledInverse.setLayout(new GridLayout(1, false));
         scrolledInverse.setText("Inverse"); //$NON-NLS-1$
-
-        GridData gridData_1 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
-        gridData_1.heightHint = 170;
-        scrolledInverse.setLayoutData(gridData_1);
+        scrolledInverse.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2));
 
         scrolledComposite_1 = new ScrolledComposite(scrolledInverse, SWT.H_SCROLL | SWT.V_SCROLL);
         scrolledComposite_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -498,7 +491,6 @@ public class CRTGroup extends Composite implements Constants {
         gridLayout_1.numColumns = 6;
         inverseGroup.setLayout(gridLayout_1);
         scrolledComposite_1.setContent(inverseGroup);
-        scrolledComposite_1.setMinSize(inverseGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
         step4Group = new Group(content, SWT.NONE);
         step4Group.setEnabled(false);
@@ -577,11 +569,8 @@ public class CRTGroup extends Composite implements Constants {
                     verifyEquationSet.add(mText);
 
                 }
-                if (numberOfEquations <= 4) {
-                    scrolledComposite_2.setExpandVertical(true);
-                } else {
-                    scrolledComposite_2.setExpandVertical(false);
-                }
+
+                scrolledComposite_2.setMinSize(verifyGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
                 verifyGroup.pack();
 
                 /*
@@ -684,11 +673,11 @@ public class CRTGroup extends Composite implements Constants {
         nextButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
         nextButton.setText(MESSAGE_NEXT);
 
-        scrolledVerify = new Group(content, SWT.V_SCROLL);
+        scrolledVerify = new Group(content, SWT.NONE);
         scrolledVerify.setText(MESSAGE_VERIFY_GROUP);
         scrolledVerify.setLayout(new GridLayout(1, false));
-        final GridData gd_scrolledVerify = new GridData(SWT.FILL, SWT.FILL, true, false);
-        gd_scrolledVerify.heightHint = 102;
+        GridData gd_scrolledVerify = new GridData(SWT.FILL, SWT.FILL, true, false);
+        gd_scrolledVerify.heightHint = 100;
         scrolledVerify.setLayoutData(gd_scrolledVerify);
 
         scrolledComposite_2 = new ScrolledComposite(scrolledVerify, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -714,11 +703,11 @@ public class CRTGroup extends Composite implements Constants {
     }
 
     private void setDefaultValues() {
-    	equations.getEquationSet().elementAt(0).setTextfieldA("2");
-    	equations.getEquationSet().elementAt(0).setTextfieldM("5");
+    	equations.getEquationSet().elementAt(0).setTextfieldA("2"); //$NON-NLS-1$
+    	equations.getEquationSet().elementAt(0).setTextfieldM("5"); //$NON-NLS-1$
     	
-    	equations.getEquationSet().elementAt(1).setTextfieldA("3");
-    	equations.getEquationSet().elementAt(1).setTextfieldM("7");	
+    	equations.getEquationSet().elementAt(1).setTextfieldA("3"); //$NON-NLS-1$
+    	equations.getEquationSet().elementAt(1).setTextfieldM("7");	 //$NON-NLS-1$
 	}
 
 	/**
