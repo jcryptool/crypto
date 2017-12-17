@@ -16,6 +16,7 @@ public class Messages extends NLS {
 	public static String CheckingEquationDialog_6;
 	public static String CheckingEquationDialog_7;
 	public static String CRTConstants_ActionFlow;
+	public static String CRTConstants_changeValues;
 	public static String CRTConstants_DialogButtonSuggestion;
 	public static String CRTConstants_DialogButtonVerify;
 	public static String CRTConstants_DialogHeader;

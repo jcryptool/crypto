@@ -32,6 +32,8 @@ public interface Constants {
     /*
      * Message constants
      */
+    
+    String MESSAGE_CHANGE_VALUES = Messages.CRTConstants_changeValues;
 
     String MESSAGE_STEP1 = Messages.CRTConstants_Step1;
     String MESSAGE_STEP2 = Messages.CRTConstants_Step2;
