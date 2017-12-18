@@ -35,13 +35,12 @@ import org.jcryptool.visual.crt.xeuclid.XEuclid;
 public class CRTGroup extends Composite implements Constants {
 
 	public static boolean execute;
-	private Text resultXText;
-	private Group scrolledInverse;
 
 	private Composite content;
 	private Composite verifyGroup;
 	private Group scrolledVerify;
 	private Group scrolledEquation;
+	private Group scrolledInverse;
 	private Composite equationGroup;
 	private Composite inverseGroup;
 	private Button previousButton;
@@ -59,6 +58,7 @@ public class CRTGroup extends Composite implements Constants {
 	private Text resultMoreText;
 	private Text resultText;
 	private Text resultValueText;
+	private Text resultXText;
 	private Text step4Text;
 	private Text step3Text;
 	private Text step2Text;
@@ -473,7 +473,9 @@ public class CRTGroup extends Composite implements Constants {
 		scrolledInverse = new Group(content, SWT.V_SCROLL);
 		scrolledInverse.setLayout(new GridLayout(1, false));
 		scrolledInverse.setText("Inverse"); //$NON-NLS-1$
-		scrolledInverse.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2));
+		GridData gd_scrolledInverse = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
+		gd_scrolledInverse.verticalIndent = 20;
+		scrolledInverse.setLayoutData(gd_scrolledInverse);
 
 		scrolledComposite_1 = new ScrolledComposite(scrolledInverse, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledComposite_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -591,17 +593,17 @@ public class CRTGroup extends Composite implements Constants {
 		resultXText.setEnabled(false);
 		resultXText.setText(Messages.CRTGroup_0);
 		resultText.setFont(FontService.getSmallFont());
-		resultXText.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		resultXText.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true));
 
 		resultValueText = new Text(resultGroup, SWT.READ_ONLY | SWT.BORDER);
 		resultValueText.setEditable(false);
 		resultValueText.setEnabled(false);
-		resultValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		resultValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 3, 1));
 
 		resultMoreText = new Text(resultGroup, SWT.MULTI);
 		resultMoreText.setEnabled(false);
 		resultMoreText.setEditable(false);
-		resultMoreText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 2, 1));
+		resultMoreText.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false, 2, 1));
 		resultMoreText.setText(MESSAGE_MORE_SOLUTION);
 		resultMoreText.setFont(FontService.getSmallFont());
 
@@ -630,7 +632,7 @@ public class CRTGroup extends Composite implements Constants {
 			}
 		});
 		previousButton.setEnabled(false);
-		previousButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		previousButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
 		previousButton.setText(MESSAGE_PREVIOUS);
 
 		nextButton = new Button(resultGroup, SWT.NONE);
@@ -654,14 +656,15 @@ public class CRTGroup extends Composite implements Constants {
 			}
 		});
 		nextButton.setEnabled(false);
-		nextButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		nextButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
 		nextButton.setText(MESSAGE_NEXT);
 
 		scrolledVerify = new Group(content, SWT.NONE);
 		scrolledVerify.setText(MESSAGE_VERIFY_GROUP);
 		scrolledVerify.setLayout(new GridLayout(1, false));
 		GridData gd_scrolledVerify = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_scrolledVerify.heightHint = 100;
+		gd_scrolledVerify.heightHint = 120;
+		gd_scrolledVerify.verticalIndent = 20;
 		scrolledVerify.setLayoutData(gd_scrolledVerify);
 
 		scrolledComposite_2 = new ScrolledComposite(scrolledVerify, SWT.H_SCROLL | SWT.V_SCROLL);
