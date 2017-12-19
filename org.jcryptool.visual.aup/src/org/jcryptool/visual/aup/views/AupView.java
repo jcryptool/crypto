@@ -416,8 +416,8 @@ public class AupView extends ViewPart {
 		centerBox = new Composite(child, SWT.NONE);
 		centerBox.setLayout(new GridLayout());
 		GridData gd_centerBox = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd_centerBox.widthHint = 500;
-		gd_centerBox.heightHint = 500;
+		gd_centerBox.widthHint = 300;
+		gd_centerBox.heightHint = 300;
 		centerBox.setLayoutData(gd_centerBox);
 		
 		centerGroup = new Group(centerBox, SWT.NONE);
@@ -713,5 +713,4 @@ public class AupView extends ViewPart {
 		}
 		helpBox.layout(true);
 	}
-
 }
