@@ -75,6 +75,7 @@ public class AupView extends ViewPart {
 	private Composite centerBox;
 	private Group centerGroup;
 	private Composite controlBox;
+	private Composite visualization;
 	private Group helpBox;
 	private Group optionbox;
 	private Label[] cntrBtn = new Label[9];
@@ -90,6 +91,7 @@ public class AupView extends ViewPart {
 	private StyledText instrText2;
 	private StyledText instrText3;
 	private CLabel statusText;
+	private CLabel infoText;
 	private Label instrTextHeading;
 	private Label descTextHeading;
 	private Composite parent;
@@ -97,7 +99,6 @@ public class AupView extends ViewPart {
 	private Boolean inputFinished = false;
 	private Boolean advancedGraphic = false;
 	private Font nFont;
-
 	private Font bFont;
 
 	/**
@@ -112,12 +113,12 @@ public class AupView extends ViewPart {
 	 *
 	 */
 	private void addActions() {
-		centerGroup.addListener(SWT.Resize, new Listener() {
+		visualization.addListener(SWT.Resize, new Listener() {
 
 			@Override
 			public void handleEvent(Event event) {
 				centerResize();
-				centerGroup.redraw();
+				visualization.redraw();
 			}
 		});
 
@@ -235,10 +236,6 @@ public class AupView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-//				if(logic.isChangeable())
-//					setStatusText(Messages.Backend_PopupCancelMessage, ApuState.WARNING); //$NON-NLS-1$
-//				else
-//					setStatusText("", null); //$NON-NLS-1$
 				logic.setModus(2);
 				patternInput = inputFinished = false;
 				setStatusText("", null); //$NON-NLS-1$
@@ -254,10 +251,6 @@ public class AupView extends ViewPart {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-//				if(logic.isChangeable())
-//					setStatusText(Messages.Backend_PopupCancelMessage, ApuState.WARNING); //$NON-NLS-1$
-//				else
-//					setStatusText("", null); //$NON-NLS-1$
 				logic.setModus(3);
 				patternInput = inputFinished = false;
 				setStatusText("", null); //$NON-NLS-1$
@@ -269,44 +262,46 @@ public class AupView extends ViewPart {
 
 	public void centerResize() {
 		// centerButtons
-		GridLayout layout = (GridLayout) centerGroup.getLayout();
-		int size = Math.min(centerGroup.getClientArea().height
-				- layout.marginHeight * 2 - layout.horizontalSpacing * 3 - layout.marginTop
-				- statusText.getClientArea().height,
-				centerGroup.getClientArea().width - layout.marginWidth * 2
-						- layout.verticalSpacing * 2 - layout.marginLeft - layout.marginRight);
+		GridLayout layout = (GridLayout) visualization.getLayout();
+		int size = Math.min(
+				visualization.getClientArea().height - layout.marginHeight * 2 - layout.horizontalSpacing * 3
+						- layout.marginTop,
+				visualization.getClientArea().width - layout.marginWidth * 2 - layout.verticalSpacing * 2
+						- layout.marginLeft - layout.marginRight);
 		if (size < 0)
 			return; // Layout not yet initialized
 		size = size / 3; // 3x3 centrcalBtns
 		logic.recalculateLines();
 		for (int i = 0; i < cntrBtn.length; i++) {
 			if (cntrBtn[i].getData("icon") != null) { //$NON-NLS-1$
-				cntrBtn[i].getImage().dispose(); //dispose the old image
+				cntrBtn[i].getImage().dispose(); // dispose the old image
 				String tmpStr = cntrBtn[i].getData("icon").toString(); //$NON-NLS-1$
-				ImageData tmp = AndroidUnlockPatternPlugin
-						.getImageDescriptor(tmpStr).getImageData()
-						.scaledTo(size, size);
+				ImageData tmp = AndroidUnlockPatternPlugin.getImageDescriptor(tmpStr).getImageData().scaledTo(size,
+						size);
 				Image img = new Image(cntrBtn[i].getDisplay(), tmp);
 				GC gc = new GC(img);
 
-				if(cntrBtn[i].getData("arc") != null && advancedGraphic) { //$NON-NLS-1$
+				if (cntrBtn[i].getData("arc") != null && advancedGraphic) { //$NON-NLS-1$
 					Image arrow = null;
-					if(tmpStr.regionMatches(false, 6, "g", 0, 1)) //$NON-NLS-1$
-						arrow = AndroidUnlockPatternPlugin.getImageDescriptor("icons/ArrowGreen.png").createImage(cntrBtn[i].getDisplay()); //$NON-NLS-1$
-					else if(tmpStr.regionMatches(false, 6, "y", 0, 1)) //$NON-NLS-1$
-						arrow = AndroidUnlockPatternPlugin.getImageDescriptor("icons/ArrowYellow.png").createImage(cntrBtn[i].getDisplay()); //$NON-NLS-1$
+					if (tmpStr.regionMatches(false, 6, "g", 0, 1)) //$NON-NLS-1$
+						arrow = AndroidUnlockPatternPlugin.getImageDescriptor("icons/ArrowGreen.png") //$NON-NLS-1$
+								.createImage(cntrBtn[i].getDisplay());
+					else if (tmpStr.regionMatches(false, 6, "y", 0, 1)) //$NON-NLS-1$
+						arrow = AndroidUnlockPatternPlugin.getImageDescriptor("icons/ArrowYellow.png") //$NON-NLS-1$
+								.createImage(cntrBtn[i].getDisplay());
 
-					if(arrow != null) {
+					if (arrow != null) {
 						Transform oldTransform = new Transform(gc.getDevice());
 						gc.getTransform(oldTransform);
 
 						Transform transform = new Transform(gc.getDevice());
-						transform.translate(size/2, size/2);
-						transform.rotate((Float)cntrBtn[i].getData("arc")); //$NON-NLS-1$
-						transform.translate(-size/2, -size/2);
+						transform.translate(size / 2, size / 2);
+						transform.rotate((Float) cntrBtn[i].getData("arc")); //$NON-NLS-1$
+						transform.translate(-size / 2, -size / 2);
 
 						gc.setTransform(transform);
-						gc.drawImage(arrow, 0, 0, arrow.getImageData().width, arrow.getImageData().height, 0, 0, size, size);
+						gc.drawImage(arrow, 0, 0, arrow.getImageData().width, arrow.getImageData().height, 0, 0, size,
+								size);
 						gc.setTransform(oldTransform);
 						oldTransform.dispose();
 						transform.dispose();
@@ -317,8 +312,7 @@ public class AupView extends ViewPart {
 				cntrBtn[i].setImage(img);
 			}
 			regionCircle = new Region();
-			regionCircle.add(circle(size / 2, cntrBtn[i].getBounds().width / 2,
-					cntrBtn[i].getBounds().height / 2));
+			regionCircle.add(circle(size / 2, cntrBtn[i].getBounds().width / 2, cntrBtn[i].getBounds().height / 2));
 
 			cntrBtn[i].setRegion(regionCircle);
 			cntrBtn[i].setLayoutData(new GridData(size, size));
@@ -415,30 +409,40 @@ public class AupView extends ViewPart {
 		
 		centerBox = new Composite(child, SWT.NONE);
 		centerBox.setLayout(new GridLayout());
-		GridData gd_centerBox = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd_centerBox.widthHint = 300;
-		gd_centerBox.heightHint = 300;
-		centerBox.setLayoutData(gd_centerBox);
+		centerBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		centerGroup = new Group(centerBox, SWT.NONE);
-		centerGroup.setText(Messages.AndroidUnlockPattern_centerbox_text);
-		GridLayout gl_centerGroup = new GridLayout(3, false);
-		gl_centerGroup.marginLeft = 10;
-		gl_centerGroup.marginRight = 10;
-		gl_centerGroup.marginTop = 10;
-		gl_centerGroup.horizontalSpacing = 15;
-		gl_centerGroup.verticalSpacing = 15;
-		centerGroup.setLayout(gl_centerGroup);
+		centerGroup.setText(Messages.AndroidUnlockPattern_centerbox_text);		
+		centerGroup.setLayout(new GridLayout());
 		centerGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
+		visualization = new Composite(centerGroup, SWT.NONE);
+		GridData gd_visualization = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gd_visualization.widthHint = 300;
+		gd_visualization.heightHint = 300;
+		visualization.setLayoutData(gd_visualization);
+		GridLayout gl_visualization = new GridLayout(3, false);
+		gl_visualization.marginLeft = 10;
+		gl_visualization.marginRight = 10;
+		gl_visualization.marginTop = 10;
+		gl_visualization.horizontalSpacing = 15;
+		gl_visualization.verticalSpacing = 15;
+		visualization.setLayout(gl_visualization);
+
+		
 		for (int i = 0; i < cntrBtn.length; i++) {
-			cntrBtn[i] = new Label(centerGroup, SWT.NONE);
+			cntrBtn[i] = new Label(visualization, SWT.NONE);
 			cntrBtn[i].setData("nummer", i); //$NON-NLS-1$
 			cntrBtn[i].setSize(40, 40); // set initial size; will be updated during initiation
 		}
 
 		statusText = new CLabel(centerGroup, SWT.LEFT);
-		statusText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+		statusText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		
+		infoText = new CLabel(centerGroup, SWT.LEFT);
+		infoText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		infoText.setText(Messages.AupView_9);
+		infoText.setImage(AndroidUnlockPatternPlugin.getImageDescriptor("platform:/plugin/org.eclipse.jface/icons/full/message_info.png").createImage()); //$NON-NLS-1$
 		
 		helpBox = new Group(child, SWT.NONE);
 		helpBox.setToolTipText(Messages.AndroidUnlockPattern_helpBox_toolTipText);
