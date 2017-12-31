@@ -94,38 +94,47 @@ public class LoadKeypairPage extends WizardPage {
         }
     }
 
-    public void createControl(Composite parent) {
+    @Override
+	public void createControl(Composite parent) {
         Composite composite = new Composite(parent, SWT.NONE);
         // do stuff like layout et al
         GridLayout gl = new GridLayout();
         gl.marginWidth = 50;
         composite.setLayout(gl);
-        new Label(composite, SWT.NONE).setText(Messages.LoadKeypairPage_select_keypair_from_list);
+
+        Label chooseKey = new Label(composite, SWT.NONE);
+        chooseKey.setText(Messages.LoadKeypairPage_select_keypair_from_list);
+        
         combo = new Combo(composite, SWT.READ_ONLY);
-        GridData gd = new GridData(SWT.FILL, SWT.CENTER, true, false);
-        GridData gd1 = new GridData(SWT.FILL, SWT.CENTER, true, false);
-        GridData gd2 = new GridData(SWT.FILL, SWT.CENTER, true, false);
-        GridData gd3 = new GridData(SWT.FILL, SWT.CENTER, true, false);
-        combo.setLayoutData(gd);
+        combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         combo.setItems(keyStoreItems.keySet().toArray(new String[keyStoreItems.size()]));
         combo.addSelectionListener(new SelectionAdapter() {
 
-            public void widgetSelected(SelectionEvent e) {
+            @Override
+			public void widgetSelected(SelectionEvent e) {
                 privateAlias = keyStoreItems.get(combo.getText());
                 publicAlias = getPublicForPrivate();
                 checkComplete();
             }
         });
+        
+        // Must be behind the declaration of the SelectionListener of the combo
+        //Automatic selection of the first key to improve the usability.
+        if (combo.getItemCount() > 0) {
+        	combo.select(0);
+        }
 
-        new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(gd1);
+        Label separator1 = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+        separator1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-        Text l = new Text(composite, SWT.WRAP | SWT.MULTI | SWT.READ_ONLY);
-        l.setText(Messages.LoadKeypairPage_enter_password);
-        l.setLayoutData(gd2);
+        Text enterPasswordLabel = new Text(composite, SWT.WRAP | SWT.MULTI | SWT.READ_ONLY);
+        enterPasswordLabel.setText(Messages.LoadKeypairPage_enter_password);
+        
         passfield = new Text(composite, SWT.BORDER | SWT.PASSWORD);
-        passfield.setLayoutData(gd3);
+        passfield.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         passfield.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
+            @Override
+			public void modifyText(ModifyEvent e) {
                 checkComplete();
             }
         });

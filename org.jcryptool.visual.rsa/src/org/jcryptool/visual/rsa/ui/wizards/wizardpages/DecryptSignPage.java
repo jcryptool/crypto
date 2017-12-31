@@ -40,6 +40,7 @@ public class DecryptSignPage extends WizardPage {
 	/** selection listener that updates the buttons. */
 	private final SelectionListener sl = new SelectionAdapter() {
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			getContainer().updateButtons();
 		}
@@ -67,6 +68,7 @@ public class DecryptSignPage extends WizardPage {
 	 * sets up all the UI stuff.
 	 * @param parent the parent composite
 	 */
+	@Override
 	public final void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		// set layout
