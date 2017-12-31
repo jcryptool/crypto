@@ -1390,24 +1390,9 @@ public class RSAComposite extends Composite {
 
 		});
 		
-		// Initialize reset button
-		reset = new Button(optionsGroup, SWT.PUSH);
-		GridData layoutData = new GridData(SWT.CENTER, SWT.CENTER, true, false);
-		layoutData.horizontalIndent = 12;
-		reset.setLayoutData(layoutData);
-		reset.setText(Messages.RSAComposite_reset);
-		reset.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				boolean keyWasSelected = keysel.getBackground().equals(ColorService.GREEN);
-				boolean fullReset = !keyWasSelected;
-				reset(fullReset);
-			}
-		});
-		
 		 // initialize dialog checkbox
 		 Button dialogButton = new Button(optionsGroup, SWT.CHECK);
-		 dialogButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		 dialogButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 		 dialogButton.setText(Messages.RSAComposite_show_dialogs);
 		 dialogButton.setSelection(dialog);
 		 dialogButton.addSelectionListener(new SelectionListener() {
@@ -1420,6 +1405,20 @@ public class RSAComposite extends Composite {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				
+			}
+		});
+		 
+		 
+		// Initialize reset button
+		reset = new Button(optionsGroup, SWT.PUSH);
+		reset.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		reset.setText(Messages.RSAComposite_reset);
+		reset.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				boolean keyWasSelected = keysel.getBackground().equals(ColorService.GREEN);
+				boolean fullReset = !keyWasSelected;
+				reset(fullReset);
 			}
 		});
 		 
