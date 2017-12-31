@@ -21,6 +21,19 @@
       </Visual>
    </extension>
 
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="$nl$/toc.xml"
+            primary="false">
+      </toc>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="$nl$/contexts.xml">
+      </contexts>
+   </extension>
 
 <extension
          point="org.eclipse.ui.handlers">
@@ -53,7 +66,7 @@
                icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/new_wiz.png"
                style="push">
          </command>
-                  <command
+         <command
                commandId="org.jcryptool.visual.elGamal.helpCommand"
                icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/help_contents.png"
                style="push">
