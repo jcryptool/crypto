@@ -203,7 +203,7 @@ public class ElGamalComposite extends Composite {
 		label.setBackground(ColorService.WHITE);
 		label.setText(Messages.ElGamalComposite_title);
 
-		final StyledText stDescription = new StyledText(head, SWT.READ_ONLY | SWT.MULTI);
+		final StyledText stDescription = new StyledText(head, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP);
 		switch (this.data.getAction()) {
 		case EncryptAction:
 			stDescription.setText(
@@ -273,7 +273,6 @@ public class ElGamalComposite extends Composite {
         compositeButtons.setLayout(new GridLayout());
         GridData gd_btnComposite = new GridData(SWT.FILL, SWT.FILL, false, true);
         gd_btnComposite.verticalIndent = 10;
-        gd_btnComposite.horizontalIndent = 80;
         compositeButtons.setLayoutData(gd_btnComposite);
 
         // Key selection Button
@@ -361,7 +360,23 @@ public class ElGamalComposite extends Composite {
         this.runCalc = new Button(compositeButtons, SWT.PUSH);
         this.runCalc.setBackground(ColorService.RED);
         this.runCalc.setEnabled(false);
-        this.runCalc.setText(Messages.ElGamalComposite_calculate);
+        switch (data.getAction()) {
+        case EncryptAction : {
+        	runCalc.setText("Encrypt");
+        	break;
+        }
+		case DecryptAction:
+			runCalc.setText("Decrypt");
+			break;
+		case SignAction:
+			runCalc.setText("Sign");
+			break;
+		case VerifyAction:
+			runCalc.setText("Verify");
+			break;
+		default:
+			break;
+        }
         this.runCalc.setToolTipText(Messages.ElGamalComposite_calculate_popup);
         GridData gd_runCalc = new GridData(SWT.FILL, SWT.FILL, false, false);
         gd_runCalc.verticalIndent = 90;

@@ -23,6 +23,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.crypto.keystore.backend.KeyStoreAlias;
@@ -118,11 +119,7 @@ public class LoadKeypairPage extends WizardPage {
             }
         });
         
-        // Must be behind the declaration of the SelectionListener of the combo
-        //Automatic selection of the first key to improve the usability.
-        if (combo.getItemCount() > 0) {
-        	combo.select(0);
-        }
+
 
         Label separator1 = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
         separator1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -138,6 +135,14 @@ public class LoadKeypairPage extends WizardPage {
                 checkComplete();
             }
         });
+        
+        // Must be behind the declaration of the SelectionListener of the combo
+        //Automatic selection of the first key to improve the usability.
+        if (combo.getItemCount() > 0) {
+        	combo.select(0);
+        	combo.notifyListeners(SWT.Selection, new Event());
+        }
+        
         setControl(composite);
     }
 

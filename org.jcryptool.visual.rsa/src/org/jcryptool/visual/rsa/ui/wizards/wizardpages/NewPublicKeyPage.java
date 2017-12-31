@@ -140,7 +140,9 @@ public class NewPublicKeyPage extends WizardPage implements ModifyListener,
 
 		// field for entering N
 		nField = new Text(composite, SWT.SINGLE | SWT.BORDER);
-		nField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		GridData gd_nField = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gd_nField.widthHint = 150;
+		nField.setLayoutData(gd_nField);
 		nField.addModifyListener(this);
 		nField.addVerifyListener(this);
 		nField.setToolTipText(Messages.NewPublicKeyPage_enter_n_popup);
