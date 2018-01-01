@@ -53,10 +53,10 @@ public class DecryptSignPage extends WizardPage {
 		super(PAGENAME, Messages.DecryptSignPage_choose_action, null);
 
 	    switch (data.getAction()) {
-        case EncryptAction:
+        case DecryptAction:
     		this.setDescription(Messages.DecryptSignPage_choose_action_text_dec);
            break;
-        case VerifyAction:
+        case SignAction:
    			this.setDescription(Messages.DecryptSignPage_choose_action_text_sig);
    			break;
         default:
