@@ -300,11 +300,19 @@ public class NewPublicKeyPage extends WizardPage implements ModifyListener,
 			data.setE(e);
 			boolean eok = e.compareTo(data.getN()) < 0;
 			// check for valid e and n values (n >256, e<floor(sqrt(n)-1)^2
-			setPageComplete(data.getN().compareTo(Constants.TWOFIVESIX) > 0
+			if (data.getN().compareTo(Constants.TWOFIVESIX) > 0
 					&& isTwoComposite(data.getN())
 					&& e.compareTo(BigInteger.ONE) > 0
 					&& (eok && e.compareTo(BigSquareRoot.get(data.getN())
-							.toBigInteger().subtract(BigInteger.ONE).pow(2)) < 0));
+							.toBigInteger().subtract(BigInteger.ONE).pow(2)) < 0)) {
+				setPageComplete(true);
+				data.setD(null);
+			}
+//			setPageComplete(data.getN().compareTo(Constants.TWOFIVESIX) > 0
+//					&& isTwoComposite(data.getN())
+//					&& e.compareTo(BigInteger.ONE) > 0
+//					&& (eok && e.compareTo(BigSquareRoot.get(data.getN())
+//							.toBigInteger().subtract(BigInteger.ONE).pow(2)) < 0));
 			if (!eok) {
 				String error = getErrorMessage();
 				if (error == null) {
