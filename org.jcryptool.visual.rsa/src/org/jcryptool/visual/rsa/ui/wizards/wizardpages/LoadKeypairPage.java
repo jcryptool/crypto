@@ -151,6 +151,8 @@ public class LoadKeypairPage extends WizardPage {
      * 
      * @return the {@link KeyStoreAlias} for the public key
      */
+    // It is a nice feature, but it is irritating, when you select "Existing key pair" and 
+    // can hit "Finish" directly without entering a password first
     private KeyStoreAlias getPublicForPrivate() {
         Enumeration<String> aliases = ksm.getAliases();
         KeyStoreAlias alias;
