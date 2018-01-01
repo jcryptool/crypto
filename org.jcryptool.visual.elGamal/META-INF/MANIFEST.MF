@@ -15,5 +15,7 @@ Bundle-Activator: org.jcryptool.visual.elGamal.ElGamalPlugin
 Import-Package: org.jcryptool.core.logging.dialogs,
  org.jcryptool.core.logging.utils,
  org.jcryptool.core.util.colors,
- org.jcryptool.core.util.fonts
+ org.jcryptool.core.util.fonts,
+ org.jcryptool.crypto.ui.textblockloader,
+ org.jcryptool.crypto.ui.textblockloader.conversion
 Bundle-Vendor: %Bundle-Vendor

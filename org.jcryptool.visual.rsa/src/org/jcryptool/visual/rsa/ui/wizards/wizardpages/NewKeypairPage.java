@@ -52,7 +52,7 @@ import org.jcryptool.visual.rsa.RSAPlugin;
 public class NewKeypairPage extends WizardPage {
 
 	/** Button to load the whole list of e's to the combo. */
-	private Button elistUpdate;
+//	private Button elistUpdate;
 
 	/** unique pagename to get this page from inside a wizard. */
 	private static final String PAGENAME = "New Keypair Page"; //$NON-NLS-1$
@@ -185,17 +185,24 @@ public class NewKeypairPage extends WizardPage {
 		BigInteger n = Constants.MINUS_ONE;
 		// expected exceptions, so don't do anything about it
 		try {
-			n = new BigInteger(modulfield.getText());
+			if (!(modulfield.getText() == null || modulfield.getText().equals(""))) {
+				n = new BigInteger(modulfield.getText());
+			}
 		} catch (NumberFormatException e) {
 			LogUtil.logError(e);
 		}
 		try {
-			p = new BigInteger(plist.getText());
+			if (!(plist.getText() != null || plist.getText().equals(""))) {
+				p = new BigInteger(plist.getText());
+			}
 		} catch (NumberFormatException e) {
 			LogUtil.logError(e);
 		}
 		try {
-			q = new BigInteger(qlist.getText());
+			if (!(qlist.getText() != null || qlist.getText().equals(""))) {
+				q = new BigInteger(qlist.getText());
+			}
+			
 		} catch (NumberFormatException e) {
 			LogUtil.logError(e);
 		}
@@ -267,6 +274,9 @@ public class NewKeypairPage extends WizardPage {
 		plist.addVerifyListener(VL);
 		// q
 		Label qtext = new Label(primes, SWT.NONE);
+		GridData gd_qlist = new GridData();
+		gd_qlist.horizontalIndent = 20;
+		qtext.setLayoutData(gd_qlist);
 		qtext.setText("q="); //$NON-NLS-1$
 		
 		qlist = new Combo(primes, SWT.NONE);
@@ -301,6 +311,9 @@ public class NewKeypairPage extends WizardPage {
 		
 		// phi(N)
 		Label phiLabel = new Label(rsaModulus, SWT.NONE);
+		GridData gd_phiLabel = new GridData();
+		gd_phiLabel.horizontalIndent = 20;
+		phiLabel.setLayoutData(gd_phiLabel);
 		phiLabel.setText(Messages.NewKeypairPage_phi_n);
 		
 		phinfield = new Text(rsaModulus, SWT.BORDER | SWT.READ_ONLY);
@@ -401,6 +414,7 @@ public class NewKeypairPage extends WizardPage {
 
 		// finish
 		setControl(composite);
+		
 	}
 
 	protected boolean isValidNumberForE(Integer e, BigInteger phin2) {
@@ -418,7 +432,7 @@ public class NewKeypairPage extends WizardPage {
 	 * fills the list of possible e values for selection.
 	 */
 	private void fillElist() {
-		elistUpdate.setVisible(false);
+//		elistUpdate.setVisible(false);
 		new Thread() {
 
 			/**
@@ -454,12 +468,12 @@ public class NewKeypairPage extends WizardPage {
 				public void run() {
 					if (newList.length <= TRIGGERLENGTH) {
 						elist.setItems(newList);
-						elistUpdate.setData(null);
-						elistUpdate.setEnabled(false);
-						elistUpdate.setVisible(intermediate);
+//						elistUpdate.setData(null);
+//						elistUpdate.setEnabled(false);
+//						elistUpdate.setVisible(intermediate);
 					} else {
-						elistUpdate.setData(newList);
-						elistUpdate.setEnabled(true);
+//						elistUpdate.setData(newList);
+//						elistUpdate.setEnabled(true);
 					}
 					if (data.getE() != null) {
 						elist.setText(data.getE().toString());
