@@ -3,6 +3,7 @@
  */
 package org.jcryptool.visual.elGamal.ui;
 
+import java.awt.List;
 import java.math.BigInteger;
 import java.util.HashMap;
 
@@ -40,6 +41,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
+import org.jcryptool.crypto.ui.textblockloader.ConversionCharsToNumbers;
+import org.jcryptool.crypto.ui.textblockloader.NumberblocksAndTextViewer;
+import org.jcryptool.crypto.ui.textblockloader.Repr;
+import org.jcryptool.crypto.ui.textblockloader.conversion.ConversionStringToBlocks;
 import org.jcryptool.visual.elGamal.Action;
 import org.jcryptool.visual.elGamal.ElGamalData;
 import org.jcryptool.visual.elGamal.Messages;
@@ -64,7 +69,7 @@ public class ElGamalComposite extends Composite {
     private ElGamalData data;
 
     /** field for the text entered in the wizard. */
-    private Text textText;
+    private NumberblocksAndTextViewer textText;
 
     /** field for the signature or the text translated to numbers. */
     private Text numberText;
@@ -362,17 +367,17 @@ public class ElGamalComposite extends Composite {
         this.runCalc.setEnabled(false);
         switch (data.getAction()) {
         case EncryptAction : {
-        	runCalc.setText("Encrypt");
+        	runCalc.setText(Messages.ElGamalComposite_Action_Encrypt);
         	break;
         }
 		case DecryptAction:
-			runCalc.setText("Decrypt");
+			runCalc.setText(Messages.ElGamalComposite_Action_Decrypt);
 			break;
 		case SignAction:
-			runCalc.setText("Sign");
+			runCalc.setText(Messages.ElGamalComposite_Action_Sign);
 			break;
 		case VerifyAction:
-			runCalc.setText("Verify");
+			runCalc.setText(Messages.ElGamalComposite_Action_Verify);
 			break;
 		default:
 			break;
@@ -475,32 +480,35 @@ public class ElGamalComposite extends Composite {
         
         new Label(groupText, SWT.NONE).setText(Messages.ElGamalComposite_text);
         
-        this.textText = new Text(groupText, SWT.BORDER | SWT.MULTI | SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL);
-        this.textText.setText("\n\n\n"); //$NON-NLS-1$
-        this.textText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-        this.textText.addModifyListener(new ModifyListener() {
+        //TODO here the NumberblocksAndTextViewer is initialized.
+        textText = new NumberblocksAndTextViewer(groupText, SWT.NONE, Repr.ALL);
+        
+//        this.textText = new Text(groupText, SWT.BORDER | SWT.MULTI | SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL);
+//        this.textText.setText("\n\n\n"); //$NON-NLS-1$
+        textText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//        this.textText.addModifyListener(new ModifyListener() {
         	
-        	@Override
-            public void modifyText(final ModifyEvent e) {
-                if (ElGamalComposite.this.textText.getText().equals("")) { //$NON-NLS-1$
-                    return;
-                }
-                if (ElGamalComposite.this.data.getAction() == Action.SignAction) {
-                    ElGamalComposite.this.numberText.setText(Lib.hash(ElGamalComposite.this.textText.getText(),
-                            ElGamalComposite.this.data.getSimpleHash(), ElGamalComposite.this.data.getModulus()));
-                } else {
-                    final StringBuffer sb = new StringBuffer();
-                    final String s = ((Text) e.widget).getText();
-                    for (int i = 0; i < s.length(); ++i) {
-                        sb.append(Integer.toHexString(s.charAt(i)));
-                        if (i != s.length() - 1) {
-                            sb.append(' ');
-                        }
-                    }
-                    ElGamalComposite.this.numberText.setText(sb.toString());
-                }
-            }
-        });
+//        	@Override
+//            public void modifyText(final ModifyEvent e) {
+//                if (ElGamalComposite.this.textText.getText().equals("")) { //$NON-NLS-1$
+//                    return;
+//                }
+//                if (ElGamalComposite.this.data.getAction() == Action.SignAction) {
+//                    ElGamalComposite.this.numberText.setText(Lib.hash(ElGamalComposite.this.textText.getText(),
+//                            ElGamalComposite.this.data.getSimpleHash(), ElGamalComposite.this.data.getModulus()));
+//                } else {
+//                    final StringBuffer sb = new StringBuffer();
+//                    final String s = ((Text) e.widget).getText();
+//                    for (int i = 0; i < s.length(); ++i) {
+//                        sb.append(Integer.toHexString(s.charAt(i)));
+//                        if (i != s.length() - 1) {
+//                            sb.append(' ');
+//                        }
+//                    }
+//                    ElGamalComposite.this.numberText.setText(sb.toString());
+//                }
+//            }
+//        });
         
         new Label(groupText, SWT.NONE).setText(Messages.ElGamalComposite_hextext);
         
@@ -895,8 +903,11 @@ public class ElGamalComposite extends Composite {
         	@Override
         	public void modifyText(final ModifyEvent e) {
                 ElGamalComposite.this.copyButton.setEnabled(true);
+//                if (ElGamalComposite.this.data.getAction() == Action.VerifyAction
+//                        && !ElGamalComposite.this.textText.getText().equals("")) { //$NON-NLS-1$
+                //TODO here it is checked if textText isn#t empty
                 if (ElGamalComposite.this.data.getAction() == Action.VerifyAction
-                        && !ElGamalComposite.this.textText.getText().equals("")) { //$NON-NLS-1$
+                        && !ElGamalComposite.this.textText.getContent().equals("")) { //$NON-NLS-1$
                     String text;
                     if (ElGamalComposite.this.verifiedText.getData() != null
                             && ElGamalComposite.this.resultText.getText().trim()
@@ -1052,7 +1063,9 @@ public class ElGamalComposite extends Composite {
         this.gText.setText(""); //$NON-NLS-1$
         this.bigAText.setText(""); //$NON-NLS-1$
         this.aText.setText(""); //$NON-NLS-1$
-        this.textText.setText(""); //$NON-NLS-1$
+//        this.textText.setText(""); //$NON-NLS-1$
+        //TODO resetting the field. Empty it.
+        this.textText.setContent("", null); //$NON-NLS-1$
         this.numberText.setText(""); //$NON-NLS-1$
         this.fastExpTable.setVisible(false);
         this.stepResult.setText(""); //$NON-NLS-1$
@@ -1080,13 +1093,18 @@ public class ElGamalComposite extends Composite {
         switch (this.data.getAction()) {
             case EncryptAction:
             case SignAction:
-                this.textText.setText(this.data.getPlainText());
+//                this.textText.setText(this.data.getPlainText());
+            	//TODO setting ConversionCharsToNumbers = null and ConversionNumbersToBlocks = null
+            	// doesn't work. It throw nullPointerExcception when setting Content.
+            	textText.setContent(data.getPlainText(), new ConversionStringToBlocks(null, null));
                 break;
             case DecryptAction:
                 this.numberText.setText(this.data.getCipherText());
                 break;
             case VerifyAction:
-                this.textText.setText(this.data.getPlainText());
+//                this.textText.setText(this.data.getPlainText());
+            	//TODO the same Problem as above.
+            	textText.setContent(data.getPlainText(), new ConversionStringToBlocks(null, null));
                 this.numberText.setText(this.data.getSignature().split(",")[1].replace(')', ' ').trim()); //$NON-NLS-1$
                 this.uniqueKeyButton.setEnabled(false);
                 this.uniqueKeyButton.setBackground(ColorService.GREEN);

@@ -347,11 +347,9 @@ public class RSAComposite extends Composite {
 			public void widgetSelected(final SelectionEvent e) {
 				if (dialog) {
 					final MessageBox messageBox = new MessageBox(new Shell(
-							Display.getCurrent()), SWT.ICON_INFORMATION
-							| SWT.OK);
+							Display.getCurrent()), SWT.ICON_INFORMATION | SWT.OK);
 					messageBox.setText(Messages.RSAComposite_key_selection);
-					messageBox
-							.setMessage(Messages.RSAComposite_keysel_messagebox_text);
+					messageBox.setMessage(Messages.RSAComposite_keysel_messagebox_text);
 					messageBox.open();
 				}
 				if (new WizardDialog(getShell(), new KeySelectionWizard(data,
@@ -392,8 +390,7 @@ public class RSAComposite extends Composite {
 							Display.getCurrent()), SWT.ICON_INFORMATION
 							| SWT.OK);
 					messageBox.setText(Messages.EnterCiphertextPage_textentry);
-					messageBox
-							.setMessage(Messages.RSAComposite_textentry_messagebox_text);
+					messageBox.setMessage(Messages.RSAComposite_textentry_messagebox_text);
 					messageBox.open();
 				}
 				buttonLoadTextClicked();
@@ -696,13 +693,11 @@ public class RSAComposite extends Composite {
 			break;
 		}
 		case VerifyAction: {
-			Label label2;
-			label2 = new Label(textDisplaysC2, SWT.NONE);
+			Label label2 = new Label(textDisplaysC2, SWT.NONE);
 			label2.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			label2.setText(Messages.RSAComposite_text_ver);
 
-			Label label3;
-			label3 = new Label(textDisplaysC2, SWT.NONE);
+			Label label3 = new Label(textDisplaysC2, SWT.NONE);
 			label3.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			label3.setText(Messages.RSAComposite_4);
 
