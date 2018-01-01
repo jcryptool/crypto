@@ -52,7 +52,7 @@ import org.jcryptool.visual.rsa.RSAPlugin;
 public class NewKeypairPage extends WizardPage {
 
 	/** Button to load the whole list of e's to the combo. */
-//	private Button elistUpdate;
+	private Button elistUpdate;
 
 	/** unique pagename to get this page from inside a wizard. */
 	private static final String PAGENAME = "New Keypair Page"; //$NON-NLS-1$
@@ -323,7 +323,7 @@ public class NewKeypairPage extends WizardPage {
 		separator3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		Composite exponents = new Composite(composite, SWT.NONE);
-		exponents.setLayout(new GridLayout(2, false));
+		exponents.setLayout(new GridLayout(3, false));
 		exponents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		// e wählen text
@@ -336,7 +336,7 @@ public class NewKeypairPage extends WizardPage {
 		eLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		// e
 		elist = new Combo(exponents, SWT.READ_ONLY | SWT.SIMPLE);
-		GridData gd_elist = new GridData(SWT.DEFAULT, SWT.FILL, true, true);
+		GridData gd_elist = new GridData(SWT.DEFAULT, SWT.FILL, false, true);
 		gd_elist.minimumHeight = 100;
 		elist.setLayoutData(gd_elist);
 		elist.addSelectionListener(new SelectionAdapter() {
@@ -363,6 +363,26 @@ public class NewKeypairPage extends WizardPage {
 				} catch (NumberFormatException e2) {
 					dfield.setText("");
 				}
+			}
+		});
+
+		elistUpdate = new Button(exponents, SWT.PUSH);
+		elistUpdate.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+		elistUpdate.setText(Messages.NewKeypairPage_whole_list);
+		elistUpdate.setToolTipText(Messages.NewKeypairPage_whole_list_popup);
+		elistUpdate.setEnabled(false);
+		elistUpdate.setVisible(false);
+		elistUpdate.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				elist.setItems((String[]) elistUpdate.getData());
+				elistUpdate.setEnabled(false);
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// won't be called
 			}
 		});
 
@@ -432,7 +452,7 @@ public class NewKeypairPage extends WizardPage {
 	 * fills the list of possible e values for selection.
 	 */
 	private void fillElist() {
-//		elistUpdate.setVisible(false);
+		elistUpdate.setVisible(false);
 		new Thread() {
 
 			/**
@@ -468,12 +488,12 @@ public class NewKeypairPage extends WizardPage {
 				public void run() {
 					if (newList.length <= TRIGGERLENGTH) {
 						elist.setItems(newList);
-//						elistUpdate.setData(null);
-//						elistUpdate.setEnabled(false);
-//						elistUpdate.setVisible(intermediate);
+						elistUpdate.setData(null);
+						elistUpdate.setEnabled(false);
+						elistUpdate.setVisible(intermediate);
 					} else {
-//						elistUpdate.setData(newList);
-//						elistUpdate.setEnabled(true);
+						elistUpdate.setData(newList);
+						elistUpdate.setEnabled(true);
 					}
 					if (data.getE() != null) {
 						elist.setText(data.getE().toString());
