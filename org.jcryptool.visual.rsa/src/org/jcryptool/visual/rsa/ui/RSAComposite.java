@@ -348,14 +348,14 @@ public class RSAComposite extends Composite {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				if (dialog) {
-					final MessageBox messageBox = new MessageBox(new Shell(
-							Display.getCurrent()), SWT.ICON_INFORMATION | SWT.OK);
+					MessageBox messageBox = new MessageBox(getShell(), SWT.ICON_INFORMATION | SWT.OK);
 					messageBox.setText(Messages.RSAComposite_key_selection);
 					messageBox.setMessage(Messages.RSAComposite_keysel_messagebox_text);
 					messageBox.open();
 				}
-				if (new WizardDialog(getShell(), new KeySelectionWizard(data,
-						false)).open() == Window.OK) {
+				WizardDialog keySelectionDialog = new WizardDialog(getShell(), new KeySelectionWizard(data, false));
+				keySelectionDialog.setHelpAvailable(false);
+				if (keySelectionDialog.open() == Window.OK) {
 					keySelected();
 				}
 			}
@@ -388,9 +388,7 @@ public class RSAComposite extends Composite {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				if (dialog) {
-					final MessageBox messageBox = new MessageBox(new Shell(
-							Display.getCurrent()), SWT.ICON_INFORMATION
-							| SWT.OK);
+					MessageBox messageBox = new MessageBox(getShell(), SWT.ICON_INFORMATION | SWT.OK);
 					messageBox.setText(Messages.EnterCiphertextPage_textentry);
 					messageBox.setMessage(Messages.RSAComposite_textentry_messagebox_text);
 					messageBox.open();
@@ -426,7 +424,7 @@ public class RSAComposite extends Composite {
 		if (data.getAction() == Action.VerifyAction) {
 			gd_runCalc.verticalIndent = 90;
 		} else {
-			gd_runCalc.verticalIndent = 63;
+			gd_runCalc.verticalIndent = 61;
 		}
 		runCalc.setLayoutData(gd_runCalc);
 		runCalc.setBackground(ColorService.RED);
@@ -465,8 +463,7 @@ public class RSAComposite extends Composite {
 				}
 				stepbackButton.setEnabled(false);
 				if (dialog) {
-					final MessageBox message = new MessageBox(new Shell(Display
-							.getCurrent()), SWT.ICON_INFORMATION | SWT.OK);
+					final MessageBox message = new MessageBox(getShell(), SWT.ICON_INFORMATION | SWT.OK);
 					message.setText(Messages.RSAComposite_finish_calc_messagebox_title);
 					message.setMessage(Messages.RSAComposite_finish_calc_messagebox_text);
 					message.open();
@@ -519,6 +516,7 @@ public class RSAComposite extends Composite {
 		NewTextEntryWizard wizard = makeWizardLoadInput(dataForWizard, 1);
 
 		WizardDialog wizardDialog = new WizardDialog(getShell(), wizard);
+		wizardDialog.setHelpAvailable(false);
 		int open = wizardDialog.open();
 
 		if (open == Window.OK) {
@@ -552,6 +550,7 @@ public class RSAComposite extends Composite {
 		NewTextEntryWizard wizard = makeWizardLoadInput(dataForWizard, 2);
 
 		WizardDialog wizardDialog = new WizardDialog(getShell(), wizard);
+		wizardDialog.setHelpAvailable(false);
 		int open = wizardDialog.open();
 
 		List<Integer> loadedData;
