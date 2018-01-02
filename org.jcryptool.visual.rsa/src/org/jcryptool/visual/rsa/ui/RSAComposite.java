@@ -648,7 +648,7 @@ public class RSAComposite extends Composite {
 		GridData gd_keyType = new GridData(SWT.RIGHT, SWT.CENTER, false, false);
 		gd_keyType.horizontalIndent = 30;
 		label_keyType.setLayoutData(gd_keyType);
-		label_keyType.setText("Key type :");
+		label_keyType.setText(Messages.RSAComposite_KeyType_keyType);
 		
 		text_keyType = new Text(calcGroup, SWT.READ_ONLY | SWT.BORDER);
 		text_keyType.setEnabled(false);
@@ -1507,7 +1507,7 @@ public class RSAComposite extends Composite {
 		eText.setText(""); //$NON-NLS-1$
 		dText.setText(""); //$NON-NLS-1$
 		nText.setText(""); //$NON-NLS-1$
-		text_keyType.setText("");
+		text_keyType.setText(""); //$NON-NLS-1$
 		setTextfield1BlockContent(new LinkedList<Integer>());
 		setSignHash(0, true);
 		// TODO: reset also verification plain text field
@@ -1614,13 +1614,13 @@ public class RSAComposite extends Composite {
 		}
 		//Check if it is a public key or private key. If it is a private key d is set
 		if (data.getE() != null && data.getD() != null && data.getN() != null) {
-			text_keyType.setText("private");
+			text_keyType.setText(Messages.RSAComposite_KeyType_private);
 		} else if (data.getE() != null && data.getN() != null) {
 			//if it is a public key d isn't set.
-			text_keyType.setText("public");
+			text_keyType.setText(Messages.RSAComposite_KeyType_public);
 			//Not the best solution, but does what it should: Setting dText to ""
 			//when e and N is set but d isn't.
-			dText.setText("");
+			dText.setText(""); //$NON-NLS-1$
 		}
 		viewHex();
 	}
@@ -1705,10 +1705,10 @@ public class RSAComposite extends Composite {
 			}
 			//Check if it is a public key or private key. If it is a private key d is set
 			if (data.getE() != null && data.getD() != null && data.getN() != null) {
-				text_keyType.setText("private");
+				text_keyType.setText(Messages.RSAComposite_KeyType_private); //$NON-NLS-1$
 			} else if (data.getE() != null && data.getN() != null) {
 				//if it is a public key d isn't set.
-				text_keyType.setText("public");
+				text_keyType.setText(Messages.RSAComposite_KeyType_public); //$NON-NLS-1$
 			}
 			if (data.getTempAsNumbers() != null && data.getTempAsNumbers().size() != 0) {
 				switch (data.getAction()) {
@@ -1736,10 +1736,10 @@ public class RSAComposite extends Composite {
 			}
 			//Check if it is a public key or private key. If it is a private key d is set
 			if (data.getE() != null && data.getD() != null && data.getN() != null) {
-				text_keyType.setText("private");
+				text_keyType.setText(Messages.RSAComposite_KeyType_private); //$NON-NLS-1$
 			} else if (data.getE() != null && data.getN() != null) {
 				//if it is a public key d isn't set.
-				text_keyType.setText("public");
+				text_keyType.setText(Messages.RSAComposite_KeyType_public); //$NON-NLS-1$
 			}
 			if (data.getTempAsNumbers() != null) {
 
