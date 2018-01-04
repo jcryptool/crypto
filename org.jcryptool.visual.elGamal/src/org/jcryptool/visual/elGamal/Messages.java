@@ -61,6 +61,9 @@ public class Messages extends NLS {
 	public static String ElGamalComposite_key_generation_popup;
 	public static String ElGamalComposite_key_selection;
 	public static String ElGamalComposite_key_selection_message_text;
+	public static String ElGamalComposite_keyType_keyType;
+	public static String ElGamalComposite_keyType_private;
+	public static String ElGamalComposite_keyType_public;
 	public static String ElGamalComposite_options;
 	public static String ElGamalComposite_reset;
 	public static String ElGamalComposite_result;
