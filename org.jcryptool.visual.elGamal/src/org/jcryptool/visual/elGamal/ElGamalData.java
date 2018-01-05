@@ -127,25 +127,27 @@ public class ElGamalData {
                 this.a = oldData.a;
                 this.privateAlias = oldData.privateAlias;
                 this.password = oldData.password;
-            } else {
-            	this.privateAlias = KeyStoreManager.getInstance().getPrivateForPublic(this.publicAlias);
-                final InputDialog passDialog = new InputDialog(Display.getCurrent().getActiveShell(),
-                        Messages.ElGamalData_inherit_password_text, Messages.ElGamalData_inherit_password_title, "",
-                        null);
-                if (passDialog.open() == Window.OK) {
-                    this.password = passDialog.getValue();
-                } else {
-                    return;
-                }
-                try {
-                    this.getPrivateParams();
-                } catch (UnrecoverableKeyException e) {
-                    JCTMessageDialog.showInfoDialog(new Status(IStatus.INFO, ElGamalPlugin.PLUGIN_ID,
-                            Messages.ElGamalData_ExAccessKeystorePassword, e));
-                } catch (final Exception e) {
-                    LogUtil.logError(e);
-                }
-            }
+			} else {
+				if (this.publicAlias != null) {
+					this.privateAlias = KeyStoreManager.getInstance().getPrivateForPublic(this.publicAlias);
+					final InputDialog passDialog = new InputDialog(Display.getCurrent().getActiveShell(),
+							Messages.ElGamalData_inherit_password_text, Messages.ElGamalData_inherit_password_title, "",
+							null);
+					if (passDialog.open() == Window.OK) {
+						this.password = passDialog.getValue();
+					} else {
+						return;
+					}
+					try {
+						this.getPrivateParams();
+					} catch (UnrecoverableKeyException e) {
+						JCTMessageDialog.showInfoDialog(new Status(IStatus.INFO, ElGamalPlugin.PLUGIN_ID,
+								Messages.ElGamalData_ExAccessKeystorePassword, e));
+					} catch (final Exception e) {
+						LogUtil.logError(e);
+					}
+				}
+			}
         }
 
         this.cipherText = oldData.cipherText;

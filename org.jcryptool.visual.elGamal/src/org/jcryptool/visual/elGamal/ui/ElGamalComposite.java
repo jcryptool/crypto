@@ -983,14 +983,44 @@ public class ElGamalComposite extends Composite {
         l.setText(Messages.ElGamalComposite_inherit_from);
         inheritCombo = new Combo(optionsGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
         inheritCombo.add(""); //$NON-NLS-1$
-        inheritCombo.add(Messages.ElGamalComposite_encrypt);
-        inheritCombo.setData("1", Action.EncryptAction); //$NON-NLS-1$
-        inheritCombo.add(Messages.ElGamalComposite_decrypt);
-        inheritCombo.setData("2", Action.DecryptAction); //$NON-NLS-1$
-        inheritCombo.add(Messages.ElGamalComposite_sign);
-        inheritCombo.setData("3", Action.SignAction); //$NON-NLS-1$
-        inheritCombo.add(Messages.ElGamalComposite_verify);
-        inheritCombo.setData("4", Action.VerifyAction); //$NON-NLS-1$
+        
+        switch (data.getAction()) {
+		case DecryptAction:
+			inheritCombo.add(Messages.ElGamalComposite_encrypt);
+	        inheritCombo.setData("1", Action.EncryptAction); //$NON-NLS-1$
+	        inheritCombo.add(Messages.ElGamalComposite_sign);
+	        inheritCombo.setData("2", Action.SignAction); //$NON-NLS-1$
+	        inheritCombo.add(Messages.ElGamalComposite_verify);
+	        inheritCombo.setData("3", Action.VerifyAction); //$NON-NLS-1$
+			break;
+		case EncryptAction:
+	        inheritCombo.add(Messages.ElGamalComposite_decrypt);
+	        inheritCombo.setData("1", Action.DecryptAction); //$NON-NLS-1$
+	        inheritCombo.add(Messages.ElGamalComposite_sign);
+	        inheritCombo.setData("2", Action.SignAction); //$NON-NLS-1$
+	        inheritCombo.add(Messages.ElGamalComposite_verify);
+	        inheritCombo.setData("3", Action.VerifyAction); //$NON-NLS-1$
+			break;
+		case SignAction:
+			inheritCombo.add(Messages.ElGamalComposite_encrypt);
+	        inheritCombo.setData("1", Action.EncryptAction); //$NON-NLS-1$
+	        inheritCombo.add(Messages.ElGamalComposite_decrypt);
+	        inheritCombo.setData("2", Action.DecryptAction); //$NON-NLS-1$
+	        inheritCombo.add(Messages.ElGamalComposite_verify);
+	        inheritCombo.setData("3", Action.VerifyAction); //$NON-NLS-1$
+			break;
+		case VerifyAction:
+			inheritCombo.add(Messages.ElGamalComposite_encrypt);
+	        inheritCombo.setData("1", Action.EncryptAction); //$NON-NLS-1$
+	        inheritCombo.add(Messages.ElGamalComposite_decrypt);
+	        inheritCombo.setData("2", Action.DecryptAction); //$NON-NLS-1$
+	        inheritCombo.add(Messages.ElGamalComposite_sign);
+	        inheritCombo.setData("3", Action.SignAction); //$NON-NLS-1$
+			break;
+		default:
+			break;
+        
+        }
         inheritCombo.addSelectionListener(new SelectionAdapter() {
 
             @Override
@@ -1000,10 +1030,17 @@ public class ElGamalComposite extends Composite {
                 if (((Combo) e.widget).getSelectionIndex() == 0 || newAction == data.getAction()) {
                     return;
                 } else {
-                    MessageBox mb = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+                	boolean proceed = true;
+                	MessageBox mb = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
                     mb.setText(Messages.ElGamalComposite_sure);
                     mb.setMessage(Messages.ElGamalComposite_data_loss);
-                    if (mb.open() == SWT.OK) {
+                    //Check if the warning that data will be lost is necessary
+                	if (data.getModulus() != null) {
+                        proceed = mb.open() == SWT.OK;
+                	}
+                	//If Ok is pressed in the dialog continue. 
+                	// If no data will be lot continue automatically.
+                    if (proceed) {
                         final ElGamalData oldData = datas.get(newAction);
                         reset();
                         data.inherit(oldData);
@@ -1017,6 +1054,7 @@ public class ElGamalComposite extends Composite {
                                 textEntered();
                                 if (data.getB() != null) {
                                     bEntered();
+                                    uniqueKeyButton.setEnabled(false);
                                 }
                             }
                         }
