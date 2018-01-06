@@ -39,8 +39,7 @@ public class RegistrationTab {
         Group generalGroup = new Group(parent, SWT.NONE);
         generalGroup.setLayoutData(new GridData(SWT.TOP, SWT.TOP, true, true, 1, 1));
         t.setControl(generalGroup);
-        @SuppressWarnings("unused")
-        ShowCSR sCSR = new ShowCSR(generalGroup, exp);
+        new ShowCSR(generalGroup, exp);
         generalGroup.setLayout(new GridLayout(1, false));
     }
 }

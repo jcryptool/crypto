@@ -31,10 +31,12 @@ import org.jcryptool.visual.jctca.listeners.CSRListener;
  * 
  */
 public class ShowCSR implements Views {
+	
     private List lst_csr;
+    private Group showCSRGroup;
      
     public ShowCSR(Composite content, Composite exp) {
-        Group showCSRGroup = new Group(content, SWT.NONE);
+        showCSRGroup = new Group(content, SWT.NONE);
         showCSRGroup.setLayout(new GridLayout(3, false));
         GridData gd_grp = new GridData(SWT.FILL, SWT.FILL, true, true);
         showCSRGroup.setLayoutData(gd_grp);
@@ -144,9 +146,11 @@ public class ShowCSR implements Views {
 
     @Override
     public void dispose() {
+    	showCSRGroup.dispose();
     }
 
     @Override
     public void setVisible(boolean visible) {
+    	showCSRGroup.setVisible(visible);
     }
 }

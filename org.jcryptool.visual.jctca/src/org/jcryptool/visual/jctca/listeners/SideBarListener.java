@@ -76,6 +76,9 @@ public class SideBarListener implements SelectionListener {
         // layout the composite afterwards. also changes the explain group
         comp_right.layout(true, true);
         grp_exp.layout(true);
+        
+//        comp_right.getParent().getParent()
+        
     }
 
 }
