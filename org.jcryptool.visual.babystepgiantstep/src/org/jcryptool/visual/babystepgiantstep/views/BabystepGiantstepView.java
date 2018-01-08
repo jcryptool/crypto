@@ -248,6 +248,7 @@ public class BabystepGiantstepView extends ViewPart {
 						 */
 						Parameter parameter = new Parameter(e.display.getActiveShell(), textGroupValue.toString(),
 								textGeneratorValue.toString(), textGroupElementValue.toString());
+						parameter.setHelpAvailable(false);
 
 						int rc = parameter.open();
 
