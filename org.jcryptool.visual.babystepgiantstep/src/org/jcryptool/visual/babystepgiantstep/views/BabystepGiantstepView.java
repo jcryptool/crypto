@@ -546,7 +546,7 @@ public class BabystepGiantstepView extends ViewPart {
 		tblclmnCommentGS.setText(Messages.BabystepGiantstepView_69);
 
 		compositeStep4Btn = new Composite(grpCalculateTheGiant, SWT.NONE);
-		GridData gd_compositeStep4Btn = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2);
+		GridData gd_compositeStep4Btn = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2);
 //		gd_compositeStep4Btn.widthHint = 230;
 		compositeStep4Btn.setLayoutData(gd_compositeStep4Btn);
 		compositeStep4Btn.setLayout(new GridLayout(1, false));
