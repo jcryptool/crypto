@@ -130,6 +130,11 @@ public class BabystepGiantstepView extends ViewPart {
 	private Composite compositeStep4Btn;
 
 	private Composite parent;
+	
+	private GridData gd_compositeStep1Btn;
+	private GridData gd_compositeStep2Btn;
+	private GridData gd_compositeStep3Btn;
+	private GridData gd_compositeStep4Btn;
 
 	/**
 	 * The constructor.
@@ -210,8 +215,7 @@ public class BabystepGiantstepView extends ViewPart {
 		comboGroup.addVerifyListener(vl_numbers);
 
 		compositeStep1Btn = new Composite(grpEnterTheParameters, SWT.NONE);
-		GridData gd_compositeStep1Btn = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-//		gd_compositeStep1Btn.widthHint = 170;
+		gd_compositeStep1Btn = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
 		compositeStep1Btn.setLayoutData(gd_compositeStep1Btn);
 		compositeStep1Btn.setLayout(new GridLayout(1, false));
 
@@ -333,8 +337,7 @@ public class BabystepGiantstepView extends ViewPart {
 		textInv.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		compositeStep2Btn = new Composite(grpCalculateTheGroupoder, SWT.NONE);
-		GridData gd_compositeStep2Btn = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
-//		gd_compositeStep2Btn.widthHint = 170;
+		gd_compositeStep2Btn = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
 		compositeStep2Btn.setLayoutData(gd_compositeStep2Btn);
 		compositeStep2Btn.setLayout(new GridLayout(1, false));
 
@@ -457,8 +460,7 @@ public class BabystepGiantstepView extends ViewPart {
 		tblclmnCommentBS.setText(Messages.BabystepGiantstepView_47);
 
 		compositeStep3Btn = new Composite(grpCalculateTheBaby, SWT.NONE);
-		GridData gd_compositeStep3Btn = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-//		gd_compositeStep3Btn.widthHint = 170;
+		gd_compositeStep3Btn = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
 		compositeStep3Btn.setLayoutData(gd_compositeStep3Btn);
 		compositeStep3Btn.setLayout(new GridLayout(1, false));
 
@@ -548,8 +550,7 @@ public class BabystepGiantstepView extends ViewPart {
 		tblclmnCommentGS.setText(Messages.BabystepGiantstepView_69);
 
 		compositeStep4Btn = new Composite(grpCalculateTheGiant, SWT.NONE);
-		GridData gd_compositeStep4Btn = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2);
-//		gd_compositeStep4Btn.widthHint = 230;
+		gd_compositeStep4Btn = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2);
 		compositeStep4Btn.setLayoutData(gd_compositeStep4Btn);
 		compositeStep4Btn.setLayout(new GridLayout(1, false));
 
@@ -749,33 +750,7 @@ public class BabystepGiantstepView extends ViewPart {
 			
 			@Override
 			public void controlResized(ControlEvent e) {
-
-				//At first, the composite should use their preferred size (the minimum size).
-				compositeStep1Btn.pack();
-				compositeStep2Btn.pack();
-				compositeStep3Btn.pack();
-				compositeStep4Btn.pack();
-				
-				//Then figure out, which composite is the biggest.
-				int width = 0;
-				if (compositeStep1Btn.getBounds().width > width) {
-					width = compositeStep1Btn.getBounds().width;
-				}
-				if (compositeStep2Btn.getBounds().width > width) {
-					width = compositeStep2Btn.getBounds().width;
-				}
-				if (compositeStep3Btn.getBounds().width > width) {
-					width = compositeStep3Btn.getBounds().width;
-				}
-				if (compositeStep4Btn.getBounds().width > width) {
-					width = compositeStep4Btn.getBounds().width;
-				}
-				
-				//Set all composites to the size of the biggest.
-				gd_compositeStep1Btn.widthHint = width;
-				gd_compositeStep2Btn.widthHint = width;
-				gd_compositeStep3Btn.widthHint = width;
-				gd_compositeStep4Btn.widthHint = width;
+				resizeButtons();
 			}
 			
 			@Override
@@ -785,6 +760,35 @@ public class BabystepGiantstepView extends ViewPart {
 			}
 		});
 
+	}
+	
+	private void resizeButtons() {
+		//At first, the composite should use their preferred size (the minimum size).
+		compositeStep1Btn.pack();
+		compositeStep2Btn.pack();
+		compositeStep3Btn.pack();
+		compositeStep4Btn.pack();
+		
+		//Then figure out, which composite is the biggest.
+		int width = 0;
+		if (compositeStep1Btn.getBounds().width > width) {
+			width = compositeStep1Btn.getBounds().width;
+		}
+		if (compositeStep2Btn.getBounds().width > width) {
+			width = compositeStep2Btn.getBounds().width;
+		}
+		if (compositeStep3Btn.getBounds().width > width) {
+			width = compositeStep3Btn.getBounds().width;
+		}
+		if (compositeStep4Btn.getBounds().width > width) {
+			width = compositeStep4Btn.getBounds().width;
+		}
+		
+		//Set all composites to the size of the biggest.
+		gd_compositeStep1Btn.widthHint = width;
+		gd_compositeStep2Btn.widthHint = width;
+		gd_compositeStep3Btn.widthHint = width;
+		gd_compositeStep4Btn.widthHint = width;
 	}
 
 	@Override
@@ -798,7 +802,9 @@ public class BabystepGiantstepView extends ViewPart {
 			control.dispose();
 		}
 		createPartControl(parent);
-
+		
+		resizeButtons();
 		parent.layout();
+		
 	}
 }
