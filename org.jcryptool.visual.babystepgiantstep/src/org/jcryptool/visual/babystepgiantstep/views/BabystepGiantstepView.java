@@ -23,6 +23,8 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
@@ -730,6 +732,16 @@ public class BabystepGiantstepView extends ViewPart {
 		gd_textDescription.widthHint = 400;
 		textResult.setBackground(Constants.LIGHTGREY);
 		textResult.setLayoutData(gd_textDescription);
+		
+		textResult.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				//Autoadjust the size of the textfield.
+				parent.layout(new Control[] {textResult});
+			}
+		});
+		
 		scrolledComposite.setMinSize(grpBabyStepGiant.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		scrolledComposite.setContent(grpBabyStepGiant);
 		
