@@ -45,6 +45,7 @@ public class ShowCSR implements Views {
         Composite left = new Composite(showCSRGroup, SWT.NONE);
         left.setLayout(new GridLayout(1, true));
         left.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        
         Composite center = new Composite(showCSRGroup, SWT.NONE);
         center.setLayout(new GridLayout(2, false));
         center.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));

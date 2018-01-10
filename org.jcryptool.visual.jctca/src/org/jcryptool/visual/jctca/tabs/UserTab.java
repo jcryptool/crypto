@@ -11,6 +11,7 @@
 package org.jcryptool.visual.jctca.tabs;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -40,9 +41,16 @@ public class UserTab {
         // define the layout for the whole TabItem
         TabItem tab = new TabItem(parent, SWT.NONE);
         tab.setText(Messages.UserTab_tabitem_name);
-        Group grp_userTab = new Group(parent, SWT.NONE);
+        
+        ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+        scrolledComposite.setExpandHorizontal(true);
+        scrolledComposite.setExpandVertical(true);
+        scrolledComposite.setLayout(new GridLayout());
+        tab.setControl(scrolledComposite);
+        
+        
+        Group grp_userTab = new Group(scrolledComposite, SWT.NONE);
         grp_userTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-        tab.setControl(grp_userTab);
         this.grp_exp = exp;
 
         // 2 columns (actions and the actionswindow)
@@ -51,7 +59,7 @@ public class UserTab {
         // Grid-Layout for all the buttons on the left side
         Composite left = new Composite(grp_userTab, SWT.NONE);
         left.setLayout(new GridLayout(1, true));
-        left.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+        left.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
         Composite right = new Composite(grp_userTab, SWT.NONE);
         right.setLayout(new GridLayout(1, true));
@@ -68,7 +76,7 @@ public class UserTab {
         btn_create_cert.setText(Messages.UserTab_btn_get_new_cert);
         btn_create_cert.setData(0); // set data for listener - see SideBarListener.java
         btn_create_cert.addSelectionListener(list_side);
-        btn_create_cert.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+        btn_create_cert.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
         Button btn_show_cert = new Button(g1, SWT.PUSH);
         btn_show_cert.setText(Messages.UserTab_btn_manage_certs);
@@ -86,6 +94,9 @@ public class UserTab {
         btn_sign_stuff.setData(2);
         btn_sign_stuff.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         btn_sign_stuff.addSelectionListener(list_side);
+        
+        scrolledComposite.setContent(grp_userTab);
+        scrolledComposite.setMinSize(grp_userTab.computeSize(SWT.DEFAULT, SWT.DEFAULT));
         
     }
 }

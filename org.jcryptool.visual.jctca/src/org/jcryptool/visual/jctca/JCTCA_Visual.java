@@ -166,21 +166,12 @@ public class JCTCA_Visual extends ViewPart {
         TabItemListener tabItemListener = new TabItemListener(tabFolder, grp_explain);
         tabFolder.addSelectionListener(tabItemListener);
 
-//        @SuppressWarnings("unused")
-//        UserTab user = new UserTab(tabFolder, comp_vscroll, SWT.NONE);
-//        new UserTab(tabFolder, comp_vscroll, SWT.NONE);
         new UserTab(tabFolder, grp_explain, SWT.NONE);
-//        @SuppressWarnings("unused")
-//        RegistrationTab ra = new RegistrationTab(tabFolder, comp_vscroll, SWT.NONE);
-//        new RegistrationTab(tabFolder, comp_vscroll, SWT.NONE);
+
         new RegistrationTab(tabFolder, grp_explain, SWT.NONE);
-//        @SuppressWarnings("unused")
-//        CertificationTab ca = new CertificationTab(tabFolder, comp_vscroll, SWT.NONE);
-//        new CertificationTab(tabFolder, comp_vscroll, SWT.NONE);
+        
         new CertificationTab(tabFolder, grp_explain, SWT.NONE);
-//        @SuppressWarnings("unused")
-//        SecondUserTab scndUser = new SecondUserTab(tabFolder, comp_vscroll, SWT.NONE);
-//        new SecondUserTab(tabFolder, comp_vscroll, SWT.NONE);
+
         new SecondUserTab(tabFolder, grp_explain, SWT.NONE);
 
         tabFolder.setSelection(0);
