@@ -199,6 +199,6 @@ public class JCTCA_Visual extends ViewPart {
 
     @Override
     public void setFocus() {
-    	composite.setFocus();
+    	root.setFocus();
     }
 }
