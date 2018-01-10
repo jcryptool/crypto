@@ -14,12 +14,15 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -46,6 +49,7 @@ public class JCTCA_Visual extends ViewPart {
     private static final Color WHITE = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
 
     private Composite composite;
+    private Composite head_composite;
     private StyledText head_description;
     private Composite comp_center;
     private TabFolder tabFolder;
@@ -60,11 +64,10 @@ public class JCTCA_Visual extends ViewPart {
         root.setExpandHorizontal(true);
         root.setExpandVertical(true);
 
-        GridLayout gl = new GridLayout(1, false);
-        composite.setLayout(gl);
+        composite.setLayout(new GridLayout(1, false));
 
         // Begin - headline area
-        Composite head_composite = new Composite(composite, SWT.NONE);
+        head_composite = new Composite(composite, SWT.NONE);
         head_composite.setBackground(WHITE);
         head_composite.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
         head_composite.setLayout(new GridLayout());
@@ -75,12 +78,20 @@ public class JCTCA_Visual extends ViewPart {
         // Set the headline text to the title of the plugin
         headline.setText(Messages.JCTCA_Visual_Plugin_Headline);
         head_description = new StyledText(head_composite, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP);
-        GridData gd_head_description = new GridData(SWT.FILL, SWT.NONE, true, false);
+        GridData gd_head_description = new GridData(SWT.FILL, SWT.FILL, true, false);
         gd_head_description.widthHint = 700;
         head_description.setLayoutData(gd_head_description);
         // set the short introduction text for the certificate creation picture
         // because this is the first text that needs to be shown
         head_description.setText(Messages.JCTCA_Visual_archpic_create_text);
+        head_description.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				//Resize the control when the text changes
+				parent.layout(new Control[] {head_description});
+			}
+		});
         // End - Header
         showArchitecture();
 
@@ -143,6 +154,7 @@ public class JCTCA_Visual extends ViewPart {
     }
 
     public void showCenter() {
+    	
         comp_center = new Composite(composite, SWT.NONE);
         // 2 columns (tabs and explanation) --> new GridLayout(2, false);
         comp_center.setLayout(new GridLayout(2, false));
@@ -175,7 +187,9 @@ public class JCTCA_Visual extends ViewPart {
         new SecondUserTab(tabFolder, grp_explain, SWT.NONE);
 
         tabFolder.setSelection(0);
-        composite.layout();
+        composite.layout(true);
+        
+        root.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
         
     }
 
