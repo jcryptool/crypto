@@ -312,7 +312,23 @@ public class ElGamalComposite extends Composite {
         textEnter = new Button(compositeButtons, SWT.PUSH);
         textEnter.setBackground(ColorService.RED);
         textEnter.setEnabled(false);
-        textEnter.setText(Messages.ElGamalComposite_enter_text);
+        switch (data.getAction()) {
+        case EncryptAction:
+        	textEnter.setText(Messages.ElGamalComposite_enter_plaintext);
+        	break;
+		case DecryptAction:
+			textEnter.setText(Messages.ElGamalComposite_enter_ciphertext);
+			break;
+		case SignAction:
+			textEnter.setText(Messages.ElGamalComposite_enter_plaintext); //$NON-NLS-1$
+			break;
+		case VerifyAction:
+			textEnter.setText(Messages.ElGamalComposite_enter_plaintext); //$NON-NLS-1$
+			break;
+		default:
+			break;
+        }
+        
         GridData gd_textEnter = new GridData(SWT.FILL, SWT.FILL, false, false);
         gd_textEnter.verticalIndent = 10;
         gd_textEnter.heightHint = 60;
@@ -365,10 +381,9 @@ public class ElGamalComposite extends Composite {
         runCalc.setBackground(ColorService.RED);
         runCalc.setEnabled(false);
         switch (data.getAction()) {
-        case EncryptAction : {
+        case EncryptAction:
         	runCalc.setText(Messages.ElGamalComposite_Action_Encrypt);
         	break;
-        }
 		case DecryptAction:
 			runCalc.setText(Messages.ElGamalComposite_Action_Decrypt);
 			break;

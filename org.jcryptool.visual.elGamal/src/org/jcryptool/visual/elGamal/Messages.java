@@ -48,8 +48,10 @@ public class Messages extends NLS {
 	public static String ElGamalComposite_description_sign;
 	public static String ElGamalComposite_description_verify;
 	public static String ElGamalComposite_encrypt;
+	public static String ElGamalComposite_enter_ciphertext;
 	public static String ElGamalComposite_enter_param;
 	public static String ElGamalComposite_enter_param_text;
+	public static String ElGamalComposite_enter_plaintext;
 	public static String ElGamalComposite_enter_text;
 	public static String ElGamalComposite_finish_calculations;
 	public static String ElGamalComposite_finish_calculations_text;
