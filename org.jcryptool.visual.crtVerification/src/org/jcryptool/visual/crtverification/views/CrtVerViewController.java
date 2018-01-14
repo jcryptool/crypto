@@ -471,7 +471,7 @@ public class CrtVerViewController {
         composite.textCertThruDay.setText("1");
         composite.textVerificationDateDay.setText("1");
         composite.textSignatureDateDay.setText("1");
-        composite.validitySymbol.hide();
+        composite.labelValiditySymbol.setVisible(false);
         composite.btnLoadRootCa.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
         composite.btnLoadCa.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
         composite.btnLoadUserCert.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
@@ -514,7 +514,7 @@ public class CrtVerViewController {
     }
 
     public void loadCertificate(ChooseCertPage p, X509Certificate cert, String contact_name) {
-        composite.validitySymbol.hide();
+    	composite.labelValiditySymbol.setVisible(false);
         switch (p.getCertType()) {
         case 1: // [1] UserCert
             setTN(cert);
