@@ -174,7 +174,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		title.setBackground(ColorService.WHITE);
 		title.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		title.setFont(FontService.getLargeBoldFont());
-		title.setText("Zertifikat-Verifikation");
+		title.setText(Messages.CrtVerViewComposite_title);
 
 		Text txtDescription = new Text(header, SWT.READ_ONLY | SWT.WRAP | SWT.MULTI);
 		txtDescription.setBackground(ColorService.WHITE);
