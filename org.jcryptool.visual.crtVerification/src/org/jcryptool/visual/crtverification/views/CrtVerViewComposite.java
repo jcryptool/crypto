@@ -179,7 +179,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		Text txtDescription = new Text(header, SWT.READ_ONLY | SWT.WRAP | SWT.MULTI);
 		txtDescription.setBackground(ColorService.WHITE);
 		GridData gd_txtDescription = new GridData(SWT.FILL, SWT.FILL, true, false);
-		gd_txtDescription.widthHint = 600;
+		gd_txtDescription.widthHint = 1000;
 		txtDescription.setLayoutData(gd_txtDescription);
 		txtDescription.setText(Messages.CrtVerViewComposite_description);
 		
