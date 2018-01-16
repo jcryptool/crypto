@@ -395,8 +395,8 @@ public class CrtVerViewController {
         fromCert = parseDate(composite.textCertFromDay.getText(), composite.fromCert.getText());
         verificationDate = parseDate(composite.textVerificationDateDay.getText(), composite.verificationDate.getText());
         signatureDate = parseDate(composite.textSignatureDateDay.getText(), composite.signatureDate.getText());
-        if (!composite.btnReset.isEnabled())
-            composite.btnReset.setEnabled(true);
+//        if (!composite.btnReset.isEnabled())
+//            composite.btnReset.setEnabled(true);
     }
 
     /**
@@ -499,7 +499,7 @@ public class CrtVerViewController {
         composite.btnShellModelModified.setSelection(false);
         composite.btnChainModel.setSelection(false);
         composite.scaleVerificationDate.setEnabled(true);
-        composite.btnReset.setEnabled(false);
+//        composite.btnReset.setEnabled(false);
 
     }
 
@@ -539,8 +539,8 @@ public class CrtVerViewController {
             break;
         }
         p.setPageComplete(true);
-        if (!composite.btnReset.isEnabled())
-            composite.btnReset.setEnabled(true);
+//        if (!composite.btnReset.isEnabled())
+//            composite.btnReset.setEnabled(true);
     }
 
     public void updateElements(Label l, Scale s, int default_selection) {

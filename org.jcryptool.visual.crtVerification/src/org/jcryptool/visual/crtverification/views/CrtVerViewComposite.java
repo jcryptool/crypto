@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.menus.CommandContributionItem;
@@ -95,7 +94,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 	Button btnShellModel;
 	Button btnShellModelModified;
 	Button btnChainModel;
-	Button btnReset;
+//	Button btnReset;
 	Canvas canvas1;
 	Canvas canvas2;
 	int arrowSigDiff = 0;
@@ -434,7 +433,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 						protected void configureShell(Shell newShell) {
 							super.configureShell(newShell);
 							// set size of the wizard-window (x,y)
-							newShell.setSize(550, 500);
+							newShell.setSize(700, 500);
 						}
 					};
 					if (dialog.open() == Window.OK) {
@@ -463,7 +462,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 						protected void configureShell(Shell newShell) {
 							super.configureShell(newShell);
 							// set size of the wizard-window (x,y)
-							newShell.setSize(550, 500);
+							newShell.setSize(700, 500);
 						}
 					};
 					if (dialog.open() == Window.OK) {
@@ -492,7 +491,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 						protected void configureShell(Shell newShell) {
 							super.configureShell(newShell);
 							// set size of the wizard-window (x,y)
-							newShell.setSize(550, 500);
+							newShell.setSize(700, 500);
 						}
 					};
 					
@@ -699,45 +698,54 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		gd_settingsComposite.verticalIndent = 30;
 		settingsComposite.setLayoutData(gd_settingsComposite);
 		
-		btnReset = new Button(settingsComposite, SWT.PUSH); 
-		btnReset.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
-		btnReset.setText(Messages.CrtVerViewComposite_reset);
-		btnReset.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				controller.reset();
-			}
-		});
+		//Commented out because it does the same like restart in the left top. Replaced with an empty Label
+		// to reenable the Button just comment the next Label out and uncomment the following button.
+//		btnReset = new Button(settingsComposite, SWT.PUSH); 
+//		btnReset.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+//		btnReset.setText(Messages.CrtVerViewComposite_reset);
+//		btnReset.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				controller.reset();
+//			}
+//		});
+		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 
-		Button btnBack = new Button(settingsComposite, SWT.PUSH);
-		btnBack.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
-		btnBack.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
-						showView("org.jcryptool.visual.jctca.JCTCA_Visual");
-				} catch (PartInitException e1) {
-					LogUtil.logError(Activator.PLUGIN_ID, e1);
-				}
-			}
-		});
-		btnBack.setText(Messages.CrtVerViewComposite_pki_plugin);
+		//Commented out because they only open another Plugin. This is also possible by selecting the wished Plugin
+		//from the menu.
+//		Button btnBack = new Button(settingsComposite, SWT.PUSH);
+//		btnBack.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
+//		btnBack.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				try {
+//					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
+//						showView("org.jcryptool.visual.jctca.JCTCA_Visual");
+//				} catch (PartInitException e1) {
+//					LogUtil.logError(Activator.PLUGIN_ID, e1);
+//				}
+//			}
+//		});
+//		btnBack.setText(Messages.CrtVerViewComposite_pki_plugin);
+		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 
-		Button btnForward = new Button(settingsComposite, SWT.PUSH);
-		btnForward.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
-		btnForward.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
-						showView("org.jcryptool.visual.sigVerification.view");
-				} catch (PartInitException e1) {
-					LogUtil.logError(Activator.PLUGIN_ID, e1);
-				}
-			}
-		});
-		btnForward.setText(Messages.CrtVerViewComposite_signatureVerification);
+		//Commented out because they only open another Plugin. This is also possible by selecting the wished Plugin
+		//from the menu.
+//		Button btnForward = new Button(settingsComposite, SWT.PUSH);
+//		btnForward.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+//		btnForward.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				try {
+//					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().
+//						showView("org.jcryptool.visual.sigVerification.view");
+//				} catch (PartInitException e1) {
+//					LogUtil.logError(Activator.PLUGIN_ID, e1);
+//				}
+//			}
+//		});
+//		btnForward.setText(Messages.CrtVerViewComposite_signatureVerification);
+		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
 		btnShellModel = new Button(settingsComposite, SWT.RADIO);
 		btnShellModel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
