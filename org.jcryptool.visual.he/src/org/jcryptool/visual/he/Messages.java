@@ -193,6 +193,8 @@ public class Messages extends NLS {
 	public static String Wrong_Password;
 	public static String GHChooseMultiplicationsExplanation;
 	public static String GHChooseMultiplicationsText;
+	public static String LoadKeyPage_select_file;
+	public static String LoadKeyPage_description;
 
 
 	static {

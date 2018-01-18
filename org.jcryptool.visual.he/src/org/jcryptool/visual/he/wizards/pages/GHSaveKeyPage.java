@@ -112,7 +112,6 @@ public class GHSaveKeyPage extends WizardPage {
 		passwordverify.addModifyListener(ml);
 		passwordverify.setLayoutData(gd);
 
-		// finish
 		setControl(composite);
 	}
 
