@@ -82,30 +82,36 @@ public class EnterSignaturePage extends TextWizardPage {
         text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         text.addModifyListener(new ModifyListener() {
 
-            public void modifyText(final ModifyEvent e) {
-                final String trimmed = text.getText().replaceAll(Lib.WHITESPACE, ""); //$NON-NLS-1$
-                final boolean leer = trimmed.length() == 0;
-                if (!leer) {
-                    final String[] rs = trimmed.split(","); //$NON-NLS-1$
-                    rs[0] = rs[0].substring(1);
-                    rs[1] = rs[1].replace(')', ' ').trim();
-                    final BigInteger r = new BigInteger(rs[0], Constants.HEXBASE);
-                    final BigInteger s = new BigInteger(rs[1], Constants.HEXBASE);
-                    data.setR(r);
-                    if (r.compareTo(BigInteger.ZERO) <= 0 || r.compareTo(data.getModulus()) >= 0) {
-                        setErrorMessage(Messages.EnterSignaturePage_error_invalid_r);
-                        setPageComplete(false);
-                    } else if (s.compareTo(BigInteger.ZERO) <= 0
-                            || s.compareTo(data.getModulus().subtract(BigInteger.ONE)) >= 0) {
-                        setErrorMessage(Messages.EnterSignaturePage_error_invalid_s);
-                        setPageComplete(false);
-                    } else {
-                        setErrorMessage(null);
-                        setPageComplete(!leer);
-                    }
-                }
-            }
-        });
+			public void modifyText(ModifyEvent e) {
+				String trimmed = text.getText().replaceAll(Lib.WHITESPACE, ""); //$NON-NLS-1$
+
+				// This checks if the input has the form of
+				// 1. an open bracket ([(])
+				// 2. a hex value ([0-9A-Fa-f]+?)
+				// 3. a comma ([,])
+				// 4. a hex value ([0-9A-Fa-f]+?)
+				// 5. a closed bracket ([)])
+				if (trimmed.matches("[(][0-9A-Fa-f]+?[,][0-9A-Fa-f]+?[)]")) {
+					//Remove the brackets
+					trimmed = trimmed.replaceAll("[(]", "").replaceAll("[)]", "");
+					String[] rs = trimmed.split(","); //$NON-NLS-1$
+					BigInteger r = new BigInteger(rs[0], Constants.HEXBASE);
+					BigInteger s = new BigInteger(rs[1], Constants.HEXBASE);
+					data.setR(r);
+					if (r.compareTo(BigInteger.ZERO) <= 0 || r.compareTo(data.getModulus()) >= 0) {
+						setErrorMessage(Messages.EnterSignaturePage_error_invalid_r);
+						setPageComplete(false);
+					} else if (s.compareTo(BigInteger.ZERO) <= 0
+							|| s.compareTo(data.getModulus().subtract(BigInteger.ONE)) >= 0) {
+						setErrorMessage(Messages.EnterSignaturePage_error_invalid_s);
+						setPageComplete(false);
+					} else {
+						setErrorMessage(null);
+						setPageComplete(true);
+					}
+				}
+			}
+		});
         text.addVerifyListener(Lib.getVerifyListener("[" + Lib.WHITESPACE + Lib.HEXDIGIT + "\\(\\),]*")); //$NON-NLS-1$ //$NON-NLS-2$
 
         final Button SHA1Checkbox = new Button(composite, SWT.CHECK);
