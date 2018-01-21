@@ -39,9 +39,6 @@ public class ChooseBPage extends WizardPage {
     /** pagename for access */
     private static final String PAGENAME = "Choose K Page"; //$NON-NLS-1$
 
-    /** title of this page */
-    private static final String TITLE = Messages.ChooseBPage_choose_b;
-
     /** shared data object */
     private final ElGamalData data;
 
@@ -51,12 +48,25 @@ public class ChooseBPage extends WizardPage {
      * @param data the {@link #data}
      */
     public ChooseBPage(final ElGamalData data) {
-        super(PAGENAME, TITLE, null);
-        setDescription(Messages.ChooseBPage_choose_b_text);
+    	super(PAGENAME);
         this.data = data;
+        switch (data.getAction()) {
+		case DecryptAction:
+			setTitle(Messages.ChooseBPage_decryption);
+			break;
+		case EncryptAction:
+			setTitle(Messages.ChooseBPage_encryption);
+			break;
+		default:
+			break;
+		}
+        setDescription(Messages.ChooseBPage_choose_b_text);
         setPageComplete(false);
     }
 
+    /**
+     * Create the GUI of the Dialog
+     */
     public void createControl(final Composite parent) {
         final Composite composite = new Composite(parent, SWT.NONE);
         GridLayout gl_composite = new GridLayout(3, false);
@@ -95,7 +105,7 @@ public class ChooseBPage extends WizardPage {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				t.setText(new BigInteger(ChooseBPage.this.data.getModulus().bitLength()-1, new Random()).toString());
+				t.setText(new BigInteger(data.getModulus().bitLength()-1, new Random()).toString());
 			}
 			
 			@Override
