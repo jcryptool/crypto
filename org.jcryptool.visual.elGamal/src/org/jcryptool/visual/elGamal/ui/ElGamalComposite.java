@@ -302,7 +302,7 @@ public class ElGamalComposite extends Composite {
                     messageBox.open();
                 }
 				WizardDialog keySelDialog = new WizardDialog(getShell(), new KeySelectionWizard(
-						data.getAction(), data, false));
+						data, false));
 				keySelDialog.setHelpAvailable(false);
 				if (keySelDialog.open() == Window.OK) {
 					keySelected();
@@ -1042,7 +1042,7 @@ public class ElGamalComposite extends Composite {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				WizardDialog keyButtonDialog = new WizardDialog(new Shell(Display.getDefault()),
-						new KeySelectionWizard(null, null, true));
+						new KeySelectionWizard(null, true));
 				keyButtonDialog.setHelpAvailable(false);
 				keyButtonDialog.open();
 			}
