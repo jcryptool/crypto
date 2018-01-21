@@ -14,8 +14,9 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "org.jcryptool.visual.elGamal.messages"; //$NON-NLS-1$
 	public static String ChooseBPage_1;
-	public static String ChooseBPage_choose_b;
 	public static String ChooseBPage_choose_b_text;
+	public static String ChooseBPage_decryption;
+	public static String ChooseBPage_encryption;
 	public static String ChooseBPage_error_invalid_b;
 	public static String ChooseKeytypePage_choose_keytype;
 	public static String ChooseKeytypePage_choose_keytype_text;
