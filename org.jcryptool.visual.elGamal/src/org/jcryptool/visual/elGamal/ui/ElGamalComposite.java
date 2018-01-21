@@ -808,7 +808,9 @@ public class ElGamalComposite extends Composite {
 
         // set results
         stepResult.setText("B^r*r^s = " + value.toString(Constants.HEXBASE)); //$NON-NLS-1$
-        verifiedText.setData(ghm.toString(Constants.HEXBASE));
+        if (!(ghm == null)) {
+        	verifiedText.setData(ghm.toString(Constants.HEXBASE));
+        }
         resultText.setText(value.toString(Constants.HEXBASE));
     }
 
@@ -1155,7 +1157,8 @@ public class ElGamalComposite extends Composite {
 
             @Override
             public void widgetSelected(final SelectionEvent e) {
-                reset();
+//                reset();
+            	softreset();
             }
         });
     }
@@ -1182,6 +1185,69 @@ public class ElGamalComposite extends Composite {
         bigAText.setText(""); //$NON-NLS-1$
         aText.setText(""); //$NON-NLS-1$
         text_keyType.setText(""); //$NON-NLS-1$
+        textText.setText(""); //$NON-NLS-1$
+        numberText.setText(""); //$NON-NLS-1$
+        fastExpTable.setVisible(false);
+        stepResult.setText(""); //$NON-NLS-1$
+        stepButton.setEnabled(false);
+        
+        firstRun = true;
+        numberIndex = 0;
+
+        stepButton.setText(Messages.ElGamalComposite_start);
+        stepButton.setToolTipText(Messages.ElGamalComposite_start_calc);
+        stepButton.pack();
+        stepText.setText(""); //$NON-NLS-1$
+        resultText.setText(""); //$NON-NLS-1$
+        copyButton.setEnabled(false);
+        verifiedText.setText(""); //$NON-NLS-1$
+    }
+    
+    /*
+     * resets the tab but keep the key
+     */
+    private void softreset() {
+    	
+    	//check if a key is entered
+    	if (data.getModulus() == null) {
+    		return;
+    	}
+//        keysel.setEnabled(true);
+//        keysel.setBackground(ColorService.RED);
+//        textEnter.setEnabled(false);
+    	textEnter.setEnabled(true);
+//        textEnter.setBackground(ColorService.RED);
+        if (data.getAction() == Action.VerifyAction) {
+        	plaintextForVerification.setEnabled(true);
+        }
+        uniqueKeyButton.setEnabled(false);
+        uniqueKeyButton.setBackground(ColorService.RED);
+        runCalc.setEnabled(false);
+        runCalc.setBackground(ColorService.RED);
+        
+        //Keep the old data of the keys
+        ElGamalData oldData = data;
+        data = new ElGamalData(data.getAction());
+        datas.put(data.getAction(), data);
+        data.setA(oldData.getA());
+        data.setB(oldData.getB());
+        data.setContactName(oldData.getContactName());
+        data.setGenerator(oldData.getGenerator());
+//        data.getGPowB();
+//        data.getK();
+        data.setModulus(oldData.getModulus());
+        data.setPassword(data.getPassword());
+        data.setPrivateAlias(oldData.getPrivateAlias());
+        data.setPublicA(oldData.getPublicA());
+        data.setPublicAlias(oldData.getPublicAlias());
+        data.setR(oldData.getR());
+        
+
+//        pText.setText(""); //$NON-NLS-1$
+//        gText.setText(""); //$NON-NLS-1$
+//        bigAText.setText(""); //$NON-NLS-1$
+//        aText.setText(""); //$NON-NLS-1$
+//        text_keyType.setText(""); //$NON-NLS-1$
         textText.setText(""); //$NON-NLS-1$
         numberText.setText(""); //$NON-NLS-1$
         fastExpTable.setVisible(false);
