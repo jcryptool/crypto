@@ -78,6 +78,7 @@ public class Messages extends NLS {
 	public static String ElGamalComposite_step;
 	public static String ElGamalComposite_step1;
 	public static String ElGamalComposite_stepresult;
+	public static String ElGamalComposite_stepwiseCalculation;
     public static String ElGamalComposite_sure;
 	public static String ElGamalComposite_text;
 	public static String ElGamalComposite_textentry;

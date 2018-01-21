@@ -608,15 +608,19 @@ public class ElGamalComposite extends Composite {
      */
     private void createCalcGroup(Composite parent) {
         groupCalculations = new Group(parent, SWT.NONE);
-        groupCalculations.setLayout(new GridLayout(2, true));
+        groupCalculations.setLayout(new GridLayout(3, false));
         groupCalculations.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         groupCalculations.setText(Messages.ElGamalComposite_calculations);
+        
+        Label stepwiseCalculation = new Label(groupCalculations, SWT.NONE);
+        stepwiseCalculation.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
+        stepwiseCalculation.setText(Messages.ElGamalComposite_stepwiseCalculation);
 
         stepButton = new Button(groupCalculations, SWT.PUSH);
         stepButton.setText(Messages.ElGamalComposite_start);
         stepButton.setEnabled(false);
         stepButton.setToolTipText(Messages.ElGamalComposite_start_calc);
-        stepButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+        stepButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
         stepButton.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -669,21 +673,21 @@ public class ElGamalComposite extends Composite {
 
         // set up a composite to draw final the fast exp shit on
         fastExpTable = new Composite(groupCalculations, SWT.NONE);
-        GridData gd_fastExpTable = new GridData(SWT.FILL, SWT.CENTER, true, true, 2, 1);
+        GridData gd_fastExpTable = new GridData(SWT.FILL, SWT.CENTER, true, true, 3, 1);
         gd_fastExpTable.minimumHeight = 130;
         fastExpTable.setLayoutData(gd_fastExpTable);
         fastExpTable.setVisible(false);
 
         Label labelStepResult = new Label(groupCalculations, SWT.NONE);
         labelStepResult.setText(Messages.ElGamalComposite_stepresult);
-        labelStepResult.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+        labelStepResult.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
         
         Composite stepResultComposite = new Composite(groupCalculations, SWT.NONE);
         GridLayout gl_stepResultComposite = new GridLayout(2, false);
         gl_stepResultComposite.marginHeight = 0;
         gl_stepResultComposite.marginWidth = 0;
         stepResultComposite.setLayout(gl_stepResultComposite);
-        stepResultComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+        stepResultComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
         
         stepResult = new Text(stepResultComposite, SWT.BORDER | SWT.READ_ONLY);
         stepResult.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -1239,6 +1243,7 @@ public class ElGamalComposite extends Composite {
         stepText.setText(""); //$NON-NLS-1$
         resultText.setText(""); //$NON-NLS-1$
         copyButton.setEnabled(false);
+        copyStepResult.setEnabled(false);
         verifiedText.setText(""); //$NON-NLS-1$
     }
     
@@ -1292,6 +1297,7 @@ public class ElGamalComposite extends Composite {
         stepText.setText(""); //$NON-NLS-1$
         resultText.setText(""); //$NON-NLS-1$
         copyButton.setEnabled(false);
+        copyStepResult.setEnabled(false);
         verifiedText.setText(""); //$NON-NLS-1$
     }
 
