@@ -220,7 +220,9 @@ public class NewKeypairPage extends WizardPage {
         label = new Label(composite, SWT.NONE);
         label.setText(Messages.NewKeypairPage_A_explanation);
         label.setLayoutData(gd7);
-        new Label(composite, SWT.NONE).setText("a = "); //$NON-NLS-1$
+        
+        new Label(composite, SWT.NONE).setText("b = "); //$NON-NLS-1$
+        
         afield = new Text(composite, SWT.SINGLE | SWT.BORDER);
         afield.addVerifyListener(VL);
         afield.addModifyListener(new ModifyListener() {
@@ -244,7 +246,7 @@ public class NewKeypairPage extends WizardPage {
             }
         });
 
-        new Label(composite, SWT.NONE).setText("A = "); //$NON-NLS-1$
+        new Label(composite, SWT.NONE).setText("B = "); //$NON-NLS-1$
         atext = new Text(composite, SWT.READ_ONLY | SWT.BORDER);
 
         //Spacer 
@@ -252,6 +254,7 @@ public class NewKeypairPage extends WizardPage {
        
         // Separator
         new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(gd8);
+        
         // Save?
         saveKeypairButton = new Button(composite, SWT.CHECK);
         saveKeypairButton.setText(Messages.NewKeypairPage_save_keypair);

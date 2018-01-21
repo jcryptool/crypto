@@ -37,7 +37,7 @@ import org.jcryptool.visual.library.Lib;
 public class ChooseBPage extends WizardPage {
 
     /** pagename for access */
-    private static final String PAGENAME = "Choose B Page"; //$NON-NLS-1$
+    private static final String PAGENAME = "Choose K Page"; //$NON-NLS-1$
 
     /** title of this page */
     private static final String TITLE = Messages.ChooseBPage_choose_b;
@@ -64,7 +64,7 @@ public class ChooseBPage extends WizardPage {
         composite.setLayout(gl_composite);
         
         final Label l = new Label(composite, SWT.NONE);
-        l.setText("b = "); //$NON-NLS-1$
+        l.setText("k = "); //$NON-NLS-1$
         l.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
         final Text t = new Text(composite, SWT.BORDER);
         t.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
