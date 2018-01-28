@@ -577,7 +577,7 @@ public class SPAView extends ViewPart implements Constants {
 
 		recordTable = new Table(visualizedGroup, SWT.BORDER);
 		GridData gd_recordTable = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd_recordTable.minimumHeight = 300;
+		gd_recordTable.minimumHeight = 200;
 		gd_recordTable.minimumWidth= 760;
 		recordTable.setLayoutData(gd_recordTable);
 		recordTable.setLinesVisible(true);
