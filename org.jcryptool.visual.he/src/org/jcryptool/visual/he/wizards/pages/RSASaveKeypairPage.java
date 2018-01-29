@@ -96,6 +96,7 @@ public class RSASaveKeypairPage extends RSASaveWizardPage {
         final Label pass = new Label(composite, SWT.NONE);
         pass.setText(Messages.RSASaveKeypairPage_password);
         GridData gd_pass = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        gd_pass.verticalIndent = 20;
         pass.setLayoutData(gd_pass);
 
         password = new Text(composite, SWT.BORDER | SWT.PASSWORD);
@@ -108,8 +109,7 @@ public class RSASaveKeypairPage extends RSASaveWizardPage {
         passwordverify.addModifyListener(ml);
         GridData gd_passwordverify = new GridData(SWT.FILL, SWT.CENTER, false, false);
         gd_passwordverify.widthHint = 300;
-        passwordverify.setLayoutData(gd_passwordverify);
-        
+        passwordverify.setLayoutData(gd_passwordverify);    
 
         owner.forceFocus();
 

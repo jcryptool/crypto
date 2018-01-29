@@ -41,7 +41,7 @@ import org.jcryptool.visual.he.algo.GHKeyPair;
  */
 public class GHNewKeyPage extends WizardPage {
 	private static final String PAGENAME = "New key page"; //$NON-NLS-1$
-	private static final String TITLE=Messages.NewKeyPage_Title;
+	private static final String TITLE=Messages.GHNewKeyPage_Title;
 	private final GHKeyPair keyPair;
 	private final FHEParams fheParams;
 	private final Display display;
@@ -92,7 +92,7 @@ public class GHNewKeyPage extends WizardPage {
 
 	public GHNewKeyPage(GHKeyPair keyPair, FHEParams fheParams, Display display) {
 		super(PAGENAME, TITLE, null);
-		this.setDescription(Messages.NewKeyPage_Message);
+		this.setDescription(Messages.GHNewKeyPage_Message);
 		this.keyPair = keyPair;
 		this.fheParams = fheParams;
 		this.display = display;
@@ -138,10 +138,19 @@ public class GHNewKeyPage extends WizardPage {
 		composite.setLayout(gd_composite);
 
 		Label lblDimension = new Label(composite, SWT.NONE);
-		lblDimension.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 2));
+		lblDimension.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lblDimension.setText(Messages.HEComposite_GH_Dimension);
-		dim = new Combo(composite, SWT.READ_ONLY);
-		GridData gd_dim = new GridData(SWT.LEFT, SWT.FILL, false, false);
+		
+		Composite dimensionComposite = new Composite(composite, SWT.NONE);
+		GridData gd_dimensionComposite = new GridData(SWT.FILL, SWT.FILL, true, false);
+		GridLayout gl_dimensionComposite = new GridLayout(2, false);
+		gl_dimensionComposite.verticalSpacing = 0;
+		gl_dimensionComposite.horizontalSpacing = 10;
+		dimensionComposite.setLayoutData(gd_dimensionComposite);
+		dimensionComposite.setLayout(gl_dimensionComposite);
+		
+		dim = new Combo(dimensionComposite, SWT.READ_ONLY);
+		GridData gd_dim = new GridData(SWT.LEFT, SWT.CENTER, false, false);
 		gd_dim.widthHint = 100;
 		dim.setLayoutData(gd_dim);
 		dim.add("", 0);
@@ -152,9 +161,9 @@ public class GHNewKeyPage extends WizardPage {
 		dim.add("64", 5);
 		dim.select(1);
 
-		genButton = new Button(composite, SWT.PUSH);
+		genButton = new Button(dimensionComposite, SWT.PUSH);
 		genButton.setText(Messages.GHNewKeyPage_Generate);
-		GridData gd_genButton = new GridData(SWT.LEFT, SWT.FILL, true, false);
+		GridData gd_genButton = new GridData(SWT.LEFT, SWT.CENTER, true, false);
 		genButton.setLayoutData(gd_genButton);
 		genButton.addSelectionListener(new SelectionAdapter() {
         	@Override
@@ -170,21 +179,21 @@ public class GHNewKeyPage extends WizardPage {
 		Label lblDet = new Label(composite, SWT.NONE);
 		lblDet.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lblDet.setText(Messages.HEComposite_GH_KeyArea_Determinant);
-		detText = new Text(composite, SWT.MULTI | SWT.H_SCROLL);
+		detText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.BORDER);
 		detText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		detText.setEditable(false);
 
         Label lblRoot = new Label(composite, SWT.NONE);
 		lblRoot.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lblRoot.setText(Messages.HEComposite_GH_KeyArea_Root);
-		rootText = new Text(composite, SWT.MULTI | SWT.H_SCROLL);
+		rootText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.BORDER);
 		rootText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		rootText.setEditable(false);
 
         Label lblBlocks = new Label(composite, SWT.NONE);
 		lblBlocks.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lblBlocks.setText(Messages.HEComposite_GH_KeyArea_Public_Key_Blocks);
-		pkBlocksText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		pkBlocksText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		GridData gd_kpBlocksText = new GridData(SWT.FILL, SWT.FILL, true, false);
 		gd_kpBlocksText.heightHint = 50;
 		pkBlocksText.setLayoutData(gd_kpBlocksText);
@@ -193,7 +202,7 @@ public class GHNewKeyPage extends WizardPage {
         Label lblVector = new Label(composite, SWT.NONE);
 		lblVector.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lblVector.setText(Messages.HEComposite_GH_KeyArea_Secret_Vector);
-		vectorText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		vectorText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		GridData gd_vectorText = new GridData(SWT.FILL, SWT.FILL, true, false);
 		gd_vectorText.heightHint = 50;
 		vectorText.setLayoutData(gd_vectorText);
@@ -252,7 +261,7 @@ public class GHNewKeyPage extends WizardPage {
 		
 		own = new Label(userDataComposite, SWT.WRAP);
 		own.setText(Messages.RSASaveKeypairPage_name);
-		own.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, false));
+		own.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false));
 		own.setVisible(false);
 	
 		pass = new Label(userDataComposite, SWT.WRAP);

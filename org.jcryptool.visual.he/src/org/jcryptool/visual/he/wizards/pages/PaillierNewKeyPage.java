@@ -40,7 +40,7 @@ import org.jcryptool.visual.he.algo.PaillierData;
  */
 public class PaillierNewKeyPage extends WizardPage {
 	private static final String PAGENAME = "New paillier key page";
-	private static final String TITLE=Messages.NewKeyPage_Title;
+	private static final String TITLE=Messages.PaillierNewKeyPage_Title;
 	private final PaillierData data;
 	private Combo dim;
 	private Button genButton, yesButton, noButton;
@@ -133,10 +133,19 @@ public class PaillierNewKeyPage extends WizardPage {
 		composite.setLayout(gl_composite);
 
 		Label lblDimension = new Label(composite, SWT.NONE);
-		lblDimension.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 2));
+		lblDimension.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lblDimension.setText(Messages.HEComposite_GH_Dimension);
-		dim = new Combo(composite, SWT.READ_ONLY);
-		GridData gd_dim = new GridData(SWT.LEFT, SWT.FILL, false, false);
+		
+		Composite dimensionComposite = new Composite(composite, SWT.NONE);
+		GridData gd_dimensionComposite = new GridData(SWT.FILL, SWT.FILL, true, false);
+		GridLayout gl_dimensionComposite = new GridLayout(2, false);
+		gl_dimensionComposite.verticalSpacing = 0;
+		gl_dimensionComposite.horizontalSpacing = 10;
+		dimensionComposite.setLayoutData(gd_dimensionComposite);
+		dimensionComposite.setLayout(gl_dimensionComposite);
+		
+		dim = new Combo(dimensionComposite, SWT.READ_ONLY);
+		GridData gd_dim = new GridData(SWT.LEFT, SWT.CENTER, false, false);
 		gd_dim.widthHint = 100;
 		dim.setLayoutData(gd_dim);
 		dim.add("", 0);
@@ -147,9 +156,9 @@ public class PaillierNewKeyPage extends WizardPage {
 		dim.add("4096", 5);
 		dim.select(1);
 
-		genButton = new Button(composite, SWT.PUSH);
+		genButton = new Button(dimensionComposite, SWT.PUSH);
 		genButton.setText(Messages.GHNewKeyPage_Generate);
-		GridData gd_genButton = new GridData(SWT.LEFT, SWT.FILL, true, false);
+		GridData gd_genButton = new GridData(SWT.LEFT, SWT.CENTER, true, false);
 		genButton.setLayoutData(gd_genButton);
 		genButton.addSelectionListener(new SelectionAdapter() {
         	@Override
@@ -165,28 +174,28 @@ public class PaillierNewKeyPage extends WizardPage {
 		Label lblN = new Label(composite, SWT.NONE);
 		lblN.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lblN.setText("N:");
-		nText = new Text(composite, SWT.MULTI | SWT.H_SCROLL);
+		nText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.BORDER);
 		nText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		nText.setEditable(false);
 
         Label lblG = new Label(composite, SWT.NONE);
         lblG.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
         lblG.setText("g:");
-		gText = new Text(composite, SWT.MULTI | SWT.H_SCROLL);
+		gText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.BORDER);
 		gText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		gText.setEditable(false);
 
         Label lblL= new Label(composite, SWT.NONE);
         lblL.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
         lblL.setText("l:");
-		lText = new Text(composite, SWT.MULTI | SWT.H_SCROLL);
+		lText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.BORDER);
 		lText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		lText.setEditable(false);
 
         Label lblMu = new Label(composite, SWT.NONE);
         lblMu.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
         lblMu.setText("mu:");
-		mText = new Text(composite, SWT.MULTI | SWT.H_SCROLL);
+		mText = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.BORDER);
 		mText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		mText.setEditable(false);
 
@@ -242,7 +251,7 @@ public class PaillierNewKeyPage extends WizardPage {
 		userDataComposite.setLayout(gl_userDataComposite);
 		own = new Label(userDataComposite, SWT.WRAP);
 		own.setText(Messages.RSASaveKeypairPage_name);
-		GridData gd_own = new GridData(SWT.LEFT, SWT.FILL, true, false);
+		GridData gd_own = new GridData(SWT.LEFT, SWT.BOTTOM, true, false);
 		own.setLayoutData(gd_own);
 		own.setVisible(false);
 		
