@@ -28,9 +28,6 @@ import org.jcryptool.visual.elGamal.Messages;
  */
 public class SavePublicKeyPage extends SaveWizardPage {
 
-    /** minimum height for a textfield so it diesn't cut the text. */
-//    private static final int TEXTFIELD_MIN_HEIGHT = 15;
-
     /** unique pagename to get this page from inside a wizard. */
     private static final String PAGENAME = "Save Public Key Page"; //$NON-NLS-1$
 
@@ -50,7 +47,10 @@ public class SavePublicKeyPage extends SaveWizardPage {
         setPageComplete(false);
         this.setDescription(Messages.SavePublicKeyPage_enter_save_params);
         this.data = data;
+        
     }
+    
+    
 
     /**
      * Set up UI stuff.
