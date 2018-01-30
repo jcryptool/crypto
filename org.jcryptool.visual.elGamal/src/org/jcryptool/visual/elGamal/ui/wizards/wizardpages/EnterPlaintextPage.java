@@ -29,6 +29,7 @@ import org.jcryptool.visual.library.Lib;
  * Page for entering a plaintext to sign or encrypt.
  *
  * @author Michael Gaber
+ * @author Thorben Groos
  */
 public class EnterPlaintextPage extends TextWizardPage {
 
@@ -41,9 +42,6 @@ public class EnterPlaintextPage extends TextWizardPage {
     /** title of this page, displayed in the head of the wizard. */
     private static final String TITLE = Messages.EnterPlaintextPage_enter_plaintext;
 
-    /** the action of this run, decides whether to display the hash-method description. */
-    private final Action action;
-
     /** common data object to store the entries. */
     private final ElGamalData data;
 
@@ -53,11 +51,10 @@ public class EnterPlaintextPage extends TextWizardPage {
      * @param action the cryptographic action
      * @param data the shared data object
      */
-    public EnterPlaintextPage(final Action action, final ElGamalData data) {
+    public EnterPlaintextPage(final ElGamalData data) {
         super(PAGENAME, TITLE, null);
         this.setDescription(Messages.EnterPlaintextPage_enter_plaintext_text);
         this.setPageComplete(false);
-        this.action = action;
         this.data = data;
     }
 
@@ -69,12 +66,13 @@ public class EnterPlaintextPage extends TextWizardPage {
     public final void createControl(final Composite parent) {
         final Composite composite = new Composite(parent, SWT.NONE);
         // do stuff like layout et al
-        composite.setLayout(new GridLayout());
+        GridLayout gl_composite = new GridLayout();
+        gl_composite.marginWidth = 50;
+        composite.setLayout(gl_composite);
         Label label;
-        if (action == Action.SignAction) {
+        if (data.getAction() == Action.SignAction) {
             label = new Label(composite, SWT.WRAP);
             label.setText(Messages.EnterPlaintextPage_simple_hash);
-
             // separator
             new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR).setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
                     false));
@@ -93,7 +91,7 @@ public class EnterPlaintextPage extends TextWizardPage {
             }
         });
         text.addVerifyListener(Lib.getVerifyListener(Lib.CHARACTERS));
-        if (action == Action.SignAction) {
+        if (data.getAction() == Action.SignAction) {
             final Button SHA1Checkbox = new Button(composite, SWT.CHECK);
             SHA1Checkbox.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
             SHA1Checkbox.setText(Messages.EnterPlaintextPage_use_sha1);
