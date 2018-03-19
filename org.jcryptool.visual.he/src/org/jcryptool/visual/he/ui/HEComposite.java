@@ -638,7 +638,6 @@ public class HEComposite extends Composite {
         initialEncryptedBits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
         ((GridData)initialEncryptedBits.getLayoutData()).heightHint = 50;
         
-        
         Group btnGroup2 = new Group(parent, SWT.SHADOW_NONE);
         btnGroup2.setText(Messages.HEComposite_Homomorphic_Text);
         btnGroup2.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true, 1, 2));
