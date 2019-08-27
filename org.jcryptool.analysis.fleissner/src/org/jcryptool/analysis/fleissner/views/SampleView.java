@@ -52,8 +52,9 @@ public class SampleView extends ViewPart {
         scrolledComposite.layout();
 
 		// Create the help context id for the viewer's control
-		workbench.getHelpSystem().setHelp(parent, "org.jcryptool.analysis.fleissner.viewer");
+		workbench.getHelpSystem().setHelp(parent, "org.jcryptool.analysis.fleissner.views");
 //		"org.jcryptool.analysis.fleissner2.viewer"
+
 	}
 
 	@Override
