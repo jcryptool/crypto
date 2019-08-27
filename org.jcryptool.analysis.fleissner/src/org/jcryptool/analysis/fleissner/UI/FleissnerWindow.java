@@ -62,6 +62,7 @@ public class FleissnerWindow extends Composite{
     private Grille model;
     private Composite headerComposite;
     private Composite mainComposite;
+    private Composite outputComposite;
     private Composite method;
     private Composite text;
     private Composite process;
@@ -112,6 +113,11 @@ public class FleissnerWindow extends Composite{
     private boolean startSettings = true;
     private Hashtable<Integer, Integer> htRestarts = new Hashtable<Integer, Integer>();
     
+    private int textState = 0;
+    private int languageState = 0;
+    private int statisticState = 0;
+    private int statisticInputState = 0;
+    private int textInputState = 0;
     private int[] keyToLogic = null;
     private String argMethod = null;
     private String argText = "";
@@ -125,18 +131,22 @@ public class FleissnerWindow extends Composite{
     private FileInputStream fis;
     private FileInputStream fisOld = null;
     private LoadFiles lf = new LoadFiles();
+    private Composite parent;
 
 
     public FleissnerWindow(Composite parent, int style) {
         super(parent, style);
+//        this.parent = parent;
        
         model = new Grille();
         model.setKey(new KeySchablone(7));
+      
+//        createHeader(parent);
         
-        mainComposite = new Composite(parent,  SWT.NONE);
+        mainComposite = new Composite(this,  SWT.NONE/*SWT.DEFAULT*/);
         mainComposite.setLayout(new GridLayout(3, false));
         mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        
+
         createHeader(mainComposite);
         createMethod(mainComposite);
         createKey(mainComposite);
@@ -145,6 +155,10 @@ public class FleissnerWindow extends Composite{
         platzHalter.setLayout(new GridLayout());
         platzHalter.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2,1));
         createText(mainComposite);
+        
+//        outputComposite = new Composite(this,  SWT.NONE);
+//        outputComposite.setLayout(new GridLayout());
+//        outputComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         createAnalysisOutput(mainComposite);
         
         startSettings = false;
@@ -177,11 +191,16 @@ public class FleissnerWindow extends Composite{
             public void widgetSelected(SelectionEvent e) {
                 if (!startSettings) {
                     if (analyze.getSelection()) {
-                        System.out.println("Analyze selected. Method 'analyze' will be started.");
-                        analyze();
-                        checkArgs("analyze Selection Listener");
-                        reset();
+                        if (!argMethod.equals("analyze")) {
+                            System.out.println("Analyze selected. Method 'analyze' will be started.");
+                            analyze();
+                            checkArgs("analyze Selection Listener");
+                            reset();
+                        }
                     }  
+                    else {
+                        resetAnalysisSettings();
+                    }
                 }
             }
         });
@@ -196,11 +215,14 @@ public class FleissnerWindow extends Composite{
             }
 
             public void widgetSelected(SelectionEvent e) {
+                
                 if (encrypt.getSelection()) {
-                    encrypt();
-                    checkArgs("Encrypt Selection Listener");
-                    reset();
-                }     
+                    if (!argMethod.equals("enrypt")) {
+                        encrypt();
+                        checkArgs("Encrypt Selection Listener");
+                        reset();
+                    }
+                }  
             }
         });
         
@@ -214,10 +236,12 @@ public class FleissnerWindow extends Composite{
             public void widgetSelected(SelectionEvent e) {
 
                 if (decrypt.getSelection()) {
-                    decrypt();
-                    checkArgs("decrypt Selection Listener");
-                    reset();
-                }   
+                    if (!argMethod.equals("decrypt")) {
+                        decrypt();
+                        checkArgs("decrypt Selection Listener");
+                        reset();
+                    }
+                } 
             }
         });
         
@@ -378,10 +402,10 @@ public class FleissnerWindow extends Composite{
    
     private void createInOutText(Composite parent) {
         
-        inOutText = new Group(parent, SWT.NONE);
+        inOutText = new Group(parent, /*SWT.V_SCROLL*/SWT.NONE);
         inOutText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 6));
         // Composite should have no border, so it looks like the groups on the left.
-        GridLayout gl_inOutText = new GridLayout();
+        GridLayout gl_inOutText = new GridLayout(1,false);
         inOutText.setLayout(gl_inOutText); 
         
         createPlaintext(inOutText);
@@ -394,17 +418,20 @@ public class FleissnerWindow extends Composite{
     
     private void createPlaintext(Composite parent) {
         
-        plaintextComposite = new Group(parent,  SWT.NONE);
+        plaintextComposite = new Group(parent, /* SWT.V_SCROLL*/SWT.NONE);
         plaintextComposite.setLayout(new GridLayout());
-        plaintextComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
+        plaintextComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true/*, 1, 3*/));
         plaintextComposite.setText("Klartext" + "(0)");
+        
+        
      
-        plaintext = new Text(plaintextComposite, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+        plaintext = new Text(plaintextComposite, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL/* | SWT.H_SCROLL*/);
         GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
         gridData.widthHint = plaintextComposite.getSize().y; 
+        gridData.heightHint = plaintextComposite.getSize().x; 
         plaintext.setLayoutData(gridData);
         plaintext.setBackground(ColorService.WHITE);
-//        plaintext.setEditable(false);
+        plaintext.setEditable(false);
         plaintext.setEnabled(false);
         plaintext.addKeyListener(new org.eclipse.swt.events.KeyListener() {
             
@@ -426,7 +453,7 @@ public class FleissnerWindow extends Composite{
                 plaintextComposite.setText("Klartext (" + plaintext.getText().length() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 
                 if (!startSettings) {
-                    if (writeText.getSelection())
+                    if (writeText.getSelection() && encrypt.getSelection())
                         argText =plaintext.getText();
 //                    writeTextToArgText(plain);
                 }
@@ -438,15 +465,16 @@ public class FleissnerWindow extends Composite{
     
     private void createCiphertext(Composite parent) {
         
-        ciphertextComposite = new Group(parent,  SWT.NONE);
+        ciphertextComposite = new Group(parent,  /*SWT.MULTI | SWT.WRAP | SWT.V_SCROLL*/ SWT.NONE);
         ciphertextComposite.setLayout(new GridLayout());
-        ciphertextComposite.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, true, 1, 3));
+        ciphertextComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true/*, 1, 3*/));
         ciphertextComposite.setText("Geheimtext" + " (0)");
         
-        ciphertext = new Text(ciphertextComposite,  SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+        ciphertext = new Text(ciphertextComposite,  SWT.MULTI | SWT.WRAP | SWT.V_SCROLL/* | SWT.H_SCROLL*/);
         
         GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
         gridData.widthHint = ciphertextComposite.getSize().y; 
+        gridData.heightHint = ciphertextComposite.getSize().x; 
         ciphertext.setLayoutData(gridData);
         ciphertext.setEnabled(true);
         ciphertext.setEditable(false);
@@ -475,7 +503,7 @@ public class FleissnerWindow extends Composite{
             public void modifyText(ModifyEvent e) {
                 ciphertextComposite.setText("Geheimtext (" + ciphertext.getText().length() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 if (!startSettings) {
-                    if (writeText.getSelection())
+                    if (writeText.getSelection() && decrypt.getSelection())
                         argText =ciphertext.getText();
 //                    writeTextToArgText(plain);
                 }
@@ -497,8 +525,8 @@ public class FleissnerWindow extends Composite{
         platzHalter.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2,1));
         
         analysisSettingsGroup = new Group(parent, SWT.NONE);
-        analysisSettingsGroup.setLayout(new GridLayout(2, false));
-        analysisSettingsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
+        analysisSettingsGroup.setLayout(new GridLayout(4, false));
+        analysisSettingsGroup.setLayoutData(new GridData(SWT.FILL, SWT.UP, false, false, 2, 1));
         analysisSettingsGroup.setText("Analyseeinstellungen");
         analysisSettingsGroup.setEnabled(true);
       
@@ -508,11 +536,11 @@ public class FleissnerWindow extends Composite{
       
         Composite languageAndRestarts = new Composite(analysisSettingsGroup, SWT.NONE);
         languageAndRestarts.setLayout(new GridLayout(4, false));
-        languageAndRestarts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+        languageAndRestarts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 4, 1));
         
         Group statisticGroup = new Group(analysisSettingsGroup, SWT.NONE);
         statisticGroup.setLayout(new GridLayout(4,false));
-        statisticGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
+        statisticGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 4, 1));
         statisticGroup.setText("Statistikauswahl");
         
         chooseLanguage = new Text(languageAndRestarts, SWT.WRAP | SWT.MULTI);
@@ -533,30 +561,20 @@ public class FleissnerWindow extends Composite{
 
             public void widgetSelected(SelectionEvent e) {
                 
-                if ((language.getSelectionIndex()==0) && (nGramSize.getSelection()==4)) {
-                    selectStatistic.select(0);
-                    chooseExample.select(0);
+                if (languageState != language.getSelectionIndex()) {
+                    updateLanguageSettings("language");
+                    if (statistics.getSelection()) {
+                        resetStatistics();
+                        statisticState = selectStatistic.getSelectionIndex();
+                    }
+                    if (exampleText.getSelection()) {
+                        refreshTexts();
+                        textState = chooseExample.getSelectionIndex();
+                    }
+                    setArgLanguage();
+                    checkArgs("language Selection Listener");
+                    languageState = language.getSelectionIndex();
                 }
-                else if ((language.getSelectionIndex()==0) && (nGramSize.getSelection()==3)){
-                    selectStatistic.select(1);
-                    chooseExample.select(0);
-                }
-                else if((language.getSelectionIndex()==1) && (nGramSize.getSelection()==4)) {
-                    selectStatistic.select(2);
-                    chooseExample.select(2);
-                }
-                else if((language.getSelectionIndex()==1) && (nGramSize.getSelection()==3)) {
-                    selectStatistic.select(3);
-                    chooseExample.select(2);
-                }  
-                if (statistics.getSelection()) {
-                    resetStatistics();
-                }
-                if (exampleText.getSelection()) {
-                    refreshTexts();
-                }
-                languageSelection();
-                checkArgs("language Selection Listener");
             }
         });
       
@@ -596,26 +614,29 @@ public class FleissnerWindow extends Composite{
             public void widgetSelected(SelectionEvent e) {
                 
                 if (exampleText.getSelection()) {
-                    textNameIdentifier.setVisible(false);
-                    loadedTextName.setText("");
-                    loadedTextName.setVisible(false);
-                    
-                    analyze.setEnabled(true);
-                    userText = false;
-                    if (encrypt.getSelection()) {
-                        userKey = true;
-                    }else {
-                        userKey = false;
+                    if (textInputState != 0) {
+                        textNameIdentifier.setVisible(false);
+                        loadedTextName.setText("");
+                        loadedTextName.setVisible(false);
+                        
+//                        analyze.setEnabled(true);
+                        userText = false;
+                        if (encrypt.getSelection()) {
+                            userKey = true;
+                        }else {
+                            userKey = false;
+                        }
+                        
+                        System.out.println("UserText (in exampleText): "+String.valueOf(userText));
+                        textSelection(true, false, false, false);
+                        refreshTexts();
+                        if (analyze.getSelection()) {
+                            deleteHoles();
+                        }
+                        checkArgs("Example Text Selection Listener");
+                        textInputState = 0;
                     }
-                    
-                    System.out.println("UserText (in exampleText): "+String.valueOf(userText));
-                    textSelection(false, true, false, false);
-                    refreshTexts();
-                    if (analyze.getSelection()) {
-                        deleteHoles();
-                    }
-                    checkArgs("Example Text Selection Listener");
-                }
+                }  
             }
         });
         exampleText.setSelection(true);
@@ -633,21 +654,25 @@ public class FleissnerWindow extends Composite{
 
             public void widgetSelected(SelectionEvent e) {
 
-                userText = false;
-                if (!plain) {
-                    userKey = false;
-                }
-                refreshTexts();
-                
-                if (chooseExample.getSelectionIndex() == 0 || chooseExample.getSelectionIndex() == 1) {
-                    language.select(0);
+                if (textState!=chooseExample.getSelectionIndex()) {
+                    userText = false;
+                    if (!plain) {
+                        userKey = false;
+                    }
+                    refreshTexts();
                     
+                    if (checkTextLangChange()) {
+                        updateLanguageSettings("text");
+                        if (statistics.getSelection()) {
+                            resetStatistics();
+                            statisticState = selectStatistic.getSelectionIndex();
+                        }
+                        setArgLanguage();
+                        languageState = language.getSelectionIndex();
+                    }   
+                    textState = chooseExample.getSelectionIndex(); 
+                    checkArgs("chooseExample SelectionListener");
                 }
-                else {
-                    language.select(1);
-                }
-                languageSelection();
-                checkArgs("chooseExample SelectionListener");
             }
         });
 
@@ -662,17 +687,20 @@ public class FleissnerWindow extends Composite{
             public void widgetSelected(SelectionEvent e) {
                 
                 if (loadOwntext.getSelection()) {
-                    analyze.setEnabled(true);
-                    plaintext.setText("");
-                    ciphertext.setText("");
-                    userText = true;
-                    userKey = true;
-                    argText = "";
-                    textName = "";
-                    System.out.println("UserText (in loadOwnText): "+String.valueOf(userText));
-                    textSelection(true, false, false, false);
                     
-                    checkArgs("loadOwnText SelectionListener");
+                    if (textInputState != 1) {
+                        plaintext.setText("");
+                        ciphertext.setText("");
+                        userText = true;
+                        userKey = true;
+                        argText = "";
+                        textName = "";
+                        System.out.println("UserText (in loadOwnText): "+String.valueOf(userText));
+                        textSelection(false, true, false, false);
+                        
+                        checkArgs("loadOwnText SelectionListener");
+                        textInputState = 1;
+                    }
                 }
             }
         });
@@ -723,7 +751,8 @@ public class FleissnerWindow extends Composite{
        
         writeText = new Button(thirdGroup, SWT.RADIO);
         writeText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-        writeText.setEnabled(false);
+//        writeText.setEnabled(false);
+        writeText.setText("Geheimtext manuell eingeben");
         writeText.addSelectionListener(new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
                 widgetSelected(e);
@@ -736,7 +765,7 @@ public class FleissnerWindow extends Composite{
                     loadedTextName.setText("");
                     loadedTextName.setVisible(false);
                     
-                    analyze.setEnabled(false);
+//                    analyze.setEnabled(false);
                     boolean editPlaintext = false;
                     boolean editCiphertext = false;
                     userText = true;
@@ -746,14 +775,26 @@ public class FleissnerWindow extends Composite{
                     if (encrypt.getSelection()) {
                         editPlaintext = true;
                         editCiphertext = false;
-                        plaintext.setText("");
-                    }else if(decrypt.getSelection()) {
+                        if (textInputState != 2) {
+                            
+                            argText = "";
+                            plaintext.setText(argText);
+                        }
+                            
+//                    }else if(decrypt.getSelection()) {
+                    }else {
                         editPlaintext = false;
                         editCiphertext = true;
-                        ciphertext.setText("");
+                        if (textInputState != 2) {
+                            System.out.println("Ciphertextfeld in writeText Listener geleert");
+                            
+                            argText = "";
+                            ciphertext.setText(argText);
+                        }
                     }
                     textSelection(false, false, editPlaintext, editCiphertext);
                     checkArgs("writeText SelectionListener");
+                    textInputState = 2;
                 }   
             }
         });
@@ -776,12 +817,16 @@ public class FleissnerWindow extends Composite{
             public void widgetSelected(SelectionEvent e) {
                 
                 if (statistics.getSelection()) {
-                    statisticNameIdentifier.setVisible(false);
-                    loadedStatisticName.setVisible(false);
-                    userStatistics = false;
-                    resetStatistics();
-                    statisticSelection();
-                    checkArgs("statistics SelectionListener");
+                    if (statisticInputState != 0) {
+                        statisticNameIdentifier.setVisible(false);
+                        loadedStatisticName.setVisible(false);
+                        userStatistics = false;
+                        resetStatistics();
+                        statisticSelection();
+                        checkArgs("statistics SelectionListener");
+                        reset();
+                        statisticInputState = 0;
+                    }
                 }
             }
         });
@@ -796,23 +841,35 @@ public class FleissnerWindow extends Composite{
          fis = lf.openMyFileStream(statisticName);
          selectStatistic.addSelectionListener(new SelectionListener() {
              public void widgetDefaultSelected(SelectionEvent e) {
-                 widgetSelected(e);
+                 widgetSelected(e);         
              }
 
              public void widgetSelected(SelectionEvent e) {
                  
-                 if ((selectStatistic.getSelectionIndex()==0) || (selectStatistic.getSelectionIndex()==2)) {
-                     nGramSize.setSelection(4);
+                 if (statisticState != selectStatistic.getSelectionIndex()) {
+                     if ((selectStatistic.getSelectionIndex()==0) || (selectStatistic.getSelectionIndex()==2)) {
+                         nGramSize.setSelection(4);
+                     }
+                     else {
+                         nGramSize.setSelection(3);
+                     }
+                     
+                     if (statistics.getSelection()) {
+                         resetStatistics();
+                         statisticState = selectStatistic.getSelectionIndex();
+                     }
+                     if (checkStatisticLangChange()) {
+                         updateLanguageSettings("statistic");
+                         if (exampleText.getSelection()) {
+                             refreshTexts();
+                             textState = chooseExample.getSelectionIndex();
+                         }
+                         setArgLanguage();
+                         languageState = language.getSelectionIndex();
+                     }
+                     checkArgs("selectStatistic SelectionListener");
                  }
-                 else {
-                     nGramSize.setSelection(3);
-                 }
-                 if (statistics.getSelection()) {
-                     resetStatistics();
-                 }
-                 
-                 languageSelection();
-                 checkArgs("selectStatistic SelectionListener");
+                 reset();
              }
          });
 
@@ -826,11 +883,14 @@ public class FleissnerWindow extends Composite{
              public void widgetSelected(SelectionEvent e) {
                  
                  if (statisticsLoad.getSelection()) {
-                     fis = null;
-                     userStatistics = true;
-                     statisticSelection();
-                     checkArgs("statisticsLoad SelectionListener");
-                     reset();
+                     if (statisticInputState != 1) {
+                         fis = null;
+                         userStatistics = true;
+                         statisticSelection();
+                         checkArgs("statisticsLoad SelectionListener");
+                         reset();
+                         statisticInputState = 1;
+                     }
                  }
              }
          });
@@ -894,7 +954,7 @@ public class FleissnerWindow extends Composite{
     
     private void createAnalysisOutput(Composite parent) {
         
-        analysis = new Group(parent,  SWT.NONE);
+        analysis = new Group(parent, /* SWT.V_SCROLL*/SWT.NONE);
         analysis.setLayout(new GridLayout());
         analysis.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
         analysis.setText("Ausgabe Analyse");
@@ -996,7 +1056,7 @@ public class FleissnerWindow extends Composite{
         
         Text headerText = new Text(headerComposite, SWT.NONE);
         headerText.setText("Fleißner-Analyse");
-        headerText.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
+        headerText.setLayoutData(new GridData(SWT.LEFT, SWT.UP, false, true));
         headerText.setFont(FontService.getHugeBoldFont());
         headerText.setEditable(false);
         headerText.setBackground(ColorService.WHITE);
@@ -1004,18 +1064,18 @@ public class FleissnerWindow extends Composite{
         
         Text descriptionText = new Text(headerComposite, SWT.WRAP | SWT.MULTI);
         descriptionText.setText("Hier kommt eine kurze Beschreibung hin.");
-        descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+        descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.UP, false, true));
         descriptionText.setEditable(false);
         descriptionText.setBackground(ColorService.WHITE);
     }
     
-    public void textSelection(boolean enableLoadText, boolean enableChooseExample, boolean editPlaintext, boolean editCiphertext) {
+    public void textSelection(boolean enableChooseExample, boolean enableLoadText, boolean editPlaintext, boolean editCiphertext) {
         
         System.out.println("textSelection-Method started\n");
         reset();
         
-        loadText.setEnabled(enableLoadText);
         chooseExample.setEnabled(enableChooseExample);
+        loadText.setEnabled(enableLoadText);
         plaintext.setEditable(editPlaintext);
         ciphertext.setEditable(editCiphertext);
     }
@@ -1040,7 +1100,7 @@ public class FleissnerWindow extends Composite{
         }
     }
     
-    public void languageSelection() {
+    public void setArgLanguage() {
         
         System.out.println("languageSelection-Method started\n");
         
@@ -1072,6 +1132,9 @@ public class FleissnerWindow extends Composite{
             argText = lf.InputStreamToString(lf.openMyTestStream(textName));
             randomEncryption();
             userKey = false;
+            textNameIdentifier.setVisible(false);
+            loadedTextName.setText("");
+            loadedTextName.setVisible(false);
         }
         resetTexts();
         deleteHoles(); /*Bei Texten aus vorheriger Verschlüsselung evtl. Schlüssel behalten???*/
@@ -1083,7 +1146,17 @@ public class FleissnerWindow extends Composite{
       deleteHoles.setEnabled(false);
       
 //      text settings
-      writeText.setEnabled(false);
+      writeText.setText("Geheimtext manuell eingeben");
+      
+      if (textInputState == 2) {
+          plaintext.setEditable(false);
+          ciphertext.setEditable(true);
+      }
+      
+      plaintext.setEnabled(false);
+      plaintext.setForeground(null);
+      ciphertext.setEnabled(true);
+      ciphertext.setForeground(null);
       
 //      analysis settings
       analysis.setEnabled(true);
@@ -1092,7 +1165,7 @@ public class FleissnerWindow extends Composite{
       
       chooseLanguage.setEnabled(true);
       language.setEnabled(true);
-      languageSelection();
+      setArgLanguage();
       
       restarts.setEnabled(true);
       statistics.setEnabled(true);
@@ -1103,27 +1176,25 @@ public class FleissnerWindow extends Composite{
           nGramSize.setEnabled(false);
           selectStatistic.setEnabled(true);
           loadStatistics.setEnabled(false);
+          resetStatistics();
       }else {
           nGramSize.setEnabled(true);
           selectStatistic.setEnabled(false);
           loadStatistics.setEnabled(true);
+          fis = null;
       }
 
       
 //      if (!userStatistics) {
 //          argStatistics = lf.statisticFiles(selectStatistic.getSelectionIndex());
 //      }
-      
-
-
-      plaintext.setEnabled(false);
-      ciphertext.setEnabled(true);
     }
     
     public void encrypt() {
         
         System.out.println("encrypt()-Method entered");
         plain = true;
+
         argMethod = "encrypt";
         deleteHoles();
         System.out.println("userText (in encrypt()): "+String.valueOf(userText));
@@ -1144,11 +1215,20 @@ public class FleissnerWindow extends Composite{
         deleteHoles.setEnabled(true);
        
 //        text settings
-        writeText.setEnabled(true);
         writeText.setText("Klartext manuell eingeben");
+        textNameIdentifier.setVisible(false);
+        loadedTextName.setText("");
+        loadedTextName.setVisible(false);
+        
+        if (textInputState == 2) {
+            plaintext.setEditable(true);
+            ciphertext.setEditable(false);
+        }
         
         plaintext.setEnabled(true);
+        plaintext.setForeground(null);
         ciphertext.setEnabled(false);
+        ciphertext.setForeground(null);
         
 //        analysis settings
         analysisSettingsGroup.setEnabled(false);
@@ -1172,9 +1252,10 @@ public class FleissnerWindow extends Composite{
     public void decrypt() {
         
         System.out.println("Decrypt()-Method entered");
+        checkArgs("decrypt() Anfang");
         plain = false;
         argMethod = "decrypt";
-        System.out.println("userText (in decrypt()): "+String.valueOf(userText));
+//        System.out.println("userText (in decrypt()): "+String.valueOf(userText));
         
         if (userText) {
             argText = ciphertext.getText();
@@ -1186,6 +1267,10 @@ public class FleissnerWindow extends Composite{
             
 //          encrypt text
             randomEncryption();
+            
+            textNameIdentifier.setVisible(false);
+            loadedTextName.setText("");
+            loadedTextName.setVisible(false);
         }
         
         reset();
@@ -1197,11 +1282,18 @@ public class FleissnerWindow extends Composite{
         deleteHoles.setEnabled(true);
        
 //        text settings
-        writeText.setEnabled(true);
+//        writeText.setEnabled(true);
         writeText.setText("Geheimtext manuell eingeben");
         
+        if (textInputState == 2) {
+            plaintext.setEditable(false);
+            ciphertext.setEditable(true);
+        }
+        
         plaintext.setEnabled(false);
+        plaintext.setForeground(null);
         ciphertext.setEnabled(true);
+        ciphertext.setForeground(null);
         
 //        analysis settings
         analysisSettingsGroup.setEnabled(false);
@@ -1220,6 +1312,8 @@ public class FleissnerWindow extends Composite{
         language.setEnabled(false);
         restarts.setEnabled(false);
         nGramSize.setEnabled(false); 
+        
+        checkArgs("decrypt() Ende");
 
     }
     
@@ -1233,10 +1327,7 @@ public class FleissnerWindow extends Composite{
             
             case "analyze":
                 System.out.println("Analyze selected?: "+String.valueOf(analyze.getSelection()));
-//                if (analyze.getSelection() && exampleText.getSelection()) {
-//                    userText = false;
-//                    System.out.println("userText changed in case analyze in startMethod");
-//                }
+
                 args = new String[12];
                 args[0] = "-method";
                 args[1] = "analyze";
@@ -1302,9 +1393,7 @@ public class FleissnerWindow extends Composite{
                     userText = true;
                     System.out.println("userText: "+String.valueOf(userText)+" in case decrypt in startMethod");
                 }
-                if (writeText.getSelection() && decrypt.getSelection()) {
-                    argText = ciphertext.getText();
-                }
+
                 if (decrypt.getSelection()) {
                     userKey = true;
                     System.out.println("userKey: "+String.valueOf(userText)+" in case decrypt in startMethod");
@@ -1334,6 +1423,7 @@ public class FleissnerWindow extends Composite{
 
         checkArgs("startMethod(), before startApplication()");
         startApplication();
+        System.out.println("startMethod() ended");
     }
     
     public void startApplication() {
@@ -1360,19 +1450,27 @@ public class FleissnerWindow extends Composite{
           switch(argMethod) {
           case "analyze": ma.analyze();
                           analysisOutput.append(ma.toString());
+                          plaintext.setEnabled(true);
+                          plaintext.setForeground(ColorService.GRAY);
                           plaintext.setText("Gefundener Klartext:\n\n"+ma.getBestDecryptedText());
+                          keyToLogic = ma.getBestTemplate();
+                          printFoundKey();
                           break;
           case "encrypt": ma.encrypt();
+                          if (encrypt.getSelection()) {
+                              ciphertext.setEnabled(true);
+                              ciphertext.setForeground(ColorService.GRAY);
+                          }
                           ciphertext.setText(ma.getEncryptedText());
                           break;
           case "decrypt": ma.decrypt();
+                          plaintext.setEnabled(true);
+                          plaintext.setForeground(ColorService.GRAY);
                           plaintext.setText(ma.getDecryptedText());
                           break;
           }
-          System.out.println("startMethod() ended");
-
-//          analysisOutput.append("To String method of Method Application in fgSolver: \n"+ma.toString());
-//          System.out.println("To String method of Method Application in fgSolver: \n"+ma.toString());
+          System.out.println("startApplication() ended");
+          checkArgs("startApplication() Ende");
     }
     
     public void exampleAnalysis() {
@@ -1465,19 +1563,11 @@ public class FleissnerWindow extends Composite{
             while (model.getKey().get(x, y) != '0');
             model.getKey().set(x, y);
             keyToLogic = new int[2];
-//            System.out.println("Size of key array: "+keyToLogic.length);
             keyToLogic[0] = y;
             keyToLogic[1] = x;
-//            keyArgs.add(keyToLogic);
-//            System.out.println(keyArgs.get(keyArgs.size()-1));
             System.out.println("keyToLogic(y): "+keyToLogic[0]+", keyToLogic(x): "+keyToLogic[1]);
             System.out.println("sets x: "+x+", sets y: "+y+", setted : "+model.getKey().get(x, y));
         } while (!model.getKey().isValid());
-//        int i=0;
-//        for (int[] key : keyArgs) {
-//            System.out.println("show ArrayList Element "+i+": ("+key[0]+","+key[1]+")");
-//            i++;
-//        }
         System.out.println("Schlüssel nach Zufallserzeugung: "+model.translateKeyToLogic());
         
         reset();
@@ -1522,7 +1612,6 @@ public class FleissnerWindow extends Composite{
             if (!userKey) {
                 randomEncryption();
             }
-            
             ciphertext.setText(argText);
             plaintext.setText("");
         }else {
@@ -1545,7 +1634,7 @@ public class FleissnerWindow extends Composite{
         
         if (analyze.getSelection()) {
             
-            if(/*!ciphertext.getText().equals("")*/!argText.equals("")  && fis!=null) {
+            if(!argText.equals("")  && fis!=null) {
                 start.setEnabled(true);
             }else {
                 start.setEnabled(false);
@@ -1553,27 +1642,8 @@ public class FleissnerWindow extends Composite{
             
         }else if (encrypt.getSelection()) {
             
-            if (model.getKey().isValid() && !argText.equals("")/*!plaintext.getText().equals("")*/) { //$NON-NLS-1$
+            if (model.getKey().isValid() && !argText.equals("")) { //$NON-NLS-1$
                 System.out.println("Schlüssel: \n"+model.getKey());
-//                keyArgs = new ArrayList<>();
-//                int size = model.getKey().getSize();
-//                for (int x=0; x<size; x++) {
-//                    for (int y=0; y<size; y++) {
-//                        if (model.getKey().get(x, y)=='1') {
-//                            keyToLogic = new int[2];
-//                            keyToLogic[0] = y;
-//                            keyToLogic[1] = x;
-//                            keyArgs.add(keyToLogic);
-//                            System.out.println("(In CheckOKButton) keyToLogic(y): "+keyToLogic[0]+", keyToLogic(x): "+keyToLogic[1]);
-//                            System.out.println("sets x: "+x+", sets y: "+y+", setted : "+model.getKey().get(x, y));
-//                        }
-//                    }
-//                }
-//                int i=1;
-//                for (int[] key : keyArgs) {
-//                    System.out.println("show ArrayList Element "+i+": ("+key[0]+","+key[1]+")");
-//                    i++;
-//                }
                 System.out.println("model translatekeyToLogic (in checkOkButton): "+model.translateKeyToLogic());
                 start.setEnabled(true);
             } else {
@@ -1581,7 +1651,7 @@ public class FleissnerWindow extends Composite{
             }
         }else {
             
-            if (model.getKey().isValid() && !argText.equals("")/*!ciphertext.getText().equals("")*/) { //$NON-NLS-1$
+            if (model.getKey().isValid() && !argText.equals("")) { //$NON-NLS-1$
                 System.out.println("Schlüssel: \n"+model.getKey());
                 System.out.println("model translatekeyToLogic (in checkOkButton): "+model.translateKeyToLogic());
                 start.setEnabled(true);
@@ -1627,6 +1697,7 @@ public class FleissnerWindow extends Composite{
         
         language.select(0);
         statistics.setSelection(true);
+        statisticInputState = 0;
         statisticsLoad.setSelection(false);
         selectStatistic.select(0);
         restarts.setSelection(5);
@@ -1651,15 +1722,54 @@ public class FleissnerWindow extends Composite{
         exampleText.setSelection(true);
         loadOwntext.setSelection(false);
         writeText.setSelection(false);
-        textSelection(false, true, false, false);
-        loadText.setEnabled(false);
-        chooseExample.setEnabled(true);
+        textSelection(true, false, false, false);
         chooseExample.select(0);
-        writeText.setEnabled(false);
-        plaintext.setEditable(false);
+//        writeText.setEnabled(false);
         plaintext.setEnabled(false);
-        ciphertext.setEditable(false);
         ciphertext.setEnabled(true);
+        ciphertext.setForeground(null);
+    }
+    
+    public void updateLanguageSettings(String setting) {
+        
+//        textState und languageState
+        switch(setting) {
+        case "text": 
+            if (chooseExample.getSelectionIndex() == 0 || chooseExample.getSelectionIndex() == 1) {
+                language.select(0);
+                if (nGramSize.getSelection()==4) 
+                    selectStatistic.select(0);
+                else
+                    selectStatistic.select(1);
+            }else {
+                language.select(1);
+                if (nGramSize.getSelection()==4)
+                    selectStatistic.select(2);
+                else
+                    selectStatistic.select(3);
+            }
+            break;
+        case "language":
+            if (language.getSelectionIndex() == 0) {
+                chooseExample.select(0);
+                selectStatistic.select(0);
+            }else {
+                chooseExample.select(2);
+                selectStatistic.select(2);
+            }
+            break;
+        case "statistic":
+            if (selectStatistic.getSelectionIndex()==0 || selectStatistic.getSelectionIndex()==1) {
+                if (exampleText.getSelection() && textState!=1)
+                    chooseExample.select(0);
+                language.select(0);
+            }else {
+                if (exampleText.getSelection() && textState!=3)
+                    chooseExample.select(2);
+                language.select(1);
+            }
+            break;
+        }
     }
     
     public void randomEncryption() {
@@ -1673,6 +1783,18 @@ public class FleissnerWindow extends Composite{
         startMethod();
         argMethod = tempMethod; 
         argText = ciphertext.getText();
+        if (argMethod.equals("analyze"))
+            deleteHoles();
+    }
+    
+    public void printFoundKey() {
+        
+        deleteHoles();
+        for (int i =0; i<keyToLogic.length/2; i++) {
+            model.getKey().set(keyToLogic[2*i+1], keyToLogic[2*i]);
+        }
+        userText = true;
+        userKey = true;
     }
     
     public void defaultMethod() {
@@ -1686,10 +1808,40 @@ public class FleissnerWindow extends Composite{
         analyze();
     }
     
+    
+    public boolean checkTextLangChange() {
+        
+        boolean change;
+        
+        if (languageState == 0 && (chooseExample.getSelectionIndex() == 2 || chooseExample.getSelectionIndex() == 3)) {
+            change = true;
+        }else if (languageState == 1 && (chooseExample.getSelectionIndex() == 0 || chooseExample.getSelectionIndex() == 1)) {
+            change = true;
+        }else {
+            change = false;
+        }
+        return change;
+    }
+    
+    public boolean checkStatisticLangChange() {
+        
+        boolean change;
+        
+        if (languageState == 0 && (selectStatistic.getSelectionIndex() == 2 || selectStatistic.getSelectionIndex() == 3)) {
+            change = true;
+        }else if (languageState == 1 && (selectStatistic.getSelectionIndex() == 0 || selectStatistic.getSelectionIndex() == 1)) {
+            change = true;
+        }else {
+            change = false;
+        }
+        return change;
+    }
+    
     public void checkArgs(String methode) {
         System.out.println("checkArgs started in: "+methode+"\nStartSettings?: "+startSettings);
-        System.out.println("ArgMethod: "+argMethod+"\nArgText: "+textName+"\nArgLanguage: "+argLanguage+"\nArgStatistic: "+statisticName);
+        System.out.println("ArgMethod: "+argMethod+"\nArgText: "+/*textName*/argText+"\nArgLanguage: "+argLanguage+"\nArgStatistic: "+statisticName+" \ntextInputState: "+textInputState+"\nstatInoutState: "+statisticInputState+"\nfis: "+fis);
         System.out.println("\nPlain?: "+plain+"\nUserText?: "+userText+"\nUserKey?: "+userKey);
+        System.out.println("Plaintext editable: "+plaintext.getEditable()+"\nCiphertext editable: "+ciphertext.getEditable());
     }
 
     public Canvas getCanvasKey() {
