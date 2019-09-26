@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.jcryptool.visual.verifiablesecretsharing.lib;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: %Bundle-Vendor.0
 Import-Package: org.jcryptool.core.logging.utils,
  org.jcryptool.core.util.colors,

@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.jcryptool.analysis.friedman;bundle-version="1.0.0",
  org.jcryptool.core.operations;bundle-version="1.0.0",
  org.jcryptool.core.util;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Import-Package: org.jcryptool.core.logging.utils,
  org.jcryptool.core.util.fonts

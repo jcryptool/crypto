@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.ui,
  org.jcryptool.crypto.classic.model;bundle-version="1.0.0",
  org.jcryptool.crypto.classic.substitution;bundle-version="1.0.0",
  org.jcryptool.editor.text;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.jcryptool.analysis.substitution
 Export-Package: org.jcryptool.analysis.substitution,
