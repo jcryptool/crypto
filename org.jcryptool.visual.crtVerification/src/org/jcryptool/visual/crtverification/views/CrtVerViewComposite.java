@@ -100,7 +100,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 
 	Text txtLogWindow;
 	
-	private Color light_blue = new Color(Display.getCurrent(), 30, 144, 255);
+//	private Color light_blue = new Color(Display.getCurrent(), 30, 144, 255);
 	private Color violet = new Color(Display.getCurrent(), 72, 61, 139);
 	private Color orange = new Color(Display.getCurrent(), 255, 140, 0);
 
@@ -337,7 +337,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		
 		Label lblArrowSig = new Label(leftTop, SWT.NONE);
 		lblArrowSig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		lblArrowSig.setForeground(light_blue);
+		lblArrowSig.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GREEN));
 		lblArrowSig.setText(Messages.CrtVerViewComposite_signatureDate);
 		
 		//left Canvas for the left Arrows
@@ -362,16 +362,22 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		lblArrowVer.setText(Messages.CrtVerViewComposite_verificationDate);
 		
 		Label seperatorHorizontal = new Label(leftTop, SWT.SEPARATOR | SWT.HORIZONTAL);
-		seperatorHorizontal.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 5, 1));
+		GridData gd_seperatorHorizontal = new GridData(SWT.FILL, SWT.FILL, false, false, 5, 1);
+		gd_seperatorHorizontal.verticalIndent = 15;
+		seperatorHorizontal.setLayoutData(gd_seperatorHorizontal);
 		
 		new Label(leftTop, SWT.NONE);
 		
 		Label date5 = new Label(leftTop, SWT.LEFT);
-		date5.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+		GridData gd_date5 = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);
+		gd_date5.verticalIndent = 15;
+		date5.setLayoutData(gd_date5);
 		date5.setText(controller.scaleUpdate(0, 360, controller.getDateformat3()));
 		
 		Label date6 = new Label(leftTop, SWT.RIGHT);
-		date6.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+		GridData gd_date6 = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);
+		gd_date6.verticalIndent = 15;
+		date6.setLayoutData(gd_date6);
 		date6.setText(controller.scaleUpdate(720, 360, controller.getDateformat3()));
 		
 		Label lblSignatureDate = new Label(leftTop, SWT.NONE);
@@ -708,7 +714,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		thruCert.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		
 		Composite settingsComposite = new Composite(composite, SWT.NONE);
-		settingsComposite.setLayout(new GridLayout(8, false));
+		settingsComposite.setLayout(new GridLayout(5, false));
 		GridData gd_settingsComposite = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
 		gd_settingsComposite.verticalIndent = 30;
 		settingsComposite.setLayoutData(gd_settingsComposite);
@@ -724,7 +730,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 //				controller.reset();
 //			}
 //		});
-		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+//		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 
 		//Commented out because they only open another Plugin. This is also possible by selecting the wished Plugin
 		//from the menu.
@@ -742,7 +748,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 //			}
 //		});
 //		btnBack.setText(Messages.CrtVerViewComposite_pki_plugin);
-		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+//		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 
 		//Commented out because they only open another Plugin. This is also possible by selecting the wished Plugin
 		//from the menu.
@@ -760,7 +766,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 //			}
 //		});
 //		btnForward.setText(Messages.CrtVerViewComposite_signatureVerification);
-		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+//		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
 		btnShellModel = new Button(settingsComposite, SWT.RADIO);
 		btnShellModel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
@@ -768,7 +774,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				labelValiditySymbol.setVisible(false);
-				scaleVerificationDate.setEnabled(true);
+//				scaleVerificationDate.setEnabled(true);
 			}
 		});
 		btnShellModel.setSelection(true);
@@ -780,7 +786,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				labelValiditySymbol.setVisible(false);
-				scaleVerificationDate.setEnabled(false);
+//				scaleVerificationDate.setEnabled(false);
 			}
 		});
 		btnShellModelModified.setText(Messages.CrtVerViewComposite_modifiedshellModel);
@@ -791,13 +797,13 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				labelValiditySymbol.setVisible(false);
-				scaleVerificationDate.setEnabled(false);
+//				scaleVerificationDate.setEnabled(false);
 			}
 		});
 		btnChainModel.setText(Messages.CrtVerViewComposite_chainModel);
 
 		btnValidate = new Button(settingsComposite, SWT.PUSH);
-		btnValidate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
+		btnValidate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		btnValidate.setText(Messages.CrtVerViewComposite_validate);
 		
 		labelValiditySymbol = new Label(settingsComposite, SWT.NONE);
@@ -987,7 +993,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		height = clientArea.height;
 
 		// Draw Arrow Signature Date
-		gc.setBackground(light_blue);
+		gc.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GREEN));
 		gc.fillRectangle(width / 2 + arrowSigDiff - 4, 9, 8, height);
 		gc.fillPolygon(new int[] { (width / 2 - 8 + arrowSigDiff), 9,
 				(width / 2 + arrowSigDiff), 0, (width / 2 + 8 + arrowSigDiff),
