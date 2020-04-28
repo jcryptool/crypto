@@ -53,6 +53,7 @@ public class SphincsPlusForsView extends Composite {
     private Graph graph;
 
     private GraphViewer graphViewer;
+    private GraphViewer graphViewerSub;
 
     private Composite zestComposite;
     private Composite expandComposite;
@@ -60,21 +61,23 @@ public class SphincsPlusForsView extends Composite {
 
     private Label descLabel;
 
-    private boolean distinctListener = false;
     private boolean mouseDragging;
+    private boolean mouseDraggingSub;
 
     private Point oldMouse;
     private Point newMouse;
+    private Point oldMouseSub;
+    private Point newMouseSub;
     private org.eclipse.draw2d.geometry.Point viewLocation;
-
-    private int differenceMouseX;
-    private int differenceMouseY;
+    private org.eclipse.draw2d.geometry.Point viewLocationSub;
 
     private Display curDisplay;
 
     private ExpandBar descriptionExpander;
 
     private StyledText descText;
+
+	private Graph graphSub;
 
     /**
      * Create the composite.
@@ -115,7 +118,7 @@ public class SphincsPlusForsView extends Composite {
 
         zestComposite = new Composite(this, SWT.DOUBLE_BUFFERED | SWT.BORDER);
         zestComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        zestComposite.setLayout(new GridLayout());
+        zestComposite.setLayout(new GridLayout(3, false));
         zestComposite.setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
         zestComposite.setBackgroundMode(SWT.INHERIT_FORCE);
         zestComposite.setCursor(getDisplay().getSystemCursor(SWT.CURSOR_SIZEALL));
@@ -125,24 +128,31 @@ public class SphincsPlusForsView extends Composite {
         graph = graphViewer.getGraphControl();
         graph.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
         graph.setScrollBarVisibility(FigureCanvas.NEVER);
+        
+        Label sep = new Label(zestComposite, SWT.SEPARATOR | SWT.VERTICAL);
+        sep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+
+        graphViewerSub = new GraphViewer(zestComposite, SWT.V_SCROLL | SWT.H_SCROLL);
+        graphSub = graphViewerSub.getGraphControl();
+        graphSub.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
+        graphSub.setScrollBarVisibility(FigureCanvas.NEVER);
 
         // Adding graph nodes and connect them
         GraphNode node_1 = new GraphNode(graph, SWT.NONE, "FORS PK");
-        GraphContainer container_1 = new GraphContainer(graph, SWT.NONE, "ROOT-Node");
-        GraphContainer container_2 = new GraphContainer(graph, SWT.NONE, "ROOT-Node");
-        GraphContainer container_3 = new GraphContainer(graph, SWT.NONE, "ROOT-Node");
+        GraphNode container_1 = new GraphNode(graph, SWT.NONE, "ROOT-Node");
+        GraphNode container_2 = new GraphNode(graph, SWT.NONE, "ROOT-Node");
+        GraphNode container_3 = new GraphNode(graph, SWT.NONE, "ROOT-Node");
 
         node_1.setSize(120, 40);
         createForsSubTree(container_1);
-        createForsSubTree(container_2);
-        createForsSubTree(container_3);
+//        createForsSubTree(container_2);
+//        createForsSubTree(container_3);
         node_1.setBackgroundColor(ColorConstants.orange);
         container_1.setBackgroundColor(ColorConstants.lightGreen);
         container_2.setBackgroundColor(ColorConstants.lightGreen);
         container_3.setBackgroundColor(ColorConstants.lightGreen);
 
-        graph.addSelectionListener(new SelectionAdapter() {
-
+        SelectionAdapter selectionListenerLeft = new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if (e.item == node_1) {
@@ -151,7 +161,8 @@ public class SphincsPlusForsView extends Composite {
                     descText.setText(Messages.SphincsPlusForsView_descText_general);
                 }
             }
-        });
+        };
+		graph.addSelectionListener(selectionListenerLeft);
 
         new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, node_1, container_1);
         new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, node_1, container_2);
@@ -163,6 +174,7 @@ public class SphincsPlusForsView extends Composite {
          * control (graphViewer.getControl) I simply grab all available space
          */
         GridDataFactory.fillDefaults().grab(true, true).applyTo(graphViewer.getControl());
+        GridDataFactory.fillDefaults().grab(true, true).applyTo(graphViewerSub.getControl());
 
         // For the graph we have to create a PaintListener.
         graphViewer.getControl().addPaintListener(new PaintListener() {
@@ -172,9 +184,21 @@ public class SphincsPlusForsView extends Composite {
                 Point currentShellSize;
                 currentShellSize = parent.getSize();
                 double x, y;
-                x = currentShellSize.x;
+                x = currentShellSize.x/2;
                 y = currentShellSize.y / 1.5;
                 graph.getViewport().setSize((int) x, (int) y);
+            }
+        });
+        graphViewerSub.getControl().addPaintListener(new PaintListener() {
+
+            @Override
+            public void paintControl(PaintEvent e) {
+                Point currentShellSize;
+                currentShellSize = parent.getSize();
+                double x, y;
+                x = currentShellSize.x/2;
+                y = currentShellSize.y / 1.5;
+                graphSub.getViewport().setSize((int) x, (int) y);
             }
         });
         // The Graph now fills the shell/parent composite,
@@ -184,6 +208,7 @@ public class SphincsPlusForsView extends Composite {
         // As arguments we need a ScalableFigure which we receive by graph.getRootLayer and the
         // Viewport.
         ZoomManager zoomManager = new ZoomManager(graph.getRootLayer(), graph.getViewport());
+        ZoomManager zoomManagerSub = new ZoomManager(graphSub.getRootLayer(), graphSub.getViewport());
 
         // we bind the zoom mechanic to a simple mouse wheel listener
         graph.addMouseWheelListener(new MouseWheelListener() {
@@ -197,13 +222,23 @@ public class SphincsPlusForsView extends Composite {
                 }
             }
         });
+        graphSub.addMouseWheelListener(new MouseWheelListener() {
+
+            @Override
+            public void mouseScrolled(MouseEvent e) {
+                if (e.count < 0) {
+                    zoomManagerSub.zoomOut();
+                } else {
+                    zoomManagerSub.zoomIn();
+                }
+            }
+        });
 
         // Camera Movement
-        MouseListener dragQueen = new MouseListener() {
+        MouseListener dragListener = new MouseListener() {
 
             @Override
             public void mouseUp(MouseEvent e) {
-                distinctListener = false;
                 mouseDragging = false;
                 zestComposite.setCursor(getDisplay().getSystemCursor(SWT.CURSOR_CROSS));
             }
@@ -214,8 +249,27 @@ public class SphincsPlusForsView extends Composite {
                 oldMouse = Display.getCurrent().getCursorLocation();
                 viewLocation = graph.getViewport().getViewLocation();
 
-                if (distinctListener == false)
-                    zestComposite.setCursor(getDisplay().getSystemCursor(SWT.CURSOR_SIZEALL));
+            }
+
+            @Override
+            public void mouseDoubleClick(MouseEvent e) {
+                // do nothing
+            }
+        };
+        // Camera Movement
+        MouseListener dragListenerSub = new MouseListener() {
+
+            @Override
+            public void mouseUp(MouseEvent e) {
+                mouseDraggingSub = false;
+            }
+
+            @Override
+            public void mouseDown(MouseEvent e) {
+                mouseDraggingSub = true;
+                oldMouseSub = Display.getCurrent().getCursorLocation();
+                viewLocationSub = graph.getViewport().getViewLocation();
+
             }
 
             @Override
@@ -225,16 +279,32 @@ public class SphincsPlusForsView extends Composite {
         };
 
 
-        graphViewer.getGraphControl().addMouseListener(dragQueen);
+        graphViewer.getGraphControl().addMouseListener(dragListener);
+        graphViewerSub.getGraphControl().addMouseListener(dragListenerSub);
         MouseMoveListener moveListener = new MouseMoveListener() {
 			
 			@Override
 			public void mouseMove(MouseEvent e) {
+				if (oldMouse == null) {
+					oldMouse = Display.getCurrent().getCursorLocation();
+				}
 				updateViewLocation();
 			}
 		};
+        MouseMoveListener moveListenerSub = new MouseMoveListener() {
+			
+			@Override
+			public void mouseMove(MouseEvent e) {
+				if (oldMouseSub == null) {
+					oldMouseSub = Display.getCurrent().getCursorLocation();
+				}
+				updateViewLocationSub();
+			}
+		};
 		graphViewer.getGraphControl().addMouseMoveListener(moveListener);
-        zestComposite.addMouseListener(dragQueen);
+		graphViewerSub.getGraphControl().addMouseMoveListener(moveListenerSub);
+        graphViewer.getControl().addMouseListener(dragListener);
+        graphViewerSub.getControl().addMouseListener(dragListener);
 
         // We give the focus to our graphViewer, so it receives the MouseWheel Events.
         graphViewer.getControl().forceFocus();
@@ -245,7 +315,11 @@ public class SphincsPlusForsView extends Composite {
             @Override
 			public void dispatchMouseMoved(MouseEvent e) {
             }
-
+        });
+        graphSub.getLightweightSystem().setEventDispatcher(new SWTEventDispatcher() {
+            @Override
+			public void dispatchMouseMoved(MouseEvent e) {
+            }
         });
 
         /**
@@ -277,50 +351,72 @@ public class SphincsPlusForsView extends Composite {
      * Sets the current view location based on mouse movement.
      */
     private void updateViewLocation() {
-//        curDisplay.asyncExec(new Runnable() {
-//
-//            @Override
-//            public void run() {
-                newMouse = getDisplay().getCursorLocation();
-                differenceMouseX = newMouse.x - oldMouse.x;
-                differenceMouseY = newMouse.y - oldMouse.y;
+    	int differenceMouseX;
+    	int differenceMouseY;
+    	newMouse = getDisplay().getCursorLocation();
+    	if(oldMouse == null) {
+    		oldMouse = newMouse;
+    	}
+    	differenceMouseX = newMouse.x - oldMouse.x;
+    	differenceMouseY = newMouse.y - oldMouse.y;
 
-                if (differenceMouseX != 0 || differenceMouseY != 0) {
-                    if (mouseDragging) {
-                        graph.getViewport().setViewLocation(viewLocation.x -= differenceMouseX,
-                                viewLocation.y -= differenceMouseY);
-                        oldMouse = newMouse;
-                    }
-                }
-//            }
-//        });
+    	if (differenceMouseX != 0 || differenceMouseY != 0) {
+    		if (mouseDragging) {
+    			graph.getViewport().setViewLocation(viewLocation.x -= differenceMouseX,
+    					viewLocation.y -= differenceMouseY);
+    			oldMouse = newMouse;
+    		}
+    	}
+    }
+    /**
+     * Sets the current view location based on mouse movement.
+     */
+    private void updateViewLocationSub() {
+    	int differenceMouseX;
+    	int differenceMouseY;
+    	newMouseSub = getDisplay().getCursorLocation();
+    	if(oldMouseSub == null) {
+    		oldMouseSub = newMouseSub;
+    	}
+    	differenceMouseX = newMouseSub.x - oldMouseSub.x;
+    	differenceMouseY = newMouseSub.y - oldMouseSub.y;
+
+    	if (differenceMouseX != 0 || differenceMouseY != 0) {
+    		if (mouseDraggingSub) {
+    			graphSub.getViewport().setViewLocation(viewLocationSub.x -= differenceMouseX,
+    					viewLocationSub.y -= differenceMouseY);
+    			oldMouseSub = newMouseSub;
+    		}
+    	}
     }
 
     /**
      * Creates a FORS Subtree with four bottom leafs.
      * 
-     * @param container
+     * @param container_1
      */
-    private void createForsSubTree(GraphContainer container) {
-        container.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), false);
-        GraphNode node_1 = new GraphNode(container, SWT.NONE, "Node");
-        GraphNode node_2 = new GraphNode(container, SWT.NONE, "Node");
-        GraphNode node_3 = new GraphNode(container, SWT.NONE, "Leaf");
-        GraphNode node_4 = new GraphNode(container, SWT.NONE, "Leaf");
-        GraphNode node_5 = new GraphNode(container, SWT.NONE, "Leaf");
-        GraphNode node_6 = new GraphNode(container, SWT.NONE, "Leaf");
-        GraphNode root = new GraphNode(container, SWT.NONE, "ROOT");
+    private void createForsSubTree(GraphNode container_1) {
+//     	root=new GraphNode
+//         container_1.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), false);
+        GraphNode root = new GraphNode(graphSub, SWT.NONE, container_1.getText());
 
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, root, node_1);
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, root, node_2);
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, node_1, node_3);
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, node_1, node_4);
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, node_2, node_5);
-        new GraphConnection(graph, ZestStyles.CONNECTIONS_DIRECTED, node_2, node_6);
+        GraphNode node_1 = new GraphNode(graphSub, SWT.NONE, "Node");
+        GraphNode node_2 = new GraphNode(graphSub, SWT.NONE, "Node");
+        GraphNode node_3 = new GraphNode(graphSub, SWT.NONE, "Leaf");
+        GraphNode node_4 = new GraphNode(graphSub, SWT.NONE, "Leaf");
+        GraphNode node_5 = new GraphNode(graphSub, SWT.NONE, "Leaf");
+        GraphNode node_6 = new GraphNode(graphSub, SWT.NONE, "Leaf");
+
+        new GraphConnection(graphSub, ZestStyles.CONNECTIONS_DIRECTED, root, node_1);
+        new GraphConnection(graphSub, ZestStyles.CONNECTIONS_DIRECTED, root, node_2);
+        new GraphConnection(graphSub, ZestStyles.CONNECTIONS_DIRECTED, node_1, node_3);
+        new GraphConnection(graphSub, ZestStyles.CONNECTIONS_DIRECTED, node_1, node_4);
+        new GraphConnection(graphSub, ZestStyles.CONNECTIONS_DIRECTED, node_2, node_5);
+        new GraphConnection(graphSub, ZestStyles.CONNECTIONS_DIRECTED, node_2, node_6);
 
         root.setBackgroundColor(ColorConstants.lightGreen);
-        container.open(true);
-        container.applyLayout();
+//        container_1.open(true);
+//        container_1.applyLayout();
     }
 
     @Override
