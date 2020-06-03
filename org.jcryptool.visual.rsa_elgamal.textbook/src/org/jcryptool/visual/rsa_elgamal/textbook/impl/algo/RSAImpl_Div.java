@@ -1,4 +1,6 @@
-package org.jcryptool.visual.rsa.textbook.impl.algo;
+package org.jcryptool.visual.rsa_elgamal.textbook.impl.algo;
+
+import org.jcryptool.visual.rsa_elgamal.textbook.impl.Utils;
 
 public class RSAImpl_Div {
 

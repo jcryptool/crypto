@@ -1,7 +1,14 @@
-package org.jcryptool.visual.rsa.textbook.impl.algo;
+package org.jcryptool.visual.rsa_elgamal.textbook.impl;
 
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
+import com.diffplug.common.base.Errors;
+import com.google.common.collect.Lists;
 
 public class Utils {
 
@@ -19,6 +26,10 @@ public class Utils {
             result = result.add(bigInteger);
         }
         return result.toString();
+    }
+    
+    public static List<BigInteger> elementwise(Function<BigInteger, BigInteger> fun, Collection<? extends BigInteger> collection) {
+    	return collection.stream().map(fun).collect(Collectors.toList());
     }
     
 }

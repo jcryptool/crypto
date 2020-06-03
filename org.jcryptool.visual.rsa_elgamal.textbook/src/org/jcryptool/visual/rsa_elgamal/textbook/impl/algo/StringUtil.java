@@ -1,4 +1,4 @@
-package org.jcryptool.visual.rsa.textbook.impl.algo;
+package org.jcryptool.visual.rsa_elgamal.textbook.impl.algo;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
