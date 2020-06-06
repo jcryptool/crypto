@@ -63,12 +63,6 @@ public class RSAKeygen extends AbstractInteractiveProcess<RSAKeygen.RSAKeygenSta
 		public RSAKeys getKeys() {
 			return new RSAKeys(new RSAPrivateKey(n, d), new RSAPublicKey(n, e.get()));
 		}
-		
-		@Override
-		protected RSAKeygenState clone() throws CloneNotSupportedException {
-			XmlMapper mapper = new XmlMapper(); 
-			mapper.
-		}
 	}
 
 	public static IExpectation<RSAKeygenState> expectation_primeP = IExpectation.PredicateExpectation("p is prime", state -> state.p.get().isProbablePrime(9999));

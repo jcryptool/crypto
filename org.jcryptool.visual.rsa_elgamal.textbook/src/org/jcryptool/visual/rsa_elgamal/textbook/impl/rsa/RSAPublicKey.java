@@ -3,8 +3,6 @@ package org.jcryptool.visual.rsa_elgamal.textbook.impl.rsa;
 import java.math.BigInteger;
 
 import org.jcryptool.visual.rsa_elgamal.textbook.IPublicKey;
-import org.jcryptool.visual.rsa_elgamal.textbook.valid.Validation;
-import org.jcryptool.visual.rsa_elgamal.textbook.valid.Validation.Value;
 
 public class RSAPublicKey implements IPublicKey {
 
@@ -16,14 +14,12 @@ public class RSAPublicKey implements IPublicKey {
 		this.e = e;
 	}
 
-    public BigInteger verify(BigInteger data) throws Value {
-    	Validation.mustBeSmaller(data, n, "message.data", "key.n");
+    public BigInteger verify(BigInteger data) {
         return data.modPow(e, n);
     }
 
 	@Override
-	public BigInteger encrypt(BigInteger data) throws Value {
-    	Validation.mustBeSmaller(data, n, "message.data", "key.n");
+	public BigInteger encrypt(BigInteger data) {
         return data.modPow(e, n);
 	}
 
