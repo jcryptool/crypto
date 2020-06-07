@@ -6,6 +6,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry excluding="org/jcryptool/visual/rsa_elgamal/textbook/impl/algo/RSAImpl_Div.java" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/"/>
+	<classpathentry kind="src" path="target/generated-sources/apt">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

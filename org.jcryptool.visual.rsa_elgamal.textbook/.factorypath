@@ -1,0 +1,6 @@
+<factorypath>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/derive4j/derive4j/1.0.0/derive4j-1.0.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/derive4j/derive4j-annotation/1.0.0/derive4j-annotation-1.0.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/derive4j/derive4j-processor-api/1.0.0/derive4j-processor-api-1.0.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/squareup/javapoet/1.11.1/javapoet-1.11.1.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>

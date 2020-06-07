@@ -9,17 +9,16 @@ import fj.Hash;
 import fj.Ord;
 import fj.Show;
 
-@Data(@Derive(@Instances({ Show.class, Hash.class, Equal.class, Ord.class })))
+@Data
 public abstract class Blubb {
 
   public abstract <R> R match(Cases<R> cases);
 
   interface Cases<R> {
-    R Address(int number, String street);
+    R Mycase(int number, String street);
   }
 
-  
   public static void main(String[] args) {
-	
+	  
   }
 }
