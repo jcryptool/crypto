@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Textbook
 Bundle-SymbolicName: org.jcryptool.visual.rsa_elgamal.textbook;singleton:=true
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.1.0
 Bundle-Activator: org.jcryptool.visual.rsa_elgamal.textbook.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -12,11 +12,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding,
+ org.jcryptool.core.splitpackages,
+ com.diffplug.durian.collect,
  com.diffplug.durian.concurrent,
  com.diffplug.durian.core,
+ com.diffplug.durian.io,
+ com.diffplug.durian.reflect,
  com.diffplug.durian.rx,
  com.diffplug.durian.swt,
- com.diffplug.durian,
  com.google.dagger.compiler,
  com.google.dagger.producers,
  com.google.dagger,
@@ -29,11 +32,10 @@ Require-Bundle: org.eclipse.ui,
  org.checkerframework.checker-qual,
  org.codehaus.mojo.animal-sniffer-annotations,
  org.functionaljava,
+ org.immutables.value,
  org.jcryptool.thirdparty.m2bundle.durian-swt,
  org.jcryptool.thirdparty.m2bundle.jaxb,
- org.jsr-305,
- org.reactivestreams.reactive-streams,
- org.immutables.value
+ org.reactivestreams.reactive-streams
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.jcryptool.visual.rsa_elgamal.textbook
 Bundle-ActivationPolicy: lazy
