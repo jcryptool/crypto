@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Textbook
-Bundle-SymbolicName: org.jcryptool.visual.rsa_elgamal.textbook
+Bundle-SymbolicName: org.jcryptool.visual.rsa_elgamal.textbook;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.jcryptool.visual.rsa_elgamal.textbook.Activator
 Require-Bundle: org.eclipse.ui,
@@ -12,11 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding,
- com.diffplug.durian.collect,
  com.diffplug.durian.concurrent,
  com.diffplug.durian.core,
- com.diffplug.durian.io,
- com.diffplug.durian.reflect,
  com.diffplug.durian.rx,
  com.diffplug.durian.swt,
  com.diffplug.durian,
@@ -27,22 +24,20 @@ Require-Bundle: org.eclipse.ui,
  com.google.guava,
  com.google.guava,
  com.google.j2objc.annotations,
- com.squareup.javapoet,
  io.reactivex.rxjava2.rxjava,
  javax.inject,
  org.checkerframework.checker-qual,
  org.codehaus.mojo.animal-sniffer-annotations,
- org.derive4j.annotation,
- org.derive4j.processor-api,
- org.derive4j,
  org.functionaljava,
  org.jcryptool.thirdparty.m2bundle.durian-swt,
  org.jcryptool.thirdparty.m2bundle.jaxb,
  org.jsr-305,
- org.reactivestreams.reactive-streams
+ org.reactivestreams.reactive-streams,
+ org.immutables.value
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.jcryptool.visual.rsa_elgamal.textbook
 Bundle-ActivationPolicy: lazy
+Import-Package: com.diffplug.common.base;version="[1.2,2)"
 Export-Package: org.jcryptool.visual.rsa_elgamal.textbook,
  org.jcryptool.visual.rsa_elgamal.textbook.generic,
  org.jcryptool.visual.rsa_elgamal.textbook.impl,

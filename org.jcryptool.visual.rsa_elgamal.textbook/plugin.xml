@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	 <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.jcryptool.visual"
+            class="org.jcryptool.visual.rsa_elgamal.view.RSA_Main_View"
+            icon="platform:/plugin/org.eclipse.ui/icons/full/eview16/defaultview_misc.png"
+            id="org.jcryptool.visual.rsa_elgamal.view.RSA_Main_View"
+            name="RSA Textbook Cryptosystem">
+      </view>
+   </extension>
+   <extension
+         point="org.jcryptool.core.operations.visuals">
+      <Visual
+            name="RSA Textbook Cryptosystem"
+            viewId="org.jcryptool.visual.rsa_elgamal.view.RSA_Main_View"
+            contextHelpId="org.jcryptool.visual.rsa_elgamal.view.RSA_Main_View.contexthelp">
+      </Visual>
+   </extension>
+</plugin>
