@@ -386,6 +386,7 @@ public class VerificationPanel extends JPanel implements ActionListener {
 
 		controls.setLayout(new GridLayout(buttons.size(), 1));
 		for(JButton b : buttons) {
+			b.setToolTipText("I am tooltip");
 			controls.add(b);
 		}
 

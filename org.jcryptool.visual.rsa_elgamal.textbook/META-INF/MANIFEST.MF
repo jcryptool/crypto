@@ -33,13 +33,12 @@ Require-Bundle: org.eclipse.ui,
  org.codehaus.mojo.animal-sniffer-annotations,
  org.functionaljava,
  org.immutables.value,
- org.jcryptool.thirdparty.m2bundle.durian-swt,
+ org.jcryptool.thirdparty.m2bundle.durian-swt-os,
  org.jcryptool.thirdparty.m2bundle.jaxb,
  org.reactivestreams.reactive-streams
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.jcryptool.visual.rsa_elgamal.textbook
 Bundle-ActivationPolicy: lazy
-Import-Package: com.diffplug.common.base;version="[1.2,2)"
 Export-Package: org.jcryptool.visual.rsa_elgamal.textbook,
  org.jcryptool.visual.rsa_elgamal.textbook.generic,
  org.jcryptool.visual.rsa_elgamal.textbook.impl,

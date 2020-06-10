@@ -5,7 +5,7 @@
          point="org.eclipse.ui.views">
       <view
             category="org.jcryptool.visual"
-            class="org.jcryptool.visual.rsa_elgamal.view.RSA_Main_View"
+            class="org.jcryptool.visual.rsa_elgamal.view.ExampleView"
             icon="platform:/plugin/org.eclipse.ui/icons/full/eview16/defaultview_misc.png"
             id="org.jcryptool.visual.rsa_elgamal.view.RSA_Main_View"
             name="RSA Textbook Cryptosystem">
