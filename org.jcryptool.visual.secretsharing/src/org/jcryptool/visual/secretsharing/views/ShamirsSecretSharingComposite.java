@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -210,10 +211,10 @@ public class ShamirsSecretSharingComposite extends Composite {
      */
     private void createCompositeIntro(Composite parent) {
 
-        TitleAndDescriptionComposite titleAndDescription = new TitleAndDescriptionComposite(parent);
-        titleAndDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-        titleAndDescription.setTitle(Messages.ShamirsCompositeGraphical_title);
-        titleAndDescription.setDescription(Messages.SSSConstants_Title_Info);
+//        TitleAndDescriptionComposite titleAndDescription = new TitleAndDescriptionComposite(parent);
+//        titleAndDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+//        titleAndDescription.setTitle(Messages.ShamirsCompositeGraphical_title);
+//        titleAndDescription.setDescription(Messages.SSSConstants_Title_Info);
         
     }
     
@@ -1104,19 +1105,25 @@ public class ShamirsSecretSharingComposite extends Composite {
 			
 			@Override
 			public void mouseHover(MouseEvent e) {
+				calculateHovered(e);
+                System.out.print("mouseHover: "); System.out.println(hover.keySet().stream().filter(s -> hover.get(s)).collect(Collectors.toList()));
+                canvasCurve.redraw();
+			}
+
+			private void calculateHovered(MouseEvent e) {
 				hover.clear();
                 for (org.eclipse.swt.graphics.Point point : pointsDrawn.keySet()) {
                 	org.eclipse.swt.graphics.Point screenCoord = pointsDrawn.get(point);
 
-// 					System.out.println(String.format("Hover 1: %s,%s", e.x, e.y));
+//  					System.out.println(String.format("Hover 1: %s,%s", e.x, e.y));
 					if (Math.abs(e.x - screenCoord.x) < vis_mousevicinity && Math.abs(e.y - screenCoord.y) < vis_mousevicinity) {
 						hover.put(point, true);
-// 						System.out.println(String.format("Hover put true: %s", point));
+//  						System.out.println(String.format("Hover put true: %s, <> %s,%s", point, Math.abs(e.x - screenCoord.x), Math.abs(e.y - screenCoord.y)));
 					} else {
 						hover.put(point, false);
+//  						System.out.println(String.format("Hover put false: %s, <> %s,%s", point, Math.abs(e.x - screenCoord.x), Math.abs(e.y - screenCoord.y)));
 					}
 				}
-                canvasCurve.redraw();
 			}
 			
 			@Override
@@ -1124,6 +1131,7 @@ public class ShamirsSecretSharingComposite extends Composite {
 				hover.clear();
 				over.clear();
 				canvasCurve.setToolTipText(null);
+                System.out.print("mouseExit: "); System.out.println(hover.keySet().stream().filter(s -> hover.get(s)).collect(Collectors.toList()));
 				canvasCurve.redraw();
 				
 			}
@@ -1132,6 +1140,7 @@ public class ShamirsSecretSharingComposite extends Composite {
 			public void mouseEnter(MouseEvent e) {
 				hover.clear();
 				over.clear();
+                System.out.print("mouseEnter: "); System.out.println(hover.keySet().stream().filter(s -> hover.get(s)).collect(Collectors.toList()));
 				canvasCurve.redraw();
 			}
 		});
