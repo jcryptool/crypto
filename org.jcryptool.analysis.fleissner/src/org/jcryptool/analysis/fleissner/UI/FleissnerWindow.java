@@ -1382,6 +1382,8 @@ public class FleissnerWindow extends Composite {
 		private int selection;
 		private boolean encryptSelection;
 		private String checkedArgs;
+		private String canceledReason;
+		private IllegalArgumentException canceledException;
 
 		/**
 		 * 
@@ -1496,7 +1498,13 @@ public class FleissnerWindow extends Composite {
 			} else {
 				throw new IllegalArgumentException(Messages.FleissnerWindow_error_noMethod);
 			}
-			return this.run(monitor);
+			try {
+				return this.run(monitor);
+			} catch (IllegalArgumentException e) {
+				this.canceledReason = e.getMessage();
+				this.canceledException = e;
+				return Status.CANCEL_STATUS;
+			}
 
 		}
 
@@ -1508,7 +1516,14 @@ public class FleissnerWindow extends Composite {
 				// Configuration of given parameters and selecting and applying one of the three
 				// methods
 
-				this.ps = new ParameterSettings(args);
+				try {
+					this.ps = new ParameterSettings(args);
+				} catch (IllegalArgumentException e) {
+//					monitor.setCanceled(true);
+					this.canceledReason = "A parameter is not correct: \n" + e.getMessage();
+					this.canceledException = e;
+					return Status.CANCEL_STATUS;
+				}
 				this.ma = new MethodApplication(ps, argStatistics);
 
 			} catch (IllegalArgumentException ex) {
@@ -1621,6 +1636,10 @@ public class FleissnerWindow extends Composite {
 			getDisplay().syncExec(() -> {
 				liftNoClick(); // TODO: mechanism to not let the user start other things in the background
 			});
+			if (status.equals(Status.CANCEL_STATUS)) {
+				LogUtil.logError(null, job.canceledReason, null, true); // TODO: more friendly message box -- these are probably warnings about wrong user input. 
+																		// But could be this is better handled silently in some cases!
+			}
 		});
 		imposeNoClick(); // TODO: mechanism to not let the user start other things in the background
 		job.runInBackground();

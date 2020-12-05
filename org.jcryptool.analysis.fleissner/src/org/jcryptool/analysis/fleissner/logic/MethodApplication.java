@@ -98,6 +98,9 @@ public class MethodApplication{
         if (this.possibleTemplateLengths.isEmpty()) {
             
             ct.load(textInLine, isPlaintext, templateLength, grille, fg);
+            if(ct.getText().size() == 0) {
+            	throw new IllegalArgumentException("input text is empty"); // TODO: i18n
+            }
             fwAnalysisOutput += Messages.MethodApplication_output_info+ct.toString();
             LogUtil.logInfo(Activator.PLUGIN_ID, Messages.MethodApplication_info_info+ct.toString());
             if (templateLength<5){
@@ -119,7 +122,7 @@ public class MethodApplication{
                 fwAnalysisOutput += Messages.MethodApplication_output_finishedProcedure+procedure;
                 LogUtil.logInfo(Activator.PLUGIN_ID, Messages.MethodApplication_output_finishedProcedure+procedure);
             }
-        }else {
+        } else {
 //          if no key size is given, key size will be narrowed down to the only possible ones and those will be analyzed
             double tempvalue = Double.MAX_VALUE, relativeValue, tempRelativeValue = Double.MAX_VALUE;
             int[] tempTemplate=null;

@@ -102,6 +102,9 @@ public class CryptedText {
 	
 	@Override
 	public String toString() {
+		if (this.getText().size() < 1) {
+			return "Empty Ciphertext";
+		}
 		int size = this.getText().get(0).length;
         String s=Messages.CryptedText_output_ciphertext;
 		for(char[][]textPart:text) {
