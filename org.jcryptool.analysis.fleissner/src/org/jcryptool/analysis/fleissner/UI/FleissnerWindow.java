@@ -1225,7 +1225,7 @@ public class FleissnerWindow extends Composite {
 
 					// Do shit after job is finished
 					ciphertextText.setText(textFromJob);
-
+					consoleText.append(consoleOutputFromJob);
 				});
 			});
 		} else if (decrypt.getSelection()) {
@@ -1235,8 +1235,9 @@ public class FleissnerWindow extends Composite {
 			job.finalizeListeners.add(status -> {
 				getDisplay().syncExec(() -> {
 					liftNoClick(); // Mechanism to not let the user start other things in the background
-					plaintextText.setText(textFromJob);
 					// Do shit after job is finished
+					plaintextText.setText(textFromJob);
+					consoleText.append(consoleOutputFromJob);
 				});
 			});
 		}
@@ -1570,10 +1571,12 @@ public class FleissnerWindow extends Composite {
 			case "encrypt": //$NON-NLS-1$
 				ma.encrypt();
 				textFromJob = ma.getEncryptedText();
+				consoleOutputFromJob = ma.toString();
 				break;
 			case "decrypt": //$NON-NLS-1$
 				ma.decrypt();
 				textFromJob = ma.getDecryptedText();
+				consoleOutputFromJob = ma.toString();
 				break;
 			}
 			monitor.worked(100);

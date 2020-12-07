@@ -45,8 +45,8 @@ public class MethodApplication {
 	private int changes = 0, iAll = 0, grilleNumber = 0, improvement = 0, rotMove = 0;;
 	private int x, y, move;
 	private int[] bestTemplate = null;
-	private String lastImprovement = null, bestDecryptedText = Messages.MethodApplication_empty,
-			procedure = Messages.MethodApplication_empty, change = Messages.MethodApplication_empty;
+	private String lastImprovement = null, bestDecryptedText = "",
+			procedure = "", change = "";
 
 	private String fwAnalysisOutput;
 
@@ -62,7 +62,7 @@ public class MethodApplication {
 	 */
 	public MethodApplication(ParameterSettings ps, double argStatistics[]) throws FileNotFoundException {
 
-		this.fwAnalysisOutput = new String(Messages.MethodApplication_empty);
+		this.fwAnalysisOutput = new String("");
 		this.method = ps.getMethod();
 		this.textInLine = ps.getTextInLine();
 		this.templateLength = ps.getTemplateLength();
@@ -189,8 +189,8 @@ public class MethodApplication {
 				improvement = 0;
 				bestTemplate = null;
 				lastImprovement = null;
-				bestDecryptedText = Messages.MethodApplication_empty;
-				procedure = Messages.MethodApplication_empty;
+				bestDecryptedText = "";
+				procedure = "";
 			}
 			alltimeLow = tempvalue;
 			bestTemplate = tempTemplate;
@@ -238,11 +238,11 @@ public class MethodApplication {
 			}
 
 			fwAnalysisOutput += Messages.MethodApplication_output_grille + iAll + Messages.FleissnerGrille_break + fg
-					+ Messages.MethodApplication_break + fg.templateToString(holes);
+					+ "\n" + fg.templateToString(holes);
 			fwAnalysisOutput += Messages.MethodApplication_output_acurateness + myRound(value) + " ("
 					+ Messages.MethodApplication_output_best + myRound(alltimeLow) + ")";
 			fwAnalysisOutput += Messages.MethodApplication_output_decrypted + decryptedText
-					+ Messages.MethodApplication_break;
+					+ "\n";
 
 			LogUtil.logInfo(Activator.PLUGIN_ID,
 					Messages.MethodApplication_output_grille + iAll + Messages.FleissnerGrille_break + fg
@@ -250,17 +250,17 @@ public class MethodApplication {
 			LogUtil.logInfo(Activator.PLUGIN_ID, Messages.MethodApplication_info_acurateness + myRound(value) + " ("
 					+ Messages.MethodApplication_output_best + myRound(alltimeLow) + ")");
 			LogUtil.logInfo(Activator.PLUGIN_ID,
-					Messages.MethodApplication_info_decrypted + decryptedText + Messages.MethodApplication_break);
+					Messages.MethodApplication_info_decrypted + decryptedText + "\n");
 
 			String lastLine = fwAnalysisOutput.substring(fwAnalysisOutput.lastIndexOf("\n"));
 
 			analysisOut.add(fwAnalysisOutput);
-			this.fwAnalysisOutput = new String(Messages.MethodApplication_empty);
+			this.fwAnalysisOutput = new String("");
 
-			String visualDivide = Messages.MethodApplication_break;
+			String visualDivide = "\n";
 			for (int i = 0; i < lastLine.length() * 2; i++)
 				visualDivide += "-";
-			LogUtil.logInfo(Activator.PLUGIN_ID, visualDivide + Messages.MethodApplication_break); // $NON-NLS-1$
+			LogUtil.logInfo(Activator.PLUGIN_ID, visualDivide + "\n"); // $NON-NLS-1$
 
 		}
 		fg.useTemplate(bestTemplate, templateLength);
@@ -344,14 +344,14 @@ public class MethodApplication {
 						changes++;
 						fwAnalysisOutput += Messages.MethodApplication_output_bestGrilleYet + changes + " "
 								+ countChanges() + Messages.MethodApplication_output_costFunctionValue
-								+ myRound(alltimeLow) + Messages.MethodApplication_break + fg
-								+ Messages.MethodApplication_break + fg.templateToString(holes); // $NON-NLS-2$
+								+ myRound(alltimeLow) + "\n" + fg
+								+ "\n" + fg.templateToString(holes); // $NON-NLS-2$
 																									// //$NON-NLS-4$
 																									// //$NON-NLS-5$
 						LogUtil.logInfo(Activator.PLUGIN_ID,
 								Messages.MethodApplication_info_bestGrilleYet + changes + " " + countChanges()
 										+ Messages.MethodApplication_output_costFunctionValue + myRound(alltimeLow)
-										+ Messages.MethodApplication_break + fg + Messages.MethodApplication_break
+										+ "\n" + fg + "\n"
 										+ fg.templateToString(holes)); // $NON-NLS-2$ //$NON-NLS-4$
 					}
 					fwAnalysisOutput += Messages.MethodApplication_output_try + iAll
@@ -361,9 +361,9 @@ public class MethodApplication {
 							+ Messages.MethodApplication_output_acurateness2 + myRound(min) + " ("
 							+ Messages.MethodApplication_output_best + myRound(oldValue)
 							+ Messages.MethodApplication_output_alltime + myRound(alltimeLow) + ")"
-							+ Messages.MethodApplication_break; // $NON-NLS-8$
+							+ "\n"; // $NON-NLS-8$
 					fwAnalysisOutput += "\n==> " + decryptedText + Messages.MethodApplication_output_grille + fg //$NON-NLS-1$
-							+ Messages.MethodApplication_break + fg.templateToString(holes); //$NON-NLS-3$
+							+ "\n" + fg.templateToString(holes); //$NON-NLS-3$
 					LogUtil.logInfo(Activator.PLUGIN_ID,
 							Messages.MethodApplication_output_try2 + iAll + Messages.MethodApplication_output_changes
 									+ changes + " (" + Messages.MethodApplication_output_lastChange + grilleNumber
@@ -372,7 +372,7 @@ public class MethodApplication {
 									+ Messages.MethodApplication_output_best + myRound(oldValue)
 									+ Messages.MethodApplication_output_alltime + myRound(alltimeLow) + ")"); // $NON-NLS-8$
 					LogUtil.logInfo(Activator.PLUGIN_ID, "==> " + decryptedText + Messages.MethodApplication_info_grille //$NON-NLS-1$
-							+ fg + Messages.MethodApplication_break + fg.templateToString(holes));
+							+ fg + "\n" + fg.templateToString(holes));
 				}
 			} while (Math.abs(iAll - improvement) < 1);
 			tries = restart.subtract(sub);
@@ -382,11 +382,11 @@ public class MethodApplication {
 
 			String lastLine = fwAnalysisOutput.substring(fwAnalysisOutput.lastIndexOf("\n"));
 			analysisOut.add(fwAnalysisOutput);
-			this.fwAnalysisOutput = new String(Messages.MethodApplication_empty);
-			String visualDivide = Messages.MethodApplication_break;
+			this.fwAnalysisOutput = new String("");
+			String visualDivide = "\n";
 			for (int i = 0; i < lastLine.length() * 2; i++)
 				visualDivide += "-";
-			LogUtil.logInfo(Activator.PLUGIN_ID, visualDivide + Messages.MethodApplication_break); // $NON-NLS-1$
+			LogUtil.logInfo(Activator.PLUGIN_ID, visualDivide + "\n"); // $NON-NLS-1$
 
 //          start next restart
 
@@ -408,7 +408,7 @@ public class MethodApplication {
 			this.fwAnalysisOutput += rotation + ":\n" + fg + "\n\n" + fg.templateToString(holes) + "\nwith value "
 					+ myRound(value) + " and decrypted text:\n\n" + decryptedText + "\n\n";
 			analysisOut.add(fwAnalysisOutput);
-			this.fwAnalysisOutput = new String(Messages.MethodApplication_empty);
+			this.fwAnalysisOutput = new String("");
 
 			if (value < alltimeLow) {
 				alltimeLow = value;
@@ -432,7 +432,7 @@ public class MethodApplication {
 	public void encrypt() {
 
 		ct.load(textInLine, isPlaintext, templateLength, grille, fg);
-		encryptedText = Messages.MethodApplication_empty;
+		encryptedText = "";
 		for (char[][] textPart : ct.getText()) {
 			for (int y = 0; y < templateLength; y++) {
 				for (int x = 0; x < templateLength; x++) {
@@ -483,7 +483,7 @@ public class MethodApplication {
 	}
 
 	public String countRotations() {
-		String rotations = Messages.MethodApplication_empty;
+		String rotations = "";
 		if (this.rotMove != 1)
 			rotations = Messages.MethodApplication_output_countRotations_pl;
 		else
@@ -492,7 +492,7 @@ public class MethodApplication {
 	}
 
 	public String countImprovements() {
-		String improvements = Messages.MethodApplication_empty;
+		String improvements = "";
 		if (this.improvement != 1)
 			improvements = Messages.MethodApplication_output_countImprovements_pl;
 		else
@@ -563,7 +563,7 @@ public class MethodApplication {
 	public String toString() {
 
 		String output = null;
-		String bestTemplateCoordinates = Messages.MethodApplication_empty;
+		String bestTemplateCoordinates = "";
 
 		switch (this.method) {
 
@@ -571,17 +571,17 @@ public class MethodApplication {
 			String time;
 			bestDecryptedText = fg.decryptText(ct.getText());
 			value = tv.evaluate(bestDecryptedText);
-			for (int i = 0; i < bestTemplate.length; i++) {
-				bestTemplateCoordinates += bestTemplate[i];
+			for (int i = 0; i < bestTemplate.length; i=i+2) {
+				bestTemplateCoordinates += "(" + grille[i] + "," + grille[i+1] + ")";
 			}
 			output = Messages.MethodApplication_output_bestGrille + bestTemplateCoordinates
-					+ Messages.MethodApplication_break + fg + Messages.MethodApplication_output_length_final
+					+ "\n" + fg + Messages.MethodApplication_output_length_final
 					+ templateLength + Messages.MethodApplication_output_try_final + grilleNumber
 					+ Messages.MethodApplication_output_restart_final + lastImprovement + " with value "
 					+ myRound(value); // $NON-NLS-2$
-			output += Messages.MethodApplication_break + rotMove + countRotations() + improvement + countImprovements();
+			output += "\n" + rotMove + countRotations() + improvement + countImprovements();
 			output += Messages.MethodApplication_output_decrypted_final + bestDecryptedText
-					+ Messages.MethodApplication_doubleBreak; // $NON-NLS-2$
+					+ "\n\n"; // $NON-NLS-2$
 //          adjusts time format depending of spent time for analysis
 			if (end < 60000)
 				time = end + Messages.MethodApplication_outputTime;
@@ -606,8 +606,8 @@ public class MethodApplication {
 		case "encrypt": //$NON-NLS-1$
 			output = Messages.MethodApplication_output_encrypted + encryptedText
 					+ Messages.MethodApplication_output_encryptionKey + fg;
-			for (int i = 0; i < grille.length; i++) {
-				bestTemplateCoordinates += grille[i];
+			for (int i = 0; i < grille.length; i=i+2) {
+				bestTemplateCoordinates += "(" + grille[i] + "," + grille[i+1] + ")";
 			}
 			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
 			output += Messages.MethodApplication_output_length_final + templateLength;
@@ -615,8 +615,8 @@ public class MethodApplication {
 		case "decrypt": //$NON-NLS-1$
 			output = Messages.MethodApplication_output_decrypted_final + decryptedText
 					+ Messages.MethodApplication_output_decryptionKey + fg;
-			for (int i = 0; i < grille.length; i++) {
-				bestTemplateCoordinates += grille[i];
+			for (int i = 0; i < grille.length; i = i+2) {
+				bestTemplateCoordinates += "(" + grille[i] + "," + grille[i+1] + ")";
 			}
 			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
 			output += Messages.MethodApplication_output_length_final + templateLength;

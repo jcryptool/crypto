@@ -12,10 +12,6 @@ public class Messages extends NLS {
     public static String CryptedText_info_succesfullEncryption;
     public static String CryptedText_output_ciphertext;
     public static String FleissnerGrille_break;
-    public static String FleissnerGrille_empty;
-    public static String MethodApplication_break;
-    public static String MethodApplication_doubleBreak;
-    public static String MethodApplication_empty;
     public static String MethodApplication_error_fileNotFound;
     public static String MethodApplication_error_statFileNotFound;
     public static String MethodApplication_info_acurateness;
