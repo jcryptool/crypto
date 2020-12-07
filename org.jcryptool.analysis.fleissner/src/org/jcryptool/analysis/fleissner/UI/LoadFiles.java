@@ -132,10 +132,10 @@ public class LoadFiles {
                 textName = "files/de-3gram-nocs.bin"; 
                 break;
             case 2:
-                textName = "files/en-3gram-nocs.bin"; 
+                textName = "files/en-4gram-nocs.bin"; 
                 break;
             case 3:
-                textName = "files/en-4gram-nocs.bin"; 
+                textName = "files/en-3gram-nocs.bin"; 
                 break;     
             }
         

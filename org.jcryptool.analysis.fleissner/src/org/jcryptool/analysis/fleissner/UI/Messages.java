@@ -109,6 +109,8 @@ public class Messages extends NLS {
     public static String LoadFiles_empty;
     public static String LoadFiles_Error_FileNotFound;
     public static String LoadFiles_Error_StatisticMismatch;
+    public static String InvalidCharsWarningPlaintext;
+    public static String InvalidCharsWarningCiphertext;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

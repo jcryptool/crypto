@@ -18,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -44,6 +45,7 @@ import org.jcryptool.analysis.fleissner.logic.ParameterSettings;
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
+import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.crypto.ui.background.BackgroundJob;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
@@ -103,6 +105,8 @@ public class FleissnerWindow extends Composite {
 	private Label restarts_Label;
 	private Label alphabetLabel;
 	private Combo alphabetCombo;
+	private CLabel plaintextInvalidCharWarning;
+	private CLabel ciphertextInvalidCharWarning;
 
 	/**
 	 * The job sets the found key to this value
@@ -430,6 +434,10 @@ public class FleissnerWindow extends Composite {
 		plaintextGroup = new Group(parent, SWT.NONE);
 		plaintextGroup.setLayout(new GridLayout());
 		plaintextGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		plaintextInvalidCharWarning = new CLabel(plaintextGroup, SWT.NONE);
+		plaintextInvalidCharWarning.setImage(ImageService.ICON_WARNING);
+		plaintextInvalidCharWarning.setText(Messages.InvalidCharsWarningPlaintext);
 
 		plaintextText = new Text(plaintextGroup, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -449,11 +457,13 @@ public class FleissnerWindow extends Composite {
 				}
 				// Activate/Deactivate the Start Button
 				checkOkButton();
-			}
+			}	
 		});
 
 		plaintextGroup
 				.setText(Messages.FleissnerWindow_label_plaintext + " (" + plaintextText.getText().length() + ")");
+	
+
 	}
 
 	/**
@@ -468,6 +478,10 @@ public class FleissnerWindow extends Composite {
 		ciphertextGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		ciphertextGroup.setText(Messages.FleissnerWindow_label_ciphertext + " (0)"); //$NON-NLS-1$
 
+		ciphertextInvalidCharWarning = new CLabel(ciphertextGroup, SWT.NONE);
+		ciphertextInvalidCharWarning.setImage(ImageService.ICON_WARNING);
+		ciphertextInvalidCharWarning.setText(Messages.InvalidCharsWarningCiphertext);
+		
 		ciphertextText = new Text(ciphertextGroup, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 //        limits text field width and height so text will wrap at the end of composite
@@ -929,6 +943,7 @@ public class FleissnerWindow extends Composite {
 		consoleText = new Text(analysisGroup, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		GridData gridOut = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridOut.heightHint = 150;
+		gridOut.widthHint = 800;
 		consoleText.setLayoutData(gridOut);
 		consoleText.setEditable(false);
 		consoleText.setBackground(ColorService.WHITE);
@@ -963,6 +978,9 @@ public class FleissnerWindow extends Composite {
 		plaintextText.setEditable(false);
 		plaintextText.setText("");
 		ciphertextText.setEditable(false);
+		plaintextInvalidCharWarning.setVisible(false);
+		ciphertextInvalidCharWarning.setVisible(true);
+		
 
 		if (exampleTextRadioButton.getSelection()) {
 			exampleTextCombo.notifyListeners(SWT.Selection, new Event());
@@ -1022,6 +1040,9 @@ public class FleissnerWindow extends Composite {
 		plaintextText.setEditable(false);
 		ciphertextText.setEditable(false);
 		ciphertextText.setText("");
+		plaintextInvalidCharWarning.setVisible(true);
+		ciphertextInvalidCharWarning.setVisible(false);
+		
 
 		if (exampleTextRadioButton.getSelection()) {
 			exampleTextCombo.notifyListeners(SWT.Selection, new Event());
@@ -1076,6 +1097,9 @@ public class FleissnerWindow extends Composite {
 		plaintextText.setEditable(false);
 		plaintextText.setText("");
 		ciphertextText.setEditable(false);
+		plaintextInvalidCharWarning.setVisible(false);
+		ciphertextInvalidCharWarning.setVisible(true);
+		
 
 		if (exampleTextRadioButton.getSelection()) {
 			exampleTextCombo.notifyListeners(SWT.Selection, new Event());
