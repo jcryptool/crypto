@@ -45,7 +45,7 @@ public class ParameterSettings {
 	public ParameterSettings(String[] args) throws IllegalArgumentException{
 		if (args.length > 0) {
 			
-			for (int i=0;i<args.length;i+=2) {
+			for (int i = 0; i <args.length; i += 2) {
 				
 				String arg = args[i];
 				
