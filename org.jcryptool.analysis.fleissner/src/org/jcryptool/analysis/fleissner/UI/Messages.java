@@ -14,7 +14,6 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
     private static final String BUNDLE_NAME = "org.jcryptool.analysis.fleissner.UI.messages"; //$NON-NLS-1$
     public static String FleissnerWindow_5;
-	public static String FleissnerWindow_empty;
     public static String FleissnerWindow_file_ciphertext;
     public static String FleissnerWindow_method_analyze;
     public static String FleissnerWindow_method_decrypt;
@@ -49,6 +48,7 @@ public class Messages extends NLS {
     public static String FleissnerWindow_label_loadText;
     public static String FleissnerWindow_toolTipText_loadText;
     public static String FleissnerWindow_statisticSelect_4gramGer;
+    public static String FleissnerWindow_statisticSelect_3gramGer;
     public static String FleissnerWindow_statisticSelect_4gramEng;
     public static String FleissnerWindow_statisticSelect_3gramEng;
     public static String FleissnerWindow_label_statistic;
@@ -109,13 +109,8 @@ public class Messages extends NLS {
     public static String LoadFiles_empty;
     public static String LoadFiles_Error_FileNotFound;
     public static String LoadFiles_Error_StatisticMismatch;
-    public static String LoadFiles_file_plaintext_eng_1;
-    public static String LoadFiles_file_plaintext_eng_2;
-    public static String LoadFiles_file_plaintext_ger_1;
-    public static String LoadFiles_file_plaintext_ger_2;
-    public static String LoadFiles_file_stat_3gram_en;
-    public static String LoadFiles_file_stat_4gram_de;
-    public static String LoadFiles_file_stat_4gram_en;
+    public static String InvalidCharsWarningPlaintext;
+    public static String InvalidCharsWarningCiphertext;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
