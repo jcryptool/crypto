@@ -840,7 +840,7 @@ public class FleissnerWindow extends Composite {
 					loadStatisticsButton.setEnabled(true);
 					nGramSizeSpinner.setEnabled(true);
 
-					loadStatisticsButton.notifyListeners(SWT.Selection, new Event());
+//					loadStatisticsButton.notifyListeners(SWT.Selection, new Event());
 
 				}
 			}
@@ -861,6 +861,7 @@ public class FleissnerWindow extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 //                 open user statistic with fileDialog
+//				lf.
 				String filename = lf.openStatFileDialog(SWT.OPEN);
 				if (filename != null) {
 					try {
