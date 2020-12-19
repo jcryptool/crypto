@@ -136,25 +136,10 @@ public class ParameterSettings {
 					}
 					break;
 				case "-language": //$NON-NLS-1$
-//					sets language, if given
-					if ((args[i + 1].equals(Messages.ParameterSettings_language_german))
-							|| (args[i + 1].equals(Messages.ParameterSettings_language_english))) {
-						language = args[i + 1];
-						LogUtil.logInfo(Messages.ParameterSettings_info_language + language);
-					} else {
-//						currently there is no other alphabet deposited
-						throw new IllegalArgumentException(Messages.ParameterSettings_InvalidLanguage);
-					}
 					break;
 				case "-nGramSize": //$NON-NLS-1$
 //					there are just functioning tri- and quadgrams deposited
-					if ((Integer.parseInt(args[i + 1]) < 3) || (Integer.parseInt(args[i + 1]) > 4)) {
-						throw new IllegalArgumentException(Messages.ParameterSettings_InvalidGram);
-					} else {
-//						sets ngram, if given
-						nGramSize = Integer.parseInt(args[i + 1]);
-						LogUtil.logInfo(Messages.ParameterSettings_info_nGramSize + nGramSize);
-					}
+					nGramSize = Integer.parseInt(args[i + 1]);
 					break;
 				default:
 					throw new IllegalArgumentException(Messages.ParameterSettings_PleaseEnterValidParameters);

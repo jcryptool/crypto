@@ -19,6 +19,7 @@ Export-Package: org.jcryptool.crypto.classic.model,
  org.jcryptool.crypto.classic.model.algorithmconfig,
  org.jcryptool.crypto.classic.model.algorithmconfig.ui,
  org.jcryptool.crypto.classic.model.handlers,
+ org.jcryptool.crypto.classic.model.ngram,
  org.jcryptool.crypto.classic.model.ui.wizard,
  org.jcryptool.crypto.classic.model.ui.wizard.util
 Bundle-Activator: org.jcryptool.crypto.classic.model.ClassicCryptoModelPlugin

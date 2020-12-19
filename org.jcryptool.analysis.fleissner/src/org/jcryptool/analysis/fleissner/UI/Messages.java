@@ -13,8 +13,13 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
     private static final String BUNDLE_NAME = "org.jcryptool.analysis.fleissner.UI.messages"; //$NON-NLS-1$
-    public static String FleissnerWindow_5;
-    public static String FleissnerWindow_file_ciphertext;
+    public static String FleissnerWindow_0;
+	public static String FleissnerWindow_1;
+	public static String FleissnerWindow_26;
+	public static String FleissnerWindow_4;
+	public static String FleissnerWindow_5;
+	public static String FleissnerWindow_6;
+	public static String FleissnerWindow_7;
     public static String FleissnerWindow_method_analyze;
     public static String FleissnerWindow_method_decrypt;
     public static String FleissnerWindow_method_encrypt;

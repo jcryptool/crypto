@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -47,6 +48,10 @@ import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
+import org.jcryptool.crypto.classic.model.ngram.NGramFrequencies;
+import org.jcryptool.crypto.classic.model.ngram.NgramStatisticLogic;
+import org.jcryptool.crypto.classic.model.ngram.NgramStore;
+import org.jcryptool.crypto.classic.model.ngram.NgramStore.NgramStoreEntry;
 import org.jcryptool.crypto.ui.background.BackgroundJob;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
 import org.jcryptool.crypto.ui.textsource.TextInputWithSource;
@@ -60,6 +65,7 @@ import org.eclipse.core.runtime.Status;
 
 public class FleissnerWindow extends Composite {
 
+	
 	private Grille model;
 	private Composite mainComposite;
 	private Group keyGroup;
@@ -70,7 +76,6 @@ public class FleissnerWindow extends Composite {
 	private Group textSelectionGroup;
 	private Group analysisSettingsGroup;
 	private Group methodGroup;
-	private Group statisticGroup;
 	private Canvas canvasKey;
 	private KeyListener keyListener;
 	private Text plaintextText;
@@ -80,20 +85,13 @@ public class FleissnerWindow extends Composite {
 	 */
 	private Text consoleText;
 	private Text descriptionText;
-	private Label statisticNameLabel;
-	private Label chooseNGramSize;
-	private Text loadedStatisticNameText;
 	private Text keyText;
 	private Spinner keySize;
 	private Spinner restarts_Spinner;
-	private Spinner nGramSizeSpinner;
 	private Button analyze;
 	private Button encrypt;
 	private Button decrypt;
-	private Button language_statistics_radio_button;
 	private Button startButton;
-	private Button own_language_statistics_radio_button;
-	private Button loadStatisticsButton;
 	private Button exampleTextRadioButton;
 	private Button writeTextRadioButton;
 	private Button loadOwnTextRadioButton;
@@ -101,10 +99,9 @@ public class FleissnerWindow extends Composite {
 	private Button randomKey;
 	private Button detailsButton;
 	private Combo exampleTextCombo;
-	private Combo selectStatisticCombo;
 	private Label restarts_Label;
 	private Label alphabetLabel;
-	private Combo alphabetCombo;
+	private Combo statisticsCombo;
 	private CLabel plaintextInvalidCharWarning;
 	private CLabel ciphertextInvalidCharWarning;
 
@@ -112,7 +109,6 @@ public class FleissnerWindow extends Composite {
 	 * The job sets the found key to this value
 	 */
 	private int[] keyFromJob = null;
-	private InputStream fis = null;
 	private LoadFiles lf = new LoadFiles();
 	private OutputDialog dialog;
 	/**
@@ -131,7 +127,7 @@ public class FleissnerWindow extends Composite {
 	/**
 	 * This text contains the encrypted or decrypted text from the BackhroundJob
 	 */
-	private String textFromJob = "";
+	private String textFromJob = ""; //$NON-NLS-1$
 
 	/**
 	 * saveKey
@@ -141,12 +137,27 @@ public class FleissnerWindow extends Composite {
 	/**
 	 * Speichert den eingegebenen Klar oder Ciphertext zwischen
 	 */
-	private String oldManualTextInput = "";
+	private String oldManualTextInput = ""; //$NON-NLS-1$
 
 	/**
 	 * The background job saves the output to this variable
 	 */
-	private String consoleOutputFromJob = "";
+	private String consoleOutputFromJob = ""; //$NON-NLS-1$
+
+//	here are the available statistics and their string representation
+	private LinkedList<NgramStoreEntry> statsEntries = initializeStats();
+	private String ngramStatisticsString(NgramStoreEntry entry) {
+		String langString;
+		if (entry.language.equals("en")) { //$NON-NLS-1$
+			langString = Messages.FleissnerWindow_4;
+		} else {
+			langString = Messages.FleissnerWindow_6;
+		}
+
+		return String.format(Messages.FleissnerWindow_7, langString, entry.n, entry.alphabet());
+	}
+
+
 
 	/**
 	 * Constructor creates header and main, sets new default grille
@@ -164,6 +175,13 @@ public class FleissnerWindow extends Composite {
 
 		// Apply the default settings to the GUI.
 		analyze.notifyListeners(SWT.Selection, new Event());
+	}
+
+	private LinkedList<NgramStoreEntry> initializeStats() {
+		LinkedList<NgramStoreEntry> result = new LinkedList<NgramStoreEntry>();
+		result.add(NgramStore.en_5_space);
+		result.add(NgramStore.de_5_space);
+		return result;
 	}
 
 	/**
@@ -185,6 +203,7 @@ public class FleissnerWindow extends Composite {
 		createAnalysisSettingsGroup();
 		createStartButtoArea();
 		createAnalysisOutputGroup();
+		
 	}
 
 	private void createStartButtoArea() {
@@ -398,7 +417,7 @@ public class FleissnerWindow extends Composite {
 		keyText = new Text(keyGroup, SWT.H_SCROLL);
 		GridData gd_keyText = new GridData(SWT.FILL, SWT.BOTTOM, true, true, 2, 1);
 		gd_keyText.horizontalIndent = 20;
-		keyText.setText(Messages.FleissnerWindow_label_key + ": ");
+		keyText.setText(Messages.FleissnerWindow_label_key + ": "); //$NON-NLS-1$
 //        limits text field width and height so text will wrap at the end of composite
 		gd_keyText.widthHint = keyGroup.getSize().y;
 		keyText.setLayoutData(gd_keyText);
@@ -451,7 +470,7 @@ public class FleissnerWindow extends Composite {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				plaintextGroup.setText(
-						Messages.FleissnerWindow_label_plaintext + " (" + plaintextText.getText().length() + ")");
+						Messages.FleissnerWindow_label_plaintext + " (" + normalizeText(plaintextText.getText(), NgramStore.en_5_space.alphabet()).length() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 				if (writeTextRadioButton.getSelection()) {
 					oldManualTextInput = plaintextText.getText();
 				}
@@ -461,10 +480,12 @@ public class FleissnerWindow extends Composite {
 		});
 
 		plaintextGroup
-				.setText(Messages.FleissnerWindow_label_plaintext + " (" + plaintextText.getText().length() + ")");
+				.setText(Messages.FleissnerWindow_label_plaintext + " (" + normalizeText(plaintextText.getText(), NgramStore.en_5_space.alphabet()).length() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 	
 
 	}
+
+
 
 	/**
 	 * creates and controls ciphertext composite
@@ -495,7 +516,7 @@ public class FleissnerWindow extends Composite {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				ciphertextGroup.setText(
-						Messages.FleissnerWindow_label_ciphertext + " (" + ciphertextText.getText().length() + ")"); //$NON-NLS-1$//$NON-NLS-2$
+						Messages.FleissnerWindow_label_ciphertext + " (" + normalizeText(ciphertextText.getText()).length() + ")"); //$NON-NLS-1$//$NON-NLS-2$
 				if (writeTextRadioButton.getSelection()) {
 					oldManualTextInput = ciphertextText.getText();
 				}
@@ -507,7 +528,7 @@ public class FleissnerWindow extends Composite {
 
 		// Set title Text for ciphertext group
 		ciphertextGroup
-				.setText(Messages.FleissnerWindow_label_ciphertext + " (" + ciphertextText.getText().length() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+				.setText(Messages.FleissnerWindow_label_ciphertext + " (" + normalizeText(ciphertextText.getText()).length() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -542,22 +563,25 @@ public class FleissnerWindow extends Composite {
 		restarts_Spinner.setToolTipText(Messages.FleissnerWindow_toolTipText_restarts);
 
 		alphabetLabel = new Label(analysisSettingsGroup, SWT.NONE);
-		alphabetLabel.setText("Alphabet");
+		alphabetLabel.setText(Messages.FleissnerWindow_0);
 		
-		alphabetCombo = new Combo(analysisSettingsGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
+		statisticsCombo = new Combo(analysisSettingsGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
 		GridData gd_alphabetCombo = new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1);
 		gd_alphabetCombo.horizontalIndent = 20;
-		alphabetCombo.setLayoutData(gd_alphabetCombo);
-		alphabetCombo.add("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-		alphabetCombo.add("ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß");
-
-		if (Locale.getDefault().toString().equals("de")) { //$NON-NLS-1$
-			alphabetCombo.select(1);
-		} else {
-			alphabetCombo.select(0);
+		statisticsCombo.setLayoutData(gd_alphabetCombo);
+		for(NgramStoreEntry entry: statsEntries) {
+			String entryString = ngramStatisticsString(entry);
+			statisticsCombo.add(entryString);
 		}
-
-		createLoadstatisticsComposite(analysisSettingsGroup);
+		statisticsCombo.select(0);
+//		statisticsCombo.add("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+//		statisticsCombo.add("ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß");
+//
+		if (Locale.getDefault().toString().equals("de")) { //$NON-NLS-1$
+			statisticsCombo.select(1);
+		} else {
+			statisticsCombo.select(0);
+		}
 	}
 
 	/**
@@ -697,13 +721,13 @@ public class FleissnerWindow extends Composite {
 						}
 					} else {
 						if (analyze.getSelection()) {
-							ciphertextText.setText("");
+							ciphertextText.setText(""); //$NON-NLS-1$
 							ciphertextText.setEditable(false);
 						} else if (decrypt.getSelection()) {
-							ciphertextText.setText("");
+							ciphertextText.setText(""); //$NON-NLS-1$
 							ciphertextText.setEditable(false);
 						} else if (encrypt.getSelection()) {
-							plaintextText.setText("");
+							plaintextText.setText(""); //$NON-NLS-1$
 							plaintextText.setEditable(false);
 						}
 					}
@@ -742,167 +766,6 @@ public class FleissnerWindow extends Composite {
 			}
 		});
 
-	}
-
-	/**
-	 * creates and controls buttons and other tools for analysis settings
-	 * 
-	 */
-	private void createLoadstatisticsComposite(Group parent) {
-		String[] items = { Messages.FleissnerWindow_statisticSelect_4gramGer,
-				Messages.FleissnerWindow_statisticSelect_3gramGer, Messages.FleissnerWindow_statisticSelect_4gramEng,
-				Messages.FleissnerWindow_statisticSelect_3gramEng };
-
-		statisticGroup = new Group(parent, SWT.NONE);
-		statisticGroup.setLayout(new GridLayout(4, false));
-		GridData gd_statisticGroup = new GridData(SWT.FILL, SWT.FILL, true, false, 4, 1);
-		gd_statisticGroup.verticalIndent = 20;
-		statisticGroup.setLayoutData(gd_statisticGroup);
-		statisticGroup.setText(Messages.FleissnerWindow_label_statisticChoice);
-
-		language_statistics_radio_button = new Button(statisticGroup, SWT.RADIO);
-		language_statistics_radio_button.setSelection(true);
-		language_statistics_radio_button.setText(Messages.FleissnerWindow_label_statistic);
-		language_statistics_radio_button.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				if (language_statistics_radio_button.getSelection()) {
-
-					selectStatisticCombo.setEnabled(true);
-					loadStatisticsButton.setEnabled(false);
-					nGramSizeSpinner.setEnabled(false);
-
-					if (selectStatisticCombo.getSelectionIndex() == 2) {
-						nGramSizeSpinner.setSelection(3);
-					} else {
-						nGramSizeSpinner.setSelection(4);
-					}
-
-					selectStatisticCombo.notifyListeners(SWT.Selection, new Event());
-
-				}
-			}
-		});
-
-		selectStatisticCombo = new Combo(statisticGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
-		selectStatisticCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
-		selectStatisticCombo.setItems(items);
-
-		// Set default selected entry by currently selected language in JCT
-		if (Locale.getDefault().toString().equals("de")) { //$NON-NLS-1$
-			selectStatisticCombo.select(0);
-		} else {
-			selectStatisticCombo.select(2);
-		}
-
-		selectStatisticCombo.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// n-gram größe setzen
-				if (selectStatisticCombo.getSelectionIndex() == 1 || selectStatisticCombo.getSelectionIndex() == 3) {
-					nGramSizeSpinner.setSelection(3);
-				} else {
-					nGramSizeSpinner.setSelection(4);
-				}
-
-				statisticNameLabel.setEnabled(false);
-
-				String filename = lf.statisticFiles(selectStatisticCombo.getSelectionIndex());
-				fis = lf.openMyFileStream(filename);
-			}
-		});
-
-		own_language_statistics_radio_button = new Button(statisticGroup, SWT.RADIO);
-		own_language_statistics_radio_button.setText(Messages.FleissnerWindow_label_statisticLoad);
-		own_language_statistics_radio_button.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				if (own_language_statistics_radio_button.getSelection()) {
-
-					selectStatisticCombo.setEnabled(false);
-					loadStatisticsButton.setEnabled(true);
-					nGramSizeSpinner.setEnabled(true);
-
-//					loadStatisticsButton.notifyListeners(SWT.Selection, new Event());
-
-				}
-			}
-		});
-
-		loadStatisticsButton = new Button(statisticGroup, SWT.PUSH);
-		loadStatisticsButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		loadStatisticsButton.setText(Messages.FleissnerWindow_label_loadStatistics);
-		loadStatisticsButton.setEnabled(false);
-		loadStatisticsButton.setToolTipText(Messages.FleissnerWindow_toolTipText_loadStatistics);
-		loadStatisticsButton.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-//                 open user statistic with fileDialog
-//				lf.
-				String filename = lf.openStatFileDialog(SWT.OPEN);
-				if (filename != null) {
-					try {
-						fis = new FileInputStream(filename);
-						String[] a = filename.split("\\\\"); //$NON-NLS-1$
-						loadedStatisticNameText.setText(a[a.length - 1]);
-						statisticNameLabel.setEnabled(true);
-					} catch (FileNotFoundException ex) {
-						fis = null;
-						statisticNameLabel.setEnabled(false);
-						LogUtil.logError(Activator.PLUGIN_ID, Messages.FleissnerWindow_error_fileNotFound, ex, true);
-					}
-				}
-			}
-
-		});
-
-		chooseNGramSize = new Label(statisticGroup, SWT.NONE);
-		chooseNGramSize.setText(Messages.FleissnerWindow_label_NgramSize);
-		chooseNGramSize.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false));
-
-//         nGramSize currently limited to 3-4 because there are no other working nGrams with the same structure
-		nGramSizeSpinner = new Spinner(statisticGroup, SWT.NONE);
-		nGramSizeSpinner.setMinimum(3);
-		nGramSizeSpinner.setMaximum(4);
-		nGramSizeSpinner.setIncrement(1);
-		nGramSizeSpinner.setSelection(4);
-		nGramSizeSpinner.setEnabled(false);
-		nGramSizeSpinner.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
-		nGramSizeSpinner.setToolTipText(Messages.FleissnerWindow_toolTipText_nGramSize);
-
-		statisticNameLabel = new Label(statisticGroup, SWT.NONE);
-		statisticNameLabel.setEnabled(false);
-		statisticNameLabel.setText(Messages.FleissnerWindow_label_uploadedStatistics);
-		GridData gd_statisticNameIdentifier = new GridData(SWT.LEFT, SWT.FILL, true, false);
-		statisticNameLabel.setLayoutData(gd_statisticNameIdentifier);
-
-		loadedStatisticNameText = new Text(statisticGroup, SWT.WRAP | SWT.MULTI);
-		GridData gd_loadedStatisticName = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 1);
-		loadedStatisticNameText.setLayoutData(gd_loadedStatisticName);
-		loadedStatisticNameText.setEnabled(false);
 	}
 
 	/**
@@ -977,7 +840,7 @@ public class FleissnerWindow extends Composite {
 
 //        text settings
 		plaintextText.setEditable(false);
-		plaintextText.setText("");
+		plaintextText.setText(""); //$NON-NLS-1$
 		ciphertextText.setEditable(false);
 		plaintextInvalidCharWarning.setVisible(false);
 		ciphertextInvalidCharWarning.setVisible(true);
@@ -1001,18 +864,7 @@ public class FleissnerWindow extends Composite {
 		}
 
 		alphabetLabel.setEnabled(true);
-		alphabetCombo.setEnabled(true);
-
-		language_statistics_radio_button.setEnabled(true);
-		own_language_statistics_radio_button.setEnabled(true);
-
-		if (language_statistics_radio_button.getSelection()) {
-			language_statistics_radio_button.notifyListeners(SWT.Selection, new Event());
-		} else if (own_language_statistics_radio_button.getSelection()) {
-			own_language_statistics_radio_button.notifyListeners(SWT.Selection, new Event());
-		}
-
-		chooseNGramSize.setEnabled(true);
+		statisticsCombo.setEnabled(true);
 
 		// output settings
 		consoleText.setText(Messages.FleissnerWindow_output_progress + consoleOutputFromJob);
@@ -1040,7 +892,7 @@ public class FleissnerWindow extends Composite {
 //        text settings
 		plaintextText.setEditable(false);
 		ciphertextText.setEditable(false);
-		ciphertextText.setText("");
+		ciphertextText.setText(""); //$NON-NLS-1$
 		plaintextInvalidCharWarning.setVisible(true);
 		ciphertextInvalidCharWarning.setVisible(false);
 		
@@ -1053,23 +905,15 @@ public class FleissnerWindow extends Composite {
 			loadOwnTextRadioButton.notifyListeners(SWT.Selection, new Event());
 		}
 
-		language_statistics_radio_button.setEnabled(false);
-		selectStatisticCombo.setEnabled(false);
-		own_language_statistics_radio_button.setEnabled(false);
-		loadStatisticsButton.setEnabled(false);
 
 //		analysis settings
 		restarts_Label.setEnabled(false);
 		restarts_Spinner.setEnabled(false);
 
 		alphabetLabel.setEnabled(false);
-		alphabetCombo.setEnabled(false);
+		statisticsCombo.setEnabled(false);
 
-		selectStatisticCombo.setEnabled(false);
 		textloader.setEnabled(false);
-		chooseNGramSize.setEnabled(false);
-		nGramSizeSpinner.setEnabled(false);
-		statisticNameLabel.setEnabled(false);
 
 		// output settings
 		detailsButton.setEnabled(false);
@@ -1096,7 +940,7 @@ public class FleissnerWindow extends Composite {
 
 //      text settings
 		plaintextText.setEditable(false);
-		plaintextText.setText("");
+		plaintextText.setText(""); //$NON-NLS-1$
 		ciphertextText.setEditable(false);
 		plaintextInvalidCharWarning.setVisible(false);
 		ciphertextInvalidCharWarning.setVisible(true);
@@ -1115,13 +959,9 @@ public class FleissnerWindow extends Composite {
 		restarts_Spinner.setEnabled(false);
 
 		alphabetLabel.setEnabled(false);
-		alphabetCombo.setEnabled(false);
+		statisticsCombo.setEnabled(false);
 
-		selectStatisticCombo.setEnabled(false);
 		textloader.setEnabled(false);
-		chooseNGramSize.setEnabled(false);
-		nGramSizeSpinner.setEnabled(false);
-		statisticNameLabel.setEnabled(false);
 
 		// output settings
 		detailsButton.setEnabled(false);
@@ -1142,6 +982,21 @@ public class FleissnerWindow extends Composite {
 		}
 	}
 
+	
+
+	private String normalizeText(String text, String alphabet) {
+		String result = normalizeText(text);
+		result = filterTextBy(text, alphabet);
+		return result;
+	}
+	private String normalizeText(String text) {
+		String result = text;
+		result = text.replaceAll("\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		result = result.toUpperCase();
+		return result;
+	}
+	
+	
 	/**
 	 * sets the arguments for chosen method and starts method 'startApplication'
 	 * that execudes method
@@ -1167,37 +1022,26 @@ public class FleissnerWindow extends Composite {
 
 			String keylength = keySize.getText();
 			String text = ciphertextText.getText();
-			String nGramSize = nGramSizeSpinner.getText();
-			int nGramSizeAsInt = Integer.parseInt(nGramSize);
+			text = normalizeText(text);
+
 			String restarts = restarts_Spinner.getText();
 
-			String language;
-			if (alphabetCombo.getSelectionIndex() == 1) {
-				language = "german";
-			} else {
-				language = "english";
+			NgramStoreEntry statEntry = null;
+			int selectionIndex = statisticsCombo.getSelectionIndex();
+			if (selectionIndex >= 0) {
+				statEntry = statsEntries.get(statisticsCombo.getSelectionIndex());
 			}
+			NGramFrequencies stats = NgramStore.getInstance().getBuiltinFrequenciesFor(statEntry);
+			int nGramSizeAsInt = stats.n;
+			String language = statEntry.language.equals("en") ? "english" : "german"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-			double[] statistics;
-			try {
-				statistics = lf.loadBinNgramFrequencies(fis, language, nGramSizeAsInt);
-			} catch (NumberFormatException e) {
-				LogUtil.logError(Activator.PLUGIN_ID, Messages.FleissnerWindow_error_enterValidStatistic, e, true);
-				return;
-			} catch (FileNotFoundException e) {
-				LogUtil.logError(Activator.PLUGIN_ID, Messages.FleissnerWindow_error_fileNotFound, e, true);
-				return;
-			} catch (IllegalArgumentException e) {
-				LogUtil.logError(Activator.PLUGIN_ID, Messages.FleissnerWindow_error_invalidParameterCombination, e,
-						true);
-				return;
-			} catch (NullPointerException e) {
-				LogUtil.logError(Activator.PLUGIN_ID, "Keine Statistik ausgewählt. Wählen Sie eine Statistik aus.", e,
-						true);
+			NgramStoreEntry entry = NgramStore.en_5_nospace;
+
+			if (! filterTextBy(text, stats.alphabet).equals(text)) {
+				MessageDialog.openError(getShell(), Messages.FleissnerWindow_1, String.format(Messages.FleissnerWindow_26, stats.alphabet));
 				return;
 			}
-
-			job = new FleissnerMethodJob("analyze", keylength, null, text, nGramSize, restarts, language, statistics);
+			job = new FleissnerMethodJob("analyze", keylength, null, text, nGramSizeAsInt+"", restarts, stats); //$NON-NLS-1$ //$NON-NLS-2$
 			job.finalizeListeners.add(status -> {
 				getDisplay().syncExec(() -> {
 					liftNoClick(); // Mechanism to not let the user start other things in the background
@@ -1218,8 +1062,9 @@ public class FleissnerWindow extends Composite {
 			});
 		} else if (encrypt.getSelection()) {
 			String text = plaintextText.getText();
+			String normalized = normalizeText(text, NgramStore.en_5_space.alphabet());
 			String key = model.translateKeyToLogic();
-			job = new FleissnerMethodJob("encrypt", null, key, text, null, null, null, null);
+			job = new FleissnerMethodJob("encrypt", null, key, normalized, null, null, null); //$NON-NLS-1$
 			job.finalizeListeners.add(status -> {
 				getDisplay().syncExec(() -> {
 					liftNoClick(); // Mechanism to not let the user start other things in the background
@@ -1232,7 +1077,7 @@ public class FleissnerWindow extends Composite {
 		} else if (decrypt.getSelection()) {
 			String text = ciphertextText.getText();
 			String key = model.translateKeyToLogic();
-			job = new FleissnerMethodJob("decrypt", null, key, text, null, null, null, null);
+			job = new FleissnerMethodJob("decrypt", null, key, text, null, null, null); //$NON-NLS-1$
 			job.finalizeListeners.add(status -> {
 				getDisplay().syncExec(() -> {
 					liftNoClick(); // Mechanism to not let the user start other things in the background
@@ -1249,6 +1094,18 @@ public class FleissnerWindow extends Composite {
 		job.runInBackground();
 
 	}
+
+	private String filterTextBy(String text, String alphabet) {
+		StringBuilder filtered = new StringBuilder();
+		for(char c: text.toCharArray()) {
+			if (alphabet.contains(""+c)) { //$NON-NLS-1$
+				filtered.append(c);
+			}
+		}
+		return filtered.toString();
+	}
+
+
 
 	private void liftNoClick() {
 		getShell().setCursor(getDisplay().getSystemCursor(SWT.CURSOR_ARROW));
@@ -1304,8 +1161,8 @@ public class FleissnerWindow extends Composite {
 			myTempGrille.getKey().set(x, y);
 		} while (!myTempGrille.getKey().isValid());
 
-		FleissnerMethodJob job = new FleissnerMethodJob("encrypt", keySize.getText(),
-				myTempGrille.translateKeyToLogic(), text, null, null, null, null);
+		FleissnerMethodJob job = new FleissnerMethodJob("encrypt", keySize.getText(), //$NON-NLS-1$
+				myTempGrille.translateKeyToLogic(), text, null, null, null);
 
 		job.finalizeListeners.add(status -> {
 			getDisplay().syncExec(() -> {
@@ -1343,7 +1200,7 @@ public class FleissnerWindow extends Composite {
 	 */
 	public void checkOkButton() {
 		if (analyze.getSelection()) {
-			if (!ciphertextText.getText().isEmpty() && fis != null) {
+			if (!ciphertextText.getText().isEmpty()) {
 				startButton.setEnabled(true);
 			} else {
 				startButton.setEnabled(false);
@@ -1462,11 +1319,10 @@ public class FleissnerWindow extends Composite {
 		private String text;
 		private String ngramsize;
 		private String restarts;
-		private String language;
-		private double[] statistics;
+		private NGramFrequencies statistics;
 
 		public FleissnerMethodJob(String method, String keysize, String key, String text, String ngramsize,
-				String restarts, String language, double[] statistics) {
+				String restarts, NGramFrequencies stats) {
 
 			this.method = method;
 			this.keysize = keysize;
@@ -1474,8 +1330,7 @@ public class FleissnerWindow extends Composite {
 			this.text = text;
 			this.ngramsize = ngramsize;
 			this.restarts = restarts;
-			this.language = language;
-			this.statistics = statistics;
+			this.statistics = stats;
 		}
 
 		/**
@@ -1485,11 +1340,11 @@ public class FleissnerWindow extends Composite {
 		 */
 		public String checkArgs() {
 
-			String argsString = "";
+			String argsString = ""; //$NON-NLS-1$
 
 			argsString += Messages.FleissnerWindow_parameter_enlistment_keyLength + keysize;
 			argsString += Messages.FleissnerWindow_parameter_enlistment_restarts + restarts;
-			argsString += Messages.FleissnerWindow_parameter_enlistment_language + language;
+			argsString += Messages.FleissnerWindow_parameter_enlistment_language + "pseudo-lang-string"; //$NON-NLS-1$
 			argsString += Messages.FleissnerWindow_parameter_enlistment_nGram + ngramsize;
 
 			return argsString;
@@ -1510,7 +1365,7 @@ public class FleissnerWindow extends Composite {
 				args[6] = Messages.FleissnerWindow_input_nGramSize;
 				args[7] = ngramsize;
 				args[8] = Messages.FleissnerWindow_input_language;
-				args[9] = language;
+				args[9] = "pseudo-language-string"; //$NON-NLS-1$
 				args[10] = Messages.FleissnerWindow_input_restarts;
 				args[11] = restarts;
 				break;

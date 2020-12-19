@@ -252,13 +252,6 @@ litigation.
          unpack="false"/>
 
    <plugin
-         id="org.jcryptool.visual.grille"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.jcryptool.visual"
          download-size="0"
          install-size="0"
@@ -286,15 +279,6 @@ litigation.
          version="0.0.0"
          unpack="false"/>
 
-<!--
-   <plugin
-         id="org.jcryptool.visual.elGamal"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
--->
-
    <plugin
          id="org.jcryptool.visual.kleptography"
          download-size="0"
@@ -308,15 +292,6 @@ litigation.
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-<!--
-   <plugin
-         id="org.jcryptool.visual.rsa"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
--->
 
    <plugin
          id="org.jcryptool.visual.sidechannelattack.spa"
@@ -472,7 +447,7 @@ litigation.
          version="0.0.0"
          unpack="false"/>
 
-  <plugin
+   <plugin
          id="org.jcryptool.visual.rainbow"
          download-size="0"
          install-size="0"

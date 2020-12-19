@@ -18,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.jcryptool.analysis.fleissner.Activator;
 import org.jcryptool.core.logging.utils.LogUtil;
+import org.jcryptool.crypto.classic.model.ngram.NGramFrequencies;
 
 /**
  * @author Dinah
@@ -29,7 +30,7 @@ public class MethodApplication {
 	private ArrayList<String> analysisOut = new ArrayList<>();
 
 //  parameters given by user or default
-	private String method, decryptedText, encryptedText, textInLine, language;
+	private String method, decryptedText, encryptedText, textInLine;
 	private int templateLength, holes, nGramSize;
 	private int[] grille;
 	private BigInteger restart, tries, sub;
@@ -38,7 +39,7 @@ public class MethodApplication {
 	private FleissnerGrille fg;
 	private TextValuator tv;
 	private long start, end;
-	private double statistics[];
+	private NGramFrequencies statistics;
 
 //  parameters for analysis
 	private double value, oldValue, alltimeLow = Double.MAX_VALUE;
@@ -57,10 +58,10 @@ public class MethodApplication {
 	 * @param ps             object parameter settings
 	 * @param analysisOutput the text field in FleissnerWindow where analysis
 	 *                       progress is displayed
-	 * @param argStatistics
+	 * @param statistics2
 	 * @throws FileNotFoundException
 	 */
-	public MethodApplication(ParameterSettings ps, double argStatistics[]) throws FileNotFoundException {
+	public MethodApplication(ParameterSettings ps, NGramFrequencies statistics2) throws FileNotFoundException {
 
 		this.fwAnalysisOutput = new String("");
 		this.method = ps.getMethod();
@@ -73,14 +74,13 @@ public class MethodApplication {
 		this.holes = ps.getHoles();
 		this.grille = ps.getGrille();
 		this.restart = ps.getRestart();
-		this.language = ps.getLanguage();
-		this.statistics = argStatistics;
+		this.statistics = statistics2;
 		this.nGramSize = ps.getnGramSize();
 		this.ct = new CryptedText();
 		this.fg = new FleissnerGrille(templateLength);
 		if (method.equals(Messages.MethodApplication_method_analyze)) {
 			try {
-				this.tv = new TextValuator(statistics, language, nGramSize);
+				this.tv = new TextValuator(statistics, nGramSize);
 			} catch (FileNotFoundException e) {
 				LogUtil.logError(Activator.PLUGIN_ID, Messages.MethodApplication_error_statFileNotFound, e, true);
 				throw new FileNotFoundException(Messages.MethodApplication_error_fileNotFound);
@@ -502,8 +502,6 @@ public class MethodApplication {
 
 	public String myRound(double wert) {
 		double tempWert = wert;
-		if (language.equals("english")) //$NON-NLS-1$
-			tempWert /= 0.1E16;
 		DecimalFormat formatter = new DecimalFormat("#.##");
 		return formatter.format(tempWert);
 	}
@@ -572,7 +570,7 @@ public class MethodApplication {
 			bestDecryptedText = fg.decryptText(ct.getText());
 			value = tv.evaluate(bestDecryptedText);
 			for (int i = 0; i < bestTemplate.length; i=i+2) {
-				bestTemplateCoordinates += "(" + grille[i] + "," + grille[i+1] + ")";
+				bestTemplateCoordinates += "(" + bestTemplate[i] + "," + bestTemplate[i+1] + ")";
 			}
 			output = Messages.MethodApplication_output_bestGrille + bestTemplateCoordinates
 					+ "\n" + fg + Messages.MethodApplication_output_length_final

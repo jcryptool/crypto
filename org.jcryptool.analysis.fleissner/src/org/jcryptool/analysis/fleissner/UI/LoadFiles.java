@@ -48,13 +48,13 @@ public class LoadFiles {
             switch (exampleIndex) {
             
             case 0: 
-                textName = "files/dawkinsGerPlaintextOriginal.txt"; 
+                textName = "files/MobyDick_de.txt"; 
                 break;
             case 1:     
                 textName = "files/wikiFruehchristlicheKunstGerPlaintextOriginal.txt"; 
                 break;
             case 2:
-                textName = "files/dawkinsEngPlaintextOriginal.txt"; 
+                textName = "files/MobyDick_en.txt"; 
                 break;
             case 3:
                 textName = "files/visualArtsEngPlaintext.txt"; 

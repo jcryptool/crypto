@@ -11,9 +11,11 @@ package org.jcryptool.analysis.fleissner.logic;
 
 import java.io.FileNotFoundException;
 
+import org.jcryptool.crypto.classic.model.ngram.NGramFrequencies;
+
 public class TextValuator {
 
-	public static double ngrams[];
+	public static NGramFrequencies ngrams;
 	private String alphabet;
 	private int n, m;
 
@@ -22,24 +24,15 @@ public class TextValuator {
 	 * size of statistics for text valuation
 	 * 
 	 * @param statistics
-	 * @param language
 	 * @param n
 	 * @throws FileNotFoundException
 	 */
-	public TextValuator(double statistics[], String language, int n) throws FileNotFoundException {
+	public TextValuator(NGramFrequencies statistics, int n) throws FileNotFoundException {
 		this.n = n;
 		TextValuator.ngrams = statistics;
 
-		switch (language) {
-		case "german": //$NON-NLS-1$
-			alphabet = Messages.TextValuator_germanAlphabet;
-			m = 30;
-			break;
-		case "english": //$NON-NLS-1$
-			alphabet = Messages.TextValuator_englishAlphabet;
-			m = 26;
-			break;
-		}
+		alphabet = statistics.alphabet;
+		m = alphabet.length();
 	}
 
 	/**
@@ -68,20 +61,22 @@ public class TextValuator {
 		int textLength = evaluationText.length();
 		for (int i = 0; i < textLength - n; i++) {
 			String ngram = evaluationText.substring(i, i + n);
-			for (int k = 0; k < n; k++) {
-				for (int j = 0; j < alphabet.length(); j++) {
-					if ((ngram.charAt(k)) == (alphabet.charAt(j))) {
-						letterNumber[k] = j;
-					}
-				}
-			}
-			int index = 0;
-			for (int l = 0; l < letterNumber.length; l++) {
-				index += (letterNumber[l]) * ((int) Math.pow(m, (letterNumber.length - 1 - l)));
-			}
-			if (TextValuator.ngrams[index] != 0) {
-				value += TextValuator.ngrams[index];
-			}
+			value += ngrams.getFrequencyFor(ngram);
+//			for (int k = 0; k < n; k++) {
+//				for (int j = 0; j < alphabet.length(); j++) {
+//					if ((ngram.charAt(k)) == (alphabet.charAt(j))) {
+//						letterNumber[k] = j;
+//					}
+//				}
+//			}
+//			int index = 0;
+//			for (int l = 0; l < letterNumber.length; l++) {
+//				index += (letterNumber[l]) * ((int) Math.pow(m, (letterNumber.length - 1 - l)));
+//			}
+//			if (TextValuator.ngrams[index] != 0) {
+//				value += TextValuator.ngrams[index];
+//				value += ngrams.getFrequencyFor(ngram)
+//			}
 		}
 		return -value;
 	}
