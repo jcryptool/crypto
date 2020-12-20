@@ -971,10 +971,9 @@ public class FleissnerWindow extends Composite {
 		checkOkButton();
 	}
 
-	private String canAnalyze() {
-		int grillesize = keySize.getSelection();
+	private String canAnalyze(String textNormalized, int grillesize) {
+		int textsize = textNormalized.length();
 		int squared = grillesize * grillesize;
-		int textsize = ciphertextText.getText().length();
 		if (textsize % squared != 0) {
 			return String.format(Messages.FleissnerWindow_5, grillesize, squared, textsize, squared);
 		} else {
@@ -1009,20 +1008,17 @@ public class FleissnerWindow extends Composite {
 
 		if (analyze.getSelection()) {
 
-			// Checks if the plaintext length is a multiple of the keylength
-			// If not, it aborts the background job call.
-			String message = canAnalyze();
-			if (message.length() != 0) {
-				MessageBox box = new MessageBox(getShell(), SWT.OK);
-				box.setText("Grille"); //$NON-NLS-1$
-				box.setMessage(message);
-				box.open();
-				return;
-			}
-
 			String keylength = keySize.getText();
 			String text = ciphertextText.getText();
 			text = normalizeText(text);
+			String canAnalyzeMessage = canAnalyze(text, Integer.valueOf(keylength));
+			if (canAnalyzeMessage.length() != 0) {
+				MessageBox box = new MessageBox(getShell(), SWT.OK);
+				box.setText("Grille"); //$NON-NLS-1$
+				box.setMessage(canAnalyzeMessage);
+				box.open();
+				return;
+			}
 
 			String restarts = restarts_Spinner.getText();
 
