@@ -1171,11 +1171,9 @@ public class Identity extends TabItem {
 					rsaExComposite3.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, false, 1, 1));
 
 					// enter password
-					var tmpGridData = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-					tmpGridData.widthHint = 140;
 					enterPasswordLabel = new Label(rsaExComposite3, SWT.NONE);
 					enterPasswordLabel.setText(Messages.Identity_60);
-					enterPasswordLabel.setLayoutData(tmpGridData);
+					enterPasswordLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
 					password1 = new Text(rsaExComposite3, SWT.PASSWORD | SWT.BORDER);
 					password1.setEnabled(false);
@@ -1192,7 +1190,7 @@ public class Identity extends TabItem {
 					// enter password again
 					repeatPasswordLabel = new Label(rsaExComposite3, SWT.NONE);
 					repeatPasswordLabel.setText(Messages.Identity_61);
-					repeatPasswordLabel.setLayoutData(tmpGridData);
+					repeatPasswordLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
 					password2 = new Text(rsaExComposite3, SWT.PASSWORD | SWT.BORDER);
 					password2.setEnabled(false);
