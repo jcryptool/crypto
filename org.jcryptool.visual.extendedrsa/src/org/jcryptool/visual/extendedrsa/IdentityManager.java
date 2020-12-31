@@ -25,9 +25,6 @@ import java.util.Vector;
 import org.bouncycastle.jcajce.provider.asymmetric.rsa.BCRSAPublicKey;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.operations.providers.ProviderManager2;
 import org.jcryptool.crypto.flexiprovider.descriptors.meta.interfaces.IMetaKeyGenerator;
@@ -577,7 +574,7 @@ public class IdentityManager extends AbstractNewKeyStoreEntryHandler {
 	}
 
 	/**
-	 * Method to get publicKeys to attack for a certain identity
+	 * Method to get public keys to attack
 	 *
 	 * @param identity specifies the identity looking for public keys
 	 */
@@ -589,7 +586,7 @@ public class IdentityManager extends AbstractNewKeyStoreEntryHandler {
 		while (aliases != null && aliases.hasMoreElements()) {
 			alias = new KeyStoreAlias(aliases.nextElement());
 
-			if (alias.getClassName().equals(RSAPublicKey.class.getName()) && !alias.getContactName().equals(identity)) {
+			if (alias.getClassName().equals(RSAPublicKey.class.getName())) {
 				attackPubkeys.put(
 						alias.getContactName() + Messages.IdentityManager_18 + alias.getKeyLength()
 								+ Messages.IdentityManager_19
