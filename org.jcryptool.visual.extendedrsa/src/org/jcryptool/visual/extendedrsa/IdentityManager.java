@@ -124,7 +124,6 @@ public class IdentityManager extends AbstractNewKeyStoreEntryHandler {
 		argument[0] = keyLength;
 		
 		LogUtil.logInfo(Messages.IdentityManager_1);
-//		staticImpl(null, name, algorithm, password, keyLength, argument, nkd);
 		LinkedList<KeyStoreAlias> generatedAliases = new LinkedList<>();
 		try {
 			ProviderManager2.getInstance().pushFlexiProviderPromotion();
