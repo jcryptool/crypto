@@ -35,11 +35,11 @@ public class KeyInputValidator {
 		this.parent = parent;
 		
 		notPrimeMapping = new HashMap<InputField, String>() {{
-			put(InputField.P, parent.NO_PRIME_P);
-			put(InputField.Q, parent.NO_PRIME_Q);
-			put(InputField.R, parent.NO_PRIME_R);
-			put(InputField.S, parent.NO_PRIME_S);
-			put(InputField.T, parent.NO_PRIME_T);
+			put(InputField.P, Messages.Identity_17);
+			put(InputField.Q, Messages.Identity_18);
+			put(InputField.R, Messages.Identity_19);
+			put(InputField.S, Messages.Identity_20);
+			put(InputField.T, Messages.Identity_21);
 		}};
 	}
 	
@@ -52,7 +52,7 @@ public class KeyInputValidator {
 		if (input.length() == 0) {
 			result.value = Constants.MINUS_ONE;
 			result.valid = false;
-			result.errorMessage = parent.NOTHING;
+			result.errorMessage = "";
 			result.empty = true;
 			return result;
 		}
@@ -62,14 +62,14 @@ public class KeyInputValidator {
 		// Check if value larger than minimum.
 		if (result.value.compareTo(minimum) <= 0) {
 			result.valid = false;
-			result.errorMessage = parent.VALUE_TOO_SMALL;
+			result.errorMessage = Messages.Identity_24;
 			return result;
 		}
 		
 		// Check if duplicate
 		if (isDuplicatePrime(field, result.value, rsaKey)) {
 			result.valid = false;
-			result.errorMessage = parent.PRIMES_EQUAL;
+			result.errorMessage = Messages.Identity_23;
 			return result;
 		}
 	
@@ -94,7 +94,7 @@ public class KeyInputValidator {
 		if (input.length() == 0) {
 			result.value = Constants.MINUS_ONE;
 			result.valid = false;
-			result.errorMessage = parent.NOTHING;
+			result.errorMessage = "";
 			result.empty = true;
 			return result;
 		}
@@ -104,7 +104,7 @@ public class KeyInputValidator {
 		if (possible_e.compareTo(one) <= 0 || possible_e.compareTo(phin) >= 0) {
 			result.value = possible_e;
 			result.valid = false;
-			result.errorMessage = MessageFormat.format(parent.NO_VALID_E, phin.toString());
+			result.errorMessage = MessageFormat.format(Messages.Identity_22, phin.toString());
 			result.empty= false;
 			return result;
 			
@@ -116,7 +116,7 @@ public class KeyInputValidator {
 			result.value = possible_e;
 			result.valid = false;
 			var msgArguments = new Object[] {phin.toString(), gcd.toString()};
-			result.errorMessage = MessageFormat.format(parent.NO_VALID_GcdE, msgArguments);
+			result.errorMessage = MessageFormat.format(Messages.Identity_222, msgArguments);
 			result.empty = false;
 			return result;
 		}

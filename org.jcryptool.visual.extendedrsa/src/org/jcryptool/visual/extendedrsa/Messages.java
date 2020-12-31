@@ -98,6 +98,7 @@ public class Messages extends NLS {
     public static String Identity_153;
     public static String Identity_154;
     public static String Identity_155;
+	public static String Identity_156;
     public static String Identity_159;
     public static String Identity_16;
     public static String Identity_160;
@@ -210,6 +211,7 @@ public class Messages extends NLS {
     public static String Identity_94;
     public static String Identity_95;
     public static String Identity_96;
+	public static String Identity_97;
     public static String Identity_98;
     public static String Identity_99;
     public static String IdentityManager_0;

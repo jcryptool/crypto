@@ -31,6 +31,7 @@ import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.util.constants.IConstants;
+import org.jcryptool.crypto.keystore.backend.KeyStoreAlias;
 
 public class Lib {
 
@@ -531,5 +532,30 @@ public class Lib {
             rv[i] = list.get(i).toString();
         }
         return rv;
+    }
+    
+    
+    public static String aliasToString(KeyStoreAlias a) {
+    	String output = "";
+		output += a.getContactName();
+		output += " - ";
+		output += a.getKeyLength();
+		output += " Bit - ";
+		
+		// Get the keytype
+        String keytype = "";
+        if (a.getClassName().contains("PublicKey") && a.getOperation().equals("MpRSA")) {
+            keytype = "MpRSAPublicKey";
+        } else if ((a.getClassName().toString().contains("Private") && a.getOperation().equals("MpRSA"))
+                || (a.getClassName().toString().contains("PublicKey") && a.getOperation().contains(
+                        "RSA"))) {
+            keytype = a.getClassName().substring(a.getClassName().lastIndexOf('.') + 1);
+        } else if (a.getClassName().toString().contains("Private") && a.getClassName().contains("Crt")) {
+            keytype = "RSAPrivateKey";
+        }
+        
+        output += keytype;
+        
+        return output;
     }
 }
