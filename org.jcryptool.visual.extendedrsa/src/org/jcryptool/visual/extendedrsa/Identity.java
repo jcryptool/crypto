@@ -321,9 +321,6 @@ public class Identity extends TabItem {
 						@Override
 						public void modifyText(ModifyEvent e) {
 							changeEncryptButton();
-//							if (messageRecipient.getItemCount() == 0) {
-//								addRecipientsToCombo();
-//							}
 							txtExplain.setText(Messages.Identity_1);
 						}
 
@@ -333,7 +330,6 @@ public class Identity extends TabItem {
 					GridData gd_encryptedMessage = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 					gd_encryptedMessage.minimumHeight = 100;
 					encryptedMessage.setLayoutData(gd_encryptedMessage);
-//					encryptedMessage.setFont(new Font(getDisplay(), "Courier", 10, SWT.NONE)); //$NON-NLS-1$
 					encryptedMessage.setFont(FontService.getNormalMonospacedFont());
 					
 					label = new Label(actionGroup_1, SWT.NONE);
@@ -343,13 +339,14 @@ public class Identity extends TabItem {
 					label.setLayoutData(gd_label2);
 
 					messageRecipient = new Combo(actionGroup_1, SWT.READ_ONLY);
-					messageRecipient.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+					messageRecipient.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 					addRecipientsToCombo();
 					messageRecipient.addSelectionListener(new SelectionListener() {
 
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							fillRecipientKeys();
+							txtExplain.setText(Messages.Identity_1);
 							encryptedMessage.setText("");
 							sendMessage.setEnabled(false);
 							encryptMessage.setFocus();
@@ -358,10 +355,10 @@ public class Identity extends TabItem {
 
 						@Override
 						public void widgetDefaultSelected(SelectionEvent e) {
+							
 						}
 					});
 
-					new Label(actionGroup_1, SWT.NONE);
 
 					label = new Label(actionGroup_1, SWT.NONE);
 					label.setText(Messages.Identity_34);
@@ -370,12 +367,13 @@ public class Identity extends TabItem {
 					label.setLayoutData(gd_label_3);
 
 					recipientKeys = new Combo(actionGroup_1, SWT.READ_ONLY);
-					recipientKeys.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+					recipientKeys.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 					recipientKeys.addSelectionListener(new SelectionListener() {
 
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 							changeEncryptButton();
+							txtExplain.setText(Messages.Identity_1);
 							pubKeyParameters = iMgr.getPublicKeyParameters(rec.get(recipientKeys.getText()));
 							encryptedMessage.setText("");
 							sendMessage.setEnabled(false);
@@ -384,10 +382,9 @@ public class Identity extends TabItem {
 
 						@Override
 						public void widgetDefaultSelected(SelectionEvent e) {
+							
 						}
 					});
-
-					new Label(actionGroup_1, SWT.NONE);
 
 					encryptMessage = new Button(actionGroup_1, SWT.PUSH);
 					GridData gd_encryptMessage = new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1);
@@ -400,6 +397,7 @@ public class Identity extends TabItem {
 						public void widgetSelected(final SelectionEvent e) {
 							encryptedMessage.setText(rsa_impl.encrypt(clearMessage.getText(), pubKeyParameters.get(1),
 									pubKeyParameters.get(0)));
+							txtExplain.setText(Messages.Identity_1);
 							sendMessage.setEnabled(true);
 							sendMessage.setFocus();
 						}
@@ -421,16 +419,16 @@ public class Identity extends TabItem {
 							extTF.addMessageToQueue(
 									new SecureMessage(encryptedMessage.getText(), keyID, Identity.this.identityName,
 											rec.get(recipientKeys.getText()), subjectInput.getText()));
-							encryptedMessage.setText(""); //$NON-NLS-1$
-							subjectInput.setText(""); //$NON-NLS-1$
-							clearMessage.setText(""); //$NON-NLS-1$
+//							encryptedMessage.setText(""); //$NON-NLS-1$
+//							subjectInput.setText(""); //$NON-NLS-1$
+//							clearMessage.setText(""); //$NON-NLS-1$
 
 							txtExplain.setText(Messages.Identity_3);
 
-							recipientKeys.removeAll();
-							messageRecipient.removeAll();
-							encryptMessage.setEnabled(false);
-							sendMessage.setEnabled(false);
+//							recipientKeys.removeAll();
+//							messageRecipient.removeAll();
+//							encryptMessage.setEnabled(false);
+//							sendMessage.setEnabled(false);
 						}
 					});
 					generalGroup.layout();
@@ -517,6 +515,7 @@ public class Identity extends TabItem {
 
 						@Override
 						public void widgetDefaultSelected(SelectionEvent e) {
+							
 						}
 					});
 
@@ -534,7 +533,6 @@ public class Identity extends TabItem {
 					GridData gd_encryptedMessage_Tab2 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 					gd_encryptedMessage_Tab2.minimumHeight = 100;
 					encryptedMessage_Tab2.setLayoutData(gd_encryptedMessage_Tab2);
-//					encryptedMessage_Tab2.setFont(new Font(getDisplay(), "Courier", 10, SWT.NONE)); //$NON-NLS-1$
 					encryptedMessage_Tab2.setFont(FontService.getNormalMonospacedFont());
 					encryptedMessage_Tab2.addVerifyListener(HexOnly);
 					encryptedMessage_Tab2.addModifyListener(new ModifyListener() {
@@ -574,6 +572,7 @@ public class Identity extends TabItem {
 
 						@Override
 						public void widgetDefaultSelected(SelectionEvent e) {
+							
 						}
 					});
 
@@ -587,7 +586,9 @@ public class Identity extends TabItem {
 
 					lbl_pwWrong = new Label(actionGroup_2, SWT.WRAP);
 					lbl_pwWrong.setForeground(ColorService.BLACK);
-					lbl_pwWrong.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 3));
+					GridData gd_lbl_pwWrong = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 3);
+					gd_lbl_pwWrong.verticalIndent = 20;
+					lbl_pwWrong.setLayoutData(gd_lbl_pwWrong);
 
 					pwPrivKey = new Text(actionGroup_2, SWT.BORDER | SWT.PASSWORD);
 					pwPrivKey.setEnabled(false);
