@@ -586,12 +586,13 @@ public class Identity extends TabItem {
 
 					lbl_pwWrong = new Label(actionGroup_2, SWT.WRAP);
 					lbl_pwWrong.setForeground(ColorService.BLACK);
-					GridData gd_lbl_pwWrong = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 3);
+					GridData gd_lbl_pwWrong = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
 					gd_lbl_pwWrong.verticalIndent = 20;
 					lbl_pwWrong.setLayoutData(gd_lbl_pwWrong);
 
 					pwPrivKey = new Text(actionGroup_2, SWT.BORDER | SWT.PASSWORD);
 					pwPrivKey.setEnabled(false);
+					pwPrivKey.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 					pwPrivKey.addModifyListener(new ModifyListener() {
 
 						@Override
@@ -599,7 +600,7 @@ public class Identity extends TabItem {
 							changeButtonVisibilityTab2();
 						}
 					});
-					pwPrivKey.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+					
 
 					decryptMessage = new Button(actionGroup_2, SWT.PUSH);
 					GridData gd_decryptMessage = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
@@ -638,6 +639,7 @@ public class Identity extends TabItem {
 					deleteMessage = new Button(actionGroup_2, SWT.PUSH);
 					deleteMessage.setText(Messages.Identity_41);
 					deleteMessage.setEnabled(false);
+					deleteMessage.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 					deleteMessage.addSelectionListener(new SelectionAdapter() {
 						@Override
 						public void widgetSelected(final SelectionEvent e) {
@@ -658,10 +660,7 @@ public class Identity extends TabItem {
 							deleteMessage.setEnabled(false);
 						}
 					});
-					GridData gd_deleteMessagem = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 2, 1);
-					gd_deleteMessagem.verticalIndent = 20;
-					deleteMessage.setLayoutData(gd_deleteMessagem);
-
+					
 					fillSelectMessage();
 
 					generalGroup.layout();
