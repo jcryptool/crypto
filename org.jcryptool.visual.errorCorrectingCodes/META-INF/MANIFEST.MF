@@ -8,13 +8,13 @@ Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.help,
- org.jcryptool.crypto.ui;bundle-version="1.0.0",
- org.jcryptool.visual.library;bundle-version="1.0.0",
+ org.jcryptool.crypto.ui,
+ org.jcryptool.visual.library,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
- org.bouncycastle;bundle-version="1.65.0",
+ org.bouncycastle,
  org.jcryptool.core.util
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
