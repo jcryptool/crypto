@@ -387,7 +387,7 @@ public class Identity extends TabItem {
 					});
 
 					encryptMessage = new Button(actionGroup_1, SWT.PUSH);
-					GridData gd_encryptMessage = new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1);
+					GridData gd_encryptMessage = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 					gd_encryptMessage.verticalIndent = 20;
 					encryptMessage.setLayoutData(gd_encryptMessage);
 					encryptMessage.setText(Messages.Identity_35);
@@ -404,7 +404,7 @@ public class Identity extends TabItem {
 					});
 
 					sendMessage = new Button(actionGroup_1, SWT.PUSH);
-					GridData gd_sendMessage = new GridData(SWT.RIGHT, SWT.BOTTOM, true, false, 2, 1);
+					GridData gd_sendMessage = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
 					gd_sendMessage.verticalIndent = 20;
 					sendMessage.setLayoutData(gd_sendMessage);
 					sendMessage.setText(Messages.Identity_33);
