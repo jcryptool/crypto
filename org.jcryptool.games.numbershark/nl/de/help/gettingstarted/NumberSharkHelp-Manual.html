@@ -168,7 +168,7 @@ Die Zahl neben "Minimale Punkte zum Sieg" ist die mindestens benötigte Gesamtpu
 
 <p>Früher oder später wird dann das Gewinnen nicht mehr das Problem sein und man fragt sich, ob es auch eine optimale Strategie gibt &ndash; also eine Strategie, mit der man bei jeder Spielfeldgröße die höchstmögliche Punktzahl erreicht &ndash; und wie diese aussehen könnte. (Hinweis: Die höchstmögliche Punktzahl ist eindeutig pro Spielfeldgröße, aber die Zugfolgen sind es nicht: Es gibt durchaus unterschiedliche Reihenfolgen, die zum gleichen Score führen.)</p>
 
-<p>Bisher ist es uns noch nicht gelungen, eine solche allgemeine Strategie zu entwickeln. Bis zu einem gewissen Punkt ist es uns klar, welche Zahlen gezogen werden müssen &ndash; z.B. muss im ersten Zug die größte Primzahl gezogen werden. Anschließend gibt es aber mehrere Wege, die man gehen kann. Mit einem Algorithmus von van Nek ist es uns gelungen, diese Verzweigungen in geschickter Weise auszuprobieren und unnötige Wege zu verwerfen, sodass wir am Ende eine optimale Zugfolge angeben konnten. Diese optimalen Zugfolgen (bis n = 404) lassen sich im Wizard anzeigen und sogar neu berechnen.</p>
+<p>Bisher ist es uns noch nicht gelungen, eine solche allgemeine Strategie zu entwickeln. Bis zu einem gewissen Punkt ist es uns klar, welche Zahlen gezogen werden müssen &ndash; z.B. muss im ersten Zug die größte Primzahl gezogen werden. Anschließend gibt es aber mehrere Wege, die man gehen kann. Mit einem Algorithmus von van Nek ist es uns gelungen, diese Verzweigungen in geschickter Weise auszuprobieren und unnötige Wege zu verwerfen, sodass wir am Ende eine optimale Zugfolge angeben konnten. Diese optimalen Zugfolgen (bis n = 519) lassen sich im Wizard anzeigen und sogar neu berechnen.</p>
 
 <p>Ein Blick in den Wizard lohnt sich, vielleicht gelingt es dir ja, eine Strategie zu entwickeln, die immer die optimale Punktzahl liefert?</p>
 
@@ -181,12 +181,11 @@ Die Zahl neben "Minimale Punkte zum Sieg" ist die mindestens benötigte Gesamtpu
 <p>Dort gibt es folgende Auswahlmöglichkeiten:</p>
 
 <ul>
-  <li><strong>"Vorberechnete optimale Strategien anzeigen (für den Zahlenvorrat 2-250)"</strong></li>
-  <p>Zeigt die optimalen, bereits berechneten Strategien an. Für die Spielfeldgrößen von 2 bis 250 sind hier die Werte verfügbar und lassen sich analysieren.</p>
+  <li><strong>"Vorberechnete optimale Strategien anzeigen (für den Zahlenvorrat 2-519)"</strong></li>
+  <p>Zeigt die optimalen, bereits berechneten Strategien an. Für die Spielfeldgrößen von 2 bis 519 sind hier die Werte verfügbar und lassen sich analysieren. Der aktuelle reale Wert (519) im JCT-Programm ist besser als der im obigen Screenshot gezeigte Wert (250).</p>
   
   <li><br><strong>"Optimale Strategien mit dem Algorithmus von van Nek berechnen"</strong></li>
-  <p>Wählt man diese Option, so lassen sich die Zugfolgen mit dem Backtracking-Algorithmus von van Nek neu berechnen. 
-  Man kann zusätzlich noch den Bereich festlegen, für welche Spielfeldgrößen die optimalen Zugfolgen berechnet werden sollen.</p>
+  <p>Wählt man diese Option, so lassen sich die Zugfolgen mit dem Backtracking-Algorithmus von van Nek neu berechnen. Man kann zusätzlich noch den Bereich festlegen, für welche Spielfeldgrößen die optimalen Zugfolgen berechnet werden sollen.</p>
   
   <p>Hinweis: Die Laufzeit des Algorithmus ist exponentiell, daher kann es &ndash; je nach eingestellten Spielfeldgrößen &ndash; sehr lange dauern.</p>
   
@@ -218,9 +217,9 @@ Die Zahl neben "Minimale Punkte zum Sieg" ist die mindestens benötigte Gesamtpu
 
 <p>Wenn du eine optimale Strategie findest, lass es uns bitte wissen (z.B. per Mail an <strong>bernhard.esslinger@uni-siegen.de</strong>).</p>
 
-<p>Im Englischen heißt das Zahlenhai-Spiel "Number Shark" oder "Taxman" game.</p>
+<p>Im Englischen heißt das Zahlenhai-Spiel "Number Shark" oder "Taxman".</p>
 
-<p>Die Seite <a target="_blank" href="https://oeis.org/A019312"> Integer Sequences</a> der OEIS Foundation enthält die bekannten Maximalwerte für n=1,...,404. Dort kann die Folge auch grafisch angezeigt werden. Dank Dan Hoey ist in den "Notes" inzwischen für jedes n auch ein jeweils optimaler Weg angegeben. Eine Formel für den optimalen Wert (Score) ist bisher nicht bekannt.</p>
+<p>Die Seite <a target="_blank" href="https://oeis.org/A019312"> Integer Sequences</a> der OEIS Foundation enthält die bekannten Maximalwerte für n=1,...,519 (Stand Mai 2020). Dort kann die Folge auch grafisch angezeigt werden. Dank Dan Hoey ist in den "Notes" inzwischen für jedes "n" auch ein jeweils optimaler Weg angegeben. Eine Formel für den optimalen Wert (Score) ist bisher nicht bekannt.</p>
 
 <p>Weitere Literaturhinweise finden sich <a href="PLUGINS_ROOT/org.jcryptool.games.numbershark/$nl$/help/reference/NumberSharkHelp-Bibliography.html">hier</a>.</p>
   <!-- Zum lokalen Testen geht auch:
@@ -228,7 +227,7 @@ Die Zahl neben "Minimale Punkte zum Sieg" ist die mindestens benötigte Gesamtpu
   -->
 
 
-  <!-- Last edit: BE, 2019-08-07  -->
+  <!-- Last edit: BE, 2021-01-09  -->
 
 <p>&nbsp;</p>
 </body>
