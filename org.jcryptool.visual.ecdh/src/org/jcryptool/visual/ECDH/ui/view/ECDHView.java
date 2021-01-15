@@ -28,7 +28,7 @@ public class ECDHView extends ViewPart {
 	 * Show the animation (moving keys from A to S and B to S) or not.</br>
 	 * Default is true
 	 */
-	public boolean showAnimation = true;
+	public boolean showAnimation = false;
 
 	/**
 	 * The constructor.

@@ -21,7 +21,7 @@ import org.jcryptool.visual.ECDH.Messages;
  */
 public class ShowAnimationHandler extends AbstractHandler implements IElementUpdater {
 	
-	public static boolean showAnimation = true;
+	public static boolean showAnimation = false;
 	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
