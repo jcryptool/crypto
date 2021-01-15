@@ -455,8 +455,9 @@ public class FleissnerGrille {
 	    }
 	    else {
             String templateCoordinates = Messages.MethodApplication_output_coordinates;
-            for (int i = 0; i<template.length;i++) {
-                templateCoordinates+=template[i];
+            templateCoordinates += " ";
+            for (int i = 0; i<template.length;i = i+2) {
+                templateCoordinates+=String.format("(%s, %s) ", template[i], template[i+1]);
             }
             return templateCoordinates;
 	    }
@@ -479,6 +480,7 @@ public class FleissnerGrille {
 		}
 		return s;
 	}
+	  
 	
 	public boolean[][] getGrilleFilled() {
 		return this.grilleFilled;

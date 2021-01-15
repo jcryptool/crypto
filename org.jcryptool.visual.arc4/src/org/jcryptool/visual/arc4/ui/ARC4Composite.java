@@ -173,7 +173,6 @@ public class ARC4Composite extends Composite {
     	td.setTitle(Messages.PluginDescriptionCaption);
     	td.setDescription(Messages.PluginDescription);
     	// Disable autp resizing of the TaD.
-    	td.setResize(false);
     	
     }
     

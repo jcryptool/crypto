@@ -85,6 +85,17 @@ public class NgramStatisticLogic {
     	return String.valueOf(result);
     }
 
+	public static int getIndexFor(int[] ngram, String alphabet) {
+		int m = alphabet.length();
+		int n = ngram.length;
+		int result = 0;
+		for (int i = 0; i < n; i++) {
+			int indexOf = ngram[i];
+			int weight = pow(m, (n-i-1));
+			result += weight * indexOf;
+		}
+		return result;
+	}
 	public static int getIndexFor(String ngram, String alphabet) {
 //		checkDataConsistency(ngram, frequencies, alphabet);
 		int m = alphabet.length();
@@ -129,5 +140,6 @@ public class NgramStatisticLogic {
 	private static int pow(int base, int exp) {
 		return (int) Math.round(Math.pow(base, exp));
 	}
+
     
 }

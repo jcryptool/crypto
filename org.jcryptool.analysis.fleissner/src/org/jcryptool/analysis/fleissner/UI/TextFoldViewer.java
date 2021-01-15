@@ -5,17 +5,20 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ExpandAdapter;
 import org.eclipse.swt.events.ExpandEvent;
 import org.eclipse.swt.events.ExpandListener;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Text;
 
@@ -33,7 +36,15 @@ public class TextFoldViewer extends Composite {
 	 * @param style
 	 */
 	public TextFoldViewer(Composite parent, int style, List<TextPresentation> texts) {
+		this(parent, style, texts, null);
+	}
+
+	public TextFoldViewer(Composite parent, int style, List<TextPresentation> texts,
+			Font font) {
 		super(parent, style);
+		if (font != null) {
+			this.setFieldFonts(font);
+		}
 		this.parentComposite = parent;
 		setLayout(new GridLayout(1, false));
 
@@ -66,6 +77,9 @@ public class TextFoldViewer extends Composite {
 		textWrapper.setLayout(layout);
 
 		text = new Text(expandBar, flags);
+		if (use_this_font != null) {
+			text.setFont(use_this_font);
+		}
 		text.setText(textpresentation.getLinesAfterFirstAsString());
 
 		GridData textGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -127,6 +141,7 @@ public class TextFoldViewer extends Composite {
 	}
 
 	private int lastTwiddle = -1;
+	private Font use_this_font = null;
 
 	private int twiddleWindowSize() {
 		this.lastTwiddle = this.lastTwiddle * -1;
@@ -141,6 +156,10 @@ public class TextFoldViewer extends Composite {
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
+	}
+
+	private void setFieldFonts(Font font) {
+		this.use_this_font = font;
 	}
 
 }

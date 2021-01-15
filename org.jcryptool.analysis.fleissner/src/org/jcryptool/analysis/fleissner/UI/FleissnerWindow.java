@@ -14,8 +14,10 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -24,12 +26,14 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -146,6 +150,9 @@ public class FleissnerWindow extends Composite {
 
 //	here are the available statistics and their string representation
 	private LinkedList<NgramStoreEntry> statsEntries = initializeStats();
+	private SelectionListener onOwnTextSelectionChanged;
+	private Label lblPlaceholderInOutOnTop;
+	private Label lblPlaceholderInOutOnBottom;
 	private String ngramStatisticsString(NgramStoreEntry entry) {
 		String langString;
 		if (entry.language.equals("en")) { //$NON-NLS-1$
@@ -179,8 +186,8 @@ public class FleissnerWindow extends Composite {
 
 	private LinkedList<NgramStoreEntry> initializeStats() {
 		LinkedList<NgramStoreEntry> result = new LinkedList<NgramStoreEntry>();
-		result.add(NgramStore.en_5_space);
-		result.add(NgramStore.de_5_space);
+		result.add(NgramStore.en_5_nospace);
+		result.add(NgramStore.de_5_nospace);
 		return result;
 	}
 
@@ -203,7 +210,10 @@ public class FleissnerWindow extends Composite {
 		createAnalysisSettingsGroup();
 		createStartButtoArea();
 		createAnalysisOutputGroup();
-		
+
+		// to permeate "own text input always is default"
+		onOwnTextSelectionChanged.widgetSelected(null);
+		setLoadtextStrings();
 	}
 
 	private void createStartButtoArea() {
@@ -330,17 +340,17 @@ public class FleissnerWindow extends Composite {
 
 		Label spinner = new Label(keyGroup, SWT.NONE);
 		spinner.setText(Messages.FleissnerWindow_label_keyLength);
-		GridData gd_spinner = new GridData(SWT.FILL, SWT.TOP, false, true);
+		GridData gd_spinner = new GridData(SWT.FILL, SWT.CENTER, false, true);
 		gd_spinner.horizontalIndent = 20;
 		spinner.setLayoutData(gd_spinner);
 
 		keySize = new Spinner(keyGroup, SWT.NONE);
 		keySize.setMinimum(2);
 		keySize.setMaximum(20);
-		keySize.setIncrement(1);
-		keySize.setSelection(7);
+		keySize.setIncrement(2);
+		keySize.setSelection(6);
 		keySize.setEnabled(true);
-		GridData gd_keySize = new GridData(SWT.LEFT, SWT.TOP, false, true);
+		GridData gd_keySize = new GridData(SWT.CENTER, SWT.CENTER, false, true);
 		gd_keySize.horizontalIndent = 20;
 		keySize.setLayoutData(gd_keySize);
 		keySize.addSelectionListener(new SelectionListener() {
@@ -352,7 +362,10 @@ public class FleissnerWindow extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (Integer.parseInt(keySize.getText()) > 20 || Integer.parseInt(keySize.getText()) < 2) {
-					keySize.setSelection(7);
+					keySize.setSelection(6);
+				}
+				if (keySize.getSelection() % 2 == 1) {
+					keySize.setSelection(keySize.getSelection()+1);
 				}
 				model.setKey(new KeySchablone(Integer.parseInt(keySize.getText())));
 				canvasKey.redraw();
@@ -373,6 +386,18 @@ public class FleissnerWindow extends Composite {
 
 			}
 		});
+		
+		Label lblKeyHint = new Label(keyGroup, SWT.WRAP);
+		GridData lblKHLD = new GridData();
+		lblKHLD.horizontalIndent = 20;
+		lblKHLD.horizontalSpan = 2;
+		lblKHLD.widthHint = 200;
+		lblKHLD.horizontalAlignment = SWT.FILL;
+		lblKHLD.grabExcessHorizontalSpace = true;
+		lblKeyHint.setLayoutData(lblKHLD);
+
+		lblKeyHint.setText(Messages.FleissnerWindow_X1);
+
 
 		randomKey = new Button(keyGroup, SWT.PUSH);
 		GridData gd_setHoles = new GridData(SWT.FILL, SWT.BOTTOM, false, false, 2, 1);
@@ -421,7 +446,7 @@ public class FleissnerWindow extends Composite {
 //        limits text field width and height so text will wrap at the end of composite
 		gd_keyText.widthHint = keyGroup.getSize().y;
 		keyText.setLayoutData(gd_keyText);
-		keyText.setEditable(false);
+		keyText.setEnabled(false);
 	}
 
 	/**
@@ -438,9 +463,36 @@ public class FleissnerWindow extends Composite {
 		gl_inOutText.marginWidth = 0;
 		inOutTextComposite.setLayout(gl_inOutText);
 
-		createPlaintext(inOutTextComposite);
+		
+		lblPlaceholderInOutOnTop = new Label(inOutTextComposite, SWT.NONE);
+		lblPlaceholderInOutOnTop.setVisible(false);
+		GridData onTopData = new GridData();
+		onTopData.exclude = true;
+		lblPlaceholderInOutOnTop.setLayoutData(onTopData);
+		lblPlaceholderInOutOnTop.setText("OnTop"); //$NON-NLS-1$
 
+		lblPlaceholderInOutOnBottom = new Label(inOutTextComposite, SWT.NONE);
+		lblPlaceholderInOutOnBottom.setVisible(false);
+		GridData onBottomData = new GridData();
+		onBottomData.exclude = true;
+		lblPlaceholderInOutOnBottom.setLayoutData(onBottomData);
+		lblPlaceholderInOutOnBottom.setText("OnBottom"); //$NON-NLS-1$
+
+		createPlaintext(inOutTextComposite);
 		createCiphertext(inOutTextComposite);
+		
+		moveCiphertextToTop();
+	}
+	
+	public void moveCiphertextToTop() {
+		plaintextGroup.moveBelow(lblPlaceholderInOutOnBottom);
+		ciphertextGroup.moveBelow(lblPlaceholderInOutOnTop);
+		mainComposite.layout(new Control[] {plaintextGroup, ciphertextGroup});
+	}
+	public void movePlaintextToTop() {
+		plaintextGroup.moveBelow(lblPlaceholderInOutOnTop);
+		ciphertextGroup.moveBelow(lblPlaceholderInOutOnBottom);
+		mainComposite.layout(new Control[] {plaintextGroup, ciphertextGroup});
 	}
 
 	/**
@@ -455,7 +507,7 @@ public class FleissnerWindow extends Composite {
 		plaintextGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		plaintextInvalidCharWarning = new CLabel(plaintextGroup, SWT.NONE);
-		plaintextInvalidCharWarning.setImage(ImageService.ICON_WARNING);
+		plaintextInvalidCharWarning.setImage(ImageService.ICON_INFO);
 		plaintextInvalidCharWarning.setText(Messages.InvalidCharsWarningPlaintext);
 
 		plaintextText = new Text(plaintextGroup, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
@@ -464,7 +516,7 @@ public class FleissnerWindow extends Composite {
 		gridData.widthHint = plaintextGroup.getSize().y;
 		gridData.heightHint = plaintextGroup.getSize().x;
 		plaintextText.setLayoutData(gridData);
-		plaintextText.setEditable(false);
+		setTextEnabled(plaintextText, false);
 		plaintextText.addModifyListener(new ModifyListener() {
 
 			@Override
@@ -500,7 +552,7 @@ public class FleissnerWindow extends Composite {
 		ciphertextGroup.setText(Messages.FleissnerWindow_label_ciphertext + " (0)"); //$NON-NLS-1$
 
 		ciphertextInvalidCharWarning = new CLabel(ciphertextGroup, SWT.NONE);
-		ciphertextInvalidCharWarning.setImage(ImageService.ICON_WARNING);
+		ciphertextInvalidCharWarning.setImage(ImageService.ICON_INFO);
 		ciphertextInvalidCharWarning.setText(Messages.InvalidCharsWarningCiphertext);
 		
 		ciphertextText = new Text(ciphertextGroup, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
@@ -509,8 +561,8 @@ public class FleissnerWindow extends Composite {
 		gridData.widthHint = ciphertextGroup.getSize().y;
 		gridData.heightHint = ciphertextGroup.getSize().x;
 		ciphertextText.setLayoutData(gridData);
-		ciphertextText.setEnabled(true);
-		ciphertextText.setEditable(false);
+		setTextEnabled(ciphertextText, true);
+		setTextEnabled(ciphertextText, false);
 		ciphertextText.addModifyListener(new ModifyListener() {
 
 			@Override
@@ -554,13 +606,19 @@ public class FleissnerWindow extends Composite {
 		restarts_Spinner = new Spinner(analysisSettingsGroup, SWT.NONE);
 		restarts_Spinner.setMinimum(1);
 		restarts_Spinner.setMaximum(1400);
-		restarts_Spinner.setIncrement(1);
-		restarts_Spinner.setSelection(5);
+		restarts_Spinner.setIncrement(5);
+		restarts_Spinner.setSelection(20);
 		restarts_Spinner.setEnabled(true);
-		GridData gd_restarts_Spinner = new GridData(SWT.LEFT, SWT.TOP, false, true, 3, 1);
+		GridData gd_restarts_Spinner = new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1);
 		gd_restarts_Spinner.horizontalIndent = 20;
 		restarts_Spinner.setLayoutData(gd_restarts_Spinner);
 		restarts_Spinner.setToolTipText(Messages.FleissnerWindow_toolTipText_restarts);
+		
+		Label restartsHint = new Label(analysisSettingsGroup, SWT.WRAP);
+		GridData restartsHindData = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
+		restartsHindData.widthHint = 350;
+		restartsHint.setLayoutData(restartsHindData);
+		restartsHint.setText(Messages.FleissnerWindow_X2);
 
 		alphabetLabel = new Label(analysisSettingsGroup, SWT.NONE);
 		alphabetLabel.setText(Messages.FleissnerWindow_0);
@@ -573,17 +631,38 @@ public class FleissnerWindow extends Composite {
 			String entryString = ngramStatisticsString(entry);
 			statisticsCombo.add(entryString);
 		}
-		statisticsCombo.select(0);
 //		statisticsCombo.add("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 //		statisticsCombo.add("ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß");
 //
-		if (Locale.getDefault().toString().equals("de")) { //$NON-NLS-1$
+		if (Locale.getDefault().toString().contains("de")) { //$NON-NLS-1$
 			statisticsCombo.select(1);
 		} else {
 			statisticsCombo.select(0);
 		}
 	}
 
+	
+	private void setLoadtextStrings() {
+		if (analyze.getSelection()) {
+			textSelectionGroup.setText(Messages.FleissnerWindow_label_textChoiceCipher);
+			exampleTextRadioButton.setText(Messages.FleissnerWindow_label_exampleTextCipher);
+			writeTextRadioButton.setText(Messages.FleissnerWindow_label_writeTextCipher);
+			loadOwnTextRadioButton.setText(Messages.FleissnerWindow_label_loadOwnTextCipher);
+			
+		} else if (encrypt.getSelection()) {
+			textSelectionGroup.setText(Messages.FleissnerWindow_label_textChoicePlain);
+			exampleTextRadioButton.setText(Messages.FleissnerWindow_label_exampleTextPlain);
+			writeTextRadioButton.setText(Messages.FleissnerWindow_label_writeTextPlain);
+			loadOwnTextRadioButton.setText(Messages.FleissnerWindow_label_loadOwnTextPlain);
+			
+		} else { // decryption
+			textSelectionGroup.setText(Messages.FleissnerWindow_label_textChoiceCipher);
+			exampleTextRadioButton.setText(Messages.FleissnerWindow_label_exampleTextCipher);
+			writeTextRadioButton.setText(Messages.FleissnerWindow_label_writeTextCipher);
+			loadOwnTextRadioButton.setText(Messages.FleissnerWindow_label_loadOwnTextCipher);
+		}
+	}
+	
 	/**
 	 * creates buttons and controls in text selection composite
 	 * 
@@ -598,11 +677,9 @@ public class FleissnerWindow extends Composite {
 		GridData gd_textSelectionGroup = new GridData(SWT.FILL, SWT.FILL, false, false);
 		gd_textSelectionGroup.verticalIndent = 20;
 		textSelectionGroup.setLayoutData(gd_textSelectionGroup);
-		textSelectionGroup.setText(Messages.FleissnerWindow_label_textChoiceCipher);
 
 		exampleTextRadioButton = new Button(textSelectionGroup, SWT.RADIO);
 		exampleTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		exampleTextRadioButton.setText(Messages.FleissnerWindow_label_exampleTextCipher);
 		exampleTextRadioButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -624,7 +701,7 @@ public class FleissnerWindow extends Composite {
 				}
 			}
 		});
-		exampleTextRadioButton.setSelection(true);
+		exampleTextRadioButton.setSelection(false);
 
 		exampleTextCombo = new Combo(textSelectionGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
 		exampleTextCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
@@ -649,21 +726,21 @@ public class FleissnerWindow extends Composite {
 
 				if (analyze.getSelection()) {
 					encryptWithRandomKey(lf.InputStreamToString(lf.openMyTestStream(filename)));
-					ciphertextText.setEditable(false);
+					setTextEnabled(ciphertextText, false);
 				} else if (decrypt.getSelection()) {
 					encryptWithRandomKey(lf.InputStreamToString(lf.openMyTestStream(filename)));
-					ciphertextText.setEditable(false);
+					setTextEnabled(ciphertextText, false);
 				} else if (encrypt.getSelection()) {
 					plaintextText.setText(lf.InputStreamToString(lf.openMyTestStream(filename)));
-					plaintextText.setEditable(false);
+					setTextEnabled(plaintextText, false);
 				}
 			}
 		});
 
 		writeTextRadioButton = new Button(textSelectionGroup, SWT.RADIO);
 		writeTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 4, 1));
-		writeTextRadioButton.setText(Messages.FleissnerWindow_label_writeTextCipher);
-		writeTextRadioButton.addSelectionListener(new SelectionListener() {
+		writeTextRadioButton.setSelection(true);
+		onOwnTextSelectionChanged = new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -679,21 +756,22 @@ public class FleissnerWindow extends Composite {
 
 					if (analyze.getSelection()) {
 						ciphertextText.setText(oldManualTextInput);
-						ciphertextText.setEditable(true);
+						setTextEnabled(ciphertextText, true);
 					} else if (decrypt.getSelection()) {
 						ciphertextText.setText(oldManualTextInput);
-						ciphertextText.setEditable(true);
+						setTextEnabled(ciphertextText, true);
 					} else if (encrypt.getSelection()) {
 						plaintextText.setText(oldManualTextInput);
-						plaintextText.setEditable(true);
+						setTextEnabled(plaintextText, true);
 					}
 				}
 			}
-		});
+		};
+		writeTextRadioButton.addSelectionListener(onOwnTextSelectionChanged);
 
 		loadOwnTextRadioButton = new Button(textSelectionGroup, SWT.RADIO);
 		loadOwnTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		loadOwnTextRadioButton.setText(Messages.FleissnerWindow_label_loadOwnTextCipher);
+		loadOwnTextRadioButton.setSelection(false);
 		loadOwnTextRadioButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -711,24 +789,24 @@ public class FleissnerWindow extends Composite {
 					if (lastSuccessfulLoadedTextSource != null) {
 						if (analyze.getSelection()) {
 							ciphertextText.setText(lastSuccessfulLoadedTextSource.getText());
-							ciphertextText.setEditable(false);
+							setTextEnabled(ciphertextText, false);
 						} else if (decrypt.getSelection()) {
 							ciphertextText.setText(lastSuccessfulLoadedTextSource.getText());
-							ciphertextText.setEditable(false);
+							setTextEnabled(ciphertextText, false);
 						} else if (encrypt.getSelection()) {
 							plaintextText.setText(lastSuccessfulLoadedTextSource.getText());
-							plaintextText.setEditable(false);
+							setTextEnabled(plaintextText, false);
 						}
 					} else {
 						if (analyze.getSelection()) {
 							ciphertextText.setText(""); //$NON-NLS-1$
-							ciphertextText.setEditable(false);
+							setTextEnabled(ciphertextText, false);
 						} else if (decrypt.getSelection()) {
 							ciphertextText.setText(""); //$NON-NLS-1$
-							ciphertextText.setEditable(false);
+							setTextEnabled(ciphertextText, false);
 						} else if (encrypt.getSelection()) {
 							plaintextText.setText(""); //$NON-NLS-1$
-							plaintextText.setEditable(false);
+							setTextEnabled(plaintextText, false);
 						}
 					}
 				}
@@ -766,6 +844,8 @@ public class FleissnerWindow extends Composite {
 			}
 		});
 
+		
+		
 	}
 
 	/**
@@ -777,32 +857,31 @@ public class FleissnerWindow extends Composite {
 	private void createAnalysisOutputGroup() {
 
 		analysisGroup = new Group(mainComposite, SWT.NONE);
-		analysisGroup.setLayout(new GridLayout(2, false));
+		analysisGroup.setLayout(new GridLayout(1, false));
 		GridData grid = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
 		analysisGroup.setLayoutData(grid);
 		analysisGroup.setText(Messages.FleissnerWindow_label_output);
 
-		Shell shell = new Shell();
-
-		detailsButton = new Button(analysisGroup, SWT.PUSH);
-		detailsButton.setLayoutData(new GridData(SWT.FILL, SWT.UP, false, false));
-		detailsButton.setText(Messages.FleissnerWindow_label_outputDetails);
-		detailsButton.setEnabled(false);
-		detailsButton.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				dialog = new OutputDialog(shell, extendedOutputFromJob);
-				dialog.create(Messages.FleissnerWindow_label_dialogOutput,
-						Messages.FleissnerWindow_label_dialogDescription);
-				dialog.open();
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
+//		Shell shell = new Shell(); // TODO: this must be avoided
+//		detailsButton = new Button(analysisGroup, SWT.PUSH);
+//		detailsButton.setLayoutData(new GridData(SWT.FILL, SWT.UP, false, false));
+//		detailsButton.setText(Messages.FleissnerWindow_label_outputDetails);
+//		detailsButton.setEnabled(false);
+//		detailsButton.addSelectionListener(new SelectionListener() {
+//
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//
+//				dialog = new OutputDialog(shell, extendedOutputFromJob);
+//				dialog.create(Messages.FleissnerWindow_label_dialogOutput,
+//						Messages.FleissnerWindow_label_dialogDescription);
+//				dialog.open();
+//			}
+//
+//			@Override
+//			public void widgetDefaultSelected(SelectionEvent e) {
+//			}
+//		});
 
 		consoleText = new Text(analysisGroup, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		GridData gridOut = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -810,7 +889,7 @@ public class FleissnerWindow extends Composite {
 		gridOut.widthHint = 800;
 		consoleText.setLayoutData(gridOut);
 		consoleText.setEditable(false);
-		consoleText.setBackground(ColorService.WHITE);
+//		consoleText.setBackground(ColorService.WHITE);
 		consoleText.setFont(FontService.getNormalMonospacedFont());
 	}
 
@@ -823,14 +902,16 @@ public class FleissnerWindow extends Composite {
 		TitleAndDescriptionComposite td = new TitleAndDescriptionComposite(mainComposite);
 		td.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		td.setTitle(Messages.FleissnerWindow_title);
-		td.setDescription(Messages.FleissnerWindow_subtitle);
+		td.setDescription(Messages.FleissnerWindow_subtitle + "\n\n" + Messages.FleissnerWindow_Z1); //$NON-NLS-1$
 	}
 
 	/**
 	 * installs settings for 'analyze' is chosen as the active method
 	 */
 	public void analyze() {
-
+		setLoadtextStrings();
+		moveCiphertextToTop();
+		
 //      key settings
 		canvasKey.setEnabled(false);
 		randomKey.setEnabled(false);
@@ -839,9 +920,9 @@ public class FleissnerWindow extends Composite {
 		deleteHoles();
 
 //        text settings
-		plaintextText.setEditable(false);
+		setTextEnabled(plaintextText, false);
 		plaintextText.setText(""); //$NON-NLS-1$
-		ciphertextText.setEditable(false);
+		setTextEnabled(ciphertextText, false);
 		plaintextInvalidCharWarning.setVisible(false);
 		ciphertextInvalidCharWarning.setVisible(true);
 		
@@ -878,6 +959,9 @@ public class FleissnerWindow extends Composite {
 	 */
 	public void encrypt() {
 
+		setLoadtextStrings();
+		movePlaintextToTop();
+
 //      key settings
 		canvasKey.setEnabled(true);
 		randomKey.setEnabled(true);
@@ -890,8 +974,8 @@ public class FleissnerWindow extends Composite {
 		}
 
 //        text settings
-		plaintextText.setEditable(false);
-		ciphertextText.setEditable(false);
+		setTextEnabled(plaintextText, false);
+		setTextEnabled(ciphertextText, false);
 		ciphertextText.setText(""); //$NON-NLS-1$
 		plaintextInvalidCharWarning.setVisible(true);
 		ciphertextInvalidCharWarning.setVisible(false);
@@ -916,7 +1000,7 @@ public class FleissnerWindow extends Composite {
 		textloader.setEnabled(false);
 
 		// output settings
-		detailsButton.setEnabled(false);
+//		detailsButton.setEnabled(false);
 		consoleText.setText(Messages.FleissnerWindow_output_progress);
 
 		// Activate/Deactivate the Start Button
@@ -927,6 +1011,10 @@ public class FleissnerWindow extends Composite {
 	 * installs settings for 'decrypt' is chosen as the active method
 	 */
 	public void decrypt() {
+
+		setLoadtextStrings();
+		moveCiphertextToTop();
+		
 //      key settings
 		canvasKey.setEnabled(true);
 		randomKey.setEnabled(true);
@@ -939,9 +1027,9 @@ public class FleissnerWindow extends Composite {
 		}
 
 //      text settings
-		plaintextText.setEditable(false);
+		setTextEnabled(plaintextText, false);
 		plaintextText.setText(""); //$NON-NLS-1$
-		ciphertextText.setEditable(false);
+		setTextEnabled(ciphertextText, false);
 		plaintextInvalidCharWarning.setVisible(false);
 		ciphertextInvalidCharWarning.setVisible(true);
 		
@@ -964,18 +1052,42 @@ public class FleissnerWindow extends Composite {
 		textloader.setEnabled(false);
 
 		// output settings
-		detailsButton.setEnabled(false);
+//		detailsButton.setEnabled(false);
 		consoleText.setText(Messages.FleissnerWindow_output_progress);
 
 		// Activate/Deactivate the Start Button
 		checkOkButton();
 	}
 
+	private void setTextEnabled(Text textfield, boolean b) {
+		Color color;
+		if (b) {
+			color = ColorService.WHITE;
+		} else {
+			color = ColorService.LIGHTGRAY;
+		}
+		textfield.setEditable(b);
+		textfield.setBackground(color);
+	}
+
+
+
 	private String canAnalyze(String textNormalized, int grillesize) {
 		int textsize = textNormalized.length();
 		int squared = grillesize * grillesize;
 		if (textsize % squared != 0) {
-			return String.format(Messages.FleissnerWindow_5, grillesize, squared, textsize, squared);
+			StringBuilder kHint = new StringBuilder();
+			List<Integer> possibleKs = new LinkedList<>();
+			for(int k=2; k<20; k++) {
+				int squaredK = k * k;
+				if (textsize % squaredK == 0) {
+					possibleKs.add(k);
+				}
+			}
+			if (possibleKs.size() > 0) {
+				kHint.append(String.format(Messages.FleissnerWindow_X3, possibleKs.stream().map(i -> i.toString()).collect(Collectors.joining(", ")))); //$NON-NLS-2$
+			}
+			return String.format(Messages.FleissnerWindow_5 + kHint.toString(), grillesize, squared, textsize, squared);
 		} else {
 			return ""; //$NON-NLS-1$
 		}
@@ -985,12 +1097,12 @@ public class FleissnerWindow extends Composite {
 
 	private String normalizeText(String text, String alphabet) {
 		String result = normalizeText(text);
-		result = filterTextBy(text, alphabet);
+		result = filterTextBy(result, alphabet);
 		return result;
 	}
 	private String normalizeText(String text) {
 		String result = text;
-		result = text.replaceAll("\\R", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		result = text.replaceAll("[\r\n\t ]", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		result = result.toUpperCase();
 		return result;
 	}
@@ -1037,14 +1149,23 @@ public class FleissnerWindow extends Composite {
 				MessageDialog.openError(getShell(), Messages.FleissnerWindow_1, String.format(Messages.FleissnerWindow_26, stats.alphabet));
 				return;
 			}
-			job = new FleissnerMethodJob("analyze", keylength, null, text, nGramSizeAsInt+"", restarts, stats); //$NON-NLS-1$ //$NON-NLS-2$
+			final FleissnerMethodJob analysisJob = new FleissnerMethodJob("analyze", keylength, null, text, nGramSizeAsInt+"", restarts, stats); //$NON-NLS-1$ //$NON-NLS-2$
+			job = analysisJob;
 			job.finalizeListeners.add(status -> {
 				getDisplay().syncExec(() -> {
-					liftNoClick(); // Mechanism to not let the user start other things in the background
+					liftNoClickWithButton(); // Mechanism to not let the user start other things in the background
 
 					// Do shit after job is finished
-					detailsButton.setEnabled(true);
-					plaintextText.setText(textFromJob);
+//					detailsButton.setEnabled(true);
+					LinkedList<String> plaintextTextLines = new LinkedList<String>();
+					int displayOffset = 0;
+					int usedKeysize = Integer.parseInt(analysisJob.keysize);
+					int partLength = (usedKeysize * usedKeysize)/4;
+					while(textFromJob.length() > displayOffset) {
+						plaintextTextLines.add(textFromJob.substring(displayOffset, displayOffset+partLength));
+						displayOffset = displayOffset + partLength;
+					}
+					plaintextText.setText(plaintextTextLines.stream().collect(Collectors.joining("\n"))); //$NON-NLS-1$
 
 					// Print the key to the GUI
 					deleteHoles();
@@ -1063,7 +1184,7 @@ public class FleissnerWindow extends Composite {
 			job = new FleissnerMethodJob("encrypt", null, key, normalized, null, null, null); //$NON-NLS-1$
 			job.finalizeListeners.add(status -> {
 				getDisplay().syncExec(() -> {
-					liftNoClick(); // Mechanism to not let the user start other things in the background
+					liftNoClickWithButton(); // Mechanism to not let the user start other things in the background
 
 					// Do shit after job is finished
 					ciphertextText.setText(textFromJob);
@@ -1072,11 +1193,12 @@ public class FleissnerWindow extends Composite {
 			});
 		} else if (decrypt.getSelection()) {
 			String text = ciphertextText.getText();
+			String normalized = normalizeText(text, NgramStore.en_5_space.alphabet());
 			String key = model.translateKeyToLogic();
-			job = new FleissnerMethodJob("decrypt", null, key, text, null, null, null); //$NON-NLS-1$
+			job = new FleissnerMethodJob("decrypt", null, key, normalized, null, null, null); //$NON-NLS-1$
 			job.finalizeListeners.add(status -> {
 				getDisplay().syncExec(() -> {
-					liftNoClick(); // Mechanism to not let the user start other things in the background
+					liftNoClickWithButton(); // Mechanism to not let the user start other things in the background
 					// Do shit after job is finished
 					plaintextText.setText(textFromJob);
 					consoleText.append(consoleOutputFromJob);
@@ -1084,12 +1206,14 @@ public class FleissnerWindow extends Composite {
 			});
 		}
 
-		imposeNoClick(); // Mechanism to not let the user start other things in the background
+		imposeNoClickWithButton(startButton, Messages.FleissnerWindow_X4); // Mechanism to not let the user start other things in the background
 
 		// Start the calculation
 		job.runInBackground();
 
 	}
+
+
 
 	private String filterTextBy(String text, String alphabet) {
 		StringBuilder filtered = new StringBuilder();
@@ -1106,9 +1230,25 @@ public class FleissnerWindow extends Composite {
 	private void liftNoClick() {
 		getShell().setCursor(getDisplay().getSystemCursor(SWT.CURSOR_ARROW));
 	}
+	private void liftNoClickWithButton() {
+		liftNoClick();
+		if (lastNoClickButton != null && ! lastNoClickButton.isDisposed()) {
+			lastNoClickButton.setEnabled(true);
+			lastNoClickButton.setText(lastNoClickButtonSavedState);
+		}
+	}
 
+	Button lastNoClickButton = null;
+	String lastNoClickButtonSavedState = ""; //$NON-NLS-1$
 	private void imposeNoClick() {
 		getShell().setCursor(getDisplay().getSystemCursor(SWT.CURSOR_WAIT));
+	}
+	private void imposeNoClickWithButton(Button startButton, String text) {
+		imposeNoClick();
+		lastNoClickButton = startButton;
+		lastNoClickButton.setEnabled(false);
+		lastNoClickButtonSavedState = startButton.getText();
+		startButton.setText(text);
 	}
 
 	/**
@@ -1162,7 +1302,7 @@ public class FleissnerWindow extends Composite {
 
 		job.finalizeListeners.add(status -> {
 			getDisplay().syncExec(() -> {
-				liftNoClick(); // Mechanism to not let the user start other things in the background
+				liftNoClickWithButton(); // Mechanism to not let the user start other things in the background
 
 				// Do something after execution
 				ciphertextText.setText(textFromJob);
@@ -1329,6 +1469,11 @@ public class FleissnerWindow extends Composite {
 			this.statistics = stats;
 		}
 
+		@Override
+		public String name() {
+			return Messages.FleissnerWindow_X5;
+		}
+		
 		/**
 		 * 
 		 * @return the most important parameters for starting analysis. Method will be
@@ -1336,14 +1481,30 @@ public class FleissnerWindow extends Composite {
 		 */
 		public String checkArgs() {
 
-			String argsString = ""; //$NON-NLS-1$
+			StringBuilder argsStringBuilder = new StringBuilder(); //$NON-NLS-1$
 
-			argsString += Messages.FleissnerWindow_parameter_enlistment_keyLength + keysize;
-			argsString += Messages.FleissnerWindow_parameter_enlistment_restarts + restarts;
-			argsString += Messages.FleissnerWindow_parameter_enlistment_language + "pseudo-lang-string"; //$NON-NLS-1$
-			argsString += Messages.FleissnerWindow_parameter_enlistment_nGram + ngramsize;
+			getDisplay().syncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+				String language = Messages.FleissnerWindow_Z2;
+				NgramStoreEntry statEntry = null;
+				int selectionIndex = statisticsCombo.getSelectionIndex();
+				if (selectionIndex >= 0) {
+					statEntry = statsEntries.get(statisticsCombo.getSelectionIndex());
+					language = statEntry.language.equals("de") ? Messages.FleissnerWindow_Z3 : Messages.FleissnerWindow_Z2; //$NON-NLS-1$
+				}
+				argsStringBuilder.append(Messages.FleissnerWindow_parameter_enlistment_keyLength + keysize);
+				argsStringBuilder.append(Messages.FleissnerWindow_parameter_enlistment_restarts + restarts);
+				argsStringBuilder.append(Messages.FleissnerWindow_parameter_enlistment_language + language);
+				argsStringBuilder.append(Messages.FleissnerWindow_parameter_enlistment_nGram + ngramsize);
+					
+				}
+			});
+			
 
-			return argsString;
+			return argsStringBuilder.toString();
 		}
 
 		@Override
@@ -1409,7 +1570,7 @@ public class FleissnerWindow extends Composite {
 
 			switch (method) {
 			case "analyze": //$NON-NLS-1$
-				ma.analyze();
+				ma.analyze(monitor);
 				extendedOutputFromJob = ma.getAnalysisOut();
 				extendedOutputFromJob.add(0,
 						new String(Messages.FleissnerWindow_parameter_enlistment_dialog + checkArgs()));

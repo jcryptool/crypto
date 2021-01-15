@@ -28,6 +28,12 @@ public class Messages extends NLS {
     public static String MethodApplication_info_startProcedure;
     public static String MethodApplication_info_tryNewLength;
     public static String MethodApplication_info_value;
+	public static String MethodApplication_M1;
+	public static String MethodApplication_M2;
+	public static String MethodApplication_M3;
+	public static String MethodApplication_M4;
+	public static String MethodApplication_M5;
+	public static String MethodApplication_M6;
     public static String MethodApplication_method_analyze;
     public static String MethodApplication_output_acurateness;
     public static String MethodApplication_output_acurateness2;

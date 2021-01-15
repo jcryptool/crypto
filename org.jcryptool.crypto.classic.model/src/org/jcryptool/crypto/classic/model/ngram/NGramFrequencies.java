@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.DoubleBuffer;
@@ -39,6 +40,14 @@ public class NGramFrequencies {
  		NgramException.check(index < this.frequencies.length && index >= 0, String.format("N-gram %s is not in the alphabet %s", ngram, alphabet));
  		return this.frequencies[index];
 	}
+	public double getFrequencyFor(int[] ngram) {
+ 		if(ngram.length != n) {
+ 			throw new NgramException(String.format("queried ngram frequency for %s on stats with different n = %s", ngram, n));
+		}
+ 		int index = NgramStatisticLogic.getIndexFor(ngram, alphabet);
+ 		NgramException.check(index < this.frequencies.length && index >= 0, String.format("N-gram %s is not in the alphabet %s", ngram, alphabet));
+ 		return this.frequencies[index];
+	}
 	
 	public static NGramFrequencies parseGzipStream(InputStream is, int n) {
 		try {
@@ -56,6 +65,18 @@ public class NGramFrequencies {
 		try {
 			is = new FileInputStream(file);
 			return parseGzipStream(is, n);
+		} catch (IOException e) {
+			throw new NgramException(e);
+		} finally {
+			if(is != null) { try { is.close(); } catch (IOException e) { e.printStackTrace(); } }
+		}
+	}
+
+	public static NGramFrequencies parseGzipFile(URL resource, int n2) {
+		InputStream is = null;
+		try {
+			is = resource.openStream();
+			return parseGzipStream(is, n2);
 		} catch (IOException e) {
 			throw new NgramException(e);
 		} finally {

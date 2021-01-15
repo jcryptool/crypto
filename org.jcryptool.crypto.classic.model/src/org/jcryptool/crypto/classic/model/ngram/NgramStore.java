@@ -21,7 +21,7 @@ public class NgramStore {
 	public static NgramStoreEntry de_5_space;
 	public static NgramStoreEntry en_5_space;
 
-	static {
+	static { // these won't work if we do not have the corresponding files in ./ngrams/ -- currently, many are not yet exported from CT2
 		NgramStore.de_3_nospace = new NgramStoreEntry(3, "de", false);
 		NgramStore.en_3_nospace = new NgramStoreEntry(3, "en", false);
 		NgramStore.de_4_nospace = new NgramStoreEntry(4, "de", false);
@@ -62,6 +62,9 @@ public class NgramStore {
 	
 
 	
+	public NGramFrequencies getFrequenciesFor(File file, int n) {
+		return NGramFrequencies.parseGzipFile(file, n);
+	}
 	public NGramFrequencies getBuiltinFrequenciesFor(NgramStoreEntry entry) {
 		if (statsCache.containsKey(entry)) {
 			return statsCache.get(entry);
