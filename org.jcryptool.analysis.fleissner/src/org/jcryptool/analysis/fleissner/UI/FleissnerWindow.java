@@ -9,7 +9,6 @@
 // -----END DISCLAIMER-----
 package org.jcryptool.analysis.fleissner.UI;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,8 +21,11 @@ import java.util.stream.Collectors;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -45,6 +47,7 @@ import org.eclipse.swt.widgets.Text;
 import org.jcryptool.analysis.fleissner.Activator;
 import org.jcryptool.analysis.fleissner.key.Grille;
 import org.jcryptool.analysis.fleissner.key.KeySchablone;
+import org.jcryptool.analysis.fleissner.logic.KopalAnalyzer;
 import org.jcryptool.analysis.fleissner.logic.MethodApplication;
 import org.jcryptool.analysis.fleissner.logic.ParameterSettings;
 import org.jcryptool.core.logging.utils.LogUtil;
@@ -378,9 +381,11 @@ public class FleissnerWindow extends Composite {
 					if (keySize.getSelection() < 5) {
 						restarts_Label.setEnabled(false);
 						restarts_Spinner.setEnabled(false);
+						restartsHint.setEnabled(false);
 					} else {
 						restarts_Label.setEnabled(true);
 						restarts_Spinner.setEnabled(true);
+						restartsHint.setEnabled(true);
 					}
 				}
 
@@ -446,7 +451,17 @@ public class FleissnerWindow extends Composite {
 //        limits text field width and height so text will wrap at the end of composite
 		gd_keyText.widthHint = keyGroup.getSize().y;
 		keyText.setLayoutData(gd_keyText);
-		keyText.setEnabled(false);
+		keyText.setEditable(false);
+		keyText.setBackground(ColorService.LIGHTGRAY);
+
+		lblKeyClickHint = new Label(keyGroup, SWT.WRAP);
+		lblKeyClickHint.setText(Messages.FleissnerWindow_X6);
+		lblKCHData = new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1);
+		lblKeyClickHint.setLayoutData(lblKCHData);
+		lblKCHData.widthHint = 500;
+		lblKeyClickHint.setVisible(false);
+//		Label lblKeyClickHintFiller = new Label(keyGroup, SWT.NONE);
+//		lblKeyClickHintFiller.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 	}
 
 	/**
@@ -511,6 +526,15 @@ public class FleissnerWindow extends Composite {
 		plaintextInvalidCharWarning.setText(Messages.InvalidCharsWarningPlaintext);
 
 		plaintextText = new Text(plaintextGroup, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+		plaintextText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.keyCode == SWT.F8) {
+					showAnalysisDebugDialog();
+					
+				}
+			}
+		});
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 //        limits text field width and height so text will wrap at the end of composite
 		gridData.widthHint = plaintextGroup.getSize().y;
@@ -583,6 +607,85 @@ public class FleissnerWindow extends Composite {
 				.setText(Messages.FleissnerWindow_label_ciphertext + " (" + normalizeText(ciphertextText.getText()).length() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	protected void showAnalysisDebugDialog() {
+		Shell shell = new Shell(getDisplay(), SWT.APPLICATION_MODAL | SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
+		shell.setLayout(new GridLayout());
+		shell.setBounds(getDisplay().getCursorLocation().x, getDisplay().getCursorLocation().y, 600, 600);
+		Composite shellMain = new Composite(shell, SWT.MULTI | SWT.V_SCROLL);
+		shellMain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		shellMain.setLayout(new GridLayout(2, false));
+		Text analysisResultText = new Text(shellMain, SWT.MULTI | SWT.V_SCROLL);
+		Text comparetoText = new Text(shellMain, SWT.MULTI | SWT.V_SCROLL);
+		GridData layoutData1 = new GridData(SWT.FILL, SWT.FILL, true, false);
+		analysisResultText.setLayoutData(layoutData1);
+		GridData layoutData2 = new GridData(SWT.FILL, SWT.FILL, true, false);
+		comparetoText.setLayoutData(layoutData2);
+		layoutData1.heightHint = 150;
+		layoutData2.heightHint = 150;
+		
+		Button compareBtn = new Button(shellMain, SWT.PUSH);
+		compareBtn.setText("Compare nGram valuations for these texts");
+		compareBtn.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		
+		Text resultText = new Text(shellMain, SWT.MULTI | SWT.V_SCROLL);
+		resultText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		
+		final String currentPlaintext = plaintextText.getText();
+		final NgramStoreEntry statEntry;
+		int selectionIndex = statisticsCombo.getSelectionIndex();
+		if (selectionIndex >= 0) {
+			statEntry = statsEntries.get(statisticsCombo.getSelectionIndex());
+		} else {
+			statEntry = null;
+		}
+		NGramFrequencies stats = NgramStore.getInstance().getBuiltinFrequenciesFor(statEntry);
+
+		analysisResultText.setText(currentPlaintext);
+		compareBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String text1 = analysisResultText.getText();
+				String text2 = comparetoText.getText();
+				String tr1 = normalizeText(text1, statEntry.alphabet());
+				String tr2 = normalizeText(text2, statEntry.alphabet());
+				List<NgramStoreEntry> entries = new LinkedList<>() {{
+					add(NgramStore.de_2_nospace);
+					add(NgramStore.de_3_nospace);
+					add(NgramStore.de_4_nospace);
+					add(NgramStore.de_5_nospace);
+					add(NgramStore.en_2_nospace);
+					add(NgramStore.en_3_nospace);
+					add(NgramStore.en_4_nospace);
+					add(NgramStore.en_5_nospace);
+				}};
+				List<NgramStoreEntry> entriesToTest = entries.stream().filter(entry -> entry.alphabet().equals(stats.alphabet)).collect(Collectors.toList());
+				StringBuilder sb = new StringBuilder();
+				for(NgramStoreEntry entryToTest: entriesToTest) {
+					NGramFrequencies freqs = NgramStore.getInstance().getBuiltinFrequenciesFor(entryToTest);
+					double cost1 = KopalAnalyzer.calculateCost(freqs, KopalAnalyzer.MapTextIntoNumberSpace(tr1, stats.alphabet));
+					double cost2 = KopalAnalyzer.calculateCost(freqs, KopalAnalyzer.MapTextIntoNumberSpace(tr2, stats.alphabet));
+					sb.append(String.format("For stats=(%s, %s), cost_analysis_out=%s, cost_comparison=%s\n", entryToTest.language, entryToTest.n, cost1, cost2));
+				}
+				resultText.setText(sb.toString());
+			}
+		});
+
+		
+
+		shell.pack();
+		shell.open();
+//		shell.setVisible(true);
+//		shell.layout();
+		
+//		while (!shell.isDisposed()) {
+//	        if (!getDisplay().readAndDispatch ()) getDisplay().sleep ();
+//	    }
+//	    shell.dispose();
+		
+	}
+
+
+
 	/**
 	 * creates composites for text selection and analysis settings. Text selection
 	 * manages the text input. Analysis settings manages the used language, number
@@ -614,11 +717,12 @@ public class FleissnerWindow extends Composite {
 		restarts_Spinner.setLayoutData(gd_restarts_Spinner);
 		restarts_Spinner.setToolTipText(Messages.FleissnerWindow_toolTipText_restarts);
 		
-		Label restartsHint = new Label(analysisSettingsGroup, SWT.WRAP);
+		restartsHint = new Label(analysisSettingsGroup, SWT.WRAP);
 		GridData restartsHindData = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
 		restartsHindData.widthHint = 350;
 		restartsHint.setLayoutData(restartsHindData);
 		restartsHint.setText(Messages.FleissnerWindow_X2);
+		restartsHint.setEnabled(true);
 
 		alphabetLabel = new Label(analysisSettingsGroup, SWT.NONE);
 		alphabetLabel.setText(Messages.FleissnerWindow_0);
@@ -701,7 +805,7 @@ public class FleissnerWindow extends Composite {
 				}
 			}
 		});
-		exampleTextRadioButton.setSelection(false);
+		exampleTextRadioButton.setSelection(true);
 
 		exampleTextCombo = new Combo(textSelectionGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
 		exampleTextCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
@@ -739,7 +843,7 @@ public class FleissnerWindow extends Composite {
 
 		writeTextRadioButton = new Button(textSelectionGroup, SWT.RADIO);
 		writeTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 4, 1));
-		writeTextRadioButton.setSelection(true);
+		writeTextRadioButton.setSelection(false);
 		onOwnTextSelectionChanged = new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -912,6 +1016,10 @@ public class FleissnerWindow extends Composite {
 		setLoadtextStrings();
 		moveCiphertextToTop();
 		
+		lblKCHData.exclude = true;
+		lblKeyClickHint.setVisible(false);
+		lblKeyClickHint.requestLayout();
+		
 //      key settings
 		canvasKey.setEnabled(false);
 		randomKey.setEnabled(false);
@@ -939,19 +1047,23 @@ public class FleissnerWindow extends Composite {
 		if (keySize.getSelection() < 5) {
 			restarts_Label.setEnabled(false);
 			restarts_Spinner.setEnabled(false);
+			restartsHint.setEnabled(true);
 		} else {
 			restarts_Label.setEnabled(true);
 			restarts_Spinner.setEnabled(true);
+			restartsHint.setEnabled(true);
 		}
 
 		alphabetLabel.setEnabled(true);
 		statisticsCombo.setEnabled(true);
 
 		// output settings
-		consoleText.setText(Messages.FleissnerWindow_output_progress + consoleOutputFromJob);
+		consoleText.setText(Messages.FleissnerWindow_output_progress);
+//		consoleText.setText(Messages.FleissnerWindow_output_progress + consoleOutputFromJob);
 		// Activate/Deactivate the Start Button
 		checkOkButton();
 
+		mainComposite.layout();
 	}
 
 	/**
@@ -961,6 +1073,10 @@ public class FleissnerWindow extends Composite {
 
 		setLoadtextStrings();
 		movePlaintextToTop();
+
+		lblKCHData.exclude = false;
+		lblKeyClickHint.setVisible(true);
+		lblKeyClickHint.requestLayout();
 
 //      key settings
 		canvasKey.setEnabled(true);
@@ -993,6 +1109,7 @@ public class FleissnerWindow extends Composite {
 //		analysis settings
 		restarts_Label.setEnabled(false);
 		restarts_Spinner.setEnabled(false);
+		restartsHint.setEnabled(false);
 
 		alphabetLabel.setEnabled(false);
 		statisticsCombo.setEnabled(false);
@@ -1005,6 +1122,7 @@ public class FleissnerWindow extends Composite {
 
 		// Activate/Deactivate the Start Button
 		checkOkButton();
+		mainComposite.layout();
 	}
 
 	/**
@@ -1014,6 +1132,10 @@ public class FleissnerWindow extends Composite {
 
 		setLoadtextStrings();
 		moveCiphertextToTop();
+
+		lblKCHData.exclude = false;
+		lblKeyClickHint.setVisible(true);
+		lblKeyClickHint.requestLayout();
 		
 //      key settings
 		canvasKey.setEnabled(true);
@@ -1045,6 +1167,7 @@ public class FleissnerWindow extends Composite {
 //		analysis setttings
 		restarts_Label.setEnabled(false);
 		restarts_Spinner.setEnabled(false);
+		restartsHint.setEnabled(false);
 
 		alphabetLabel.setEnabled(false);
 		statisticsCombo.setEnabled(false);
@@ -1057,6 +1180,7 @@ public class FleissnerWindow extends Composite {
 
 		// Activate/Deactivate the Start Button
 		checkOkButton();
+		mainComposite.layout();
 	}
 
 	private void setTextEnabled(Text textfield, boolean b) {
@@ -1240,6 +1364,9 @@ public class FleissnerWindow extends Composite {
 
 	Button lastNoClickButton = null;
 	String lastNoClickButtonSavedState = ""; //$NON-NLS-1$
+	private Label restartsHint;
+	private Label lblKeyClickHint;
+	private GridData lblKCHData;
 	private void imposeNoClick() {
 		getShell().setCursor(getDisplay().getSystemCursor(SWT.CURSOR_WAIT));
 	}

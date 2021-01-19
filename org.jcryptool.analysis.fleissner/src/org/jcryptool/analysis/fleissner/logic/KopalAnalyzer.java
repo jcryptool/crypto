@@ -29,7 +29,7 @@ limitations under the License.
 public class KopalAnalyzer {
 
 	public static enum Rotation { Left, Right }
-	public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // TODO
+	public static final String defaultAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // TODO
 
 	static IProgressMonitor dummyMonitor = new IProgressMonitor() {
 		
@@ -102,14 +102,14 @@ public class KopalAnalyzer {
 		//ciphertext from 1870 (see https://scienceblogs.de/klausis-krypto-kolumne/2020/09/29/can-you-solve-this-turning-grille-cryptogram-from-1870/)
 		//the Grille was used with left rotation
 		var strciphertext = "NVRDIEMHNEATIRVOAEINFYIUBRNTTTEHSEUAFHSEREPEFDRFOORRMOSVTOHOEIDFNOTSHTUHRETRTEEEAMLEEUGGSTSRIELATARIEGTEAMRYOBSFOUCTTOHTEMTRPHCOLIIEXPSIHRTEIEYN";                                
-		var ciphertext = MapTextIntoNumberSpace(strciphertext, alphabet);
+		var ciphertext = MapTextIntoNumberSpace(strciphertext, defaultAlphabet);
 
 		//mtc3 challenge
 		//the Grille was used with right rotation
 		//var strciphertext = "STRWAEODGRIUNTNENERYSRTHOBUYEUINCSADALELBERULNTHSEATESDIELEMFAOE";
 		//var ciphertext = MapTextIntoNumberSpace(strciphertext, alphabet);
 
-		System.out.println("Ciphertext:" + MapNumbersIntoTextSpace(ciphertext, alphabet));
+		System.out.println("Ciphertext:" + MapNumbersIntoTextSpace(ciphertext, defaultAlphabet));
 
 		//hillclimb it            
 		NGramFrequencies grams = NgramStore.getInstance().getFrequenciesFor(new File("/home/snuc/Desktop/ngrams/convert/en-5gram-nocs.txt.gz"), 5);
@@ -381,7 +381,7 @@ public class KopalAnalyzer {
 
 		result.setStats(globalbestkeycost, globalbestkey);
 		result.setBestTextAsInt(globalbestplaintext);
-		result.setBestTextAsString(MapNumbersIntoTextSpace(globalbestplaintext, alphabet, globalbestplaintextlength));
+		result.setBestTextAsString(MapNumbersIntoTextSpace(globalbestplaintext, grams.alphabet, globalbestplaintextlength));
 		return result;
 	}
 
@@ -519,7 +519,7 @@ public class KopalAnalyzer {
 				globalbestplaintext = bestplaintext;
 				System.out.println("Found a better global key in restart: " + (totalrestarts - restarts));
 				System.out.println("-> Best global cost:" + globalbestkeycost);
-				System.out.println("-> Best global plaintext:" + MapNumbersIntoTextSpace(globalbestplaintext, alphabet, globalbestplaintextlength));
+				System.out.println("-> Best global plaintext:" + MapNumbersIntoTextSpace(globalbestplaintext, defaultAlphabet, globalbestplaintextlength));
 				System.out.println("-> Best global key:");
 				System.out.println(ConvertGrilleKeyToString(globalbestkey, grilleSize / 2));
 			}
@@ -527,7 +527,7 @@ public class KopalAnalyzer {
 			System.out.println("Restarts left: " + restarts);
 		} while (restarts > 0);
 		System.out.println("Hillcimbing terminated after " + totalrestarts + " restarts...");
-		System.out.println("Best plaintext: " + MapNumbersIntoTextSpace(globalbestplaintext, alphabet, globalbestplaintextlength));
+		System.out.println("Best plaintext: " + MapNumbersIntoTextSpace(globalbestplaintext, defaultAlphabet, globalbestplaintextlength));
 
 	}
 
@@ -605,7 +605,7 @@ public class KopalAnalyzer {
 						globalbestplaintext = bestplaintext;
 						System.out.println("Found a better global key in restart: " + (totalrestarts - restarts));
 						System.out.println("-> Best global cost:" + globalbestkeycost);
-						System.out.println("-> Best global plaintext:" + MapNumbersIntoTextSpace(globalbestplaintext, alphabet, globalbestplaintextlength));
+						System.out.println("-> Best global plaintext:" + MapNumbersIntoTextSpace(globalbestplaintext, defaultAlphabet, globalbestplaintextlength));
 						System.out.println("-> Best global key:");
 						System.out.println(ConvertGrilleKeyToString(globalbestkey, grilleSize / 2));
 					}
@@ -681,7 +681,7 @@ public class KopalAnalyzer {
 								bestkeycost = cost;
 								bestfoundkey = cloneIntMatrix(copykey);
 								bestplaintext = plaintext;
-								System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, alphabet));
+								System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, defaultAlphabet));
 								System.out.println("-> Best key:");
 								System.out.println(ConvertGrilleKeyToString(bestfoundkey, grilleSize / 2));
 								System.out.println("-> Best cost:" + bestkeycost);
@@ -725,7 +725,7 @@ public class KopalAnalyzer {
 									bestkeycost = cost;
 									bestfoundkey = cloneIntMatrix(copykey);
 									bestplaintext = plaintext;
-									System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, alphabet));
+									System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, defaultAlphabet));
 									System.out.println("-> Best key:");
 									System.out.println(ConvertGrilleKeyToString(bestfoundkey, grilleSize / 2));
 									System.out.println("-> Best cost:" + bestkeycost);
@@ -764,7 +764,7 @@ public class KopalAnalyzer {
 						bestkeycost = cost;
 						bestfoundkey = cloneIntMatrix(copykey);
 						bestplaintext = plaintext;
-						System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, alphabet));
+						System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, defaultAlphabet));
 						System.out.println("-> Best key:");
 						System.out.println(ConvertGrilleKeyToString(bestfoundkey, grilleSize / 2));
 						System.out.println("-> Best cost:" + bestkeycost);
@@ -944,7 +944,7 @@ public class KopalAnalyzer {
                         //A
                         if (A[i][j] == 0)
                         {
-                            ciphertext[j * grilleSize + i] = plaintext[position];
+                            encryptAt(j, i);
                             position++;
                         }
                     }
@@ -953,7 +953,7 @@ public class KopalAnalyzer {
                         //B
                         if (B[i - grilleSize / 2][j] == 1)
                         {
-                            ciphertext[j * grilleSize + i] = plaintext[position];
+                            encryptAt(j, i);
                             position++;
                         }
                     }
@@ -962,7 +962,7 @@ public class KopalAnalyzer {
                         //C
                         if (C[i - grilleSize / 2][j - grilleSize / 2] == 2)
                         {
-                            ciphertext[j * grilleSize + i] = plaintext[position];
+                            encryptAt(j, i);
                             position++;
                         }
                     }
@@ -971,7 +971,7 @@ public class KopalAnalyzer {
                         //D
                         if (D[i][j - grilleSize / 2] == 3)
                         {
-                            ciphertext[j * grilleSize + i] = plaintext[position];
+                            encryptAt(j, i);
                             position++;
                         }
                     }
@@ -995,7 +995,7 @@ public class KopalAnalyzer {
 						//D
 						if (D[i][j] == 3)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1004,7 +1004,7 @@ public class KopalAnalyzer {
 						//A
 						if (A[i - grilleSize / 2][j] == 0)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1013,7 +1013,7 @@ public class KopalAnalyzer {
 						//B
 						if (B[i - grilleSize / 2][j - grilleSize / 2] == 1)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1022,7 +1022,7 @@ public class KopalAnalyzer {
 						//C
 						if (C[i][j - grilleSize / 2] == 2)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1046,7 +1046,7 @@ public class KopalAnalyzer {
 						//C
 						if (C[i][j] == 2)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1055,7 +1055,7 @@ public class KopalAnalyzer {
 						//D
 						if (D[i - grilleSize / 2][j] == 3)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1064,7 +1064,7 @@ public class KopalAnalyzer {
 						//A
 						if (A[i - grilleSize / 2][j - grilleSize / 2] == 0)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1073,7 +1073,7 @@ public class KopalAnalyzer {
 						//B
 						if (B[i][j - grilleSize / 2] == 1)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1097,7 +1097,7 @@ public class KopalAnalyzer {
 						//B
 						if (B[i][j] == 1)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1106,7 +1106,7 @@ public class KopalAnalyzer {
 						//C
 						if (C[i - grilleSize / 2][j] == 2)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1115,7 +1115,7 @@ public class KopalAnalyzer {
 						//D
 						if (D[i - grilleSize / 2][j - grilleSize / 2] == 3)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
@@ -1124,11 +1124,25 @@ public class KopalAnalyzer {
 						//A
 						if (A[i][j - grilleSize / 2] == 0)
 						{
-							ciphertext[j * grilleSize + i] = plaintext[position];
+							encryptAt(j, i);
 							position++;
 						}
 					}
 				}
+			}
+		}
+
+		private void encryptAt(int j, int i) {
+			int ciphertextIdx = j * grilleSize + i;
+			int plaintextIdx = position;
+
+			int runningPlaintextIdx = plaintextIdx;
+			int runningCiphertextIdx = ciphertextIdx;
+			while(runningCiphertextIdx < ciphertext.length) {
+				ciphertext[runningCiphertextIdx] = plaintext[runningPlaintextIdx];
+				
+				runningCiphertextIdx += grilleSize*grilleSize;
+				runningPlaintextIdx += grilleSize*grilleSize;
 			}
 		}
 
@@ -1211,7 +1225,7 @@ public class KopalAnalyzer {
 						//A
 						if (A[i][j] == 0)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1220,7 +1234,7 @@ public class KopalAnalyzer {
 						//B
 						if (B[i - grilleSize / 2][j] == 1)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1229,7 +1243,7 @@ public class KopalAnalyzer {
 						//C
 						if (C[i - grilleSize / 2][j - grilleSize / 2] == 2)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1238,7 +1252,7 @@ public class KopalAnalyzer {
 						//D
 						if (D[i][j - grilleSize / 2] == 3)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1262,7 +1276,7 @@ public class KopalAnalyzer {
 						//D
 						if (D[i][j] == 3)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1271,7 +1285,7 @@ public class KopalAnalyzer {
 						//A
 						if (A[i - grilleSize / 2][j] == 0)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1280,7 +1294,7 @@ public class KopalAnalyzer {
 						//B
 						if (B[i - grilleSize / 2][j - grilleSize / 2] == 1)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1289,11 +1303,25 @@ public class KopalAnalyzer {
 						//C
 						if (C[i][j - grilleSize / 2] == 2)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
 				}
+			}
+		}
+		private void decryptAt(int j, int i) {
+			int ciphertextIdx = j * grilleSize + i;
+			int plaintextIdx = position;
+
+			int runningPlaintextIdx = plaintextIdx;
+			int runningCiphertextIdx = ciphertextIdx;
+			while(runningCiphertextIdx < ciphertext.length) {
+				plaintext[runningPlaintextIdx] = ciphertext[runningCiphertextIdx];
+//				plaintext[position] = ciphertext[j * grilleSize + i]
+				
+				runningCiphertextIdx += grilleSize*grilleSize;
+				runningPlaintextIdx += grilleSize*grilleSize;
 			}
 		}
 
@@ -1313,7 +1341,7 @@ public class KopalAnalyzer {
 						//C
 						if (C[i][j] == 2)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1322,7 +1350,7 @@ public class KopalAnalyzer {
 						//D
 						if (D[i - grilleSize / 2][j] == 3)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1331,7 +1359,7 @@ public class KopalAnalyzer {
 						//A
 						if (A[i - grilleSize / 2][j - grilleSize / 2] == 0)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1340,7 +1368,7 @@ public class KopalAnalyzer {
 						//B
 						if (B[i][j - grilleSize / 2] == 1)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1364,7 +1392,7 @@ public class KopalAnalyzer {
 						//B
 						if (B[i][j] == 1)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1373,7 +1401,7 @@ public class KopalAnalyzer {
 						//C
 						if (C[i - grilleSize / 2][j] == 2)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1382,7 +1410,7 @@ public class KopalAnalyzer {
 						//D
 						if (D[i - grilleSize / 2][j - grilleSize / 2] == 3)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}
@@ -1391,7 +1419,7 @@ public class KopalAnalyzer {
 						//A
 						if (A[i][j - grilleSize / 2] == 0)
 						{
-							plaintext[position] = ciphertext[j * grilleSize + i];
+							decryptAt(j, i);
 							position++;
 						}
 					}

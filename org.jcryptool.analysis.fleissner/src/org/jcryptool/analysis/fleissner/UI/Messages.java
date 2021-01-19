@@ -114,6 +114,7 @@ public class Messages extends NLS {
 	public static String FleissnerWindow_X3;
 	public static String FleissnerWindow_X4;
 	public static String FleissnerWindow_X5;
+	public static String FleissnerWindow_X6;
 	public static String FleissnerWindow_Z1;
 	public static String FleissnerWindow_Z2;
 	public static String FleissnerWindow_Z3;

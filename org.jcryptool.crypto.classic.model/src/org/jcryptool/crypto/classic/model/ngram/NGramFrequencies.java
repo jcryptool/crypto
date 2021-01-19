@@ -45,7 +45,7 @@ public class NGramFrequencies {
  			throw new NgramException(String.format("queried ngram frequency for %s on stats with different n = %s", ngram, n));
 		}
  		int index = NgramStatisticLogic.getIndexFor(ngram, alphabet);
- 		NgramException.check(index < this.frequencies.length && index >= 0, String.format("N-gram %s is not in the alphabet %s", ngram, alphabet));
+ 		NgramException.check(index < this.frequencies.length && index >= 0, String.format("N-gram %s is not in the alphabet %s", NgramStatisticLogic.generateNGramAt(alphabet, n, index), alphabet));
  		return this.frequencies[index];
 	}
 	

@@ -8,12 +8,16 @@ import org.jcryptool.crypto.classic.model.ClassicCryptoModelPlugin;
 
 public class NgramStore {
 
+	public static NgramStoreEntry de_2_nospace;
+	public static NgramStoreEntry en_2_nospace;
 	public static NgramStoreEntry de_3_nospace;
 	public static NgramStoreEntry en_3_nospace;
 	public static NgramStoreEntry de_4_nospace;
 	public static NgramStoreEntry en_4_nospace;
 	public static NgramStoreEntry de_5_nospace;
 	public static NgramStoreEntry en_5_nospace;
+	public static NgramStoreEntry de_2_space;
+	public static NgramStoreEntry en_2_space;
 	public static NgramStoreEntry de_3_space;
 	public static NgramStoreEntry en_3_space;
 	public static NgramStoreEntry de_4_space;
@@ -22,6 +26,8 @@ public class NgramStore {
 	public static NgramStoreEntry en_5_space;
 
 	static { // these won't work if we do not have the corresponding files in ./ngrams/ -- currently, many are not yet exported from CT2
+		NgramStore.de_2_nospace = new NgramStoreEntry(2, "de", false);
+		NgramStore.en_2_nospace = new NgramStoreEntry(2, "en", false);
 		NgramStore.de_3_nospace = new NgramStoreEntry(3, "de", false);
 		NgramStore.en_3_nospace = new NgramStoreEntry(3, "en", false);
 		NgramStore.de_4_nospace = new NgramStoreEntry(4, "de", false);
