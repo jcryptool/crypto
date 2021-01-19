@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.zip.GZIPInputStream;
 
+import org.jcryptool.core.logging.utils.LogUtil;
+
 public class NGramFrequencies {
 	
 	public final double[] frequencies;
@@ -52,8 +54,11 @@ public class NGramFrequencies {
 	public static NGramFrequencies parseGzipStream(InputStream is, int n) {
 		try {
 			GZIPInputStream unzipped = new GZIPInputStream(is);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(unzipped));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(unzipped, "UTF-8"));
 			String alphabet = reader.readLine();
+			for (char x : alphabet.toCharArray()) {
+				LogUtil.logError("Char: " + x);
+			}
 			double[] stats = NgramStatisticLogic.readTxtNgramFrequencies(reader, n, alphabet.length());
 			return new NGramFrequencies(stats, alphabet, n);
 		} catch (IOException e) {

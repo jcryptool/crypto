@@ -26,13 +26,19 @@ public class NgramStatisticLogic {
     // expects exactly m^n lines of floating-point representations of log-normalized frequencies
     public static double[] readTxtNgramFrequencies(BufferedReader reader, int n, int m) throws IOException {
     	String line;
-    	double[] result = new double[pow(m, n)];
+    	LogUtil.logError("m: " + m + "; n: "+ n);
+    	int p = pow(m, n);
+    	LogUtil.logError("p: " + p);
+    	double[] result = new double[p];
+    	LogUtil.logError("result.length" + result.length);
     	int idx = 0;
     	while ((line = reader.readLine()) != null) {
     		result[idx] = Double.parseDouble(line.trim());
     		idx++;
+    		if (idx % 1000000 == 0)
+    			LogUtil.logError("Index: " + idx);
 		}
-    	NgramException.check(idx == result.length, "ngram statistics file is incomplete");
+    	NgramException.check(idx == result.length, "ngram statistics file is incomplete; idx: " + idx + "; result.length " + result.length);
     	checkDataConsistency(result.length, n, m);
     	return result;
     }
