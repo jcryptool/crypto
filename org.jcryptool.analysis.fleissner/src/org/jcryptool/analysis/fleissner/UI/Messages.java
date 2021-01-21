@@ -15,6 +15,7 @@ public class Messages extends NLS {
     private static final String BUNDLE_NAME = "org.jcryptool.analysis.fleissner.UI.messages"; //$NON-NLS-1$
     public static String FleissnerWindow_0;
 	public static String FleissnerWindow_1;
+	public static String FleissnerWindow_24;
 	public static String FleissnerWindow_26;
 	public static String FleissnerWindow_4;
 	public static String FleissnerWindow_5;
@@ -118,6 +119,12 @@ public class Messages extends NLS {
 	public static String FleissnerWindow_Z1;
 	public static String FleissnerWindow_Z2;
 	public static String FleissnerWindow_Z3;
+	public static String FleissnerWindow_ZZ1;
+	public static String FleissnerWindow_ZZ2;
+	public static String FleissnerWindow_ZZ3;
+	public static String FleissnerWindow_ZZ4;
+	public static String FleissnerWindow_ZZ5;
+	public static String FleissnerWindow_ZZ6;
     public static String OutputDialog_save;
     public static String OutputDialog_detailOutput;
     public static String LoadFiles_empty;
@@ -125,6 +132,13 @@ public class Messages extends NLS {
     public static String LoadFiles_Error_StatisticMismatch;
     public static String InvalidCharsWarningPlaintext;
     public static String InvalidCharsWarningCiphertext;
+	public static String KeyPasteDialog_0;
+	public static String KeyPasteDialog_1;
+	public static String KeyPasteDialog_10;
+	public static String KeyPasteDialog_2;
+	public static String KeyPasteDialog_5;
+	public static String KeyPasteDialog_8;
+	public static String KeyPasteDialog_9;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

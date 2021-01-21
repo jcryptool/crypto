@@ -10,6 +10,7 @@
 package org.jcryptool.analysis.fleissner.logic;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class FleissnerGrille {
 	 
@@ -225,6 +226,24 @@ public class FleissnerGrille {
 		}
 		while (pitch>=0);
 		return this.possibleTemplates;
+	}
+
+	public int[] saveTemplate() {
+		int templateLength = this.grilleFilled.length;
+		LinkedList<Integer> coordinates = new LinkedList<Integer>();
+		for (int y=0;y<templateLength;y++) {
+			for (int x=0;x<templateLength;x++) {
+				if (this.isFilled(x, y)) {
+					coordinates.add(x);
+					coordinates.add(y);
+				}
+			}
+		}
+		int[] result = new int[coordinates.size()];
+		for (int i = 0; i < coordinates.size(); i++) {
+			result[i] = coordinates.get(i);
+		}
+		return result;
 	}
 	
 	/**

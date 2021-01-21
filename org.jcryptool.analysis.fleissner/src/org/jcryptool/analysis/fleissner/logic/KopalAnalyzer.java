@@ -88,8 +88,8 @@ public class KopalAnalyzer {
 		var grilleSize = 12;
 		var key = GenerateRandomKey(grilleSize);
 
-		System.out.println("Grille definition:");
-		System.out.println(ConvertGrilleKeyToString(key, grilleSize / 2));
+//		System.out.println("grille definition:");
+//		System.out.println(ConvertGrilleKeyToString(key, grilleSize / 2));
 
 		//some text plaintexts
 		//var strplaintext = "THISISATESTOFMYTURNINGGRILLEHILLCLIMBERANDITWORKSVERYWELLTOSOLVE";
@@ -109,21 +109,35 @@ public class KopalAnalyzer {
 		//var strciphertext = "STRWAEODGRIUNTNENERYSRTHOBUYEUINCSADALELBERULNTHSEATESDIELEMFAOE";
 		//var ciphertext = MapTextIntoNumberSpace(strciphertext, alphabet);
 
-		System.out.println("Ciphertext:" + MapNumbersIntoTextSpace(ciphertext, defaultAlphabet));
+//		System.out.println("Ciphertext:" + MapNumbersIntoTextSpace(ciphertext, defaultAlphabet));
 
 		//hillclimb it            
 		NGramFrequencies grams = NgramStore.getInstance().getFrequenciesFor(new File("/home/snuc/Desktop/ngrams/convert/en-5gram-nocs.txt.gz"), 5);
-		HillclimbGrilleResult result = HillclimbGrilleWithMonitor(dummyMonitor, ciphertext, grilleSize, 50, Rotation.Right, grams);
-		for(int i=0; i<grilleSize/2; i++) {
-			for (int k=0; k<grilleSize/2; k++) {
-				int el = result.bestkey[i][k];
-				System.out.println(String.format("[%s,%s]=%s", i, k, el));
-			}
+		HillclimbGrilleResult result = HillclimbGrilleWithMonitor(dummyMonitor, ciphertext, grilleSize, 10, Rotation.Right, grams);
+		System.out.println(ConvertGrilleKeyToString(result.bestkey, 6));
+		
+		
+		FleissnerGrille tG = tecleFormatFromKey(result.bestkey);
+		int[] intarray = tG.saveTemplate();
+		for (int i = 0; i < intarray.length; i+=2) {
+			System.out.println(String.format("(%s,%s)", intarray[i], intarray[i+1]));
 		}
-		System.out.println(ConvertGrilleKeyToString(result.bestkey, grilleSize/2));
-		System.out.println(result.bestplaintext);
-		System.out.println(Arr2Text(result.asGrilleKey().toFullMatrix()));
-		System.out.println(Arr2Text(result.asGrilleKey().toTecleFormat()));
+		
+		boolean[][] tBA = result.asGrilleKey().toFullMatrix();
+		System.out.println(Arr2Text(tBA));
+		int[][] loopback = keyFromTecleFormat(tBA);
+		System.out.println(ConvertGrilleKeyToString(loopback, 6));
+		
+//		for(int i=0; i<grilleSize/2; i++) {
+//			for (int k=0; k<grilleSize/2; k++) {
+//				int el = result.bestkey[i][k];
+//				System.out.println(String.format("[%s,%s]=%s", i, k, el));
+//			}
+//		}
+//		System.out.println(ConvertGrilleKeyToString(result.bestkey, grilleSize/2));
+//		System.out.println(result.bestplaintext);
+//		System.out.println(Arr2Text(result.asGrilleKey().toFullMatrix()));
+//		System.out.println(Arr2Text(result.asGrilleKey().toTecleFormat()));
 //		HillclimbGrilleRandomly(ciphertext, grilleSize, 100, grams);
 //		SAGrille(ciphertext, grilleSize, 0.1, grams);
 	}
@@ -133,9 +147,11 @@ public class KopalAnalyzer {
 
 		for(int i=0; i<arr.length; i++) {
 			for (int k=0; k<arr.length; k++) {
-				boolean el = arr[i][k];
-				builder.append(String.format("[%s,%s]=%s\n", i, k, el));
+				boolean el = arr[k][i];
+				builder.append(String.format(el ? "o " : "  "));
+//				builder.append(String.format("[%s,%s]=%s\n", i, k, el));
 			}
+			builder.append("\n");
 		}
 		return builder.toString();
 	}
@@ -378,6 +394,29 @@ public class KopalAnalyzer {
 			restarts--;
 			monitor.worked(1);
 		} while (restarts > 0);
+		
+		
+		List<int[][]> rotatedKeys = new LinkedList<>();
+		List<int[]> rotatedPlaintexts = new LinkedList<>();
+		double bestCost = Double.NEGATIVE_INFINITY;
+		int bestRotIdx = -1;
+		for (int i = 0; i < 4; i++) {
+			int[][] rotatedBestKey = cloneIntMatrix(globalbestkey);
+			for (int rotNr = 0; rotNr < i; rotNr++) {
+				rotatedBestKey = RotateMatrix(rotatedBestKey, grilleSize/2);
+			}
+			int[] decrypted = new GrilleDecrypt(ciphertext, rotatedBestKey, grilleSize, rotation).Decrypt();
+			double cost = calculateCost(grams, decrypted);
+			rotatedKeys.add(rotatedBestKey);
+			rotatedPlaintexts.add(decrypted);
+			if (cost > bestCost) {
+				bestRotIdx = i;
+				bestCost = cost;
+			}
+		}
+		globalbestplaintext = rotatedPlaintexts.get(bestRotIdx);
+		globalbestkey = rotatedKeys.get(bestRotIdx);
+		globalbestkeycost = bestCost;
 
 		result.setStats(globalbestkeycost, globalbestkey);
 		result.setBestTextAsInt(globalbestplaintext);
@@ -782,6 +821,134 @@ public class KopalAnalyzer {
 		//System.out.println("SA terminated ...");
 	}
 
+	
+	private static boolean[][] rotateBoolarr(boolean[][] arr, int times) {
+		int[][] matrix = new int[arr.length][arr.length];
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
+				matrix[i][j] = arr[i][j] ? 1 : 0;
+			}
+		}
+		for (int rotNr = 0; rotNr < times; rotNr++) {
+			matrix = RotateMatrix(matrix, matrix.length);
+		}
+		boolean[][] result = new boolean[matrix.length][matrix.length];
+		for (int i = 0; i < result.length; i++) {
+			for (int j = 0; j < result.length; j++) {
+				result[i][j] = matrix[i][j] == 1;
+			}
+		}
+		return result;
+	}
+	private static boolean[][] subBoolArr(boolean[][] full, int xOffset, int yOffset, int size) {
+		boolean[][] result = new boolean[size][size];
+		for (int i = 0; i < result.length; i++) {
+			for (int j = 0; j < result.length; j++) {
+				result[i][j] = full[xOffset+i][yOffset+j];
+			}
+		}
+		return result;
+	}
+
+	public static int[][] keyFromTecleFormat(FleissnerGrille grille) {
+		return keyFromTecleFormat(grille.getGrilleFilled());
+	}
+	public static int[][] keyFromTecleFormat(int[] tecleForm) {
+		int size = ((int) Math.floor(Math.sqrt(tecleForm.length/2)))*2;
+		FleissnerGrille grille = new FleissnerGrille(size);
+		grille.useTemplate(tecleForm, size);
+		return keyFromTecleFormat(grille.getGrilleFilled());
+	}
+	public static FleissnerGrille tecleFormatFromKey(int[][] key) {
+		GrilleKey grille = new GrilleKey(key, key.length*2, Rotation.Right);
+		return grille.toTecleKey();
+	}
+	
+	public static int[][] keyFromTecleFormat(boolean[][] boolform) {
+		int size = boolform.length;
+		int half = size/2;
+
+		int[][] kopalform = new int[half][half];
+
+		int xOffset;
+		int yOffset;
+		int quarterIdx;
+		boolean[][] boolquarter;
+		int counterRotationTimes;
+
+
+		xOffset = 0;
+		yOffset = 0;
+		quarterIdx = 0;
+		boolquarter = subBoolArr(boolform, xOffset, yOffset, half);
+		counterRotationTimes = 0; // no rot
+		boolquarter = rotateBoolarr(boolquarter, counterRotationTimes);
+//		System.out.println();
+//		System.out.println(Arr2Text(boolquarter));
+
+		for (int i = 0; i < half; i++) {
+			for (int j = 0; j < half; j++) {
+					if (boolquarter[i][j]) {
+						kopalform[i][j] = quarterIdx;
+					}
+			}
+		}
+
+		xOffset = half;
+		yOffset = 0;
+		quarterIdx = 1;
+		boolquarter = subBoolArr(boolform, xOffset, yOffset, half);
+		counterRotationTimes = 3;
+		boolquarter = rotateBoolarr(boolquarter, counterRotationTimes);
+//		System.out.println();
+//		System.out.println(Arr2Text(boolquarter));
+
+		for (int i = 0; i < half; i++) {
+			for (int j = 0; j < half; j++) {
+					if (boolquarter[i][j]) {
+						kopalform[i][j] = quarterIdx;
+					}
+			}
+		}
+
+		xOffset = half;
+		yOffset = half;
+		quarterIdx = 2;
+		boolquarter = subBoolArr(boolform, xOffset, yOffset, half);
+		counterRotationTimes = 2;
+		boolquarter = rotateBoolarr(boolquarter, counterRotationTimes);
+//		System.out.println();
+//		System.out.println(Arr2Text(boolquarter));
+
+		for (int i = 0; i < half; i++) {
+			for (int j = 0; j < half; j++) {
+					if (boolquarter[i][j]) {
+						kopalform[i][j] = quarterIdx;
+					}
+			}
+		}
+
+		xOffset = 0;
+		yOffset = half;
+		quarterIdx = 3;
+		boolquarter = subBoolArr(boolform, xOffset, yOffset, half);
+		counterRotationTimes = 1;
+		boolquarter = rotateBoolarr(boolquarter, counterRotationTimes);
+//		System.out.println();
+//		System.out.println(Arr2Text(boolquarter));
+
+		for (int i = 0; i < half; i++) {
+			for (int j = 0; j < half; j++) {
+					if (boolquarter[i][j]) {
+						kopalform[i][j] = quarterIdx;
+					}
+			}
+		}
+		
+		return kopalform;
+
+	}
+
 	/// <summary>
 	/// Method encrypts a given text using the given key
 	/// </summary>
@@ -894,6 +1061,13 @@ public class KopalAnalyzer {
 				result[i] = integer;
 			}
 			return result;
+		}
+		
+		public FleissnerGrille toTecleKey() {
+			FleissnerGrille grille = new FleissnerGrille(this.grilleSize);
+			grille.clearGrille();
+			grille.useTemplate(this.toTecleIntArray(), this.grilleSize);
+			return grille;
 		}
 
 		public List<Point> positions() {
@@ -1139,7 +1313,12 @@ public class KopalAnalyzer {
 			int runningPlaintextIdx = plaintextIdx;
 			int runningCiphertextIdx = ciphertextIdx;
 			while(runningCiphertextIdx < ciphertext.length) {
-				ciphertext[runningCiphertextIdx] = plaintext[runningPlaintextIdx];
+				if (runningPlaintextIdx >= plaintext.length) {
+					ciphertext[runningCiphertextIdx] = 0;
+					throw new RuntimeException("could not encrypt, plaintext is not of length of the square of grille size");
+				} else {
+					ciphertext[runningCiphertextIdx] = plaintext[runningPlaintextIdx];
+				}
 				
 				runningCiphertextIdx += grilleSize*grilleSize;
 				runningPlaintextIdx += grilleSize*grilleSize;
@@ -1317,7 +1496,11 @@ public class KopalAnalyzer {
 			int runningPlaintextIdx = plaintextIdx;
 			int runningCiphertextIdx = ciphertextIdx;
 			while(runningCiphertextIdx < ciphertext.length) {
-				plaintext[runningPlaintextIdx] = ciphertext[runningCiphertextIdx];
+				if (runningCiphertextIdx >= ciphertext.length) {
+					throw new RuntimeException("could not decrypt, ciphertext is not of length of the square of grille size");
+				} else {
+					plaintext[runningPlaintextIdx] = ciphertext[runningCiphertextIdx];
+				}
 //				plaintext[position] = ciphertext[j * grilleSize + i]
 				
 				runningCiphertextIdx += grilleSize*grilleSize;

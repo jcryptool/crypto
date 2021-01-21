@@ -56,9 +56,6 @@ public class NGramFrequencies {
 			GZIPInputStream unzipped = new GZIPInputStream(is);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(unzipped, "UTF-8"));
 			String alphabet = reader.readLine();
-			for (char x : alphabet.toCharArray()) {
-				LogUtil.logError("Char: " + x);
-			}
 			double[] stats = NgramStatisticLogic.readTxtNgramFrequencies(reader, n, alphabet.length());
 			return new NGramFrequencies(stats, alphabet, n);
 		} catch (IOException e) {

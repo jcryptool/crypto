@@ -14,12 +14,18 @@ import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.jcryptool.analysis.fleissner.Activator;
+import org.jcryptool.analysis.fleissner.logic.KopalAnalyzer.GrilleDecrypt;
+import org.jcryptool.analysis.fleissner.logic.KopalAnalyzer.GrilleEncrypt;
 import org.jcryptool.analysis.fleissner.logic.KopalAnalyzer.HillclimbGrilleResult;
+import org.jcryptool.analysis.fleissner.logic.KopalAnalyzer.Rotation;
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.crypto.classic.model.ngram.NGramFrequencies;
 
@@ -54,6 +60,8 @@ public class MethodApplication {
 
 	private String fwAnalysisOutput;
 	private HillclimbGrilleResult hillclimberResult;
+	private Rotation rotation;
+	private String encryptDecryptAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß";
 
 	/**
 	 * applies parameter settings from ParameterSettings and sets and executes
@@ -63,10 +71,12 @@ public class MethodApplication {
 	 * @param analysisOutput the text field in FleissnerWindow where analysis
 	 *                       progress is displayed
 	 * @param statistics2
+	 * @param rotation 
 	 * @throws FileNotFoundException
 	 */
-	public MethodApplication(ParameterSettings ps, NGramFrequencies statistics2) throws FileNotFoundException {
+	public MethodApplication(ParameterSettings ps, NGramFrequencies statistics2, Rotation rotation) throws FileNotFoundException {
 
+		this.rotation = rotation;
 		this.fwAnalysisOutput = new String(""); //$NON-NLS-1$
 		this.method = ps.getMethod();
 		this.textInLine = ps.getTextInLine();
@@ -198,174 +208,15 @@ public class MethodApplication {
 		var alphabet = statistics.alphabet;
 		var ciphertext = KopalAnalyzer.MapTextIntoNumberSpace(strciphertext, alphabet);
 		NGramFrequencies grams = statistics;
-		return KopalAnalyzer.HillclimbGrilleWithMonitor(monitor, ciphertext, grilleSize, restart.intValue(), KopalAnalyzer.Rotation.Right, grams);
+		return KopalAnalyzer.HillclimbGrilleWithMonitor(monitor, ciphertext, grilleSize, restart.intValue(), this.rotation, grams);
 	}
 	
-	/**
-	 * hillClimbing method is the analysis method for grilles of size 5 and higher.
-	 * It creates random grilles in respective size and makes step by step changes
-	 * to improve text value. If local maximum is reached a new random grille will
-	 * be created. This process goes on until the number of 'restarts' is reached
-	 * and the grille that created the best valued text will be chosen as the right
-	 * one.
-	 */
-	public void hillClimbing_old() {
-
-		tries = restart;
-		sub = BigInteger.valueOf(1);
-
-		do {
-//          clears grilles in FleissnerGrille from potential earlier encryptions before building a random new one
-			fg.clearGrille();
-//          start with highest possible value so process will minimize value from the beginning
-			oldValue = Double.MAX_VALUE;
-			double min;
-			int minX = 0, minY = 0, minMove = 0;
-//          create random grille
-			for (int i = 0; i < holes; i++) {
-				do {
-					x = ThreadLocalRandom.current().nextInt(0, templateLength);
-					y = ThreadLocalRandom.current().nextInt(0, templateLength);
-				} while (!fg.isPossible(x, y));
-
-				fg.setState(x, y, true);
-			}
-			fwAnalysisOutput += Messages.MethodApplication_output_restart + sub;
-			LogUtil.logInfo(Activator.PLUGIN_ID, Messages.MethodApplication_output_restart + sub);
-			decryptedText = fg.decryptText(ct.getText());
-			min = tv.evaluate(decryptedText);
-			fwAnalysisOutput += Messages.MethodApplication_output_decrypted2 + decryptedText
-					+ Messages.MethodApplication_output_value + myRound(min/* , 2 */);
-			LogUtil.logInfo(Activator.PLUGIN_ID, Messages.MethodApplication_info_decrypted2 + decryptedText
-					+ Messages.MethodApplication_info_value + myRound(min/* , 2 */));
-
-			do {
-				iAll++;
-				// calculate the best possible solution if only changing one of the cells
-				for (x = 0; x < templateLength; x++) {
-					for (y = 0; y < templateLength; y++) {
-						if (fg.isFilled(x, y)) {
-							for (move = 1; move <= 3; move++) {
-//                              try other 3 positions of every hole in grille
-								fg.change(x, y, move);
-								decryptedText = fg.decryptText(ct.getText());
-								value = tv.evaluate(decryptedText);
-								fg.undoChange(x, y, move);
-
-								if (value < min) {
-									min = value;
-									minX = x;
-									minY = y;
-									minMove = move;
-								}
-							}
-						}
-					}
-				}
-
-				if (min < oldValue) {
-					// we found a better solution by changing one of the cells
-					// go on with this new solution
-					fg.change(minX, minY, minMove);
-					oldValue = min;
-					decryptedText = fg.decryptText(ct.getText());
-					improvement++;
-					if (oldValue < alltimeLow) {
-						alltimeLow = oldValue;
-						grilleNumber = iAll;
-						bestDecryptedText = fg.decryptText(ct.getText());
-						bestTemplate = fg.saveTemplate(holes);
-						lastImprovement = String.valueOf(sub);
-						changes++;
-						fwAnalysisOutput += Messages.MethodApplication_output_bestGrilleYet + changes + " " //$NON-NLS-1$
-								+ countChanges() + Messages.MethodApplication_output_costFunctionValue
-								+ myRound(alltimeLow) + "\n" + fg //$NON-NLS-1$
-								+ "\n" + fg.templateToString(holes); // $NON-NLS-2$ //$NON-NLS-1$
-																									// //$NON-NLS-4$
-																									// //$NON-NLS-5$
-						LogUtil.logInfo(Activator.PLUGIN_ID,
-								Messages.MethodApplication_info_bestGrilleYet + changes + " " + countChanges() //$NON-NLS-1$
-										+ Messages.MethodApplication_output_costFunctionValue + myRound(alltimeLow)
-										+ "\n" + fg + "\n" //$NON-NLS-1$ //$NON-NLS-2$
-										+ fg.templateToString(holes)); // $NON-NLS-2$ //$NON-NLS-4$
-					}
-					fwAnalysisOutput += Messages.MethodApplication_output_try + iAll
-							+ Messages.MethodApplication_output_changes + changes + " (" //$NON-NLS-1$
-							+ Messages.MethodApplication_output_lastChange + grilleNumber
-							+ Messages.MethodApplication_output_inRestart + lastImprovement + ")" //$NON-NLS-1$
-							+ Messages.MethodApplication_output_acurateness2 + myRound(min) + " (" //$NON-NLS-1$
-							+ Messages.MethodApplication_output_best + myRound(oldValue)
-							+ Messages.MethodApplication_output_alltime + myRound(alltimeLow) + ")" //$NON-NLS-1$
-							+ Messages.MethodApplication_M3; // $NON-NLS-8$
-					fwAnalysisOutput += "\n==> " + decryptedText + Messages.MethodApplication_output_grille + fg //$NON-NLS-1$
-							+ "\n" + fg.templateToString(holes); //$NON-NLS-3$ //$NON-NLS-1$
-					LogUtil.logInfo(Activator.PLUGIN_ID,
-							Messages.MethodApplication_output_try2 + iAll + Messages.MethodApplication_output_changes
-									+ changes + " (" + Messages.MethodApplication_output_lastChange + grilleNumber //$NON-NLS-1$
-									+ Messages.MethodApplication_output_inRestart + lastImprovement
-									+ Messages.MethodApplication_output_acurateness2 + myRound(min) + " (" //$NON-NLS-1$
-									+ Messages.MethodApplication_output_best + myRound(oldValue)
-									+ Messages.MethodApplication_output_alltime + myRound(alltimeLow) + ")"); // $NON-NLS-8$ //$NON-NLS-1$
-					LogUtil.logInfo(Activator.PLUGIN_ID, "==> " + decryptedText + Messages.MethodApplication_info_grille //$NON-NLS-1$
-							+ fg + "\n" + fg.templateToString(holes)); //$NON-NLS-1$
-				}
-			} while (Math.abs(iAll - improvement) < 1);
-			tries = restart.subtract(sub);
-			sub = sub.add(BigInteger.valueOf(1));
-			improvement = 0;
-			iAll = 0;
-
-			String lastLine = fwAnalysisOutput.substring(fwAnalysisOutput.lastIndexOf("\n")); //$NON-NLS-1$
-			analysisOut.add(fwAnalysisOutput);
-			this.fwAnalysisOutput = new String(""); //$NON-NLS-1$
-			String visualDivide = "\n"; //$NON-NLS-1$
-			for (int i = 0; i < lastLine.length() * 2; i++)
-				visualDivide += "-"; //$NON-NLS-1$
-			LogUtil.logInfo(Activator.PLUGIN_ID, visualDivide + "\n"); // $NON-NLS-1$ //$NON-NLS-1$
-
-//          start next restart
-
-		} while (tries.compareTo(BigInteger.valueOf(0)) == 1);
-
-		fg.useTemplate(bestTemplate, templateLength);
-//        int rotMove = 0;
-//      checks all 4 rotation positions of the found grille for improvement
-		this.fwAnalysisOutput += Messages.MethodApplication_output_rotations;
-		for (move = 1; move <= 4; move++) {
-			String rotation;
-			if (move != 4)
-				rotation = Messages.MethodApplication_output_rotationPos + move;
-			else
-				rotation = Messages.MethodApplication_output_originalPos;
-			fg.rotate();
-			decryptedText = fg.decryptText(ct.getText());
-			value = tv.evaluate(decryptedText);
-			this.fwAnalysisOutput += rotation + ":\n" + fg + "\n\n" + fg.templateToString(holes) + Messages.MethodApplication_M4 //$NON-NLS-1$ //$NON-NLS-2$
-					+ myRound(value) + Messages.MethodApplication_M5 + decryptedText + "\n\n"; //$NON-NLS-2$
-			analysisOut.add(fwAnalysisOutput);
-			this.fwAnalysisOutput = new String(""); //$NON-NLS-1$
-
-			if (value < alltimeLow) {
-				alltimeLow = value;
-				rotMove = move;
-				improvement++;
-			}
-		}
-		if (improvement != 0) {
-
-			for (int moves = 1; moves <= rotMove; moves++) {
-				fg.rotate();
-			}
-			bestTemplate = fg.saveTemplate(holes);
-		}
-	}
 
 	/**
 	 * encrypts given plaintext with given key directly through load method of class
 	 * CryptedText
 	 */
-	public void encrypt() {
-
+	public void encrypt_old() {
 		ct.load(textInLine, isPlaintext, templateLength, grille, fg);
 		encryptedText = ""; //$NON-NLS-1$
 		for (char[][] textPart : ct.getText()) {
@@ -379,10 +230,36 @@ public class MethodApplication {
 	}
 
 	/**
+	 * encrypts given plaintext with given key directly through load method of class
+	 * CryptedText
+	 */
+	public void encrypt() {
+		ct.load(textInLine, isPlaintext, templateLength, grille, fg);
+		fg.useTemplate(grille, templateLength);
+		int[][] key = KopalAnalyzer.keyFromTecleFormat(grille);
+		int[] input = KopalAnalyzer.MapTextIntoNumberSpace(textInLine, this.encryptDecryptAlphabet );
+		GrilleEncrypt encrypt = new KopalAnalyzer.GrilleEncrypt(input, key, key.length*2, rotation);
+		String result = KopalAnalyzer.MapNumbersIntoTextSpace(encrypt.Encrypt(), this.encryptDecryptAlphabet);
+		encryptedText = result;
+		LogUtil.logInfo(Activator.PLUGIN_ID, Messages.MethodApplication_info_encryptionSuccesfull);
+	}
+
+	/**
 	 * decrypts given crypted text with given key by decryption method of class
 	 * FleissnerGrille
 	 */
 	public void decrypt() {
+		ct.load(textInLine, isPlaintext, templateLength, grille, fg);
+		fg.useTemplate(grille, templateLength);
+		int[][] key = KopalAnalyzer.keyFromTecleFormat(grille);
+		int[] input = KopalAnalyzer.MapTextIntoNumberSpace(textInLine, this.encryptDecryptAlphabet );
+		GrilleDecrypt decrypt = new KopalAnalyzer.GrilleDecrypt(input, key, key.length*2, rotation);
+		String result = KopalAnalyzer.MapNumbersIntoTextSpace(decrypt.Decrypt(), this.encryptDecryptAlphabet);
+		decryptedText = result;
+
+		LogUtil.logInfo(Activator.PLUGIN_ID, Messages.MethodApplication_info_decryptionSuccesfull);
+	}
+	public void decrypt_old() {
 
 		ct.load(textInLine, isPlaintext, templateLength, grille, fg);
 		fg.useTemplate(grille, templateLength);
@@ -492,6 +369,29 @@ public class MethodApplication {
 		return analysisOut;
 	}
 
+	public static String templateToForm1(int[] templateTecle) {
+		if (templateTecle == null) {
+			return "";
+		}
+		String result = "";
+		for (int i = 0; i < templateTecle.length; i=i+2) {
+			result += "(" + templateTecle[i] + "," + templateTecle[i+1] + ") "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+		return result;
+	}
+	public static String templateToForm2(int[] templateTecle) {
+		if (templateTecle == null) {
+			return "";
+		}
+		int grillesize = (int) Math.floor(Math.sqrt((templateTecle.length / 2)*4));
+		List<Integer> holePositions = new LinkedList<>();
+		for (int i = 0; i < templateTecle.length; i=i+2) {
+			holePositions.add(templateTecle[i] + templateTecle[i+1]*grillesize + 1);
+		}
+		Collections.sort(holePositions);
+		return holePositions.stream().map(i -> i.toString()).collect(Collectors.joining(" "));
+	}
+	
 	@Override
 	public String toString() {
 
@@ -504,9 +404,7 @@ public class MethodApplication {
 			String time;
 //			bestDecryptedText = fg.decryptText(ct.getText());
 //			value = tv.evaluate(bestDecryptedText);
-			for (int i = 0; i < bestTemplate.length; i=i+2) {
-				bestTemplateCoordinates += "(" + bestTemplate[i] + "," + bestTemplate[i+1] + ") "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			}
+			bestTemplateCoordinates = templateToForm1(bestTemplate) + " | " + templateToForm2(bestTemplate);
 			output = Messages.MethodApplication_output_bestGrille + bestTemplateCoordinates + Messages.MethodApplication_M6 + hillclimberResult.cost;
 			output += "\n" + Messages.MethodApplication_output_decrypted_final + bestDecryptedText //$NON-NLS-1$
 					+ "\n\n"; // $NON-NLS-2$ //$NON-NLS-1$
@@ -534,18 +432,14 @@ public class MethodApplication {
 		case "encrypt": //$NON-NLS-1$
 			output = Messages.MethodApplication_output_encrypted + encryptedText
 					+ Messages.MethodApplication_output_encryptionKey + fg;
-			for (int i = 0; i < grille.length; i=i+2) {
-				bestTemplateCoordinates += "(" + grille[i] + "," + grille[i+1] + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			}
+			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + " | " + templateToForm2(fg.saveTemplate());
 			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
 			output += Messages.MethodApplication_output_length_final + templateLength;
 			break;
 		case "decrypt": //$NON-NLS-1$
 			output = Messages.MethodApplication_output_decrypted_final + decryptedText
 					+ Messages.MethodApplication_output_decryptionKey + fg;
-			for (int i = 0; i < grille.length; i = i+2) {
-				bestTemplateCoordinates += "(" + grille[i] + "," + grille[i+1] + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			}
+			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + " | " + templateToForm2(fg.saveTemplate());
 			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
 			output += Messages.MethodApplication_output_length_final + templateLength;
 			break;
