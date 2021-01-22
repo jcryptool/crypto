@@ -12,6 +12,8 @@ public class Messages extends NLS {
     public static String CryptedText_info_succesfullEncryption;
     public static String CryptedText_output_ciphertext;
     public static String FleissnerGrille_break;
+	public static String KopalAnalyzer_0;
+	public static String KopalAnalyzer_1;
     public static String MethodApplication_error_fileNotFound;
     public static String MethodApplication_error_statFileNotFound;
     public static String MethodApplication_info_acurateness;
@@ -87,6 +89,8 @@ public class Messages extends NLS {
     public static String MethodApplication_outputTime;
     public static String MethodApplication_procedure_bruteForce;
     public static String MethodApplication_procedure_hillClimbing;
+	public static String MethodApplication_r1;
+	public static String MethodApplication_r2;
 	public static String MethodApplication_zz8;
     public static String ParameterSettings_InvalidKey;
     public static String ParameterSettings_InvalidKeyLength2;

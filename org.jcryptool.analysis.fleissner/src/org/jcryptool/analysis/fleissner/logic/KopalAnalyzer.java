@@ -29,7 +29,13 @@ limitations under the License.
 public class KopalAnalyzer {
 
 	public static enum Rotation { Left, Right }
-	public static final String defaultAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // TODO
+	public static String RotationToString(Rotation rot) {
+		if (rot.equals(Rotation.Left)) {
+			return Messages.KopalAnalyzer_0;
+		}
+		return Messages.KopalAnalyzer_1;
+	}
+	public static final String defaultAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // TODO //$NON-NLS-1$
 
 	static IProgressMonitor dummyMonitor = new IProgressMonitor() {
 		
@@ -101,7 +107,7 @@ public class KopalAnalyzer {
 
 		//ciphertext from 1870 (see https://scienceblogs.de/klausis-krypto-kolumne/2020/09/29/can-you-solve-this-turning-grille-cryptogram-from-1870/)
 		//the Grille was used with left rotation
-		var strciphertext = "NVRDIEMHNEATIRVOAEINFYIUBRNTTTEHSEUAFHSEREPEFDRFOORRMOSVTOHOEIDFNOTSHTUHRETRTEEEAMLEEUGGSTSRIELATARIEGTEAMRYOBSFOUCTTOHTEMTRPHCOLIIEXPSIHRTEIEYN";                                
+		var strciphertext = "NVRDIEMHNEATIRVOAEINFYIUBRNTTTEHSEUAFHSEREPEFDRFOORRMOSVTOHOEIDFNOTSHTUHRETRTEEEAMLEEUGGSTSRIELATARIEGTEAMRYOBSFOUCTTOHTEMTRPHCOLIIEXPSIHRTEIEYN";                                 //$NON-NLS-1$
 		var ciphertext = MapTextIntoNumberSpace(strciphertext, defaultAlphabet);
 
 		//mtc3 challenge
@@ -112,7 +118,7 @@ public class KopalAnalyzer {
 //		System.out.println("Ciphertext:" + MapNumbersIntoTextSpace(ciphertext, defaultAlphabet));
 
 		//hillclimb it            
-		NGramFrequencies grams = NgramStore.getInstance().getFrequenciesFor(new File("/home/snuc/Desktop/ngrams/convert/en-5gram-nocs.txt.gz"), 5);
+		NGramFrequencies grams = NgramStore.getInstance().getFrequenciesFor(new File("/home/snuc/Desktop/ngrams/convert/en-5gram-nocs.txt.gz"), 5); //$NON-NLS-1$
 		HillclimbGrilleResult result = HillclimbGrilleWithMonitor(dummyMonitor, ciphertext, grilleSize, 10, Rotation.Right, grams);
 		System.out.println(ConvertGrilleKeyToString(result.bestkey, 6));
 		
@@ -120,7 +126,7 @@ public class KopalAnalyzer {
 		FleissnerGrille tG = tecleFormatFromKey(result.bestkey);
 		int[] intarray = tG.saveTemplate();
 		for (int i = 0; i < intarray.length; i+=2) {
-			System.out.println(String.format("(%s,%s)", intarray[i], intarray[i+1]));
+			System.out.println(String.format("(%s,%s)", intarray[i], intarray[i+1])); //$NON-NLS-1$
 		}
 		
 		boolean[][] tBA = result.asGrilleKey().toFullMatrix();
@@ -148,10 +154,10 @@ public class KopalAnalyzer {
 		for(int i=0; i<arr.length; i++) {
 			for (int k=0; k<arr.length; k++) {
 				boolean el = arr[k][i];
-				builder.append(String.format(el ? "o " : "  "));
+				builder.append(String.format(el ? "o " : "  ")); //$NON-NLS-1$ //$NON-NLS-2$
 //				builder.append(String.format("[%s,%s]=%s\n", i, k, el));
 			}
-			builder.append("\n");
+			builder.append("\n"); //$NON-NLS-1$
 		}
 		return builder.toString();
 	}
@@ -161,7 +167,7 @@ public class KopalAnalyzer {
 		for(int i=0; i<arr.length; i++) {
 			for (int k=0; k<arr.length; k++) {
 				int el = arr[i][k];
-				builder.append(String.format("[%s,%s]=%s\n", i, k, el));
+				builder.append(String.format("[%s,%s]=%s\n", i, k, el)); //$NON-NLS-1$
 			}
 		}
 		return builder.toString();
@@ -171,7 +177,7 @@ public class KopalAnalyzer {
 
 		for(int i=0; i<arr.size(); i++) {
 			int el = arr.get(i);
-			builder.append(String.format("[%s]=%s\n", i, el));
+			builder.append(String.format("[%s]=%s\n", i, el)); //$NON-NLS-1$
 		}
 		return builder.toString();
 	}
@@ -271,7 +277,7 @@ public class KopalAnalyzer {
 		//var grams = new Tetragrams("english_quadgrams.txt");
 		//var grams = new Pentagrams("english_quintgrams.txt");            
 		
-		monitor.beginTask("Grille Hillclimbing", restarts);
+		monitor.beginTask("Grille Hillclimbing", restarts); //$NON-NLS-1$
 
 		int[][] globalbestkey = new int[0][0]; // size: ,
 		double globalbestkeycost = Double.NEGATIVE_INFINITY;
@@ -444,7 +450,7 @@ public class KopalAnalyzer {
 	/// <param name="restarts"></param>
 	public static void HillclimbGrille(int[] ciphertext, int grilleSize, int restarts, Rotation rotation, NGramFrequencies grams)
 	{
-		System.out.println("HC now...");
+		System.out.println("HC now..."); //$NON-NLS-1$
 		//var grams = new Bigrams("en", false);            
 		//var grams = new Tetragrams("en", false);      
 		//var grams = new Hexagrams("en");
@@ -562,23 +568,23 @@ public class KopalAnalyzer {
 
 			} while (better);
 
-			System.out.println(String.format("bestkeycost: %s; globalbestkeycost: %s", bestkeycost, globalbestkeycost));
+			System.out.println(String.format("bestkeycost: %s; globalbestkeycost: %s", bestkeycost, globalbestkeycost)); //$NON-NLS-1$
 			if (bestkeycost > globalbestkeycost)
 			{
 				globalbestkeycost = bestkeycost;
 				globalbestkey = bestfoundkey;
 				globalbestplaintext = bestplaintext;
-				System.out.println("Found a better global key in restart: " + (totalrestarts - restarts));
-				System.out.println("-> Best global cost:" + globalbestkeycost);
-				System.out.println("-> Best global plaintext:" + MapNumbersIntoTextSpace(globalbestplaintext, defaultAlphabet, globalbestplaintextlength));
-				System.out.println("-> Best global key:");
+				System.out.println("Found a better global key in restart: " + (totalrestarts - restarts)); //$NON-NLS-1$
+				System.out.println("-> Best global cost:" + globalbestkeycost); //$NON-NLS-1$
+				System.out.println("-> Best global plaintext:" + MapNumbersIntoTextSpace(globalbestplaintext, defaultAlphabet, globalbestplaintextlength)); //$NON-NLS-1$
+				System.out.println("-> Best global key:"); //$NON-NLS-1$
 				System.out.println(ConvertGrilleKeyToString(globalbestkey, grilleSize / 2));
 			}
 			restarts--;
-			System.out.println("Restarts left: " + restarts);
+			System.out.println("Restarts left: " + restarts); //$NON-NLS-1$
 		} while (restarts > 0);
-		System.out.println("Hillcimbing terminated after " + totalrestarts + " restarts...");
-		System.out.println("Best plaintext: " + MapNumbersIntoTextSpace(globalbestplaintext, defaultAlphabet, globalbestplaintextlength));
+		System.out.println("Hillcimbing terminated after " + totalrestarts + " restarts..."); //$NON-NLS-1$ //$NON-NLS-2$
+		System.out.println("Best plaintext: " + MapNumbersIntoTextSpace(globalbestplaintext, defaultAlphabet, globalbestplaintextlength)); //$NON-NLS-1$
 
 	}
 
@@ -602,7 +608,7 @@ public class KopalAnalyzer {
 
 	private static void HillclimbGrilleRandomly(int[] ciphertext, int grilleSize, int restarts, NGramFrequencies grams)
 	{            
-		System.out.println("HC randomly now...");
+		System.out.println("HC randomly now..."); //$NON-NLS-1$
 		//var grams = new Bigrams("en", false);            
 		//var grams = new Tetragrams("en", false);      
 		//var grams = new Pentagrams("en", false);
@@ -654,10 +660,10 @@ public class KopalAnalyzer {
 						globalbestkeycost = bestkeycost;
 						globalbestkey = bestfoundkey;
 						globalbestplaintext = bestplaintext;
-						System.out.println("Found a better global key in restart: " + (totalrestarts - restarts));
-						System.out.println("-> Best global cost:" + globalbestkeycost);
-						System.out.println("-> Best global plaintext:" + MapNumbersIntoTextSpace(globalbestplaintext, defaultAlphabet, globalbestplaintextlength));
-						System.out.println("-> Best global key:");
+						System.out.println("Found a better global key in restart: " + (totalrestarts - restarts)); //$NON-NLS-1$
+						System.out.println("-> Best global cost:" + globalbestkeycost); //$NON-NLS-1$
+						System.out.println("-> Best global plaintext:" + MapNumbersIntoTextSpace(globalbestplaintext, defaultAlphabet, globalbestplaintextlength)); //$NON-NLS-1$
+						System.out.println("-> Best global key:"); //$NON-NLS-1$
 						System.out.println(ConvertGrilleKeyToString(globalbestkey, grilleSize / 2));
 					}
 				}
@@ -679,9 +685,9 @@ public class KopalAnalyzer {
 
 			} while (cycles > 0);                
 			restarts--;
-			System.out.println("Restarts left: " + restarts);
+			System.out.println("Restarts left: " + restarts); //$NON-NLS-1$
 		} while (restarts > 0);
-		System.out.println("Hillcimbing terminated after " + totalrestarts + " restarts...");
+		System.out.println("Hillcimbing terminated after " + totalrestarts + " restarts..."); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private static void SAGrille(int[] ciphertext, int grilleSize, double temperature, NGramFrequencies grams)
@@ -732,12 +738,12 @@ public class KopalAnalyzer {
 								bestkeycost = cost;
 								bestfoundkey = cloneIntMatrix(copykey);
 								bestplaintext = plaintext;
-								System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, defaultAlphabet));
-								System.out.println("-> Best key:");
+								System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, defaultAlphabet)); //$NON-NLS-1$
+								System.out.println("-> Best key:"); //$NON-NLS-1$
 								System.out.println(ConvertGrilleKeyToString(bestfoundkey, grilleSize / 2));
-								System.out.println("-> Best cost:" + bestkeycost);
-								System.out.println("-> Temperature:" + temperature);
-								System.out.println("-> Probability:" + prob);
+								System.out.println("-> Best cost:" + bestkeycost); //$NON-NLS-1$
+								System.out.println("-> Temperature:" + temperature); //$NON-NLS-1$
+								System.out.println("-> Probability:" + prob); //$NON-NLS-1$
 							}
 							runkey = cloneIntMatrix(copykey);
 						}
@@ -776,12 +782,12 @@ public class KopalAnalyzer {
 									bestkeycost = cost;
 									bestfoundkey = cloneIntMatrix(copykey);
 									bestplaintext = plaintext;
-									System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, defaultAlphabet));
-									System.out.println("-> Best key:");
+									System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, defaultAlphabet)); //$NON-NLS-1$
+									System.out.println("-> Best key:"); //$NON-NLS-1$
 									System.out.println(ConvertGrilleKeyToString(bestfoundkey, grilleSize / 2));
-									System.out.println("-> Best cost:" + bestkeycost);
-									System.out.println("-> Temperature:" + temperature);
-									System.out.println("-> Probability:" + prob);
+									System.out.println("-> Best cost:" + bestkeycost); //$NON-NLS-1$
+									System.out.println("-> Temperature:" + temperature); //$NON-NLS-1$
+									System.out.println("-> Probability:" + prob); //$NON-NLS-1$
 								}
 								runkey = cloneIntMatrix(copykey);
 							}
@@ -815,19 +821,19 @@ public class KopalAnalyzer {
 						bestkeycost = cost;
 						bestfoundkey = cloneIntMatrix(copykey);
 						bestplaintext = plaintext;
-						System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, defaultAlphabet));
-						System.out.println("-> Best key:");
+						System.out.println("\r-> Best plaintext:" + MapNumbersIntoTextSpace(bestplaintext, defaultAlphabet)); //$NON-NLS-1$
+						System.out.println("-> Best key:"); //$NON-NLS-1$
 						System.out.println(ConvertGrilleKeyToString(bestfoundkey, grilleSize / 2));
-						System.out.println("-> Best cost:" + bestkeycost);
-						System.out.println("-> Temperature:" + temperature);
-						System.out.println("-> Probability:" + prob);
+						System.out.println("-> Best cost:" + bestkeycost); //$NON-NLS-1$
+						System.out.println("-> Temperature:" + temperature); //$NON-NLS-1$
+						System.out.println("-> Probability:" + prob); //$NON-NLS-1$
 					}
 					runkey = cloneIntMatrix(copykey);
 				}
 			}
 
 			temperature = temperature - 0.00001;                
-			System.out.println("-> Temperature:" + temperature);
+			System.out.println("-> Temperature:" + temperature); //$NON-NLS-1$
 
 		} while (temperature > 0);
 		//System.out.println("SA terminated ...");
@@ -1327,7 +1333,7 @@ public class KopalAnalyzer {
 			while(runningCiphertextIdx < ciphertext.length) {
 				if (runningPlaintextIdx >= plaintext.length) {
 					ciphertext[runningCiphertextIdx] = 0;
-					throw new RuntimeException("could not encrypt, plaintext is not of length of the square of grille size");
+					throw new RuntimeException("could not encrypt, plaintext is not of length of the square of grille size"); //$NON-NLS-1$
 				} else {
 					ciphertext[runningCiphertextIdx] = plaintext[runningPlaintextIdx];
 				}
@@ -1509,7 +1515,7 @@ public class KopalAnalyzer {
 			int runningCiphertextIdx = ciphertextIdx;
 			while(runningCiphertextIdx < ciphertext.length) {
 				if (runningCiphertextIdx >= ciphertext.length) {
-					throw new RuntimeException("could not decrypt, ciphertext is not of length of the square of grille size");
+					throw new RuntimeException("could not decrypt, ciphertext is not of length of the square of grille size"); //$NON-NLS-1$
 				} else {
 					plaintext[runningPlaintextIdx] = ciphertext[runningCiphertextIdx];
 				}
@@ -1639,11 +1645,11 @@ public class KopalAnalyzer {
 		{
 			for (int x = 0; x < size; x++)
 			{
-				builder.append(key[x][y] + " ");
+				builder.append(key[x][y] + " "); //$NON-NLS-1$
 			}
 			if (y < size - 1)
 			{
-				builder.append("\n");
+				builder.append("\n"); //$NON-NLS-1$
 			}
 		}
 		return builder.toString();

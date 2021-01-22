@@ -650,6 +650,7 @@ public class FleissnerWindow extends Composite {
 		plaintextGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		plaintextInvalidCharWarning = new CLabel(plaintextGroup, SWT.NONE);
+		plaintextInvalidCharWarning.setLayoutData(new GridData());
 		plaintextInvalidCharWarning.setImage(ImageService.ICON_INFO);
 		plaintextInvalidCharWarning.setText(Messages.InvalidCharsWarningPlaintext);
 
@@ -673,8 +674,11 @@ public class FleissnerWindow extends Composite {
 
 			@Override
 			public void modifyText(ModifyEvent e) {
+
+				int lengthEntered = normalizeText(plaintextText.getText()).length();
+				int lengthNormalized = normalizeText(plaintextText.getText(), getEnDecAlphabet()).length();
 				plaintextGroup.setText(
-						Messages.FleissnerWindow_label_plaintext + " (" + normalizeText(plaintextText.getText(), getEnDecAlphabet()).length() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+						Messages.FleissnerWindow_label_plaintext + String.format(Messages.FleissnerWindow_rr2, lengthNormalized, lengthEntered));
 				if (writeTextRadioButton.getSelection()) {
 					oldManualTextInput = plaintextText.getText();
 				}
@@ -704,6 +708,7 @@ public class FleissnerWindow extends Composite {
 		ciphertextGroup.setText(Messages.FleissnerWindow_label_ciphertext + " (0)"); //$NON-NLS-1$
 
 		ciphertextInvalidCharWarning = new CLabel(ciphertextGroup, SWT.NONE);
+		ciphertextInvalidCharWarning.setLayoutData(new GridData());
 		ciphertextInvalidCharWarning.setImage(ImageService.ICON_INFO);
 		ciphertextInvalidCharWarning.setText(Messages.InvalidCharsWarningCiphertext);
 		
@@ -719,8 +724,10 @@ public class FleissnerWindow extends Composite {
 
 			@Override
 			public void modifyText(ModifyEvent e) {
+				int lengthEntered = normalizeText(plaintextText.getText()).length();
+				int lengthNormalized = normalizeText(plaintextText.getText(), getEnDecAlphabet()).length();
 				ciphertextGroup.setText(
-						Messages.FleissnerWindow_label_ciphertext + " (" + normalizeText(ciphertextText.getText()).length() + ")"); //$NON-NLS-1$//$NON-NLS-2$
+						Messages.FleissnerWindow_label_ciphertext + String.format(" (%s)", lengthNormalized, lengthEntered)); //$NON-NLS-1$
 				if (isAnalyze()) {
 					plaintextText.setText(""); //$NON-NLS-1$
 				}
@@ -1190,13 +1197,12 @@ public class FleissnerWindow extends Composite {
 		SavedItem toAppendItem = savedItems.get(savedItems.size()-1);
 		String oldText = toAppendItem.read();
 		toAppendItem.write(oldText + text);
-		toAppendItem.write(text);
 	}
 	private void consoleTextSet(String text) {
 		consoleText.setText(text);
 		String mode = isAnalyze()?"analyze":(isEncrypt()?"encrypt":"decrypt"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		String date = now();
-		SavedItem item = new SavedItem(date, mode);
+		SavedItem item = new SavedItem(date, mode, rotation);
 		item.write(text);
 		savedItems.add(item);
 		if (savedItems.size() > 1) { // only add nearest-to-last-item (not the current...)
@@ -1226,10 +1232,12 @@ public class FleissnerWindow extends Composite {
 	private static class SavedItem {
 		public String date;
 		public String operation;
-		public SavedItem(String date, String operation) {
+		public Rotation rotation;
+		public SavedItem(String date, String operation, Rotation rotation2) {
 			super();
 			this.date = date;
 			this.operation = operation;
+			this.rotation = rotation2;
 		}
 		public static Path getAbsPath(String currentFilename) {
 			return Path.of(SavedItem.directory().getPath() + "/" + currentFilename); //$NON-NLS-1$
@@ -1263,7 +1271,7 @@ public class FleissnerWindow extends Composite {
 			return new File(directory().getPath() + "/" + getFileName()); //$NON-NLS-1$
 		}
 		private String getFileName() {
-			return date.replaceAll("[^A-Za-z0-9_-]", "_") + "_" + operation; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return date.replaceAll("[^A-Za-z0-9_-]", "_") + "_operation_" + operation + Messages.FleissnerWindow_rr1 + KopalAnalyzer.RotationToString(rotation); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 	}
@@ -1345,8 +1353,8 @@ public class FleissnerWindow extends Composite {
 		setTextEnabled(plaintextText, false);
 		plaintextText.setText(""); //$NON-NLS-1$
 		setTextEnabled(ciphertextText, false);
-		plaintextInvalidCharWarning.setVisible(false);
-		ciphertextInvalidCharWarning.setVisible(true);
+		plaintextInvalidCharWarning_setVisible(false);
+		ciphertextInvalidCharWarning_setVisible(true);
 		
 
 		if (writeTextRadioButton.getSelection()) {
@@ -1370,7 +1378,8 @@ public class FleissnerWindow extends Composite {
 		statisticsCombo.setEnabled(true);
 
 		// output settings
-		consoleTextSet(Messages.FleissnerWindow_output_progress);
+//		consoleTextSet(Messages.FleissnerWindow_output_progress);
+		consoleTextSet(Messages.FleissnerWindow_output_progress_analyze + String.format(" (%s)\n", KopalAnalyzer.RotationToString(rotation))); //$NON-NLS-1$
 //		consoleTextSet(Messages.FleissnerWindow_output_progress + consoleOutputFromJob);
 		// Activate/Deactivate the Start Button
 		checkOkButton();
@@ -1378,6 +1387,33 @@ public class FleissnerWindow extends Composite {
 		mainComposite.layout();
 	}
 
+
+
+
+	private void ciphertextInvalidCharWarning_setVisible(boolean b) {
+		if (ciphertextInvalidCharWarning == null) {
+			return;
+		}
+		ciphertextInvalidCharWarning.setVisible(b);
+		GridData gd = (GridData) ciphertextInvalidCharWarning.getLayoutData();
+		gd.exclude = ! b;
+		ciphertextInvalidCharWarning.requestLayout();
+		mainComposite.layout();
+	}
+
+
+
+	private void plaintextInvalidCharWarning_setVisible(boolean b) {
+		if (plaintextInvalidCharWarning == null) {
+			return;
+		}
+		plaintextInvalidCharWarning.setVisible(b);
+		GridData gd = (GridData) plaintextInvalidCharWarning.getLayoutData();
+		gd.exclude = ! b;
+		plaintextInvalidCharWarning.requestLayout();
+		mainComposite.layout();
+		
+	}
 
 
 
@@ -1414,8 +1450,8 @@ public class FleissnerWindow extends Composite {
 		setTextEnabled(plaintextText, false);
 		setTextEnabled(ciphertextText, false);
 		ciphertextText.setText(""); //$NON-NLS-1$
-		plaintextInvalidCharWarning.setVisible(true);
-		ciphertextInvalidCharWarning.setVisible(false);
+		plaintextInvalidCharWarning_setVisible(true);
+		ciphertextInvalidCharWarning_setVisible(false);
 		
 
 		if (exampleTextRadioButton.getSelection()) {
@@ -1439,7 +1475,7 @@ public class FleissnerWindow extends Composite {
 
 		// output settings
 //		detailsButton.setEnabled(false);
-		consoleTextSet(Messages.FleissnerWindow_output_progress);
+		consoleTextSet(Messages.FleissnerWindow_output_progress_encrypt + String.format(" (%s)", KopalAnalyzer.RotationToString(rotation))); //$NON-NLS-1$
 
 		// Activate/Deactivate the Start Button
 		checkOkButton();
@@ -1479,8 +1515,8 @@ public class FleissnerWindow extends Composite {
 		setTextEnabled(plaintextText, false);
 		plaintextText.setText(""); //$NON-NLS-1$
 		setTextEnabled(ciphertextText, false);
-		plaintextInvalidCharWarning.setVisible(false);
-		ciphertextInvalidCharWarning.setVisible(true);
+		plaintextInvalidCharWarning_setVisible(false);
+		ciphertextInvalidCharWarning_setVisible(true);
 		
 
 		if (exampleTextRadioButton.getSelection()) {
@@ -1503,7 +1539,7 @@ public class FleissnerWindow extends Composite {
 
 		// output settings
 //		detailsButton.setEnabled(false);
-		consoleTextSet(Messages.FleissnerWindow_output_progress);
+		consoleTextSet(Messages.FleissnerWindow_output_progress_decrypt + String.format(" (%s)", KopalAnalyzer.RotationToString(rotation))); //$NON-NLS-1$
 
 		// Activate/Deactivate the Start Button
 		checkOkButton();
@@ -1529,14 +1565,14 @@ public class FleissnerWindow extends Composite {
 		if (textsize % squared != 0) {
 			StringBuilder kHint = new StringBuilder();
 			List<Integer> possibleKs = new LinkedList<>();
-			for(int k=2; k<20; k++) {
+			for(int k=2; k<=20; k+=2) {
 				int squaredK = k * k;
 				if (textsize % squaredK == 0) {
 					possibleKs.add(k);
 				}
 			}
 			if (possibleKs.size() > 0) {
-				kHint.append(String.format(Messages.FleissnerWindow_X3, possibleKs.stream().map(i -> i.toString()).collect(Collectors.joining(", ")))); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
+				kHint.append(String.format(Messages.FleissnerWindow_X3, possibleKs.stream().map(i -> i.toString()).collect(Collectors.joining(", ")))); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
 			}
 			return String.format(Messages.FleissnerWindow_5 + kHint.toString(), grillesize, squared, textsize, squared);
 		} else {
@@ -1841,7 +1877,7 @@ public class FleissnerWindow extends Composite {
 		if (exampleinput.length() != len1) {
 			StringBuilder padding = new StringBuilder();
 			while (exampleinput.length() + padding.length() < len1+size*size) {
-				padding.append(alphabet.charAt(0));
+				padding.append(alphabet.charAt(23));
 			}
 			result = exampleinput + padding.toString();
 		}

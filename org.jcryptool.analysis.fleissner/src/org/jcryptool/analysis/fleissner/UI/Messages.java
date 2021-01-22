@@ -108,7 +108,12 @@ public class Messages extends NLS {
     public static String FleissnerWindow_languageSelect_english;
     public static String FleissnerWindow_languageSelect_german;
     public static String FleissnerWindow_output_progress;
-    public static String FleissnerWindow_warning;
+    public static String FleissnerWindow_output_progress_analyze;
+    public static String FleissnerWindow_output_progress_encrypt;
+    public static String FleissnerWindow_output_progress_decrypt;
+    public static String FleissnerWindow_rr1;
+	public static String FleissnerWindow_rr2;
+	public static String FleissnerWindow_warning;
     public static String FleissnerWindow_warning_text;
 	public static String FleissnerWindow_X1;
 	public static String FleissnerWindow_X2;
