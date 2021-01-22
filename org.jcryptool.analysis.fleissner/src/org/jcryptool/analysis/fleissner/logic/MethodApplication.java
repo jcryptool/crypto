@@ -61,7 +61,7 @@ public class MethodApplication {
 	private String fwAnalysisOutput;
 	private HillclimbGrilleResult hillclimberResult;
 	private Rotation rotation;
-	private String encryptDecryptAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß";
+	private String encryptDecryptAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß"; //$NON-NLS-1$
 
 	/**
 	 * applies parameter settings from ParameterSettings and sets and executes
@@ -371,9 +371,9 @@ public class MethodApplication {
 
 	public static String templateToForm1(int[] templateTecle) {
 		if (templateTecle == null) {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
-		String result = "";
+		String result = ""; //$NON-NLS-1$
 		for (int i = 0; i < templateTecle.length; i=i+2) {
 			result += "(" + templateTecle[i] + "," + templateTecle[i+1] + ") "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
@@ -381,7 +381,7 @@ public class MethodApplication {
 	}
 	public static String templateToForm2(int[] templateTecle) {
 		if (templateTecle == null) {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 		int grillesize = (int) Math.floor(Math.sqrt((templateTecle.length / 2)*4));
 		List<Integer> holePositions = new LinkedList<>();
@@ -389,7 +389,7 @@ public class MethodApplication {
 			holePositions.add(templateTecle[i] + templateTecle[i+1]*grillesize + 1);
 		}
 		Collections.sort(holePositions);
-		return holePositions.stream().map(i -> i.toString()).collect(Collectors.joining(" "));
+		return holePositions.stream().map(i -> i.toString()).collect(Collectors.joining(" ")); //$NON-NLS-1$
 	}
 	
 	@Override
@@ -404,8 +404,9 @@ public class MethodApplication {
 			String time;
 //			bestDecryptedText = fg.decryptText(ct.getText());
 //			value = tv.evaluate(bestDecryptedText);
-			bestTemplateCoordinates = templateToForm1(bestTemplate) + " | " + templateToForm2(bestTemplate);
-			output = Messages.MethodApplication_output_bestGrille + bestTemplateCoordinates + Messages.MethodApplication_M6 + hillclimberResult.cost;
+			bestTemplateCoordinates = templateToForm1(bestTemplate) + " | " + templateToForm2(bestTemplate); //$NON-NLS-1$
+			output = Messages.MethodApplication_zz8 + textInLine + "\n\n"; //$NON-NLS-2$
+			output += Messages.MethodApplication_output_bestGrille + bestTemplateCoordinates + Messages.MethodApplication_M6 + hillclimberResult.cost;
 			output += "\n" + Messages.MethodApplication_output_decrypted_final + bestDecryptedText //$NON-NLS-1$
 					+ "\n\n"; // $NON-NLS-2$ //$NON-NLS-1$
 //          adjusts time format depending of spent time for analysis
@@ -430,16 +431,18 @@ public class MethodApplication {
 //			output += Messages.MethodApplication_output_finished_final + time;
 			break;
 		case "encrypt": //$NON-NLS-1$
-			output = Messages.MethodApplication_output_encrypted + encryptedText
+			output = Messages.MethodApplication_zz8 + textInLine + "\n\n"; //$NON-NLS-2$
+			output += Messages.MethodApplication_output_encrypted + encryptedText
 					+ Messages.MethodApplication_output_encryptionKey + fg;
-			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + " | " + templateToForm2(fg.saveTemplate());
+			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + " | " + templateToForm2(fg.saveTemplate()); //$NON-NLS-1$
 			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
 			output += Messages.MethodApplication_output_length_final + templateLength;
 			break;
 		case "decrypt": //$NON-NLS-1$
-			output = Messages.MethodApplication_output_decrypted_final + decryptedText
+			output = Messages.MethodApplication_zz8 + textInLine + "\n\n"; //$NON-NLS-2$
+			output += Messages.MethodApplication_output_decrypted_final + decryptedText
 					+ Messages.MethodApplication_output_decryptionKey + fg;
-			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + " | " + templateToForm2(fg.saveTemplate());
+			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + " | " + templateToForm2(fg.saveTemplate()); //$NON-NLS-1$
 			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
 			output += Messages.MethodApplication_output_length_final + templateLength;
 			break;

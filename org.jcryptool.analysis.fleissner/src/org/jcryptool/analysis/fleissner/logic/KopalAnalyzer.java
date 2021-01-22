@@ -401,10 +401,11 @@ public class KopalAnalyzer {
 		double bestCost = Double.NEGATIVE_INFINITY;
 		int bestRotIdx = -1;
 		for (int i = 0; i < 4; i++) {
-			int[][] rotatedBestKey = cloneIntMatrix(globalbestkey);
-			for (int rotNr = 0; rotNr < i; rotNr++) {
-				rotatedBestKey = RotateMatrix(rotatedBestKey, grilleSize/2);
-			}
+//			System.out.println(ConvertGrilleKeyToString(globalbestkey, grilleSize/2));
+			int[][] rotatedBestKey = Invariance(cloneIntMatrix(globalbestkey), i);
+//			System.out.println("---");
+//			System.out.println(ConvertGrilleKeyToString(rotatedBestKey, grilleSize/2));
+//			System.out.println("---");
 			int[] decrypted = new GrilleDecrypt(ciphertext, rotatedBestKey, grilleSize, rotation).Decrypt();
 			double cost = calculateCost(grams, decrypted);
 			rotatedKeys.add(rotatedBestKey);
@@ -413,6 +414,7 @@ public class KopalAnalyzer {
 				bestRotIdx = i;
 				bestCost = cost;
 			}
+//			System.out.println(String.format("bestRotIdx:%s, decrypted:%s, cost: %s, bestCost:%s", bestRotIdx, MapNumbersIntoTextSpace(decrypted, grams.alphabet), cost, bestCost));
 		}
 		globalbestplaintext = rotatedPlaintexts.get(bestRotIdx);
 		globalbestkey = rotatedKeys.get(bestRotIdx);
@@ -421,6 +423,16 @@ public class KopalAnalyzer {
 		result.setStats(globalbestkeycost, globalbestkey);
 		result.setBestTextAsInt(globalbestplaintext);
 		result.setBestTextAsString(MapNumbersIntoTextSpace(globalbestplaintext, grams.alphabet, globalbestplaintextlength));
+		return result;
+	}
+	
+	private static int[][] Invariance(int[][] key, int number) {
+		int[][] result = new int[key.length][key.length];
+		for (int i = 0; i < result.length; i++) {
+			for (int j = 0; j < result.length; j++) {
+				result[i][j] = (key[i][j] + number) % 4;
+			}
+		}
 		return result;
 	}
 

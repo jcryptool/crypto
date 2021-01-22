@@ -125,6 +125,7 @@ public class Messages extends NLS {
 	public static String FleissnerWindow_ZZ4;
 	public static String FleissnerWindow_ZZ5;
 	public static String FleissnerWindow_ZZ6;
+	public static String FleissnerWindow_ZZ7;
     public static String OutputDialog_save;
     public static String OutputDialog_detailOutput;
     public static String LoadFiles_empty;

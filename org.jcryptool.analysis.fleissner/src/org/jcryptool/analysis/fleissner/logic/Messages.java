@@ -87,6 +87,7 @@ public class Messages extends NLS {
     public static String MethodApplication_outputTime;
     public static String MethodApplication_procedure_bruteForce;
     public static String MethodApplication_procedure_hillClimbing;
+	public static String MethodApplication_zz8;
     public static String ParameterSettings_InvalidKey;
     public static String ParameterSettings_InvalidKeyLength2;
     public static String ParameterSettings_PleaseEnterValidParameters;

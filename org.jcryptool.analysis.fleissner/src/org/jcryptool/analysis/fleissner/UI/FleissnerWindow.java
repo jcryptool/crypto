@@ -9,8 +9,14 @@
 // -----END DISCLAIMER-----
 package org.jcryptool.analysis.fleissner.UI;
 
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -18,7 +24,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
-
+import org.jcryptool.core.operations.editors.EditorsManager;
+import org.jcryptool.core.operations.util.PathEditorInput;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -46,6 +53,8 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.PartInitException;
 import org.jcryptool.analysis.fleissner.Activator;
 import org.jcryptool.analysis.fleissner.key.Grille;
 import org.jcryptool.analysis.fleissner.key.KeySchablone;
@@ -55,6 +64,7 @@ import org.jcryptool.analysis.fleissner.logic.MethodApplication;
 import org.jcryptool.analysis.fleissner.logic.ParameterSettings;
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.util.colors.ColorService;
+import org.jcryptool.core.util.directories.DirectoryService;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
@@ -1117,7 +1127,7 @@ public class FleissnerWindow extends Composite {
 	private void createAnalysisOutputGroup() {
 
 		analysisGroup = new Group(mainComposite, SWT.NONE);
-		analysisGroup.setLayout(new GridLayout(1, false));
+		analysisGroup.setLayout(new GridLayout(2, false));
 		GridData grid = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
 		analysisGroup.setLayoutData(grid);
 		analysisGroup.setText(Messages.FleissnerWindow_label_output);
@@ -1144,14 +1154,120 @@ public class FleissnerWindow extends Composite {
 //		});
 
 		consoleText = new Text(analysisGroup, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
-		GridData gridOut = new GridData(SWT.FILL, SWT.FILL, true, true);
+		GridData gridOut = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
 		gridOut.heightHint = 150;
 		gridOut.widthHint = 800;
 		consoleText.setLayoutData(gridOut);
 		consoleText.setEditable(false);
 //		consoleText.setBackground(ColorService.WHITE);
 		consoleText.setFont(FontService.getNormalMonospacedFont());
+		
+		consoleLogBtn = new Button(analysisGroup, SWT.PUSH);
+		consoleLogBtn.setText(Messages.FleissnerWindow_ZZ7);
+		consoleLogBtn.setEnabled(false);
+		consoleLogBtn.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false));
+		consoleLogBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (consoleLogCombo.getSelectionIndex() > -1) {
+					consoleTextOpen();
+				}
+			}
+		});
+		consoleLogCombo = new Combo(analysisGroup, SWT.DROP_DOWN);
+		GridData cLCData = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
+		cLCData.widthHint = 400;
+		consoleLogCombo.setLayoutData(cLCData);
+		consoleLogCombo.setEnabled(false);
+		
 	}
+	
+	private void consoleTextAppend(String text) {
+		if (savedItems.size() == 0) {
+			consoleTextSet(text);
+		}
+		consoleText.append(text);
+		SavedItem toAppendItem = savedItems.get(savedItems.size()-1);
+		String oldText = toAppendItem.read();
+		toAppendItem.write(oldText + text);
+		toAppendItem.write(text);
+	}
+	private void consoleTextSet(String text) {
+		consoleText.setText(text);
+		String mode = isAnalyze()?"analyze":(isEncrypt()?"encrypt":"decrypt"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String date = now();
+		SavedItem item = new SavedItem(date, mode);
+		item.write(text);
+		savedItems.add(item);
+		if (savedItems.size() > 1) { // only add nearest-to-last-item (not the current...)
+			consoleLogCombo.setEnabled(true);
+			consoleLogBtn.setEnabled(true);
+			consoleLogCombo.add(savedItems.get(savedItems.size()-2).getFileName());
+			consoleLogCombo.select(savedItems.size()-2);
+		}
+	}
+	private void consoleTextOpen() {
+		String currentFilename = consoleLogCombo.getText();
+		if (currentFilename.length() != 0) {
+			try {
+				EditorsManager.getInstance().openNewTextEditor(new PathEditorInput(SavedItem.getAbsPath(currentFilename).toString()));
+			} catch (PartInitException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public static final String DATE_FORMAT_NOW = "yyyy-MM-dd_HH-mm-ss"; //$NON-NLS-1$
+
+	public static String now() {
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+		return sdf.format(cal.getTime());
+	}
+	private static class SavedItem {
+		public String date;
+		public String operation;
+		public SavedItem(String date, String operation) {
+			super();
+			this.date = date;
+			this.operation = operation;
+		}
+		public static Path getAbsPath(String currentFilename) {
+			return Path.of(SavedItem.directory().getPath() + "/" + currentFilename); //$NON-NLS-1$
+		}
+		private static File directory() {
+			String ws = DirectoryService.getWorkspaceDir();
+			File grilleDir = new File(ws + "/grille"); //$NON-NLS-1$
+			if (! grilleDir.exists()) {
+				grilleDir.mkdirs();
+			}
+			return grilleDir;
+		}
+		public void write(String payload) {
+
+			File file = getFile();
+			try {
+				Files.write(Path.of(file.getPath()), payload.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		public String read() {
+			try {
+				return Files.readString(Path.of(getFile().getPath()));
+			} catch (IOException e) {
+				e.printStackTrace();
+				return ""; //$NON-NLS-1$
+			}
+		}
+		private File getFile() {
+			return new File(directory().getPath() + "/" + getFileName()); //$NON-NLS-1$
+		}
+		private String getFileName() {
+			return date.replaceAll("[^A-Za-z0-9_-]", "_") + "_" + operation; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+
+	}
+	private List<SavedItem> savedItems = new LinkedList<SavedItem>();
 
 	/**
 	 * Creates the header and short description at the top of the plugin
@@ -1254,13 +1370,16 @@ public class FleissnerWindow extends Composite {
 		statisticsCombo.setEnabled(true);
 
 		// output settings
-		consoleText.setText(Messages.FleissnerWindow_output_progress);
-//		consoleText.setText(Messages.FleissnerWindow_output_progress + consoleOutputFromJob);
+		consoleTextSet(Messages.FleissnerWindow_output_progress);
+//		consoleTextSet(Messages.FleissnerWindow_output_progress + consoleOutputFromJob);
 		// Activate/Deactivate the Start Button
 		checkOkButton();
 
 		mainComposite.layout();
 	}
+
+
+
 
 	/**
 	 * installs settings for 'encrypt' is chosen as the active method
@@ -1320,7 +1439,7 @@ public class FleissnerWindow extends Composite {
 
 		// output settings
 //		detailsButton.setEnabled(false);
-		consoleText.setText(Messages.FleissnerWindow_output_progress);
+		consoleTextSet(Messages.FleissnerWindow_output_progress);
 
 		// Activate/Deactivate the Start Button
 		checkOkButton();
@@ -1384,7 +1503,7 @@ public class FleissnerWindow extends Composite {
 
 		// output settings
 //		detailsButton.setEnabled(false);
-		consoleText.setText(Messages.FleissnerWindow_output_progress);
+		consoleTextSet(Messages.FleissnerWindow_output_progress);
 
 		// Activate/Deactivate the Start Button
 		checkOkButton();
@@ -1417,7 +1536,7 @@ public class FleissnerWindow extends Composite {
 				}
 			}
 			if (possibleKs.size() > 0) {
-				kHint.append(String.format(Messages.FleissnerWindow_X3, possibleKs.stream().map(i -> i.toString()).collect(Collectors.joining(", ")))); //$NON-NLS-2$ //$NON-NLS-1$
+				kHint.append(String.format(Messages.FleissnerWindow_X3, possibleKs.stream().map(i -> i.toString()).collect(Collectors.joining(", ")))); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
 			}
 			return String.format(Messages.FleissnerWindow_5 + kHint.toString(), grillesize, squared, textsize, squared);
 		} else {
@@ -1520,7 +1639,7 @@ public class FleissnerWindow extends Composite {
 					}
 					updateKeyText();
 
-					consoleText.append(consoleOutputFromJob);
+					consoleTextAppend(consoleOutputFromJob);
 				});
 			});
 		} else if (isEncrypt()) {
@@ -1539,7 +1658,7 @@ public class FleissnerWindow extends Composite {
 
 					// Do shit after job is finished
 					ciphertextText.setText(textFromJob);
-					consoleText.append(consoleOutputFromJob);
+					consoleTextAppend(consoleOutputFromJob);
 				});
 			});
 		} else if (isDecrypt()) {
@@ -1572,7 +1691,7 @@ public class FleissnerWindow extends Composite {
 					liftNoClickWithButton(); // Mechanism to not let the user start other things in the background
 					// Do shit after job is finished
 					plaintextText.setText(textFromJob);
-					consoleText.append(consoleOutputFromJob);
+					consoleTextAppend(consoleOutputFromJob);
 				});
 			});
 		}
@@ -1584,6 +1703,9 @@ public class FleissnerWindow extends Composite {
 		job.runInBackground();
 
 	}
+
+
+
 
 
 
@@ -1631,6 +1753,8 @@ public class FleissnerWindow extends Composite {
 	private Button enterKey;
 	private GridData gd_cipherSettingsGroup;
 	private GridData gd_analysisSettingsGroup;
+	private Combo consoleLogCombo;
+	private Button consoleLogBtn;
 	private void imposeNoClick() {
 		getShell().setCursor(getDisplay().getSystemCursor(SWT.CURSOR_WAIT));
 	}
