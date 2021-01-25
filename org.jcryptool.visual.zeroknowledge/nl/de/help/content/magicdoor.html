@@ -2,8 +2,9 @@
 
 <html>
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Magische Tür</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Magische Tür</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
@@ -50,7 +51,7 @@
 
 	<p>Carol, ein Angreifer der das Geheimnis nicht kennt, will Bob betrügen
 	und behauptet das Geheimnis zu kennen.
-	Sie hat eine mathematische Chance von 50% den gleichen Raum wie Bob
+	Sie hat eine mathematische Chance von \(50\,\%\) den gleichen Raum wie Bob
 	auszuwählen, dies bedeutet das eine einzige Iteration des Verfahrens
 	nicht hinreichend sicher für Bob ist.
 	Aus diesem Grund wird in einer praktischen Anwendung dieses Protokolls
@@ -58,17 +59,18 @@
 	Nur wenn jeder dieser Runden erfolgreich verläuft, vertraut Bob dem
 	Beweiser.
 	Die Chance Bob betrügen zu können nimmt exponentiell mit der Anzahl
-	der Iterationen k ab.</p>
+	der Iterationen \(k\) ab.</p>
 
 	<p>Chance alle Iterationen zu beantworten, ohne das Geheimnis zu kennen:
-	Chance = p<sup>k</sup>, mit p = Wahrscheinlichkeit und k = Anzahl der Iterationen</p>
+	Chance \( = p^k\), mit \(p =\) Wahrscheinlichkeit und \(k = \) Anzahl der Iterationen</p>
 
-	<p>Für das Magische Tür Protokoll haben wir ein p = 0.5. Nach nur zehn
+	<p>Für das Magische Tür Protokoll haben wir ein \(p = 0.5\). Nach nur zehn
 	aufeinanderfolgenden Iterationen liegt die Chance Bob betrügen zu können
-	bei weniger als 0.1% (0.5<sup>10</sup>). Dies sollte in den
+	bei weniger als \(0.1\,\%\) \((0.5^{10})\). Dies sollte in den
 	meisten Fällen ausreichende Sicherheit bieten.</p>
 
-	<p>Ein Protokolldurchlauf von 1 <= k <= 20 Iterationen kann simuliert werden durch einen Klick auf den Button "mehrmals durchführen".</p>
+	<p>Ein Protokolldurchlauf von \(1 <= k <= 20\) Iterationen kann simuliert werden durch
+	einen Klick auf den Button "mehrmals durchführen".</p>
 
 </BODY>
 </HTML>

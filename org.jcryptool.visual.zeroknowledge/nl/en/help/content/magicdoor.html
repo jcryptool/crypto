@@ -2,8 +2,9 @@
 
 <html>
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Magic Door</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Magic Door</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
@@ -63,12 +64,12 @@ will exponentially decrease with the number of iterations.
 
 <p>
 Chance to deceive Bob without knowledge of the secret:
-Chance = p<sup>k</sup>, with p = probability and k = number of iterations
+chance \(= p^k\), with \(p = \) probability and \(k = \) number of iterations.
 </p>
 
 <p>
-For the Magic Door protocol we have p = 0.5. By running ten consecutive
-iterations we have a chance to deceive Bob of less than 0.1% (0.5<sup>10</sup>),
+For the Magic Door protocol we have \(p = 0.5\). By running ten consecutive
+iterations we have a chance to deceive Bob of less than \(0.1\,\%\) \((0.5^{10})\),
 which should be safe enough for most considerations.
 </p>
 
