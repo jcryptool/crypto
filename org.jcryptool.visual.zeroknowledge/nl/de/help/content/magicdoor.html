@@ -17,7 +17,7 @@
 	für einen Zero Knowledge Beweis. Alice möchte Bob beweisen, dass
 	sie ein Geheimnis kennt, nämlich den geheimen Code einer Sicherheitstür
 	in einem Gebäude. Diese Tür verbindet zwei nebeneinander liegende Räume
-	(markiert mit 'Left' and 'Right'),
+	(markiert mit <b>Links</b> und <b>Rechts</b>),
 	die ansonsten nur jeweils einen anderen Ausgang auf den gleichen Flur
 	haben. Im Rahmen des Beweises möchte Alice nichts über den geheimen Code
 	selber an Bob oder eine andere Person verraten.</p>
@@ -36,12 +36,16 @@
 	durch ein nur von innen durchsichtbares Fenster sehen kann).</p>
 
 	<p>Es existieren nun zwei verschiedene Szenarien:
-	<br><b>1)</b> Alice befindet sich schon in dem Raum vor dem Bob steht,
-	dann muss sie lediglich diesen Raum durch die Tür auf dem Flur verlassen.
-	<br><b>2)</b> Alice befindet sich in dem anderen Raum, dies bedeutet sie
-	muss den aktuellen Raum durch die Sicherheitstür verlassen wofür sie
-	den geheimen Code eingeben muss. Da sie den Code kennt kann sie hiermit
-	erfolgreich aus dem Raum den Bob gewählt hat heraustreten.</p>
+	<ol>
+		<li>Alice befindet sich schon in dem Raum vor dem Bob steht,
+		dann muss sie lediglich diesen Raum durch die Tür auf dem Flur verlassen.
+		</li>
+		<li>Alice befindet sich in dem anderen Raum, dies bedeutet sie
+		muss den aktuellen Raum durch die Sicherheitstür verlassen wofür sie
+		den geheimen Code eingeben muss. Da sie den Code kennt kann sie hiermit
+		erfolgreich aus dem Raum den Bob gewählt hat heraustreten.
+		</li>
+	</ol>
 
 	<p>In beiden Szenarien wurde der Zero Knowledge Beweis verifiziert.
 	Alice brauchte ihr Geheimnis nicht an Bob zu verraten um den Test
@@ -66,11 +70,11 @@
 
 	<p>Für das Magische Tür Protokoll haben wir ein \(p = 0.5\). Nach nur zehn
 	aufeinanderfolgenden Iterationen liegt die Chance Bob betrügen zu können
-	bei weniger als \(0.1\,\%\) \((0.5^{10})\). Dies sollte in den
-	meisten Fällen ausreichende Sicherheit bieten.</p>
+	bei weniger als \(0.1\,\%\) \((0.5^{10})\). Wird \(2^{80}\) als Untergrenze für sichere kryptografische
+	Operationen angesehen, sind \(80\) Iterationen notwendig.</p>
 
 	<p>Ein Protokolldurchlauf von \(1 <= k <= 20\) Iterationen kann simuliert werden durch
-	einen Klick auf den Button "mehrmals durchführen".</p>
+	einen Klick auf den Button <b>mehrmals durchführen</b>.</p>
 
 </BODY>
 </HTML>
