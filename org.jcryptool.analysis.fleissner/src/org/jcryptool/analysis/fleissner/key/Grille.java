@@ -9,6 +9,8 @@
 // -----END DISCLAIMER-----
 package org.jcryptool.analysis.fleissner.key;
 
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Ver- und entschlüsselt einen Text mit der Grille-Verschlüsselung
@@ -19,6 +21,27 @@ package org.jcryptool.analysis.fleissner.key;
  */
 public class Grille {
     private KeySchablone key;
+
+    /**
+     * 
+     * @return Den Schlüssel als String in Form von Koordinaten
+     */
+    public int[] translateKeyToArray() {
+        List<Integer> result = new LinkedList<>();
+        for (int y=0; y<key.getSize();y++) {
+            for (int x=0; x<key.getSize();x++) {
+                if (key.get(y, x)=='1') {
+                    result.add(x);
+                    result.add(y);
+                }
+            }
+        }
+        int[] resultArr = new int[result.size()];
+        for (int i = 0; i < resultArr.length; i++) {
+			resultArr[i] = result.get(i);
+		}
+        return resultArr;
+    }
 
     /**
      * 

@@ -1,8 +1,10 @@
 package org.jcryptool.analysis.fleissner.UI;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -54,8 +56,8 @@ public class KeyPasteDialog extends Dialog {
 		container.setLayout(gl_container);
 		
 		lblNewLabel_1 = new Label(container, SWT.WRAP);
-		GridData gd_lblNewLabel_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);
-		gd_lblNewLabel_1.widthHint = 574;
+		GridData gd_lblNewLabel_1 = new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1);
+		gd_lblNewLabel_1.widthHint = 680;
 		lblNewLabel_1.setLayoutData(gd_lblNewLabel_1);
 		lblNewLabel_1.setText(Messages.KeyPasteDialog_0);
 		
@@ -94,11 +96,19 @@ public class KeyPasteDialog extends Dialog {
 		lblHint.setLayoutData(gd_lblNewLabel_2);
 		
 		getShell().setText(Messages.KeyPasteDialog_2);
-//		container.getShell().pack();
-//		getShell().setLocation(container.getDisplay().getCursorLocation());
 		return container;
 	}
 	
+	@Override
+	protected Point getInitialLocation(Point initialSize) {
+		return container.getDisplay().getCursorLocation();
+	}
+	
+	@Override
+	protected Point getInitialSize() {
+		return new Point(700, 260);
+//		getShell().layout();
+	}
 	
 	protected void updateDialogState() {
 		if (this.lastError != null) {
@@ -118,7 +128,14 @@ public class KeyPasteDialog extends Dialog {
 		errorComposite.requestLayout();
 		lblHint.requestLayout();
 		lblHint.setText(message.orElse("")); //$NON-NLS-1$
-		container.getShell().pack();
+//		container.getShell().pack();
+	}
+	
+	@Override
+	protected Control createButtonBar(Composite parent) {
+		Control result = super.createButtonBar(parent);
+		getOKButton().setEnabled(false);
+		return result;
 	}
 	
 	
@@ -128,12 +145,25 @@ public class KeyPasteDialog extends Dialog {
 		}
 		List<String> split = Arrays.asList(entered.split("\\s+")).stream().filter(s -> s.length() > 0).collect(Collectors.toList()); //$NON-NLS-1$
 		List<Integer> numbers = split.stream().map(s -> Integer.parseInt(s)).collect(Collectors.toList());
+		Set<Integer> numberSet = new HashSet<Integer>();
+		numberSet.addAll(numbers);
+		if (numberSet.size() != numbers.size()) {
+			Set<Integer> numberSetDoubles = new HashSet<Integer>();
+			int prevLen = 0;
+			for(Integer num: numbers) {
+				numberSetDoubles.add(num);
+				if (numberSetDoubles.size() == prevLen) {
+					return String.format(Messages.KeyPasteDialog_XZ3, num);
+				}
+				prevLen = numberSetDoubles.size();
+			}
+		}
 		int root = (int) Math.round(Math.sqrt(split.size()));
 		if (root < 1) {
 			return ""; //$NON-NLS-1$
 		}
 		if (root*root != split.size()) {
-			return Messages.KeyPasteDialog_8;
+			return String.format(Messages.KeyPasteDialog_8, split.size(), split.size());
 		}
 		int size = root*2;
 		int[] intarray = new int[numbers.size()];
@@ -145,6 +175,9 @@ public class KeyPasteDialog extends Dialog {
 		this.key = new KeySchablone(size);
 		for(int nr: numbers) {
 			int idx = nr-1;
+			if (idx < 0) {
+				return Messages.KeyPasteDialog_5;
+			}
 			int row = Math.floorDiv(idx, size);
 			int column = idx % size;
 			if (row >= size) {
@@ -178,12 +211,5 @@ public class KeyPasteDialog extends Dialog {
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
 
-	/**
-	 * Return the initial size of the dialog.
-	 */
-	@Override
-	protected Point getInitialSize() {
-		return new Point(600, 300);
-	}
 
 }

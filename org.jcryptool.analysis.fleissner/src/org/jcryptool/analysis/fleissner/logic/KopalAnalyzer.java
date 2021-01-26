@@ -154,7 +154,7 @@ public class KopalAnalyzer {
 		for(int i=0; i<arr.length; i++) {
 			for (int k=0; k<arr.length; k++) {
 				boolean el = arr[k][i];
-				builder.append(String.format(el ? "o " : "  ")); //$NON-NLS-1$ //$NON-NLS-2$
+				builder.append(String.format(el ? "\u25A1 " : "\u25A0 ")); //$NON-NLS-1$ //$NON-NLS-2$
 //				builder.append(String.format("[%s,%s]=%s\n", i, k, el));
 			}
 			builder.append("\n"); //$NON-NLS-1$
@@ -876,6 +876,12 @@ public class KopalAnalyzer {
 		FleissnerGrille grille = new FleissnerGrille(size);
 		grille.useTemplate(tecleForm, size);
 		return keyFromTecleFormat(grille.getGrilleFilled());
+	}
+	public static boolean[][] tecleFormatToBool(int[] tecleForm) {
+		int[][] kopalForm = keyFromTecleFormat(tecleForm);
+		int size = ((int) Math.floor(Math.sqrt(tecleForm.length/2)))*2;
+		GrilleKey key = new GrilleKey(kopalForm, size, Rotation.Left);
+		return key.toFullMatrix();
 	}
 	public static FleissnerGrille tecleFormatFromKey(int[][] key) {
 		GrilleKey grille = new GrilleKey(key, key.length*2, Rotation.Right);

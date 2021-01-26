@@ -488,12 +488,12 @@ public class FleissnerGrille {
 	  @Override
 	public String toString() {
 		
-	    String s = Messages.FleissnerGrille_break;
+	    String s = "";
 		int textLength = this.grilleFilled.length;
 
 		for (int y = 0; y < textLength; y++) {
 			for (int x = 0; x < textLength; x++) {
-				s+= (this.grilleFilled[x][y] ? "X" : "-");
+				s+= (this.grilleFilled[x][y] ? "O" : "\u25A0");
 			}
             s+=Messages.FleissnerGrille_break;
 		}

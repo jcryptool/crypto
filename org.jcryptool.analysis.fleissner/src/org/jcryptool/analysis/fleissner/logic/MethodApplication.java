@@ -391,6 +391,24 @@ public class MethodApplication {
 		Collections.sort(holePositions);
 		return holePositions.stream().map(i -> i.toString()).collect(Collectors.joining(" ")); //$NON-NLS-1$
 	}
+	public static String templateToForm3(int[] templateTecle) {
+		boolean[][] boolform = KopalAnalyzer.tecleFormatToBool(templateTecle);
+		return KopalAnalyzer.Arr2Text(boolform);
+	}
+	
+	
+	public static String threeKeyFormats(int[] templateTecle, String firstline) {
+		return String.format("%s\n%s: %s\n%s: %s\n%s:\n%s",  //$NON-NLS-1$
+				firstline,
+				Messages.MethodApplication_XX1, 
+				templateToForm1(templateTecle),
+				Messages.MethodApplication_XX2, 
+				templateToForm2(templateTecle), 
+				Messages.MethodApplication_XX3, 
+				templateToForm3(templateTecle)
+				);
+				 
+	}
 	
 	@Override
 	public String toString() {
@@ -404,11 +422,11 @@ public class MethodApplication {
 			String time;
 //			bestDecryptedText = fg.decryptText(ct.getText());
 //			value = tv.evaluate(bestDecryptedText);
-			bestTemplateCoordinates = templateToForm1(bestTemplate) + "\n" + Messages.MethodApplication_r2 + templateToForm2(bestTemplate); //$NON-NLS-1$
-			output = Messages.MethodApplication_zz8 + textInLine + "\n\n"; //$NON-NLS-2$ //$NON-NLS-1$
-			output += Messages.MethodApplication_output_bestGrille + bestTemplateCoordinates + Messages.MethodApplication_M6 + hillclimberResult.cost;
+			bestTemplateCoordinates = threeKeyFormats(bestTemplate, Messages.MethodApplication_XX4);
+			output = Messages.MethodApplication_zz8 + textInLine + "\n\n"; //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
+			output += bestTemplateCoordinates + Messages.MethodApplication_M6 + hillclimberResult.cost;
 			output += "\n" + Messages.MethodApplication_output_decrypted_final + bestDecryptedText //$NON-NLS-1$
-					+ "\n\n"; // $NON-NLS-2$ //$NON-NLS-1$
+					+ "\n"; // $NON-NLS-2$ //$NON-NLS-1$
 			output += Messages.MethodApplication_output_length_final + templateLength;
 			output += "\n" + Messages.MethodApplication_r1 + KopalAnalyzer.RotationToString(rotation); //$NON-NLS-1$
 //          adjusts time format depending of spent time for analysis
@@ -433,25 +451,27 @@ public class MethodApplication {
 //			output += Messages.MethodApplication_output_finished_final + time;
 			break;
 		case "encrypt": //$NON-NLS-1$
-			output = Messages.MethodApplication_zz8 + textInLine + "\n\n"; //$NON-NLS-2$ //$NON-NLS-1$
+			String outputForKeyEncrypt = threeKeyFormats(fg.saveTemplate(), Messages.MethodApplication_output_encryptionKey);
+			output = Messages.MethodApplication_zz8 + textInLine + "\n"; //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
 			output += Messages.MethodApplication_output_encrypted + encryptedText
-					+ Messages.MethodApplication_output_encryptionKey + fg;
-			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + "\n" + Messages.MethodApplication_r2 + templateToForm2(fg.saveTemplate()); //$NON-NLS-1$
-			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
+					+  "\n" + outputForKeyEncrypt; //$NON-NLS-1$
+//			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + "\n" + Messages.MethodApplication_r2 + templateToForm2(fg.saveTemplate()); //$NON-NLS-1$
+//			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
 			output += Messages.MethodApplication_output_length_final + templateLength;
 			output += "\n" + Messages.MethodApplication_r1 + KopalAnalyzer.RotationToString(rotation); //$NON-NLS-1$
 			break;
 		case "decrypt": //$NON-NLS-1$
-			output = Messages.MethodApplication_zz8 + textInLine + "\n\n"; //$NON-NLS-2$ //$NON-NLS-1$
+			String outputForKeyDecrypt = threeKeyFormats(fg.saveTemplate(), Messages.MethodApplication_output_decryptionKey);
+			output = Messages.MethodApplication_zz8 + textInLine + "\n"; //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
 			output += Messages.MethodApplication_output_decrypted_final + decryptedText
-					+ Messages.MethodApplication_output_decryptionKey + fg;
-			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + "\n" + Messages.MethodApplication_r2 + templateToForm2(fg.saveTemplate()); //$NON-NLS-1$
-			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
+					+ "\n" + outputForKeyDecrypt; //$NON-NLS-1$
+//			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + "\n" + Messages.MethodApplication_r2 + templateToForm2(fg.saveTemplate()); //$NON-NLS-1$
+//			output += Messages.MethodApplication_output_keyCoordinates + bestTemplateCoordinates;
 			output += Messages.MethodApplication_output_length_final + templateLength;
 			output += "\n" + Messages.MethodApplication_r1 + KopalAnalyzer.RotationToString(rotation); //$NON-NLS-1$
 			break;
 		case "keyGenerator": //$NON-NLS-1$
-			output = Messages.MethodApplication_output_key + fg;
+			output = Messages.MethodApplication_output_key + "\n" + fg; //$NON-NLS-1$
 			for (int h = 0; h < grille.length; h++) {
 				output += grille[h] + ","; //$NON-NLS-1$
 			}

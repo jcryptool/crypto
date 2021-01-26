@@ -71,4 +71,5 @@ public class KeySchablone extends Schablone implements Cloneable {
         }
         return true;
     }
+
 }

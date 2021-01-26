@@ -91,6 +91,10 @@ public class Messages extends NLS {
     public static String MethodApplication_procedure_hillClimbing;
 	public static String MethodApplication_r1;
 	public static String MethodApplication_r2;
+	public static String MethodApplication_XX1;
+	public static String MethodApplication_XX2;
+	public static String MethodApplication_XX3;
+	public static String MethodApplication_XX4;
 	public static String MethodApplication_zz8;
     public static String ParameterSettings_InvalidKey;
     public static String ParameterSettings_InvalidKeyLength2;
