@@ -729,7 +729,7 @@ public class FleissnerWindow extends Composite {
 				int lengthEntered = normalizeTextJustNewlines(ciphertextText.getText()).length();
 				int lengthNormalized = normalizeText(ciphertextText.getText()).length();
 				ciphertextGroup.setText(
-						Messages.FleissnerWindow_label_ciphertext + String.format(" (filtered: %s, raw: %s)", lengthNormalized, lengthEntered)); //$NON-NLS-1$
+						Messages.FleissnerWindow_label_ciphertext + String.format(Messages.FleissnerWindow_rr2, lengthNormalized, lengthEntered)); //$NON-NLS-1$
 				if (isAnalyze()) {
 					plaintextText.setText(""); //$NON-NLS-1$
 					plaintextText.notifyListeners(SWT.Modify, new Event());
