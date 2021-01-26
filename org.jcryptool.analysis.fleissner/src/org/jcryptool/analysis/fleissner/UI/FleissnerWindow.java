@@ -678,7 +678,12 @@ public class FleissnerWindow extends Composite {
 			public void modifyText(ModifyEvent e) {
 
 				int lengthEntered = normalizeTextJustNewlines(plaintextText.getText()).length();
-				int lengthNormalized = normalizeText(plaintextText.getText(), getEnDecAlphabet()).length();
+				int lengthNormalized;
+				if (isEncrypt()) {
+					lengthNormalized = normalizeText(plaintextText.getText(), getEnDecAlphabet()).length();
+				} else {
+					lengthNormalized = normalizeTextJustNewlines(plaintextText.getText()).length();
+				}
 				plaintextGroup.setText(
 						Messages.FleissnerWindow_label_plaintext + String.format(Messages.FleissnerWindow_rr2, lengthNormalized, lengthEntered));
 				if (writeTextRadioButton.getSelection()) {
@@ -727,7 +732,13 @@ public class FleissnerWindow extends Composite {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				int lengthEntered = normalizeTextJustNewlines(ciphertextText.getText()).length();
-				int lengthNormalized = normalizeText(ciphertextText.getText()).length();
+//				int lengthNormalized = normalizeText(ciphertextText.getText()).length();
+				int lengthNormalized;
+				if (isEncrypt()) {
+					lengthNormalized = normalizeTextJustNewlines(ciphertextText.getText()).length();
+				} else {
+					lengthNormalized = normalizeText(ciphertextText.getText()).length();
+				}
 				ciphertextGroup.setText(
 						Messages.FleissnerWindow_label_ciphertext + String.format(Messages.FleissnerWindow_rr2, lengthNormalized, lengthEntered)); //$NON-NLS-1$
 				if (isAnalyze()) {
