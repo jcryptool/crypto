@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -62,6 +64,7 @@ import org.jcryptool.analysis.fleissner.logic.KopalAnalyzer;
 import org.jcryptool.analysis.fleissner.logic.KopalAnalyzer.Rotation;
 import org.jcryptool.analysis.fleissner.logic.MethodApplication;
 import org.jcryptool.analysis.fleissner.logic.ParameterSettings;
+import org.jcryptool.analysis.fleissner.views.FleissnerView;
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.directories.DirectoryService;
@@ -1256,9 +1259,13 @@ public class FleissnerWindow extends Composite {
 		String currentFilename = consoleLogCombo.getText();
 		if (currentFilename.length() != 0) {
 			try {
-				EditorsManager.getInstance().openNewTextEditor(new PathEditorInput(SavedItem.getAbsPath(currentFilename).toString()));
+				String string = SavedItem.getAbsPath(currentFilename).toString();
+				PathEditorInput input = new PathEditorInput(
+						string);
+				EditorsManager.getInstance().openNewTextEditor(
+						input);
 			} catch (PartInitException e) {
-				e.printStackTrace();
+				LogUtil.logError(FleissnerView.ID, e);
 			}
 		}
 	}
@@ -1301,14 +1308,14 @@ public class FleissnerWindow extends Composite {
 
 			File file = getFile();
 			try {
-				Files.write(Path.of(file.getPath()), payload.getBytes());
+				Files.write(Path.of(file.getPath()), payload.getBytes(StandardCharsets.UTF_8));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		public String read() {
 			try {
-				return Files.readString(Path.of(getFile().getPath()));
+				return Files.readString(Path.of(getFile().getPath()), StandardCharsets.UTF_8);
 			} catch (IOException e) {
 				e.printStackTrace();
 				return ""; //$NON-NLS-1$
@@ -1318,7 +1325,7 @@ public class FleissnerWindow extends Composite {
 			return new File(directory().getPath() + "/" + getFileName()); //$NON-NLS-1$
 		}
 		private String getFileName() {
-			return date.replaceAll("[^A-Za-z0-9_-]", "_") + "_operation_" + operation + Messages.FleissnerWindow_rr1 + KopalAnalyzer.RotationToString(rotation); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return date.replaceAll("[^A-Za-z0-9_-]", "_") + "_operation_" + operation + Messages.FleissnerWindow_rr1 + KopalAnalyzer.RotationToString(rotation) + ".txt"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 	}
