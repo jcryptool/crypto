@@ -448,7 +448,7 @@ public class FleissnerWindow extends Composite {
 		keySize.setIncrement(2);
 		keySize.setSelection(6);
 		keySize.setEnabled(true);
-		GridData gd_keySize = new GridData(SWT.CENTER, SWT.CENTER, false, true);
+		GridData gd_keySize = new GridData(SWT.CENTER, SWT.CENTER, false, false);
 		gd_keySize.horizontalIndent = 20;
 		keySize.setLayoutData(gd_keySize);
 		keySize.addSelectionListener(new SelectionListener() {

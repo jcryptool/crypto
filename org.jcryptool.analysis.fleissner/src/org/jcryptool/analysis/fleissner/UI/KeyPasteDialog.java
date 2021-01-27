@@ -43,6 +43,11 @@ public class KeyPasteDialog extends Dialog {
 	public KeyPasteDialog(Shell parentShell) {
 		super(parentShell);
 	}
+	
+	@Override
+	protected boolean isResizable() {
+		return true;
+	}
 
 	/**
 	 * Create contents of the dialog.
@@ -96,6 +101,7 @@ public class KeyPasteDialog extends Dialog {
 		lblHint.setLayoutData(gd_lblNewLabel_2);
 		
 		getShell().setText(Messages.KeyPasteDialog_2);
+		setError(Optional.empty());
 		return container;
 	}
 	
@@ -122,12 +128,12 @@ public class KeyPasteDialog extends Dialog {
 
 	// if message is not a string, show no error
 	private void setError(Optional<String> message) {
-		errorCompData.exclude = message.isEmpty();
+//		errorCompData.exclude = message.isEmpty();
 		errorComposite.setVisible(message.isPresent());
 		errorComposite.requestLayout();
 		errorComposite.requestLayout();
 		lblHint.requestLayout();
-		lblHint.setText(message.orElse("")); //$NON-NLS-1$
+		lblHint.setText(message.orElse(Messages.KeyPasteDialog_8 )); //$NON-NLS-1$ // leave space for the longest message to be sure.
 //		container.getShell().pack();
 	}
 	
