@@ -2,60 +2,335 @@
 
 <html>
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Grille Cipher Analysis</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	  <title>Fleißner-Chiffre (Analyse)</title>
+	<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
+	<script src="${JCTJS_HOST}/javascript/jquery.js"></script>
+
+	<!-- TOCbot: Table of Content generation, see https://github.com/tscanlin/tocbot -->
+	 <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script> 
+	 <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
+	 <script>TOC_generate_default("h2, h3")</script> 	
+	<style>.toc-list-item {list-style-type: circle;}</style>
+	<style>
+		.center {
+		  display: block;
+		  margin-left: auto;
+		  margin-right: auto;
+		  width: 50%;
+		}	
+	</style>
 </head>
+
 <body>
 
-<h1>Grille Cipher Analysis (Analysis, Encryption and Decryption)</h1>
+<h1>Fleissner-grille cipher (analysis, encryption and decryption)</h1>
+<!--TODO:In English, the last dot must read:
+- With the presumption that the ciphertext is in English, a 5-gram statistic of the English language was selected.-->
 
-	<p>This plugin allows to encrypt and decrypt text with the grille square, but above all you can also break grille ciphertexts automatically (currently only for even square sizes, but soon both for even and odd square sizes). The maximum square size is 20 x 20.</p>
+<div class="TOC"></div>
 
+	<p>With this plugin you can encrypt and decrypt texts using the Fleissner grille, but most importantly you can also break Fleissner ciphertexts automatically. This help gives a short tutorial with examples, and leads more examples to try yourself.</p>
     
-    <p>Please note that currently only clockwise-rotating grilles are implemented.<br>
-	If you have selected "Encrypt" as method and want to encrypt your own text, you must enter your text in the "Plaintext" field (above). If "Decrypt" or "Analysis" is selected as method, you must enter your text in the "Ciphertext" field (below).</p>
+<h2 id=h2_1>1) Analysis of a given example text</h2>
 
+	<p>
+		Initially, the plug-in has the following settings, so you can get started right away:
+		<ul>
+			<li>Analysis is selected as the method (for a left-turning example text).</li>
+			<li>A sample ciphertext is selected, encrypted with a 6 x 6 grille.<br />This ciphertext is displayed in the upper right corner.<br />Of course, you can also enter or load your own ciphertext.</li>
+			<li>The hill-climbing algorithm used for the analysis is set to 6 restarts.</li>
+			<li>With the assumption that the ciphertext is in English, a 5-gram statistic of the English language was selected.</li>
+		</ul>
+	</p>
 
-    <p>Here you find help about the cipher itself and how to use this plug-in.</p>
-
-
-
-	<h2>How does the algorithm work</h2>
-
-	<p>A grille cipher is a technique for encrypting a plaintext by writing it onto a sheet of paper through a pierced sheet (of paper or cardboard or similar).</p>
-
-    <p>More details can be found in <a target="_blank" href="https://en.wikipedia.org/wiki/Grille_(cryptography)">Wikipedia</a>
-<!-- BE_Jan2021: Den ff. Satzteil aktivieren, wenn das alte Plugin wieder angeboten wird!!!
-	and in the online help of the pure visualization in JCT: <a href="PLUGINS_ROOT/org.jcryptool.visual.grille/$nl$/content/index.html">Grille Cipher</a>
--->
-	.</p>
+	<p><img src="Grille01.png" width="85%"/></p>
 	
-	<!--
-	[[[ Nice-to-have-TODO: If the German presentation of Tecle is translated, this can be added here too.]]]
-    <a href="OnlineHelpAlgorithm-de.pdf"> Fleißner-Schablone und -Analyse (Algorithmus)</a><br/><br/>
-	
-    <p>Dokument "OnlineHelpAlgorithm-de.pdf" erklärt die Fleißner-Schablone und deren Analyse. Neben einer kurzen Einführung zur Herkunft des Verfahrens wird der Aufbau der Schablone genauer erläutert, sowie der mathematische Hintergrund, der am Ende des Dokuments auch noch detailliert hergeleitet wird. Im Anschluss befindet sich eine Erklärung zur Analyse, den dazu verwendeten Verfahren und eine Darstellung der Analyseergebnisse.</p>
-	-->
-	
-	
+	<p>
+		Click on the "Start" button to run the analysis.
+	</p>
+	<p>
+		It takes a moment for the mouse pointer to change and the status bar at the bottom right to indicate that a background job (for the analysis) is running. The following image shows the result:
+	</p>
 
-	<h2>How to use this plug-in (instruction manual)</h2>
-	
-    <p>The PDF document <a href="OnlineHelpUsage-en.pdf">Usage of the Grille Analysis</a> explains in great detail how to use this plug-in. Each function is complemented with a screenshot. The screenshots in this PDF are outdated as the plugin was further developed. The PDF will be updated in one of the next JCT versions.</p>
-	
+	<p><img src="Grille02.png" width="85%"/></p>
 
-<!-- BE_Jan2021: Die ff. Bemerkung aktivieren, wenn das alte Plugin wieder angeboten wird!!!
-	<p><strong>Remark:</strong> JCT also contains an older plugin <a href="PLUGINS_ROOT/org.jcryptool.visual.grille/$nl$/content/index.html">Grille Cipher</a>, which is only intended to visualize the encryption and decryption process. It cannot break ciphertexts. Within the older plugin, the square size is limited to the values 4, 6, 8, and 10, while here this limit is abolished. If you want to learn more about this cipher, please also have a look at the online help of the older plugin.</p>
-  -->
+	<p>
+		In the field "Plaintext" you can see the result - output in lines of length 1/4 of the number of fields in the grille: so here of length \( 9 = 36 / 4 \).
+	</p>
 
+	<pre>
+CALLMEISH
+MAELSOMEY
+EARSAGONE
+VERMINDHO
+WLONGPREC
+ISELYHAVI
+NGLITTLEO
+RNOMONEYI
+NMYPURSEA
+...
+	</pre>
+	<p>
+		If you insert the appropriate special characters (not in the English alphabet), you get:
+	</p>
+	<pre>CALL ME ISHMAEL. SOME YEARS AGO, NEVER MIND HOW LONG PRECISELY. HAVING LITTLE OR NO MONEY IN MY PURSE A...</pre>
 	
-	<!--  <br/>  -->
-	<h2>Further information / References about the grille cipher</h2>
-
+	<p>
+		In the "Output" grouping (below) is the log, which is automatically regenerated after each startup.<br/>
+	</p><p>
+	In it you will find the key found and also the original key chosen for the randomly generated sample text:
 	<ul>
-	<li><a target="_blank" href="https://en.wikipedia.org/wiki/Grille_(cryptography)">Wikipedia: Grille </a></li>
+		<li>in sequential form (the counting is line by line and starting with 1): <pre>7 9 11 ...,</pre></li>
+		<li>in coordinate form (the counting style is column-wise and starts with 0): <pre>(0,1) (0,2) (2,1)</pre></li>
+		<li>a visual form with UTF8 characters (a light square is a punched hole in the grille).</li>
 	</ul>
 
+Also we output the value of the cost function for the best plaintext found. The lower this value, the better it is.
+	</p>
+
+<h2 id=h2_2>2) Analysis of a custom sample text</h2>
+
+	<p>
+		As an example ciphertext, a text from the <a href="https://de.wikipedia.org/wiki/Flei%C3%9Fnersche_Schablone" target="_blank">German Wikipedia for the Fleissner cipher</a> was taken. The ciphertext generated by the left-turning method is taken; the analysis is also chosen to be left-turning. The German alphabet is chosen as the alphabet.
+	</p>
+
+	<p>
+		Input text from Wikipedia:
+	</p>
+
+	<pre>
+	DWNIIK
+	LEKFIL
+	RIPONE
+	PEIEDA
+	EEEODI
+	NIZAYE
+	</pre>
+
+	<p>
+		JCT finds as plaintext:
+	</p>
+	
+	<pre>
+	NLINEENZY
+	KLOPAEDIE
+	WIKIPEDIA
+	DIEFREIEO
+	</pre>
+
+
+	<p>
+		The statistics of the automatic analysis do not perfectly map the language; therefore, texts may not be decoded perfectly. In this example, the analysis seems to converge on a solution that still needs manual improvement. By swapping the top two lines and the bottom two lines, the correct solution is obtained.
+	</p>
+
+<h2 id=h2_3>3) Encoding an example text</h2>
+
+<ul>
+	<li>Select the corresponding radio button in the group method</li>
+	<li>Select example text or enter or load an example text yourself</li>
+	<li>Set the alphabet (initially it is in the English JCT on the English alphabet)</li>
+</ul>
+
+
+	<p>
+		In the group "Plaintext" is to enter the plaintext.
+	</p><p>
+		In the group title, the length is still specified: "filtered" means the length of the characters in the alphabet; "unfiltered" means the length of the original sample text (from which all non-alphabet characters are filtered out during filtering, and also lowercase letters are interpreted as uppercase letters, as is common in n-gram statistics).
+	</p><p>
+		You can copy the result and also decode it.
+	</p>
+
+<h2 id=h2_4>4) More examples of cricket secret texts</h2>
+
+For further experimentation, some examples are given below.
+
+<h3 id=h3_1>Example 1</h3>
+
+You can try a text from  <a target=_blank href="https://scienceblogs.de/klausis-krypto-kolumne/2017/01/19/how-my-readers-solved-the-fleissner-challenge/">Klaus Schmeh's Kryptokolumne</a>  using a grille of size 20.
+
+	<p>
+		As the original ciphertext there had a mistake, you might use this correctly generated ciphertext:
+	</p>
+<pre>
+PIENLZLALANIEGDSTFETHMOEEVEINONDTBRRMEAAUATNNMNPEOASROODPMFMHOAEMOTOEONDOAERPNXLAINEPFXECORPRDTEEIED
+THNETIUTNRIIOTYINEOWAINTDHMSSATOOURTINAGINONVATTEERDEDHDEUAMTROIINOENGSWALNRGAMTYAHTNESDAOEEIMSINTSA
+GAPBJOELSOENIHRSDHOMUAHRNDAYWTEMEIRLELERIAAITNFATAENRCTAHRRESHYOTVIICNLEIULCETSNEUAANRLRCOIHUATELSLI
+PWOEOENNSRGNSTELBSHBEAYSEUINDNCEISHNREGVOTUOFIEDNEBTAHRNEASCUENPAUNNSDWPIOEXITPTYUNGIFLIHKATSMVARAET
+</pre>
+
+	<p>
+		We get as plaintext 
+	</p>
+<pre>
+PLANSFORMANNEDMOONEXPEDITIONSORIGINATEDDURINGTHEEISENHOWERERAINANARTICLESERIESWERNHERVONBRAUNPOPULAR
+IZEDTHEIDEAOFAMOONEXPEDITIONAMANNEDMOONLANDINGPOSEDMANYTECHNICALCHALLENGESBESIDESGUIDANCEANDWEIGHTMA
+NAGEMENTATMOSPHERICREENTRYWITHOUTOVERHEATINGWASAMAJORHURDLEAFTERTHESOVIETUNIONSLAUNCHOFTHESPUTNIKSAT
+ELLITEVONBRAUNPROMOTEDAPLANFORTHEUNITEDSTATESARMYTOESTABLISHAMILITARYLUNAROUTPOSTBYNINETEENSIXTYFIVE
+</pre>
+
+	<p>
+		As bigger the grille and the shorter the ciphertext, the higher number of restarts should be set. So you might choose 50 restarts (or more).
+		As the plaintext is English, please choose the English alphabet.
+	</p>
+
+<h3 id=h3_2>Example 2</h3>
+
+Another example from Klaus Schmeh's Kryptokolumne: <a target=_blank href="https://scienceblogs.de/klausis-krypto-kolumne/2020/09/29/can-you-solve-this-turning-grille-cryptogram-from-1870/">A cipher from 1870</a> The grille size is 12.
+
+The transcription of that cipher is:
+
+<pre>
+NVRDIEMHNEAT
+IRVOAEINFYIU
+BRNTTTEHSEUA
+FHSEREPEFDRF
+OORRMOSVTOHO
+EIDFNOTSHTUH
+RETRTEEEAMLE
+EUGGSTSRIELA
+TARIEGTEAMRY
+OBSFOUCTTOHT
+EMTRPHCOLIIE
+XPSIHRTEIEYN
+</pre>
+
+<h3 id=h3_3>Example 3</h3>
+
+	<p>
+		The <a target=_blank href="https://de.wikipedia.org/wiki/Flei%C3%9Fnersche_Schablone#Beispiel">German wikipedia on the Fleissner grille</a> has two examples: one left-rotated, one right-rotated. The grille size is 6. The transcriptions are as follows:
+	</p>
+
+	<p>
+		Right-rotated (ciphertext):
+	</p>
+
+<pre>
+KWNILK
+LODPII
+AIPENE
+FEDEDR
+IEEEII
+NEZAYO
+</pre>
+
+	<p>
+		Left-rotated (ciphertext):
+	</p>
+
+<pre>
+DWNIIK
+LEKFIL
+RIPONE
+PEIEDA
+EEEODI
+NIZAYE
+</pre>
+
+	<p>
+		The plaintext, in both cases, reads:
+	</p>
+
+<pre>
+WIKIPEDIA DIE FREIE ONLINE ENZYKLOPAEDIE
+</pre>
+
+	<p>
+		It should be noted, that this plaintext is quite short and even with the right statistics (German), manual post-processing may be necessary.
+	</p>
+
+<h3 id=h3_4>Example 4</h3>
+
+	<p>
+		The book <a target=_blank href="https://informatika.stei.itb.ac.id/~rinaldi.munir/Kriptografi/2010-2011/cryptanalysis.pdf">Gaines, Helen (1956): Cryptanalysis - a study of ciphers and their solution</a> has several examples. To find out grille sizes and solution is left as exercise to the reader.
+	</p>
+
+<p>page 35, Fig.22:</p>
+
+<pre>
+TSTHE
+TTUSH
+OEDGF
+RDOEO
+GRISA
+AMSNM
+QEUGI
+BRIEL
+NOSTH
+SICLS
+ETSWA
+THABR
+YPAE
+</pre>
+
+<p>page 35, Fig.23</p>
+
+<pre>
+AEKDS
+PVTOO
+NNAAO
+NRONP
+ROCTI
+EHTRE
+HNETI
+AFGSR
+HTNIL
+OVTEF
+FALMK
+IECLA
+ASNM
+</pre>
+
+<p>page 35, Fig.25</p>
+
+<pre>
+RNIII
+NGTFL
+AILNN
+DEETD
+RVEUS
+ESTHR
+EIGEY
+FIANO
+URRDL
+GYTNH
+AEONR
+NEKCD
+EEISE
+YBSEF
+WYPGR
+LOLOE
+UOFHP
+ATVER
+EHERA
+EDFMI
+TRHNE
+EISYT
+QTSII
+SAUSG
+IEAIC
+ASLLK
+LLTTX
+HVHEA
+RXAX
+</pre>
+
+<h2 id=ref>5) Further reading</h2>
+  <ul>
+	<li><a target="_blank" href="https://en.wikipedia.org/wiki/Grille_(cryptography)">Wikipedia: Grille</a></li>
+	<li><a target="_blank" href="https://de.wikipedia.org/wiki/Flei%C3%9Fnersche_Schablone"> Wikipedia: Fleißnersche Schablone (German)</a></li>
+  </ul>
+</div>
 
 </body>
 </html>
+
+
+<!-- Sammlung
+BE_Jan2021: Die ff. Bemerkung aktivieren, wenn das alte Plugin wieder angeboten wird!!!
+	<p><strong>Bemerkung:</strong> In JCT gibt es ein älteres Plugin namens <a href="PLUGINS_ROOT/org.jcryptool.visual.grille/$nl$/content/index.html">Fleißner-Schablone / Grille</a>, das nur zur Visualisierung der Verschlüsselung und Entschlüsslung gedacht ist und keine Texte brechen kann. In dem älteren Plugin ist die Schablonengröße eingeschränkt auf die Werte 4, 6, 8 und 10, was hier nicht der Fall ist. Wenn Sie mehr zu dem Verfahren erfahren wollen, können Sie sich auch die Onlinehilfe zum alten Plugin ansehen.</p>
+  <li><a href="PLUGINS_ROOT/org.jcryptool.visual.extendedrsa/$nl$/help/content/rsaHelp.html">JCT Plugin: Visualization of an Extended RSA Cryptosystem (including Identities and Multi-Prime RSA)</a>
+- links zur alten PDF hilfe:
+    1) <a href="OnlineHelpAlgorithm-de.pdf"> Fleißner-Schablone und -Analyse (Algorithmus)</a>
+    2) <a href="OnlineHelpUsage-de.pdf"> Bedienungsanleitung zu diesem Plug-In</a>
+-->

@@ -973,7 +973,7 @@ public class FleissnerWindow extends Composite {
 		textSelectionGroup.setLayoutData(gd_textSelectionGroup);
 
 		exampleTextRadioButton = new Button(textSelectionGroup, SWT.RADIO);
-		exampleTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		exampleTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		exampleTextRadioButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -998,7 +998,7 @@ public class FleissnerWindow extends Composite {
 		exampleTextRadioButton.setSelection(true);
 
 		exampleTextCombo = new Combo(textSelectionGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
-		exampleTextCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+		exampleTextCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 		exampleTextCombo.setItems(items);
 
 		if (Locale.getDefault().toString().contains("de")) { //$NON-NLS-1$
@@ -1033,7 +1033,7 @@ public class FleissnerWindow extends Composite {
 		});
 
 		writeTextRadioButton = new Button(textSelectionGroup, SWT.RADIO);
-		writeTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 4, 1));
+		writeTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 4, 1));
 		writeTextRadioButton.setSelection(false);
 		onOwnTextSelectionChanged = new SelectionListener() {
 			@Override
@@ -1068,7 +1068,7 @@ public class FleissnerWindow extends Composite {
 		writeTextRadioButton.addSelectionListener(onOwnTextSelectionChanged);
 
 		loadOwnTextRadioButton = new Button(textSelectionGroup, SWT.RADIO);
-		loadOwnTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		loadOwnTextRadioButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		loadOwnTextRadioButton.setSelection(false);
 		loadOwnTextRadioButton.addSelectionListener(new SelectionListener() {
 			@Override
@@ -1118,7 +1118,7 @@ public class FleissnerWindow extends Composite {
 		});
 
 		textloader = new TextLoadController(textSelectionGroup, this, SWT.PUSH, true, false);
-		textloader.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+		textloader.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 		textloader.setEnabled(false);
 
 		textloader.addObserver(new Observer() {
@@ -1768,7 +1768,7 @@ public class FleissnerWindow extends Composite {
 						if (exampleTextRadioButton.getSelection()) {
 							String keyRepr = MethodApplication.threeKeyFormats(lastRandomKey, Messages.FleissnerWindow_XY8);
 							String logMask = Messages.FleissnerWindow_XY9;
-							String logMaskApplied = String.format(logMask, lastExamplePlaintext, keyRepr, lastExampleCiphertext);
+							String logMaskApplied = String.format(logMask, lastExamplePlaintext, keyRepr);
 							consoleTextAppend("\n\n" + logMaskApplied); //$NON-NLS-1$
 						}
 					}
