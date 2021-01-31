@@ -38,7 +38,7 @@
 
 
 
-	<h2 id=wiefunktioniert>How does the algorithm work</h2>
+	<h2 id=wiefunktioniert>How do the encryption algorithm and its cryptanalysis work</h2>
 
 	<p>A grille cipher is a technique for encrypting a plaintext by writing it onto a sheet of paper through a pierced sheet (of paper or cardboard or similar).</p>
 
@@ -54,7 +54,8 @@
 	
     <p>Dokument "OnlineHelpAlgorithm-de.pdf" erklärt die Fleißner-Schablone und deren Analyse. Neben einer kurzen Einführung zur Herkunft des Verfahrens wird der Aufbau der Schablone genauer erläutert, sowie der mathematische Hintergrund, der am Ende des Dokuments auch noch detailliert hergeleitet wird. Im Anschluss befindet sich eine Erklärung zur Analyse, den dazu verwendeten Verfahren und eine Darstellung der Analyseergebnisse.</p>
 	-->
-	
+
+    <p>Currently, pure hill climbing is used for analysis. To improve the results, it is planned to also implement simulated annealing. While the analysis process is running in the background, you can continue working in JCT. However, you cannot cancel the background job at the moment.</p>
 	
 
 	<h2 id=manual>How to use this plug-in (instruction manual)</h2>
@@ -227,7 +228,7 @@ ELLITEVONBRAUNPROMOTEDAPLANFORTHEUNITEDSTATESARMYTOESTABLISHAMILITARYLUNAROUTPOS
 PLANS FOR MANNED MOON EXPEDITIONS ORIGINATED DURING THE EISENHOWER ...</pre>
 
 	<p>
-		As bigger the grille and the shorter the ciphertext, the higher the number of restarts should be set. So you might choose 50 restarts (or more).
+		As bigger the grille and the shorter the ciphertext, the higher the number of restarts should be set. So you might choose 50 restarts (or more). This will &ndash; depending on your computer &ndash; then take a few minutes.
 		As the plaintext is English, please choose the English alphabet.
 	</p>
 
@@ -237,7 +238,7 @@ PLANS FOR MANNED MOON EXPEDITIONS ORIGINATED DURING THE EISENHOWER ...</pre>
 
 Another example from Klaus Schmeh's Kryptokolumne: <a target=_blank href="https://scienceblogs.de/klausis-krypto-kolumne/2020/09/29/can-you-solve-this-turning-grille-cryptogram-from-1870/">A cipher from 1870</a> The grille size is 12.
 
-The transcription of that cipher is:
+The transcription of that (left-rotating) cipher is:
 
 <pre>
 NVRDIEMHNEAT
