@@ -2,7 +2,7 @@
 <feature
       id="org.jcryptool.crypto.modern.feature"
       label="JCrypTool Modern Algorithms Feature"
-      version="1.0.2"
+      version="1.0.3"
       provider-name="jcryptool.org"
       plugin="org.jcryptool.crypto.modern">
 
