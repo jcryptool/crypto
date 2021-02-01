@@ -16,7 +16,8 @@ public class Messages extends NLS {
 	public static String KopalAnalyzer_1;
 	public static String KopalAnalyzer_l0;
 	public static String KopalAnalyzer_r0;
-    public static String MethodApplication_error_fileNotFound;
+    public static String MethodApplication_4;
+	public static String MethodApplication_error_fileNotFound;
     public static String MethodApplication_error_statFileNotFound;
     public static String MethodApplication_info_acurateness;
     public static String MethodApplication_info_bestGrilleYet;
@@ -98,6 +99,7 @@ public class Messages extends NLS {
 	public static String MethodApplication_XX3;
 	public static String MethodApplication_XX4;
 	public static String MethodApplication_zz8;
+	public static String MethodApplication_ZZZ1;
     public static String ParameterSettings_InvalidKey;
     public static String ParameterSettings_InvalidKeyLength2;
     public static String ParameterSettings_PleaseEnterValidParameters;

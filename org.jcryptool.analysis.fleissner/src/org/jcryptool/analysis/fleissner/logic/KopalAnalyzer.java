@@ -247,6 +247,8 @@ public class KopalAnalyzer {
 		public int[][] bestkey;
 		public int[] bestplaintextAsNumbers;
 		public String bestplaintext;
+		private long timeStart;
+		private long timeEnd;
 
 		public HillclimbGrilleResult(int[] ciphertext, int grilleSize, int restarts,
 				Rotation rotation, NGramFrequencies grams) {
@@ -272,6 +274,19 @@ public class KopalAnalyzer {
 		public GrilleKey asGrilleKey() {
 			return new GrilleKey(bestkey, grilleSize, Rotation.Right);
 		}
+
+		public void setStartAndEndTime(long timeStart, long timeEnd) {
+			this.timeStart = timeStart;
+			this.timeEnd = timeEnd;
+		}
+		
+		public double getTimeSpentInSeconds() {
+			return (double)(timeEnd-timeStart)/1000;
+		}
+		public String getTimeSpentInSecondsFormatted() {
+			return String.format("%.2f", getTimeSpentInSeconds());
+		}
+
 	}
 	
 	public static HillclimbGrilleResult HillclimbGrilleWithMonitor(IProgressMonitor monitor, int[] ciphertext, int grilleSize, int restarts, Rotation rotation, NGramFrequencies grams)
@@ -285,6 +300,7 @@ public class KopalAnalyzer {
 		
 		monitor.beginTask("Grille Hillclimbing", restarts); //$NON-NLS-1$
 
+		long timeStart = System.currentTimeMillis();
 		int[][] globalbestkey = new int[0][0]; // size: ,
 		double globalbestkeycost = Double.NEGATIVE_INFINITY;
 		int[] globalbestplaintext = new int[] {};
@@ -407,7 +423,6 @@ public class KopalAnalyzer {
 			monitor.worked(1);
 		} while (restarts > 0);
 		
-		
 		List<int[][]> rotatedKeys = new LinkedList<>();
 		List<int[]> rotatedPlaintexts = new LinkedList<>();
 		double bestCost = Double.NEGATIVE_INFINITY;
@@ -431,7 +446,9 @@ public class KopalAnalyzer {
 		globalbestplaintext = rotatedPlaintexts.get(bestRotIdx);
 		globalbestkey = rotatedKeys.get(bestRotIdx);
 		globalbestkeycost = bestCost;
+		long timeEnd = System.currentTimeMillis();
 
+		result.setStartAndEndTime(timeStart, timeEnd);
 		result.setStats(globalbestkeycost, globalbestkey);
 		result.setBestTextAsInt(globalbestplaintext);
 		result.setBestTextAsString(MapNumbersIntoTextSpace(globalbestplaintext, grams.alphabet, globalbestplaintextlength));

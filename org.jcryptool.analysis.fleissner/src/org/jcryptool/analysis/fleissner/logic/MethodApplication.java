@@ -62,6 +62,7 @@ public class MethodApplication {
 	private HillclimbGrilleResult hillclimberResult;
 	private Rotation rotation;
 	private String encryptDecryptAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜß"; //$NON-NLS-1$
+	private String timeTaken;
 
 	/**
 	 * applies parameter settings from ParameterSettings and sets and executes
@@ -130,6 +131,7 @@ public class MethodApplication {
 //				bestkeyRepr.clearGrille(); bestkeyRepr.useTemplate(hillclimberResult.asGrilleKey().toTecleIntArray(), hillclimberResult.grilleSize);
 				bestTemplate = hillclimberResult.asGrilleKey().toTecleIntArray();
 				bestDecryptedText = hillclimberResult.bestplaintext;
+				timeTaken = hillclimberResult.getTimeSpentInSecondsFormatted();
 				
 				StringBuilder bestkeyReprS = new StringBuilder();
 				List<Integer> tecleFormat = hillclimberResult.asGrilleKey().toTecleFormat();
@@ -423,12 +425,13 @@ public class MethodApplication {
 //			bestDecryptedText = fg.decryptText(ct.getText());
 //			value = tv.evaluate(bestDecryptedText);
 			bestTemplateCoordinates = threeKeyFormats(bestTemplate, Messages.MethodApplication_XX4);
-			output = Messages.MethodApplication_zz8 + textInLine + "\n\n"; //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
+			output = Messages.MethodApplication_zz8 + textInLine + "\n\n"; //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
 			output += bestTemplateCoordinates + Messages.MethodApplication_M6 + hillclimberResult.cost;
 			output += "\n" + Messages.MethodApplication_output_decrypted_final + bestDecryptedText //$NON-NLS-1$
 					+ "\n"; // $NON-NLS-2$ //$NON-NLS-1$
 			output += Messages.MethodApplication_output_length_final + templateLength;
 			output += "\n" + Messages.MethodApplication_r1 + KopalAnalyzer.RotationToString(rotation); //$NON-NLS-1$
+			output += "\n\n" + String.format(Messages.MethodApplication_ZZZ1, timeTaken); //$NON-NLS-1$
 //          adjusts time format depending of spent time for analysis
 //			if (end < 60000)
 //				time = end + Messages.MethodApplication_outputTime;
@@ -452,7 +455,7 @@ public class MethodApplication {
 			break;
 		case "encrypt": //$NON-NLS-1$
 			String outputForKeyEncrypt = threeKeyFormats(fg.saveTemplate(), Messages.MethodApplication_output_encryptionKey);
-			output = Messages.MethodApplication_zz8 + textInLine + "\n"; //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
+			output = Messages.MethodApplication_zz8 + textInLine + "\n"; //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
 			output += Messages.MethodApplication_output_encrypted + encryptedText
 					+  "\n" + outputForKeyEncrypt; //$NON-NLS-1$
 //			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + "\n" + Messages.MethodApplication_r2 + templateToForm2(fg.saveTemplate()); //$NON-NLS-1$
@@ -462,7 +465,7 @@ public class MethodApplication {
 			break;
 		case "decrypt": //$NON-NLS-1$
 			String outputForKeyDecrypt = threeKeyFormats(fg.saveTemplate(), Messages.MethodApplication_output_decryptionKey);
-			output = Messages.MethodApplication_zz8 + textInLine + "\n"; //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
+			output = Messages.MethodApplication_zz8 + textInLine + Messages.MethodApplication_4; //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
 			output += Messages.MethodApplication_output_decrypted_final + decryptedText
 					+ "\n" + outputForKeyDecrypt; //$NON-NLS-1$
 //			bestTemplateCoordinates = templateToForm1(fg.saveTemplate()) + "\n" + Messages.MethodApplication_r2 + templateToForm2(fg.saveTemplate()); //$NON-NLS-1$
