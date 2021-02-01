@@ -1325,7 +1325,7 @@ public class FleissnerWindow extends Composite {
 			return new File(directory().getPath() + "/" + getFileName()); //$NON-NLS-1$
 		}
 		private String getFileName() {
-			return date.replaceAll("[^A-Za-z0-9_-]", "_") + "_operation_" + operation + Messages.FleissnerWindow_rr1 + KopalAnalyzer.RotationToString(rotation) + ".txt"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return date.replaceAll("[^A-Za-z0-9_-]", "_") + "_operation_" + operation + Messages.FleissnerWindow_rr1 + KopalAnalyzer.RotationToStringShort(rotation) + ".txt"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 	}

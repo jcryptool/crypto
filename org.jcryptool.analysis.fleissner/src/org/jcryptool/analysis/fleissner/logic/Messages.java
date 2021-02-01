@@ -14,6 +14,8 @@ public class Messages extends NLS {
     public static String FleissnerGrille_break;
 	public static String KopalAnalyzer_0;
 	public static String KopalAnalyzer_1;
+	public static String KopalAnalyzer_l0;
+	public static String KopalAnalyzer_r0;
     public static String MethodApplication_error_fileNotFound;
     public static String MethodApplication_error_statFileNotFound;
     public static String MethodApplication_info_acurateness;

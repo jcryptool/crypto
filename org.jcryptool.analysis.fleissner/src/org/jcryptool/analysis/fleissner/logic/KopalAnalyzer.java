@@ -35,6 +35,12 @@ public class KopalAnalyzer {
 		}
 		return Messages.KopalAnalyzer_1;
 	}
+	public static String RotationToStringShort(Rotation rot) {
+		if (rot.equals(Rotation.Left)) {
+			return Messages.KopalAnalyzer_l0;
+		}
+		return Messages.KopalAnalyzer_r0;
+	}
 	public static final String defaultAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // TODO //$NON-NLS-1$
 
 	static IProgressMonitor dummyMonitor = new IProgressMonitor() {
