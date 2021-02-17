@@ -12,6 +12,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.fonts.FontService;
+import org.jcryptool.core.util.units.UnitsService;
+import org.jcryptool.visual.merkletree.Activator;
 import org.jcryptool.visual.merkletree.Descriptions;
 import org.jcryptool.visual.merkletree.algorithm.ISimpleMerkle;
 import org.jcryptool.visual.merkletree.files.Converter;
@@ -96,7 +98,7 @@ public class MerkleTreeKeyComposite extends Composite {
 		Label lengthLabel = new Label(publicKeyGroup, SWT.NONE);
 		lengthLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		String cleanedPublicKey = publicKey.replaceAll("\\|", "");
-		lengthLabel.setText(Converter._numberToPrefix(cleanedPublicKey.length() / 2));
+		lengthLabel.setText(UnitsService.format(cleanedPublicKey.length() / 2, Activator.PLUGIN_ID));
 
 		Label spacerLine1 = new Label(publicKeyGroup, SWT.SEPARATOR | SWT.HORIZONTAL);
 		spacerLine1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 20, 1));
@@ -132,7 +134,7 @@ public class MerkleTreeKeyComposite extends Composite {
 		Label privateLengthLabel = new Label(privateKeyGroup, SWT.NONE);
 		privateLengthLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
 		String cleanedPrivateKey = privateKey.replaceAll("|", "");
-		privateLengthLabel.setText(Converter._numberToPrefix(cleanedPrivateKey.length() / 2));
+		privateLengthLabel.setText(UnitsService.format(cleanedPrivateKey.length() / 2, Activator.PLUGIN_ID));
 
 		Label spacerLine2 = new Label(privateKeyGroup, SWT.SEPARATOR | SWT.HORIZONTAL);
 		spacerLine2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 20, 1));
