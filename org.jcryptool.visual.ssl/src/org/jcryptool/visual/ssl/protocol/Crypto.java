@@ -36,7 +36,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.security.auth.x500.X500Principal;
 
 import org.bouncycastle.x509.X509V3CertificateGenerator;
-
+import org.jcryptool.core.operations.providers.ProviderManager2;
 import codec.Base64;
 import codec.CorruptedCodeException;
 import codec.Hex;
@@ -101,8 +101,10 @@ public class Crypto {
 		certGen.setPublicKey(pubKey.getPublic());
 		certGen.setSignatureAlgorithm(strHash + "With" + strSignature);
 
-		X509Certificate cert = certGen.generate(sigKey.getPrivate(), "BC");
-
+		ProviderManager2.getInstance().pushFlexiProviderPromotion();
+		X509Certificate cert = certGen.generate(sigKey.getPrivate(), BOUNCY_CASTLE_PROVIDER);
+		ProviderManager2.getInstance().popCryptoProviderPromotion();
+		
 		return cert;
 	}
 
@@ -152,8 +154,11 @@ public class Crypto {
 			IllegalBlockSizeException, BadPaddingException,
 			CorruptedCodeException {
 
+		ProviderManager2.getInstance().pushFlexiProviderPromotion();
 		Cipher dCipher = Cipher.getInstance(Key.getAlgorithm()
-				+ "/GCM/NoPadding", "BC");
+				+ "/GCM/NoPadding", BOUNCY_CASTLE_PROVIDER);
+		ProviderManager2.getInstance().popCryptoProviderPromotion();
+		
 		IvParameterSpec ivParameterSpec = new IvParameterSpec(Key.getEncoded());
 
 		dCipher.init(Cipher.DECRYPT_MODE, Key, ivParameterSpec);
@@ -185,8 +190,12 @@ public class Crypto {
 			InvalidKeyException, IllegalBlockSizeException,
 			BadPaddingException, NoSuchProviderException,
 			InvalidAlgorithmParameterException {
+		
+		ProviderManager2.getInstance().pushFlexiProviderPromotion();
 		Cipher eCipher = Cipher.getInstance(Key.getAlgorithm()
-				+ "/GCM/NoPadding", "BC");
+				+ "/GCM/NoPadding", BOUNCY_CASTLE_PROVIDER);
+		ProviderManager2.getInstance().popCryptoProviderPromotion();
+		
 		IvParameterSpec ivParameterSpec = new IvParameterSpec(Key.getEncoded());
 
 		eCipher.init(Cipher.ENCRYPT_MODE, Key, ivParameterSpec);
@@ -221,7 +230,10 @@ public class Crypto {
 			IllegalBlockSizeException, BadPaddingException,
 			CorruptedCodeException {
 
-		Cipher dCipher = Cipher.getInstance(Key.getAlgorithm(), "BC");
+		ProviderManager2.getInstance().pushFlexiProviderPromotion();
+		Cipher dCipher = Cipher.getInstance(Key.getAlgorithm(), BOUNCY_CASTLE_PROVIDER);
+		ProviderManager2.getInstance().popCryptoProviderPromotion();
+		
 		IvParameterSpec ivParameterSpec = new IvParameterSpec(Key.getEncoded());
 
 		if (Key.getAlgorithm().equals("RC4")
@@ -257,7 +269,11 @@ public class Crypto {
 			throws NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidKeyException, IOException, IllegalBlockSizeException,
 			BadPaddingException, NoSuchProviderException {
-		Cipher eCipher = Cipher.getInstance(Key.getAlgorithm(), "BC");
+		
+		ProviderManager2.getInstance().pushFlexiProviderPromotion();
+		Cipher eCipher = Cipher.getInstance(Key.getAlgorithm(), BOUNCY_CASTLE_PROVIDER);
+		ProviderManager2.getInstance().popCryptoProviderPromotion();
+		
 		eCipher.init(Cipher.ENCRYPT_MODE, Key);
 
 		String encrypt = Base64.encode(eCipher.doFinal(message.getBytes()));
@@ -281,8 +297,10 @@ public class Crypto {
 	public Key generateKey(String strKeyTyp, int KeySize)
 			throws NoSuchAlgorithmException, NoSuchPaddingException,
 			NoSuchProviderException {
-		KeyGenerator keyGen = KeyGenerator.getInstance(strKeyTyp, "BC");
-
+		ProviderManager2.getInstance().pushFlexiProviderPromotion();
+		KeyGenerator keyGen = KeyGenerator.getInstance(strKeyTyp, BOUNCY_CASTLE_PROVIDER);
+		ProviderManager2.getInstance().popCryptoProviderPromotion();
+		
 		keyGen.init(KeySize, secure);
 		Key genKey = keyGen.generateKey();
 		return genKey;
@@ -301,15 +319,16 @@ public class Crypto {
 	 */
 	public KeyPairGenerator generateGenerator(String strKeyTyp, int KeySize)
 			throws Exception {
+		ProviderManager2.getInstance().pushFlexiProviderPromotion();
 		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(
 				strKeyTyp, BOUNCY_CASTLE_PROVIDER);
+		ProviderManager2.getInstance().popCryptoProviderPromotion();
 
 		if (strKeyTyp.contentEquals("DiffieHellman")) {
 			keyPairGenerator = KeyPairGenerator.getInstance(strKeyTyp);
 			keyPairGenerator.initialize(KeySize, secure);
 		} else {
 			keyPairGenerator.initialize(KeySize, secure);
-
 		}
 
 		return keyPairGenerator;

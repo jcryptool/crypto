@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.jcryptool.core.logging.utils.LogUtil;
+import org.jcryptool.core.operations.providers.ProviderManager2;
 import org.jcryptool.visual.ssl.SslPlugin;
 import org.jcryptool.visual.ssl.protocol.Crypto;
 import org.jcryptool.visual.ssl.protocol.Message;
@@ -439,8 +440,11 @@ public class ServerCertificateComposite extends Composite implements
 						"DiffieHellman", DH_KEY_LENGTH));
 				exchKey = c.generateExchangeKey(Message.getKeyPairGenerator());
 
+				ProviderManager2.getInstance().pushFlexiProviderPromotion();
 				KeyAgreement serverKeyAgree = KeyAgreement.getInstance("DH",
 						"BC");
+				ProviderManager2.getInstance().popCryptoProviderPromotion();
+				
 				serverKeyAgree.init(exchKey.getPrivate());
 				Message.setServerKeyAgreement(serverKeyAgree);
 				Message.setServerCertificateServerKeyExchange(exchKey);

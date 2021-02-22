@@ -33,8 +33,8 @@ import org.eclipse.ui.PlatformUI;
  * @author Denk Gandalf
  * 
  */
-// TO DO
-// - Variablen f�r Text anlegen
+// TODO
+// - Variablen für Text anlegen
 // - V3 Extensions anlegen
 public class CertificateShow extends JDialog implements ActionListener {
     private static final long serialVersionUID = 6369515539274727894L;
@@ -47,7 +47,7 @@ public class CertificateShow extends JDialog implements ActionListener {
 	/**
 	 * Button for closing the dialog
 	 */
-	JButton btnClose = new JButton("Schlie�en");
+	JButton btnClose = new JButton("Schließen");
 
 	/**
 	 * Layout of the Dialog
