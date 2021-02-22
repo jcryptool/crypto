@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <contexts>
    <context id="view" title="SSL/TLS-Visualization">
-      <description>Description</description>
+      <description>More information about SSL/TLS visualization can be found at the following link:</description>
       <topic href="$nl$/help/content/index.html" label="SSL/TLS-Visualization"/>
    </context>
 </contexts>
