@@ -17,6 +17,9 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
+import org.jcryptool.core.util.units.ByteFormatter;
+import org.jcryptool.core.util.units.DefaultByteFormatter;
+import org.jcryptool.core.util.units.UnitsService;
 import org.jcryptool.visual.sphincsplus.SphincsPlusPlugin;
 
 /**
@@ -26,6 +29,11 @@ import org.jcryptool.visual.sphincsplus.SphincsPlusPlugin;
  */
 public class SphincsPlusView extends ViewPart {
     public SphincsPlusView() {
+        ByteFormatter sphinsPlusByteFormatter =
+                new DefaultByteFormatter.Builder().scaleUpThreshold(10_000).build();
+        if (UnitsService.get().isRegisteringPossible()) {
+            UnitsService.get().registerFormatter(sphinsPlusByteFormatter, SphincsPlusPlugin.PLUGIN_ID);
+        }
     }
 
     private Composite parent;
