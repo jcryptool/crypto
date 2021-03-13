@@ -172,7 +172,13 @@ public class SphincsPlusView extends ViewPart {
     @Override
     public void setFocus() {
         parent.setFocus();
-
+    }
+    
+    @Override
+    public void dispose() {
+        // Override to hook the disposing of the custom plugin formatter here.
+        UnitsService.get().deregisterFormatter(SphincsPlusPlugin.PLUGIN_ID);
+        super.dispose();
     }
 
 }

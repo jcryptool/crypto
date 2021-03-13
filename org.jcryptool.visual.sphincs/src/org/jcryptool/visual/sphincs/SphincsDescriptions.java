@@ -54,7 +54,7 @@ public class SphincsDescriptions extends NLS {
 	public static String SphincsDescription_keyInfo3;
 
 	public static String SphincsDescription_bracket;
-	public static String SphincsDescription_bytes;
+	public static String SphincsDescription_bracketClose;
 
 	public static String SphincsDescription_btn_Generation;
 	public static String SphincsDescription_btn_renewKey;
