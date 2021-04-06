@@ -1,0 +1,71 @@
+package org.jcryptool.visual.rss;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
+import org.jcryptool.visual.rss.ui.RssBaseComposite;
+
+/**
+ * Main view for the RSS visualization
+ * @author Leon Sell
+ *
+ */
+public class RssView extends ViewPart {
+    private Composite parent;
+
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt. widgets.Composite)
+     * This Method declares and sets the GUI-Control elements
+     */
+    @Override
+    public void createPartControl(final Composite parent) {
+        this.parent = parent;
+
+        parent.setLayout(new GridLayout(1, false));
+
+        final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+        scrolledComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+        final RssBaseComposite baseComposite = new RssBaseComposite(scrolledComposite);
+        scrolledComposite.setContent(baseComposite);
+        scrolledComposite.setExpandHorizontal(true);
+        scrolledComposite.setExpandVertical(true);
+        baseComposite.updateScrollSize();
+        scrolledComposite.addListener(SWT.Resize, x -> computeMinSize(scrolledComposite, baseComposite));
+
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent.getShell(), "org.jcryptool.visual.rss.rssview");
+    }
+
+    /**
+     * Adjust the minimum scroll size of the given scrolled composite with the size of the given content
+     * @param scrolledComposite ScrolledComposite that gets it's minimum scroll size adjusted
+     * @param content Content of the ScrolledComposite
+     */
+    public static void computeMinSize(ScrolledComposite scrolledComposite, Composite content) {
+        int width = scrolledComposite.getClientArea().width;
+        scrolledComposite.setMinSize(content.computeSize(width, SWT.DEFAULT));
+    }
+
+    /**
+     * resets the view
+     */
+    public void resetView() {
+        Control[] children = parent.getChildren();
+        for (Control control : children) {
+            control.dispose();
+        }
+        createPartControl(parent);
+        parent.layout();
+    }
+
+    @Override
+    public void setFocus() {
+        parent.setFocus();
+    }
+}
