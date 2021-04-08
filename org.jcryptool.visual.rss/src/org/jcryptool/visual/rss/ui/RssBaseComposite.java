@@ -23,7 +23,31 @@ public class RssBaseComposite extends Composite {
     private final RssOverviewComposite overview;
     private final RssBodyComposite body;
     private final RssAlgorithmController rac;
-    private final ScrolledComposite parent;
+    private final Composite parent;
+    
+    public RssBaseComposite(Composite parent) {
+        super(parent, SWT.NONE);
+
+        this.parent = parent;
+
+        rac = new RssAlgorithmController();
+        
+ 		// Layout left visual and right buttons + text
+        setLayout(new GridLayout(2, false));
+                
+        // Left: Visual
+        // Visual
+        Group overviewGroup = new Group(this, SWT.NONE);
+        overviewGroup.setText(Descriptions.Overview);
+        overviewGroup.setLayout(new GridLayout());
+        overviewGroup.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+        overview = new RssOverviewComposite(overviewGroup, this, rac);
+
+        // Right: Buttons + text
+        body = new RssBodyComposite(this, rac);
+        GridData gd = new GridData(SWT.LEFT, SWT.TOP, true, true);
+        body.setLayoutData(gd);
+    }
 
     public RssBaseComposite(ScrolledComposite parent) {
         super(parent, SWT.NONE);
@@ -50,7 +74,9 @@ public class RssBaseComposite extends Composite {
     }
     
     public void updateScrollSize() {
-        RssView.computeMinSize(parent, this);
+		if(parent instanceof ScrolledComposite) {
+			RssView.computeMinSize((ScrolledComposite)parent, this);
+		}
         layout();
     }
 
