@@ -19,7 +19,6 @@ public class RssBaseComposite extends Composite {
     private final RssBodyComposite body;
     private final RssAlgorithmController rac;
     private final ScrolledComposite parent;
-//    private final Composite headComposite;
 
     public RssBaseComposite(ScrolledComposite parent) {
         super(parent, SWT.NONE);
@@ -32,18 +31,6 @@ public class RssBaseComposite extends Composite {
  		// Layout left visual and right buttons + text
         setLayout(new GridLayout(2, false));
         
-        // Begin - Header
-// 		headComposite = new Composite(parent, SWT.NONE);
-// 		headComposite.setBackground(ColorService.WHITE);
-// 		headComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-//// 		GridData gd = new GridData(SWT.LEFT, SWT.TOP, true, true);
-//// 		headComposite.setLayoutData(gd);
-// 		headComposite.setLayout(new GridLayout());
-//
-// 		TitleAndDescriptionComposite headerTextfield = new TitleAndDescriptionComposite(headComposite);
-// 		headerTextfield.setTitleAndDescription(Descriptions.Title, Descriptions.Description);
-// 		headerTextfield.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-//
         // Left: Visual
         Group overviewGroup = new Group(this, SWT.NONE);
         overviewGroup.setText(Descriptions.Overview);
