@@ -20,6 +20,11 @@ import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 
+/**
+ * The composite with button, text fields etc. with the function to set the message parts to be encrypted.
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssSetMessageComposite extends RssRightSideComposite {
     private static int DEFAULT_NUMBER_PARTS = 2;
     private static int MAX_NUMBER_PARTS = 5;

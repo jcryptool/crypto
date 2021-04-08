@@ -13,9 +13,10 @@ import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.visual.rss.ui.RssBaseComposite;
 
 /**
- * Main view for the RSS visualization
- * @author Leon Sell
- *
+ * Main view for the RSS algorithm visual.
+ * Makes the visual scrollable and makes the main content expand to maximal available size.
+ * 
+ * @author Leon Sell, Lukas Krodinger
  */
 public class RssView extends ViewPart {
     private Composite parent;

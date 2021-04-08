@@ -18,6 +18,11 @@ import org.jcryptool.visual.rss.ui.RssPathComposite.PathColor;
 import org.jcryptool.visual.rss.ui.RssPathComposite.PathType;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
+/**
+ * Handles the visual on the left side with the state map (visualStates + pathToStates) and the three inspect/reset boxes (keyData, messageData, redactedData).
+ * 
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssOverviewComposite extends Composite {
     public static final int STATE_BOX_X_PADDING = 20;
     public static final int STATE_BOX_Y_PADDING = 10;

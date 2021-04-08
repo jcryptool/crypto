@@ -12,6 +12,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
+/**
+ * Depending on the current state of the visual shows the correct Component, which extends RssRightSideComposite.
+ * This shown component then contains the available buttons in the middle section and sets the help text on the right side.
+ * 
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssBodyComposite extends Composite {
     private final RssBaseComposite base;
     private final RssAlgorithmController rac;
