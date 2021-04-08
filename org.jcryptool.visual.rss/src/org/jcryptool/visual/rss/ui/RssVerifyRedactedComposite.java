@@ -22,6 +22,11 @@ import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
+/**
+ * The composite with button, text fields etc. with the function to verify the before signed and possible redacted message parts.
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssVerifyRedactedComposite extends RssRightSideComposite {
     private List<String> messages;
     private final List<String> originalSignedMessages;

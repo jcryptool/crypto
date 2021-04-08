@@ -9,6 +9,12 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
 
+/**
+ * Handles the layout and the text for the right side of the component (buttons + text).
+ * A class extending this class can set the text by calling prepareAboutComposite().
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public abstract class RssRightSideComposite extends Composite {
     public final static int R_MAX_SIZE = 250;
 

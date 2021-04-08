@@ -12,6 +12,11 @@ import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
+/**
+ * Defines the layout of visual on the left side (1 column) and buttons and text on the right side (1 column).
+ * 
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssBaseComposite extends Composite {
     private final RssOverviewComposite overview;
     private final RssBodyComposite body;
@@ -27,13 +32,14 @@ public class RssBaseComposite extends Composite {
 
         setLayout(new GridLayout(2, false));
 
+        // Visual
         Group overviewGroup = new Group(this, SWT.NONE);
         overviewGroup.setText(Descriptions.Overview);
         overviewGroup.setLayout(new GridLayout());
         overviewGroup.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
-
         overview = new RssOverviewComposite(overviewGroup, this, rac);
 
+        // Buttons and Text
         body = new RssBodyComposite(this, rac);
         GridData gd = new GridData(SWT.LEFT, SWT.TOP, true, true);
         body.setLayoutData(gd);

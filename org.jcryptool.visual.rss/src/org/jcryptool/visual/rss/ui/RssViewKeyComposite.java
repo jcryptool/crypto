@@ -19,6 +19,11 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
 
+/**
+ * The composite with button, text fields etc. with the function to show the set key.
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssViewKeyComposite extends RssRightSideComposite {
 
     public RssViewKeyComposite(RssBodyComposite body, final RssAlgorithmController rac) {

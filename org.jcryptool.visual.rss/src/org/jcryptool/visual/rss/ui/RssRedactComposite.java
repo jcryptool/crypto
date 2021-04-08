@@ -17,6 +17,11 @@ import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
+/**
+ * The composite with button, text fields etc. with the function to redact those parts of the message, where it is allowed.
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssRedactComposite extends RssRightSideComposite {
     private List<String> messages;
     private List<Boolean> redactableParts;

@@ -11,9 +11,10 @@ import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.visual.rss.ui.RssBaseComposite;
 
 /**
- * Main view for the RSS visualization
- * @author Leon Sell
- *
+ * Main view for the RSS algorithm visual.
+ * Makes the visual scrollable and makes the main content expand to maximal available size.
+ * 
+ * @author Leon Sell, Lukas Krodinger
  */
 public class RssView extends ViewPart {
     private Composite parent;
@@ -29,9 +30,11 @@ public class RssView extends ViewPart {
 
         parent.setLayout(new GridLayout(1, false));
 
+        // Scrolling
         final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
         scrolledComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
+        // Main content block expending to max possible size
         final RssBaseComposite baseComposite = new RssBaseComposite(scrolledComposite);
         scrolledComposite.setContent(baseComposite);
         scrolledComposite.setExpandHorizontal(true);

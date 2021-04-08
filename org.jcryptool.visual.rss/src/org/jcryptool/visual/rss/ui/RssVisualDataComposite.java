@@ -14,6 +14,11 @@ import org.eclipse.swt.widgets.Listener;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 
+/**
+ * A component for the three boxes on the right of the visual. Each component/box contains a button for redoing and viewing.
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssVisualDataComposite extends Composite {
     private final Font defaultFont;
     private final Font highlightedFont;

@@ -19,6 +19,11 @@ import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 
+/**
+ * The composite with button, text fields etc. with the function to verify the before signed and not yet redacted message parts.
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssVerifyMessageComposite extends RssRightSideComposite {
 
     private int numberMessages;

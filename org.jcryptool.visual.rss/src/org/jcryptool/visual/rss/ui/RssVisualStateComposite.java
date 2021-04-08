@@ -9,6 +9,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+/**
+ * A composite for the boxes on the left side of the visual. Gives the state boxes the possibility to change color.
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssVisualStateComposite extends Composite {
     private final Font defaultFont;
     private final Font highlightedFont;

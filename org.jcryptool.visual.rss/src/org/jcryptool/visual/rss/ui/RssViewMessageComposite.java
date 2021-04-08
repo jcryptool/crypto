@@ -14,6 +14,11 @@ import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 
+/**
+ * The composite with button, text fields etc. with the function to show the (signed and possible redacted) message parts.
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssViewMessageComposite extends RssRightSideComposite {
 
     public RssViewMessageComposite(RssBodyComposite body, final RssAlgorithmController rac) {

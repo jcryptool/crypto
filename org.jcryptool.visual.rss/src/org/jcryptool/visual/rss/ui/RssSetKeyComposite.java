@@ -11,6 +11,11 @@ import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
+/**
+ * The composite with button, text fields etc. with the function to set the keys for the encryption.
+ *  
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssSetKeyComposite extends RssRightSideComposite {
     private final Combo keySizeCombo;
     private final Button genKeyButton;

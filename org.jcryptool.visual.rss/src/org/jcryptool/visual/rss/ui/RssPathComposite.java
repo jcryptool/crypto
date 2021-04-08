@@ -11,6 +11,11 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
+/**
+ * Draws the paths in the visual between the state boxes.
+ * 
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssPathComposite extends Canvas {
     public static final int PATH_WIDTH = RssOverviewComposite.STATE_BOX_X_PADDING / 4 * 3;
 
