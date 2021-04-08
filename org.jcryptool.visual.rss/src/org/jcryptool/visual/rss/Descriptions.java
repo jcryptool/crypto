@@ -88,6 +88,10 @@ public class Descriptions extends NLS {
     public static String PrivateKey;
     public static String PublicKey;
     public static String ProofPart;
+    
+    //Head
+    public static String Title;
+    public static String Description;
 
     static {
         // initialize resource bundle

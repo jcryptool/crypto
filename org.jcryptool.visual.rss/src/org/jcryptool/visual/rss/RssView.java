@@ -8,6 +8,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.jcryptool.core.util.colors.ColorService;
+import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.visual.rss.ui.RssBaseComposite;
 
 /**
@@ -17,6 +19,7 @@ import org.jcryptool.visual.rss.ui.RssBaseComposite;
  */
 public class RssView extends ViewPart {
     private Composite parent;
+    private Composite headComposite;
 
     /*
      * (non-Javadoc)
@@ -29,9 +32,21 @@ public class RssView extends ViewPart {
 
         parent.setLayout(new GridLayout(1, false));
 
+        // Scrolling
         final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
         scrolledComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        
+        // Begin - Header
+ 		headComposite = new Composite(parent, SWT.NONE);
+ 		headComposite.setBackground(ColorService.WHITE);
+ 		headComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+ 		headComposite.setLayout(new GridLayout());
 
+ 		TitleAndDescriptionComposite headerTextfield = new TitleAndDescriptionComposite(headComposite);
+ 		headerTextfield.setTitleAndDescription(Descriptions.Title, Descriptions.Description);
+ 		headerTextfield.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+ 		
+ 		// Content filling main part
         final RssBaseComposite baseComposite = new RssBaseComposite(scrolledComposite);
         scrolledComposite.setContent(baseComposite);
         scrolledComposite.setExpandHorizontal(true);

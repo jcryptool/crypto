@@ -6,6 +6,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.jcryptool.core.util.colors.ColorService;
+import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.RssView;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
@@ -17,28 +19,44 @@ public class RssBaseComposite extends Composite {
     private final RssBodyComposite body;
     private final RssAlgorithmController rac;
     private final ScrolledComposite parent;
+//    private final Composite headComposite;
 
     public RssBaseComposite(ScrolledComposite parent) {
         super(parent, SWT.NONE);
 
         this.parent = parent;
 
+        // Algorithm logic
         rac = new RssAlgorithmController();
-
+        
+ 		// Layout left visual and right buttons + text
         setLayout(new GridLayout(2, false));
-
+        
+        // Begin - Header
+// 		headComposite = new Composite(parent, SWT.NONE);
+// 		headComposite.setBackground(ColorService.WHITE);
+// 		headComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//// 		GridData gd = new GridData(SWT.LEFT, SWT.TOP, true, true);
+//// 		headComposite.setLayoutData(gd);
+// 		headComposite.setLayout(new GridLayout());
+//
+// 		TitleAndDescriptionComposite headerTextfield = new TitleAndDescriptionComposite(headComposite);
+// 		headerTextfield.setTitleAndDescription(Descriptions.Title, Descriptions.Description);
+// 		headerTextfield.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+//
+        // Left: Visual
         Group overviewGroup = new Group(this, SWT.NONE);
         overviewGroup.setText(Descriptions.Overview);
         overviewGroup.setLayout(new GridLayout());
         overviewGroup.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
-
         overview = new RssOverviewComposite(overviewGroup, this, rac);
 
+        // Right: Buttons + text
         body = new RssBodyComposite(this, rac);
         GridData gd = new GridData(SWT.LEFT, SWT.TOP, true, true);
         body.setLayoutData(gd);
     }
-
+    
     public void updateScrollSize() {
         RssView.computeMinSize(parent, this);
         layout();
