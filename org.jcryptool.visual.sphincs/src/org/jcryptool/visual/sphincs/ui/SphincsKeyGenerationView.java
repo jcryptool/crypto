@@ -22,7 +22,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
+import org.jcryptool.core.util.units.UnitsService;
 import org.jcryptool.visual.sphincs.SphincsDescriptions;
+import org.jcryptool.visual.sphincs.SphincsPlugin;
 import org.jcryptool.visual.sphincs.algorithm.PrivateKey;
 import org.jcryptool.visual.sphincs.algorithm.PublicKey;
 import org.jcryptool.visual.sphincs.algorithm.aSPHINCS256;
@@ -38,9 +40,6 @@ import org.jcryptool.visual.sphincs.algorithm.aSPHINCS256;
 public class SphincsKeyGenerationView extends Composite {
 
 	private StyledText outputTextKey;
-	private StyledText titleLabel;
-	private StyledText titleDescription;
-
 	private Group seedGroup;
 	private Group bitmaskGroup;
 	private Group keyGroup;
@@ -144,19 +143,24 @@ public class SphincsKeyGenerationView extends Composite {
 				outputTextSeed.setText(seed);
 				outputTextKey.setText(key);
 				outputTextBitmask.setText(bitmasks);
-				informationOutput.setText(SphincsDescriptions.SphincsDescription_keyInfo1 + " " + prk.getLength() + " "
-						+ SphincsDescriptions.SphincsDescription_keyInfo2 + " " + puk.getLength() + " "
+				String byteLengthPRK = UnitsService.format(prk.getLength(), SphincsPlugin.PLUGIN_ID);
+				String byteLengthPUK = UnitsService.format(puk.getLength(), SphincsPlugin.PLUGIN_ID);
+				String byteLengthSeed = UnitsService.format(prk.getSeed().length, SphincsPlugin.PLUGIN_ID);
+				String byteLengthBitmasks = UnitsService.format(
+				        getBitmasksLength(puk.getBitMasks()), SphincsPlugin.PLUGIN_ID
+				);
+				informationOutput.setText(SphincsDescriptions.SphincsDescription_keyInfo1 + " " + byteLengthPRK + " "
+						+ SphincsDescriptions.SphincsDescription_keyInfo2 + " " + byteLengthPUK + " "
 						+ SphincsDescriptions.SphincsDescription_keyInfo3);
 				seedGroup.setText(SphincsDescriptions.SphincsDescription_grp_seed + " "
-						+ SphincsDescriptions.SphincsDescription_bracket + prk.getSeed().length + " "
-						+ SphincsDescriptions.SphincsDescription_bytes);
+						+ SphincsDescriptions.SphincsDescription_bracket + byteLengthSeed
+						+ SphincsDescriptions.SphincsDescription_bracketClose);
 				bitmaskGroup.setText(SphincsDescriptions.SphincsDescription_grp_bitmask + " "
 						+ SphincsDescriptions.SphincsDescription_bracket
-						+ SphincsKeyGenerationView.getBitmasksLength(puk.getBitMasks()) + " "
-						+ SphincsDescriptions.SphincsDescription_bytes);
+						+ byteLengthBitmasks + SphincsDescriptions.SphincsDescription_bracketClose);
 				keyGroup.setText(SphincsDescriptions.SphincsDescription_grp_key + " "
-						+ SphincsDescriptions.SphincsDescription_bracket + puk.getLength() + " "
-						+ SphincsDescriptions.SphincsDescription_bytes);
+						+ SphincsDescriptions.SphincsDescription_bracket + byteLengthPUK
+						+ SphincsDescriptions.SphincsDescription_bracketClose);
 			}
 		});
 

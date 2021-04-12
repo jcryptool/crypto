@@ -38,6 +38,9 @@ import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
+import org.jcryptool.core.util.units.ByteFormatter;
+import org.jcryptool.core.util.units.DefaultByteFormatter;
+import org.jcryptool.core.util.units.UnitsService;
 import org.jcryptool.visual.wots.files.Converter;
 import org.jcryptool.visual.wots.files.ResizeListener;
 
@@ -111,6 +114,16 @@ public class WotsView extends ViewPart {
 	private Composite container;
 	private Composite composite;
 	private ResizeListener imgResizer;
+	
+	public WotsView() {
+		ByteFormatter wotsByteFormatter = new DefaultByteFormatter.Builder()
+				 .scaleUpThreshold(10_000)
+				.useThousandSeparators(false)
+				.build();
+		if (UnitsService.get().isRegisteringPossible()) {
+			UnitsService.get().registerFormatter(wotsByteFormatter, PLUGIN_ID);
+		}
+	}
 
 
 	@Override
@@ -126,10 +139,10 @@ public class WotsView extends ViewPart {
 		container = new Composite(scrolledContainer, SWT.NONE);
 		container.setLayout(new GridLayout(6, true));
 		
-        TitleAndDescriptionComposite titleAndDescription = new TitleAndDescriptionComposite(container);
-        titleAndDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 6, 1));
-        titleAndDescription.setTitle(Messages.headline_txt);
-        titleAndDescription.setDescription(Messages.header_txt);
+		TitleAndDescriptionComposite titleAndDescription = new TitleAndDescriptionComposite(container);
+		titleAndDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 6, 1));
+		titleAndDescription.setTitle(Messages.headline_txt);
+		titleAndDescription.setDescription(Messages.header_txt);
 
 		lblMessage = new Label(container, SWT.NONE);
 		lblMessage.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
@@ -196,8 +209,8 @@ public class WotsView extends ViewPart {
 					} else {
 						messageHash = txt_Hash.getText();
 						txt_HashSize.setText(Integer.toString(
-								Converter._stringToByte(messageHash).length / 2) + "/" //$NON-NLS-1$
-								+ n + " Bytes"); //$NON-NLS-1$
+								Converter._stringToByte(messageHash).length / 2) + "/"
+								+ UnitsService.format(n, PLUGIN_ID));
 
 						if (Converter._stringToByte(messageHash).length / 2 == n) {
 
@@ -494,8 +507,8 @@ public class WotsView extends ViewPart {
 					} else {
 						privateKey = txt_Sigkey.getText();
 						txt_SigKeySize.setText(Integer.toString(
-								Converter._stringToByte(privateKey).length / 2) + "/" //$NON-NLS-1$
-								+ (n * l) + " " + Messages.byte_txt); //$NON-NLS-1$
+								Converter._stringToByte(privateKey).length / 2) + "/"
+								+ UnitsService.format(n * l, PLUGIN_ID));
 
 						if (Converter._stringToByte(privateKey).length / 2 == n * l) {
 							clearOutput(false);
@@ -533,9 +546,11 @@ public class WotsView extends ViewPart {
 						txt_VerKeySize.setBackground(ColorService.RED);
 					} else {
 						publicKey = txt_Verifkey.getText();
+						var expectedSize = n * instance.getPublicKeyLength();
+						var expectedSizeFormatted = UnitsService.format(expectedSize, PLUGIN_ID);
 						txt_VerKeySize.setText(Integer
 								.toString(Converter._stringToByte(publicKey).length / 2)
-								+ "/" + (n * instance.getPublicKeyLength()) + " Bytes"); //$NON-NLS-1$ //$NON-NLS-2$
+								+ "/" + expectedSizeFormatted);
 
 						if (Converter._stringToByte(publicKey).length
 								/ 2 == (n * instance.getPublicKeyLength())) {
@@ -607,9 +622,10 @@ public class WotsView extends ViewPart {
 						txt_SignatureSize.setBackground(ColorService.RED);
 					} else {
 						signature = txt_Sig.getText();
+						var expectedSizeFormatted = UnitsService.format(n * l, PLUGIN_ID);
 						txt_SignatureSize.setText(Integer
 								.toString(Converter._stringToByte(signature).length / 2)
-								+ "/" + (n * l) + " Bytes"); //$NON-NLS-1$ //$NON-NLS-2$
+								+ "/" + expectedSizeFormatted);
 
 						if (Converter._stringToByte(signature).length / 2 == n * l) {
 							setEnabled();
@@ -651,7 +667,7 @@ public class WotsView extends ViewPart {
 						instance.setBi(Converter._hexStringToByte(b));
 						txt_BSize.setText(
 								Integer.toString(Converter._stringToByte(b).length / 2)
-										+ "/" + l + " Bytes"); //$NON-NLS-1$ //$NON-NLS-2$
+										+ "/" + UnitsService.format(l, PLUGIN_ID));
 
 						if (Converter._stringToByte(b).length / 2 == l) {
 							clearOutput(false);
@@ -983,23 +999,28 @@ public class WotsView extends ViewPart {
 	 */
 	private void updateLengths() {
 
-		txt_MessageSize
-				.setText(Integer.toString(Converter._stringToByte(message).length) + " " //$NON-NLS-1$
-						+ Messages.byte_txt);
-		txt_SigKeySize.setText(
-				Integer.toString(Converter._stringToByte(privateKey).length / 2) + "/" //$NON-NLS-1$
-						+ (n * l) + " " + Messages.byte_txt); //$NON-NLS-1$
-		txt_VerKeySize
-				.setText(Integer.toString(Converter._stringToByte(publicKey).length / 2)
-						+ "/" + (n * instance.getPublicKeyLength()) + " " + Messages.byte_txt); //$NON-NLS-1$ //$NON-NLS-2$
-		txt_HashSize.setText(
-				Integer.toString(Converter._hexStringToByte(messageHash).length) + "/" //$NON-NLS-1$
-						+ n + " " + Messages.byte_txt); //$NON-NLS-1$
-		txt_SignatureSize
-				.setText(Integer.toString(Converter._stringToByte(signature).length / 2)
-						+ "/" + (n * l) + " " + Messages.byte_txt); //$NON-NLS-1$ //$NON-NLS-2$
-		txt_BSize.setText(Integer.toString(Converter._hexStringToByte(b).length) + "/" //$NON-NLS-1$
-				+ l + " " + Messages.byte_txt); //$NON-NLS-1$
+		int messageSize = Converter._stringToByte(message).length;
+		int privateKeySize = Converter._stringToByte(privateKey).length / 2;
+		int publicKeySize = Converter._stringToByte(publicKey).length / 2;
+		int expectedPublicKeySize = n * instance.getPublicKeyLength();
+		int messageHashSize = Converter._hexStringToByte(messageHash).length;
+		int signatureSize = Converter._stringToByte(signature).length / 2;
+		int bSize = Converter._hexStringToByte(b).length;
+
+		// Formatted means, that " Bytes" is automatically appended by the format method.
+		var messageSizeFormatted = UnitsService.format(messageSize, PLUGIN_ID);
+		var expectedPrivateKeySizeFormatted = UnitsService.format(n * l, PLUGIN_ID);
+		var expectedPublicKeySizeFormatted = UnitsService.format(expectedPublicKeySize, PLUGIN_ID);
+		var expectedMessageSizeHashFormatted = UnitsService.format(n, PLUGIN_ID);
+		var expectedSignatureSizeFormatted = UnitsService.format(n * l, PLUGIN_ID);
+		var expectedBSizeFormatted = UnitsService.format(l, PLUGIN_ID);
+
+		txt_MessageSize.setText(messageSizeFormatted);
+		txt_SigKeySize.setText(privateKeySize + "/" + expectedPrivateKeySizeFormatted);
+		txt_VerKeySize.setText(publicKeySize + "/" + expectedPublicKeySizeFormatted);
+		txt_HashSize.setText(messageHashSize + "/" + expectedMessageSizeHashFormatted);
+		txt_SignatureSize.setText(signatureSize + "/" +  expectedSignatureSizeFormatted);
+		txt_BSize.setText(bSize + "/" +  expectedBSizeFormatted);
 	}
 
 	/**
@@ -1146,5 +1167,12 @@ public class WotsView extends ViewPart {
 		}
 		return false;
 	}
+	
+	@Override
+ 	public void dispose() {
+ 		// Override to hook the disposing of the custom plugin formatter here.
+		UnitsService.get().deregisterFormatter(PLUGIN_ID);
+		super.dispose();
+ 	}
 
 }
