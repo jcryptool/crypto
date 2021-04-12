@@ -18,10 +18,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.visual.zeroknowledge.algorithm.Funcs;
 import org.jcryptool.visual.zeroknowledge.algorithm.feigefiatshamir.FFSFuncs;
 
@@ -34,13 +35,11 @@ import org.jcryptool.visual.zeroknowledge.algorithm.feigefiatshamir.FFSFuncs;
  */
 public class Repeat extends Dialog {
     private Button aliceButton;
-//    private Label aliceInfo;
     private Scale amount;
     private Label amountAnzeige;
     private Button carolButton;
-//    private Label carolInfo;
     private Label carolPercent;
-    private Label ergebnis;
+    private Text ergebnis;
     private Funcs funcs;
     private Label info;
     private Button start;
@@ -66,26 +65,27 @@ public class Repeat extends Dialog {
             attackChances = calculateAttackChances(1);
         }
 
-        Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-        shell.setText(Messages.Repeat_0);
-        createGui(shell);
-        shell.pack();
-        shell.open();
+        parent.setText(Messages.Repeat_0);
+        createGui(parent);
+        parent.pack();
+        parent.open();
+        
+        // Set Focus to the start button.
+        start.setFocus();
+        
     }
 
     private void createGui(Shell s) {
 
         main = new Composite(s, SWT.NONE);
-        GridLayout gl_main = new GridLayout(3, false);
+        GridLayout gl_main = new GridLayout(2, false);
         gl_main.marginWidth = 50;
         gl_main.marginHeight = 20;
         main.setLayout(gl_main);
 
-        aliceButton = new Button(main, SWT.RADIO | SWT.WRAP);
+        aliceButton = new Button(main, SWT.RADIO);
         aliceButton.setText(Messages.Repeat_2);
-        aliceButton.addSelectionListener(
-
-        new SelectionAdapter() {
+        aliceButton.addSelectionListener(new SelectionAdapter() {
             /**
              * Wenn der RadioButton betätigt wurde, wird beim Funcs-Objekt gesetzt, das das
              * Geheimnis bekannt ist. Zusätzlich wird der RadioButton für Carol auf
@@ -100,11 +100,9 @@ public class Repeat extends Dialog {
             }
         });
         aliceButton.setSelection(true);
-        GridData gd_aliceButton = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
-        gd_aliceButton.heightHint = 50;
-        aliceButton.setLayoutData(gd_aliceButton);
+        aliceButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
                 
-        carolButton = new Button(main, SWT.RADIO | SWT.WRAP);
+        carolButton = new Button(main, SWT.RADIO);
         carolButton.setText(Messages.Repeat_3);
         carolButton.addSelectionListener(
         new SelectionAdapter() {
@@ -126,14 +124,9 @@ public class Repeat extends Dialog {
 
         info = new Label(main, SWT.NONE);
         info.setText(Messages.Repeat_4);
-        GridData gd_info = new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1);
+        GridData gd_info = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);
         gd_info.verticalIndent = 20;
         info.setLayoutData(gd_info);
-        
-        // Create the labels which specify for Carol the chance to deceive Bob
-        carolPercent = new Label(main, SWT.NONE);
-        carolPercent.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
-        carolPercent.setVisible(false);
         
         amountAnzeige = new Label(main, SWT.NONE);
         amountAnzeige.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
@@ -143,9 +136,7 @@ public class Repeat extends Dialog {
         amount.setMinimum(1);
         amount.setMaximum(20);
         amount.setSelection(10);
-        amount.addSelectionListener(
-
-        new SelectionAdapter() {
+        amount.addSelectionListener( new SelectionAdapter() {
             /**
              * Methode, die aufgerufen wird, wenn der Scale bewegt wurde. Aktualisiert den Wert im
              * Label, das die Anzahl der Durchläufe angibt
@@ -157,22 +148,28 @@ public class Repeat extends Dialog {
                 // If Carol:
                 // Calculate how likely it is for the specified amount of iterations
                 // to deceive Bob
-                var chance = attackChances.get(selectedRounds);
+                double chance = attackChances.get(selectedRounds);
+                chance = chance * 100;
                 if (chance < 0.01) {
-                    carolPercent.setText(String.format(" %6.2e", chance) + Messages.Repeat_1);
+                    carolPercent.setText(String.format("%6.2e", chance) + Messages.Repeat_1);
                 } else {
-                    carolPercent.setText(" " + Double.toString(chance) + Messages.Repeat_1);
+                    carolPercent.setText(Double.toString(chance) + Messages.Repeat_1);
                 }
             }
         });
         amount.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        
+        // Create the labels which specify for Carol the chance to deceive Bob
+        carolPercent = new Label(main, SWT.NONE);
+        carolPercent.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        carolPercent.setVisible(false);
 
         start = new Button(main, SWT.PUSH);
         start.setText(Messages.Repeat_9);
-        start.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-        start.addSelectionListener(
-
-        new SelectionAdapter() {
+        GridData gd_start = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);
+        gd_start.verticalIndent = 20;
+        start.setLayoutData(gd_start);
+        start.addSelectionListener( new SelectionAdapter() {
             /**
              * Methode, die aufgerufen wird, wenn der Start-Button betätigt wurde. Liest den Wert
              * des Sliders aus, lässt das Protokoll dementsprechend oft laufen und gibt das Ergebnis
@@ -199,8 +196,13 @@ public class Repeat extends Dialog {
         });
         start.setToolTipText(Messages.Repeat_8);
 
-        ergebnis = new Label(main, SWT.NONE);
-        ergebnis.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
+        
+        ergebnis = new Text(main, SWT.NONE);
+        ergebnis.setFont(FontService.getNormalBoldFont());
+        ergebnis.setEditable(false);
+        GridData gd_ergebnis = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);
+        gd_ergebnis.verticalIndent = 20;
+        ergebnis.setLayoutData(gd_ergebnis);
 
         var defaultScalerSelect = amount.getSelection();
         amountAnzeige.setText(Integer.toString(defaultScalerSelect));
