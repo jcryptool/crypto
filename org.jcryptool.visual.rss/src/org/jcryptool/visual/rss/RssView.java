@@ -6,6 +6,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.colors.ColorService;
@@ -34,47 +35,27 @@ public class RssView extends ViewPart {
     @Override
     public void createPartControl(final Composite parent) {
         this.parent = parent;
-
-        parent.setLayout(new GridLayout(1, false));
-        
-        // Make content scrollable
-        sc = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		sc.setContent(headerAndContent);
+       
+		// make the composite scrollable
+		sc = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		Composite insideScrolledComposite = new Composite(sc, SWT.NONE | SWT.BORDER);
+		sc.setContent(insideScrolledComposite);
 		sc.setExpandHorizontal(true);
 		sc.setExpandVertical(true);
-	
-        headerAndContent = new Composite(sc, SWT.NONE);
-		headerAndContent.setLayout(new GridLayout());
-		headerAndContent.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-		
-		sc.setContent(headerAndContent);
-	               
-        // Begin - Header
- 		headComposite = new Composite(headerAndContent, SWT.NONE);
- 		headComposite.setBackground(ColorService.WHITE);
- 		headComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
- 		headComposite.setLayout(new GridLayout());
 
- 		TitleAndDescriptionComposite headerTextfield = new TitleAndDescriptionComposite(headComposite);
+		insideScrolledComposite.setLayout(new GridLayout());
+
+ 		TitleAndDescriptionComposite headerTextfield = new TitleAndDescriptionComposite(insideScrolledComposite);
  		headerTextfield.setTitleAndDescription(Descriptions.Title, Descriptions.Description);
  		headerTextfield.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-        // Scrolling		
-//        final ScrolledComposite scrolledComposite = new ScrolledComposite(headerAndContent, SWT.H_SCROLL | SWT.V_SCROLL);
-//        scrolledComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        
+
  		// Content filling main part
-        final RssBaseComposite baseComposite = new RssBaseComposite(headComposite);
-        baseComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-//        scrolledComposite.setContent(baseComposite);
-//        scrolledComposite.setExpandHorizontal(true);
-//        scrolledComposite.setExpandVertical(true);
-//        baseComposite.updateScrollSize();
-//        scrolledComposite.addListener(SWT.Resize, x -> computeMinSize(scrolledComposite, baseComposite));
-//
-//        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent.getShell(), "org.jcryptool.visual.rss.rssview");
-        
-        
+        final RssBaseComposite baseComposite = new RssBaseComposite(insideScrolledComposite);
+
+
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent.getShell(), "org.jcryptool.visual.rss.rssview");
+               
     }
 
     /**
