@@ -76,7 +76,6 @@ public class Converter {
 		for (int i = 0; i < l; i++) {
 			output[i] = _hexStringToByte(input.substring(i * s, s + i * s));
 		}
-
 		return output;
 	}
 
@@ -98,40 +97,6 @@ public class Converter {
 	 */
 	public static byte[] _stringToByte(String input) {
 		return input.getBytes(Charset.forName("UTF-8"));
-	}
-
-	public static String _numberToPrefix(long number) {
-		if (number < 0) {
-			try {
-				throw new IllegalArgumentException("Number must be positive");
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-		if (number < 2000) {
-			return number + " Byte";
-		}
-
-		final String[] prefixes = new String[] { "Byte", "Kilobyte", "Megabyte", "Gigabyte", "Terabyte", "Petabyte" };
-		int j = 0;
-		double concatNumber = number / 1000d;
-		for (long i = 1000; i < number; i *= 1000) {
-			++j;
-			concatNumber = (double) number / (double) i;
-		}
-
-		if (j >= prefixes.length - 1) {
-			try {
-				throw new IllegalArgumentException("Number greater than Petabyte");
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-				return null;
-			}
-
-		}
-
-		return new DecimalFormat(".#").format(concatNumber) + " " + prefixes[j];
 	}
 
 }

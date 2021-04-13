@@ -38,7 +38,7 @@ public class SignaturResult extends Shell {
     Composite parent;
     SigVerView sigVerView;
 
-    private int signatureLengh;
+    private int signatureLength;
     private int hashBitSize;
 
     /**
@@ -55,7 +55,7 @@ public class SignaturResult extends Shell {
         this.input = input;
         this.hashInst = hashInst;
         this.sigVerification = sigVerification;
-        this.signatureLengh = input.signatureSize;
+        this.signatureLength = input.signatureSize;
         if (hashInst.hashHex != null) {
             this.hashBitSize = hashInst.hashHex.length() * 8;
         } else {
@@ -241,9 +241,9 @@ public class SignaturResult extends Shell {
 			public void widgetDefaultSelected(SelectionEvent e) {}    	
         });
 
-        Label signatureLength = new Label(composite, SWT.READ_ONLY);
-        signatureLength.setText(Messages.SignaturResult_lengthSig + signatureLengh + " bit");
-        signatureLength.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
+        Label signatureLengthLabel = new Label(composite, SWT.READ_ONLY);
+        signatureLengthLabel.setText(Messages.SignaturResult_lengthSig + signatureLength + " bit");
+        signatureLengthLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
         
         Group options = new Group(composite, SWT.NONE);
         options.setText(Messages.SignaturResult_grpOption);

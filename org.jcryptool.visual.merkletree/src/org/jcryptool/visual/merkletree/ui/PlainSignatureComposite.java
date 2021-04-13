@@ -23,6 +23,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.fonts.FontService;
+import org.jcryptool.core.util.units.UnitsService;
+import org.jcryptool.visual.merkletree.Activator;
 import org.jcryptool.visual.merkletree.Descriptions;
 import org.jcryptool.visual.merkletree.algorithm.ISimpleMerkle;
 import org.jcryptool.visual.merkletree.files.Converter;
@@ -202,7 +204,7 @@ public class PlainSignatureComposite extends Composite {
 				if (signature != "") {
 
 					styledTextSign.setText(signature);
-					styledTextSignSize.setText(Converter._numberToPrefix(getSignatureLength(signature)));
+					styledTextSignSize.setText(UnitsService.format(getSignatureLength(signature), Activator.PLUGIN_ID));
 
 					// Set highlight buttons visible
 					buttonExplanationLabel.setVisible(true);
