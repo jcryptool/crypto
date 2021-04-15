@@ -156,6 +156,9 @@ public class Repeat extends Dialog {
 				NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
 				nf.setMaximumFractionDigits(5);
 				carolPercent.setText(nf.format(chance) + Messages.Repeat_1);
+				
+				// Clear the result area to avoid an inconsisten GUI state
+				ergebnis.setText("");
 			}
 		});
 		amount.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
