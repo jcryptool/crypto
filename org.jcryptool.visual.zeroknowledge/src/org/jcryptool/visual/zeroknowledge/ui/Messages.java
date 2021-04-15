@@ -80,7 +80,8 @@ public class Messages extends NLS {
     public static String Repeat_0;
     public static String Repeat_1;
     public static String Repeat_2;
-    public static String Repeat_3;
+    public static String Repeat_3_1;
+    public static String Repeat_3_2;
     public static String Repeat_4;
     public static String Repeat_5;
     public static String Repeat_6;

@@ -49,6 +49,7 @@ public class Repeat extends Dialog {
 	private Button start;
 	private Composite main;
 	private HashMap<Integer, Double> attackChances;
+	private String plugin;
 
 	/**
 	 * Konstruktor für die graphische Oberfläche
@@ -63,7 +64,8 @@ public class Repeat extends Dialog {
 		this.funcs = funcs;
 		// Sets Carols chance to guess right for the different functions
 		// All except FiatFeigeShamir have a probability of 50%
-		if (string == "FFS.") {
+		plugin = string;
+		if (plugin == "FFS.") {
 			attackChances = calculateAttackChances(((FFSFuncs) funcs).getVectorLength());
 		} else {
 			attackChances = calculateAttackChances(1);
@@ -107,7 +109,14 @@ public class Repeat extends Dialog {
 		aliceButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
 		carolButton = new Button(main, SWT.RADIO);
-		carolButton.setText(Messages.Repeat_3);
+		// In FFS the chance is not k/2, it is k^0.5^entries in vektor
+		if (plugin == "FFS.") {
+			// plugin ist Feige Fiat Shamir
+			carolButton.setText(Messages.Repeat_3_2);
+		} else {
+			// Plugin is fiat smair, magic door, or graph isomorphism
+			carolButton.setText(Messages.Repeat_3_1);
+		}
 		carolButton.addSelectionListener(new SelectionAdapter() {
 			/**
 			 * Wenn der RadioButton betätigt wurde, wird beim Funcs-Objekt gesetzt, das das
@@ -153,9 +162,18 @@ public class Repeat extends Dialog {
 				// to deceive Bob
 				double chance = attackChances.get(selectedRounds);
 				chance = chance * 100;
+				
 				NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
 				nf.setMaximumFractionDigits(5);
-				carolPercent.setText(nf.format(chance) + Messages.Repeat_1);
+				
+				String chanceText = "";
+				if (chance > 0.00001) {
+					chanceText = nf.format(chance);
+				} else {
+					chanceText = "< " + nf.format((double) 0.00001);
+				}
+				
+				carolPercent.setText(chanceText + Messages.Repeat_1);
 				
 				// Clear the result area to avoid an inconsisten GUI state
 				ergebnis.setText("");
@@ -190,10 +208,12 @@ public class Repeat extends Dialog {
 				nf.setMaximumFractionDigits(2);
 				
 				StringBuilder sb = new StringBuilder();
+				Double percent = ((double) result * 100) / amount_int;
+
 				sb.append(MessageFormat.format(Messages.Repeat_5,
-						result,
 						amount_int,
-						nf.format(((double) result * 100) / amount_int)));
+						result,
+						nf.format(percent)));
 				
 				// Only when all iterations can be guessed right from Carol, Bob is deceived
 				if (carolButton.getSelection()) {
@@ -229,7 +249,15 @@ public class Repeat extends Dialog {
 
 		NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
 		nf.setMaximumFractionDigits(5);
-		carolPercent.setText(nf.format(chance) + Messages.Repeat_1);
+		
+		String chanceText = "";
+		if (chance > 0.00001) {
+			chanceText = nf.format(chance);
+		} else {
+			chanceText = "< " + nf.format((double) 0.00001);
+		}
+		
+		carolPercent.setText(chanceText + Messages.Repeat_1);
 
 		main.pack();
 	}
