@@ -180,10 +180,6 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="org.jcryptool.games.numbershark.handler.HelpHandler"
-            commandId="org.jcryptool.games.numbershark.helpCommand">
-      </handler>
-            <handler
             class="org.jcryptool.games.numbershark.handler.OptimalStrategyHandler"
             commandId="org.jcryptool.games.numbershark.optStrategyCommand">
       </handler>
