@@ -2,6 +2,6 @@
 <contexts>
    <context id="view" title="Redactable Signature Schemes">
       <description>Visualisierung zum besseren Verständnis von Redactable Signature Schemes</description>
-      <topic href="nl/de/help/content/index.html" label="Redactable Signature Schemes"/>
+      <topic href="$nl$/help/content/index.html" label="Redactable Signature Schemes"/>
    </context>
 </contexts>

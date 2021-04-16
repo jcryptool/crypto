@@ -54,7 +54,7 @@ public class RssView extends ViewPart {
         final RssBaseComposite baseComposite = new RssBaseComposite(insideScrolledComposite);
 
 
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent.getShell(), "org.jcryptool.visual.rss.rssview");
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, Activator.PLUGIN_ID + ".view"); //$NON-NLS-1$
                
     }
 
