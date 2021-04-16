@@ -5,6 +5,7 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
@@ -57,6 +58,18 @@ public class GsRssView extends ViewPart {
 	@Override
 	public void setFocus() {
 		parent.setFocus();
+	}
+
+	/**
+	 * Needed by the restart handler to reset the view when restarting the plugin.
+	 */
+	public void resetView() {
+		Control[] children = parent.getChildren();
+        for (Control control : children) {
+            control.dispose();
+        }
+        createPartControl(parent);
+        parent.layout();
 	}
 
 }
