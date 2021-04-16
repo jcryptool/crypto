@@ -1,7 +1,11 @@
 package org.jcryptool.visual.gsrss;
 
+import java.security.Security;
+
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import de.unipassau.wolfgangpopp.xmlrss.wpprovider.WPProvider;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -23,6 +27,7 @@ public class Activator extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		Security.addProvider(new WPProvider());
 		plugin = this;
 	}
 
