@@ -16,6 +16,12 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.RedactableSignature;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.RedactableSignatureException;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.SignatureOutput;
 
+/**
+ * The controller of the algorithm, which uses the methods of the WPProvider from Wolfgang Popp:
+ * https://github.com/woefe/xmlrss
+ * 
+ * @author Leon Shell, Lukas Krodinger
+ */
 public class RssAlgorithmController {
     private State currentState;
     private KeyLength keyLength;
@@ -305,9 +311,9 @@ public class RssAlgorithmController {
      * @author Lukas Krodinger
      */
     public enum AlgorithmType {
-        GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA", "GLRSS", "GLRSSwithRSAandBPA", false),
-    	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA", "GSRSS", "GSRSSwithRSAandBPA", false),
-    	RSS_WITH_PSA("RSSwithPSA", "RSS", "PSRSS", true);
+        GLRSS_WITH_RSA_AND_BPA("GLRSS", "GLRSSwithRSAandBPA", "GLRSSwithRSAandBPA", false),
+    	GSRSS_WITH_RSA_AND_BPA("GSRSS", "GSRSSwithRSAandBPA", "GSRSSwithRSAandBPA", false),
+    	RSS_WITH_PSA("RSS", "RSSwithPSA", "PSRSS", true);
     	
     	/*
     	 * Not working, as BPPrivateKey of BPA not implemented:
@@ -326,9 +332,9 @@ public class RssAlgorithmController {
         private final String signatureType;
         private final boolean onlyRedactablePartsAllowed;
         
-        AlgorithmType(String signatureType, String shortName, String keyPairGenerationType, boolean onlyRedactablePartsAllowed) {
-            this.keyPairGenerationType = keyPairGenerationType;
+        AlgorithmType(String shortName,String signatureType, String keyPairGenerationType, boolean onlyRedactablePartsAllowed) {
             this.shortName = shortName;
+            this.keyPairGenerationType = keyPairGenerationType;
             this.signatureType = signatureType;
             this.onlyRedactablePartsAllowed = onlyRedactablePartsAllowed;
         }
