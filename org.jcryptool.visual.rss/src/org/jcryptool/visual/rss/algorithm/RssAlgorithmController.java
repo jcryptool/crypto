@@ -19,7 +19,7 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.SignatureOutput;
 public class RssAlgorithmController {
     private State currentState;
     private KeyLength keyLength;
-    private KeyType keyType;
+    private AlgorithmType keyType;
     private KeyPair keyPair;
     private List<String> messageParts;
     private List<Boolean> redactedParts;
@@ -69,7 +69,7 @@ public class RssAlgorithmController {
         currentState = State.START;
     }
     
-    public synchronized void genKeyAndSignature(KeyType kt, KeyLength kl) {
+    public synchronized void genKeyAndSignature(AlgorithmType kt, KeyLength kl) {
         if (currentState != State.START) {
             throw new IllegalStateException();
         }
@@ -280,13 +280,13 @@ public class RssAlgorithmController {
         }
     }
     
-    public enum KeyType {
+    public enum AlgorithmType {
         GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA"),
     	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA");
         
         private final String keyTypeText;
         
-        KeyType(String kt) {
+        AlgorithmType(String kt) {
             this.keyTypeText = kt;
         }
         
@@ -294,8 +294,8 @@ public class RssAlgorithmController {
             return keyTypeText;
         }
         
-        public static KeyType fromString(String text) {
-            for (KeyType keyType : KeyType.values()) {
+        public static AlgorithmType fromString(String text) {
+            for (AlgorithmType keyType : AlgorithmType.values()) {
                 if (keyType.keyTypeText.equalsIgnoreCase(text)) {
                     return keyType;
                 }
@@ -309,27 +309,36 @@ public class RssAlgorithmController {
         KL_1024(1024),
         KL_2048(2048);
         
-        private final int kl;
+        private final int length;
         
         KeyLength(int kl) {
-            this.kl = kl;
+            this.length = kl;
         }
         
         public int getKl() {
-            return kl;
+            return length;
         }
+        
+//        public static KeyLength fromLength(int length) {
+//            for (KeyLength keyLength : KeyLength.values()) {
+//                if (keyLength.getKl() == length) {
+//                    return keyLength;
+//                }
+//            }
+//            return null;
+//        }
     }
     
     public class Information {
-        private KeyType keyType;
+        private AlgorithmType keyType;
         private KeyLength keyLength;
         private KeyPair keyPair;
-        public Information(KeyType keyType, KeyLength keyLength, KeyPair keyPair) {
+        public Information(AlgorithmType keyType, KeyLength keyLength, KeyPair keyPair) {
             this.keyType = keyType;
             this.keyLength = keyLength;
             this.keyPair = keyPair;
         }
-        public KeyType getKeyType() {
+        public AlgorithmType getKeyType() {
             return keyType;
         }
         public KeyLength getKeyLength() {
