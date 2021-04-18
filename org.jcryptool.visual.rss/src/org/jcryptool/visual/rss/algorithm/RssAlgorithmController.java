@@ -280,23 +280,34 @@ public class RssAlgorithmController {
         }
     }
     
+    /**
+     * The available algorithm types in the WPProvider together with a text representation and a short name.
+     * @author Lukas Krodinger
+     */
     public enum AlgorithmType {
-        GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA"),
-    	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA");
+        GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA", "GLRSS"),
+    	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA", "GSRSS");
         
         private final String keyTypeText;
+        private final String shortName;
         
-        AlgorithmType(String kt) {
-            this.keyTypeText = kt;
+        AlgorithmType(String keyTypeText, String shortName) {
+            this.keyTypeText = keyTypeText;
+            this.shortName = shortName;
         }
         
         public String getKt() {
             return keyTypeText;
         }
         
+        @Override
+        public String toString() {
+        	return shortName;
+        }
+        
         public static AlgorithmType fromString(String text) {
             for (AlgorithmType keyType : AlgorithmType.values()) {
-                if (keyType.keyTypeText.equalsIgnoreCase(text)) {
+                if (keyType.shortName.equalsIgnoreCase(text)) {
                     return keyType;
                 }
             }
@@ -304,6 +315,10 @@ public class RssAlgorithmController {
         }
     }
     
+    /**
+     * The available key lengths for the generated keys.
+     * @author Lukas Krodinger
+     */
     public enum KeyLength {
         KL_512(512),
         KL_1024(1024),
@@ -318,15 +333,6 @@ public class RssAlgorithmController {
         public int getKl() {
             return length;
         }
-        
-//        public static KeyLength fromLength(int length) {
-//            for (KeyLength keyLength : KeyLength.values()) {
-//                if (keyLength.getKl() == length) {
-//                    return keyLength;
-//                }
-//            }
-//            return null;
-//        }
     }
     
     public class Information {

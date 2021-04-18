@@ -32,16 +32,19 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         // Dropdown to select the algorithm variant
         algorithmSelectionCombo = new Combo(leftComposite, SWT.READ_ONLY);
         for(AlgorithmType signatureType: AlgorithmType.values()) {
-        	algorithmSelectionCombo.add(signatureType.getKt());
+        	algorithmSelectionCombo.add(signatureType.toString());
         }
         algorithmSelectionCombo.select(0);
 
         
         // Dropdown to select the key length
         keySizeCombo = new Combo(leftComposite, SWT.READ_ONLY);
-        keySizeCombo.add("KL_512");
-        keySizeCombo.add("KL_1024");
-        keySizeCombo.add("KL_2048" + " " + Descriptions.TakesLongTime);
+        for(KeyLength keyLength: KeyLength.values()) {
+        	keySizeCombo.add(keyLength.toString());
+        }
+//        keySizeCombo.add("KL_512");
+//        keySizeCombo.add("KL_1024");
+//        keySizeCombo.add("KL_2048" + " " + Descriptions.TakesLongTime);
         keySizeCombo.select(0);
         
         // Button to generate a new key and set the algorithm controller for the selected size and variant
@@ -65,9 +68,9 @@ public class RssSetKeyComposite extends RssRightSideComposite {
                     algorithmSelectionCombo.setEnabled(false);
                     
                     // Get selected length and algorithm type
-                    KeyLength length = getLength();
-                    AlgorithmType type = getType();
-                    
+                    KeyLength length = getKeyLength();
+                    AlgorithmType type = getAlgorithmType();
+                                        
                     // Generate a new keypair and set the chosen algorithm variant to the rssController
                     rssController.genKeyAndSignature(type, length);
                     
@@ -96,19 +99,12 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 //        });
     }
 
-    private KeyLength getLength() {
+    private KeyLength getKeyLength() {
         String keyLength = keySizeCombo.getItem(keySizeCombo.getSelectionIndex());
-       
-        if (keyLength.contains("512")) {
-            return KeyLength.KL_512;
-        }
-        if (keyLength.contains("1024")) {
-            return KeyLength.KL_1024;
-        }
-        return KeyLength.KL_2048;
+        return KeyLength.valueOf(keyLength);
     }
     
-    private AlgorithmType getType() {
+    private AlgorithmType getAlgorithmType() {
     	String keyText = algorithmSelectionCombo.getItem(algorithmSelectionCombo.getSelectionIndex());
     	return AlgorithmType.fromString(keyText);
     }
