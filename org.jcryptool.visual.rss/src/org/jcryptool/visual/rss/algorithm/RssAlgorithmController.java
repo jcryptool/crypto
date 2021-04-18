@@ -88,7 +88,8 @@ public class RssAlgorithmController {
         try {
             keyGen = KeyPairGenerator.getInstance(algorithmType.getKeyPairGenerationType());
             keyGen.initialize(kl.getKl());
-            setKey(keyGen.generateKeyPair());
+            KeyPair keyPair = keyGen.generateKeyPair();
+            setKey(keyPair);
             keyLength = kl;
             keyType = algorithmType;
                 
@@ -298,12 +299,27 @@ public class RssAlgorithmController {
     
     /**
      * The available algorithm types in the WPProvider together with a text representation and a short name.
+     * Note to not use GLRSS or GSRSS with PSRSS, as this will not work together.
+     * Also do not use BPA, as this is not implemented completely; use GLRSSwithRSAandBPA/GSRSSwithRSAandBPA instead.
+     * 
      * @author Lukas Krodinger
      */
     public enum AlgorithmType {
         GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA", "GLRSS", "GLRSSwithRSAandBPA", false),
     	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA", "GSRSS", "GSRSSwithRSAandBPA", false),
     	RSS_WITH_PSA("RSSwithPSA", "RSS", "PSRSS", true);
+    	
+    	/*
+    	 * Not working, as BPPrivateKey of BPA not implemented:
+    	 * https://github.com/woefe/xmlrss/blob/2e178daad02d013352b29d05c4dacda2110960e5/src/main/java/de/unipassau/wolfgangpopp/xmlrss/wpprovider/grss/BPKeyPairGenerator.java
+    	 * TEST("GLRSSwithRSAandBPA", "GLRSS with BPA", "BPA", false); // Not Implemented, probably invalid anyway
+    	 * 
+    	 * Not working as not allowed:
+    	 * TEST2("GLRSSwithRSAandBPA", "GLRSSwithRSAandBPA with GSRSSwithRSAandBPA", "GSRSSwithRSAandBPA", false), //Invalid
+    	 * TEST3("GSRSSwithRSAandBPA", "GSRSSwithRSAandBPA with GLRSSwithRSAandBPA", "GLRSSwithRSAandBPA", false), //Invalid
+      	 * TEST4("GLRSSwithRSAandBPA", "GLRSSwithRSAandBPA with PSRSS", "PSRSS", false), //Invalid
+    	 * TEST5("GSRSSwithRSAandBPA", "GSRSSwithRSAandBPA with PSRSS", "PSRSS", false); //Invalid
+    	 */ 
     	
         private final String keyPairGenerationType;
         private final String shortName;
