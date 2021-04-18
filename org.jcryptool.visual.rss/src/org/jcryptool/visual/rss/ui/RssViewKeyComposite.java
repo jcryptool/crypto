@@ -1,5 +1,8 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Base64;
 
 import org.eclipse.swt.SWT;
@@ -52,15 +55,20 @@ public class RssViewKeyComposite extends RssRightSideComposite {
             l1.setText(Descriptions.PrivateKey);
             Text t1 = new Text(leftComposite, SWT.NONE | SWT.MULTI | SWT.WRAP);
             t1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-            byte[] s1 = ((GSRSSPrivateKey) ((GLRSSPrivateKey) info.getKeyPair().getPrivate()).getGsrssKey()).getDSigKey().getEncoded();
-            String text1 = new String(Base64.getEncoder().encode(s1));
+            
+            KeyPair keyPair = info.getKeyPair();
+            byte[] encodedPrivateKey = getPrivateKey(keyPair);
+            
+            String text1 = new String(Base64.getEncoder().encode(encodedPrivateKey));
             t1.setText(getSplittedString(text1, 50));
             Label l2 = new Label(leftComposite, SWT.NONE);
             l2.setText(Descriptions.PublicKey);
             Text t2 = new Text(leftComposite, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP);
             t2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-            byte[] s2 = ((GSRSSPublicKey) ((GLRSSPublicKey) info.getKeyPair().getPublic()).getGsrssKey()).getDSigKey().getEncoded();
-            String text2 = new String(Base64.getEncoder().encode(s2));
+                       
+            byte[] encodedPublicKey = getPublicKey(keyPair);
+            
+            String text2 = new String(Base64.getEncoder().encode(encodedPublicKey));
             t2.setText(getSplittedString(text2, 50));
         }
 
@@ -77,7 +85,66 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         });
     }
 
-    @Override
+	/**
+	 * Gets the encoded publicKey.
+	 * The object structure for the key is (for whatever reason) as follows:
+	 * 1. The keyPair contains a publicKey
+	 * 2. Only if the publicKey is an instance of GLRSSPrivateKey it contains an GSRSSPublicKey
+	 * 3. The GSRSSPublicKey contains the dSignKey
+	 * @param keyPair The keyPair to obtain the publicKey from.
+	 * @return The encoded publicKey.
+	 */
+	private byte[] getPublicKey(KeyPair keyPair) {
+
+		PublicKey publicKey = keyPair.getPublic();
+		
+		if (publicKey instanceof GLRSSPublicKey) {
+			GLRSSPublicKey glrssPublicKey = (GLRSSPublicKey) publicKey;
+			publicKey = glrssPublicKey.getGsrssKey();
+		} 
+		
+		PublicKey dPublicSigKey;
+		if (publicKey instanceof GSRSSPublicKey) {
+			GSRSSPublicKey gsrssPublicKey = (GSRSSPublicKey) publicKey;
+			dPublicSigKey = gsrssPublicKey.getDSigKey();
+		} else {
+			throw new RuntimeException("Unsupported Key Structure");
+		}
+		
+		byte[] encodedPublicKey = dPublicSigKey.getEncoded();
+		return encodedPublicKey;
+	}
+
+    /**
+     * Gets the encoded privateKey.
+     * The object structure for the key is (for whatever reason) as follows:
+     * 1. The keyPair contains a privateKey
+     * 2. Only if the keyPair is an instance of GLRSSPrivateKey it contains an GSRSSPrivateKey
+     * 3. The GSRSSPrivateKey contains the dSignKey
+     * @param keyPair The keyPair to obtain the privateKey from.
+     * @return The encoded privateKey.
+     */
+    private byte[] getPrivateKey(KeyPair keyPair) {
+        PrivateKey privateKey = keyPair.getPrivate();
+        
+        if (privateKey instanceof GLRSSPrivateKey) {
+        	GLRSSPrivateKey glrssPrivateKey = (GLRSSPrivateKey) privateKey;
+        	privateKey = glrssPrivateKey.getGsrssKey();
+        } 
+        
+        PrivateKey dPrivateSigKey;
+        if (privateKey instanceof GSRSSPrivateKey) {
+        	GSRSSPrivateKey gsrssPrivateKey = (GSRSSPrivateKey) privateKey;
+        	dPrivateSigKey = gsrssPrivateKey.getDSigKey();
+        } else {
+        	throw new RuntimeException("Unsupported Key Structure");
+        }
+        
+        byte[] encodedPrivateKey = dPrivateSigKey.getEncoded();
+        return encodedPrivateKey;
+	}
+
+	@Override
     void prepareAboutComposite() {
         description.setText(Descriptions.TextViewKey);
     }
