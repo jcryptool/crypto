@@ -7,7 +7,10 @@ Bundle-Activator: org.jcryptool.visual.gsrss.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jcryptool.core.util,
- org.jcryptool.visual.rss
+ org.jcryptool.visual.rss,
+ org.jcryptool.crypto.keystore,
+ org.jcryptool.visual.sig,
+ de.flexiprovider
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.jcryptool.visual.gsrss
