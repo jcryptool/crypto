@@ -19,7 +19,7 @@ import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
 /**
- * The composite with button, text fields etc. with the function to sign the before defined message parts.
+ * The composite with button, text fields etc. with the function select which message parts should be redactable later.
  *  
  * @author Leon Shell, Lukas Krodinger
  */
@@ -50,6 +50,10 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         l2.setText(Descriptions.Message);
         Label l3 = new Label(c, SWT.READ_ONLY);
         l3.setText(Descriptions.Redactable + "?");
+        
+        // Check if redacting is allowed
+        boolean onlyRedactablePartsAllowed = rac.isOnlyRedactablePartsAllowed();
+        
         for (int i = 0; i < messages.size(); i++) {
             Label la = new Label(c, SWT.READ_ONLY);
             la.setText("" + (i + 1));
@@ -61,9 +65,21 @@ public class RssSignMessageComposite extends RssRightSideComposite {
             msg = getSplittedString(msg, 50);
             l.setText(msg);
             messageList.add(msg);
-            Button b = new Button(c, SWT.CHECK);
-            b.setSelection(false);
-            buttonList.add(b);
+            Button redactingAllowedCheckbox = new Button(c, SWT.CHECK);
+            
+            /*
+             * If all parts must be redactable, check all checkboxes and disable the control.
+             * Otherwise uncheck them and enable the control.
+             */
+            if (onlyRedactablePartsAllowed) {
+            	redactingAllowedCheckbox.setSelection(true);
+            	redactingAllowedCheckbox.setEnabled(false);
+            } else {
+            	redactingAllowedCheckbox.setSelection(false);
+            	redactingAllowedCheckbox.setEnabled(true);
+            }
+            
+            buttonList.add(redactingAllowedCheckbox);
         }
         Button signMessageButton = new Button(inner, SWT.PUSH);
         signMessageButton.setText(Descriptions.SignMessage);

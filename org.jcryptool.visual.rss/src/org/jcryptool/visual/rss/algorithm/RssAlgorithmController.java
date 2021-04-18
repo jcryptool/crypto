@@ -60,6 +60,16 @@ public class RssAlgorithmController {
         }
         return Collections.unmodifiableList(redactedParts);
     }
+    
+    /**
+     * Gets whether there are only redactable parts allowed.
+     * @return True, when all message parts must be redactable for this algorithm, false otherwise.
+     */
+    public boolean isOnlyRedactablePartsAllowed() {
+        String algorithmAsString = signature.getAlgorithm();
+        AlgorithmType algorithm = AlgorithmType.fromString(algorithmAsString);
+        return algorithm.isOnlyRedactablePartsAllowed();
+    }
 
     public synchronized void setKeyAgain() {
         if (currentState == State.START) {
@@ -138,6 +148,12 @@ public class RssAlgorithmController {
         if (redactableParts.size() != messageParts.size()) {
             throw new IllegalArgumentException("Redactable parts list must match size of message parts list.");
         }
+        
+        // Check if algorithm is allowed to have non redactable parts
+        if (isOnlyRedactablePartsAllowed() && redactableParts.contains(false)) {
+        	throw new IllegalStateException("The algorithm is not allowed to contain not redactable message parts.");
+        }
+        
         this.redactableParts = redactableParts;
         //TODO make JOB:
         try {
@@ -285,18 +301,20 @@ public class RssAlgorithmController {
      * @author Lukas Krodinger
      */
     public enum AlgorithmType {
-        GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA", "GLRSS", "GLRSSwithRSAandBPA"),
-    	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA", "GSRSS", "GSRSSwithRSAandBPA"),
-    	RSS_WITH_PSA("RSSwithPSA", "RSS", "PSRSS");
+        GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA", "GLRSS", "GLRSSwithRSAandBPA", false),
+    	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA", "GSRSS", "GSRSSwithRSAandBPA", false),
+    	RSS_WITH_PSA("RSSwithPSA", "RSS", "PSRSS", true);
     	
         private final String keyPairGenerationType;
         private final String shortName;
         private final String signatureType;
+        private final boolean onlyRedactablePartsAllowed;
         
-        AlgorithmType(String signatureType, String shortName, String keyPairGenerationType) {
+        AlgorithmType(String signatureType, String shortName, String keyPairGenerationType, boolean onlyRedactablePartsAllowed) {
             this.keyPairGenerationType = keyPairGenerationType;
             this.shortName = shortName;
             this.signatureType = signatureType;
+            this.onlyRedactablePartsAllowed = onlyRedactablePartsAllowed;
         }
         
         public String getKeyPairGenerationType() {
@@ -312,9 +330,13 @@ public class RssAlgorithmController {
         	return shortName;
         }
         
+        public boolean isOnlyRedactablePartsAllowed() {
+        	return onlyRedactablePartsAllowed;
+        }
+        
         public static AlgorithmType fromString(String text) {
             for (AlgorithmType keyType : AlgorithmType.values()) {
-                if (keyType.shortName.equalsIgnoreCase(text)) {
+                if (keyType.shortName.equalsIgnoreCase(text) || keyType.signatureType.equalsIgnoreCase(text)) {
                     return keyType;
                 }
             }
