@@ -69,20 +69,20 @@ public class RssAlgorithmController {
         currentState = State.START;
     }
     
-    public synchronized void genKeyAndSignature(AlgorithmType kt, KeyLength kl) {
+    public synchronized void genKeyAndSignature(AlgorithmType algorithmType, KeyLength kl) {
         if (currentState != State.START) {
             throw new IllegalStateException();
         }
         
         KeyPairGenerator keyGen;
         try {
-            keyGen = KeyPairGenerator.getInstance(kt.getKt());
+            keyGen = KeyPairGenerator.getInstance(algorithmType.getKeyPairGenerationType());
             keyGen.initialize(kl.getKl());
             setKey(keyGen.generateKeyPair());
             keyLength = kl;
-            keyType = kt;
+            keyType = algorithmType;
                 
-            setSignature(RedactableSignature.getInstance(kt.getKt()));
+            setSignature(RedactableSignature.getInstance(algorithmType.getSignatureType()));
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalArgumentException("There is no implementation for the given key type.");
         }
@@ -285,21 +285,28 @@ public class RssAlgorithmController {
      * @author Lukas Krodinger
      */
     public enum AlgorithmType {
-        GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA", "GLRSS"),
-    	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA", "GSRSS");
-        
-        private final String keyTypeText;
+        GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA", "GLRSS", "GLRSSwithRSAandBPA"),
+    	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA", "GSRSS", "GSRSSwithRSAandBPA"),
+    	RSS_WITH_PSA("RSSwithPSA", "RSS", "PSRSS");
+    	
+        private final String keyPairGenerationType;
         private final String shortName;
+        private final String signatureType;
         
-        AlgorithmType(String keyTypeText, String shortName) {
-            this.keyTypeText = keyTypeText;
+        AlgorithmType(String signatureType, String shortName, String keyPairGenerationType) {
+            this.keyPairGenerationType = keyPairGenerationType;
             this.shortName = shortName;
+            this.signatureType = signatureType;
         }
         
-        public String getKt() {
-            return keyTypeText;
+        public String getKeyPairGenerationType() {
+            return keyPairGenerationType;
         }
         
+        public String getSignatureType() {
+        	return signatureType;
+        }
+                     
         @Override
         public String toString() {
         	return shortName;

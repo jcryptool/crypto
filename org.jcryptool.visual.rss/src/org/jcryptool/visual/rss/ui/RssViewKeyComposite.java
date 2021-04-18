@@ -1,5 +1,6 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -20,6 +21,8 @@ import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPublicKey;
+import de.unipassau.wolfgangpopp.xmlrss.wpprovider.psrss.PSRSSPrivateKey;
+import de.unipassau.wolfgangpopp.xmlrss.wpprovider.psrss.PSRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
 
 /**
@@ -87,60 +90,77 @@ public class RssViewKeyComposite extends RssRightSideComposite {
 
 	/**
 	 * Gets the encoded publicKey.
-	 * The object structure for the key is (for whatever reason) as follows:
+	 * The object structure for the key is as follows:
 	 * 1. The keyPair contains a publicKey
-	 * 2. Only if the publicKey is an instance of GLRSSPrivateKey it contains an GSRSSPublicKey
-	 * 3. The GSRSSPublicKey contains the dSignKey
+	 * 2. There are multiple options:
+	 * - If the publicKey is a GLRSSPrivateKey it contains an GSRSSPublicKey.
+	 * - If the publicKey is (now) a GSRSSPublicKey, it contains the dSignKey.
+	 * - If the publicKey is a PSRSSPublicKey, it contains the key as BigInteger.
+	 * 
 	 * @param keyPair The keyPair to obtain the publicKey from.
 	 * @return The encoded publicKey.
 	 */
 	private byte[] getPublicKey(KeyPair keyPair) {
-
 		PublicKey publicKey = keyPair.getPublic();
+		byte[] encodedPublicKey = null;
 		
 		if (publicKey instanceof GLRSSPublicKey) {
 			GLRSSPublicKey glrssPublicKey = (GLRSSPublicKey) publicKey;
 			publicKey = glrssPublicKey.getGsrssKey();
 		} 
 		
-		PublicKey dPublicSigKey;
 		if (publicKey instanceof GSRSSPublicKey) {
 			GSRSSPublicKey gsrssPublicKey = (GSRSSPublicKey) publicKey;
-			dPublicSigKey = gsrssPublicKey.getDSigKey();
-		} else {
-			throw new RuntimeException("Unsupported Key Structure");
+			publicKey = gsrssPublicKey.getDSigKey();
+			encodedPublicKey = publicKey.getEncoded();
 		}
 		
-		byte[] encodedPublicKey = dPublicSigKey.getEncoded();
+        if (publicKey instanceof PSRSSPublicKey) {
+        	PSRSSPublicKey psrssPrivateKey = (PSRSSPublicKey) publicKey;
+        	encodedPublicKey = psrssPrivateKey.getKey().toByteArray();
+        }
+        
+        if (encodedPublicKey == null) {
+        	throw new RuntimeException("Extracting public key not possible");
+        }
+				
 		return encodedPublicKey;
 	}
 
     /**
      * Gets the encoded privateKey.
      * The object structure for the key is (for whatever reason) as follows:
-     * 1. The keyPair contains a privateKey
-     * 2. Only if the keyPair is an instance of GLRSSPrivateKey it contains an GSRSSPrivateKey
-     * 3. The GSRSSPrivateKey contains the dSignKey
+	 * - If the privateKey is a GLRSSPrivateKey it contains an GSRSSPrivateKey.
+	 * - If the privateKey is (now) a GSRSSPrivateKey, it contains the dSignKey.
+	 * - If the privateKey is a PSRSSPrivateKey, it contains the key as BigInteger.
+	 * 
      * @param keyPair The keyPair to obtain the privateKey from.
      * @return The encoded privateKey.
      */
     private byte[] getPrivateKey(KeyPair keyPair) {
         PrivateKey privateKey = keyPair.getPrivate();
+        byte[] encodedPrivateKey = null;
         
         if (privateKey instanceof GLRSSPrivateKey) {
         	GLRSSPrivateKey glrssPrivateKey = (GLRSSPrivateKey) privateKey;
         	privateKey = glrssPrivateKey.getGsrssKey();
         } 
         
-        PrivateKey dPrivateSigKey;
         if (privateKey instanceof GSRSSPrivateKey) {
         	GSRSSPrivateKey gsrssPrivateKey = (GSRSSPrivateKey) privateKey;
-        	dPrivateSigKey = gsrssPrivateKey.getDSigKey();
-        } else {
-        	throw new RuntimeException("Unsupported Key Structure");
+        	privateKey = gsrssPrivateKey.getDSigKey();
+        	encodedPrivateKey = privateKey.getEncoded();
+        } 
+        
+        if (privateKey instanceof PSRSSPrivateKey) {
+        	PSRSSPrivateKey psrssPrivateKey = (PSRSSPrivateKey) privateKey;
+        	encodedPrivateKey = psrssPrivateKey.getKey().toByteArray();
+        }        
+        
+        if (encodedPrivateKey == null) {
+        	throw new RuntimeException("Extracting private key not possible");
         }
         
-        byte[] encodedPrivateKey = dPrivateSigKey.getEncoded();
         return encodedPrivateKey;
 	}
 
