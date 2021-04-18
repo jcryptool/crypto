@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyType;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
@@ -20,6 +21,8 @@ public class RssSetKeyComposite extends RssRightSideComposite {
     private final Combo keySizeCombo;
     private final Button genKeyButton;
     private final Button nextButton;
+    
+    private final Combo algorithmSelectionCombo;
 
     public RssSetKeyComposite(RssBodyComposite body, final RssAlgorithmController rac) {
         super(body, SWT.NONE);
@@ -38,7 +41,15 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         nextButton = new Button(leftComposite, SWT.PUSH);
         nextButton.setText(Descriptions.Next + ": " + Descriptions.NewMessage);
         nextButton.setEnabled(false);
-
+        
+        // Select the algorithm variant
+        algorithmSelectionCombo = new Combo(leftComposite, SWT.READ_ONLY);
+        for(KeyType signatureType: KeyType.values()) {
+        	algorithmSelectionCombo.add(signatureType.getKt());
+        }
+        algorithmSelectionCombo.select(0);
+        
+        
         genKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 switch (e.type) {
@@ -46,7 +57,9 @@ public class RssSetKeyComposite extends RssRightSideComposite {
                     genKeyButton.setEnabled(false);
                     keySizeCombo.setEnabled(false);
                     KeyLength length = getLength();
-                    rac.genKeyAndSignature(RssAlgorithmController.KeyType.GLRSS_WITH_RSA_AND_BPA, length);
+                 
+                    KeyType type = getType();
+                    rac.genKeyAndSignature(type, length);
                     body.lightPath();
                     body.lightDataBox(DataType.KEY);
                     nextButton.setEnabled(true);
@@ -54,6 +67,8 @@ public class RssSetKeyComposite extends RssRightSideComposite {
                 }
             }
         });
+        
+      
 
         nextButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
@@ -67,14 +82,20 @@ public class RssSetKeyComposite extends RssRightSideComposite {
     }
 
     private KeyLength getLength() {
-        String keyText = keySizeCombo.getItem(keySizeCombo.getSelectionIndex());
-        if (keyText.contains("512")) {
+        String keySize = keySizeCombo.getItem(keySizeCombo.getSelectionIndex());
+        if (keySize.contains("512")) {
             return KeyLength.KL_512;
         }
-        if (keyText.contains("1024")) {
+        if (keySize.contains("1024")) {
             return KeyLength.KL_1024;
         }
         return KeyLength.KL_2048;
+    }
+    
+    private KeyType getType() {
+    	String keyText = algorithmSelectionCombo.getItem(algorithmSelectionCombo.getSelectionIndex());
+    	System.out.println(keyText);
+    	return KeyType.fromString(keyText);
     }
 
     public void resetKey() {

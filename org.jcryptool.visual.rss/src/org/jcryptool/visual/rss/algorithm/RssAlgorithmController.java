@@ -281,16 +281,26 @@ public class RssAlgorithmController {
     }
     
     public enum KeyType {
-        GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA");
+        GLRSS_WITH_RSA_AND_BPA("GLRSSwithRSAandBPA"),
+    	GSRSS_WITH_RSA_AND_BPA("GSRSSwithRSAandBPA");
         
-        private final String kt;
+        private final String keyTypeText;
         
         KeyType(String kt) {
-            this.kt = kt;
+            this.keyTypeText = kt;
         }
         
         public String getKt() {
-            return kt;
+            return keyTypeText;
+        }
+        
+        public static KeyType fromString(String text) {
+            for (KeyType keyType : KeyType.values()) {
+                if (keyType.keyTypeText.equalsIgnoreCase(text)) {
+                    return keyType;
+                }
+            }
+            return null;
         }
     }
     
