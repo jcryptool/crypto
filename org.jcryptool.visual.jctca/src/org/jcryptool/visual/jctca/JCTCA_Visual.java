@@ -10,10 +10,12 @@
 //-----END DISCLAIMER-----
 package org.jcryptool.visual.jctca;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -23,16 +25,16 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.ui.part.ViewPart;
+import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
-import org.jcryptool.visual.jctca.listeners.PluginBtnListener;
-import org.jcryptool.visual.jctca.listeners.ResizeListener;
 import org.jcryptool.visual.jctca.listeners.TabItemListener;
 import org.jcryptool.visual.jctca.tabs.CertificationTab;
 import org.jcryptool.visual.jctca.tabs.RegistrationTab;
 import org.jcryptool.visual.jctca.tabs.SecondUserTab;
 import org.jcryptool.visual.jctca.tabs.UserTab;
+
 
 /**
  * 
@@ -44,12 +46,14 @@ import org.jcryptool.visual.jctca.tabs.UserTab;
 
 public class JCTCA_Visual extends ViewPart {
 
+	private TitleAndDescriptionComposite titleAndDescription;
     private Composite composite;
-    private StyledText head_description;
+    private Composite comp_image;
     private Composite comp_center;
     private TabFolder tabFolder;
-    private StyledText stl_explain;
     private ScrolledComposite root;
+    private Label lbl_img;
+    private Image currentImage;
 
     @Override
     public void createPartControl(Composite parent) {
@@ -61,10 +65,10 @@ public class JCTCA_Visual extends ViewPart {
 
         composite.setLayout(new GridLayout(1, false));
 
-        TitleAndDescriptionComposite titleAndDescription = new TitleAndDescriptionComposite(composite);
+        titleAndDescription = new TitleAndDescriptionComposite(composite);
         titleAndDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
         titleAndDescription.setTitle(Messages.JCTCA_Visual_Plugin_Headline);
-        titleAndDescription.setDescription(Messages.JCTCA_Visual_archpic_create_text);
+        titleAndDescription.setDescription(Messages.JCTCA_Visual_archpic_create_explain);
 
         showArchitecture();
         
@@ -77,60 +81,151 @@ public class JCTCA_Visual extends ViewPart {
 
     /**
      * 
-     * Displays the architecture pictures of jct-ca
+     * Displays the architecture pictures of jct-ca</br>
+     * The start page of the plugin.
      * 
      */
     public void showArchitecture() {
         comp_center = new Composite(composite, SWT.NONE);
         comp_center.setLayout(new GridLayout(1, false));
         comp_center.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+        comp_center.setBackground(ColorService.GREEN);
 
         Composite comp_buttons = new Composite(comp_center, SWT.NONE);
         comp_buttons.setLayout(new GridLayout(4, false));
-        GridData btns_ld = new GridData(SWT.FILL, SWT.NONE, true, false, 1, 1);
-        btns_ld.minimumHeight = 30;
-        comp_buttons.setLayoutData(btns_ld);
-
-        Composite comp_image = new Composite(comp_center, SWT.FILL);
-        comp_image.setLayout(new GridLayout(1, false));
-        comp_image.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-        // set path_to_create_img and load image at that path into help
-        String path_to_create_img = Platform.getNL().substring(0, 2);
-        if (Platform.getNL().substring(0, 2).equals("de")) {
-            path_to_create_img = "icons/de/minica_create.png"; //$NON-NLS-1$
-        } else {
-            path_to_create_img = "icons/en/minica_create.png"; //$NON-NLS-1$
-        }
-        Image help = ImageService.getImage(Activator.PLUGIN_ID, path_to_create_img);
-        Label lbl_img = new Label(comp_image, SWT.WRAP | SWT.RESIZE);
-        lbl_img.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-        lbl_img.setImage(help);
-        lbl_img.addControlListener(new ResizeListener(lbl_img, comp_image));
+        comp_buttons.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 1, 1));
+        comp_buttons.setBackground(ColorService.RED);
+        
+        
         Button btn_showCreate = new Button(comp_buttons, SWT.PUSH);
         btn_showCreate.setText(Messages.JCTCA_Visual_btn_show_archpic_create);
-        btn_showCreate.setData(0); // set data for the listener -
-                                                // see PluginBtnListener.java
-        btn_showCreate.addSelectionListener(new PluginBtnListener(this, lbl_img, head_description));
-
+        btn_showCreate.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				titleAndDescription.setDescription(Messages.JCTCA_Visual_archpic_create_explain);
+				currentImage = ImageService.getImage(Activator.PLUGIN_ID, Messages.JCTCA_Visual_path_to_create_img);
+				lbl_img.setImage(currentImage);
+				ResizeHelper.resize_image(lbl_img, comp_image);
+//				comp_center.layout();
+//				composite.layout();
+//				root.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
+        
         Button btn_showRevoke = new Button(comp_buttons, SWT.PUSH);
         btn_showRevoke.setText(Messages.JCTCA_Visual_btn_show_archpic_revoke);
-        btn_showRevoke.setData(1);
-        btn_showRevoke.addSelectionListener(new PluginBtnListener(this, lbl_img, head_description));
-
+        btn_showRevoke.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				titleAndDescription.setDescription(Messages.JCTCA_Visual_archpic_revoke_explain);
+				currentImage = ImageService.getImage(Activator.PLUGIN_ID, Messages.JCTCA_Visual_path_to_revoke_img);
+				lbl_img.setImage(currentImage);
+				ResizeHelper.resize_image(lbl_img, comp_image);
+//				comp_center.layout();#
+//				composite.layout();
+//				root.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
+        
         Button btn_showCheck = new Button(comp_buttons, SWT.PUSH);
         btn_showCheck.setText(Messages.JCTCA_Visual_btn_show_archpic_check);
-        btn_showCheck.setData(2);
-        btn_showCheck.addSelectionListener(new PluginBtnListener(this, lbl_img, head_description));
-
+        btn_showCheck.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				titleAndDescription.setDescription(Messages.JCTCA_Visual_archpic_check_explain);
+				currentImage = ImageService.getImage(Activator.PLUGIN_ID, Messages.JCTCA_Visual_path_to_check_img);
+				lbl_img.setImage(currentImage);
+				ResizeHelper.resize_image(lbl_img, comp_image);
+//				comp_center.layout();
+//				composite.layout();
+//				root.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
+        
+        
         Button btn_continue = new Button(comp_buttons, SWT.PUSH);
         btn_continue.setText(Messages.JCTCA_Visual_btn_continue_to_plugin);
-        btn_continue.setData(3);
-        btn_continue.addSelectionListener(new PluginBtnListener(this, lbl_img, head_description));
-        composite.layout(true);
+        btn_continue.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				disposeCompCenter();
+				titleAndDescription.setDescription(Messages.JCTCA_Visual_visual_intro_text);
+				showCenter();
+//				comp_center.layout();
+//				comp_center.
+//				composite.layout();
+//				root.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});
+        
+        
+        
+        comp_image = new Composite(comp_center, SWT.FILL);
+        comp_image.setLayout(new GridLayout(1, false));
+        comp_image.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+        comp_image.setBackground(ColorService.YELLOW);
+        
+        lbl_img = new Label(comp_image, SWT.WRAP | SWT.RESIZE);
+        lbl_img.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+        currentImage = ImageService.getImage(Activator.PLUGIN_ID, Messages.JCTCA_Visual_path_to_create_img);
+        lbl_img.setImage(currentImage);
+        lbl_img.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				// Changing the size of the control changes the 
+				// available space for the image. Resizing is required.
+//				lbl_img.setImage(ImageService.getIma);
+				lbl_img.setImage(currentImage);
+	            ResizeHelper.resize_image(lbl_img, comp_image);
+//				composite.layout();
+//				root.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent e) {
+				// Moving the whole control does not change the 
+				// size of the image. No resizing is required.
+				
+			}
+		});
+        
+
+
+
         
         root.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
     }
 
+    
+    /**
+     * This creates the GUI after clicking "continue with plugin"
+     */
     public void showCenter() {
     	
         comp_center = new Composite(composite, SWT.NONE);
@@ -149,9 +244,10 @@ public class JCTCA_Visual extends ViewPart {
         grp_explain.setText(Messages.JCTCA_Visual_grp_explain_headline);
 
         // label for showing explanation texts
-        stl_explain = new StyledText(grp_explain, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
-        GridData gd_txt_explain = new GridData(SWT.FILL, SWT.FILL, true, true);
-        stl_explain.setLayoutData(gd_txt_explain);
+//        titleAndDescription.setDescription(getContentDescription());
+//        stl_explain = new StyledText(grp_explain, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+//        GridData gd_txt_explain = new GridData(SWT.FILL, SWT.FILL, true, true);
+//        stl_explain.setLayoutData(gd_txt_explain);
 
         TabItemListener tabItemListener = new TabItemListener(tabFolder, grp_explain);
         tabFolder.addSelectionListener(tabItemListener);
