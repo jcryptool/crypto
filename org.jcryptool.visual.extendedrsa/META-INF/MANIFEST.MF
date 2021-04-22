@@ -15,8 +15,8 @@ Require-Bundle:
  org.jcryptool.crypto.flexiprovider.keystore,
  org.jcryptool.crypto.keystore,
  org.jcryptool.core.util,
- org.bouncycastle,
- org.jcryptool.core.operations
+ org.jcryptool.core.operations,
+ bcprov;bundle-version="1.68.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.jcryptool.core.logging.utils,
