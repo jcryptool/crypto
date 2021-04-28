@@ -15,26 +15,22 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 public class ResizeHelper {
+	
+//	private static 
 
     public static void resize_image(Label label, Composite comp_image) {
         Image image = label.getImage();
-//        Image img_scaled;
         int imageWidth = image.getBounds().width;
         int imageHeight = image.getBounds().height;
         double imageRatio = (double) imageWidth / (double) imageHeight;
         int labelWidth = label.getBounds().width;
         int labelHeight = label.getBounds().height;
         double labelRatio = (double) labelWidth / (double) labelHeight;
-        System.out.println("imageRatio " + imageRatio);
-        System.out.println("labelRatio " + labelRatio);
         
         int width_scaled;
         int height_scaled;
         
         // Die Bilder sind immer breiter als höher.
-//        int width_scaled = comp_image.getBounds().width;
-//        int height_scaled = (double) width_scaled * 
-        
         if (labelRatio < imageRatio) {
             width_scaled = comp_image.getClientArea().width;
             height_scaled = (int) ((double) width_scaled / imageRatio);
@@ -44,13 +40,7 @@ public class ResizeHelper {
             width_scaled = (int) ((double) height_scaled * imageRatio);
 //            width_scaled = (int) (width - (height - height_scaled) * ratio);
         }
-        
-        System.out.println("comp_image Size: " + comp_image.getBounds());
-//        System.out.println("comp_image ClientArea " + comp_image.getClientArea());
-        System.out.println("image " + image.getBounds());
-        System.out.println("width_scaled " + width_scaled + "; height_scaled " + height_scaled);
-//
-//        img_scaled = ;
+
         label.setImage(new Image(label.getDisplay(), image.getImageData().scaledTo(width_scaled, height_scaled)));
     }
 }
