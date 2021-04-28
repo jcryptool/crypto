@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.SecureRandom;
-import java.security.Security;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -32,7 +32,6 @@ import org.bouncycastle.crypto.generators.RSAKeyPairGenerator;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 import org.bouncycastle.crypto.params.RSAKeyGenerationParameters;
 import org.bouncycastle.crypto.util.PrivateKeyFactory;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.DefaultDigestAlgorithmIdentifierFinder;
 import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
@@ -76,7 +75,7 @@ public class CertificateCSRR {
 	/**
 	 * the keys from the CA to sign certificates
 	 */
-	private ArrayList<AsymmetricCipherKeyPair> caKeys;
+	private ArrayList<PrivateKey> caKeys;
 
 	/**
 	 * the certificates from the CA
@@ -99,7 +98,7 @@ public class CertificateCSRR {
 	private CertificateCSRR() {
 		approved_csrs = new ArrayList<CSR>();
 		revRequests = new ArrayList<RR>();
-		caKeys = new ArrayList<AsymmetricCipherKeyPair>();
+		caKeys = new ArrayList<PrivateKey>();
 		certs = new ArrayList<X509Certificate>();
 		crl = new ArrayList<CRLEntry>();
 		sigList = new ArrayList<Signature>();
@@ -140,6 +139,20 @@ public class CertificateCSRR {
 					LogUtil.logError(e);
 				}
 				if (c instanceof X509Certificate) {
+
+					try {
+						KeyStoreAlias pk = mng.getPrivateForPublic(pubAlias);
+
+						PrivateKey k = mng.getPrivateKey(pk, KeyStoreManager.KEY_PASSWORD);
+
+						caKeys.add(k);
+
+					} catch (UnrecoverableEntryException uee) {
+						LogUtil.logError(Activator.PLUGIN_ID, uee);
+					} catch (NoSuchAlgorithmException nsae) {
+						LogUtil.logError(Activator.PLUGIN_ID, nsae);
+					}
+
 					certs.add((X509Certificate) c);
 				}
 			} else if (pubAlias.getContactName().contains("JCT-PKI Certificate Revocation List")) {//$NON-NLS-1$
@@ -162,16 +175,6 @@ public class CertificateCSRR {
 		if (!certsExist) {
 			// no certificates exist, create new ones
 
-			// Fügt BC zur Liste der vorhandenen Crypto Provider
-			// ganz am Ende zu.
-			Security.addProvider(new BouncyCastleProvider());
-
-			// Print out the available Crpyto Providers for debug reasons
-//        	Provider[] p = Security.getProviders();
-//        	for (Provider provider : p) {
-//				System.out.println(provider.toString());
-//			}
-
 			// Schlüsselerzeugung hier nachgebaut:
 			// https://www.programcreek.com/java-api-examples/?api=org.bouncycastle.operator.bc.BcRSAContentSignerBuilder
 
@@ -184,7 +187,6 @@ public class CertificateCSRR {
 			for (int i = 0; i < 2; i++) {
 
 				try {
-
 					// generates 5 new self signed certificates and adds them to the keystore
 					keypair = gen.generateKeyPair();
 					KeyPair kp = Util.asymmetricKeyPairToNormalKeyPair(keypair);
@@ -204,20 +206,20 @@ public class CertificateCSRR {
 					Date validityBeginDate = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
 					// in 10 years
 					Date validityEndDate = new Date(System.currentTimeMillis() + 10 * 365 * 24 * 60 * 60 * 1000);
-					X500Name name = new X500Name("CN=JCrypTool, O=JCrypTool, OU=JCT-CA Visual");
+					X500Name issuer = new X500Name("CN=JCrypTool, O=JCrypTool, OU=JCT-CA Visual");
 					BigInteger serial = BigInteger.valueOf(System.currentTimeMillis());
 					// Self signed Certificates are created. The issuer and the subject are
 					// therefore the same.
 					X500Name subject = new X500Name("CN=JCrypTool, O=JCrypTool, OU=JCT-CA Visual");
 					SubjectPublicKeyInfo pki = SubjectPublicKeyInfo.getInstance(kp.getPublic().getEncoded());
 
-					X509v3CertificateBuilder builder = new X509v3CertificateBuilder(name, serial, validityBeginDate,
+					X509v3CertificateBuilder builder = new X509v3CertificateBuilder(issuer, serial, validityBeginDate,
 							validityEndDate, subject, pki);
 
 					X509CertificateHolder certifiacteHolder = builder.build(bcrsasigner);
 					JcaX509CertificateConverter converter = new JcaX509CertificateConverter();
 					X509Certificate cert = converter.getCertificate(certifiacteHolder);
-					caKeys.add(keypair);
+					caKeys.add(kp.getPrivate());
 					certs.add(cert);
 					KeyStoreAlias pubAlias = new KeyStoreAlias("JCT-PKI Root Certificates", KeyType.KEYPAIR_PUBLIC_KEY, //$NON-NLS-1$
 							"RSA", 1024, kp.getPrivate().hashCode() + "", kp.getPublic().getClass().toString());//$NON-NLS-1$ //$NON-NLS-2$
@@ -261,7 +263,7 @@ public class CertificateCSRR {
 	 * @param i - the index
 	 * @return private key
 	 */
-	public AsymmetricCipherKeyPair getCAKey(int i) {
+	public PrivateKey getCAKey(int i) {
 		return caKeys.get(i);
 	}
 
@@ -289,7 +291,7 @@ public class CertificateCSRR {
 	 * 
 	 * @return the private ca-keys
 	 */
-	public ArrayList<AsymmetricCipherKeyPair> getCAKeys() {
+	public ArrayList<PrivateKey> getCAKeys() {
 		return caKeys;
 	}
 
