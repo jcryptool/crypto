@@ -1,11 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Merkle signature schemes (MSS, XMSS and XMSS^MT)</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
-<title>Merkle signature schemes (MSS, XMSS and XMSS^MT)</title>
-</head>
+
 <body>
 
 <h1>Merkle Signature Schemes (MSS, XMSS, XMSS^MT)</h1>
@@ -19,30 +20,15 @@
 
 <p>In 2019, the US National Institute of Standards and Technology (NIST) announced its intention [5] to promulgate standards for stateful hash-based signatures (HBS) based on XMSS and Leighton-Micali signatures (LMS) &ndash; in addition to the NIST PQC competition [3,4]. Hanno Boeck [10] stated: "XMSS is assumed to be post-quantum secure, but it’s a stateful scheme and thus often not a drop-in replacement for existing signature schemes."</p>
 
-
-
-
-<p> </br> </p>
 <h2>Content</h2>
 <p>
 <b>1)</b> <a href="#Chapter1"><b>Merkle signature scheme (MSS)</b></a><br>
-<br>
 <b>2)</b> <a href="#Chapter2"><b>eXtended Merkle signature scheme (XMSS)</b></a><br>
-<br>
 <b>3)</b> <a href="#Chapter3"><b>eXtended Merkle signature scheme MultiTree (XMSS^MT)</b></a><br>
-<br>
 <b>4)</b> <a href="#Chapter4"><b>Usage</b></a><br>
-<br>
 <b>5)</b> <a href="#Chapter5"><b>References and Sources</b></a>
-<br>
 </p>
 
-
-
-
-
-
-<p> </br> </p>
 <h2 id="Chapter1">1) Merkle signature scheme (MSS)</h2>
 
 <h4>Introduction</h4>
@@ -57,13 +43,7 @@
 <h4>Structure</h4>
 
 <img src="img/mss.png" alt="Structure of a MSS Tree" width="85%" />
-<br>
-<br>
 
-	
-
-
-<p> </br> </p>
 <h2 id="Chapter2">2) eXtended Merkle signature scheme (XMSS)</h2>
 
 <h4>Introduction</h4>
@@ -73,8 +53,7 @@ a) As a second preimage-resistant hash function is a weaker prerequisite, the XM
 b) The signature can be smaller with the same level of security as when using MSS.</p>
 
 <p>As one-time signature the XMSS uses the Winternitz one-time signature (WOTS). There are two different variations, WOTS+ or WOTS$. In this plugin we use the WOTS+ scheme. In both variations, there is a freely chosen number of WOTS key pairs generated out of a random seed with the help of a pseudo-random key generator.
-Altogether, 2^h messages with a length of m bytes can be signed.</p>
-
+Altogether, \(2^h\) messages with a length of m bytes can be signed.</p>
 
 <h4>Bitmask</h4>
 
@@ -85,7 +64,6 @@ Altogether, 2^h messages with a length of m bytes can be signed.</p>
 
 <p>The Winternitz parameter is used in the Winternitz one-time signature (WOTS). It determines the signature length. A larger value leads to shorter signatures but increased computation effort. It does not affect the scheme's security.</p>
 
-
 <h4>L-Tree</h4>
 
 <p>L-Trees are using the same hash functions as the XMSS-Tree, but a different bitmask. Every L-Tree has the same bitmask.</p>
@@ -94,14 +72,7 @@ Altogether, 2^h messages with a length of m bytes can be signed.</p>
 <h4>Structure</h4>
 
 <img src="img/xmss.png" alt="Structure of a XMSS-Trees" width="85%" />
-<br>
-<br>
 
-
-
-
-
-<p> </br> </p>
 <h2 id="Chapter3">3) eXtended Merkle signature scheme MultiTree (XMSS^MT)</h2>
 
 <p>The "eXtended Merkle MultiTree signature scheme" (XMSS^MT) is based on multiple XMSS trees chained together. The advantage compared to a simple XMSS tree which has the same size, is the reduced computation effort to create the key pair. The single trees are connected, by signing the XMSS root node of a lower layer. The lowest layer eventually is used to sign messages.</p>
@@ -109,36 +80,25 @@ Altogether, 2^h messages with a length of m bytes can be signed.</p>
 <p>Why is MultiTree key generation faster?</p>
 <p>The single trees can be generated separately. The main tree is formed by each single tree, signing the lower levels' next tree. Of course the lowest level does not sign single trees anymore, but actual messages. So the point in time when a single tree signs the root node of another single tree, does not necessarily have be at the key generation. Certain single trees can be created just before they are needed.</p>  
 
-
-
-
-
-<p> </br> </p>
 <h2 id="Chapter4">4) Usage</h2>
-
 
 <h4>Tab 1: Seed and Key Generation</h4>
 
-<img src="img/page1.png" alt="Create the seed and generate the keypairs" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/page1.png" alt="Create the seed and generate the keypairs" width="85%"/>
 <p>In this tab you can switch between the different modes (MSS, XMSS, XMSS^MT). There is also an option to define the seed, set the Winternitz parameter, set the amount of the secret keys, and generate the secret keys.</p>
 	
-<p> </br> </p>
-<img src="img/seed.png" alt="This is where the seed is defined" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/seed.png" alt="This is where the seed is defined" style="border: 4px  outset black"/>
 <p>This image shows where the seed is defined. The seed is used to generate the secret keys. It is  possible to either use a self-defined numeric seed, or create a random seed with the button <b>Generate new seed</b>.</p>
 	
-<p> </br> </p>
-<img src="img/bitmask.png" alt="Here you can define the seed for the bitmask" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/bitmask.png" alt="Here you can define the seed for the bitmask" style="border: 4px  outset black"/>
 <p>If the <b>eXtended Merkle signature scheme (XMSS)</b> is used, there is another box, where you can define the seed for the bitmask.</p>
 
-<p> </br> </p>
-<img src="img/winternitz.png" alt="Here you can define the Winternitz parameter" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/winternitz.png" alt="Here you can define the Winternitz parameter" style="border: 4px  outset black"/>
 <p>Despite the Winternitz parameter could have any size, here it can be set only to 4 or 16 as these are the most commonly used values.</p>
 
-
-<br>
 <h4>Tab 2: Merkle Tree</h4>
 	
-<img src="img/page2.png" alt="Merkle Tree" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/page2.png" alt="Merkle Tree" width="85%"/>
 <p>This tab is used to display the created Merkle tree. The tree consists of leafs, the nodes, and the root node. The root node is also known as the Merkle public key.
 If a node is chosen, the path to the root node is marked yellow.
 The verification path, which is part of the signature, is marked red.
@@ -146,48 +106,33 @@ If a node or a leaf is chosen its hash value is displayed in the upper left area
 The full tree can be viewed by clicking <b>Hide Description</b>.
 If you are in the XMSS^MT mode, the multitrees will display in different colors.</p>
 
-<img src="img/extended.png" alt="Merkle Tree" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/extended.png" alt="Merkle Tree" width="85%"/>
 
-
-
-<p></p><br>
 <h4>Tab 3: Key Pair</h4>
 
 <p>The public key and the private key are shown in the third tab.</p>
-<img src="img/keypair.png" alt="Merkle Tree" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/keypair.png" alt="Merkle Tree" width="85%"/>
 
 
-<p></p><br>
 <h4>Tab 4: Signing</h4>
 	
-<img src="img/page3.png" alt="Sign message" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/page3.png" alt="Sign message" width="85%"/>
 <p>This tab is used to generate signatures. The signature are generated using the keys defined in tab 1. With the <b>Interactive Signature Generator</b> you can follow the signature generation process step by step. If you choose <b>Simple Signature Generation</b> you can enter a user defined text, and after pressing <b>Sign message</b> this message is going to be signed, using the Merkle signature scheme.</p>
 
-<p> </br> </p>
-<img src="img/sign.png" alt="Signature" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/sign.png" alt="Signature" width="85%"/>
 <p>This picture shows the signature of a message and the length of the signature in bytes.
 The signature has the following structure: Index of the key pair | OTS signature | Authentication path.</p>
 
-
-
-
-<br>
 <h4>Tab 5: Verification</h4>
 
-<img src="img/page4.png" alt="Verification" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/page4.png" alt="Verification" width="85%"/>
 <p>The signature created before can be verified in this tab.
 The correct leaf (this is the one with the correct index) is pre-selected when opening this tab.
 Clicking on <b>Verify</b> tries to verify the signature with the selected leaf by calculating the WOTS public key of the WOTS signature. Then this WOTS key is used to calculate the corresponding leaf of the L-Tree.</p>
 
-<p> </br> </p>
-<img src="img/verify.png" alt="Successful Verification" width="85%"/>  <!-- be: Statt width="1200" -->
+<img src="img/verify.png" alt="Successful Verification" width="85%"/>
 <p>If you click <b>Created Signatures</b> it will display all your signatures. You can also choose another (wrong) leaf. If you do so, the verification will fail.</p>
 
-
-
-
-
-<p> </br> </p>
 <h2 id="Chapter5">5) References and Sources</h2>
 
 <p>Additional Information about Post-Quantum Cryptography (PQC) and Merkle tree-based signatures can be found here:</p>
