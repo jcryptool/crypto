@@ -2,7 +2,7 @@
 <feature
       id="org.jcryptool.visual.feature"
       label="JCrypTool Visual Feature"
-      version="1.0.4"
+      version="1.0.5"
       provider-name="jcryptool.org"
       plugin="org.jcryptool.visual">
 
@@ -461,6 +461,13 @@ litigation.
          version="0.0.0"
          unpack="false"/>
          
+   <plugin
+         id="org.jcryptool.visual.jctca"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
    <plugin
          id="org.jcryptool.visual.jctca"
          download-size="0"
