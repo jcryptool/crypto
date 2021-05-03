@@ -151,7 +151,7 @@ public class TabItemListener implements SelectionListener {
             textSig.setExpanded(true);
             fileSig.setExpanded(true);
         }
-        parent.layout(true);
-        grp_exp.layout(true);
+        parent.layout();
+        grp_exp.layout();
     }
 }
