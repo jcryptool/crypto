@@ -117,7 +117,7 @@ public class SecondUserListener implements SelectionListener {
                                     file = new FileInputStream(sig.getPath());
                                     bufin = new BufferedInputStream(file);
 
-                                    byte[] buffer = new byte[1024];
+                                    byte[] buffer = new byte[2048];
                                     int len;
                                     while (file.available() != 0) {
                                         len = bufin.read(buffer);

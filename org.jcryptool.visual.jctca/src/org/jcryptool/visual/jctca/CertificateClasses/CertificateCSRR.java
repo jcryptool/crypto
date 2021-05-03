@@ -181,7 +181,7 @@ public class CertificateCSRR {
 			// GENERATE THE PUBLIC/PRIVATE RSA KEY PAIR
 			RSAKeyPairGenerator gen = new RSAKeyPairGenerator();
 			SecureRandom sr = new SecureRandom();
-			gen.init(new RSAKeyGenerationParameters(BigInteger.valueOf(3), sr, 1024, 80));
+			gen.init(new RSAKeyGenerationParameters(BigInteger.valueOf(3), sr, 2048, 80));
 
 			AsymmetricCipherKeyPair keypair = null;
 			for (int i = 0; i < 2; i++) {
@@ -222,9 +222,9 @@ public class CertificateCSRR {
 					caKeys.add(kp.getPrivate());
 					certs.add(cert);
 					KeyStoreAlias pubAlias = new KeyStoreAlias("JCT-PKI Root Certificates", KeyType.KEYPAIR_PUBLIC_KEY, //$NON-NLS-1$
-							"RSA", 1024, kp.getPrivate().hashCode() + "", kp.getPublic().getClass().toString());//$NON-NLS-1$ //$NON-NLS-2$
+							"RSA", 2048, kp.getPrivate().hashCode() + "", kp.getPublic().getClass().toString());//$NON-NLS-1$ //$NON-NLS-2$
 					KeyStoreAlias privAlias = new KeyStoreAlias("JCT-PKI Root Certificates", //$NON-NLS-1$
-							KeyType.KEYPAIR_PRIVATE_KEY, "RSA", 1024, kp.getPrivate().hashCode() + "", //$NON-NLS-1$ //$NON-NLS-2$
+							KeyType.KEYPAIR_PRIVATE_KEY, "RSA", 2048, kp.getPrivate().hashCode() + "", //$NON-NLS-1$ //$NON-NLS-2$
 							kp.getPrivate().getClass().toString());
 					mng.addKeyPair(kp.getPrivate(), cert, KeyStoreManager.KEY_PASSWORD, privAlias, pubAlias);
 

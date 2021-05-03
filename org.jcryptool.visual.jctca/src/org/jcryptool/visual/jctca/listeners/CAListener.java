@@ -223,7 +223,7 @@ public class CAListener implements SelectionListener {
                 CRLEntry crle = new CRLEntry(sn, revokeTime);
                 CertificateCSRR.getInstance().addCRLEntry(crle);
                 // mng.addCertificate(cert, new KeyStoreAlias("JCT-CA Certificate Revocation List - DO NOT DELETE",
-                // KeyType.PUBLICKEY, "RSA", 1024, cert.getPublicKey().hashCode()+"",cert.getClass().toString()));
+                // KeyType.PUBLICKEY, "RSA", 2048, cert.getPublicKey().hashCode()+"",cert.getClass().toString()));
 //                KeyPair kp = CertificateCSRR.getInstance().getCAKey(0);
                 PrivateKey privKey = CertificateCSRR.getInstance().getCAKey(0);
                 KeyStoreManager.getInstance().addKeyPair(
@@ -231,9 +231,9 @@ public class CAListener implements SelectionListener {
                         cert,
                         KeyStoreManager.KEY_PASSWORD,
                         new KeyStoreAlias(
-                                "JCT-PKI Certificate Revocation List", KeyType.KEYPAIR_PRIVATE_KEY, "RSA", 1024, privKey.hashCode() + "", cert.getClass().toString()), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                "JCT-PKI Certificate Revocation List", KeyType.KEYPAIR_PRIVATE_KEY, "RSA", 2048, privKey.hashCode() + "", cert.getClass().toString()), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         new KeyStoreAlias(
-                                "JCT-PKI Certificate Revocation List", KeyType.KEYPAIR_PUBLIC_KEY, revokeTime.getTime() + "", 1024, privKey.hashCode() + "", privKey.getClass().toString())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                "JCT-PKI Certificate Revocation List", KeyType.KEYPAIR_PUBLIC_KEY, revokeTime.getTime() + "", 2048, privKey.hashCode() + "", privKey.getClass().toString())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 this.removeEntry(sel);
                 Util.showMessageBox(Messages.CAListener_msgbox_title_cert_revoked,
                         Messages.CAListener_msgbox_text_cert_revoked, SWT.ICON_INFORMATION);
