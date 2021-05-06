@@ -192,7 +192,7 @@ public class LfsrWizardPage extends WizardPage implements Listener {
 	private boolean loadSavedSettings() {
 		// Check if s savefile exists.
 		// If one exists continue, else return with false.
-		File file = new File(System.getProperty("user.home") + "/Documents/.jcryptool/LFSR/savedSettings.txt"); //$NON-NLS-1$ //$NON-NLS-2$
+		File file = new File(System.getProperty("user.dir") + "\\workspace\\LFSR\\savedSettings.txt"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (!file.exists()) {
 			return false;
 		}
@@ -369,7 +369,7 @@ public class LfsrWizardPage extends WizardPage implements Listener {
 			public void widgetSelected(SelectionEvent e) {
 				// Delete the old savefile to enable resetting the plugin via the
 				// createControl().
-				File file = new File(System.getProperty("user.home") + "/Documents/.jcryptool/LFSR/savedSettings.txt"); //$NON-NLS-1$ //$NON-NLS-2$
+				File file = new File(System.getProperty("user.dir") + "\\workspace\\LFSR\\savedSettings.txt"); //$NON-NLS-1$ //$NON-NLS-2$
 				if (file.exists()) {
 					file.delete();
 				}
