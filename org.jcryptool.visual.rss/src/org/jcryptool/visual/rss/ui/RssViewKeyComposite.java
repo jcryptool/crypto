@@ -21,6 +21,8 @@ import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPublicKey;
+import de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPrivateKey;
+import de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.psrss.PSRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.psrss.PSRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
@@ -120,10 +122,21 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         	encodedPublicKey = psrssPrivateKey.getKey().toByteArray();
         }
         
+        /*if (publicKey instanceof MersaPublicKey) {
+        	MersaPublicKey mersaPrivateKey = (MersaPublicKey) publicKey;
+        	encodedPublicKey = mersaPrivateKey.getEncoded();
+        }*/
+			   
+        if (encodedPublicKey == null) {
+        	encodedPublicKey = publicKey.getEncoded();
+        }
+        
+        
         if (encodedPublicKey == null) {
         	throw new RuntimeException("Extracting public key not possible");
         }
-				
+        
+	
 		return encodedPublicKey;
 	}
 
@@ -155,7 +168,16 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         if (privateKey instanceof PSRSSPrivateKey) {
         	PSRSSPrivateKey psrssPrivateKey = (PSRSSPrivateKey) privateKey;
         	encodedPrivateKey = psrssPrivateKey.getKey().toByteArray();
-        }        
+        }   
+        
+        if (encodedPrivateKey == null) {
+        	encodedPrivateKey = privateKey.getEncoded();
+        }
+        
+        /*if (privateKey instanceof MersaPrivateKey) {
+        	MersaPrivateKey mersaPrivateKey = (MersaPrivateKey) privateKey;
+        	encodedPrivateKey = mersaPrivateKey.getEncoded();
+        }*/
         
         if (encodedPrivateKey == null) {
         	throw new RuntimeException("Extracting private key not possible");
