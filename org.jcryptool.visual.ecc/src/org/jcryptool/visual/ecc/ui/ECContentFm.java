@@ -362,10 +362,10 @@ public class ECContentFm extends Composite{
         groupSave.setLayout(new GridLayout(2, false));
         groupSave.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
         groupSave.setText(Messages.ECView_SaveResults); //$NON-NLS-1$
+        groupSave.setBackground(ColorService.LIGHT_AREA_BLUE);
 
         cSaveResults = new Combo(groupSave, SWT.READ_ONLY);
-        cSaveResults
-                .setItems(new String[] {
+        cSaveResults.setItems(new String[] {
                         Messages.ECView_No, Messages.ECView_ToTextEditor, Messages.ECView_ToTextFile}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         cSaveResults.select(view.saveTo);
         cSaveResults.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 2, 1));
@@ -853,7 +853,8 @@ public class ECContentFm extends Composite{
 			btnClear.setEnabled(true);
 			btnDeletePoints.setEnabled(true);
 			pointP = p;
-			view.log("\n" + Messages.ECView_Curve + ": " + lblCurve.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			view.log("\n" + Messages.ECView_CurveAttributes + ": m = " + spnrM.getText() + ", f = " + cF.getText() + ", a = " + cA.getText() + ", b = " + cB.getText());
+			view.log(Messages.ECView_Curve + ": " + lblCurve.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			view.log(Messages.ECView_Point + " P = " + (new FmPoint(pointP, (int) Math.pow(2, spnrM.getSelection()))).toString()); //$NON-NLS-1$ //$NON-NLS-2$
 			lblP.setText((new FmPoint(pointP, (int) Math.pow(2, spnrM.getSelection()))).toString());
 		}

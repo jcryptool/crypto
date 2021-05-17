@@ -354,7 +354,7 @@ public class ECContentLarge extends Composite {
 					pointR = pointP.add(pointQ);
 					
 					lblR.setText("R = P + Q"); //$NON-NLS-1$
-					view.log("\nR = P + Q"); //$NON-NLS-1$
+					view.log("R = P + Q"); //$NON-NLS-1$
 					view.log(Messages.ECView_Point + " R = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 
 				} else {
@@ -391,7 +391,7 @@ public class ECContentLarge extends Composite {
 						
 						lblR.setText(s);
 						view.log("\n" + s); //$NON-NLS-1$
-						view.log(Messages.ECView_Point + " R = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+						view.log("\n" + Messages.ECView_Point + " R = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 					
 					updateScreen();
@@ -426,7 +426,7 @@ public class ECContentLarge extends Composite {
 					pointR = multiplyPoint(pointP, i);
 					lblR.setText(s);
 					view.log("\n" + s); //$NON-NLS-1$
-					view.log(Messages.ECView_Point + " R = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+					view.log("\n" + Messages.ECView_Point + " R = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 					
 				}
 				updateScreen();
@@ -732,13 +732,23 @@ public class ECContentLarge extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(curve != null) {
-					if(pointP == null)
-						view.log("\n" + curve.toString() + "\n" + (rbtnFP.getSelection() ? "p = " : "m = ") + txtP.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					if(pointP == null) {
+						view.log("\n" + Messages.ECView_CurveAttributes + ": " + Messages.ECView_Standard + ": " + cStandard.getText() + 
+								",  " + Messages.ECView_Curve + ": "+ cCurve.getText());
+						// The curve.toString() method returns a string containing
+						// ... <sup>2<sup> ... . The "<sup>2<sup> is replaced by "²".
+						String curveAsText = curve.toString().
+								replaceAll("(<sup>2</sup>)", "²").
+								replaceAll("(^2)", "²").
+								replaceAll("(<sup>3</sup>)", "³").
+								replaceAll("(^3)", "³");
+						view.log(Messages.ECView_Curve + ": " + curveAsText + "\n" + (rbtnFP.getSelection() ? "p = " : "m = ") + txtP.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					}
 					if(rbtnFP.getSelection())
 						pointP = new PointGFP((EllipticCurveGFP) curve, new Random());
 					else
 						pointP = new PointGF2n((EllipticCurveGF2n) curve, new Random());
-					view.log("\n" + Messages.ECView_Point + " P = " + pointP.toString() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					view.log("\n" + Messages.ECView_Point + " P = " + pointP.toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
 					if(rbtnKP.getSelection()) {
 						int i = spnrK.getSelection();
@@ -757,7 +767,7 @@ public class ECContentLarge extends Composite {
 					} else if (pointQ != null) {
 						pointR = pointP.add(pointQ);
 						lblR.setText("R = P + Q"); //$NON-NLS-1$
-						view.log("\nR = P + Q"); //$NON-NLS-1$
+						view.log("R = P + Q"); //$NON-NLS-1$
 						view.log(Messages.ECView_Point + " R = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 					updateScreen();
@@ -774,8 +784,18 @@ public class ECContentLarge extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(curve != null) {
-					if(pointP == null)
-						view.log("\n" + curve.toString()); //$NON-NLS-1$
+					if(pointP == null) {
+						view.log("\n" + Messages.ECView_CurveAttributes + ": " + Messages.ECView_Standard + ": " + cStandard.getText() + 
+								",  " + Messages.ECView_Curve + ": " + cCurve.getText());
+						// The curve.toString() method returns a string containing
+						// ... <sup>2<sup> ... . The "<sup>2</sup> is replaced by "²".
+						String curveAsText = curve.toString().
+								replaceAll("(<sup>2</sup>)", "²").
+								replaceAll("(^2)", "²").
+								replaceAll("(<sup>3</sup>)", "³").
+								replaceAll("(^3)", "³");
+						view.log(Messages.ECView_Curve + ": " + curveAsText); //$NON-NLS-1$
+					}
 					pointP = pointG;
 					view.log("\n" + Messages.ECView_Point + " P = " + pointP.toString() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
@@ -796,7 +816,7 @@ public class ECContentLarge extends Composite {
 					} else if (pointQ != null) {
 						pointR = pointP.add(pointQ);
 						lblR.setText("R = P + Q"); //$NON-NLS-1$
-						view.log("\nR = P + Q"); //$NON-NLS-1$
+						view.log("R = P + Q"); //$NON-NLS-1$
 						view.log(Messages.ECView_Point + " R = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 					updateScreen();
@@ -845,7 +865,7 @@ public class ECContentLarge extends Composite {
 					if(rbtnPQ.getSelection()) {
 						pointR = pointP.add(pointQ);
 						lblR.setText("R = P + Q"); //$NON-NLS-1$
-						view.log("\nR = P + Q"); //$NON-NLS-1$
+						view.log("R = P + Q"); //$NON-NLS-1$
 						view.log(Messages.ECView_Point + " R = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 					updateScreen();
@@ -866,7 +886,7 @@ public class ECContentLarge extends Composite {
 				if(rbtnPQ.getSelection()) {
 					pointR = pointP.add(pointQ);
 					lblR.setText("R = P + Q"); //$NON-NLS-1$
-					view.log("\nR = P + Q"); //$NON-NLS-1$
+					view.log("R = P + Q"); //$NON-NLS-1$
 					view.log(Messages.ECView_Point + " R = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 

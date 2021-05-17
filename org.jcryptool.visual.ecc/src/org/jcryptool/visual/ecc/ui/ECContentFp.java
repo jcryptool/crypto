@@ -775,7 +775,8 @@ public class ECContentFp extends Composite{
 			btnPQ.setSelection(true);
 			btnDeletePoints.setEnabled(true);
 			pointP = p;
-			view.log("\n" + Messages.ECView_Curve + ": " + lblCurve.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			view.log("\n" + Messages.ECView_CurveAttributes + ": a = " + spnrA.getText() + ", b = " + spnrB.getText() + ", p = " + spnrP.getText());
+			view.log(Messages.ECView_Curve + ": " + lblCurve.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			view.log(Messages.ECView_Point + " P = " + pointP.toString()); //$NON-NLS-1$ //$NON-NLS-2$
 			lblP.setText(pointP.toString());
 		}

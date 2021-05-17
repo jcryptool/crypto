@@ -700,9 +700,9 @@ public class ECContentReal extends Composite {
             btnPQ.setSelection(true);
             btnDeletePoints.setEnabled(true);
             pointP = p;
-            view.log("\n" + Messages.ECView_Curve + ": " + lblCurve.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            view
-                    .log(Messages.ECView_Point + " P = " + "(" + ((double) pointP.x / 100) + "|" + ((double) pointP.y / 100) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+            view.log("\n" + Messages.ECView_CurveAttributes + ": a = " + spnrA.getText() + ", b = " + spnrB.getText());
+            view.log(Messages.ECView_Curve + ": " + lblCurve.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3
+            view.log(Messages.ECView_Point + " P = " + "(" + ((double) pointP.x / 100) + "|" + ((double) pointP.y / 100) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
             lblP.setText("(" + ((double) pointP.x / 100) + "|" + ((double) pointP.y / 100) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         updateCurve(false);
