@@ -149,7 +149,7 @@ public class ECContentFp extends Composite{
 	private void createGroupCurve() {
 		groupCurve = new Group(content, SWT.NONE);
 		groupCurve.setLayout(new GridLayout(3, false));
-		groupCurve.setText(Messages.ECContentFp_0); //$NON-NLS-1$
+		groupCurve.setText(Messages.ECContentFp_0); 
 		groupCurve.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		createCanvasCurve();
@@ -159,8 +159,8 @@ public class ECContentFp extends Composite{
 		lblCurve.setText(""); //$NON-NLS-1$
 		
 		btnDeletePoints = new Button(groupCurve, SWT.NONE);
-		btnDeletePoints.setToolTipText(Messages.ECContentFp_3); //$NON-NLS-1$
-		btnDeletePoints.setText(Messages.ECView_RemoveSelection); //$NON-NLS-1$
+		btnDeletePoints.setToolTipText(Messages.ECContentFp_3); 
+		btnDeletePoints.setText(Messages.ECView_RemoveSelection); 
 		btnDeletePoints.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		btnDeletePoints.setEnabled(false);
 		btnDeletePoints.addSelectionListener(new SelectionListener(){
@@ -193,7 +193,7 @@ public class ECContentFp extends Composite{
 	 */
 	private void createGroupSettings() {
 		groupSettings = new Group(content, SWT.NONE);
-        groupSettings.setText(Messages.ECContentFp_6); //$NON-NLS-1$
+        groupSettings.setText(Messages.ECContentFp_6); 
         groupSettings.setLayout(new GridLayout());
         groupSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2));
 		
@@ -212,7 +212,7 @@ public class ECContentFp extends Composite{
 		groupPoints = new Group(content, SWT.NONE);
 		groupPoints.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		groupPoints.setLayout(new GridLayout(1, false));
-		groupPoints.setText(Messages.ECView_Points); //$NON-NLS-1$
+		groupPoints.setText(Messages.ECView_Points); 
 		groupPoints.addListener(SWT.Resize, new Listener(){
 			@Override
 			public void handleEvent(Event event) {
@@ -257,16 +257,16 @@ public class ECContentFp extends Composite{
 	 */
 	private void createGroupSize() {
 		groupSize = new Group(groupSettings, SWT.NONE);
-		groupSize.setText(Messages.ECView_SelectCurveSize); //$NON-NLS-1$
+		groupSize.setText(Messages.ECView_SelectCurveSize); 
 		groupSize.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		groupSize.setLayout(new GridLayout(2, true));
 		rbtnSmall = new Button(groupSize, SWT.RADIO);
 		rbtnSmall.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
-		rbtnSmall.setText(Messages.ECView_Small); //$NON-NLS-1$
+		rbtnSmall.setText(Messages.ECView_Small); 
 		rbtnSmall.setSelection(true);
 		rbtnLarge = new Button(groupSize, SWT.RADIO);
 		rbtnLarge.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
-		rbtnLarge.setText(Messages.ECView_Large); //$NON-NLS-1$
+		rbtnLarge.setText(Messages.ECView_Large); 
 		rbtnLarge.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) { }
@@ -356,11 +356,11 @@ public class ECContentFp extends Composite{
         groupSave = new Group(groupSettings, SWT.NONE);
         groupSave.setLayout(new GridLayout(2, false));
         groupSave.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-        groupSave.setText(Messages.ECView_SaveResults); //$NON-NLS-1$
+        groupSave.setText(Messages.ECView_SaveResults); 
 
         cSaveResults = new Combo(groupSave, SWT.READ_ONLY);
         cSaveResults.setItems(new String[] {
-                        Messages.ECView_No, Messages.ECView_ToTextEditor, Messages.ECView_ToTextFile}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        Messages.ECView_No, Messages.ECView_ToTextEditor, Messages.ECView_ToTextFile}); 
         cSaveResults.select(view.saveTo);
         cSaveResults.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 2, 1));
         cSaveResults.addSelectionListener(new SelectionListener() {
@@ -382,7 +382,7 @@ public class ECContentFp extends Composite{
         });
 
         btnBrowse = new Button(groupSave, SWT.NONE);
-        btnBrowse.setText(Messages.ECView_Browse); //$NON-NLS-1$
+        btnBrowse.setText(Messages.ECView_Browse); 
         btnBrowse.setEnabled(view.saveTo == 2);
         btnBrowse.addSelectionListener(new SelectionListener() {
             @Override
@@ -398,7 +398,7 @@ public class ECContentFp extends Composite{
             }
         });
         btnSave = new Button(groupSave, SWT.NONE);
-        btnSave.setText(Messages.ECView_SaveNow); //$NON-NLS-1$
+        btnSave.setText(Messages.ECView_SaveNow); 
         btnSave.setEnabled(view.saveTo != 0);
         btnSave.addSelectionListener(new SelectionListener() {
             @Override
@@ -413,7 +413,7 @@ public class ECContentFp extends Composite{
             }
         });
         cbAutoSave = new Button(groupSave, SWT.CHECK);
-        cbAutoSave.setText(Messages.ECView_AutoSave); //$NON-NLS-1$
+        cbAutoSave.setText(Messages.ECView_AutoSave); 
         cbAutoSave.setEnabled(view.autoSave);
         cbAutoSave.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 2, 1));
         cbAutoSave.addSelectionListener(new SelectionListener() {
@@ -441,9 +441,9 @@ public class ECContentFp extends Composite{
 		groupCurveType = new Group(groupSettings, SWT.NONE);
 		groupCurveType.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		groupCurveType.setLayout(new GridLayout(3, true));
-		groupCurveType.setText(Messages.ECView_SelectCurveType); //$NON-NLS-1$
+		groupCurveType.setText(Messages.ECView_SelectCurveType); 
 		rbtnReal = new Button(groupCurveType, SWT.RADIO);
-		rbtnReal.setText(Messages.ECView_RealNumbers); //$NON-NLS-1$
+		rbtnReal.setText(Messages.ECView_RealNumbers); 
 		rbtnReal.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		rbtnReal.setSelection(false);
 		rbtnReal.addSelectionListener(new SelectionListener(){
@@ -489,7 +489,7 @@ public class ECContentFp extends Composite{
 		groupCurveAttributes = new Group(groupSettings, SWT.NONE);
 		groupCurveAttributes.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		groupCurveAttributes.setLayout(new GridLayout(2, false));
-		groupCurveAttributes.setText(Messages.ECView_SelectCurveAttributes); //$NON-NLS-1$
+		groupCurveAttributes.setText(Messages.ECView_SelectCurveAttributes); 
 	}
 
 	private void createGroupAttributesFp() {
@@ -632,17 +632,17 @@ public class ECContentFp extends Composite{
 	 */
 	private void createGroupCalculations() {
 		groupCalculations = new Group(groupSettings, SWT.NONE);
-		groupCalculations.setText(Messages.ECContentFp_37); //$NON-NLS-1$
+		groupCalculations.setText(Messages.ECContentFp_37); 
 		groupCalculations.setLayout(new GridLayout(3, false));
 		groupCalculations.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		Label label = new Label(groupCalculations, SWT.WRAP);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
-		label.setText(Messages.ECContentFp_1); //$NON-NLS-1$
+		label.setText(Messages.ECContentFp_1); 
 
 		btnPQ = new Button(groupCalculations, SWT.RADIO);
 		btnPQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
-		btnPQ.setText(Messages.ECContentFp_39); //$NON-NLS-1$
+		btnPQ.setText(Messages.ECContentFp_39); 
 		btnPQ.setSelection(true);
 		btnPQ.setEnabled(false);
 		btnPQ.addSelectionListener(new SelectionListener(){
@@ -674,7 +674,7 @@ public class ECContentFp extends Composite{
         });
 
 		btnKP = new Button(groupCalculations, SWT.RADIO);
-		btnKP.setText(Messages.ECContentFp_40); //$NON-NLS-1$
+		btnKP.setText(Messages.ECContentFp_40); 
 		btnKP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
 		btnKP.setEnabled(false);
 		btnKP.addSelectionListener(new SelectionListener(){
@@ -709,7 +709,7 @@ public class ECContentFp extends Composite{
 
 		label = new Label(groupCalculations, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 3, 1));
-		label.setText(Messages.ECContentFp_41); //$NON-NLS-1$
+		label.setText(Messages.ECContentFp_41); 
 
 		label = new Label(groupCalculations, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
@@ -776,8 +776,8 @@ public class ECContentFp extends Composite{
 			btnDeletePoints.setEnabled(true);
 			pointP = p;
 			view.log("\n" + Messages.ECView_CurveAttributes + ": a = " + spnrA.getText() + ", b = " + spnrB.getText() + ", p = " + spnrP.getText());
-			view.log(Messages.ECView_Curve + ": " + lblCurve.getText()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			view.log(Messages.ECView_Point + " P = " + pointP.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+			view.log(Messages.ECView_Curve + ": " + lblCurve.getText()); //$NON-NLS-1$ 
+			view.log(Messages.ECView_Point + " P = " + pointP.toString()); //$NON-NLS-1$ 
 			lblP.setText(pointP.toString());
 		}
 		fillTablePoints();
@@ -799,7 +799,7 @@ public class ECContentFp extends Composite{
 
 			btnDeletePoints.setEnabled(true);
 
-			view.log(Messages.ECView_Point + " Q = " + pointQ.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+			view.log(Messages.ECView_Point + " Q = " + pointQ.toString()); //$NON-NLS-1$ 
 			setPointR(curve.addPoints(pointP, pointQ));
 			
 			if (btnPQ.getSelection()) {
@@ -817,12 +817,12 @@ public class ECContentFp extends Composite{
 		} else {
 			if (r.isInfinite()) {
         		pointR = r;
-                lblR.setText("O"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                lblR.setText("O"); //$NON-NLS-1$ 
                 MessageDialog.openInformation(getShell(), Messages.ECView_InfinityPoint, Messages.ECView_InfinityPointExplanation);
         	} else {
         		pointR = r;
     			lblR.setText(pointR.toString());
-    			view.log(Messages.ECView_Point + " R = P + Q = " + pointR.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+    			view.log(Messages.ECView_Point + " R = P + Q = " + pointR.toString()); //$NON-NLS-1$ 
         	}
 		}
 	}
@@ -834,7 +834,7 @@ public class ECContentFp extends Composite{
 	public void setCurveLabel() {
 		String s;
 		if(points == null) {
-			s = Messages.ECView_NoCurve; //$NON-NLS-1$
+			s = Messages.ECView_NoCurve; 
 		} else
 			s = curve.toString();
 		lblCurve.setText(s);
@@ -944,9 +944,9 @@ public class ECContentFp extends Composite{
 			points = curve.getPoints();
 			if(groupPoints != null){
 				if(points == null)
-					groupPoints.setText(Messages.ECView_Points); //$NON-NLS-1$
+					groupPoints.setText(Messages.ECView_Points); 
 				else {
-					groupPoints.setText(Messages.ECView_Points + " (" + (points.length+1) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					groupPoints.setText(Messages.ECView_Points + " (" + (points.length+1) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ 
 					fillTablePoints();
 				}
 			}
