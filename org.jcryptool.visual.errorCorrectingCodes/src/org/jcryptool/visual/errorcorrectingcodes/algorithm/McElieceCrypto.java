@@ -209,7 +209,7 @@ public class McElieceCrypto {
     }
 
     /**
-     * Gets the private key size.
+     * Gets the private key size in Byte
      *
      * @return the private key size
      */
@@ -218,7 +218,8 @@ public class McElieceCrypto {
             return 0;
         
         McEliecePrivateKeyParameters key = (McEliecePrivateKeyParameters) keyPair.getPrivate();
-        double size = (key.getN() - key.getK()) * key.getK() /(8 * Math.pow(2, 10));
+//        double size = (key.getN() - key.getK()) * key.getK() / (8 * Math.pow(2, 10));
+        double size = (key.getN() - key.getK()) * key.getK() / 8;
         return size;
     }
 

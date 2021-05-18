@@ -1,11 +1,10 @@
 package org.jcryptool.visual.errorcorrectingcodes.ui.views;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -14,142 +13,175 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.logging.utils.LogUtil;
-import org.jcryptool.core.util.fonts.FontService;
+import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
+import org.jcryptool.core.util.units.DefaultByteFormatter;
+import org.jcryptool.core.util.units.DefaultByteFormatter.BaseUnit;
 import org.jcryptool.visual.errorcorrectingcodes.algorithm.McElieceCrypto;
 import org.jcryptool.visual.errorcorrectingcodes.ui.Messages;
 import org.jcryptool.visual.errorcorrectingcodes.ui.UIHelper;
 
 public class McElieceView extends Composite {
 
-    private static final int _WHINT = 400;
+//    private static final int _WHINT = 400;
 
     private McElieceCrypto mceCrypto;
 
     private Composite parent;
-    private Composite composite;
-    private Composite compHead;
     private Composite mainComposite;
     private Composite compButtons;
 
     private Group grpInput;
     private Group grpOutput;
     private Group grpAlgorithmInfo;
-    private Group grpKeyInputParams;
-    private Group grpKeyParams;
 
-    private Label lblHeader;
-    private Text textInfoHead;
     private StyledText txtInput;
     private StyledText txtOutput;
+    private Combo comboValueM;
     private Text txtValueT;
     private Text txtPublicKey;
+    private Text txtValueK;
+    private Text txtValueN;
     private Button btnEncrypt;
     private Button btnDecrypt;
     private Button btnFillKey;
-    private Combo comboValueM;
+    
+    private DefaultByteFormatter dbf = new DefaultByteFormatter
+    		.Builder()
+    		.asBase(BaseUnit.BASE_2)
+    		.abbreviateUnit(true)
+    		.precision(2)
+    		.build();
 
-    private Composite grpParams;
-
-    private Text txtValueK;
-
-    private Text txtValueN;
-
+    
     public McElieceView(Composite parent, int style) {
         super(parent, style);
         this.parent = parent;
         mceCrypto = new McElieceCrypto();
-
-        // common grid layout for all elements
-        GridLayoutFactory glf = GridLayoutFactory.fillDefaults().margins(5, 5).equalWidth(true);
-        GridDataFactory gdf = GridDataFactory.fillDefaults().grab(true, false);
-
-        glf.applyTo(this);
-        gdf.applyTo(this);
-        // GridDataFactory.fillDefaults().grab(true, false).hint(1050, 1680).applyTo(this);
-
+        
+        setLayout(new GridLayout());
+        setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        
         TitleAndDescriptionComposite header = new TitleAndDescriptionComposite(this);
         header.setTitle(Messages.McElieceView_lblHeader);
         header.setDescription(Messages.McElieceView_textHeader);
         header.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-//        compHead = new Composite(this, SWT.NONE);
-//        glf.applyTo(compHead);
-//        gdf.applyTo(compHead);
-//        lblHeader = new Label(compHead, SWT.NONE);
-//        lblHeader.setFont(FontService.getHeaderFont());
-//        lblHeader.setText(Messages.McElieceView_lblHeader);
-//        textInfoHead = new Text(compHead, SWT.MULTI | SWT.READ_ONLY | SWT.WRAP);
-//        textInfoHead.setText(Messages.McElieceView_textHeader);
-//        textInfoHead.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-//        // textInfoHead.setMargins(5, 5, 5, 5);
-//        GridDataFactory.fillDefaults().grab(true, false).hint(_WHINT, SWT.DEFAULT).applyTo(textInfoHead);
-//
+        
         mainComposite = new Composite(this, SWT.NONE);
-        glf.applyTo(mainComposite);
-        gdf.applyTo(mainComposite);
+        GridLayout gl_mainComposite = new GridLayout();
+        gl_mainComposite.marginWidth = 0;
+        gl_mainComposite.marginHeight = 0;
+        mainComposite.setLayout(gl_mainComposite);
+        mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         grpAlgorithmInfo = new Group(mainComposite, SWT.NONE);
-        grpAlgorithmInfo.setText(Messages.McElieceView_grpAlgorithmInfo);
-        glf.numColumns(2).applyTo(grpAlgorithmInfo);
-        gdf.applyTo(grpAlgorithmInfo);
-        grpKeyInputParams = new Group(grpAlgorithmInfo, SWT.NONE);
-        grpKeyInputParams.setText(Messages.McElieceView_grpKeyParams);
-        glf.numColumns(2).applyTo(grpKeyInputParams);
-        gdf.applyTo(grpKeyInputParams);
-        Label lblValueM = new Label(grpKeyInputParams, SWT.NONE);
+        grpAlgorithmInfo.setText(Messages.McElieceView_grpKeyParams);
+        grpAlgorithmInfo.setLayout(new GridLayout(5, false));
+//        grpAlgorithmInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+        
+        Label lblValueM = new Label(grpAlgorithmInfo, SWT.NONE);
+        lblValueM.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
         lblValueM.setText("m = "); //$NON-NLS-1$
-        comboValueM = new Combo(grpKeyInputParams, SWT.READ_ONLY);
+        
+        comboValueM = new Combo(grpAlgorithmInfo, SWT.READ_ONLY);
         comboValueM.setItems(mceCrypto.getValidMValues());
-        Label lblValueT = new Label(grpKeyInputParams, SWT.NONE);
-        lblValueT.setText("t = "); //$NON-NLS-1$
-        txtValueT = new Text(grpKeyInputParams, SWT.BORDER);
-
-        grpKeyParams = new Group(grpAlgorithmInfo, SWT.NONE);
-        glf.numColumns(2).applyTo(grpKeyParams);
-        gdf.applyTo(grpKeyParams);
-        Label lblValueK = new Label(grpKeyParams, SWT.NONE);
-        lblValueK.setText("k = ");
-        txtValueK = new Text(grpKeyParams, SWT.READ_ONLY);
-        txtValueK.setText("0");
-        gdf.applyTo(txtValueK);
-
-        Label lblValueN = new Label(grpKeyParams, SWT.NONE);
-        lblValueN.setText("n = ");
-        txtValueN = new Text(grpKeyParams, SWT.READ_ONLY);
-        txtValueN.setText("0");
-        gdf.applyTo(txtValueN);
-
-        Label lblPublicKey = new Label(grpKeyParams, SWT.NONE);
-        lblPublicKey.setText(Messages.McElieceView_lblPublicKey);
-        txtPublicKey = new Text(grpKeyParams, SWT.READ_ONLY);
-        txtPublicKey.setText("0");
-        gdf.applyTo(txtPublicKey);
-
-        compButtons = new Composite(grpAlgorithmInfo, SWT.NONE);
-        RowLayoutFactory.fillDefaults().applyTo(compButtons);
-        btnFillKey = new Button(compButtons, SWT.NONE);
+        comboValueM.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        
+        btnFillKey = new Button(grpAlgorithmInfo, SWT.PUSH | SWT.WRAP);
         btnFillKey.setText(Messages.McElieceView_btnFillKey);
+        GridData gd_btnFillKey = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2);
+        gd_btnFillKey.horizontalIndent = 60;
+        btnFillKey.setLayoutData(gd_btnFillKey);
         btnFillKey.addListener(SWT.Selection, e -> generateKeys());
+        
+        Label lblValueK = new Label(grpAlgorithmInfo, SWT.NONE);
+        GridData gd_lblValueK = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        gd_lblValueK.horizontalIndent = 60;
+        lblValueK.setLayoutData(gd_lblValueK);
+        lblValueK.setText("k = ");
+        lblValueK.setForeground(ColorService.GRAY);
+        
+        txtValueK = new Text(grpAlgorithmInfo, SWT.READ_ONLY);
+        txtValueK.setText("0");
+        GridData gd_txtValueK = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        gd_txtValueK.widthHint = 120;
+        txtValueK.setLayoutData(gd_txtValueK);
+        txtValueK.setForeground(ColorService.GRAY);
+        
+        Label lblValueT = new Label(grpAlgorithmInfo, SWT.NONE);
+        lblValueT.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        lblValueT.setText("t   = "); //$NON-NLS-1$
+        
+        txtValueT = new Text(grpAlgorithmInfo, SWT.BORDER);
+        txtValueT.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+
+
+        Label lblValueN = new Label(grpAlgorithmInfo, SWT.NONE);
+        GridData gd_lblValueN = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        gd_lblValueN.horizontalIndent = 60;
+        lblValueN.setLayoutData(gd_lblValueN);
+        lblValueN.setText("n = ");
+        lblValueN.setForeground(ColorService.GRAY);
+        
+        txtValueN = new Text(grpAlgorithmInfo, SWT.READ_ONLY);
+        txtValueN.setText("0");
+        GridData gd_txtValueN = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        gd_txtValueN.widthHint = 120;
+        txtValueN.setLayoutData(gd_txtValueN);
+        txtValueN.setForeground(ColorService.GRAY);
+        
+        
+        // 3 Spacer 
+        new Label(grpAlgorithmInfo, SWT.None);
+        new Label(grpAlgorithmInfo, SWT.None);
+        new Label(grpAlgorithmInfo, SWT.None);
+
+        Label lblPublicKey = new Label(grpAlgorithmInfo, SWT.NONE);
+        GridData gd_lblPublicKey = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        gd_lblPublicKey.horizontalIndent = 60;
+        lblPublicKey.setLayoutData(gd_lblPublicKey);
+        lblPublicKey.setText(Messages.McElieceView_lblPublicKey);
+        lblPublicKey.setForeground(ColorService.GRAY);
+        
+        
+        txtPublicKey = new Text(grpAlgorithmInfo, SWT.READ_ONLY);
+        txtPublicKey.setText(dbf.format(0));
+        GridData gd_txtPublicKey = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        gd_txtPublicKey.widthHint = 120;
+        txtPublicKey.setLayoutData(gd_txtPublicKey);
+        txtPublicKey.setForeground(ColorService.GRAY);
+  
+        
+        
+        
+
+        compButtons = new Composite(mainComposite, SWT.NONE);
+        RowLayoutFactory.fillDefaults().applyTo(compButtons);
+        
+
 
         btnEncrypt = new Button(compButtons, SWT.NONE);
         btnEncrypt.setText(Messages.McElieceView_btnEncrypt);
         btnEncrypt.addListener(SWT.Selection, e -> performEncryption());
+        
         btnDecrypt = new Button(compButtons, SWT.NONE);
         btnDecrypt.setText(Messages.McElieceView_btnDecrypt);
         btnDecrypt.addListener(SWT.Selection, e -> performDecryption());
 
         grpInput = new Group(mainComposite, SWT.NONE);
         grpInput.setText(Messages.McElieceView_grpInput);
-        glf.numColumns(1).applyTo(grpInput);
-        gdf.grab(true, true).applyTo(grpInput);
-        txtInput = UIHelper.mutltiLineText(grpInput, SWT.FILL, SWT.CENTER, SWT.DEFAULT, 10);
+        grpInput.setLayout(new GridLayout());
+        grpInput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        
+        txtInput = UIHelper.mutltiLineText(grpInput, SWT.FILL, SWT.CENTER, 400, 5);
 
         grpOutput = new Group(mainComposite, SWT.NONE);
         grpOutput.setText(Messages.McElieceView_grpOutput);
-        glf.applyTo(grpOutput);
-        gdf.applyTo(grpOutput);
-        txtOutput = UIHelper.mutltiLineText(grpOutput, SWT.FILL, SWT.CENTER, SWT.DEFAULT, 10);
+        grpOutput.setLayout(new GridLayout());
+        grpOutput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        
+        txtOutput = UIHelper.mutltiLineText(grpOutput, SWT.FILL, SWT.CENTER, 400, 5);
 
     }
 
@@ -159,7 +191,7 @@ public class McElieceView extends Composite {
             txtValueT.setText(String.valueOf(mceCrypto.getT()));
             txtValueK.setText(String.valueOf(mceCrypto.getK()));
             txtValueN.setText(String.valueOf(mceCrypto.getCodeLength()));
-            txtPublicKey.setText(String.valueOf(UIHelper.round(mceCrypto.getPrivateKeySize(), 2)));
+            txtPublicKey.setText(dbf.format((long) mceCrypto.getPrivateKeySize()));
         }
     }
 
@@ -167,10 +199,12 @@ public class McElieceView extends Composite {
         int m = comboValueM.getText().equals("") ? 0 : Integer.valueOf(comboValueM.getText()); //$NON-NLS-1$
         int t = txtValueT.getText().equals("") ? 0 : Integer.valueOf(txtValueT.getText()); //$NON-NLS-1$
 
-        if (m == 0)
+        if (m == 0) {
             m = 12;
-        if (t == 0)
+        }
+        if (t == 0) {
             t = 12;
+        }
 
         try {
             mceCrypto.setKeyParams(m, t);
@@ -182,7 +216,7 @@ public class McElieceView extends Composite {
             keyErrorDialog.open();
         }
 
-        txtPublicKey.setText(String.valueOf(UIHelper.round(mceCrypto.getPrivateKeySize(), 2)));
+        txtPublicKey.setText(dbf.format((long) mceCrypto.getPrivateKeySize()));
         return mceCrypto.getCodeLength();
 
     }
