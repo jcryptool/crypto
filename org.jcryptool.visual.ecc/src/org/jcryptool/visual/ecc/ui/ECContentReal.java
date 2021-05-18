@@ -27,7 +27,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -49,14 +48,11 @@ import org.jcryptool.visual.ecc.algorithm.FpPoint;
 
 public class ECContentReal extends Composite {
 
-	private Button btnBrowse = null;
 	private Button btnDeletePoints = null;
 	private Button btnKP = null;
 	private Button btnPQ = null;
 	private Button btnClear = null;
-	private Button btnSave = null;
 	private Canvas canvasCurve = null;
-	private Button cbAutoSave = null;
 	private Color black = ColorService.BLACK;
 	private Color white = ColorService.WHITE;
 	private Color lightBlue = new Color(this.getDisplay(), 0, 255, 255);
@@ -64,7 +60,6 @@ public class ECContentReal extends Composite {
 	private Color purple = new Color(this.getDisplay(), 255, 0, 255);
 	private Color darkPurple = new Color(this.getDisplay(), 148, 3, 148);
 	private Color red = new Color(this.getDisplay(), 203, 0, 0);
-	private Combo cSaveResults = null;
 	private EC curve;
 	private Group groupCalculations = null;
 	private Group groupCurve = null;
@@ -76,7 +71,6 @@ public class ECContentReal extends Composite {
 	private Text lblP = null;
 	private Text lblQ = null;
 	private Text lblR = null;
-	private Label lblSaveResults = null;
 	private FpPoint pointP;
 	private FpPoint pointQ;
 	private FpPoint pointR;
@@ -326,87 +320,33 @@ public class ECContentReal extends Composite {
 	 *
 	 */
 	private void createGroupSave() {
-		groupSave = new Group(groupSettings, SWT.NONE);
-		groupSave.setLayout(new GridLayout(2, false));
-		groupSave.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		groupSave.setText(Messages.ECView_SaveResults); // $NON-NLS-1$
-
-		cSaveResults = new Combo(groupSave, SWT.READ_ONLY);
-		cSaveResults.setItems(
-				new String[] { Messages.ECView_No, Messages.ECView_ToTextEditor, Messages.ECView_ToTextFile }); // $NON-NLS-1$
-																												// //$NON-NLS-2$
-																												// //$NON-NLS-3$
-		cSaveResults.select(view.saveTo);
-		cSaveResults.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 2, 1));
-		cSaveResults.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
+        groupSave = new Group(groupSettings, SWT.NONE);
+        groupSave.setLayout(new GridLayout(1, false));
+        groupSave.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+        groupSave.setText(Messages.ECView_calculationHistory); 
+        
+        Button showHistoryBtn = new Button(groupSave, SWT.PUSH);
+        showHistoryBtn.setText(Messages.ECView_showCalculationHistory);
+        showHistoryBtn.addSelectionListener(new SelectionListener() {
+			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				view.saveTo = cSaveResults.getSelectionIndex();
-				btnBrowse.setEnabled(view.saveTo == 2);
-				btnSave.setEnabled(view.saveTo != 0);
-				cbAutoSave.setEnabled(view.saveTo != 0);
-				if (view.saveTo != 0 && view.autoSave) {
-					view.saveLog();
-				}
-				lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
+				view.openLogFileInEditor();
 			}
-		});
-
-		btnBrowse = new Button(groupSave, SWT.NONE);
-		btnBrowse.setText(Messages.ECView_Browse); // $NON-NLS-1$
-		btnBrowse.setEnabled(view.saveTo == 2);
-		btnBrowse.addSelectionListener(new SelectionListener() {
+			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (view.selectFileLocation()) {
-					lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
-				}
+				
 			}
 		});
-		btnSave = new Button(groupSave, SWT.NONE);
-		btnSave.setText(Messages.ECView_SaveNow); // $NON-NLS-1$
-		btnSave.setEnabled(view.saveTo != 0);
-		btnSave.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				view.saveLog();
-				lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
-			}
-		});
-		cbAutoSave = new Button(groupSave, SWT.CHECK);
-		cbAutoSave.setText(Messages.ECView_AutoSave); // $NON-NLS-1$
-		cbAutoSave.setEnabled(view.autoSave);
-		cbAutoSave.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 2, 1));
-		cbAutoSave.addSelectionListener(new SelectionListener() {
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				view.autoSave = cbAutoSave.getSelection();
-				lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
-			}
-		});
-		lblSaveResults = new Label(groupSave, SWT.NONE);
-		lblSaveResults.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
-		lblSaveResults.setText(""); //$NON-NLS-1$
+        
+        
+        Text logFileLocationLbl = new Text(groupSave, SWT.MULTI);
+        logFileLocationLbl.setEditable(false);
+        GridData gd_logFileLocationLbl = new GridData(SWT.FILL, SWT.FILL, true, true);
+        gd_logFileLocationLbl.widthHint = 200;
+        logFileLocationLbl.setLayoutData(gd_logFileLocationLbl);
+        logFileLocationLbl.setText(Messages.ECView_logLocation + ":\n" + view.getLogFileLocation()); //$NON-NLS-1$
 	}
 
 	/**
@@ -1110,11 +1050,5 @@ public class ECContentReal extends Composite {
 		rbtnFM.setSelection(false);
 		rbtnLarge.setSelection(false);
 		rbtnSmall.setSelection(true);
-
-		cSaveResults.select(view.saveTo);
-		btnBrowse.setEnabled(view.saveTo == 2);
-		btnSave.setEnabled(view.saveTo != 0);
-		cbAutoSave.setEnabled(view.saveTo != 0);
-		lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
 	}
 }

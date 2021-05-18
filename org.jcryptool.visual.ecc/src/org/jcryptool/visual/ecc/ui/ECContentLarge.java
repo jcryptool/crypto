@@ -46,16 +46,13 @@ public class ECContentLarge extends Composite {
 	private Group groupSize = null;
 	private Button rbtnSmall = null;
 	private Button rbtnLarge = null;
-	private Label lblSaveResults = null;
 	private Group groupSettings = null;
 	private Group groupType = null;
 	private Button rbtnFP = null;
 	private Button rbtnFM = null;
-	private Button cbAutoSave = null;
 	private Group groupSelectAttributes = null;
 	private Combo cStandard = null;
 	private Combo cCurve = null;
-	private Combo cSaveResults = null;
 	private Group groupCalculations = null;
 	private Button rbtnPQ = null;
 	private Button rbtnKP = null;
@@ -102,8 +99,6 @@ public class ECContentLarge extends Composite {
 	private Text txtRX = null;
 	private Text txtRY = null;
 	private Button btnClearPoints = null;
-	private Button btnBrowse = null;
-	private Button btnSave = null;
 	private Label lblP = null;
 	private Composite content;
 
@@ -936,93 +931,36 @@ public class ECContentLarge extends Composite {
 	 */
 	private void createGroupSave() {
         groupSave = new Group(groupSettings, SWT.NONE);
-        groupSave.setLayout(new GridLayout(2, false));
+        groupSave.setLayout(new GridLayout(1, false));
         groupSave.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-        groupSave.setText(Messages.ECView_SaveResults); 
-
-        cSaveResults = new Combo(groupSave, SWT.READ_ONLY);
-        cSaveResults.setItems(new String[] {
-                        Messages.ECView_No, Messages.ECView_ToTextEditor, Messages.ECView_ToTextFile}); 
-        cSaveResults.select(view.saveTo);
-        cSaveResults.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 2, 1));
-        cSaveResults.addSelectionListener(new SelectionListener() {
-            @Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-                widgetSelected(e);
-            }
-
-            @Override
+        groupSave.setText(Messages.ECView_calculationHistory); 
+        
+        Button showHistoryBtn = new Button(groupSave, SWT.PUSH);
+        showHistoryBtn.setText(Messages.ECView_showCalculationHistory);
+        showHistoryBtn.addSelectionListener(new SelectionListener() {
+			
+			@Override
 			public void widgetSelected(SelectionEvent e) {
-                view.saveTo = cSaveResults.getSelectionIndex();
-                btnBrowse.setEnabled(view.saveTo == 2);
-                btnSave.setEnabled(view.saveTo != 0);
-                cbAutoSave.setEnabled(view.saveTo != 0);
-                if (view.saveTo != 0 && view.autoSave)
-                    view.saveLog();
-                lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
-            }
-        });
-
-        btnBrowse = new Button(groupSave, SWT.NONE);
-        btnBrowse.setText(Messages.ECView_Browse); 
-        btnBrowse.setEnabled(view.saveTo == 2);
-        btnBrowse.addSelectionListener(new SelectionListener() {
-            @Override
+				view.openLogFileInEditor();
+			}
+			
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-                widgetSelected(e);
-            }
-
-            @Override
-			public void widgetSelected(SelectionEvent e) {
-                if (view.selectFileLocation()) {
-                	lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
-                }
-            }
-        });
-        btnSave = new Button(groupSave, SWT.NONE);
-        btnSave.setText(Messages.ECView_SaveNow); 
-        btnSave.setEnabled(view.saveTo != 0);
-        btnSave.addSelectionListener(new SelectionListener() {
-            @Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-                widgetSelected(e);
-            }
-
-            @Override
-			public void widgetSelected(SelectionEvent e) {
-                view.saveLog();
-                lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
-            }
-        });
-        cbAutoSave = new Button(groupSave, SWT.CHECK);
-        cbAutoSave.setText(Messages.ECView_AutoSave); 
-        cbAutoSave.setEnabled(view.autoSave);
-        cbAutoSave.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 2, 1));
-        cbAutoSave.addSelectionListener(new SelectionListener() {
-            @Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-                widgetSelected(e);
-            }
-
-            @Override
-			public void widgetSelected(SelectionEvent e) {
-                view.autoSave = cbAutoSave.getSelection();
-                lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
-            }
-        });
-        lblSaveResults = new Label(groupSave, SWT.NONE);
-        lblSaveResults.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
-        lblSaveResults.setText(""); //$NON-NLS-1$
+				
+			}
+		});
+        
+        
+        Text logFileLocationLbl = new Text(groupSave, SWT.MULTI);
+        logFileLocationLbl.setEditable(false);
+        GridData gd_logFileLocationLbl = new GridData(SWT.FILL, SWT.FILL, true, true);
+        gd_logFileLocationLbl.widthHint = 200;
+        logFileLocationLbl.setLayoutData(gd_logFileLocationLbl);
+        logFileLocationLbl.setText(Messages.ECView_logLocation + ":\n" + view.getLogFileLocation()); //$NON-NLS-1$
     }
 
 	public void adjustButtons() {
 		rbtnSmall.setSelection(false);
 		rbtnLarge.setSelection(true);
-
-		cSaveResults.select(view.saveTo);
-		btnBrowse.setEnabled(view.saveTo == 2);
-		btnSave.setEnabled(view.saveTo != 0);
-		cbAutoSave.setEnabled(view.saveTo != 0);
-		lblSaveResults.setText(view.saveTo == 2 ? view.getFileName() : ""); //$NON-NLS-1$
 	}
 }

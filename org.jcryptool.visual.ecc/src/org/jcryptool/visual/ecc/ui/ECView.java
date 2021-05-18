@@ -12,7 +12,10 @@ package org.jcryptool.visual.ecc.ui;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.eclipse.core.runtime.IPath;
@@ -21,7 +24,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -29,7 +31,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.operations.util.PathEditorInput;
-import org.jcryptool.core.util.constants.IConstants;
 import org.jcryptool.core.util.directories.DirectoryService;
 import org.jcryptool.visual.ecc.ECCPlugin;
 import org.jcryptool.visual.ecc.Messages;
@@ -43,10 +44,10 @@ public class ECView extends ViewPart {
     private ECContentLarge contentLarge;
 
     private String log = ""; //$NON-NLS-1$
-    private String saveLocation;
-    private String saveFileName = ""; //$NON-NLS-1$
-    public boolean autoSave = false;
-    public int saveTo = 0;
+//    private String saveLocation;
+//    private String saveFileName = ""; //$NON-NLS-1$
+//    public boolean autoSave = false;
+//    public int saveTo = 0;
     private File logFile;
     private IWorkbenchPage editorPage;
 
@@ -54,11 +55,12 @@ public class ECView extends ViewPart {
      * The constructor.
      */
     public ECView() {
+    	
     }
 
-    public String getFileName() {
-        return saveFileName;
-    }
+//    public String getFileName() {
+//        return saveFileName;
+//    }
 
     /**
      * This is a callback that will allow us to create the viewer and initialize it.
@@ -127,101 +129,174 @@ public class ECView extends ViewPart {
         }
     }
 
-    public void log(String s) {
-        log += s + "\n"; //$NON-NLS-1$
-        if (autoSave) {
-            if (saveTo == 1) {// To text editor
-                saveToEditor();
-            } else if (saveTo == 2) {// to text file
-                saveToFile();
-            }
-            log = ""; //$NON-NLS-1$
-        }
-    }
-
-    public void saveLog() {
-        if (saveTo == 1)
-            saveToEditor();
-        else if (saveTo == 2)
-            saveToFile();
-
-        if (saveTo != 0)
-            log = ""; //$NON-NLS-1$
-    }
-
-    private void saveToEditor() {
-        if (logFile == null) {
-            logFile = new File(new File(DirectoryService.getTempDir()), "calculations.txt"); //$NON-NLS-1$ 
-            logFile.deleteOnExit();
-        }
-
-        saveToFile();
-
-        if (editorPage == null)
-            editorPage = getSite().getPage();
-
-        IEditorReference[] er = editorPage.getEditorReferences();
-        for (int i = 0; i < er.length; i++) {
-            if (er[i].getName().equals("calculations.txt")) { //$NON-NLS-1$
-                er[i].getEditor(false).getSite().getPage().closeEditor(er[i].getEditor(false),
-                        false);
-            }
-        }
-
-        try {
-            IPath location = new Path(logFile.getAbsolutePath());
-            editorPage.openEditor(new PathEditorInput(location),
-                    "org.jcryptool.editor.text.editor.JCTTextEditor"); //$NON-NLS-1$
-        } catch (PartInitException e) {
-            LogUtil.logError(ECCPlugin.PLUGIN_ID, e);
-        }
-    }
-
-    private void saveToFile() {
-        if (logFile == null) {
-            selectFileLocation();
-        } else {
-            try {
-                String[] sa = log.split("\n"); //$NON-NLS-1$
-                if (sa.length > 1 || !sa[0].equals("")) { //$NON-NLS-1$
-                    FileWriter fw = new FileWriter(logFile, true);
-                    BufferedWriter bw = new BufferedWriter(fw);
-                    for (int i = 0; i < sa.length; i++) {
-                        if (i < sa.length - 1 || (i == sa.length - 1 && !sa[i].equals(""))) { //$NON-NLS-1$
-                            bw.write(sa[i]);
-                            bw.newLine();
-                        }
-                    }
-                    bw.close();
-                    fw.close();
-                }
-            } catch (Exception ex) {
-                LogUtil.logError(ECCPlugin.PLUGIN_ID, ex);
-            }
-        }
-    }
-
     /**
-     * Opens a dialog in which the user can select a file where he wants to
-     * save the the log.
-     * @return True, if the user has selected a file. False, if the 
-     * the users cancelled the file selection or an error occured.
+     * Save the 
+     * @param s
      */
-    public boolean selectFileLocation() {
-        FileDialog dialog = new FileDialog(layout.topControl.getShell(), SWT.SAVE);
-        dialog.setFilterNames(new String[] {IConstants.TXT_FILTER_NAME, IConstants.ALL_FILTER_NAME});
-        dialog.setFilterExtensions(new String[] {IConstants.TXT_FILTER_EXTENSION, IConstants.ALL_FILTER_EXTENSION});
-        dialog.setFilterPath(DirectoryService.getUserHomeDir()); 
-        dialog.setFileName("calculations.txt"); //$NON-NLS-1$
-        dialog.setOverwrite(true);
-        if ((saveLocation = dialog.open()) != null) {
-        	saveFileName = dialog.getFileName();
-            logFile = new File(saveLocation);
-            saveToFile();
-            return true;
-        }
-        return false;
-    }
+	public void log(String s) {
+		
+		// Save the new log content to the log file
+		log += s + "\n"; //$NON-NLS-1$
+		saveToFile();
+		log = ""; //$NON-NLS-1$
+		
+		// Check if the log is shown in an editor and udpate the file.
+		updateEditorContent();
+		
+	}
+	
+	private void updateEditorContent() {
+		if (logFile == null) {
+			createLogFile();
+		}
+		
+		if (editorPage == null) {
+			editorPage = getSite().getPage();
+		}
+		
+		// Close a propably already opened editor with the same name.
+		IEditorReference[] er = editorPage.getEditorReferences();
+		for (int i = 0; i < er.length; i++) {
+			// Only reopen (update) the editor content, if an editor with the same name 
+			// as the logfile is opened
+			if (er[i].getName().equals(getLogFileName())) { 
+				// Close the editor
+				er[i].getEditor(false).getSite().getPage().closeEditor(er[i].getEditor(false), false);
+				
+				// Open the editor
+				try {
+					IPath location = new Path(getLogFileLocation());
+					editorPage.openEditor(new PathEditorInput(location), "org.jcryptool.editor.text.editor.JCTTextEditor"); //$NON-NLS-1$
+				} catch (PartInitException e) {
+					LogUtil.logError(ECCPlugin.PLUGIN_ID, e);
+				}
+			}
+		}
+		
+		
+	}
+	
+	public void openLogFileInEditor() {
+		if (logFile == null) {
+			createLogFile();
+		}
+		
+		if (editorPage == null) {
+			editorPage = getSite().getPage();
+		}
+		
+		// Close a propably already opened editor with the same name.
+		IEditorReference[] er = editorPage.getEditorReferences();
+		for (int i = 0; i < er.length; i++) {
+			if (er[i].getName().equals(getLogFileName())) { 
+				er[i].getEditor(false).getSite().getPage().closeEditor(er[i].getEditor(false), false);
+			}
+		}
+		
+		// Open the log in the editor.
+		try {
+			IPath location = new Path(getLogFileLocation());
+			editorPage.openEditor(new PathEditorInput(location), "org.jcryptool.editor.text.editor.JCTTextEditor"); //$NON-NLS-1$
+		} catch (PartInitException e) {
+			LogUtil.logError(ECCPlugin.PLUGIN_ID, e);
+		}
+	}
+
+
+
+//    private void saveToEditor() {
+//        if (logFile == null) {
+//            logFile = new File(new File(DirectoryService.getTempDir()), "calculations.txt"); //$NON-NLS-1$ 
+//            logFile.deleteOnExit();
+//        }
+//
+//        saveToFile();
+//
+//        if (editorPage == null)
+//            editorPage = getSite().getPage();
+//
+//        IEditorReference[] er = editorPage.getEditorReferences();
+//        for (int i = 0; i < er.length; i++) {
+//            if (er[i].getName().equals("calculations.txt")) { //$NON-NLS-1$
+//                er[i].getEditor(false).getSite().getPage().closeEditor(er[i].getEditor(false),
+//                        false);
+//            }
+//        }
+//
+//        try {
+//            IPath location = new Path(logFile.getAbsolutePath());
+//            editorPage.openEditor(new PathEditorInput(location),
+//                    "org.jcryptool.editor.text.editor.JCTTextEditor"); //$NON-NLS-1$
+//        } catch (PartInitException e) {
+//            LogUtil.logError(ECCPlugin.PLUGIN_ID, e);
+//        }
+//    }
+	
+	/**
+	 * Creates the log file if it does not exist already
+	 */
+	private void createLogFile() {
+    	if (logFile == null) {
+    		
+    		// Create ECC directory in workspace
+    		File logFileDirectory = new File(DirectoryService.getWorkspaceDir() + "/ECC/");
+    		logFileDirectory.mkdir();
+    		
+    		// Create a timestamp and add it to the filename.
+    		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-'at'-HH-mm");
+    		Date date = new Date(System.currentTimeMillis());
+    		logFile = new File(DirectoryService.getWorkspaceDir() + "/ECC/ECC-history-from-" + formatter.format(date) + ".txt");
+    		try {
+				logFile.createNewFile();
+			} catch (IOException e) {
+				LogUtil.logError(ECCPlugin.PLUGIN_ID, e);
+			}
+    	}
+	}
+	
+	public String getLogFileLocation() {
+		if (logFile == null) {
+			createLogFile();
+		}
+		return logFile.getAbsolutePath();
+	}
+	
+	public String getLogFileName() {
+		if (logFile == null) {
+			createLogFile();
+		}
+		return logFile.getName();
+	}
+
+	/**
+	 * Save the log to the logifle.
+	 */
+	private void saveToFile() {
+
+		// If the log file does not exist, delete it.
+		if (logFile == null) {
+			createLogFile();
+		}
+
+		try {
+			String[] sa = log.split("\n"); //$NON-NLS-1$
+			if (sa.length > 1 || !sa[0].equals("")) { //$NON-NLS-1$
+				FileWriter fw = new FileWriter(logFile, true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				for (int i = 0; i < sa.length; i++) {
+					if (i < sa.length - 1 || (i == sa.length - 1 && !sa[i].equals(""))) { //$NON-NLS-1$
+						bw.write(sa[i]);
+						bw.newLine();
+					}
+				}
+				bw.close();
+				fw.close();
+			}
+		} catch (Exception ex) {
+			LogUtil.logError(ECCPlugin.PLUGIN_ID, ex);
+		}
+	}
+
 
 	public void reset() {
 		Control[] children = parent.getChildren();
