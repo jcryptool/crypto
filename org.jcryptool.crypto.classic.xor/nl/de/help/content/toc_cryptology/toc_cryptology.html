@@ -9,13 +9,15 @@
 
 <h1>XOR-Verschlüsselung</h1>
 <p>
-	Das XOR-Verfahren führt eine logische XOR-Verknüpfung des Klartextes und des Schlüssels durch. Eine erneute Verschlüsselung des Geheimtextes mit demselben Schlüssel führt zur Entschlüsselung des Textes. XOR ist eines der einfachsten Verfahren und findet heute Anwendung in modernen Blockchiffren.
+	Das XOR-Verfahren führt eine XOR-Verknüpfung des Klartextes und des Schlüssels bitweise durch. Eine erneute Verschlüsselung des Geheimtextes mit demselben Schlüssel führt zur Entschlüsselung des Textes. XOR ist eine der einfachsten und schnellsten Operationen und findet heute Anwendung als Komponente sowohl in modernen Blockchiffren als auch in Stromchiffren.
 </p>
 
 
+
+<p> </p>
 <h3 id="classification">Klassifikation</h3>
 <p>
-	Die XOR-Verschlüsselung ist eine polyalphabetische Substitutionschiffre.
+	Die XOR-Verschlüsselung ist eine polyalphabetische Substitutions-Chiffre.
 </p>
 
 
@@ -33,7 +35,9 @@
 Klartextalphabets in Binärzahlen, welche dann bei der Verschlüsselung mit dem
 (ebenfalls binär codierten und ggf. auf Klartextlänge periodisch wiederholtem Schlüssel)
 bitweise XOR-verknüpft werden. Die Codierung erfolgt nach der Position des
-Buchstaben im Alphabet (beginnend mit …0000). Damit jede XOR-Verknüpfung von
+Buchstaben im Alphabet (beginnend mit …0000).</p>
+
+<p>Damit jede XOR-Verknüpfung von
 zwei Buchstaben auch wieder einen Buchstaben aus dem Geheimtextalphabet
 hervorbringen kann, muss die Länge des Geheimtextalphabets eine Zweierpotenz
 und größer als die Länge des Klartextalphabets sein.</p>
@@ -58,15 +62,25 @@ alt="encryption_example.png"></p>
 <h4>Entschlüsselung</h4>
 
 <p>Die Entschlüsselung erfolgt wie die Verschlüsselung:
-XOR-Verknüpfung des Geheimtextes mit dem XOR-Bitstring, der auch zur
+XOR-Verknüpfung des Geheimtextes mit dem gleichen Schlüssel, der auch zur
 Verschlüsselung genutzt wurde.</p>
 
 
 <h3 id="furtherreading">Weiterführende Lektüre</h3>
 <ul>
   <li>
-  	<a class="external" target="_blank" href="http://de.wikipedia.org/w/index.php?title=Polyalphabetische_Substitution#Vernam">
+  	<a class="external" target="_blank" href="https://de.wikipedia.org/wiki/Exklusiv-Oder-Gatter">
   	Wikipedia-Artikel zur XOR-Verschlüsselung
+  	</a>
+  </li>
+  <li>
+  	<a class="external" target="_blank" href="http://de.wikipedia.org/w/index.php?title=Polyalphabetische_Substitution#Vernam">
+  	Wikipedia-Artikel zur Vernam-Verschlüsselung
+  	</a>
+  </li>
+  <li>
+  	<a class="external" target="_blank" href="https://de.wikipedia.org/wiki/One-Time-Pad">
+  	Wikipedia-Artikel zum OTP
   	</a>
   </li>
 </ul>
