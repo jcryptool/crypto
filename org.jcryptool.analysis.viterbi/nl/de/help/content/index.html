@@ -12,7 +12,7 @@
 	<h3><a href = "#1">Einführung in die Viterbi-Analyse</a></h3>
 		Es wird ein überblick über die Funktionsweise der Viterbi-Analyse gegeben.<br><br>
 	<h3><a href = "#2">Erläuterung des Benutzerinterface</a></h3>
-		Die Bedienung der einzelnen Reiter des Viterbi-Plugins.<br><br>
+		Die Bedienung der einzelnen Tabs des Viterbi-Plugins.<br><br>
 	<h3><a href = "#3">Schrittweise erläutertes Beispiel</a></h3>
 		Anhand eines einfachen Textpaares wird die Analyse erläutert.<br><br>
 	<h3><a href = "#4">Häufige Fragen und Erläuterungen</a></h3>
@@ -30,7 +30,7 @@
 		
 		<p>Der Viterbi-Algorithmus ist deterministisch, d. h. jede Analyse läuft exakt gleich unter denselben Eingabeparametern. Es ist keine heuristische Abbruchbedingung vorgesehen. Das Ergebnis jeder Iteration des Algorithmus bedingt das Ergebnis der nächsten Iteration, unter Beachtung der Markov-Ordnung (bzw \(n\)-Gramm-Länge). Eine kleinere Ordnung bedeutet schnelleres "Verschwinden" dieser Abhängigkeiten.</p>
 		
-		<p>Im Folgenden werden die 3 Reiter des Benutzerinterfaces erklärt, und dann wird das Vorgehen anhand eines Beispiels schrittweise erläutert. Am Ende gibt es FAQs, Ideen zur Weiterentwicklung des Plugins und Referenzen zum Verfahren.</p>
+		<p>Im Folgenden werden die 3 Tabs des Benutzerinterfaces erklärt, und dann wird das Vorgehen anhand eines Beispiels schrittweise erläutert. Am Ende gibt es FAQs, Ideen zur Weiterentwicklung des Plugins und Referenzen zum Verfahren.</p>
 
 
 
@@ -40,11 +40,11 @@
 	<h2>Running-Key-Verschlüsselung</h2>
 		<p align=center><img src="images/rk_enc_tab.png" width="90%"><br clear="all"></p>
 		
-		<p>Zuerst muss man den Geheimtext erzeugen. Dazu bietet der Reiter "Running-Key-Verschlüsselung" Methoden zum Kombinieren von zwei Klartexten. Die Klartexte können entweder manuell eingegeben oder aus Textdateien geladen werden.</p>
+		<p>Zuerst muss man den Geheimtext erzeugen. Dazu bietet der Tab "Running-Key-Verschlüsselung" Methoden zum Kombinieren von zwei Klartexten. Die Klartexte können entweder manuell eingegeben oder aus Textdateien geladen werden.</p>
 		
 		<p align=center><img src="imagesencryption.png" width="85%" /><br clear="all"></p>
 		
-		<p>Der Geheimtext kann entweder durch XOR oder durch modulare Addition erzeugt werden. Durch das Drücken des Buttons "Geheimtext berechnen" wird der Geheimtext erzeugt. Weil dieser oft nicht-druckbare Zeichen enthält, wird er per Default in hexadezimaler Form angezeigt. Der Button "Weiter zur Analyse" überträgt den Geheimtext in den zweiten Reiter.</p>
+		<p>Der Geheimtext kann entweder durch XOR oder durch modulare Addition erzeugt werden. Durch das Drücken des Buttons "Geheimtext berechnen" wird der Geheimtext erzeugt. Weil dieser oft nicht-druckbare Zeichen enthält, wird er per Default in hexadezimaler Form angezeigt. Der Button "Weiter zur Analyse" überträgt den Geheimtext in den zweiten Tab.</p>
 		
 		<p>Falls das Plugin rein zur Verschlüsselung verwendet werden soll (was natürlich nicht empfohlen ist), kann der Geheimtext mit dem "Exportieren"-Button in eine Textdatei geschrieben werden (diese enthält dann die Hexzeichen wie hier angezeigt).</p>
 
@@ -59,20 +59,20 @@
 	
 		<p align=center><img src="images/viterbi_analysis_tab.png" width="90%"></p>
 		
-		<p>Der zweite Reiter beschäftigt sich mit dem eigentlichen Angriff. Wurde der Geheimtext mit dem ersten Reiter erzeugt, konnte man den Geheimtext von dort aus automatisch hierher laden. Alternativ kann der zu analysierende Geheimtext auch aus einer Textdatei geladen werden.</p>
+		<p>Der zweite Tab beschäftigt sich mit dem eigentlichen Angriff. Wurde der Geheimtext mit dem ersten Tab erzeugt, konnte man den Geheimtext von dort aus automatisch hierher laden. Alternativ kann der zu analysierende Geheimtext auch aus einer Textdatei geladen werden.</p>
 		
 		<p align=center><img src="images/analysis_params.png" width="50%"><br clear="all"></p>
 			
 		<p>Weil die Analyse stark vom Sprachmodell abhängt, ist es wichtig, die erwartete Sprache der Klartexte vor dem Beginn der Analyse korrekt zu wählen. Der Parameter "N-Gramm-Größe" definiert die maximale Länge der analysierten Zeichenfolgen. Momentan kann man nur N-Gramme der Länge 1-5 auswählen (diese sind als vorberechnete Tabellen abgespeichert), um Speicherplatz zu sparen. Der Parameter "Suchtiefe" beeinflusst die Qualität der Ergebnisse: Ein hoher Wert erzeugt bessere Ergebnisse, verschlechtert jedoch die Performance. Um die Ergebnisse angezeigt zu bekommen, muss man den Button "Analyse starten" drücken. Die Ergebnisse mit den entschlüsselten Klartexten können wiederum in Textdateien exportiert werden.</p>
 		
-		<p>Durch Drücken des Buttons "Analysedetails anzeigen" (er wird erst nach Abschluss der Analyse aktiv) können Details der Analyse im dritten Reiter eingesehen werden.</p>
+		<p>Durch Drücken des Buttons "Analysedetails anzeigen" (er wird erst nach Abschluss der Analyse aktiv) können Details der Analyse im dritten Tab eingesehen werden.</p>
 		
 		
 	<h2>Analysedetails</h2>
 
 		<p align=center><img src="images/viterbi3.png" width="90%"><br clear="all"></p>
 		
-		<p>Im Reiter "Viterbi-Analyse-Details" können alle Schritte des Viterbi-Algorithmus inspiziert werden. Dabei wird für jeden Schritt auf der linken Seite eine Tabelle der Pfad-Kandidaten angezeigt, nach absteigender (pro Schritt relativer) Wahrscheinlichkeit. Da jeder Schritt einem Zeichen des Geheimtext entspricht, kann man so beobachten, wie die Kandidatenpfade Zeichen für Zeichen entstehen. Zum Beispiel kann man für den "Gewinner", d. h. den obersten Pfad im letzten Schritt, der auch der angezeigten Lösung entspricht, im vorigen Schritt nachsehen, welcher Kandidat denselben Beginn hat wie der "Gewinner", und das iterativ, um so den Kandidaten und seine Vorgänger in der Menge aller Mitbewerber auszumachen und zurück zu verfolgen.</p>
+		<p>Im Tab "Viterbi-Analyse-Details" können alle Schritte des Viterbi-Algorithmus inspiziert werden. Dabei wird für jeden Schritt auf der linken Seite eine Tabelle der Pfad-Kandidaten angezeigt, nach absteigender (pro Schritt relativer) Wahrscheinlichkeit. Da jeder Schritt einem Zeichen des Geheimtext entspricht, kann man so beobachten, wie die Kandidatenpfade Zeichen für Zeichen entstehen. Zum Beispiel kann man für den "Gewinner", d. h. den obersten Pfad im letzten Schritt, der auch der angezeigten Lösung entspricht, im vorigen Schritt nachsehen, welcher Kandidat denselben Beginn hat wie der "Gewinner", und das iterativ, um so den Kandidaten und seine Vorgänger in der Menge aller Mitbewerber auszumachen und zurück zu verfolgen.</p>
 		
 		<p>Ein mächtiges Werkzeug dafür ist das Auswählen eines spezifischen Pfades zur Zurück- und Vorwärtsverfolgung.  Für einen ausgewählten Pfad werden alle "Geschwister" bestimmt. Ein Geschwisterpfad hat entweder dieselbe Zeichenfolge wie der Beginn des ausgewählten Pfades oder umgekehrt: Der ausgewählte Pfad hat dieselbe Zeichenfolge wie der Geschwisterpfad. Das bedeutet eine Rückverfolgung des ausgewählten Pfades durch frühere Schritte (ausgewählter Pfad ist durch Anhängen neuer Zeichen an Schwesterpfad entstanden) oder in die "Zukunft": Es werden ebenfalls alle Schwesterpfade in späteren Schritten angezeigt, die vom ausgewählten Pfad abgeleitet sind. Im Kontext des folgenden Beispiels sieht man etwas besser was gemeint ist.</p>
 		<br>		
@@ -99,13 +99,13 @@
  	
 	<h2>Viterbi-Analyse</h2>
 	
-		<p>Nach Wechseln in den Analyse-Reiter wählen wir die bestmöglichen Einstellungen und klicken den Button "Analyse starten".</p>
+		<p>Nach Wechseln in den Analyse-Tab wählen wir die bestmöglichen Einstellungen und klicken den Button "Analyse starten".</p>
 	
 		<p align=center><img src="images/viterbi2.png" width="90%"><br clear="all"></p>
 
         <p><b>Diskussion:</b> Aufgrund der erwähnten Schwächen des Algorithmus am Textanfang findet die Analyse das Wort "the" des ersten Klartextes nicht. Wegen der zwei führenden Nullstellen in der Chiffre wird anscheinend ein Raten auf häufigen Buchstaben begünstigt, wovon das Leerzeichen eines ist. Es folgen weitere Fehler; die Essenz der Texte ist jedoch zu erraten.</p>
 
-		<p>Die Berechnung der Klartextpfade können wir, wie bereits beschrieben, im Reiter Analyse-Details zurückverfolgen. Dahin gelangt man durch Drücken des Buttons "Analysedetails anzeigen". Dieser Button wird aktiv, nachdem die Analyse fertig ist.</p>
+		<p>Die Berechnung der Klartextpfade können wir, wie bereits beschrieben, im Tab Analyse-Details zurückverfolgen. Dahin gelangt man durch Drücken des Buttons "Analysedetails anzeigen". Dieser Button wird aktiv, nachdem die Analyse fertig ist.</p>
 
 
 

@@ -53,10 +53,11 @@ public class Messages extends NLS {
 	public static String ECView_ZoomGraph;
 	public static String ECView_RemoveSelection;
 	public static String ECView_Points;
-	public static String ECView_SaveResults;
-	public static String ECView_Browse;
-	public static String ECView_SaveNow;
-	public static String ECView_AutoSave;
+	
+	public static String ECView_calculationHistory;
+	public static String ECView_showCalculationHistory;
+	public static String ECView_logLocation;
+	
 	public static String ECView_SelectCurveType;
 	public static String ECView_SelectCurveAttributes;
 	public static String ECView_RealNumbers;
