@@ -1,9 +1,13 @@
 package org.jcryptool.visual.rss.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
@@ -23,32 +27,40 @@ public class RssSetKeyComposite extends RssRightSideComposite {
     private final Button generateKeyButton;
     //private final Button nextButton;
     private final Combo algorithmSelectionCombo;
+    private final Composite inner;
 
     public RssSetKeyComposite(RssBodyComposite body, final RssAlgorithmController rssController) {
         super(body, SWT.NONE);
-        prepareGroupView(this, Descriptions.SelectKeySize);
+        prepareGroupView(this, Descriptions.AlgorithmSettings);
         prepareAboutComposite();
         
-        // Dropdown to select the algorithm variant
-        algorithmSelectionCombo = new Combo(leftComposite, SWT.READ_ONLY);
+        inner = new Composite(leftComposite, SWT.NONE);
+        inner.setLayout(new GridLayout());
+        
+        // Select algorithm variant text
+        Label algorithmVariantLabel = new Label(inner, SWT.READ_ONLY);
+        algorithmVariantLabel.setText(Descriptions.SelectAlgorithmVariant);
+        
+        // Dropdown to select the algorithm variant        
+        algorithmSelectionCombo = new Combo(inner, SWT.READ_ONLY);
         for(AlgorithmType signatureType: AlgorithmType.values()) {
         	algorithmSelectionCombo.add(signatureType.toString());
         }
         algorithmSelectionCombo.select(0);
 
+        // Select key length text
+        Label keyLengthLabel = new Label(inner, SWT.READ_ONLY);
+        keyLengthLabel.setText(Descriptions.SelectKeySize);
         
         // Dropdown to select the key length
-        keySizeCombo = new Combo(leftComposite, SWT.READ_ONLY);
+        keySizeCombo = new Combo(inner, SWT.READ_ONLY);
         for(KeyLength keyLength: KeyLength.values()) {
         	keySizeCombo.add(keyLength.toString());
         }
-//        keySizeCombo.add("KL_512");
-//        keySizeCombo.add("KL_1024");
-//        keySizeCombo.add("KL_2048" + " " + Descriptions.TakesLongTime);
         keySizeCombo.select(0);
         
         // Button to generate a new key and set the algorithm controller for the selected size and variant
-        generateKeyButton = new Button(leftComposite, SWT.PUSH);
+        generateKeyButton = new Button(inner, SWT.PUSH);
         generateKeyButton.setText(Descriptions.GenerateKey);
 
         // Next button to continue with setting the message parts. Will be enabled when a key is generated.

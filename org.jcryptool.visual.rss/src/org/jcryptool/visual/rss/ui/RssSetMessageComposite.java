@@ -60,11 +60,11 @@ public class RssSetMessageComposite extends RssRightSideComposite {
         for (int i = 0; i < numberMessageParts; i++) {
             Label desc = new Label(addMessageComposite, SWT.READ_ONLY);
             desc.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            desc.setText(Descriptions.PasteYour + " " + (i + 1) + " " + Descriptions.PartHere + ".");
+            desc.setText(Descriptions.PasteYour + " " + (i + 1) + " " + Descriptions.PartHere);
             addMessageLabelList.add(desc);
             Text msg = new Text(addMessageComposite, SWT.MULTI | SWT.BORDER | SWT.WRAP);
             msg.setLayoutData(new GridData(300, 50));
-            msg.setToolTipText(Descriptions.PasteYour + " " + (i + 1) + " " + Descriptions.PartHere + ".");
+            msg.setToolTipText(Descriptions.PasteYour + " " + (i + 1) + " " + Descriptions.PartHere);
             if (i < oldMessages.size()) {
                 msg.setText(oldMessages.get(i));
             }

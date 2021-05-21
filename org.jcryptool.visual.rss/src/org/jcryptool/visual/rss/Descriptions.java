@@ -43,6 +43,8 @@ public class Descriptions extends NLS {
     public static String GenerateKey;
     public static String Next;
     public static String NewMessage;
+	public static String AlgorithmSettings;
+	public static String SelectAlgorithmVariant;
     // SET_MESSAGE
     public static String SetMessages;
     public static String AddMessagePart;
@@ -50,6 +52,7 @@ public class Descriptions extends NLS {
     public static String PartHere;
     public static String ConfirmMessages;
     public static String AddMessageButtonLabel;
+
     // SIGN_MESSAGE
     public static String SelectFixedParts;
     public static String SelectPartsInfoText;
@@ -92,6 +95,8 @@ public class Descriptions extends NLS {
     //Head
     public static String Title;
     public static String Description;
+
+
 
     static {
         // initialize resource bundle
