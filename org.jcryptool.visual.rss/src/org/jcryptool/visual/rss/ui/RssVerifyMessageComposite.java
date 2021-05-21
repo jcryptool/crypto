@@ -92,7 +92,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
 
         Button nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.Next + ": " + Descriptions.RedactMessages);
+        nextButton.setText(Descriptions.ContinueWithRedacting);
         nextButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 if (e.type == SWT.Selection) {

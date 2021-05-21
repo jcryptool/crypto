@@ -65,6 +65,7 @@ public class Descriptions extends NLS {
     public static String ReturnButton;
     public static String RedactMessages;
     public static String IsVerified;
+	public static String ContinueWithRedacting;
     // REDACT
     public static String VerifyRedacted;
     public static String Fix;
@@ -95,6 +96,7 @@ public class Descriptions extends NLS {
     //Head
     public static String Title;
     public static String Description;
+
 
 
 
