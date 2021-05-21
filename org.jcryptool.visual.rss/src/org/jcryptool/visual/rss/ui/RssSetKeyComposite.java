@@ -113,7 +113,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 
     private KeyLength getKeyLength() {
         String keyLength = keySizeCombo.getItem(keySizeCombo.getSelectionIndex());
-        return KeyLength.valueOf(keyLength);
+        return KeyLength.getItem(keyLength);
     }
     
     private AlgorithmType getAlgorithmType() {

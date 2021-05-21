@@ -391,6 +391,10 @@ public class RssAlgorithmController {
         public String toString(){
         	return String.valueOf(length);
         }
+
+		public static KeyLength getItem(String keyLength) {
+			return valueOf("KL_"+keyLength);
+		}
     }
     
     public class Information {
