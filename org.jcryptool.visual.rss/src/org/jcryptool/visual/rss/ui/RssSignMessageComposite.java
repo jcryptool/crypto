@@ -84,10 +84,6 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         Button signMessageButton = new Button(inner, SWT.PUSH);
         signMessageButton.setText(Descriptions.SignMessage);
 
-        Button nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.Next + ": " + Descriptions.VerifyMessage);
-        nextButton.setEnabled(false);
-
         signMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 switch (e.type) {
@@ -101,19 +97,12 @@ public class RssSignMessageComposite extends RssRightSideComposite {
                     rac.signMessage(redactableParts);
                     body.lightPath();
                     body.lightDataBox(DataType.MESSAGE);
-                    nextButton.setEnabled(true);
+                    body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
                     break;
                 }
             }
         });
 
-        nextButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-                if (e.type == SWT.Selection) {
-                    body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
-                }
-            }
-        });
     }
 
     @Override

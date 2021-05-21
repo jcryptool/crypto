@@ -55,8 +55,20 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         inner = new Composite(leftComposite, SWT.NONE);
         inner.setLayout(new GridLayout());
 
-        Label lbl = new Label(inner, SWT.NONE);
-        lbl.setText(Descriptions.Message);
+        Button resetMessageButton = new Button(inner, SWT.PUSH);
+        resetMessageButton.setText(Descriptions.Reset);
+        resetMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                switch (e.type) {
+                case SWT.Selection:
+                    for (int i = 0; i < textList.size(); i++) {
+                        textList.get(i).setText(originalSignedMessages.get(i));
+                    }
+                    updateVerified();
+                    break;
+                }
+            }
+        });
 
         textList = new ArrayList<Text>();
         Composite addMessageComposite = new Composite(inner, SWT.NULL);
@@ -79,25 +91,8 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         // checkLabel.setLayoutData(buttonGd);
         checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
 
-        Button resetMessageButton = new Button(inner, SWT.PUSH);
-        resetMessageButton.setText(Descriptions.Reset);
-
         Button nextButton = new Button(inner, SWT.PUSH);
         nextButton.setText(Descriptions.Next + ": " + Descriptions.RedactMessages);
-
-        resetMessageButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-                switch (e.type) {
-                case SWT.Selection:
-                    for (int i = 0; i < textList.size(); i++) {
-                        textList.get(i).setText(originalSignedMessages.get(i));
-                    }
-                    updateVerified();
-                    break;
-                }
-            }
-        });
-
         nextButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 if (e.type == SWT.Selection) {

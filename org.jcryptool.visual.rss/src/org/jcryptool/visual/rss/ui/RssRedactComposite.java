@@ -84,11 +84,6 @@ public class RssRedactComposite extends RssRightSideComposite {
 
         Button redactMessageButton = new Button(inner, SWT.PUSH);
         redactMessageButton.setText(Descriptions.RedactMessages);
-
-        Button nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.Next + ": " + Descriptions.VerifyRedacted);
-        nextButton.setEnabled(false);
-
         redactMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 switch (e.type) {
@@ -105,16 +100,8 @@ public class RssRedactComposite extends RssRightSideComposite {
                     rac.redactMessage(indices);
                     body.lightPath();
                     body.lightDataBox(DataType.REDACTED);
-                    nextButton.setEnabled(true);
-                    break;
-                }
-            }
-        });
-
-        nextButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-                if (e.type == SWT.Selection) {
                     body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_REDACTED);
+                    break;
                 }
             }
         });

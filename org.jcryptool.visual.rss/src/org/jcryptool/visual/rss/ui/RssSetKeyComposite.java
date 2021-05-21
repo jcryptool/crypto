@@ -24,7 +24,6 @@ import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 public class RssSetKeyComposite extends RssRightSideComposite {
     private final Combo keySizeCombo;
     private final Button generateKeyButton;
-    //private final Button nextButton;
     private final Combo algorithmSelectionCombo;
     private final Composite inner;
 

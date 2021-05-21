@@ -35,7 +35,6 @@ public class RssSetMessageComposite extends RssRightSideComposite {
     private final List<Label> addMessageLabelList;
     private final Button addMessageButton;
     private final Button confirmMessageButton;
-    private final Button nextButton;
 
     public RssSetMessageComposite(RssBodyComposite body, RssAlgorithmController rac, int numberMessageParts,
             List<String> oldMessages) {
@@ -76,10 +75,6 @@ public class RssSetMessageComposite extends RssRightSideComposite {
         confirmMessageButton.setEnabled(false);
         confirmMessageButton.setText(Descriptions.ConfirmMessages);
 
-        nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.Next + ": " + Descriptions.SelectFixedParts);
-        nextButton.setEnabled(false);
-
         addMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 if (e.type == SWT.Selection) {
@@ -98,15 +93,6 @@ public class RssSetMessageComposite extends RssRightSideComposite {
                     disableMessageEditing();
                     rac.newMessage(getMessages());
                     body.lightPath();
-                    nextButton.setEnabled(true);
-                }
-            }
-        });
-
-        // TODO: use the next Button to make a walkthrough with example data on the view.
-        nextButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-                if (e.type == SWT.Selection) {
                     body.setActiveRssComposite(ActiveRssBodyComposite.SIGN_MESSAGE);
                 }
             }
