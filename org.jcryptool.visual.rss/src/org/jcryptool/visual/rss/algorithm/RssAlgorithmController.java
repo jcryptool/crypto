@@ -313,9 +313,9 @@ public class RssAlgorithmController {
     public enum AlgorithmType {
         GLRSS_WITH_RSA_AND_BPA("GLRSS", "GLRSSwithRSAandBPA", "GLRSSwithRSAandBPA", false),
     	GSRSS_WITH_RSA_AND_BPA("GSRSS", "GSRSSwithRSAandBPA", "GSRSSwithRSAandBPA", false),
-    	RSS_WITH_PSA("RSS", "RSSwithPSA", "PSRSS", true),
-    	GC("GC", "GCwithRSAandSHA256", "RSA", true),
-    	MERSA("MersaProd", "MersaWithRSAandSHA256", "Mersa256KeyPairGenerator", true);
+    	//RSS_WITH_PSA("RSS", "RSSwithPSA", "PSRSS", true),
+    	GC("Generic Construction", "GCwithRSAandSHA256", "RSA", true),
+    	MERSA("SBZ02-MersaProd", "MersaWithRSAandSHA256", "Mersa256KeyPairGenerator", true);
     	
     	/*
     	 * Not working, as BPPrivateKey of BPA not implemented:
@@ -385,6 +385,11 @@ public class RssAlgorithmController {
         
         public int getKl() {
             return length;
+        }
+        
+        @Override
+        public String toString(){
+        	return String.valueOf(length);
         }
     }
     
