@@ -18,7 +18,6 @@ import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
 /**
  * The composite with button, text fields etc. with the function to set the keys for the encryption.
- * TODO: Remove dead code of next button
  *  
  * @author Leon Shell, Lukas Krodinger
  */
@@ -62,11 +61,6 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         // Button to generate a new key and set the algorithm controller for the selected size and variant
         generateKeyButton = new Button(inner, SWT.PUSH);
         generateKeyButton.setText(Descriptions.GenerateKey);
-
-        // Next button to continue with setting the message parts. Will be enabled when a key is generated.
-//        nextButton = new Button(leftComposite, SWT.PUSH);
-//        nextButton.setText(Descriptions.Next + ": " + Descriptions.NewMessage);
-//        nextButton.setEnabled(false);
                
         // On click listener for the generate key button
         generateKeyButton.addListener(SWT.Selection, new Listener() {
@@ -99,16 +93,6 @@ public class RssSetKeyComposite extends RssRightSideComposite {
             }
         });
         
-        // On click listener for the next button
-//        nextButton.addListener(SWT.Selection, new Listener() {
-//            public void handleEvent(Event e) {
-//                switch (e.type) {
-//                case SWT.Selection:
-//                    body.setActiveRssComposite(ActiveRssBodyComposite.SET_MESSAGE);
-//                    break;
-//                }
-//            }
-//        });
     }
 
     private KeyLength getKeyLength() {
@@ -120,12 +104,6 @@ public class RssSetKeyComposite extends RssRightSideComposite {
     	String keyText = algorithmSelectionCombo.getItem(algorithmSelectionCombo.getSelectionIndex());
     	return AlgorithmType.fromString(keyText);
     }
-
-//    public void resetKey() {
-//        keySizeCombo.setEnabled(true);
-//        generateKeyButton.setEnabled(true);
-//        nextButton.setEnabled(true);
-//    }
 
     @Override
     void prepareAboutComposite() {
