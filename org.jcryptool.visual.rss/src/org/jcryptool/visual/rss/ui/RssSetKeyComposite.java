@@ -1,5 +1,11 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.io.FileNotFoundException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -10,9 +16,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.KeyPersistence;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.AlgorithmType;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
@@ -26,6 +34,9 @@ public class RssSetKeyComposite extends RssRightSideComposite {
     private final Button generateKeyButton;
     private final Combo algorithmSelectionCombo;
     private final Composite inner;
+    private final Button saveKeyButton;
+    private final Button loadKeyButton;
+    private final Button nextButton;
 
     public RssSetKeyComposite(RssBodyComposite body, final RssAlgorithmController rssController) {
         super(body, SWT.NONE);
@@ -84,13 +95,62 @@ public class RssSetKeyComposite extends RssRightSideComposite {
                     body.lightDataBox(DataType.KEY);
                     
                     // Continue with the singing step
-                    //nextButton.setEnabled(true);
-                    body.setActiveRssComposite(ActiveRssBodyComposite.SET_MESSAGE);
+                    nextButton.setEnabled(true);
+                    saveKeyButton.setEnabled(true);
                     
                     break;
                 }
             }
         });
+        
+        // Button to save key
+        saveKeyButton = new Button(inner, SWT.PUSH);
+        saveKeyButton.setText(Descriptions.SaveKey);
+        saveKeyButton.setEnabled(false);
+        saveKeyButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+            	
+            	Information keyInformation = rssController.getInformation();
+            	//byte[] publicKey = RssViewKeyComposite.getPublicKey(keyInformation.getKeyPair());
+            	try {
+					KeyPersistence.saveKey(keyInformation.getKeyPair().getPrivate(), "F:/tmp/test.xml");
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+               
+                
+            }
+        });
+        
+        // Button to load the key
+        loadKeyButton = new Button(inner, SWT.PUSH);
+        loadKeyButton.setText(Descriptions.LoadKey);
+        loadKeyButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+
+            	// Load the key
+            	try {
+					PrivateKey keyPair = KeyPersistence.loadKey("F:/tmp/test.xml");
+					//rssController.setKey(keyPair);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            	
+            	nextButton.setEnabled(true);
+            }
+        });
+        
+        // Next button
+        nextButton = new Button(inner, SWT.PUSH);
+        nextButton.setText(Descriptions.Next);
+        nextButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                body.setActiveRssComposite(ActiveRssBodyComposite.SET_MESSAGE);
+            }
+        });
+        
         
     }
 

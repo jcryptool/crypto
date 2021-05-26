@@ -106,7 +106,7 @@ public class RssAlgorithmController {
         currentState = State.KEY_SET;
     }
     
-    private void setKey(KeyPair keyPair) {
+    public void setKey(KeyPair keyPair) {
         if (keyPair == null) {
             throw new NullPointerException();
         }
@@ -416,4 +416,13 @@ public class RssAlgorithmController {
             return keyPair;
         }
     }
+
+	public SignatureOutput getSignOut() {
+		return signOut;
+	}
+
+	public void setSignOut(SignatureOutput signOut) {
+		this.signOut = signOut;
+		
+	}
 }

@@ -21,10 +21,7 @@ import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPublicKey;
-import de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPrivateKey;
-import de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPublicKey;
-import de.unipassau.wolfgangpopp.xmlrss.wpprovider.psrss.PSRSSPrivateKey;
-import de.unipassau.wolfgangpopp.xmlrss.wpprovider.psrss.PSRSSPublicKey;
+
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
 
 /**
@@ -102,7 +99,7 @@ public class RssViewKeyComposite extends RssRightSideComposite {
 	 * @param keyPair The keyPair to obtain the publicKey from.
 	 * @return The encoded publicKey.
 	 */
-	private byte[] getPublicKey(KeyPair keyPair) {
+	public static byte[] getPublicKey(KeyPair keyPair) {
 		PublicKey publicKey = keyPair.getPublic();
 		byte[] encodedPublicKey = null;
 		
@@ -117,10 +114,10 @@ public class RssViewKeyComposite extends RssRightSideComposite {
 			encodedPublicKey = publicKey.getEncoded();
 		}
 		
-        if (publicKey instanceof PSRSSPublicKey) {
+        /*if (publicKey instanceof PSRSSPublicKey) {
         	PSRSSPublicKey psrssPrivateKey = (PSRSSPublicKey) publicKey;
         	encodedPublicKey = psrssPrivateKey.getKey().toByteArray();
-        }
+        }*/
         
         /*if (publicKey instanceof MersaPublicKey) {
         	MersaPublicKey mersaPrivateKey = (MersaPublicKey) publicKey;
@@ -150,7 +147,7 @@ public class RssViewKeyComposite extends RssRightSideComposite {
      * @param keyPair The keyPair to obtain the privateKey from.
      * @return The encoded privateKey.
      */
-    private byte[] getPrivateKey(KeyPair keyPair) {
+    public static byte[] getPrivateKey(KeyPair keyPair) {
         PrivateKey privateKey = keyPair.getPrivate();
         byte[] encodedPrivateKey = null;
         
@@ -165,10 +162,10 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         	encodedPrivateKey = privateKey.getEncoded();
         } 
         
-        if (privateKey instanceof PSRSSPrivateKey) {
+        /*if (privateKey instanceof PSRSSPrivateKey) {
         	PSRSSPrivateKey psrssPrivateKey = (PSRSSPrivateKey) privateKey;
         	encodedPrivateKey = psrssPrivateKey.getKey().toByteArray();
-        }   
+        }  */ 
         
         if (encodedPrivateKey == null) {
         	encodedPrivateKey = privateKey.getEncoded();

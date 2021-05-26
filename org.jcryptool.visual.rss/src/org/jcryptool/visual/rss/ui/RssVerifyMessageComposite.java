@@ -1,5 +1,7 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.io.FileNotFoundException;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.KeyPersistence;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 
 /**
@@ -38,6 +42,10 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
     private Label checkLabel;
 
     private final Composite inner;
+    
+    private final Button saveMessageButton;
+    private final Button loadMessageButton;
+    private final Button nextButton;
 
     public RssVerifyMessageComposite(RssBodyComposite body, RssAlgorithmController rac) {
         super(body, SWT.NONE);
@@ -91,13 +99,59 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         // checkLabel.setLayoutData(buttonGd);
         checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
 
-        Button nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.ContinueWithRedacting);
-        nextButton.addListener(SWT.Selection, new Listener() {
+        Button confirmButton = new Button(inner, SWT.PUSH);
+        confirmButton.setText(Descriptions.ContinueWithRedacting);
+        confirmButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 if (e.type == SWT.Selection) {
-                    body.setActiveRssComposite(ActiveRssBodyComposite.REDACT);
+                	nextButton.setEnabled(true);
+                	saveMessageButton.setEnabled(true);
                 }
+            }
+        });
+        
+        // Button to save key
+        saveMessageButton = new Button(inner, SWT.PUSH);
+        saveMessageButton.setText(Descriptions.SaveKey);
+        saveMessageButton.setEnabled(false);
+        saveMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+            	
+            	try {
+					KeyPersistence.saveMessage(rac.getSignOut(), "F:/tmp/test.xml");
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+               
+                
+            }
+        });
+        
+        // Button to load the key
+        loadMessageButton = new Button(inner, SWT.PUSH);
+        loadMessageButton.setText(Descriptions.LoadKey);
+        loadMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+
+				try {
+					rac.setSignOut(KeyPersistence.loadMessage("F:/tmp/test.xml"));
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+            	
+            	nextButton.setEnabled(true);
+            }
+        });
+        
+        // Next button
+        nextButton = new Button(inner, SWT.PUSH);
+        nextButton.setText(Descriptions.Next);
+        nextButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                body.setActiveRssComposite(ActiveRssBodyComposite.REDACT);
             }
         });
     }

@@ -1,5 +1,7 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.io.FileNotFoundException;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +19,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.KeyPersistence;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 
 /**
@@ -35,6 +39,7 @@ public class RssSetMessageComposite extends RssRightSideComposite {
     private final List<Label> addMessageLabelList;
     private final Button addMessageButton;
     private final Button confirmMessageButton;
+  
 
     public RssSetMessageComposite(RssBodyComposite body, RssAlgorithmController rac, int numberMessageParts,
             List<String> oldMessages) {
@@ -97,6 +102,8 @@ public class RssSetMessageComposite extends RssRightSideComposite {
                 }
             }
         });
+        
+      
     }
 
     public RssSetMessageComposite(RssBodyComposite body, RssAlgorithmController rac) {

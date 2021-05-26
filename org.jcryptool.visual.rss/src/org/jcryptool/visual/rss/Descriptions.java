@@ -45,6 +45,8 @@ public class Descriptions extends NLS {
     public static String NewMessage;
 	public static String AlgorithmSettings;
 	public static String SelectAlgorithmVariant;
+	public static String LoadKey;
+	public static String SaveKey;
     // SET_MESSAGE
     public static String SetMessages;
     public static String AddMessagePart;
@@ -96,6 +98,8 @@ public class Descriptions extends NLS {
     //Head
     public static String Title;
     public static String Description;
+
+
 
 
 
