@@ -26,9 +26,19 @@ import org.jcryptool.crypto.classic.model.algorithm.ClassicAlgorithmSpecificatio
  */
 public class XorAlgorithmSpecification extends ClassicAlgorithmSpecification {
 
+	public static int log2(int N)
+    {
+        return (int)(Math.log(N) / Math.log(2));
+    }
+
 	@Override
 	public boolean isValidPlainTextAlphabet(AbstractAlphabet alpha) {
-		return alpha.getName().toLowerCase().contains("xor");
+		int log2 = log2(alpha.getCharacterSet().length);
+		int supposedLen = (int) Math.round(Math.pow(2, log2));
+		if (supposedLen == alpha.getCharacterSet().length) {
+			return true; // alphabet is a power of 2
+		}
+		return false;
 	}
 	
 	

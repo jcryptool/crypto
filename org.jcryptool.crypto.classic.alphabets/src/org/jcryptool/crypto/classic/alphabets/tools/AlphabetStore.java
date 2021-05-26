@@ -247,6 +247,18 @@ public class AlphabetStore extends AbstractAlphabetStore {
                 Messages.AlphabetStore_alpha_adfgvx_long, Messages.AlphabetStore_alpha_adfgvx_short, AbstractAlphabet.NO_DISPLAY, true); 
         addInternAlphabet(adfgvxAlphabet);
 
+        // Xor with 8 (2^3)
+        char[] xor8 = "ABCDEFGH".toCharArray(); //$NON-NLS-1$
+        Alphabet xor8Alphabet = new Alphabet(xor8,
+                Messages.AlphabetStore_alpha_xor8_long, Messages.AlphabetStore_alpha_xor8_short, AbstractAlphabet.NO_DISPLAY, true); 
+        addInternAlphabet(xor8Alphabet);
+
+        // Xor with 16 (2^4)
+        char[] xor16 = "ABCDEFGHIJKLMNOP".toCharArray(); //$NON-NLS-1$
+        Alphabet xor16Alphabet = new Alphabet(xor16,
+                Messages.AlphabetStore_alpha_xor16_long, Messages.AlphabetStore_alpha_xor16_short, AbstractAlphabet.NO_DISPLAY, true); 
+        addInternAlphabet(xor16Alphabet);
+
         // Xor with 32 (2^5)
         char[] xor32 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345".toCharArray(); //$NON-NLS-1$
         Alphabet xor32Alphabet = new Alphabet(xor32,
@@ -274,6 +286,14 @@ public class AlphabetStore extends AbstractAlphabetStore {
 
         addInternAlphabet(shortAsciiAlphabet);
 
+        char[] set3 = new char[256];
+        for (int i=0; i<256; i++) {
+        	set3[i] = (char) i;
+        }
+        Alphabet ascii256Alphabet = new Alphabet(set3,
+                Messages.AlphabetStore_alpha_ascii256_long, Messages.AlphabetStore_alpha_ascii256_short, AbstractAlphabet.NO_DISPLAY, true); 
+
+
         char[] set2 = new char[52];
         for (int i = 65; i < 91; i++) {
             set2[i - 65] = (char) i;
@@ -281,6 +301,12 @@ public class AlphabetStore extends AbstractAlphabetStore {
         for (int i = 97; i < 123; i++) {
             set2[i - 71] = (char) i;
         }
+        
+        // TODO: not included for now, as the alphabet store, on JCT restart after the first start, won't load correctly.
+//        addInternAlphabet(ascii256Alphabet);
+        
+        
+        
 
         Alphabet characterAlphabet = new Alphabet(set2,
                 Messages.AlphabetStore_alpha_uplolatin_long, Messages.AlphabetStore_alpha_uplolatin_short, AbstractAlphabet.NO_DISPLAY, true); 

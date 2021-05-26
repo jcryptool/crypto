@@ -156,6 +156,26 @@ public class TransformationPreferenceSet {
     					true  // umlaut transformation activate flag
     					)
     			);
+    	result.put(org.jcryptool.crypto.classic.alphabets.tools.Messages.AlphabetStore_alpha_xor8_long,
+    			new TransformData(
+    					AlphabetsManager.getInstance().getAlphabetByName("Xor Alphabet with 8 characters"), //$NON-NLS-1$
+    					true, //(if "UPPERCASE" or "LOWERCASE" is selected as standard, if this transformation is activated) 
+    					true, // upper/lowercase transformation activate flag
+    					false, // delete-blanks-transformation activate flag
+    					false, // alphabet transformation activate flag
+    					true  // umlaut transformation activate flag
+    					)
+    			);
+    	result.put(org.jcryptool.crypto.classic.alphabets.tools.Messages.AlphabetStore_alpha_xor16_long,
+    			new TransformData(
+    					AlphabetsManager.getInstance().getAlphabetByName("Xor Alphabet with 16 characters"), //$NON-NLS-1$
+    					true, //(if "UPPERCASE" or "LOWERCASE" is selected as standard, if this transformation is activated) 
+    					true, // upper/lowercase transformation activate flag
+    					false, // delete-blanks-transformation activate flag
+    					false, // alphabet transformation activate flag
+    					true  // umlaut transformation activate flag
+    					)
+    			);
     	result.put(org.jcryptool.crypto.classic.alphabets.tools.Messages.AlphabetStore_alpha_xor32_long,
     			new TransformData(
     					AlphabetsManager.getInstance().getAlphabetByName("Xor Alphabet with 32 characters"), //$NON-NLS-1$
