@@ -1,6 +1,12 @@
-/*
- * @author Daniel Hofmann
- */
+// -----BEGIN DISCLAIMER-----
+/*******************************************************************************
+ * Copyright (c) 2014, 2021 JCrypTool Team and Contributors
+ *
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+// -----END DISCLAIMER-----
 package org.jcryptool.visual.errorcorrectingcodes.ui.widget;
 
 import java.util.ArrayList;
@@ -9,9 +15,13 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackListener;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.jcryptool.visual.errorcorrectingcodes.data.Matrix2D;
 
@@ -20,6 +30,7 @@ import org.jcryptool.visual.errorcorrectingcodes.data.Matrix2D;
  * modified by user input. It consists of a rows * columns grid of buttons that switch their value
  * from 1 to 0 on mouse click.
  * 
+ * @author Daniel Hofmann
  */
 public class InteractiveMatrix extends Composite {
 
@@ -75,6 +86,25 @@ public class InteractiveMatrix extends Composite {
                     setMatrixValues(e, (Point) btn.getData());
                     modified = true;
                 });
+                
+                // Change the mouse icon to a hand when over a button
+                btn.addMouseTrackListener(new MouseTrackListener() {
+					
+					@Override
+					public void mouseHover(MouseEvent e) {
+						
+					}
+					
+					@Override
+					public void mouseExit(MouseEvent e) {
+						Display.getCurrent().getActiveShell().setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_ARROW));
+					}
+					
+					@Override
+					public void mouseEnter(MouseEvent e) {
+						Display.getCurrent().getActiveShell().setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_HAND));
+					}
+				});
 
                 GridDataFactory.fillDefaults().applyTo(btn);
                 buttonGrid.add(btn);
