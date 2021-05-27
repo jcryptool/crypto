@@ -18,11 +18,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.KeyInformation;
 import org.jcryptool.visual.rss.algorithm.KeyPersistence;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.AlgorithmType;
-import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
@@ -112,12 +112,10 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         saveKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
             	
-            	Information keyInformation = rssController.getInformation();
+            	KeyInformation keyInformation = rssController.getInformation();
             	//byte[] publicKey = RssViewKeyComposite.getPublicKey(keyInformation.getKeyPair());
             	try {
-                	System.out.print(keyInformation.getKeyPair());
-
-					KeyPersistence.saveKeyPair(keyInformation.getKeyPair(), "F:/tmp/test.xml");
+					KeyPersistence.saveInformation(keyInformation, "F:/tmp/test.xml");
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -133,18 +131,18 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         loadKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
 
-            	KeyPair keyPair = null;
+            	KeyInformation keyInformation = null;
             	// Load the key
             	try {
-					keyPair = KeyPersistence.loadKeyPair("F:/tmp/test.xml");
+            		keyInformation = KeyPersistence.loadInformation("F:/tmp/test.xml");
 					//rssController.setKey(keyPair);
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-            
-            	System.out.print(keyPair);
             	
+            	rssController.setInformation(keyInformation);
+                        	
             	nextButton.setEnabled(true);
             }
         });

@@ -16,8 +16,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.KeyInformation;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
-import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPublicKey;
@@ -39,7 +39,7 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         Composite inner = new Composite(leftComposite, SWT.NONE);
         inner.setLayout(new GridLayout(2, false));
 
-        Information info = rac.getInformation();
+        KeyInformation info = rac.getInformation();
         if (info.getKeyType() != null) {
             Label l = new Label(inner, SWT.NONE);
             l.setText(Descriptions.KeyType + ": ");

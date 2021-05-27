@@ -42,8 +42,8 @@ public class RssAlgorithmController {
         return currentState;
     }
     
-    public Information getInformation() {
-        return new Information(keyType, keyLength, keyPair);
+    public KeyInformation getInformation() {
+        return new KeyInformation(keyType, keyLength, keyPair);
     }
     
     public List<String> getMessageParts() {
@@ -104,6 +104,14 @@ public class RssAlgorithmController {
             throw new IllegalArgumentException("There is no implementation for the given key type.");
         }
         currentState = State.KEY_SET;
+    }
+    
+    public void setInformation(KeyInformation information) {
+    	// TODO check input.
+    	this.keyLength = information.keyLength;
+    	this.keyPair = information.keyPair;
+    	this.keyType = information.keyType;
+    	currentState = State.KEY_SET;
     }
     
     public void setKey(KeyPair keyPair) {
@@ -395,26 +403,6 @@ public class RssAlgorithmController {
 		public static KeyLength getItem(String keyLength) {
 			return valueOf("KL_"+keyLength);
 		}
-    }
-    
-    public class Information {
-        private AlgorithmType keyType;
-        private KeyLength keyLength;
-        private KeyPair keyPair;
-        public Information(AlgorithmType keyType, KeyLength keyLength, KeyPair keyPair) {
-            this.keyType = keyType;
-            this.keyLength = keyLength;
-            this.keyPair = keyPair;
-        }
-        public AlgorithmType getKeyType() {
-            return keyType;
-        }
-        public KeyLength getKeyLength() {
-            return keyLength;
-        }
-        public KeyPair getKeyPair() {
-            return keyPair;
-        }
     }
 
 	public SignatureOutput getSignOut() {

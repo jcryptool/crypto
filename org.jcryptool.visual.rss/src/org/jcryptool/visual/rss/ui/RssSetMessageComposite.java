@@ -21,7 +21,6 @@ import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.KeyPersistence;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
-import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 
 /**

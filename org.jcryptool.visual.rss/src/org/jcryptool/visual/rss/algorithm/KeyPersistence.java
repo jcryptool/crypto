@@ -20,7 +20,6 @@ import java.util.Vector;
 
 import org.jcryptool.core.util.constants.IConstants;
 import org.jcryptool.visual.rss.Activator;
-import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -64,12 +63,8 @@ public class KeyPersistence {
 		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(path),
 		        Charset.forName(IConstants.UTF8_ENCODING));
 		
-		XStream xstream = new XStream(new DomDriver());
-		//xstream.registerConverter(new GLRSSPrivateKeyConverter());
-
+		XStream xstream = new XStream(new DomDriver());	
 		
-		
-				
 		xstream.toXML(keyPair, osw);
 		
 	}
@@ -78,16 +73,28 @@ public class KeyPersistence {
 		InputStreamReader isr = new InputStreamReader(new FileInputStream(path), Charset.forName(IConstants.UTF8_ENCODING));
 
 		XStream xstream = new XStream(new DomDriver());
-
-		//xstream.alias("GLRSSPrivateKey", GLRSSPrivateKey.class);
-		//xstream.setClassLoader(GLRSSPrivateKey.class.getClassLoader());
-		//xstream.registerConverter(new GLRSSPrivateKeyConverter());
-
-
-		//xstream.alias("MersaPrivateKey", de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPrivateKey.class);
-		//xstream.setClassLoader(de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPrivateKey.class.getClassLoader());
 		
 		KeyPair vector = (KeyPair)xstream.fromXML(isr);
+		return vector;
+	}
+	
+	
+	public static void saveInformation(KeyInformation keyPair, String path) throws FileNotFoundException {
+		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(path),
+		        Charset.forName(IConstants.UTF8_ENCODING));
+		
+		XStream xstream = new XStream(new DomDriver());	
+		
+		xstream.toXML(keyPair, osw);
+		
+	}
+	
+	public static KeyInformation loadInformation(String path) throws FileNotFoundException {
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(path), Charset.forName(IConstants.UTF8_ENCODING));
+
+		XStream xstream = new XStream(new DomDriver());
+		
+		KeyInformation vector = (KeyInformation)xstream.fromXML(isr);
 		return vector;
 	}
 	

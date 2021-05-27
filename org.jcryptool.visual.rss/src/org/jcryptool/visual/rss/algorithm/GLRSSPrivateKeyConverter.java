@@ -12,7 +12,6 @@ import java.util.Vector;
 
 import org.jcryptool.core.util.constants.IConstants;
 import org.jcryptool.visual.rss.Activator;
-import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Information;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.Converter;
