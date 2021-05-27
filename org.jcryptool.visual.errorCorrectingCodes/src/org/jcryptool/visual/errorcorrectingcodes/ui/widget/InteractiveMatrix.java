@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2014, 2021 JCrypTool Team and Contributors
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -11,14 +11,13 @@ package org.jcryptool.visual.errorcorrectingcodes.ui.widget;
 
 import java.util.ArrayList;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -39,9 +38,6 @@ public class InteractiveMatrix extends Composite {
     /** The button grid represented as a one-dimensional ArrayList. */
     private ArrayList<Button> buttonGrid;
     
-    /** Button to view and edit the matrix via text.*/
-    private Button btnEdit;
-    
     /** The modified flag, false by default */
     boolean modified;
 
@@ -54,7 +50,6 @@ public class InteractiveMatrix extends Composite {
 
     private Composite compControlButtons;
 
-    private MatrixEditDialog matrixEditDialog;
 
     /**
      * Instantiates a new interactive matrix.
@@ -70,10 +65,15 @@ public class InteractiveMatrix extends Composite {
         this.columns = columns;
         this.permutation = false;
         buttonGrid = new ArrayList<>();
+        
+        setLayout(new GridLayout());
        
         compMatrixElements = new Composite(this, SWT.NONE);
-        GridLayoutFactory.fillDefaults().numColumns(columns).applyTo(compMatrixElements);
-        GridDataFactory.fillDefaults().grab(true, true).applyTo(compMatrixElements);
+        GridLayout gl_compMatrixElements = new GridLayout(columns, false);
+        gl_compMatrixElements.marginHeight = 0;
+        gl_compMatrixElements.marginWidth = 0;
+        compMatrixElements.setLayout(gl_compMatrixElements);
+        compMatrixElements.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -106,26 +106,17 @@ public class InteractiveMatrix extends Composite {
 					}
 				});
 
-                GridDataFactory.fillDefaults().applyTo(btn);
                 buttonGrid.add(btn);
             }
         }
         
         compControlButtons = new Composite(this, SWT.NONE); 
-        GridLayoutFactory.fillDefaults().applyTo(compControlButtons);
-        GridDataFactory.fillDefaults().grab(true, true).applyTo(compControlButtons);
-
-        btnEdit = new Button(compControlButtons,SWT.NONE);
-        btnEdit.setText(Messages.InteractiveMatrix_1);
-        btnEdit.addListener(SWT.Selection, e -> {
-            matrixEditDialog = new MatrixEditDialog(this.getShell());
-            matrixEditDialog.setMatrix(matrix);
-            
-            if (matrixEditDialog.open() == Window.OK) {
-                this.setMatrix(matrixEditDialog.getMatrix());
-            }
-        });
         
+        GridLayout gl_compControlButtons = new GridLayout();
+        gl_compControlButtons.marginHeight = 0;
+        gl_compControlButtons.marginWidth = 0;
+        compControlButtons.setLayout(gl_compControlButtons);
+      
       
     }
 
