@@ -42,6 +42,14 @@ public class Messages extends NLS {
     public static String McElieceView_errorParamsTitle;
     public static String McElieceView_errorParams;
     public static String McElieceView_errorCipher;
+    
+    public static String McElieceView_errorEncryptionFailedTitle;
+    public static String McElieceView_errorEncryptionFailed;
+    public static String McElieceView_errorDecryptionFailedTitle;
+    public static String McElieceView_errorDecryptionFailed;
+    public static String McElieceView_errorNoParametersSelectedTitle;
+    public static String McElieceView_errorNoParametersSelected;
+    
     public static String McElieceView_btnDecrypt;
     public static String McElieceView_btnEncrypt;
     public static String McElieceView_btnFillKey;

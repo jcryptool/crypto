@@ -1,6 +1,5 @@
 package org.jcryptool.visual.errorcorrectingcodes.ui.views;
 
-import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
@@ -23,13 +22,10 @@ import org.jcryptool.visual.errorcorrectingcodes.ui.UIHelper;
 
 public class McElieceView extends Composite {
 
-//    private static final int _WHINT = 400;
-
     private McElieceCrypto mceCrypto;
 
     private Composite parent;
     private Composite mainComposite;
-    private Composite compButtons;
 
     private Group grpInput;
     private Group grpOutput;
@@ -156,18 +152,14 @@ public class McElieceView extends Composite {
         
         
 
-        compButtons = new Composite(mainComposite, SWT.NONE);
-        RowLayoutFactory.fillDefaults().applyTo(compButtons);
+//        compButtons = new Composite(mainComposite, SWT.NONE);
+//        RowLayoutFactory.fillDefaults().applyTo(compButtons);
         
 
 
-        btnEncrypt = new Button(compButtons, SWT.NONE);
-        btnEncrypt.setText(Messages.McElieceView_btnEncrypt);
-        btnEncrypt.addListener(SWT.Selection, e -> performEncryption());
+
         
-        btnDecrypt = new Button(compButtons, SWT.NONE);
-        btnDecrypt.setText(Messages.McElieceView_btnDecrypt);
-        btnDecrypt.addListener(SWT.Selection, e -> performDecryption());
+
 
         grpInput = new Group(mainComposite, SWT.NONE);
         grpInput.setText(Messages.McElieceView_grpInput);
@@ -175,6 +167,11 @@ public class McElieceView extends Composite {
         grpInput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         
         txtInput = UIHelper.mutltiLineText(grpInput, SWT.FILL, SWT.CENTER, 400, 5);
+        
+        btnEncrypt = new Button(grpInput, SWT.PUSH);
+        btnEncrypt.setText(Messages.McElieceView_btnEncrypt);
+        btnEncrypt.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
+        btnEncrypt.addListener(SWT.Selection, e -> performEncryption());
 
         grpOutput = new Group(mainComposite, SWT.NONE);
         grpOutput.setText(Messages.McElieceView_grpOutput);
@@ -182,10 +179,23 @@ public class McElieceView extends Composite {
         grpOutput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         
         txtOutput = UIHelper.mutltiLineText(grpOutput, SWT.FILL, SWT.CENTER, 400, 5);
+        
+        btnDecrypt = new Button(grpOutput, SWT.PUSH);
+        btnDecrypt.setText(Messages.McElieceView_btnDecrypt);
+        btnDecrypt.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
+        btnDecrypt.addListener(SWT.Selection, e -> performDecryption());
 
     }
 
     private void generateKeys() {
+    	if (comboValueM.getText().isEmpty() || txtValueT.getText().isEmpty()) {
+    		MessageBox keyErrorDialog = new MessageBox(parent.getShell(), SWT.ERROR);
+    		keyErrorDialog.setText(Messages.McElieceView_errorNoParametersSelectedTitle);
+    		keyErrorDialog.setMessage(Messages.McElieceView_errorNoParametersSelected);
+    		keyErrorDialog.open();
+    		return;
+    	}
+    	
         if (updateParams() != 0) {
             comboValueM.setText(String.valueOf(mceCrypto.getM()));
             txtValueT.setText(String.valueOf(mceCrypto.getT()));
@@ -196,16 +206,22 @@ public class McElieceView extends Composite {
     }
 
     private int updateParams() {
-        int m = comboValueM.getText().equals("") ? 0 : Integer.valueOf(comboValueM.getText()); //$NON-NLS-1$
-        int t = txtValueT.getText().equals("") ? 0 : Integer.valueOf(txtValueT.getText()); //$NON-NLS-1$
+    	
+    	// This code seems to set default parameters
+    	// It was moved to the GUI
+//        int m = comboValueM.getText().equals("") ? 0 : Integer.valueOf(comboValueM.getText()); //$NON-NLS-1$
+//        int t = txtValueT.getText().equals("") ? 0 : Integer.valueOf(txtValueT.getText()); //$NON-NLS-1$
+//
+//        if (m == 0) {
+//            m = 12;
+//        }
+//        if (t == 0) {
+//            t = 12;
+//        }
 
-        if (m == 0) {
-            m = 12;
-        }
-        if (t == 0) {
-            t = 12;
-        }
-
+    	int m = Integer.valueOf(comboValueM.getText());
+    	int t = Integer.valueOf(txtValueT.getText());
+    	
         try {
             mceCrypto.setKeyParams(m, t);
         } catch (Exception ex) {
@@ -222,6 +238,14 @@ public class McElieceView extends Composite {
     }
 
     private void performDecryption() {
+    	
+    	if (comboValueM.getText().isEmpty() || txtValueT.getText().isEmpty()) {
+    		MessageBox keyErrorDialog = new MessageBox(parent.getShell(), SWT.ERROR);
+    		keyErrorDialog.setText(Messages.McElieceView_errorEncryptionFailedTitle);
+    		keyErrorDialog.setMessage(Messages.McElieceView_errorEncryptionFailed);
+    		keyErrorDialog.open();
+    		return;
+    	}
 
         if (Integer.valueOf(comboValueM.getText()) != mceCrypto.getM()
                 || Integer.valueOf(txtValueT.getText()) != mceCrypto.getT()) {
@@ -240,6 +264,13 @@ public class McElieceView extends Composite {
     }
 
     private void performEncryption() {
+    	if (comboValueM.getText().isEmpty() || txtValueT.getText().isEmpty()) {
+    		MessageBox keyErrorDialog = new MessageBox(parent.getShell(), SWT.ERROR);
+    		keyErrorDialog.setText(Messages.McElieceView_errorDecryptionFailedTitle);
+    		keyErrorDialog.setMessage(Messages.McElieceView_errorDecryptionFailed);
+    		keyErrorDialog.open();
+    		return;
+    	}
         if (Integer.valueOf(comboValueM.getText()) != mceCrypto.getM()
                 || Integer.valueOf(txtValueT.getText()) != mceCrypto.getT()) {
             updateParams();
