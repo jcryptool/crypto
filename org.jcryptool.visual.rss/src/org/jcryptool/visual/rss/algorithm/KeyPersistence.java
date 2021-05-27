@@ -65,7 +65,7 @@ public class KeyPersistence {
 		        Charset.forName(IConstants.UTF8_ENCODING));
 		
 		XStream xstream = new XStream(new DomDriver());
-		xstream.registerConverter(new GLRSSPrivateKeyConverter());
+		//xstream.registerConverter(new GLRSSPrivateKeyConverter());
 
 		
 		
@@ -81,7 +81,7 @@ public class KeyPersistence {
 
 		//xstream.alias("GLRSSPrivateKey", GLRSSPrivateKey.class);
 		//xstream.setClassLoader(GLRSSPrivateKey.class.getClassLoader());
-		xstream.registerConverter(new GLRSSPrivateKeyConverter());
+		//xstream.registerConverter(new GLRSSPrivateKeyConverter());
 
 
 		//xstream.alias("MersaPrivateKey", de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPrivateKey.class);

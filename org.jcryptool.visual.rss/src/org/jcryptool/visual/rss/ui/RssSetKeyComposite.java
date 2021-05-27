@@ -115,19 +115,13 @@ public class RssSetKeyComposite extends RssRightSideComposite {
             	Information keyInformation = rssController.getInformation();
             	//byte[] publicKey = RssViewKeyComposite.getPublicKey(keyInformation.getKeyPair());
             	try {
-                	System.out.print(keyInformation.getKeyPair().getPrivate());
+                	System.out.print(keyInformation.getKeyPair());
 
-					KeyPersistence.savePrivateKey(keyInformation.getKeyPair().getPrivate(), "F:/tmp/test.xml");
+					KeyPersistence.saveKeyPair(keyInformation.getKeyPair(), "F:/tmp/test.xml");
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} catch (InvalidKeySpecException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (NoSuchAlgorithmException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				} 
                
                 
             }
@@ -139,18 +133,12 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         loadKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
 
-            	PrivateKey keyPair = null;
+            	KeyPair keyPair = null;
             	// Load the key
             	try {
-					keyPair = KeyPersistence.loadPrivateKey("F:/tmp/test.xml");
+					keyPair = KeyPersistence.loadKeyPair("F:/tmp/test.xml");
 					//rssController.setKey(keyPair);
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (NoSuchAlgorithmException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InvalidKeySpecException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
