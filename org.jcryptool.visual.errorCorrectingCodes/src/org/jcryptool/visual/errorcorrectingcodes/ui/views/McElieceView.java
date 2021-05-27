@@ -16,6 +16,7 @@ import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.units.DefaultByteFormatter;
 import org.jcryptool.core.util.units.DefaultByteFormatter.BaseUnit;
+import org.jcryptool.visual.errorcorrectingcodes.EccPlugin;
 import org.jcryptool.visual.errorcorrectingcodes.algorithm.McElieceCrypto;
 import org.jcryptool.visual.errorcorrectingcodes.ui.Messages;
 import org.jcryptool.visual.errorcorrectingcodes.ui.UIHelper;
@@ -147,18 +148,6 @@ public class McElieceView extends Composite {
         gd_txtPublicKey.widthHint = 120;
         txtPublicKey.setLayoutData(gd_txtPublicKey);
         txtPublicKey.setForeground(ColorService.GRAY);
-  
-        
-        
-        
-
-//        compButtons = new Composite(mainComposite, SWT.NONE);
-//        RowLayoutFactory.fillDefaults().applyTo(compButtons);
-        
-
-
-
-        
 
 
         grpInput = new Group(mainComposite, SWT.NONE);
@@ -206,18 +195,6 @@ public class McElieceView extends Composite {
     }
 
     private int updateParams() {
-    	
-    	// This code seems to set default parameters
-    	// It was moved to the GUI
-//        int m = comboValueM.getText().equals("") ? 0 : Integer.valueOf(comboValueM.getText()); //$NON-NLS-1$
-//        int t = txtValueT.getText().equals("") ? 0 : Integer.valueOf(txtValueT.getText()); //$NON-NLS-1$
-//
-//        if (m == 0) {
-//            m = 12;
-//        }
-//        if (t == 0) {
-//            t = 12;
-//        }
 
     	int m = Integer.valueOf(comboValueM.getText());
     	int t = Integer.valueOf(txtValueT.getText());
@@ -256,10 +233,7 @@ public class McElieceView extends Composite {
             mceCrypto.decrypt(txtOutput.getText());
             txtInput.setText(mceCrypto.getClearText());
         } catch (Exception e) {
-            LogUtil.logError(e);
-            MessageBox invalidCipherDialog = new MessageBox(parent.getShell(), SWT.ERROR);
-            invalidCipherDialog.setMessage(Messages.McElieceView_errorCipher);
-            invalidCipherDialog.open();
+            LogUtil.logError(EccPlugin.PLUGIN_ID, Messages.McElieceView_errorCipher, e, true);
         }
     }
 
