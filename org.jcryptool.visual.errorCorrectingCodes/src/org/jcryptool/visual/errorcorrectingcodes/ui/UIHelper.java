@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jcryptool.core.util.fonts.FontService;
@@ -56,13 +57,13 @@ public class UIHelper {
         int border = readonly ? 0 : SWT.BORDER;
         StyledText text = new StyledText(p, read_only | border | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
         text.setAlwaysShowScrollBars(false);
-        text.setMargins(2, 2, 4, 2);
+//        text.setMargins(2, 2, 4, 2);
         if (font != null)
             text.setFont(font);
         if (readonly)
             text.setBackground(p.getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-        Point hint = new Point(width, lines * (text.getLineHeight())+4);
+        Point hint = new Point(width, lines * (text.getLineHeight()) + 4);
         GridDataFactory.fillDefaults().align(hAlign, vAlign).grab(true, true).hint(hint).applyTo(text);
         return text;
     }
@@ -85,7 +86,7 @@ public class UIHelper {
     }
 
     public static StyledText codeText(Composite p, int hAlign, int vAlign) {
-        StyledText st = mutltiLineText(p, hAlign, vAlign, SWT.DEFAULT, 5, FontService.getLargeFont(),true);
+        StyledText st = mutltiLineText(p, hAlign, vAlign, SWT.DEFAULT, 5, FontService.getNormalMonospacedFont(), true);
         return st;
     }
 

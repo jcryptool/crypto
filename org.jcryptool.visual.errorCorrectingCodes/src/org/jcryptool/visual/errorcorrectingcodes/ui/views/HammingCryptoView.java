@@ -6,13 +6,10 @@ import static org.jcryptool.visual.errorcorrectingcodes.ui.UIHelper.matrixText;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.typed.BeanProperties;
 import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -40,17 +37,12 @@ import org.jcryptool.visual.errorcorrectingcodes.ui.widget.InteractiveMatrix;
  */
 public class HammingCryptoView extends Composite {
 
-    private static final int _WHINT = 400;
     private HammingData data;
     private HammingCrypto mce;
     private DataBindingContext dbc;
 
     private Composite parent;
     private Composite mainComposite;
-    private Composite compHead;
-    private Composite compInfoText;
-    private Composite compPrivateKeyData;
-    private Composite compPrivateKeyButton;
     private Composite compInverseMatrices;
     private Group grpDecryption;
     private Group grpPrivateKey;
@@ -79,154 +71,160 @@ public class HammingCryptoView extends Composite {
     private Button btnNextStep;
     private Button btnPrev;
     private Button btnGeneratePrivateKey;
-    private Label lblHeader;
     private Label lblMatrixG;
     private Label lblMatrixS;
     private Label lblMatrixP;
     private Label lblMatrixGSP;
     private Label lblMatrixSInverse;
     private Label lblMatrixPInverse;
-    private StyledText textInfoHead;
-    private Button btnMatrixSEdit;
 
     public HammingCryptoView(Composite parent, int style) {
         super(parent, style);
         data = new HammingData();
         mce = new HammingCrypto(data);
         this.parent = parent;
-        Point margins = new Point(5, 5);
-        GridLayoutFactory glf = GridLayoutFactory.fillDefaults().margins(margins);
-        GridDataFactory gdf = GridDataFactory.fillDefaults().grab(true, false);
-        
-        glf.applyTo(this);
-        gdf.applyTo(this);
+        setLayout(new GridLayout());
 
         TitleAndDescriptionComposite header = new TitleAndDescriptionComposite(this);
         header.setTitle(Messages.HammingCryptoView_lblHeader);
         header.setDescription(Messages.HammingCryptoView_textHeader);
-        header.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-//        compHead = new Composite(this, SWT.NONE);
-//        glf.applyTo(compHead);
-//        gdf.applyTo(compHead);
-//        lblHeader = new Label(compHead, SWT.NONE);
-//        lblHeader.setFont(FontService.getHeaderFont());
-//        lblHeader.setText(Messages.HammingCryptoView_lblHeader);
-//        textInfoHead = new StyledText(compHead,SWT.READ_ONLY | SWT.WRAP);
-//        textInfoHead.setText(Messages.HammingCryptoView_textHeader);
-//        GridDataFactory.fillDefaults().grab(true, false).hint(_WHINT, SWT.DEFAULT).applyTo(textInfoHead);
+        header.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
         
         mainComposite = new Composite(this, SWT.NONE);
-        GridLayoutFactory.fillDefaults().margins(margins).numColumns(2).spacing(40, SWT.DEFAULT).equalWidth(true)
-                .applyTo(mainComposite);
-        gdf.applyTo(mainComposite);
-
+        GridLayout gl_mainComposite = new GridLayout(2, true);
+        mainComposite.setLayout(gl_mainComposite);
+        mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        
         grpDecryption = new Group(mainComposite, SWT.NONE);
-        glf.applyTo(grpDecryption);
-        gdf.applyTo(grpDecryption);
         grpDecryption.setText(Messages.HammingCryptoView_grpDecryption);
+        grpDecryption.setLayout(new GridLayout(1, false));
+        grpDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        
 
         grpPrivateKey = new Group(grpDecryption, SWT.NONE);
         grpPrivateKey.setText(Messages.HammingCryptoView_grpPrivateKey);
-        glf.applyTo(grpPrivateKey);
-        GridDataFactory.fillDefaults().applyTo(grpPrivateKey);
-        compPrivateKeyButton = new Composite(grpPrivateKey, SWT.NONE);
-        RowLayoutFactory.fillDefaults().applyTo(compPrivateKeyButton);
-        btnGeneratePrivateKey = new Button(compPrivateKeyButton, SWT.NONE);
+        GridLayout gl_grpPrivateKey = new GridLayout(6, false);
+        gl_grpPrivateKey.horizontalSpacing = 20;
+        grpPrivateKey.setLayout(gl_grpPrivateKey);
+        grpPrivateKey.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+        // The "Generate" Button uses the top 6 rows.
+        btnGeneratePrivateKey = new Button(grpPrivateKey, SWT.NONE);
         btnGeneratePrivateKey.setText(Messages.HammingCryptoView_btnGeneratePrivateKey);
+        btnGeneratePrivateKey.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 6, 1));
         btnGeneratePrivateKey.addListener(SWT.Selection, e -> generateKey(true));
 
-        compPrivateKeyData = new Composite(grpPrivateKey, SWT.NONE);
-        GridLayoutFactory.fillDefaults().numColumns(6).spacing(20, SWT.DEFAULT).margins(margins)
-                .applyTo(compPrivateKeyData);
-        gdf.applyTo(compPrivateKeyData);
-        lblMatrixG = new Label(compPrivateKeyData, SWT.NONE);
+        lblMatrixG = new Label(grpPrivateKey, SWT.NONE);
         lblMatrixG.setText("G = "); //$NON-NLS-1$
-        GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(lblMatrixG);
-        textMatrixG = matrixText(compPrivateKeyData, SWT.LEFT, SWT.CENTER, 7, 4);
-        lblMatrixS = new Label(compPrivateKeyData, SWT.NONE);
+        lblMatrixG.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true));
+        
+        textMatrixG = matrixText(grpPrivateKey, SWT.LEFT, SWT.CENTER, 7, 4);
+        // overwrite the layout data set in matrixText. It causes the styledText
+        // to push the interactive matrixes to the right border of grpPrivateKey
+        textMatrixG.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true));
+        
+        lblMatrixS = new Label(grpPrivateKey, SWT.NONE);
         lblMatrixS.setText("S = "); //$NON-NLS-1$
-        GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(lblMatrixS);
-        compMatrixS = new InteractiveMatrix(compPrivateKeyData, 4, 4);
-        glf.applyTo(compMatrixS);
-        GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(compMatrixS);
-        lblMatrixP = new Label(compPrivateKeyData, SWT.NONE);
+        lblMatrixS.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
+        
+        compMatrixS = new InteractiveMatrix(grpPrivateKey, 4, 4);
+
+        lblMatrixP = new Label(grpPrivateKey, SWT.NONE);
         lblMatrixP.setText("P = "); //$NON-NLS-1$
-        GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(lblMatrixP);
-        compMatrixP = new InteractiveMatrix(compPrivateKeyData, 7, 7);
+        lblMatrixP.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true));
+        
+        compMatrixP = new InteractiveMatrix(grpPrivateKey, 7, 7);
         compMatrixP.setPermutation(true);
-        glf.applyTo(compMatrixP);
-        GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(compMatrixP);
 
         compInverseMatrices = new Composite(grpDecryption, SWT.NONE);
-        glf.numColumns(4).applyTo(compInverseMatrices);
+        GridLayout gl_compInverseMatrices = new GridLayout(4, false);
+        // 20 pixel horizontal spacing between components in group.
+        gl_compInverseMatrices.horizontalSpacing = 20;
+        compInverseMatrices.setLayout(gl_compInverseMatrices);
+        compInverseMatrices.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+        
         lblMatrixSInverse = new Label(compInverseMatrices, SWT.NONE);
         lblMatrixSInverse.setText("S' = "); //$NON-NLS-1$
-        GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(lblMatrixSInverse);
+        
         textMatrixSInverse = matrixText(compInverseMatrices, SWT.LEFT, SWT.CENTER, 4, 4);
+        
         lblMatrixPInverse = new Label(compInverseMatrices, SWT.NONE);
         lblMatrixPInverse.setText("P' = "); //$NON-NLS-1$
-        GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(lblMatrixPInverse);
+        lblMatrixPInverse.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true));
+        
         textMatrixPInverse = matrixText(compInverseMatrices, SWT.LEFT, SWT.CENTER, 7, 7);
-        gdf.applyTo(compInverseMatrices);
 
         grpOutput = new Group(grpDecryption, SWT.NONE);
-        glf.numColumns(1).applyTo(grpOutput);
-        gdf.applyTo(grpOutput);
+        grpOutput.setLayout(new GridLayout());
         grpOutput.setText(Messages.HammingCryptoView_lblOutput);
-        textDecoded = codeText(grpOutput, SWT.FILL, SWT.TOP);
-        textOutput = new Text(grpOutput, SWT.NONE);
-        gdf.applyTo(textOutput);
+        grpOutput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        
+        textDecoded = UIHelper.mutltiLineText(grpOutput, SWT.FILL, SWT.TOP, 400, 1, FontService.getNormalMonospacedFont(), true);
+        
+        textOutput = new Text(grpOutput, SWT.BORDER);
+        textOutput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 
         grpEncryption = new Group(mainComposite, SWT.NONE);
         grpEncryption.setText(Messages.HammingCryptoView_grpEncryption);
-        glf.numColumns(1).applyTo(grpEncryption);
-        gdf.applyTo(grpEncryption);
+        grpEncryption.setLayout(new GridLayout());
+        grpEncryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         grpInputStep = new Group(grpEncryption, SWT.NONE);
-        glf.applyTo(grpInputStep);
-        gdf.applyTo(grpInputStep);
         grpInputStep.setText(Messages.HammingCryptoView_lblTextOriginal);
+        grpInputStep.setLayout(new GridLayout());
+        grpInputStep.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        
         textInput = new Text(grpInputStep, SWT.BORDER);
-        GridDataFactory.fillDefaults().grab(true, false).applyTo(textInput);
         textInput.addListener(SWT.FocusOut, e -> updateVector());
+        textInput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        
+        
         textAsBinary = codeText(grpInputStep, SWT.FILL, SWT.TOP);
-        gdf.applyTo(textAsBinary);
+        GridData gd_textAsBinary = new GridData(SWT.FILL, SWT.FILL, true, false);
+        gd_textAsBinary.widthHint = 400;
+        textAsBinary.setLayoutData(gd_textAsBinary);
 
         grpPublicKey = new Group(grpEncryption, SWT.NONE);
-        glf.numColumns(2).applyTo(grpPublicKey);
-        GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.TOP).applyTo(grpPublicKey);
         grpPublicKey.setText(Messages.HammingCryptoView_grpPublicKey);
+        grpPublicKey.setLayout(new GridLayout(2, false));
+        
         lblMatrixGSP = new Label(grpPublicKey, SWT.NONE);
         lblMatrixGSP.setText("G' = SGP = "); //$NON-NLS-1$
-        GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).applyTo(lblMatrixGSP);
+        
         textMatrixGSP = matrixText(grpPublicKey, SWT.LEFT, SWT.CENTER, 7, 4);
 
         grpCiphertext = new Group(grpEncryption, SWT.NONE);
-        glf.numColumns(1).applyTo(grpCiphertext);
-        gdf.applyTo(grpCiphertext);
+        grpCiphertext.setLayout(new GridLayout());
+        grpCiphertext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         grpCiphertext.setText(Messages.HammingCryptoView_lblEncrypt);
-        textEncrypted = codeText(grpCiphertext, SWT.FILL, SWT.BOTTOM);
+        
+        
+        textEncrypted = UIHelper.mutltiLineText(grpCiphertext, SWT.FILL, SWT.FILL, 400, 5, FontService.getNormalMonospacedFont(), true);
 
-        compInfoText = new Composite(grpEncryption, SWT.NONE);
-        glf.applyTo(compInfoText);
-        GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).grab(true, true).hint(_WHINT, SWT.DEFAULT).applyTo(compInfoText);
-
-        grpControlButtons = new Group(compInfoText, SWT.NONE);
-        RowLayoutFactory.fillDefaults().pack(false).spacing(10).applyTo(grpControlButtons);
+        grpControlButtons = new Group(grpEncryption, SWT.NONE);
+        grpControlButtons.setLayout(new GridLayout(3, false));
+        
+        
         btnPrev = new Button(grpControlButtons, SWT.NONE);
         btnPrev.setText(Messages.GeneralEccView_btnPrev);
         btnPrev.addListener(SWT.Selection, e -> prevStep());
+        
         btnNextStep = new Button(grpControlButtons, SWT.NONE);
         btnNextStep.setText(Messages.GeneralEccView_btnNextStep);
         btnNextStep.addListener(SWT.Selection, e -> nextStep());
+        
         btnReset = new Button(grpControlButtons, SWT.NONE);
         btnReset.setText(Messages.GeneralEccView_btnReset);
         btnReset.addListener(SWT.Selection, e -> initView());
-        grpTextInfo = new Group(compInfoText, SWT.NONE);
-        glf.applyTo(grpTextInfo);
-        gdf.applyTo(grpTextInfo);
+        
+        
+        grpTextInfo = new Group(grpEncryption, SWT.NONE);
+        grpTextInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        grpTextInfo.setLayout(new GridLayout());
         grpTextInfo.setText(Messages.HammingCryptoView_grpTextInfo);
-        textInfo = UIHelper.mutltiLineText(grpTextInfo, SWT.FILL, SWT.FILL, SWT.DEFAULT, 6, null, true);
+        
+        textInfo = UIHelper.mutltiLineText(grpTextInfo, SWT.FILL, SWT.FILL, 400, 6, null, true);
 
         bindValues();
         initView();
@@ -243,7 +241,7 @@ public class HammingCryptoView extends Composite {
      */
     private void initView() {
         resetKeys();
-        textInput.setText("password"); //$NON-NLS-1$
+        textInput.setText("Hallo"); //$NON-NLS-1$
         textInfo.setText(Messages.HammingCryptoView_step1);
         updateVector();
         btnPrev.setEnabled(false);
