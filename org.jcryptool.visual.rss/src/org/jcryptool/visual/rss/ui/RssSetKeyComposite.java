@@ -4,7 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.spec.InvalidKeySpecException;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -113,8 +115,16 @@ public class RssSetKeyComposite extends RssRightSideComposite {
             	Information keyInformation = rssController.getInformation();
             	//byte[] publicKey = RssViewKeyComposite.getPublicKey(keyInformation.getKeyPair());
             	try {
-					KeyPersistence.saveKey(keyInformation.getKeyPair().getPrivate(), "F:/tmp/test.xml");
+                	System.out.print(keyInformation.getKeyPair().getPrivate());
+
+					KeyPersistence.savePrivateKey(keyInformation.getKeyPair().getPrivate(), "F:/tmp/test.xml");
 				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidKeySpecException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoSuchAlgorithmException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -129,14 +139,23 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         loadKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
 
+            	PrivateKey keyPair = null;
             	// Load the key
             	try {
-					PrivateKey keyPair = KeyPersistence.loadKey("F:/tmp/test.xml");
+					keyPair = KeyPersistence.loadPrivateKey("F:/tmp/test.xml");
 					//rssController.setKey(keyPair);
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidKeySpecException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+            
+            	System.out.print(keyPair);
             	
             	nextButton.setEnabled(true);
             }
