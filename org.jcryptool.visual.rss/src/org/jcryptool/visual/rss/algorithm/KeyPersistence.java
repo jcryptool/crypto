@@ -124,6 +124,7 @@ public class KeyPersistence {
 		xstream.alias("GLRSSPrivateKey", GLRSSPrivateKey.class);
 		xstream.alias("GSRSSPrivateKey", GSRSSPrivateKey.class);
 		xstream.alias("KeyRep", KeyRep.class);
+		xstream.alias("RSAPrivateKeySpec", RSAPrivateKeySpec.class);
 		
 		
 		
@@ -131,7 +132,7 @@ public class KeyPersistence {
 
 
 		//xstream.registerConverter(new GLRSSPrivateKeyConverter());
-		xstream.registerConverter(new RSAPrivateKeySpecConverter());
+		//xstream.registerConverter(new RSAPrivateKeySpecConverter());
 
 
 
