@@ -117,7 +117,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         
         // Button to save the message
         saveMessageButton = new Button(inner, SWT.PUSH);
-        saveMessageButton.setText(Descriptions.SaveKey);
+        saveMessageButton.setText(Descriptions.LoadMessage);
         saveMessageButton.setEnabled(false);
         saveMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
@@ -148,7 +148,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         
         // Button to load the message
         loadMessageButton = new Button(inner, SWT.PUSH);
-        loadMessageButton.setText(Descriptions.LoadKey);
+        loadMessageButton.setText(Descriptions.SaveMessage);
         loadMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
             	boolean loadingSuccessfully = false;

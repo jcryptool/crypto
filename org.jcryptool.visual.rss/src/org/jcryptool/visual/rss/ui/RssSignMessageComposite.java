@@ -1,5 +1,7 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.io.FileNotFoundException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,9 +11,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
@@ -29,6 +34,11 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 
     private final ArrayList<String> messageList;
     private final ArrayList<Button> buttonList;
+    
+    private final Button saveMessageButton;
+    private final Button loadMessageButton;
+    private final Button nextButton;
+    private final Button signMessageButton;
 
     public RssSignMessageComposite(RssBodyComposite body, final RssAlgorithmController rac) {
         super(body, SWT.NULL);
@@ -81,7 +91,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
             
             buttonList.add(redactingAllowedCheckbox);
         }
-        Button signMessageButton = new Button(inner, SWT.PUSH);
+        signMessageButton = new Button(inner, SWT.PUSH);
         signMessageButton.setText(Descriptions.SignMessage);
 
         signMessageButton.addListener(SWT.Selection, new Listener() {
@@ -95,11 +105,111 @@ public class RssSignMessageComposite extends RssRightSideComposite {
                         buttonList.get(i).setEnabled(false);
                     }
                     rac.signMessage(redactableParts);
-                    body.lightPath();
-                    body.lightDataBox(DataType.MESSAGE);
-                    body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
+                   
+                    // Change active buttons
+                    nextButton.setEnabled(true);
+                    saveMessageButton.setEnabled(true);
+                    
+                    // Change visual
+		           	body.lightPath();
+		            body.lightDataBox(DataType.MESSAGE);
+                    
                     break;
                 }
+            }
+        });
+        
+        nextButton = new Button(inner, SWT.PUSH);
+        nextButton.setText(Descriptions.Next);
+        nextButton.setEnabled(false);
+        nextButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                 body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
+            }
+        });
+            
+        
+        // Button to save the message
+        saveMessageButton = new Button(inner, SWT.PUSH);
+        saveMessageButton.setText(Descriptions.SaveMessage);
+        saveMessageButton.setEnabled(false);
+        saveMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+
+            	// Open a dialog to get location for key file storage.
+				FileDialog messageStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				messageStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				messageStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				messageStoreDialog.setFileName("signed-message.xml");
+				messageStoreDialog.setOverwrite(true);
+				String messageStorePath = messageStoreDialog.open();
+            	
+				// messageStorePath might be null in case the dialog was closed
+				if(messageStorePath != null && !messageStorePath.equals("")) {
+					
+					// Save the key 
+					try {
+						rac.saveMessage(messageStorePath);
+					} catch (FileNotFoundException e1) {
+						
+						// Open a error message dialog
+						MessageBox dialog =
+						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+						dialog.setText("Failed to store key!");
+						dialog.setMessage("There was an error while trying to store the message. Please try again.");
+						dialog.open();				
+					}       
+				}
+            }
+        });
+        
+        // Button to load the message
+        loadMessageButton = new Button(inner, SWT.PUSH);
+        loadMessageButton.setText(Descriptions.LoadMessage);
+        loadMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+            	boolean loadingSuccessfully = false;
+            	
+            	// Open a dialog to get the message store location.
+				FileDialog fileOpenDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
+				fileOpenDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				fileOpenDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				String messageStorePath = fileOpenDialog.open();
+            	
+				// Load the key in case a path was selected
+				if(messageStorePath != null && !messageStorePath.equals("")) {
+					try {
+						loadingSuccessfully = rac.loadMessage(messageStorePath);
+					} catch (FileNotFoundException e1) {
+						
+						// Open a error message dialog
+						MessageBox dialog =
+						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+						dialog.setText("Failed to load key!");
+						dialog.setMessage("There was an error while trying to load the key. Please try again.");
+						dialog.open();				
+					} catch (NoSuchAlgorithmException e1) {
+						
+						// Open a error message dialog
+						MessageBox dialog =
+						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+						dialog.setText("Failed to load key!");
+						dialog.setMessage("The given input is no valid key or is not supported by this visualisation.");
+						dialog.open();	
+					} 
+				
+					if(loadingSuccessfully) {
+						
+						// Change active buttons
+						nextButton.setEnabled(true);
+	                	saveMessageButton.setEnabled(true);
+	                	signMessageButton.setEnabled(false);
+	                	
+	                    // Change visual
+			           	body.lightPath();
+			            body.lightDataBox(DataType.MESSAGE);
+					}		
+				}
             }
         });
 

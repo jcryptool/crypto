@@ -124,18 +124,22 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 				fileStoreDialog.setOverwrite(true);
 				String keyStorePath = fileStoreDialog.open();
             	
-				// Save the key 
-				try {
-					rssController.saveKey(keyStorePath);
-				} catch (FileNotFoundException e1) {
+				// keyStorePath might be null in case the dialog was closed
+				if(keyStorePath != null && !keyStorePath.equals("")) {
 					
-					// Open a error message dialog
-					MessageBox dialog =
-					    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-					dialog.setText("Failed to store key!");
-					dialog.setMessage("There was an error while trying to store the key. Please try again.");
-					dialog.open();				
-				}             
+					// Save the key 
+					try {
+						rssController.saveKey(keyStorePath);
+					} catch (FileNotFoundException e1) {
+						
+						// Open a error message dialog
+						MessageBox dialog =
+						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+						dialog.setText("Failed to store key!");
+						dialog.setMessage("There was an error while trying to store the key. Please try again.");
+						dialog.open();				
+					}            
+				}
             }
         });
         
@@ -198,6 +202,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         // Next button
         nextButton = new Button(inner, SWT.PUSH);
         nextButton.setText(Descriptions.Next);
+        nextButton.setEnabled(false);
         nextButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 body.setActiveRssComposite(ActiveRssBodyComposite.SET_MESSAGE);

@@ -59,6 +59,8 @@ public class Descriptions extends NLS {
     public static String SelectFixedParts;
     public static String SelectPartsInfoText;
     public static String SignMessage;
+    public static String LoadMessage;
+    public static String SaveMessage;
     // VERIFY_MESSAGE
     public static String VerifyMessage;
     public static String VerifyMessageInfoText;
@@ -98,6 +100,8 @@ public class Descriptions extends NLS {
     //Head
     public static String Title;
     public static String Description;
+
+	
 
 
 

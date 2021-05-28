@@ -414,10 +414,21 @@ public class RssAlgorithmController {
 		return signOut;
 	}
 
-	public void setSignOut(SignatureOutput signOut) {
+	private void setSignOut(SignatureOutput signOut) {
 		this.signOut = signOut;
 		
+		// TODO: Set messageParts
+		
+		// TODO: Set redactableParts!
+		redactableParts = new ArrayList<>();
+		redactableParts.add(true);
+		redactableParts.add(true);
+		
+		currentState = State.MESSAGE_SIGNED;
+		
 	}
+	
+	// TODO: Add wrong state exceptions in the following
 
 	/**
 	 * Saves the key information to the given file path.
@@ -482,7 +493,7 @@ public class RssAlgorithmController {
 		SignatureOutput message = KeyPersistence.loadMessage(path);
 		
 		if(message != null) {
-			this.signOut = message;
+			setSignOut(signOut);
 		}
 		
 		return message != null;
