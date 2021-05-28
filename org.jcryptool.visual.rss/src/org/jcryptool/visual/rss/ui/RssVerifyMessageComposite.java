@@ -117,7 +117,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
             public void handleEvent(Event e) {
             	
             	try {
-					KeyPersistence.saveMessage(rac.getSignOut(), "F:/tmp/test.xml");
+					KeyPersistence.saveMessage(rac.getSignOut(), "F:/tmp/test2.xml");
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -134,7 +134,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
             public void handleEvent(Event e) {
 
 				try {
-					rac.setSignOut(KeyPersistence.loadMessage("F:/tmp/test.xml"));
+					rac.setSignOut(KeyPersistence.loadMessage("F:/tmp/test2.xml"));
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

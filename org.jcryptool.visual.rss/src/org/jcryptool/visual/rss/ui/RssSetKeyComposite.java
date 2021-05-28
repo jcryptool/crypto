@@ -14,9 +14,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.KeyInformation;
 import org.jcryptool.visual.rss.algorithm.KeyPersistence;
@@ -112,16 +115,26 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         saveKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
             	
-            	KeyInformation keyInformation = rssController.getInformation();
-            	//byte[] publicKey = RssViewKeyComposite.getPublicKey(keyInformation.getKeyPair());
-            	try {
-					KeyPersistence.saveInformation(keyInformation, "F:/tmp/test.xml");
+            	// Open a dialog to get location for key file storage.
+				FileDialog fileStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				fileStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				fileStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				fileStoreDialog.setFileName("key.xml");
+				fileStoreDialog.setOverwrite(true);
+				String keyStorePath = fileStoreDialog.open();
+            	
+				// Save the key 
+				try {
+					rssController.saveKey(keyStorePath);
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} 
-               
-                
+					
+					// Open a error message dialog
+					MessageBox dialog =
+					    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+					dialog.setText("Failed to store key!");
+					dialog.setMessage("There was an error while trying to store the key. Please try again.");
+					dialog.open();				
+				}             
             }
         });
         
@@ -131,17 +144,24 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         loadKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
 
-            	KeyInformation keyInformation = null;
-            	// Load the key
-            	try {
-            		keyInformation = KeyPersistence.loadInformation("F:/tmp/test.xml");
-					//rssController.setKey(keyPair);
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+            	// Open a dialog to get the key store location.
+				FileDialog fileOpenDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
+				fileOpenDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				fileOpenDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				String keyStorePath = fileOpenDialog.open();
             	
-            	rssController.setInformation(keyInformation);
+				// Load the key.
+				try {
+					rssController.loadKey(keyStorePath);
+				} catch (FileNotFoundException e1) {
+					
+					// Open a error message dialog
+					MessageBox dialog =
+					    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+					dialog.setText("Failed to load key!");
+					dialog.setMessage("There was an error while trying to load the key. Please try again.");
+					dialog.open();				
+				}            
                         	
             	nextButton.setEnabled(true);
             }

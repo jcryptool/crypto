@@ -1,5 +1,6 @@
 package org.jcryptool.visual.rss.algorithm;
 
+import java.io.FileNotFoundException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -106,7 +107,7 @@ public class RssAlgorithmController {
         currentState = State.KEY_SET;
     }
     
-    public void setInformation(KeyInformation information) {
+    private void setInformation(KeyInformation information) {
     	// TODO check input.
     	this.keyLength = information.keyLength;
     	this.keyPair = information.keyPair;
@@ -412,5 +413,31 @@ public class RssAlgorithmController {
 	public void setSignOut(SignatureOutput signOut) {
 		this.signOut = signOut;
 		
+	}
+
+	/**
+	 * Saves the key information to the given file path.
+	 * @param path The file path to store the key information to.
+	 * @throws FileNotFoundException Thrown when the given file path is invalid.
+	 */
+	public void saveKey(String path) throws FileNotFoundException {
+		if(path == null || path.equals("")) {
+			throw new IllegalArgumentException("Path must not be empty.");
+		}
+		
+		KeyPersistence.saveInformation(getInformation(), path);		
+	}
+
+	/**
+	 * Loads the key information from the given file path.
+	 * @param path The path to load the key from.
+	 * @throws FileNotFoundException In case the given path is invalid.
+	 */
+	public void loadKey(String path) throws FileNotFoundException {
+		if(path == null || path.equals("")) {
+			throw new IllegalArgumentException("Path must not be empty.");
+		}
+		
+		setInformation(KeyPersistence.loadInformation(path));		
 	}
 }
