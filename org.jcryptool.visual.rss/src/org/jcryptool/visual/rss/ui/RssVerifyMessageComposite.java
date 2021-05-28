@@ -1,6 +1,7 @@
 package org.jcryptool.visual.rss.ui;
 
 import java.io.FileNotFoundException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +13,20 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.KeyInformation;
 import org.jcryptool.visual.rss.algorithm.KeyPersistence;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
+import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
 /**
  * The composite with button, text fields etc. with the function to verify the before signed and not yet redacted message parts.
@@ -109,39 +115,77 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
             }
         });
         
-        // Button to save key
+        // Button to save the message
         saveMessageButton = new Button(inner, SWT.PUSH);
         saveMessageButton.setText(Descriptions.SaveKey);
         saveMessageButton.setEnabled(false);
         saveMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
+
+            	// Open a dialog to get location for key file storage.
+				FileDialog messageStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				messageStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				messageStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				messageStoreDialog.setFileName("signed-message.xml");
+				messageStoreDialog.setOverwrite(true);
+				String messageStorePath = messageStoreDialog.open();
             	
-            	try {
-					KeyPersistence.saveMessage(rac.getSignOut(), "F:/tmp/test2.xml");
+				// Save the key 
+				try {
+					rac.saveMessage(messageStorePath);
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-               
+					
+					// Open a error message dialog
+					MessageBox dialog =
+					    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+					dialog.setText("Failed to store key!");
+					dialog.setMessage("There was an error while trying to store the message. Please try again.");
+					dialog.open();				
+				}         
                 
             }
         });
         
-        // Button to load the key
+        // Button to load the message
         loadMessageButton = new Button(inner, SWT.PUSH);
         loadMessageButton.setText(Descriptions.LoadKey);
         loadMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
-
-				try {
-					rac.setSignOut(KeyPersistence.loadMessage("F:/tmp/test2.xml"));
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
+            	boolean loadingSuccessfully = false;
             	
-            	nextButton.setEnabled(true);
+            	// Open a dialog to get the message store location.
+				FileDialog fileOpenDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
+				fileOpenDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				fileOpenDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				String messageStorePath = fileOpenDialog.open();
+            	
+				// Load the key in case a path was selected
+				if(messageStorePath != null && !messageStorePath.equals("")) {
+					try {
+						loadingSuccessfully = rac.loadMessage(messageStorePath);
+					} catch (FileNotFoundException e1) {
+						
+						// Open a error message dialog
+						MessageBox dialog =
+						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+						dialog.setText("Failed to load key!");
+						dialog.setMessage("There was an error while trying to load the key. Please try again.");
+						dialog.open();				
+					} catch (NoSuchAlgorithmException e1) {
+						
+						// Open a error message dialog
+						MessageBox dialog =
+						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+						dialog.setText("Failed to load key!");
+						dialog.setMessage("The given input is no valid key or is not supported by this visualisation.");
+						dialog.open();	
+					} 
+				
+					if(loadingSuccessfully) {
+						nextButton.setEnabled(true);
+	                	saveMessageButton.setEnabled(true);
+					}		
+				}
             }
         });
         

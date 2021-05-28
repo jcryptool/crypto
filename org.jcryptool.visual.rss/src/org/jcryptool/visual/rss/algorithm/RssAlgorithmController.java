@@ -445,9 +445,46 @@ public class RssAlgorithmController {
 		}
 		
 		KeyInformation information = KeyPersistence.loadInformation(path);
-		setInformation(information);	
-		setSignature(RedactableSignature.getInstance(keyType.getSignatureType()));
+		
+		if(information != null) {
+			setInformation(information);	
+			setSignature(RedactableSignature.getInstance(keyType.getSignatureType()));
+		}
 		
 		return information;
+	}
+
+	/**
+	 * Saves the message information to the given file path.
+	 * @param path The file path to store the message information to.
+	 * @throws FileNotFoundException Thrown when the given file path is invalid.
+	 */
+	public void saveMessage(String path) throws FileNotFoundException {
+		if(path == null || path.equals("")) {
+			throw new IllegalArgumentException("Path must not be empty.");
+		}
+		
+		KeyPersistence.saveMessage(signOut, path);	
+	}
+	
+	/**
+	 * Loads the message information from the given file path.
+	 * @param path The path to load the key from.
+	 * @return 
+	 * @throws FileNotFoundException In case the given path is invalid.
+	 * @throws NoSuchAlgorithmException 
+	 */
+	public boolean loadMessage(String path) throws FileNotFoundException, NoSuchAlgorithmException {
+		if(path == null || path.equals("")) {
+			throw new IllegalArgumentException("Path must not be empty.");
+		}
+		
+		SignatureOutput message = KeyPersistence.loadMessage(path);
+		
+		if(message != null) {
+			this.signOut = message;
+		}
+		
+		return message != null;
 	}
 }
