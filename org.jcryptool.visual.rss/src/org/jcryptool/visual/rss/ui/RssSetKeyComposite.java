@@ -102,6 +102,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
                     // Continue with the singing step
                     nextButton.setEnabled(true);
                     saveKeyButton.setEnabled(true);
+                    loadKeyButton.setEnabled(false);
                     
                     break;
                 }
@@ -143,27 +144,52 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         loadKeyButton.setText(Descriptions.LoadKey);
         loadKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
-
+            	KeyInformation loadedKeyInformation = null;;
+            	
             	// Open a dialog to get the key store location.
 				FileDialog fileOpenDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
 				fileOpenDialog.setFilterExtensions(new String[] { "*.xml", "*" });
 				fileOpenDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
 				String keyStorePath = fileOpenDialog.open();
             	
-				// Load the key.
-				try {
-					rssController.loadKey(keyStorePath);
-				} catch (FileNotFoundException e1) {
+				// Load the key in case a path was selected
+				if(keyStorePath != null && !keyStorePath.equals("")) {
+					try {
+						loadedKeyInformation = rssController.loadKey(keyStorePath);
+					} catch (FileNotFoundException e1) {
+						
+						// Open a error message dialog
+						MessageBox dialog =
+						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+						dialog.setText("Failed to load key!");
+						dialog.setMessage("There was an error while trying to load the key. Please try again.");
+						dialog.open();				
+					} catch (NoSuchAlgorithmException e1) {
+						
+						// Open a error message dialog
+						MessageBox dialog =
+						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+						dialog.setText("Failed to load key!");
+						dialog.setMessage("The given input is no valid key or is not supported by this visualisation.");
+						dialog.open();	
+					} 
+				
+		
+					keySizeCombo.setText(getKeyLength().toString());
+					algorithmSelectionCombo.setText(loadedKeyInformation.getKeyType().toString());
 					
-					// Open a error message dialog
-					MessageBox dialog =
-					    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-					dialog.setText("Failed to load key!");
-					dialog.setMessage("There was an error while trying to load the key. Please try again.");
-					dialog.open();				
-				}            
-                        	
-            	nextButton.setEnabled(true);
+					// Disable controls
+	                generateKeyButton.setEnabled(false);
+	                keySizeCombo.setEnabled(false);
+	                algorithmSelectionCombo.setEnabled(false);
+					
+	                // Change the visual
+	                body.lightPath();
+	                body.lightDataBox(DataType.KEY);
+	                        	
+	                // Enable next button
+	            	nextButton.setEnabled(true);
+				}
             }
         });
         

@@ -431,13 +431,19 @@ public class RssAlgorithmController {
 	/**
 	 * Loads the key information from the given file path.
 	 * @param path The path to load the key from.
+	 * @return 
 	 * @throws FileNotFoundException In case the given path is invalid.
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public void loadKey(String path) throws FileNotFoundException {
+	public KeyInformation loadKey(String path) throws FileNotFoundException, NoSuchAlgorithmException {
 		if(path == null || path.equals("")) {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		setInformation(KeyPersistence.loadInformation(path));		
+		KeyInformation information = KeyPersistence.loadInformation(path);
+		setInformation(information);	
+		setSignature(RedactableSignature.getInstance(keyType.getSignatureType()));
+		
+		return information;
 	}
 }
