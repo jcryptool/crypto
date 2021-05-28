@@ -174,21 +174,23 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 						dialog.open();	
 					} 
 				
-		
-					keySizeCombo.setText(getKeyLength().toString());
-					algorithmSelectionCombo.setText(loadedKeyInformation.getKeyType().toString());
-					
-					// Disable controls
-	                generateKeyButton.setEnabled(false);
-	                keySizeCombo.setEnabled(false);
-	                algorithmSelectionCombo.setEnabled(false);
-					
-	                // Change the visual
-	                body.lightPath();
-	                body.lightDataBox(DataType.KEY);
-	                        	
-	                // Enable next button
-	            	nextButton.setEnabled(true);
+					// It is null in case the loading was not successful
+					if(loadedKeyInformation != null) {
+						keySizeCombo.setText(getKeyLength().toString());
+						algorithmSelectionCombo.setText(loadedKeyInformation.getKeyType().toString());
+						
+						// Disable controls
+		                generateKeyButton.setEnabled(false);
+		                keySizeCombo.setEnabled(false);
+		                algorithmSelectionCombo.setEnabled(false);
+						
+		                // Change the visual
+		                body.lightPath();
+		                body.lightDataBox(DataType.KEY);
+		                        	
+		                // Enable next button
+		            	nextButton.setEnabled(true);
+					}
 				}
             }
         });

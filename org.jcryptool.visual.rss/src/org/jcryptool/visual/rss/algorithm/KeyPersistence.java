@@ -89,12 +89,17 @@ public class KeyPersistence {
 		
 	}
 	
-	public static KeyInformation loadInformation(String path) throws FileNotFoundException {
+	public static KeyInformation loadInformation(String path) throws FileNotFoundException, NoSuchAlgorithmException {
 		InputStreamReader isr = new InputStreamReader(new FileInputStream(path), Charset.forName(IConstants.UTF8_ENCODING));
 
 		XStream xstream = new XStream(new DomDriver());
 		
-		KeyInformation vector = (KeyInformation)xstream.fromXML(isr);
+		KeyInformation vector = null;
+		try {
+			vector = (KeyInformation)xstream.fromXML(isr);
+		} catch(Exception e) {
+			throw new NoSuchAlgorithmException("The key file is invalid or the loaded key is not supported");
+		}
 		return vector;
 	}
 	

@@ -108,7 +108,11 @@ public class RssAlgorithmController {
     }
     
     private void setInformation(KeyInformation information) {
-    	// TODO check input.
+    	assert information != null;
+    	
+    	//if(information.getKeyLength() == null || information.getKeyLength())
+    	
+    	
     	this.keyLength = information.keyLength;
     	this.keyPair = information.keyPair;
     	this.keyType = information.keyType;
