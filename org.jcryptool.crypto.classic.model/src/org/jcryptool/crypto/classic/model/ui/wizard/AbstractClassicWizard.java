@@ -13,6 +13,7 @@ package org.jcryptool.crypto.classic.model.ui.wizard;
 import org.eclipse.jface.wizard.Wizard;
 import org.jcryptool.core.operations.algorithm.classic.textmodify.TransformData;
 import org.jcryptool.core.operations.alphabets.AbstractAlphabet;
+import org.jcryptool.core.operations.editors.EditorsManager;
 
 
 /**
@@ -32,7 +33,12 @@ public class AbstractClassicWizard extends Wizard {
 	 * Creates a new instance of AbstractClassicWizard and sets the window title
 	 */
 	public AbstractClassicWizard(String windowTitle) {
-		setWindowTitle(windowTitle);
+		String currentFile = EditorsManager.getInstance().getActiveEditorTitle();
+		if (currentFile != null) {
+			setWindowTitle(windowTitle + " — " + currentFile);
+		} else {
+			setWindowTitle(windowTitle);
+		}
 	}
 	
 	/**
