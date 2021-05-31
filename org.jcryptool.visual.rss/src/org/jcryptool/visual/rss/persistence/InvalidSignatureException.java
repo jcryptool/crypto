@@ -9,14 +9,20 @@ package org.jcryptool.visual.rss.persistence;
 public class InvalidSignatureException extends Exception {
 
 	/**
-	 * Random.
+	 * Random serialVersionUID.
 	 */
 	private static final long serialVersionUID = -3913169932463206008L;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public InvalidSignatureException(String cause) {
 		super(cause);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public InvalidSignatureException() {
 		
 	}

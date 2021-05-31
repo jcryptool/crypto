@@ -27,7 +27,11 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.BPPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
 
-
+/**
+ * DTO class, which contains a list of messageParts and a list of corresponding isRedactable values.
+ * 
+ * @author Lukas Krodinger
+ */
 public class MessageAndRedactable  {
 
 	private List<String> messageParts;

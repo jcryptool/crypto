@@ -40,11 +40,11 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         inner.setLayout(new GridLayout(2, false));
 
         KeyInformation info = rac.getInformation();
-        if (info.getKeyType() != null) {
+        if (info.getAlgorithmType() != null) {
             Label l = new Label(inner, SWT.NONE);
             l.setText(Descriptions.KeyType + ": ");
             Label l2 = new Label(inner, SWT.NONE);
-            l2.setText(info.getKeyType().toString());
+            l2.setText(info.getAlgorithmType().toString());
         }
         if (info.getKeyLength() != null) {
             Label l2 = new Label(inner, SWT.NONE);

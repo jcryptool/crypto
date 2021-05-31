@@ -122,7 +122,7 @@ public class RssAlgorithmController {
     	
     	this.keyLength = information.keyLength;
     	this.keyPair = information.keyPair;
-    	this.keyType = information.keyType;
+    	this.keyType = information.algorithmType;
     	currentState = State.KEY_SET;
     }
     
@@ -417,10 +417,12 @@ public class RssAlgorithmController {
 		}
     }
 
-	public SignatureOutput getSignOut() {
-		return signOut;
-	}
-
+	/**
+	 * Sets the given SignatureOutput. 
+	 * Therewith also the messageParts, the redactableParts and the messageIdentifiers are affected.
+	 * 
+	 * @param signOut The SignatureOutput to set.
+	 */
 	private void setSignOut(SignatureOutput signOut) {
 		assert signOut != null;
 		

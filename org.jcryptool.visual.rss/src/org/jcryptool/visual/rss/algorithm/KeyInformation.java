@@ -5,21 +5,24 @@ import java.security.KeyPair;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.AlgorithmType;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
 
+/**
+ * Wrapper class containing the AlgorithmType, the KeyLength and the concrete KeyPair.
+ * 
+ * @author Lukas Krodinger
+ */
 public class KeyInformation {
-	public AlgorithmType keyType;
+	public AlgorithmType algorithmType;
 	public KeyLength keyLength;
 	public KeyPair keyPair;
 
-
-
-	public KeyInformation(AlgorithmType keyType, KeyLength keyLength, KeyPair keyPair) {
-		this.keyType = keyType;
+	public KeyInformation(AlgorithmType algorithmType, KeyLength keyLength, KeyPair keyPair) {
+		this.algorithmType = algorithmType;
 		this.keyLength = keyLength;
 		this.keyPair = keyPair;
 	}
 
-	public AlgorithmType getKeyType() {
-		return keyType;
+	public AlgorithmType getAlgorithmType() {
+		return algorithmType;
 	}
 
 	public KeyLength getKeyLength() {

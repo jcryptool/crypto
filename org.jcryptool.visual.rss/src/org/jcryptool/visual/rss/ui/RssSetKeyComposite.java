@@ -173,7 +173,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 					// It is null in case the loading was not successful
 					if(loadedKeyInformation != null) {
 						keySizeCombo.setText(getKeyLength().toString());
-						algorithmSelectionCombo.setText(loadedKeyInformation.getKeyType().toString());
+						algorithmSelectionCombo.setText(loadedKeyInformation.getAlgorithmType().toString());
 						
 						// Disable controls
 		                generateKeyButton.setEnabled(false);
