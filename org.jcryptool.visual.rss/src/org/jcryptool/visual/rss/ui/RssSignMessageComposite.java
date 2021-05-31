@@ -107,7 +107,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         
         // Button to save the message
         saveMessageButton = new Button(inner, SWT.PUSH);
-        saveMessageButton.setText(Descriptions.SaveMessage);
+        saveMessageButton.setText(Descriptions.SaveSign);
         saveMessageButton.setEnabled(false);
         saveMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
@@ -127,13 +127,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 					try {
 						rac.saveSignature(messageStorePath);
 					} catch (FileNotFoundException e1) {
-						
-						// Open a error message dialog
-						MessageBox dialog =
-						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-						dialog.setText("Failed to store key!");
-						dialog.setMessage("There was an error while trying to store the message. Please try again.");
-						dialog.open();				
+						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);
 					}       
 				}
             }
@@ -141,7 +135,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         
         // Button to load the message
         loadMessageButton = new Button(inner, SWT.PUSH);
-        loadMessageButton.setText(Descriptions.LoadMessage);
+        loadMessageButton.setText(Descriptions.LoadSign);
         loadMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
         		MessageAndRedactable messageAndRedactable = null;
@@ -159,9 +153,9 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 					try {
 						messageAndRedactable = rac.loadSignature(messageStorePath);
 					} catch (FileNotFoundException e1) {
-						showErrorDialog("The given input file was not found. Please try again.");				
+						showErrorDialog(Descriptions.FailedToLoadSign, Descriptions.ErrorLoadingSign);				
 					} catch (InvalidSignatureException e1) {
-						showErrorDialog("The given input is no valid signed message or is not supported by this visualisation.");	
+						showErrorDialog(Descriptions.FailedToLoadSign, Descriptions.InvalidSign);	
 					} 
 				
 					if(messageAndRedactable != null) {
@@ -190,18 +184,6 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         });
 
     }
-    
-    /**
-     * Shows a error dialog when the signed message loading failed.
-     * @param message The message of the error dialog.
-     */
-	private void showErrorDialog(String message) {
-		MessageBox dialog =
-		    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-		dialog.setText("Failed to load the signed message!");
-		dialog.setMessage(message);
-		dialog.open();
-	}
 
 	private void setMessagePartsAndRedactable(Composite c, List<String> messages, List<Boolean> redactableParts) {
        messageList = new ArrayList<String>();

@@ -45,8 +45,7 @@ public class Descriptions extends NLS {
     public static String NewMessage;
 	public static String AlgorithmSettings;
 	public static String SelectAlgorithmVariant;
-	public static String LoadKey;
-	public static String SaveKey;
+
     // SET_MESSAGE
     public static String SetMessages;
     public static String AddMessagePart;
@@ -59,8 +58,7 @@ public class Descriptions extends NLS {
     public static String SelectFixedParts;
     public static String SelectPartsInfoText;
     public static String SignMessage;
-    public static String LoadMessage;
-    public static String SaveMessage;
+
     // VERIFY_MESSAGE
     public static String VerifyMessage;
     public static String VerifyMessageInfoText;
@@ -100,6 +98,27 @@ public class Descriptions extends NLS {
     //Head
     public static String Title;
     public static String Description;
+    
+    // Load & save sign
+    public static String LoadSign;
+    public static String SaveSign;
+	public static String FailedToLoadSign;
+	public static String FailedToStoreSign;
+	public static String ErrorLoadingSign;
+	public static String InvalidSign;
+	public static String ErrorStoringSign;
+
+	// Load & save key
+	public static String LoadKey;
+	public static String SaveKey;
+	public static String FailedToLoadKey;
+	public static String ErrorLoadingKey;
+	public static String InvalidKey;
+	public static String FailedToStoreKey;
+	public static String ErrorStoringKey;
+
+
+
 
 	
 

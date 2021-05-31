@@ -5,7 +5,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
 
@@ -83,5 +85,18 @@ public abstract class RssRightSideComposite extends Composite {
         labelGridData.widthHint = R_MAX_SIZE;
         this.description.setLayoutData(labelGridData);
     }
+    
+    /**
+     * Opens a error dialog when the key failed to be loaded.
+     * @param title The title of the error dialog.
+     * @param message The message of the error dialog.
+     */
+	protected void showErrorDialog(String title, String message) {
+		MessageBox dialog =
+		    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+		dialog.setText(title);
+		dialog.setMessage(message);
+		dialog.open();		
+	}
 
 }

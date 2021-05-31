@@ -110,7 +110,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
         
         // Button to save the message
         saveMessageButton = new Button(inner, SWT.PUSH);
-        saveMessageButton.setText(Descriptions.SaveMessage);
+        saveMessageButton.setText(Descriptions.SaveSign);
         saveMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
 
@@ -129,13 +129,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
 					try {
 						rac.saveRedactedSignature(messageStorePath);
 					} catch (FileNotFoundException e1) {
-						
-						// Open a error message dialog
-						MessageBox dialog =
-						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-						dialog.setText("Failed to store key!");
-						dialog.setMessage("There was an error while trying to store the message. Please try again.");
-						dialog.open();				
+						showErrorDialog(Descriptions.FailedToStoreSign, Descriptions.ErrorStoringSign);				
 					}       
 				}
             }

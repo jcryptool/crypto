@@ -132,13 +132,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 					try {
 						rssController.saveKey(keyStorePath);
 					} catch (FileNotFoundException e1) {
-						
-						// Open a error message dialog
-						MessageBox dialog =
-						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-						dialog.setText("Failed to store key!");
-						dialog.setMessage("There was an error while trying to store the key. Please try again.");
-						dialog.open();				
+						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);			
 					}            
 				}
             }
@@ -162,13 +156,10 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 					try {
 						loadedKeyInformation = rssController.loadKey(keyStorePath);
 					} catch (FileNotFoundException e1) {
-						showErrorDialog("There was an error while trying to load the key. Please try again.");
-					} catch (NoSuchAlgorithmException e1) {
-						showErrorDialog("The given input is no valid key or is not supported by this visualisation.");
-					} catch (InvalidKeyException e1) {
-						showErrorDialog("The given input is no valid key or is not supported by this visualisation.");
-
-					} 
+						showErrorDialog(Descriptions.FailedToLoadKey, Descriptions.ErrorLoadingKey);
+					} catch (NoSuchAlgorithmException | InvalidKeyException e1) {
+						showErrorDialog(Descriptions.FailedToLoadKey, Descriptions.InvalidKey);
+					}
 				
 					// It is null in case the loading was not successful
 					if(loadedKeyInformation != null) {
@@ -204,18 +195,6 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         
         
     }
-    
-    /**
-     * Opens a error dialog when the key failed to be loaded.
-     * @param message The message of the error dialog.
-     */
-	private void showErrorDialog(String message) {
-		MessageBox dialog =
-		    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-		dialog.setText("Failed to load key!");
-		dialog.setMessage(message);
-		dialog.open();		
-	}
 
     private KeyLength getKeyLength() {
         String keyLength = keySizeCombo.getItem(keySizeCombo.getSelectionIndex());
