@@ -9,15 +9,18 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
+import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.persistence.InvalidSignatureException;
@@ -95,47 +98,27 @@ public class RssSignMessageComposite extends RssRightSideComposite {
             }
         });
         
+        
+        // Next button
         nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.Next);
+        nextButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
         nextButton.setEnabled(false);
         nextButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                  body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
             }
         });
-            
         
-        // Button to save the message
-        saveMessageButton = new Button(inner, SWT.PUSH);
-        saveMessageButton.setText(Descriptions.SaveSign);
-        saveMessageButton.setEnabled(false);
-        saveMessageButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-
-            	// Open a dialog to get location for key file storage.
-				FileDialog messageStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-				messageStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
-				messageStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
-				messageStoreDialog.setFileName("signed-message.xml");
-				messageStoreDialog.setOverwrite(true);
-				String messageStorePath = messageStoreDialog.open();
-            	
-				// messageStorePath might be null in case the dialog was closed
-				if(messageStorePath != null && !messageStorePath.equals("")) {
-					
-					// Save the key 
-					try {
-						rac.saveSignature(messageStorePath);
-					} catch (FileNotFoundException e1) {
-						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);
-					}       
-				}
-            }
-        });
         
+        // Single row for save and load button
+        Group saveLoad = new Group(leftComposite, SWT.NONE);
+        saveLoad.setText(Descriptions.LoadSave);
+        saveLoad.setLayout(new RowLayout(SWT.HORIZONTAL));
+        
+       
         // Button to load the message
-        loadMessageButton = new Button(inner, SWT.PUSH);
-        loadMessageButton.setText(Descriptions.LoadSign);
+        loadMessageButton = new Button(saveLoad, SWT.PUSH);
+        loadMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_download_black_24dp.png").createImage(true));
         loadMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
         		MessageAndRedactable messageAndRedactable = null;
@@ -178,9 +161,35 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 	                    */
 					}		
 				}
-            }
+        	}
+        });
+            
+        // Button to save the message
+        saveMessageButton = new Button(saveLoad, SWT.PUSH);
+        saveMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_upload_black_24dp.png").createImage(true));
+        saveMessageButton.setEnabled(false);
+        saveMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
 
-	
+            	// Open a dialog to get location for key file storage.
+				FileDialog messageStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				messageStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				messageStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				messageStoreDialog.setFileName("signed-message.xml");
+				messageStoreDialog.setOverwrite(true);
+				String messageStorePath = messageStoreDialog.open();
+            	
+				// messageStorePath might be null in case the dialog was closed
+				if(messageStorePath != null && !messageStorePath.equals("")) {
+					
+					// Save the key 
+					try {
+						rac.saveSignature(messageStorePath);
+					} catch (FileNotFoundException e1) {
+						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);
+					}       
+				}
+            }
         });
 
     }

@@ -12,15 +12,18 @@ import java.security.spec.InvalidKeySpecException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
+import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.KeyInformation;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
@@ -103,44 +106,33 @@ public class RssSetKeyComposite extends RssRightSideComposite {
                     // Continue with the singing step
                     nextButton.setEnabled(true);
                     saveKeyButton.setEnabled(true);
-                    loadKeyButton.setEnabled(false);
                     
                     break;
                 }
             }
         });
         
-        // Button to save key
-        saveKeyButton = new Button(inner, SWT.PUSH);
-        saveKeyButton.setText(Descriptions.SaveKey);
-        saveKeyButton.setEnabled(false);
-        saveKeyButton.addListener(SWT.Selection, new Listener() {
+        
+        // Next button
+        nextButton = new Button(inner, SWT.PUSH);
+        nextButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
+        nextButton.setEnabled(false);
+        nextButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
-            	
-            	// Open a dialog to get location for key file storage.
-				FileDialog fileStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-				fileStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
-				fileStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
-				fileStoreDialog.setFileName("key.xml");
-				fileStoreDialog.setOverwrite(true);
-				String keyStorePath = fileStoreDialog.open();
-            	
-				// keyStorePath might be null in case the dialog was closed
-				if(keyStorePath != null && !keyStorePath.equals("")) {
-					
-					// Save the key 
-					try {
-						rssController.saveKey(keyStorePath);
-					} catch (FileNotFoundException e1) {
-						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);			
-					}            
-				}
+                body.setActiveRssComposite(ActiveRssBodyComposite.SET_MESSAGE);
             }
         });
         
+        
+        
+        // Single row for save and load button
+        Group saveLoad = new Group(leftComposite, SWT.NONE);
+        saveLoad.setText(Descriptions.LoadSave);
+        saveLoad.setLayout(new RowLayout(SWT.HORIZONTAL));
+        
         // Button to load the key
-        loadKeyButton = new Button(inner, SWT.PUSH);
-        loadKeyButton.setText(Descriptions.LoadKey);
+        loadKeyButton = new Button(saveLoad, SWT.PUSH);
+        loadKeyButton.setImage(Activator.getImageDescriptor("icons/outline_file_download_black_24dp.png").createImage(true));
         loadKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
             	KeyInformation loadedKeyInformation = null;;
@@ -180,16 +172,34 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 					}
 				}
             }
-
         });
         
-        // Next button
-        nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.Next);
-        nextButton.setEnabled(false);
-        nextButton.addListener(SWT.Selection, new Listener() {
+        
+        // Button to save key
+        saveKeyButton = new Button(saveLoad, SWT.PUSH);
+        saveKeyButton.setImage(Activator.getImageDescriptor("icons/outline_file_upload_black_24dp.png").createImage(true));
+        saveKeyButton.setEnabled(false);
+        saveKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
-                body.setActiveRssComposite(ActiveRssBodyComposite.SET_MESSAGE);
+            	
+            	// Open a dialog to get location for key file storage.
+				FileDialog fileStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				fileStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				fileStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				fileStoreDialog.setFileName("key.xml");
+				fileStoreDialog.setOverwrite(true);
+				String keyStorePath = fileStoreDialog.open();
+            	
+				// keyStorePath might be null in case the dialog was closed
+				if(keyStorePath != null && !keyStorePath.equals("")) {
+					
+					// Save the key 
+					try {
+						rssController.saveKey(keyStorePath);
+					} catch (FileNotFoundException e1) {
+						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);			
+					}            
+				}
             }
         });
         

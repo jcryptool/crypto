@@ -101,16 +101,6 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         checkImage = new Label(inner, SWT.NONE);
         // checkLabel.setLayoutData(buttonGd);
         checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
-
-        Button confirmButton = new Button(inner, SWT.PUSH);
-        confirmButton.setText(Descriptions.ContinueWithRedacting);
-        confirmButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-                if (e.type == SWT.Selection) {
-                	nextButton.setEnabled(true);
-                }
-            }
-        });
                
         // Next button
         nextButton = new Button(inner, SWT.PUSH);

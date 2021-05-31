@@ -12,11 +12,13 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
@@ -108,9 +110,25 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
         checkImage = new Label(inner, SWT.NONE);
         checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
         
+        // Next button
+        Button nextButton = new Button(inner, SWT.PUSH);
+        nextButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
+        nextButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                if (e.type == SWT.Selection) {
+                    body.resetStateOverview(DataType.REDACTED, false);
+                }
+            }
+        });
+
+        // Single row for save and load button
+        Group saveLoad = new Group(leftComposite, SWT.NONE);
+        saveLoad.setText(Descriptions.LoadSave);
+        saveLoad.setLayout(new RowLayout(SWT.HORIZONTAL));
+        
         // Button to save the message
-        saveMessageButton = new Button(inner, SWT.PUSH);
-        saveMessageButton.setText(Descriptions.SaveSign);
+        saveMessageButton = new Button(saveLoad, SWT.PUSH);
+        saveMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_upload_black_24dp.png").createImage(true));
         saveMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
 
@@ -134,17 +152,6 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
 				}
             }
         });
-
-        Button nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.ContinueWithRedacting);
-        nextButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-                if (e.type == SWT.Selection) {
-                    body.resetStateOverview(DataType.REDACTED, false);
-                }
-            }
-        });
-
 
     }
 
