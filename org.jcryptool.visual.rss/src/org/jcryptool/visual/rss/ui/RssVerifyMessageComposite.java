@@ -48,8 +48,6 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
 
     private final Composite inner;
     
-    private final Button saveMessageButton;
-    private final Button loadMessageButton;
     private final Button nextButton;
 
     public RssVerifyMessageComposite(RssBodyComposite body, RssAlgorithmController rac) {
@@ -110,85 +108,10 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
             public void handleEvent(Event e) {
                 if (e.type == SWT.Selection) {
                 	nextButton.setEnabled(true);
-                	saveMessageButton.setEnabled(true);
                 }
             }
         });
-        
-        // Button to save the message
-        saveMessageButton = new Button(inner, SWT.PUSH);
-        saveMessageButton.setText(Descriptions.LoadMessage);
-        saveMessageButton.setEnabled(false);
-        saveMessageButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-
-            	// Open a dialog to get location for key file storage.
-				FileDialog messageStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-				messageStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
-				messageStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
-				messageStoreDialog.setFileName("signed-message.xml");
-				messageStoreDialog.setOverwrite(true);
-				String messageStorePath = messageStoreDialog.open();
-            	
-				// Save the key 
-				try {
-					rac.saveMessage(messageStorePath);
-				} catch (FileNotFoundException e1) {
-					
-					// Open a error message dialog
-					MessageBox dialog =
-					    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-					dialog.setText("Failed to store key!");
-					dialog.setMessage("There was an error while trying to store the message. Please try again.");
-					dialog.open();				
-				}         
-                
-            }
-        });
-        
-        // Button to load the message
-        loadMessageButton = new Button(inner, SWT.PUSH);
-        loadMessageButton.setText(Descriptions.SaveMessage);
-        loadMessageButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-            	boolean loadingSuccessfully = false;
-            	
-            	// Open a dialog to get the message store location.
-				FileDialog fileOpenDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
-				fileOpenDialog.setFilterExtensions(new String[] { "*.xml", "*" });
-				fileOpenDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
-				String messageStorePath = fileOpenDialog.open();
-            	
-				// Load the key in case a path was selected
-				if(messageStorePath != null && !messageStorePath.equals("")) {
-					try {
-						loadingSuccessfully = rac.loadMessage(messageStorePath);
-					} catch (FileNotFoundException e1) {
-						
-						// Open a error message dialog
-						MessageBox dialog =
-						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-						dialog.setText("Failed to load key!");
-						dialog.setMessage("There was an error while trying to load the key. Please try again.");
-						dialog.open();				
-					} catch (NoSuchAlgorithmException e1) {
-						
-						// Open a error message dialog
-						MessageBox dialog =
-						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-						dialog.setText("Failed to load key!");
-						dialog.setMessage("The given input is no valid key or is not supported by this visualisation.");
-						dialog.open();	
-					} 
-				
-					if(loadingSuccessfully) {
-						nextButton.setEnabled(true);
-	                	saveMessageButton.setEnabled(true);
-					}		
-				}
-            }
-        });
-        
+               
         // Next button
         nextButton = new Button(inner, SWT.PUSH);
         nextButton.setText(Descriptions.Next);

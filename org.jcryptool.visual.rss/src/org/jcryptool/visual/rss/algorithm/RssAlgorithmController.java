@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 
@@ -415,14 +416,19 @@ public class RssAlgorithmController {
 	}
 
 	private void setSignOut(SignatureOutput signOut) {
+		assert signOut != null;
+		
 		this.signOut = signOut;
 		
-		// TODO: Set messageParts
+		// Set messageParts and redactableParts
+		messageParts = new ArrayList<String>();
+		redactableParts = new ArrayList<Boolean>();
+		Set<Identifier> messageIdentifiers = signOut.getMessageIdentifiers();
 		
-		// TODO: Set redactableParts!
-		redactableParts = new ArrayList<>();
-		redactableParts.add(true);
-		redactableParts.add(true);
+		for(Identifier identifier: messageIdentifiers) {
+			messageParts.add(new String(identifier.getBytes()));
+			redactableParts.add(signOut.isRedactable(identifier));
+		}
 		
 		currentState = State.MESSAGE_SIGNED;
 		
@@ -471,11 +477,32 @@ public class RssAlgorithmController {
 	 * @throws FileNotFoundException Thrown when the given file path is invalid.
 	 */
 	public void saveMessage(String path) throws FileNotFoundException {
+		if(signOut == null) {
+			throw new IllegalStateException("SignOut must be initialized to store it.");
+		}
+		
 		if(path == null || path.equals("")) {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
 		KeyPersistence.saveMessage(signOut, path);	
+	}
+	
+	/**
+	 * Saves the redacted message information to the given file path.
+	 * @param path The file path to store the message information to.
+	 * @throws FileNotFoundException Thrown when the given file path is invalid.
+	 */
+	public void saveRedactedMessage(String path) throws FileNotFoundException {
+		if(redacted == null) {
+			throw new IllegalStateException("SignOut must be initialized to store it.");
+		}
+		
+		if(path == null || path.equals("")) {
+			throw new IllegalArgumentException("Path must not be empty.");
+		}
+		
+		KeyPersistence.saveMessage(redacted, path);	
 	}
 	
 	/**
@@ -485,17 +512,18 @@ public class RssAlgorithmController {
 	 * @throws FileNotFoundException In case the given path is invalid.
 	 * @throws NoSuchAlgorithmException 
 	 */
-	public boolean loadMessage(String path) throws FileNotFoundException, NoSuchAlgorithmException {
+	public MessageAndRedactable loadMessage(String path) throws FileNotFoundException, NoSuchAlgorithmException {
 		if(path == null || path.equals("")) {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		SignatureOutput message = KeyPersistence.loadMessage(path);
+		SignatureOutput loadedSignOut = KeyPersistence.loadMessage(path);
 		
-		if(message != null) {
-			setSignOut(signOut);
+		if(loadedSignOut != null) {
+			setSignOut(loadedSignOut);
+			return new MessageAndRedactable(messageParts, redactableParts);
 		}
 		
-		return message != null;
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,9 +14,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
@@ -39,6 +43,8 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
     private Label checkLabel;
 
     private final Composite inner;
+    
+    private final Button saveMessageButton;
 
     public RssVerifyRedactedComposite(RssBodyComposite body, RssAlgorithmController rac) {
         super(body, SWT.NONE);
@@ -101,6 +107,39 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
         checkLabel.setText(Descriptions.IsVerified + ": " + Descriptions.Yes);
         checkImage = new Label(inner, SWT.NONE);
         checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
+        
+        // Button to save the message
+        saveMessageButton = new Button(inner, SWT.PUSH);
+        saveMessageButton.setText(Descriptions.SaveMessage);
+        saveMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+
+            	// Open a dialog to get location for key file storage.
+				FileDialog messageStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				messageStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				messageStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				messageStoreDialog.setFileName("redacted-message.xml");
+				messageStoreDialog.setOverwrite(true);
+				String messageStorePath = messageStoreDialog.open();
+            	
+				// messageStorePath might be null in case the dialog was closed
+				if(messageStorePath != null && !messageStorePath.equals("")) {
+					
+					// Save the key 
+					try {
+						rac.saveRedactedMessage(messageStorePath);
+					} catch (FileNotFoundException e1) {
+						
+						// Open a error message dialog
+						MessageBox dialog =
+						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+						dialog.setText("Failed to store key!");
+						dialog.setMessage("There was an error while trying to store the message. Please try again.");
+						dialog.open();				
+					}       
+				}
+            }
+        });
 
         Button nextButton = new Button(inner, SWT.PUSH);
         nextButton.setText(Descriptions.ContinueWithRedacting);

@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.MessageAndRedactable;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
@@ -32,13 +33,15 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 
     private final Composite inner;
 
-    private final ArrayList<String> messageList;
-    private final ArrayList<Button> buttonList;
+    private ArrayList<String> messageList;
+    private ArrayList<Button> buttonList;
     
     private final Button saveMessageButton;
     private final Button loadMessageButton;
     private final Button nextButton;
     private final Button signMessageButton;
+    
+    private final boolean onlyRedactablePartsAllowed;
 
     public RssSignMessageComposite(RssBodyComposite body, final RssAlgorithmController rac) {
         super(body, SWT.NULL);
@@ -48,8 +51,6 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         inner = new Composite(leftComposite, SWT.NONE);
         inner.setLayout(new GridLayout());
 
-        messageList = new ArrayList<String>();
-        buttonList = new ArrayList<Button>();
         List<String> messages = rac.getMessageParts();
 
         Composite c = new Composite(inner, SWT.NONE);
@@ -62,35 +63,9 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         l3.setText(Descriptions.Redactable + "?");
         
         // Check if redacting is allowed
-        boolean onlyRedactablePartsAllowed = rac.isOnlyRedactablePartsAllowed();
+        onlyRedactablePartsAllowed = rac.isOnlyRedactablePartsAllowed();
         
-        for (int i = 0; i < messages.size(); i++) {
-            Label la = new Label(c, SWT.READ_ONLY);
-            la.setText("" + (i + 1));
-            Text l = new Text(c, SWT.READ_ONLY | SWT.WRAP | SWT.BORDER | SWT.LEFT);
-            GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
-            labelGridData.widthHint = R_MAX_SIZE;
-            l.setLayoutData(labelGridData);
-            String msg = messages.get(i);
-            msg = getSplittedString(msg, 50);
-            l.setText(msg);
-            messageList.add(msg);
-            Button redactingAllowedCheckbox = new Button(c, SWT.CHECK);
-            
-            /*
-             * If all parts must be redactable, check all checkboxes and disable the control.
-             * Otherwise uncheck them and enable the control.
-             */
-            if (onlyRedactablePartsAllowed) {
-            	redactingAllowedCheckbox.setSelection(true);
-            	redactingAllowedCheckbox.setEnabled(false);
-            } else {
-            	redactingAllowedCheckbox.setSelection(false);
-            	redactingAllowedCheckbox.setEnabled(true);
-            }
-            
-            buttonList.add(redactingAllowedCheckbox);
-        }
+        setMessagePartsAndRedactable(c, messages, null);
         signMessageButton = new Button(inner, SWT.PUSH);
         signMessageButton.setText(Descriptions.SignMessage);
 
@@ -168,7 +143,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         loadMessageButton.setText(Descriptions.LoadMessage);
         loadMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
-            	boolean loadingSuccessfully = false;
+        		MessageAndRedactable messageAndRedactable = null;
             	
             	// Open a dialog to get the message store location.
 				FileDialog fileOpenDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
@@ -178,8 +153,10 @@ public class RssSignMessageComposite extends RssRightSideComposite {
             	
 				// Load the key in case a path was selected
 				if(messageStorePath != null && !messageStorePath.equals("")) {
+					
+			
 					try {
-						loadingSuccessfully = rac.loadMessage(messageStorePath);
+						messageAndRedactable = rac.loadMessage(messageStorePath);
 					} catch (FileNotFoundException e1) {
 						
 						// Open a error message dialog
@@ -198,22 +175,71 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 						dialog.open();	
 					} 
 				
-					if(loadingSuccessfully) {
+					if(messageAndRedactable != null) {
+						
+						// Change visual
+			           	body.lightPath();
+			            body.lightDataBox(DataType.MESSAGE);
+			            
+						body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
+						
+						/*
+						// Update messages and redactable
+						setMessagePartsAndRedactable(c, messageAndRedactable.getMessageParts(), messageAndRedactable.getRedactableParts());
 						
 						// Change active buttons
 						nextButton.setEnabled(true);
 	                	saveMessageButton.setEnabled(true);
 	                	signMessageButton.setEnabled(false);
 	                	
-	                    // Change visual
-			           	body.lightPath();
-			            body.lightDataBox(DataType.MESSAGE);
+	                    */
 					}		
 				}
             }
         });
 
     }
+
+	private void setMessagePartsAndRedactable(Composite c, List<String> messages, List<Boolean> redactableParts) {
+       messageList = new ArrayList<String>();
+       buttonList = new ArrayList<Button>();
+		
+		for (int i = 0; i < messages.size(); i++) {
+            Label la = new Label(c, SWT.READ_ONLY);
+            la.setText("" + (i + 1));
+            Text l = new Text(c, SWT.READ_ONLY | SWT.WRAP | SWT.BORDER | SWT.LEFT);
+            GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
+            labelGridData.widthHint = R_MAX_SIZE;
+            l.setLayoutData(labelGridData);
+            String msg = messages.get(i);
+            msg = getSplittedString(msg, 50);
+            l.setText(msg);
+            messageList.add(msg);
+            Button redactingAllowedCheckbox = new Button(c, SWT.CHECK);
+  
+            if (onlyRedactablePartsAllowed) {
+            	
+            	// If all parts must be redactable, check all checkboxes and disable the control.
+            	redactingAllowedCheckbox.setSelection(true);
+            	redactingAllowedCheckbox.setEnabled(false);
+            } else {
+            	if(redactableParts != null) {
+            		
+            		// If the part got loaded and redactableParts are already defined, disable the controls and set the selection as defined.
+            		boolean isRedactable = redactableParts.get(i);
+            		redactingAllowedCheckbox.setEnabled(false);
+            		redactingAllowedCheckbox.setSelection(isRedactable);
+            	} else {
+            		
+                    // Otherwise uncheck them and enable the control.
+            		redactingAllowedCheckbox.setSelection(false);
+                	redactingAllowedCheckbox.setEnabled(true);
+            	}
+            }
+            
+            buttonList.add(redactingAllowedCheckbox);
+        }
+	}
 
     @Override
     void prepareAboutComposite() {
