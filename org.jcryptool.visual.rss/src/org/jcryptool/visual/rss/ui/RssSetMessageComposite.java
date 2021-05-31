@@ -19,8 +19,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
-import org.jcryptool.visual.rss.algorithm.XMLPersistence;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
+import org.jcryptool.visual.rss.persistence.XMLPersistence;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 
 /**

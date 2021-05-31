@@ -11,6 +11,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.jcryptool.visual.rss.persistence.InvalidSignatureException;
+import org.jcryptool.visual.rss.persistence.MessageAndRedactable;
+import org.jcryptool.visual.rss.persistence.Persistence;
+import org.jcryptool.visual.rss.persistence.XMLPersistence;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.Identifier;

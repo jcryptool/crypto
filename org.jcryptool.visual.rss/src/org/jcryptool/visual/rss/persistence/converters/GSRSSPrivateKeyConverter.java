@@ -1,4 +1,4 @@
-package org.jcryptool.visual.rss.algorithm;
+package org.jcryptool.visual.rss.persistence.converters;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,19 +27,19 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
 
 
-public class GLRSSPrivateKeyConverter implements Converter {
+public class GSRSSPrivateKeyConverter implements Converter {
 
 	@Override
 	public boolean canConvert(Class clazz) {
-		return clazz.equals(GLRSSPrivateKey.class);
+		return clazz.equals(GSRSSPrivateKey.class);
 	}
 
 	@Override
 	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
-		GLRSSPrivateKey privateKey = (GLRSSPrivateKey) value;
+		GSRSSPrivateKey privateKey = (GSRSSPrivateKey) value;
 		
-		writer.startNode("GsrssKey");
-		context.convertAnother(privateKey.getGsrssKey());
+		writer.startNode("DSigKey");
+		context.convertAnother(privateKey.getDSigKey());
 		writer.endNode();
 		
 		writer.startNode("AccumulatorKey");

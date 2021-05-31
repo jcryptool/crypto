@@ -1,4 +1,4 @@
-package org.jcryptool.visual.rss.algorithm;
+package org.jcryptool.visual.rss.persistence;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,6 +21,7 @@ import java.util.Vector;
 
 import org.jcryptool.core.util.constants.IConstants;
 import org.jcryptool.visual.rss.Activator;
+import org.jcryptool.visual.rss.algorithm.KeyInformation;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;

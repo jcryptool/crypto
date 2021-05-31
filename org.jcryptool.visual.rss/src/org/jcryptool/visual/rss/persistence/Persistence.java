@@ -1,8 +1,10 @@
-package org.jcryptool.visual.rss.algorithm;
+package org.jcryptool.visual.rss.persistence;
 
 import java.io.FileNotFoundException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
+
+import org.jcryptool.visual.rss.algorithm.KeyInformation;
 
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.SignatureOutput;
 

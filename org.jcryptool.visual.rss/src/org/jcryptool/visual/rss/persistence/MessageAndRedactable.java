@@ -1,4 +1,4 @@
-package org.jcryptool.visual.rss.algorithm;
+package org.jcryptool.visual.rss.persistence;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,8 +8,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.security.KeyPair;
 import java.security.PrivateKey;
-import java.security.interfaces.RSAPrivateCrtKey;
-import java.security.spec.RSAPrivateCrtKeySpec;
+import java.util.List;
 import java.util.Vector;
 
 import org.jcryptool.core.util.constants.IConstants;
@@ -27,35 +26,30 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.SignatureOutput;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.BPPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
-import de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPrivateKey;
 
 
-public class RSAPrivateKeyConverter implements Converter {
+public class MessageAndRedactable  {
 
-	@Override
-	public boolean canConvert(Class clazz) {
-		return clazz.equals(RSAPrivateCrtKey.class);
-	}
-
-	@Override
-	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
-		RSAPrivateCrtKey privateKey = (RSAPrivateCrtKey) value;
-		
-
-	}
-
-	@Override
-	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-		
-
-		
-		PrivateKey privateKey = (PrivateKey) new RSAPrivateCrtKeySpec(null, null, null, null, null, null, null, null);
-		
-		return privateKey;
+	private List<String> messageParts;
+	private List<Boolean> redactableParts;
+	
+	public MessageAndRedactable(List<String> messageParts, List<Boolean> redactableParts) {
+		this.messageParts = messageParts;
+		this.redactableParts = redactableParts;
 	}
 	
-	
-	
-	
+	public List<String> getMessageParts() {
+		return messageParts;
+	}
+	public void setMessageParts(List<String> messageParts) {
+		this.messageParts = messageParts;
+	}
+	public List<Boolean> getRedactableParts() {
+		return redactableParts;
+	}
+	public void setRedactableParts(List<Boolean> redactableParts) {
+		this.redactableParts = redactableParts;
+	}
+
 	
 }

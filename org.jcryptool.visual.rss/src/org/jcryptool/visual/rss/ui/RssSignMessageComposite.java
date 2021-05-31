@@ -19,9 +19,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
-import org.jcryptool.visual.rss.algorithm.InvalidSignatureException;
-import org.jcryptool.visual.rss.algorithm.MessageAndRedactable;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
+import org.jcryptool.visual.rss.persistence.InvalidSignatureException;
+import org.jcryptool.visual.rss.persistence.MessageAndRedactable;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 

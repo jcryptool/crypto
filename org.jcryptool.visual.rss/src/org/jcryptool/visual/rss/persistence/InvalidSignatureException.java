@@ -1,4 +1,4 @@
-package org.jcryptool.visual.rss.algorithm;
+package org.jcryptool.visual.rss.persistence;
 
 /**
  * This exception is thrown, when the given signed message file is not supported by this visualisation.

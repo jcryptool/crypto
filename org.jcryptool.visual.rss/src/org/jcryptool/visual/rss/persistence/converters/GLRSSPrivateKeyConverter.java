@@ -1,15 +1,13 @@
-package org.jcryptool.visual.rss.algorithm;
+package org.jcryptool.visual.rss.persistence.converters;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.KeyPair;
 import java.security.PrivateKey;
-import java.security.spec.RSAPrivateKeySpec;
 import java.util.Vector;
 
 import org.jcryptool.core.util.constants.IConstants;
@@ -29,32 +27,48 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
 
 
-public class RSAPrivateKeySpecConverter implements Converter {
+public class GLRSSPrivateKeyConverter implements Converter {
 
 	@Override
 	public boolean canConvert(Class clazz) {
-		return clazz.equals(RSAPrivateKeySpec.class);
+		return clazz.equals(GLRSSPrivateKey.class);
 	}
 
 	@Override
 	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
-	
+		GLRSSPrivateKey privateKey = (GLRSSPrivateKey) value;
+		
+		writer.startNode("GsrssKey");
+		context.convertAnother(privateKey.getGsrssKey());
+		writer.endNode();
+		
+		writer.startNode("AccumulatorKey");
+		context.convertAnother(privateKey.getAccumulatorKey());
+		writer.endNode();
+		
+		writer.startNode("Algorithm");
+		writer.setValue(privateKey.getAlgorithm());
+		writer.endNode();
 	}
 
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		
 		reader.moveDown();
-		BigInteger modulus = (BigInteger)context.convertAnother(context, BigInteger.class);
+		PrivateKey gsrssKey = (GSRSSPrivateKey)context.convertAnother(context, GSRSSPrivateKey.class);
 		reader.moveUp();
 		
 		reader.moveDown();
-		BigInteger privateExponent = (BigInteger)context.convertAnother(context, BigInteger.class);
+		PrivateKey accumulatorKey = (BPPrivateKey)context.convertAnother(context, BPPrivateKey.class);
 		reader.moveUp();	
 		
-		RSAPrivateKeySpec privateKeySpec = new RSAPrivateKeySpec(modulus, privateExponent);
+		reader.moveDown();
+		String algorithm = reader.getValue();
+		reader.moveUp();	
 		
-		return privateKeySpec;
+		PrivateKey privateKey = new GLRSSPrivateKey(algorithm, gsrssKey, accumulatorKey);
+		
+		return privateKey;
 	}
 	
 	
