@@ -104,7 +104,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
                
         // Next button
         nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.Next);
+        nextButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
         nextButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 body.setActiveRssComposite(ActiveRssBodyComposite.REDACT);
