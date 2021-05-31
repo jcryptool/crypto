@@ -35,9 +35,11 @@ public class RssAlgorithmController {
     private RedactableSignature signature;
     private SignatureOutput signOut;
     private SignatureOutput redacted;
+    private final Persistence persistence;
     
     public RssAlgorithmController() {
         currentState = State.START;
+        persistence = new XMLPersistence();
     }
     
     public State getCurrentState() {
@@ -434,10 +436,9 @@ public class RssAlgorithmController {
 		
 	}
 	
-	// TODO: Add wrong state exceptions in the following
-
 	/**
 	 * Saves the key information to the given file path.
+	 * 
 	 * @param path The file path to store the key information to.
 	 * @throws FileNotFoundException Thrown when the given file path is invalid.
 	 */
@@ -446,22 +447,28 @@ public class RssAlgorithmController {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		KeyPersistence.saveInformation(getInformation(), path);		
+		if(currentState == State.START) {
+			throw new IllegalStateException("The key can not be saved before created.");
+		}
+		
+		persistence.saveInformation(getInformation(), path);		
 	}
 
 	/**
 	 * Loads the key information from the given file path.
+	 * 
 	 * @param path The path to load the key from.
-	 * @return 
+	 * @return The loaded keyInformation.
 	 * @throws FileNotFoundException In case the given path is invalid.
-	 * @throws NoSuchAlgorithmException 
+	 * @throws NoSuchAlgorithmException In case the algorithm is not supported.
+	 * @throws InvalidKeyException In case the key is not supported by the visualisation.
 	 */
-	public KeyInformation loadKey(String path) throws FileNotFoundException, NoSuchAlgorithmException {
+	public KeyInformation loadKey(String path) throws FileNotFoundException, NoSuchAlgorithmException, InvalidKeyException {
 		if(path == null || path.equals("")) {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		KeyInformation information = KeyPersistence.loadInformation(path);
+		KeyInformation information = persistence.loadInformation(path);
 		
 		if(information != null) {
 			setInformation(information);	
@@ -472,52 +479,69 @@ public class RssAlgorithmController {
 	}
 
 	/**
-	 * Saves the message information to the given file path.
-	 * @param path The file path to store the message information to.
+	 * Saves the signatureOutput to the given file path.
+	 * 
+	 * @param path The file path to store the signatureOutput to.
 	 * @throws FileNotFoundException Thrown when the given file path is invalid.
 	 */
-	public void saveMessage(String path) throws FileNotFoundException {
+	public void saveSignature(String path) throws FileNotFoundException {
 		if(signOut == null) {
 			throw new IllegalStateException("SignOut must be initialized to store it.");
 		}
 		
+		if(currentState == State.START || currentState == State.KEY_SET || currentState == State.MESSAGE_SET) {
+			throw new IllegalStateException("The signature can not be saved before created.");
+		}
+		
 		if(path == null || path.equals("")) {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		KeyPersistence.saveMessage(signOut, path);	
+		persistence.saveSignatureOutput(signOut, path);	
 	}
 	
 	/**
-	 * Saves the redacted message information to the given file path.
+	 * Saves the redacted signatureOutput to the given file path.
+	 * 
 	 * @param path The file path to store the message information to.
 	 * @throws FileNotFoundException Thrown when the given file path is invalid.
 	 */
-	public void saveRedactedMessage(String path) throws FileNotFoundException {
+	public void saveRedactedSignature(String path) throws FileNotFoundException {
 		if(redacted == null) {
 			throw new IllegalStateException("SignOut must be initialized to store it.");
 		}
 		
+		if(currentState != State.PARTS_REDACTED && currentState != State.REDACTED_VERIFIED) {
+			throw new IllegalStateException("The redacted signature can not be saved before created.");
+		}
+		
 		if(path == null || path.equals("")) {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		KeyPersistence.saveMessage(redacted, path);	
+		persistence.saveSignatureOutput(redacted, path);	
 	}
 	
 	/**
-	 * Loads the message information from the given file path.
+	 * Loads the signature output from the given file path. 
+	 * 
 	 * @param path The path to load the key from.
-	 * @return 
+	 * @return The loaded message parts as Strings together with the information, which of them are redactable. Returns null in case the loading was not canceled.
 	 * @throws FileNotFoundException In case the given path is invalid.
-	 * @throws NoSuchAlgorithmException 
+	 * @throws InvalidSignatureException In case the signature is not supported by the visualisation or the chosen key.
 	 */
-	public MessageAndRedactable loadMessage(String path) throws FileNotFoundException, NoSuchAlgorithmException {
+	public MessageAndRedactable loadSignature(String path) throws FileNotFoundException, InvalidSignatureException {
+		if(currentState == State.START) {
+			throw new IllegalStateException("The signature can not be loaded before the key is set.");
+		}
+		
 		if(path == null || path.equals("")) {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		SignatureOutput loadedSignOut = KeyPersistence.loadMessage(path);
+		SignatureOutput loadedSignOut = persistence.loadSignatureOutput(path);
+		
+		// TODO: Add check, if loadedSignOut matches chosen algorithm variant.
 		
 		if(loadedSignOut != null) {
 			setSignOut(loadedSignOut);

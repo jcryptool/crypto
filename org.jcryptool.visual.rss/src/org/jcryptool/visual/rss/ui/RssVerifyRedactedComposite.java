@@ -127,7 +127,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
 					
 					// Save the key 
 					try {
-						rac.saveRedactedMessage(messageStorePath);
+						rac.saveRedactedSignature(messageStorePath);
 					} catch (FileNotFoundException e1) {
 						
 						// Open a error message dialog

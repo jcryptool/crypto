@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.InvalidSignatureException;
 import org.jcryptool.visual.rss.algorithm.MessageAndRedactable;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
@@ -124,7 +125,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 					
 					// Save the key 
 					try {
-						rac.saveMessage(messageStorePath);
+						rac.saveSignature(messageStorePath);
 					} catch (FileNotFoundException e1) {
 						
 						// Open a error message dialog
@@ -156,23 +157,11 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 					
 			
 					try {
-						messageAndRedactable = rac.loadMessage(messageStorePath);
+						messageAndRedactable = rac.loadSignature(messageStorePath);
 					} catch (FileNotFoundException e1) {
-						
-						// Open a error message dialog
-						MessageBox dialog =
-						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-						dialog.setText("Failed to load key!");
-						dialog.setMessage("There was an error while trying to load the key. Please try again.");
-						dialog.open();				
-					} catch (NoSuchAlgorithmException e1) {
-						
-						// Open a error message dialog
-						MessageBox dialog =
-						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-						dialog.setText("Failed to load key!");
-						dialog.setMessage("The given input is no valid key or is not supported by this visualisation.");
-						dialog.open();	
+						showErrorDialog("The given input file was not found. Please try again.");				
+					} catch (InvalidSignatureException e1) {
+						showErrorDialog("The given input is no valid signed message or is not supported by this visualisation.");	
 					} 
 				
 					if(messageAndRedactable != null) {
@@ -196,9 +185,23 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 					}		
 				}
             }
+
+	
         });
 
     }
+    
+    /**
+     * Shows a error dialog when the signed message loading failed.
+     * @param message The message of the error dialog.
+     */
+	private void showErrorDialog(String message) {
+		MessageBox dialog =
+		    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+		dialog.setText("Failed to load the signed message!");
+		dialog.setMessage(message);
+		dialog.open();
+	}
 
 	private void setMessagePartsAndRedactable(Composite c, List<String> messages, List<Boolean> redactableParts) {
        messageList = new ArrayList<String>();

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyRep;
@@ -29,11 +30,11 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
 
 /**
- * Persists a key.
+ * Persists and loads KeyInformation and SignatureOutput to/from XML.
  * 
  * @author Lukas Krodinger
  */
-public class KeyPersistence {
+public class XMLPersistence implements Persistence {
 	
 	
 	/*public static void saveKey(KeyPair keyPair, String path) throws FileNotFoundException {
@@ -59,6 +60,7 @@ public class KeyPersistence {
 		return vector;
 	}*/
 	
+	// TODO: Remove
 	public static void saveKeyPair(KeyPair keyPair, String path) throws FileNotFoundException {
 		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(path),
 		        Charset.forName(IConstants.UTF8_ENCODING));
@@ -69,6 +71,7 @@ public class KeyPersistence {
 		
 	}
 	
+	// TODO: Remove
 	public static KeyPair loadKeyPair(String path) throws FileNotFoundException {
 		InputStreamReader isr = new InputStreamReader(new FileInputStream(path), Charset.forName(IConstants.UTF8_ENCODING));
 
@@ -78,32 +81,48 @@ public class KeyPersistence {
 		return vector;
 	}
 	
-	
-	public static void saveInformation(KeyInformation keyPair, String path) throws FileNotFoundException {
+	/**
+	 *  {@inheritDoc}
+	 */
+	public void saveInformation(KeyInformation keyInformation, String path) throws FileNotFoundException {
+				
+		// Creates a output stream writer to write to the file
 		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(path),
 		        Charset.forName(IConstants.UTF8_ENCODING));
 		
+		// Creates a XML serializer
 		XStream xstream = new XStream(new DomDriver());	
 		
-		xstream.toXML(keyPair, osw);
+		// Serialize and save the SignatureOutput
+		xstream.toXML(keyInformation, osw);
 		
 	}
 	
-	public static KeyInformation loadInformation(String path) throws FileNotFoundException, NoSuchAlgorithmException {
+	/**
+	 *  {@inheritDoc}
+	 */
+	public KeyInformation loadInformation(String path) throws FileNotFoundException, InvalidKeyException {
+		
+		// Create a input stream reader to load the file
 		InputStreamReader isr = new InputStreamReader(new FileInputStream(path), Charset.forName(IConstants.UTF8_ENCODING));
 
+		// Create a XML parser
 		XStream xstream = new XStream(new DomDriver());
 		
-		KeyInformation vector = null;
-		try {
-			vector = (KeyInformation)xstream.fromXML(isr);
-		} catch(Exception e) {
-			throw new NoSuchAlgorithmException("The key file is invalid or the loaded key is not supported");
+		// Parse the object from XML
+		Object parsedObject = xstream.fromXML(isr);
+		
+		// Check if the file is valid
+		if(parsedObject instanceof KeyInformation) {
+			KeyInformation keyInformation = (KeyInformation) parsedObject;
+			return keyInformation;
+		} else {
+			throw new InvalidKeyException("The given file does not contain a valid key.");
 		}
-		return vector;
 	}
 	
-	public static void savePrivateKey(PrivateKey keyPair, String path) throws FileNotFoundException, InvalidKeySpecException, NoSuchAlgorithmException {
+	// TODO: Remove
+	public void savePrivateKey(PrivateKey keyPair, String path) throws FileNotFoundException, InvalidKeySpecException, NoSuchAlgorithmException {
 		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(path),
 		        Charset.forName(IConstants.UTF8_ENCODING));
 		
@@ -126,6 +145,7 @@ public class KeyPersistence {
 		
 	}
 	
+	// TODO: Remove
 	public static PrivateKey loadPrivateKey(String path) throws FileNotFoundException, NoSuchAlgorithmException, InvalidKeySpecException {
 		InputStreamReader isr = new InputStreamReader(new FileInputStream(path), Charset.forName(IConstants.UTF8_ENCODING));
 
@@ -159,24 +179,43 @@ public class KeyPersistence {
 		return key;
 	}
 
-	public static void saveMessage(SignatureOutput signOut, String path) throws FileNotFoundException {
+	/**
+	 *  {@inheritDoc}
+	 */
+	public void saveSignatureOutput(SignatureOutput signOut, String path) throws FileNotFoundException {
+		
+		// Creates a output stream writer to write to the file
 		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(path),
 		        Charset.forName(IConstants.UTF8_ENCODING));
 		
+		// Creates a XML serializer
 		XStream xstream = new XStream(new DomDriver());
 		
-	
+		// Serialize and save the SignatureOutput
 		xstream.toXML(signOut, osw);
-		
 	}
 
-	public static SignatureOutput loadMessage(String path) throws FileNotFoundException {
+	/**
+	 *  {@inheritDoc}
+	 */
+	public SignatureOutput loadSignatureOutput(String path) throws FileNotFoundException, InvalidSignatureException {
+		
+		// Create a input stream reader to load the file
 		InputStreamReader isr = new InputStreamReader(new FileInputStream(path), Charset.forName(IConstants.UTF8_ENCODING));
-
+		
+		// Create a XML parser
 		XStream xstream = new XStream(new DomDriver());
 		
-		SignatureOutput vector = (SignatureOutput)xstream.fromXML(isr);
-		return vector;
+		// Load and parse the file
+		Object parsedObject = xstream.fromXML(isr);
+		
+		// Check if the file is valid
+		if(parsedObject instanceof SignatureOutput) {
+			SignatureOutput signOut = (SignatureOutput) parsedObject;
+			return signOut;
+		} else {
+			throw new InvalidSignatureException("The given file is not supported by this visualisation.");
+		}
 	}
 	
 	

@@ -3,6 +3,7 @@ package org.jcryptool.visual.rss.ui;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -22,7 +23,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.KeyInformation;
-import org.jcryptool.visual.rss.algorithm.KeyPersistence;
+import org.jcryptool.visual.rss.algorithm.XMLPersistence;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.AlgorithmType;
@@ -161,21 +162,12 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 					try {
 						loadedKeyInformation = rssController.loadKey(keyStorePath);
 					} catch (FileNotFoundException e1) {
-						
-						// Open a error message dialog
-						MessageBox dialog =
-						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-						dialog.setText("Failed to load key!");
-						dialog.setMessage("There was an error while trying to load the key. Please try again.");
-						dialog.open();				
+						showErrorDialog("There was an error while trying to load the key. Please try again.");
 					} catch (NoSuchAlgorithmException e1) {
-						
-						// Open a error message dialog
-						MessageBox dialog =
-						    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
-						dialog.setText("Failed to load key!");
-						dialog.setMessage("The given input is no valid key or is not supported by this visualisation.");
-						dialog.open();	
+						showErrorDialog("The given input is no valid key or is not supported by this visualisation.");
+					} catch (InvalidKeyException e1) {
+						showErrorDialog("The given input is no valid key or is not supported by this visualisation.");
+
 					} 
 				
 					// It is null in case the loading was not successful
@@ -197,6 +189,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 					}
 				}
             }
+
         });
         
         // Next button
@@ -211,6 +204,18 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         
         
     }
+    
+    /**
+     * Opens a error dialog when the key failed to be loaded.
+     * @param message The message of the error dialog.
+     */
+	private void showErrorDialog(String message) {
+		MessageBox dialog =
+		    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+		dialog.setText("Failed to load key!");
+		dialog.setMessage(message);
+		dialog.open();		
+	}
 
     private KeyLength getKeyLength() {
         String keyLength = keySizeCombo.getItem(keySizeCombo.getSelectionIndex());
