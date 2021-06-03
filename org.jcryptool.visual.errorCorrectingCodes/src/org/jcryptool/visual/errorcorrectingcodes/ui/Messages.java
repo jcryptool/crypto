@@ -27,6 +27,7 @@ public class Messages extends NLS {
     public static String HammingCryptoView_lblHeader;
     public static String HammingCryptoView_textHeader;
     public static String HammingCryptoView_btnGeneratePrivateKey;
+    public static String HammingCryptoView_grpInverseMatrices;
     public static String HammingCryptoView_grpEncryption;
     public static String HammingCryptoView_grpDecryption;
     public static String HammingCryptoView_grpPrivateKey;

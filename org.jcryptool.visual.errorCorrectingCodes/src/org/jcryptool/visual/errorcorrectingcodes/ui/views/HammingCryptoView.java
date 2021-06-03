@@ -43,7 +43,7 @@ public class HammingCryptoView extends Composite {
 
     private Composite parent;
     private Composite mainComposite;
-    private Composite compInverseMatrices;
+    private Group grpInverseMatrices;
     private Group grpDecryption;
     private Group grpPrivateKey;
     private Group grpEncryption;
@@ -92,13 +92,15 @@ public class HammingCryptoView extends Composite {
         
         mainComposite = new Composite(this, SWT.NONE);
         GridLayout gl_mainComposite = new GridLayout(2, true);
+        gl_mainComposite.marginHeight = 0;
+        gl_mainComposite.marginWidth = 0;
         mainComposite.setLayout(gl_mainComposite);
         mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         
         grpDecryption = new Group(mainComposite, SWT.NONE);
         grpDecryption.setText(Messages.HammingCryptoView_grpDecryption);
         grpDecryption.setLayout(new GridLayout(1, false));
-        grpDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        grpDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 3));
         
 
         grpPrivateKey = new Group(grpDecryption, SWT.NONE);
@@ -136,24 +138,25 @@ public class HammingCryptoView extends Composite {
         compMatrixP = new InteractiveMatrix(grpPrivateKey, 7, 7);
         compMatrixP.setPermutation(true);
 
-        compInverseMatrices = new Composite(grpDecryption, SWT.NONE);
-        GridLayout gl_compInverseMatrices = new GridLayout(4, false);
+        grpInverseMatrices = new Group(grpDecryption, SWT.NONE);
+        grpInverseMatrices.setText(Messages.HammingCryptoView_grpInverseMatrices);
+        GridLayout gl_grpInverseMatrices = new GridLayout(4, false);
         // 20 pixel horizontal spacing between components in group.
-        gl_compInverseMatrices.horizontalSpacing = 20;
-        compInverseMatrices.setLayout(gl_compInverseMatrices);
-        compInverseMatrices.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        gl_grpInverseMatrices.horizontalSpacing = 20;
+        grpInverseMatrices.setLayout(gl_grpInverseMatrices);
+        grpInverseMatrices.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         
-        lblMatrixSInverse = new Label(compInverseMatrices, SWT.NONE);
+        lblMatrixSInverse = new Label(grpInverseMatrices, SWT.NONE);
         lblMatrixSInverse.setText("S' = "); //$NON-NLS-1$
         
-        textMatrixSInverse = matrixText(compInverseMatrices, SWT.LEFT, SWT.CENTER, 4, 4);
+        textMatrixSInverse = matrixText(grpInverseMatrices, SWT.LEFT, SWT.CENTER, 4, 4);
         
-        lblMatrixPInverse = new Label(compInverseMatrices, SWT.NONE);
+        lblMatrixPInverse = new Label(grpInverseMatrices, SWT.NONE);
         lblMatrixPInverse.setText("P' = "); //$NON-NLS-1$
         lblMatrixPInverse.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true));
         
-        textMatrixPInverse = matrixText(compInverseMatrices, SWT.LEFT, SWT.CENTER, 7, 7);
+        textMatrixPInverse = matrixText(grpInverseMatrices, SWT.LEFT, SWT.CENTER, 7, 7);
 
         grpOutput = new Group(grpDecryption, SWT.NONE);
         grpOutput.setLayout(new GridLayout());
@@ -202,7 +205,7 @@ public class HammingCryptoView extends Composite {
         
         textEncrypted = UIHelper.mutltiLineText(grpCiphertext, SWT.FILL, SWT.FILL, 400, 5, FontService.getNormalMonospacedFont(), true);
 
-        grpControlButtons = new Group(grpEncryption, SWT.NONE);
+        grpControlButtons = new Group(mainComposite, SWT.NONE);
         grpControlButtons.setLayout(new GridLayout(3, false));
         
         
@@ -219,8 +222,8 @@ public class HammingCryptoView extends Composite {
         btnReset.addListener(SWT.Selection, e -> initView());
         
         
-        grpTextInfo = new Group(grpEncryption, SWT.NONE);
-        grpTextInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        grpTextInfo = new Group(mainComposite, SWT.NONE);
+        grpTextInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         grpTextInfo.setLayout(new GridLayout());
         grpTextInfo.setText(Messages.HammingCryptoView_grpTextInfo);
         
@@ -239,7 +242,7 @@ public class HammingCryptoView extends Composite {
     /**
      * Initializes the view, resetting elements.
      */
-    private void initView() {
+    public void initView() {
         resetKeys();
         textInput.setText("Hallo"); //$NON-NLS-1$
         textInfo.setText(Messages.HammingCryptoView_step1);
@@ -249,7 +252,7 @@ public class HammingCryptoView extends Composite {
         btnNextStep.setEnabled(true);
         grpPublicKey.setVisible(false);
         grpCiphertext.setVisible(false);
-        compInverseMatrices.setVisible(false);
+        grpInverseMatrices.setVisible(false);
         grpOutput.setVisible(false);
         textMatrixG.setText(data.getMatrixG().toString());
     }
@@ -284,7 +287,7 @@ public class HammingCryptoView extends Composite {
             textMatrixPInverse.setText(data.getMatrixPInv().toString());
             textMatrixSInverse.setText(data.getMatrixSInv().toString());
             textInfo.setText(Messages.HammingCryptoView_step3);
-            compInverseMatrices.setVisible(true);
+            grpInverseMatrices.setVisible(true);
             grpOutput.setVisible(true);
             btnNextStep.setEnabled(false);
         }
@@ -296,7 +299,7 @@ public class HammingCryptoView extends Composite {
     private void prevStep() {
         if (grpOutput.isVisible()) {
             textInfo.setText(Messages.HammingCryptoView_step2);
-            compInverseMatrices.setVisible(false);
+            grpInverseMatrices.setVisible(false);
             grpOutput.setVisible(false);
             btnNextStep.setEnabled(true);
         } else if (grpPublicKey.isVisible()) {

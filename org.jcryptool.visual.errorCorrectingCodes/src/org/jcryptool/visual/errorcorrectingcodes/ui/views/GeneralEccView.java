@@ -297,7 +297,7 @@ public class GeneralEccView extends Composite {
     /**
      * Initializes the view by hiding later steps.
      */
-    private void initView() {
+    public void initView() {
         textInput.setText("hello"); //$NON-NLS-1$
         ecc.textAsBinary();
         btnPrev.setEnabled(false);

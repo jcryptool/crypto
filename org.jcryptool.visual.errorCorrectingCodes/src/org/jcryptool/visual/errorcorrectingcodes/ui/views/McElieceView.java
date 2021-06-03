@@ -7,6 +7,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
@@ -254,5 +255,12 @@ public class McElieceView extends Composite {
         mceCrypto.encrypt(txtInput.getText().getBytes());
         txtOutput.setText(mceCrypto.getEncryptedHex());
 
+    }
+    
+    public void resetView() {
+		Control[] children = this.getChildren();
+		for (Control control : children) {
+			control.dispose();
+		}
     }
 }

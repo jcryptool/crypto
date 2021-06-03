@@ -8,7 +8,8 @@ public class BitArray extends ArrayList<int[]> {
         super(initialCapacity);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         StringBuilder sb = new StringBuilder();
         this.forEach(segment -> {
             for (int i = segment.length-1; i>=0; i--) {

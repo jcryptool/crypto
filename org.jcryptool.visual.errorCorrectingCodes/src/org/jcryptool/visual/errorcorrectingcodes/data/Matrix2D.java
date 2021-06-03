@@ -283,7 +283,8 @@ public class Matrix2D {
      * Return a string representation of the Matrix.
      * 
      */
-    public String toString() {
+    @Override
+	public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int row = 0; row < data.length; row++) {
             for (int col = 0; col < data[row].length; col++) {

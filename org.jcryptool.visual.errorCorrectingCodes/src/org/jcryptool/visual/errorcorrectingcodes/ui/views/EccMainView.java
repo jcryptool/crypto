@@ -8,11 +8,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.jcryptool.core.logging.utils.LogUtil;
+import org.jcryptool.core.util.colors.ColorService;
+import org.jcryptool.visual.errorcorrectingcodes.EccPlugin;
 import org.jcryptool.visual.errorcorrectingcodes.ui.Messages;
 
 public class EccMainView extends ViewPart {
 	private static final int DEFAULT_TAB = 0;
 	private Composite parent;
+	private ScrolledComposite sc;
 
 	private CTabFolder tabFolder;
 	private CTabItem tabGeneral;
@@ -30,12 +34,10 @@ public class EccMainView extends ViewPart {
 		this.parent = parent;
 
 		tabFolder = new CTabFolder(parent, SWT.NONE);
-		tabFolder.setSelectionBackground(parent.getDisplay().getSystemColor(SWT.COLOR_GRAY));
+		tabFolder.setSelectionBackground(ColorService.LIGHTGRAY);
 
 		// McEliece Algorithm view
-		ScrolledComposite sc = new ScrolledComposite(tabFolder, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		// GridLayoutFactory.fillDefaults().applyTo(sc);
-		// GridDataFactory.fillDefaults().grab(true, true).applyTo(sc);
+		sc = new ScrolledComposite(tabFolder, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		sc.setExpandHorizontal(true);
 		sc.setExpandVertical(true);
 
@@ -79,15 +81,35 @@ public class EccMainView extends ViewPart {
 	}
 
 	/**
-	 * Reset the view to initial state.
+	 * Reset each tab to its inital state.
 	 */
 	public void resetView() {
-		Control[] children = parent.getChildren();
-		for (Control control : children) {
-			control.dispose();
+		
+		switch (tabFolder.getSelectionIndex()) {
+		case 0:
+			Control[] children = mcEliece.getChildren();
+			for (Control control : children) {
+				control.dispose();
+			}
+			mcEliece.dispose();
+			mcEliece = new McElieceView(sc, SWT.NONE);
+			sc.setContent(mcEliece);
+			sc.setMinSize(mcEliece.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			tabMcEliece.setControl(sc);
+			break;
+		case 1:
+			hammingView.initView();
+			break;
+		case 2:
+			generalEcc.initView();
+			break;
+
+		default:
+			LogUtil.logError(EccPlugin.PLUGIN_ID, "Something went wrong when resetting the McElice-Plugin");
+			break;
 		}
-		createPartControl(parent);
-		parent.layout();
+		
+
 	}
 
 }

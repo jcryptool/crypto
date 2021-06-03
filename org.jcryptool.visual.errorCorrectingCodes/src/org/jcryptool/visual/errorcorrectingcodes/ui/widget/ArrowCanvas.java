@@ -76,7 +76,7 @@ public class ArrowCanvas extends Canvas {
         Path path = new Path(gc.getDevice());
         path.moveTo((float) (x2 - arrowLength * Math.cos(theta - arrowAngle)),
                 (float) (y2 - arrowLength * Math.sin(theta - arrowAngle)));
-        path.lineTo((float) x2, (float) y2);
+        path.lineTo(x2, y2);
         path.lineTo((float) (x2 - arrowLength * Math.cos(theta + arrowAngle)),
                 (float) (y2 - arrowLength * Math.sin(theta + arrowAngle)));
         path.close();
@@ -103,7 +103,8 @@ public class ArrowCanvas extends Canvas {
      *
      * @return the display
      */
-    public Display getDisplay() {
+    @Override
+	public Display getDisplay() {
         return display;
     }
 
