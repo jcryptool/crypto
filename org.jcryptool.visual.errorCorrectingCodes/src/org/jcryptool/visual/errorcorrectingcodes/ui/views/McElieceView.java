@@ -75,7 +75,6 @@ public class McElieceView extends Composite {
         grpAlgorithmInfo = new Group(mainComposite, SWT.NONE);
         grpAlgorithmInfo.setText(Messages.McElieceView_grpKeyParams);
         grpAlgorithmInfo.setLayout(new GridLayout(5, false));
-//        grpAlgorithmInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
         
         Label lblValueM = new Label(grpAlgorithmInfo, SWT.NONE);
         lblValueM.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
@@ -84,6 +83,7 @@ public class McElieceView extends Composite {
         comboValueM = new Combo(grpAlgorithmInfo, SWT.READ_ONLY);
         comboValueM.setItems(mceCrypto.getValidMValues());
         comboValueM.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        comboValueM.setText("8");
         
         btnFillKey = new Button(grpAlgorithmInfo, SWT.PUSH | SWT.WRAP);
         btnFillKey.setText(Messages.McElieceView_btnFillKey);
@@ -112,6 +112,7 @@ public class McElieceView extends Composite {
         
         txtValueT = new Text(grpAlgorithmInfo, SWT.BORDER);
         txtValueT.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        txtValueT.setText("12");
 
 
         Label lblValueN = new Label(grpAlgorithmInfo, SWT.NONE);
