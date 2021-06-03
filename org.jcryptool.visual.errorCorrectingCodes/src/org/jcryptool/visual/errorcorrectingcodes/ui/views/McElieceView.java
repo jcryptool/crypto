@@ -9,6 +9,13 @@
 // -----END DISCLAIMER-----
 package org.jcryptool.visual.errorcorrectingcodes.ui.views;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
@@ -22,6 +29,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.logging.utils.LogUtil;
+import org.jcryptool.core.operations.OperationsPlugin;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.units.DefaultByteFormatter;
@@ -162,11 +170,13 @@ public class McElieceView extends Composite {
 
 
         grpInput = new Group(mainComposite, SWT.NONE);
-        grpInput.setText(Messages.McElieceView_grpInput);
+        grpInput.setText(Messages.McElieceView_grpInput + " (0 Byte)");
         grpInput.setLayout(new GridLayout());
         grpInput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         
         txtInput = UIHelper.mutltiLineText(grpInput, SWT.FILL, SWT.CENTER, 400, 5);
+        txtInput.addListener(SWT.Modify, e -> updatePlaintextLength());
+        txtInput.setText(getDefaultText());
         
         btnEncrypt = new Button(grpInput, SWT.PUSH);
         btnEncrypt.setText(Messages.McElieceView_btnEncrypt);
@@ -174,17 +184,29 @@ public class McElieceView extends Composite {
         btnEncrypt.addListener(SWT.Selection, e -> performEncryption());
 
         grpOutput = new Group(mainComposite, SWT.NONE);
-        grpOutput.setText(Messages.McElieceView_grpOutput);
+        grpOutput.setText(Messages.McElieceView_grpOutput + " (0 Byte)");
         grpOutput.setLayout(new GridLayout());
         grpOutput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         
         txtOutput = UIHelper.mutltiLineText(grpOutput, SWT.FILL, SWT.CENTER, 400, 5);
+        txtOutput.addListener(SWT.Modify, e -> updateCiphertextLength());
         
         btnDecrypt = new Button(grpOutput, SWT.PUSH);
         btnDecrypt.setText(Messages.McElieceView_btnDecrypt);
         btnDecrypt.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
         btnDecrypt.addListener(SWT.Selection, e -> performDecryption());
 
+    }
+    
+    private void updatePlaintextLength() {
+    	int textLength = txtInput.getText().length();
+    	grpInput.setText(Messages.McElieceView_grpInput + " (" + textLength + " Byte)");
+    }
+    
+    private void updateCiphertextLength() {
+    	// Length is divided by 2 because text is in hexadecimal format
+    	int textLength = txtOutput.getText().length() / 2;
+    	grpOutput.setText(Messages.McElieceView_grpOutput + " (" + textLength + " Byte)");
     }
 
     private void generateKeys() {
@@ -220,6 +242,8 @@ public class McElieceView extends Composite {
             keyErrorDialog.open();
         }
 
+        txtValueK.setText(String.valueOf(mceCrypto.getK()));
+        txtValueN.setText(String.valueOf(mceCrypto.getCodeLength()));
         txtPublicKey.setText(dbf.format((long) mceCrypto.getPrivateKeySize()));
         return mceCrypto.getCodeLength();
 
@@ -256,6 +280,7 @@ public class McElieceView extends Composite {
     		keyErrorDialog.open();
     		return;
     	}
+    	
         if (Integer.valueOf(comboValueM.getText()) != mceCrypto.getM()
                 || Integer.valueOf(txtValueT.getText()) != mceCrypto.getT()) {
             updateParams();
@@ -263,7 +288,38 @@ public class McElieceView extends Composite {
 
         mceCrypto.encrypt(txtInput.getText().getBytes());
         txtOutput.setText(mceCrypto.getEncryptedHex());
-
+    }
+    
+    /**
+     * Loads the JCT default editor text (This is the JCryptool sample file...)
+     */
+    private String getDefaultText() {
+    	String defaultText = "Something went wrong loading the deafult text. Please report this issue.";
+    	try {
+    		URL url = OperationsPlugin.getDefault().getBundle().getEntry("/");
+			File template = new File(FileLocator.toFileURL(url).getFile() + "templates" + File.separatorChar + Messages.McElieceView_filename);
+			
+			BufferedReader br = new BufferedReader(new FileReader(template));
+			
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+			
+			while (line != null) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				line = br.readLine();
+			}
+			
+			br.close();
+			
+			defaultText = sb.toString();
+			
+    	} catch (IOException e) {
+			LogUtil.logError(EccPlugin.PLUGIN_ID, e);
+		} 
+    	
+    	return defaultText;
+    	
     }
     
     public void resetView() {

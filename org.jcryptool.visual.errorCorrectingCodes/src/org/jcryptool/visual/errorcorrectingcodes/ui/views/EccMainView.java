@@ -24,7 +24,6 @@ import org.jcryptool.visual.errorcorrectingcodes.ui.Messages;
 
 public class EccMainView extends ViewPart {
 	private static final int DEFAULT_TAB = 0;
-//	private Composite parent;
 	private ScrolledComposite sc;
 
 	private CTabFolder tabFolder;

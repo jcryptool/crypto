@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Shell;
 import org.jcryptool.visual.errorcorrectingcodes.data.Matrix2D;
 
 /**
@@ -97,12 +98,24 @@ public class InteractiveMatrix extends Composite {
 					
 					@Override
 					public void mouseExit(MouseEvent e) {
-						Display.getCurrent().getActiveShell().setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_ARROW));
+						Shell s = Display.getCurrent().getActiveShell();
+						// Perform a check if the Shell exists. 
+						// The shell does not exist, if the JCT has no focus,
+						// but the user hoovers over the buttons.
+						if (s != null) {
+							InteractiveMatrix.this.getDisplay().getActiveShell().setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_ARROW));
+						}
 					}
 					
 					@Override
 					public void mouseEnter(MouseEvent e) {
-						Display.getCurrent().getActiveShell().setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_HAND));
+						Shell s = Display.getCurrent().getActiveShell();
+						// Perform a check if the Shell exists. 
+						// The shell does not exist, if the JCT has no focus,
+						// but the user hoovers over the buttons.
+						if (s != null) {
+							s.setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_HAND));
+						}
 					}
 				});
 

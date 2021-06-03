@@ -11,7 +11,7 @@
 
 <h1>McEliece Kryptosystem</h1>
 
-<p>Dieses Dokument beschreibt das McEliece Kryprosystem und die Benutzung des Plugins.</br>
+<p>Dieses Dokument beschreibt das McEliece Kryptosystem und die Benutzung des Plugins.</br>
 
 1) <a href="#general">Das McEliece Kryptosystem</a></br>
 1.1) <a href="#algorithm">Algorithmus</a></br>
@@ -27,12 +27,12 @@
 <h2 id="general">1) Das McElice Kryptosystem</h2>
 <p>
     Das McEliece Kryptosystem ist ein asymmetrisches Verschlüsselungsverfahren
-    basierend auf Lineare Codes.
+    basierend auf linearen Codes.
     Ursprünglich im Jahr 1978 von Robert J. McEliece entwickelt (<a
     href="#ref_mceliece">1</a>), fand es lange aufgrund seiner erheblichen
-    Nachteile bei Performanz und Schlüsselgrößen keinen breiten Einsatz in
+    Nachteile bei Performanz und Schlüsselgröße keinen breiten Einsatz in
     kryptografischen Anwendungen.
-    Die grundlegende Idee hinter dem Verfahren besteht darin Nachrichten mit
+    Die grundlegende Idee hinter dem Verfahren besteht darin, Nachrichten mit
     einem Fehlerkorrekturverfahren zu kodieren und bereits vor dem Versand
     Fehler einzubringen, welche nur durch den Empfänger mit einem entsprechend
     effizienten Dekodierungsverfahren gefunden werden können.
@@ -44,53 +44,53 @@
 </p>
 
 <p>
-    Die Sicherheit des McEliece Verfahrens basiert auf der Schwierigkeit
-    beliebige Lineare Codes zu dekodieren.
+    Die Sicherheit des McEliece Verfahrens basiert auf der Schwierigkeit,
+    beliebige lineare Codes zu dekodieren.
     Das ursprüngliche Verfahren von McElice benutzte Binäre Goppa-Codes, welche
     unter anderem durch den Patterson Algorithmus dekodiert werden können, sofern
-    die ursprüngliche Generator- oder Parity Check Matrix bekannt sind.
+    die ursprüngliche Generator- oder Parity-Check-Matrix bekannt sind.
     Der erhebliche Nachteil dieses Verfahrens ist, dass die Schlüssel deutlich größer
     als die anderer Verfahren sind.
-    Wenn beispielsweise Parameter gewählt werden, welche gegen Angriffe
+    Wenn beispielsweise Parameter gewählt werden, welche Angriffe von
     Quantencomputern standhalten sollen, sind private und öffentliche Schlüssel
-    zwischen 261,120 und 1,357,824 Byte groß, während RSA (welches nicht gegen
-    Quantencomputer resistent ist) lediglich 4096-bit benötigt.
-    Die Ver- und Entschlüsselungsdauer ist jedoch teils schneller als andere
-    bekannte Verfahren.
+    zwischen 261,120 und 1,357,824 Byte groß, während RSA Schlüssel (welche nicht gegen
+    Quantencomputer resistent sind) lediglich 4096-bit benötigen.
+    Die Ver- und Entschlüsselungsdauer ist jedoch teils schneller als die anderer, bekannter 
+    Verfahren.
 </p>
 
 <h3 id="algorithm">1.1) Algorithmus</h3>
 
 <p>
-    In den folgenden Abschnitten werden die Schlüsselerzeugung, Ver- und
+    In den folgenden Abschnitten werden die Schlüsselerzeugung, sowie die Ver- und
     Entschlüsselung beschrieben.
     Die grundlegenden Parameter des McEliece Verfahrens sind definiert durch die
-    parameter eines Goppa-Codes mit Länge \(n\), die Dimension \(k\) und der
-    maximalen Anzahl an korrigierbaren Fehlern \(t\).
-    Binäre Goppa-Codes sind bestimmt durch ein Polynom von Grad t über den
+    Parameter eines Goppa-Codes mit Länge \(n\), Dimension \(k\) und 
+    maximaler Anzahl an korrigierbaren Fehlern \(t\).
+    Binäre Goppa-Codes sind bestimmt durch ein Polynom vom Grad t über den
     endlichen Körper \(\text{GF}(2^m)\), welches wiederrum durch eine Generator- oder
-    Parity Check Matrix beschrieben werden kann.
+    Parity-Check-Matrix beschrieben werden kann.
     Empfohlene Paramter für 256-bit Sicherheit sind \(n = 6960\), \(k = 5413\)
-    und \(t = 119\), was zu den oben genannten Schlüsselgrößen führt, da der
-    öffentliche Schlüssel der kompletten Generator-Matrix entspricht.
+    und \(t = 119\), was zu den oben genannten Schlüsselgrößen führt. Der
+    öffentliche Schlüssel entspricht der kompletten Generator-Matrix.
     Im folgenden Beispiel ist Alice der Empfänger und besitzt den privaten
-    Schlüssel, wohin gegen Bob eine Nachricht verschlüsselt an Alice schickt.
+    Schlüssel, wohingegen Bob eine Nachricht verschlüsselt an Alice schickt.
 </p>
 
 <h3 id="key">1.2) Schlüsselerzeugung</h3>
 <ol>
-    <li>Alice wählt einen \((n,k)\) Goppa-Code welcher bis zu \(t\) Fehler korrigiert und erzeugt eine \(k \times n\) Generator Matrix G.</li>
-    <li>Alice wählt eine zufällige \(k \times k\) binäre matrix \(S\), welche invertierbar sein muss.</li>
-    <li>Alice wählt eine zufällige \(n \times n\) Permutationsmatrix \(P\), d.h., jede Spalte und Zeile darf lediglich eine 1 enthalten, alle anderen Felder müssen 0 entsprechen.</li>
+    <li>Alice wählt einen \((n,k)\) Goppa-Code, welcher bis zu \(t\) Fehler korrigiert und erzeugt eine \(k \times n\) Generator Matrix G.</li>
+    <li>Alice wählt eine zufällige \(k \times k\) binäre Matrix \(S\), welche invertierbar sein muss.</li>
+    <li>Alice wählt eine zufällige \(n \times n\) Permutationsmatrix \(P\), d.h., jede Spalte und Zeile darf lediglich eine 1 enthalten. Alle anderen Felder müssen 0 entsprechen.</li>
     <li>Alice berechnet die Matrix \(G' = SGP\), eine "vermischte" Variante der Generatormatrix.</li>
-    <li>The öffentliche Schlüssel entspricht \((G', t)\), der Private ist \((S, G, P)\).</li>
+    <li>Der öffentliche Schlüssel entspricht \((G', t)\), der private Schlüssel ist \((S, G, P)\).</li>
 </ol>
 <h3 id="enc">1.3) Verschlüsselung</h3>
 <p> Bob verschlüsselt seine Nachricht \(m\) mit den folgenden Schritten:</p>
 <ol>
     <li>Bob kodiert die Nachricht \(m\) in binären Blöcken der Länge \(k\).</li>
     <li>Bob berechnet \(c' = mG'\).</li>
-    <li>Bob erzeugt einen zufälligen Bitvektor \(e\) welcher \(t\) gesetzte Bits enthält.</li>
+    <li>Bob erzeugt einen zufälligen Bitvektor \(e\), welcher \(t\) gesetzte Bits enthält.</li>
     <li>Bob berechnet die verschlüsselte Nachricht, indem er \(e\) auf \(c'\) addiert (d.h., \(c = mG' + e\)).</li>
 </ol>
 
@@ -108,27 +108,27 @@
     Prinzipiell lässt sich das Konzept von McEliece auch mit anderen
     Fehlerkorrekturverfahren umsetzen.
     Jedoch haben Ansätze die Schlüsselgrößen von McEliece zu verringern, z.B.
-    durch die Verwendung von "Quasi-Zyklischen" Codes, zu Sicherheitsmängeln
+    durch die Verwendung von "quasi-zyklischen" Codes, zu Sicherheitsmängeln
     geführt.
     Bisher scheint die Verwendung von Binären Goppa-Codes die zuverlässigste
     Variante zu sein.
-    Die beste bekannten Angriff auf das ursprüngliche Verfahren basiert auf
+    Der beste bekannte Angriff auf das ursprüngliche Verfahren basiert auf
     "Information Set Decoding", was beispielsweise durch Bernstein, Lange and
     Peters (<a href="#ref_bern08">3</a>) untersucht wurde.
     Der beschriebene Angriff ist trivial zu parallelisieren, da keinerlei
-    Kommunikation zwischen parallel laufenden Instanzen benötigt wird, weshalb
-    die Authoren eine Erhöhung der Codelänge vorgeschlagen haben.
+    Kommunikation zwischen den parallel laufenden Instanzen benötigt wird. Die Autoren haben 
+    daher eine Erhöhung der Codelänge vorgeschlagen.
 </p>
 
 <h2 id="usage">2) Plugin Benutzung</h2>
 
 <p>
     Das Plugin besteht aus drei interaktiven Veranschauungen des Verfahrens,
-    welche in den folgenden Abschnitten beschrieben werden.
+    die in den folgenden Abschnitten beschrieben werden.
 </p>
 
 <h3  id="usage_mce">2.1) McEliece Kryptosystem</h3>
-<img src="McEliece1.png" width="800" alt"Ansicht des McEliece Kryptosystems.">
+<img src="McEliece1.png" width="800" alt="Ansicht des McEliece Kryptosystems.">
 
 <p>
     In diesem Tab kann der Nutzer mit verschiedenen Schlüsselparametern und
@@ -150,30 +150,28 @@
 </p>
 
 <h3  id="usage_ham">2.2) Hamming Kryptosystem</h3>
-<img src="McEliece2.png" width="800" alt"Ansicht der Algorithmus Veranschaulichung.">
+<img src="McEliece2.png" width="800" alt="Ansicht der Algorithmus Veranschaulichung.">
 
 <p>
-    Das zweite Tab zeigt eine Visuelle darstellung des McEliece Kryptosystems.
+    Der zweite Tab zeigt eine visuelle Darstellung des McEliece Kryptosystems.
     Wie oben erwähnt, kann das System auch mit anderen Fehlerkorrekturverfahren
-    umgesetzt werden, was hier mit Hamming Codes veranschaulicht wird.
-    Dies ist durch eine Vorlesung von Bill Cherowitzo, University of Colorado at
-    Denver (<a href="#ref_cherwitzo">4</a>).
-    Dies dient der vereinfachten Darstellung, da die ursprünglich benutzten
-    Goppa-Codes zu groß für eine verständliche Abbildung wären.
-    Hier werden daher Hamming Codes mit vier Daten- und drei Parity Bits
+    umgesetzt werden. Dieser Fall wird hier mit Hamming-Codes veranschaulicht (<a href="#ref_cherwitzo">4</a>).
+    Die Nutzung von Hamming-Codes dient der vereinfachten Darstellung, da die ursprünglich benutzten
+    Goppa-Codes zu groß für eine verständliche Abbildung sind.
+    Hier werden daher Hamming Codes mit vier Daten- und drei Parity-Bits
     benutzt, was eine Darstellung der Matrizen und Nachrichten ermöglicht.
     Der Benutzer kann frei Werte für \(S\) und \(P\) wählen, indem die Zahlen durch
-    einen Mausclick gedreht werden.
-    Der öffentliche Schlüssel und invertierte Matrizen werden berechnet und
-    angezeigt, sobald der Nutzer fortfährt.
+    einen Mausklick darauf ändert.
+    Der öffentliche Schlüssel und die invertierten Matrizen werden berechnet und
+    angezeigt, sobald der Nutzer über den Button "Weiter" fortfährt.
 </p>
 
 <h3  id="usage_ecc">2.3) Fehlerkorrektur-Codes</h3>
-<img src="McEliece3.png" width="800" alt"Ansicht der Fehlerkorrektur-Codes.">
+<img src="McEliece3.png" width="800" alt="Ansicht der Fehlerkorrektur-Codes.">
 
 <p>
-    Das dritte Tab zeigt eine kurze Erklärung über Hamming Codes.
-    Sobald eine Nachricht eingegeben wird, kann fortgefahren werden.
+    Der dritte Tab zeigt eine kurze Erklärung über Hamming Codes.
+    Sobald eine Nachricht eingegeben wird, kann über den Button "Weiter" fortgefahren werden.
     Der Informationstext enthält die Details zu jedem Schritt.
 </p>
 

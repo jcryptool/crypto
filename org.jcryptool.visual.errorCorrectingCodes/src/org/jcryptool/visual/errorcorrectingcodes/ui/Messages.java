@@ -70,6 +70,8 @@ public class Messages extends NLS {
     public static String McElieceView_lblHeader;
     public static String McElieceView_lblPublicKey;
     public static String McElieceView_textHeader;
+    
+    public static String McElieceView_filename;
 
     static {
         // initialize resource bundle
