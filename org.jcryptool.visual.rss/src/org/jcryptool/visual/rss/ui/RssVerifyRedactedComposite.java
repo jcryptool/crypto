@@ -39,8 +39,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
     private List<Text> textList;
 
     private final RssAlgorithmController rssAlgorithmController;
-    // TODO as long as the implementation on the RssAlgotithmController is weak, not "unsafe"
-    private boolean isVerified = true;
+    private boolean isVerified;
     private Label checkImage;
     private Label checkLabel;
 
@@ -54,7 +53,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
         prepareAboutComposite();
 
         rssAlgorithmController = rac;
-        rac.verifyRedactedMessage();
+        isVerified = rac.verifyRedactedMessage();
         body.lightPath();
 
         messages = new ArrayList<String>(rac.getMessageParts());
@@ -63,6 +62,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
         inner = new Composite(leftComposite, SWT.NONE);
         inner.setLayout(new GridLayout());
 
+        /*
         Button resetMessageButton = new Button(inner, SWT.PUSH);
         resetMessageButton.setText(Descriptions.Reset);
         resetMessageButton.addListener(SWT.Selection, new Listener() {
@@ -81,7 +81,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
                     break;
                 }
             }
-        });
+        });*/
 
 
         textList = new ArrayList<Text>();
@@ -105,10 +105,18 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
             textList.add(msg);
         }
 
-        checkLabel = new Label(inner, SWT.NONE);
-        checkLabel.setText(Descriptions.IsVerified + ": " + Descriptions.Yes);
-        checkImage = new Label(inner, SWT.NONE);
-        checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
+        if(isVerified) {
+            checkLabel = new Label(inner, SWT.NONE);
+            checkLabel.setText(Descriptions.IsVerified + ": " + Descriptions.Yes);
+            checkImage = new Label(inner, SWT.NONE);
+            checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
+        } else {
+            checkLabel = new Label(inner, SWT.NONE);
+            checkLabel.setText(Descriptions.IsVerified + ": " + Descriptions.No);
+            checkImage = new Label(inner, SWT.NONE);
+            checkImage.setImage(Activator.getImageDescriptor("icons/notcheck.png").createImage(true));
+        }
+
         
         // Next button
         Button nextButton = new Button(inner, SWT.PUSH);
@@ -120,6 +128,10 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
                 }
             }
         });
+        
+        if(!isVerified) {
+        	nextButton.setEnabled(false);
+        }
 
         // Single row for save and load button
         Group saveLoad = new Group(leftComposite, SWT.NONE);

@@ -40,7 +40,6 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
     private final ArrayList<String> originalSignedMessages;
     private ArrayList<Text> textList;
 
-    private final RssAlgorithmController rssAlgorithmController;
     // TODO as long as the implementation on the RssAlgotithmController is weak, not "unsafe"
     private boolean isVerified = true;
     private Label checkImage;
@@ -55,8 +54,8 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         prepareGroupView(this, Descriptions.VerifyMessage);
         prepareAboutComposite();
 
-        rssAlgorithmController = rac;
-        rac.verifyOriginalMessage();
+        boolean isValid = rac.verifyOriginalMessage();
+ 
         body.lightPath();
 
         messages = new ArrayList<String>(rac.getMessageParts());
@@ -66,7 +65,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         inner = new Composite(leftComposite, SWT.NONE);
         inner.setLayout(new GridLayout());
 
-        Button resetMessageButton = new Button(inner, SWT.PUSH);
+        /*Button resetMessageButton = new Button(inner, SWT.PUSH);
         resetMessageButton.setText(Descriptions.Reset);
         resetMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
@@ -79,7 +78,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
                     break;
                 }
             }
-        });
+        });*/
 
         textList = new ArrayList<Text>();
         Composite addMessageComposite = new Composite(inner, SWT.NULL);
@@ -96,12 +95,18 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
             textList.add(msg);
         }
 
-        checkLabel = new Label(inner, SWT.NONE);
-        checkLabel.setText(Descriptions.IsVerified + ": " + Descriptions.Yes);
-        checkImage = new Label(inner, SWT.NONE);
-        // checkLabel.setLayoutData(buttonGd);
-        checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
-               
+       if(isValid) {
+           checkLabel = new Label(inner, SWT.NONE);
+           checkLabel.setText(Descriptions.IsVerified + ": " + Descriptions.Yes);
+           checkImage = new Label(inner, SWT.NONE);
+           checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
+        } else {
+            checkLabel = new Label(inner, SWT.NONE);
+            checkLabel.setText(Descriptions.IsVerified + ": " + Descriptions.No);
+            checkImage = new Label(inner, SWT.NONE);
+            checkImage.setImage(Activator.getImageDescriptor("icons/notcheck.png").createImage(true));
+        }
+
         // Next button
         nextButton = new Button(inner, SWT.PUSH);
         nextButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
@@ -110,6 +115,10 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
                 body.setActiveRssComposite(ActiveRssBodyComposite.REDACT);
             }
         });
+        
+        if(!isValid) {
+        	nextButton.setEnabled(false);
+        }
     }
 
     private ModifyListener getAllNotEmptyListener() {

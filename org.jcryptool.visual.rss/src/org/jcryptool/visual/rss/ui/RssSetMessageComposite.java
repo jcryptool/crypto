@@ -12,16 +12,24 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
+import org.jcryptool.visual.rss.persistence.InvalidSignatureException;
+import org.jcryptool.visual.rss.persistence.MessageAndRedactable;
 import org.jcryptool.visual.rss.persistence.XMLPersistence;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
+import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
 /**
  * The composite with button, text fields etc. with the function to set the message parts to be encrypted.
@@ -39,6 +47,7 @@ public class RssSetMessageComposite extends RssRightSideComposite {
     private final Button addMessageButton;
     private final Button confirmMessageButton;
   
+    private final Button loadMessageButton;
 
     public RssSetMessageComposite(RssBodyComposite body, RssAlgorithmController rac, int numberMessageParts,
             List<String> oldMessages) {
@@ -101,6 +110,62 @@ public class RssSetMessageComposite extends RssRightSideComposite {
                 }
             }
         });
+        
+        // Single row for save and load button
+        Group saveLoad = new Group(leftComposite, SWT.NONE);
+        saveLoad.setText(Descriptions.LoadSave);
+        saveLoad.setLayout(new RowLayout(SWT.HORIZONTAL));
+        
+       
+        // Button to load the message
+        loadMessageButton = new Button(saveLoad, SWT.PUSH);
+        loadMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_download_black_24dp.png").createImage(true));
+        loadMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+        		MessageAndRedactable messageAndRedactable = null;
+            	
+            	// Open a dialog to get the message store location.
+				FileDialog fileOpenDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
+				fileOpenDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				fileOpenDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				String messageStorePath = fileOpenDialog.open();
+            	
+				// Load the key in case a path was selected
+				if(messageStorePath != null && !messageStorePath.equals("")) {
+					
+			
+					try {
+						messageAndRedactable = rac.loadSignature(messageStorePath);
+					} catch (FileNotFoundException e1) {
+						showErrorDialog(Descriptions.FailedToLoadSign, Descriptions.ErrorLoadingSign);				
+					} catch (InvalidSignatureException e1) {
+						showErrorDialog(Descriptions.FailedToLoadSign, Descriptions.InvalidSign);	
+					} 
+				
+					if(messageAndRedactable != null) {
+						
+						// Change visual
+			           	body.lightPath();
+			            body.lightDataBox(DataType.MESSAGE);
+			            
+						body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
+						
+						/*
+						// Update messages and redactable
+						setMessagePartsAndRedactable(c, messageAndRedactable.getMessageParts(), messageAndRedactable.getRedactableParts());
+						
+						// Change active buttons
+						nextButton.setEnabled(true);
+	                	saveMessageButton.setEnabled(true);
+	                	signMessageButton.setEnabled(false);
+	                	
+	                    */
+					}		
+				}
+        	}
+        });
+            
+
         
       
     }
