@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jcryptool.core.util.fonts.FontService;
@@ -57,7 +56,6 @@ public class UIHelper {
         int border = readonly ? 0 : SWT.BORDER;
         StyledText text = new StyledText(p, read_only | border | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
         text.setAlwaysShowScrollBars(false);
-//        text.setMargins(2, 2, 4, 2);
         if (font != null)
             text.setFont(font);
         if (readonly)
