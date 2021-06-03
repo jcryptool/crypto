@@ -6,6 +6,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -431,7 +432,7 @@ public class RssAlgorithmController {
 		// Set messageParts and redactableParts
 		messageParts = new ArrayList<String>();
 		redactableParts = new ArrayList<Boolean>();
-		Set<Identifier> messageIdentifiers = signOut.getMessageIdentifiers();
+		Collection<Identifier> messageIdentifiers = signOut.getMessageIdentifiers();
 		
 		for(Identifier identifier: messageIdentifiers) {
 			messageParts.add(new String(identifier.getBytes()));
