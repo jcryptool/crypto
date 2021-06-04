@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.MessagePart;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.persistence.InvalidSignatureException;
 import org.jcryptool.visual.rss.persistence.MessageAndRedactable;
@@ -55,7 +56,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         inner = new Composite(leftComposite, SWT.NONE);
         inner.setLayout(new GridLayout());
 
-        List<String> messages = rac.getMessageParts();
+        List<MessagePart> messageParts = rac.getMessageParts();
 
         Composite c = new Composite(inner, SWT.NONE);
         c.setLayout(new GridLayout(3, false));
@@ -69,7 +70,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         // Check if redacting is allowed
         onlyRedactablePartsAllowed = rac.isOnlyRedactablePartsAllowed();
         
-        setMessagePartsAndRedactable(c, messages, null);
+        setMessagePartsAndRedactable(c, messageParts, null);
         signMessageButton = new Button(inner, SWT.PUSH);
         signMessageButton.setText(Descriptions.SignMessage);
 
@@ -78,12 +79,10 @@ public class RssSignMessageComposite extends RssRightSideComposite {
                 switch (e.type) {
                 case SWT.Selection:
                     signMessageButton.setEnabled(false);
-                    List<Boolean> redactableParts = new LinkedList<>();
                     for (int i = 0; i < buttonList.size(); i++) {
-                        redactableParts.add(buttonList.get(i).getSelection());
-                        buttonList.get(i).setEnabled(false);
+                    	messageParts.get(i).setRedactable(buttonList.get(i).getSelection());
                     }
-                    rac.signMessage(redactableParts);
+                    rac.signMessage(messageParts);
                    
                     // Change active buttons
                     nextButton.setEnabled(true);
@@ -194,7 +193,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 
     }
 
-	private void setMessagePartsAndRedactable(Composite c, List<String> messages, List<Boolean> redactableParts) {
+	private void setMessagePartsAndRedactable(Composite c, List<MessagePart> messages, List<Boolean> redactableParts) {
        messageList = new ArrayList<String>();
        buttonList = new ArrayList<Button>();
 		
@@ -205,7 +204,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
             GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
             labelGridData.widthHint = R_MAX_SIZE;
             l.setLayoutData(labelGridData);
-            String msg = messages.get(i);
+            String msg = messages.get(i).getMessage();
             msg = getSplittedString(msg, 50);
             l.setText(msg);
             messageList.add(msg);

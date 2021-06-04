@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.MessagePart;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 
 /**
@@ -37,7 +38,7 @@ public class RssViewMessageComposite extends RssRightSideComposite {
         Label des2 = new Label(inner, SWT.NONE);
         des2.setText(Descriptions.ProofPart);
         
-        List<String> messages = rac.getMessageParts();
+        List<MessagePart> messages = rac.getMessageParts();
         for (int i = 0; i < messages.size(); i++) {
             Label l = new Label(inner, SWT.NONE);
             l.setText(Descriptions.Message + " " + (i + 1));
@@ -45,7 +46,7 @@ public class RssViewMessageComposite extends RssRightSideComposite {
             GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
             labelGridData.widthHint = R_MAX_SIZE;
             l2.setLayoutData(labelGridData);
-            String msg = messages.get(i);
+            String msg = messages.get(i).getMessage();
             msg = getSplittedString(msg, 50);
             l2.setText(msg);
             Text l3 = new Text(inner, SWT.READ_ONLY | SWT.WRAP | SWT.BORDER | SWT.LEFT);

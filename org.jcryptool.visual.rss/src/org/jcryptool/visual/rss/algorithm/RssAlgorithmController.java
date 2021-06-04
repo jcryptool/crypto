@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.jcryptool.visual.rss.persistence.InvalidSignatureException;
 import org.jcryptool.visual.rss.persistence.MessageAndRedactable;
@@ -38,12 +40,16 @@ public class RssAlgorithmController {
     private List<Boolean> redactedParts;
     private List<Boolean> redactableParts;
     private RedactableSignature signature;
-    private SignatureOutput signOut;
-    private SignatureOutput redacted;
+    private SignatureOutput originalSignature;
+    private List<MessagePart> originalMessages;
+    private SignatureOutput redactedSignature;
+    private List<MessagePart> currentMessages;
     private final Persistence persistence;
     
     public RssAlgorithmController() {
         currentState = State.START;
+        originalMessages = new ArrayList<MessagePart>();
+        currentMessages = new ArrayList<MessagePart>();
         persistence = new XMLPersistence();
     }
     
@@ -55,26 +61,33 @@ public class RssAlgorithmController {
         return new KeyInformation(keyType, keyLength, keyPair);
     }
     
-    public List<String> getMessageParts() {
-        if (messageParts == null) {
-            return new LinkedList<String>();
-        }
-        return Collections.unmodifiableList(messageParts);
+    public List<MessagePart> getMessageParts() {
+    	if(currentState == State.MESSAGE_SIGNED || currentState == State.MESSAGE_VERIFIED) {
+    		return originalSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
+    	}
+        
+    	if(currentState == State.PARTS_REDACTED || currentState == State.REDACTED_VERIFIED) {
+    		return redactedSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
+    	}
+    	
+    	throw new IllegalStateException();
     }
     
     public List<Boolean> getRedactableParts() {
+    	if(currentState == State.MESSAGE_SIGNED || currentState == State.MESSAGE_VERIFIED) {
+    		return originalSignature.getMessageIdentifiers().stream().map(identifier -> originalSignature.isRedactable(identifier)).collect(Collectors.toList());
+    	}
+        
+    	if(currentState == State.PARTS_REDACTED || currentState == State.REDACTED_VERIFIED) {
+    		return redactedSignature.getMessageIdentifiers().stream().map(identifier -> originalSignature.isRedactable(identifier)).collect(Collectors.toList());
+    	}
+    	
         if (redactableParts == null) {
             return new LinkedList<Boolean>();
         }
         return Collections.unmodifiableList(redactableParts);
     }
     
-    public List<Boolean> getRedactedParts() {
-        if (redactedParts == null) {
-            return null;
-        }
-        return Collections.unmodifiableList(redactedParts);
-    }
     
     /**
      * Gets whether there are only redactable parts allowed.
@@ -162,39 +175,49 @@ public class RssAlgorithmController {
         if (messageParts.isEmpty()) {
             throw new IllegalArgumentException("Can not have message with no parts.");
         }
-        this.messageParts = messageParts;
+        
+        MessagePart newMessagePart;
+        for(int i = 0; i < messageParts.size(); i++) {
+        	newMessagePart = new MessagePart(messageParts.get(i), i);
+        	originalMessages.add(newMessagePart);
+        }
+        //this.originalMessages = messageParts.stream().map(messagePart -> new MessagePart(messagePart)).collect(Collectors.toList());
+        this.currentMessages = originalMessages;
+        
         currentState = State.MESSAGE_SET;
     }
     
-    public synchronized void signMessage(List<Boolean> redactableParts) {
+    public synchronized void signMessage(List<MessagePart> messageParts) {
         if (currentState != State.MESSAGE_SET) {
             throw new IllegalStateException();
         }
-        if (redactableParts == null) {
+        if (messageParts == null) {
             throw new NullPointerException();
-        }
-        if (redactableParts.size() != messageParts.size()) {
-            throw new IllegalArgumentException("Redactable parts list must match size of message parts list.");
         }
         
         // Check if algorithm is allowed to have non redactable parts
-        if (isOnlyRedactablePartsAllowed() && redactableParts.contains(false)) {
+        if (isOnlyRedactablePartsAllowed() && messageParts.stream().anyMatch(part -> part.isRedactable() == false)) {
         	throw new IllegalStateException("The algorithm is not allowed to contain not redactable message parts.");
         }
         
-        this.redactableParts = redactableParts;
+        // Save redactable informations
+        originalMessages = messageParts;
+
         //TODO make JOB:
         try {
             signature.initSign(keyPair);
-            for (int i = 0; i < messageParts.size(); i++) {
-                signature.addPart(messageParts.get(i).getBytes(), redactableParts.get(i));
+            MessagePart messagePart;
+            for (int i = 0; i < originalMessages.size(); i++) {
+            	messagePart = originalMessages.get(i);
+                signature.addPart(messagePart.getMessageBytes(), messagePart.isRedactable());
             }
-            signOut = signature.sign();
+            originalSignature = signature.sign();
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
             throw new IllegalStateException("Given message can not be signed.", e);
         }
+                
         currentState = State.MESSAGE_SIGNED;
     }
     
@@ -212,26 +235,27 @@ public class RssAlgorithmController {
         currentState = State.MESSAGE_VERIFIED;
     }
     
-    public synchronized void redactMessage(List<Integer> indices) {
+    public synchronized void redactMessage(List<MessagePart> messagePartsToRedact) {
         if (currentState != State.MESSAGE_VERIFIED && currentState != State.PARTS_REDACTED) {
             throw new IllegalStateException();
         }
-        if (indices == null) {
+        if (messagePartsToRedact == null) {
             throw new NullPointerException();
         }
-        if (indices.stream().anyMatch(i -> i == null 
-                                           || i < 0 
-                                           || i >= redactableParts.size() 
-                                           || !redactableParts.get(i))) {
-            throw new IllegalArgumentException();
-        }
-        //TODO make JOB
+
         try {
             signature.initRedact(keyPair.getPublic());
-            for (Integer index : indices) {
-                signature.addIdentifier(new Identifier(messageParts.get(index).getBytes(), index));
+            for (MessagePart messagePart : messagePartsToRedact) {
+                signature.addIdentifier(messagePart.toIdentifier());
             }
-            redacted = signature.redact(signOut);
+            
+            // If redactedParts == null, it is the first redact after creating/loading the signed message
+            // Otherwise redact again on the already redacted message
+            if(redactedParts == null) {
+            	redactedSignature = signature.redact(originalSignature);
+            } else {
+                redactedSignature = signature.redact(redactedSignature);
+            }
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
@@ -240,9 +264,7 @@ public class RssAlgorithmController {
         if (redactedParts == null) {
             redactedParts = new ArrayList<Boolean>(Collections.nCopies(this.messageParts.size(), false));
         }
-        for (int i = 0; i < indices.size(); i++) {
-            redactedParts.set(indices.get(i), true);
-        }
+ 
         currentState = State.PARTS_REDACTED;
     }
     
@@ -268,7 +290,7 @@ public class RssAlgorithmController {
     private boolean unsafeVerifyOriginalMessage() {
         try {
             signature.initVerify(keyPair.getPublic());
-            return signature.verify(signOut);
+            return signature.verify(originalSignature);
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
@@ -296,7 +318,7 @@ public class RssAlgorithmController {
     private boolean unsafeVerifyRedactedMessage() {
         try {
             signature.initVerify(keyPair.getPublic());
-            return signature.verify(redacted);
+            return signature.verify(redactedSignature);
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
@@ -427,7 +449,7 @@ public class RssAlgorithmController {
 	private void setSignOut(SignatureOutput signOut) {
 		assert signOut != null;
 		
-		this.signOut = signOut;
+		this.originalSignature = signOut;
 		
 		// Set messageParts and redactableParts
 		messageParts = new ArrayList<String>();
@@ -492,7 +514,7 @@ public class RssAlgorithmController {
 	 * @throws FileNotFoundException Thrown when the given file path is invalid.
 	 */
 	public void saveSignature(String path) throws FileNotFoundException {
-		if(signOut == null) {
+		if(originalSignature == null) {
 			throw new IllegalStateException("SignOut must be initialized to store it.");
 		}
 		
@@ -504,7 +526,7 @@ public class RssAlgorithmController {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		persistence.saveSignatureOutput(signOut, path);	
+		persistence.saveSignatureOutput(originalSignature, path);	
 	}
 	
 	/**
@@ -514,7 +536,7 @@ public class RssAlgorithmController {
 	 * @throws FileNotFoundException Thrown when the given file path is invalid.
 	 */
 	public void saveRedactedSignature(String path) throws FileNotFoundException {
-		if(redacted == null) {
+		if(redactedSignature == null) {
 			throw new IllegalStateException("SignOut must be initialized to store it.");
 		}
 		
@@ -526,7 +548,7 @@ public class RssAlgorithmController {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		persistence.saveSignatureOutput(redacted, path);	
+		persistence.saveSignatureOutput(redactedSignature, path);	
 	}
 	
 	/**

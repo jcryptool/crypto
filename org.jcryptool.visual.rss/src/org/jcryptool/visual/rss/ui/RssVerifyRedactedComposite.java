@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.MessagePart;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
@@ -34,8 +35,7 @@ import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
  * @author Leon Shell, Lukas Krodinger
  */
 public class RssVerifyRedactedComposite extends RssRightSideComposite {
-    private List<String> messages;
-    private final List<String> originalSignedMessages;
+    private List<MessagePart> messages;
     private List<Text> textList;
 
     private final RssAlgorithmController rssAlgorithmController;
@@ -56,8 +56,8 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
         isVerified = rac.verifyRedactedMessage();
         body.lightPath();
 
-        messages = new ArrayList<String>(rac.getMessageParts());
-        originalSignedMessages = new ArrayList<String>(messages);
+        messages = rac.getMessageParts();
+        //originalSignedMessages = new ArrayList<String>(messages);
 
         inner = new Composite(leftComposite, SWT.NONE);
         inner.setLayout(new GridLayout());
@@ -83,27 +83,28 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
             }
         });*/
 
-
-        textList = new ArrayList<Text>();
-        Composite addMessageComposite = new Composite(inner, SWT.NULL);
-        addMessageComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-        addMessageComposite.setLayout(new GridLayout(1, false));
-        List<Boolean> redactedParts = rac.getRedactedParts();
-        int numberRedacted = 0;
-        for (int i = 0; i < messages.size(); i++) {
-        	if (redactedParts != null && redactedParts.get(i)) {
-        		numberRedacted++;
-        		continue;
+        if(messages != null) {
+        	textList = new ArrayList<Text>();
+            Composite addMessageComposite = new Composite(inner, SWT.NULL);
+            addMessageComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+            addMessageComposite.setLayout(new GridLayout(1, false));
+            //int numberRedacted = 0;
+            for (int i = 0; i < messages.size(); i++) {
+            //	if (redactedParts != null && redactedParts.get(i)) {
+            //		numberRedacted++;
+            //		continue;
+            //    }
+                Label desc = new Label(addMessageComposite, SWT.READ_ONLY);
+                desc.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            //  desc.setText(Descriptions.MessagePart + " " + (i + 1 - numberRedacted));
+                Text msg = new Text(addMessageComposite, SWT.MULTI | SWT.BORDER | SWT.WRAP);
+                msg.setLayoutData(new GridData(300, 50));
+                msg.setText(messages.get(i).getMessage());
+                //msg.addModifyListener(getAllNotEmptyListener());
+                textList.add(msg);
             }
-            Label desc = new Label(addMessageComposite, SWT.READ_ONLY);
-            desc.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            desc.setText(Descriptions.MessagePart + " " + (i + 1 - numberRedacted));
-            Text msg = new Text(addMessageComposite, SWT.MULTI | SWT.BORDER | SWT.WRAP);
-            msg.setLayoutData(new GridData(300, 50));
-            msg.setText(messages.get(i));
-            msg.addModifyListener(getAllNotEmptyListener());
-            textList.add(msg);
         }
+        
 
         if(isVerified) {
             checkLabel = new Label(inner, SWT.NONE);
@@ -167,9 +168,9 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
 
     }
 
-    private ModifyListener getAllNotEmptyListener() {
+    /*private ModifyListener getAllNotEmptyListener() {
         ModifyListener listener = new ModifyListener() {
-            /** {@inheritDoc} */
+           
             public void modifyText(ModifyEvent e) {
                 messages = textList.stream().map(t -> t.getText()).collect(Collectors.toList());
                 updateVerified();
@@ -198,6 +199,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
         }
         this.isVerified = isVerified;
     }
+    */
 
     @Override
     void prepareAboutComposite() {

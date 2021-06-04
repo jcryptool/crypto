@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
+import org.jcryptool.visual.rss.algorithm.MessagePart;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 
 /**
@@ -36,11 +37,10 @@ public class RssViewRedactedComposite extends RssRightSideComposite {
         des1.setText(Descriptions.Number);
         Label des2 = new Label(inner, SWT.NONE);
         des2.setText(Descriptions.MessagePart);
-        List<String> messages = rac.getMessageParts();
-        List<Boolean> redacted = rac.getRedactedParts();
+        List<MessagePart> messages = rac.getMessageParts();
         List<Boolean> redactable = rac.getRedactableParts();
         int ind = 1;
-        for (int i = 0; i < redacted.size(); i++) {
+        /*for (int i = 0; i < redacted.size(); i++) {
             if (!redacted.get(i)) {
                 Label l = new Label(inner, SWT.NONE);
                 String stat = Descriptions.Fix;
@@ -59,7 +59,7 @@ public class RssViewRedactedComposite extends RssRightSideComposite {
                 l2.setText(msg);
                 ++ind;
             }
-        }
+        }*/
         Button returnButton = new Button(leftComposite, SWT.PUSH);
         returnButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_before_black_24dp.png").createImage(true));
         returnButton.addListener(SWT.Selection, new Listener() {

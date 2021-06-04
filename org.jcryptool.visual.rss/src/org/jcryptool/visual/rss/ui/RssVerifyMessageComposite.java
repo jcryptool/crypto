@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.KeyInformation;
+import org.jcryptool.visual.rss.algorithm.MessagePart;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.persistence.XMLPersistence;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
@@ -36,9 +37,8 @@ import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 public class RssVerifyMessageComposite extends RssRightSideComposite {
 
     private int numberMessages;
-    private ArrayList<String> messages;
-    private final ArrayList<String> originalSignedMessages;
-    private ArrayList<Text> textList;
+    private List<MessagePart> messages;
+    private List<Text> textList;
 
     // TODO as long as the implementation on the RssAlgotithmController is weak, not "unsafe"
     private boolean isVerified = true;
@@ -58,8 +58,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
  
         body.lightPath();
 
-        messages = new ArrayList<String>(rac.getMessageParts());
-        originalSignedMessages = new ArrayList<String>(messages);
+        messages = rac.getMessageParts();
         numberMessages = messages.size();
 
         inner = new Composite(leftComposite, SWT.NONE);
@@ -90,8 +89,8 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
             desc.setText(Descriptions.MessagePart + " " + (i + 1));
             Text msg = new Text(addMessageComposite, SWT.MULTI | SWT.BORDER | SWT.WRAP);
             msg.setLayoutData(new GridData(300, 50));
-            msg.setText(messages.get(i));
-            msg.addModifyListener(getAllNotEmptyListener());
+            msg.setText(messages.get(i).getMessage());
+            //msg.addModifyListener(getAllNotEmptyListener());
             textList.add(msg);
         }
 
@@ -121,9 +120,9 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         }
     }
 
-    private ModifyListener getAllNotEmptyListener() {
+   /* private ModifyListener getAllNotEmptyListener() {
         ModifyListener listener = new ModifyListener() {
-            /** {@inheritDoc} */
+          
             public void modifyText(ModifyEvent e) {
                 List<String> newMsg = new ArrayList();
                 for (int i = 0; i < textList.size(); i++) {
@@ -149,7 +148,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
             }
         }
         this.isVerified = isVerified;
-    }
+    }*/
 
     @Override
     void prepareAboutComposite() {
