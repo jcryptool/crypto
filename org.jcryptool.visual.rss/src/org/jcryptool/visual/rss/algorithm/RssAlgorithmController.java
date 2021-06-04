@@ -37,19 +37,17 @@ public class RssAlgorithmController {
     private AlgorithmType keyType;
     private KeyPair keyPair;
     private List<String> messageParts;
-    private List<Boolean> redactedParts;
     private List<Boolean> redactableParts;
+    private boolean alreadyRedacted;
     private RedactableSignature signature;
     private SignatureOutput originalSignature;
     private List<MessagePart> originalMessages;
     private SignatureOutput redactedSignature;
-    private List<MessagePart> currentMessages;
     private final Persistence persistence;
     
     public RssAlgorithmController() {
         currentState = State.START;
         originalMessages = new ArrayList<MessagePart>();
-        currentMessages = new ArrayList<MessagePart>();
         persistence = new XMLPersistence();
     }
     
@@ -62,15 +60,29 @@ public class RssAlgorithmController {
     }
     
     public List<MessagePart> getMessageParts() {
-    	if(currentState == State.MESSAGE_SIGNED || currentState == State.MESSAGE_VERIFIED) {
+    	if(currentState == State.START || currentState == State.KEY_SET) {
+    		throw new IllegalStateException();
+    	}
+    	
+    	// Does not work because of State.MESSAGE_VERIFIED happens after REDACTED_VERIFIED
+    	/*if(currentState == State.MESSAGE_SIGNED || currentState == State.MESSAGE_VERIFIED) {
     		return originalSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
     	}
         
     	if(currentState == State.PARTS_REDACTED || currentState == State.REDACTED_VERIFIED) {
     		return redactedSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
-    	}
+    	}*/
     	
-    	throw new IllegalStateException();
+    	
+    	if(currentState == State.MESSAGE_SET) {
+    	   	return originalMessages;
+    	}
+ 
+      	if(redactedSignature == null) {
+    		return originalSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
+    	} else {
+    		return redactedSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
+    	}
     }
     
     public List<Boolean> getRedactableParts() {
@@ -103,7 +115,10 @@ public class RssAlgorithmController {
         if (currentState == State.START) {
             throw new IllegalStateException();
         }
-        redactedParts = null;
+        alreadyRedacted = false;
+        originalMessages.clear();
+        originalSignature = null;
+        redactedSignature = null;
         currentState = State.START;
     }
     
@@ -161,7 +176,10 @@ public class RssAlgorithmController {
               || currentState == State.REDACTED_VERIFIED)) {
             throw new IllegalStateException();
         }
-        redactedParts = null;
+        alreadyRedacted = false;
+        originalMessages.clear();
+        originalSignature = null;
+        redactedSignature = null;
         currentState = State.KEY_SET;
     }
     
@@ -182,7 +200,6 @@ public class RssAlgorithmController {
         	originalMessages.add(newMessagePart);
         }
         //this.originalMessages = messageParts.stream().map(messagePart -> new MessagePart(messagePart)).collect(Collectors.toList());
-        this.currentMessages = originalMessages;
         
         currentState = State.MESSAGE_SET;
     }
@@ -221,16 +238,13 @@ public class RssAlgorithmController {
         currentState = State.MESSAGE_SIGNED;
     }
     
-    public synchronized void redactAgain() {
-        redactAgain(true);
-    }
-
     public synchronized void redactAgain(boolean reset) {
         if (!(currentState == State.PARTS_REDACTED || currentState == State.REDACTED_VERIFIED)) {
             throw new IllegalStateException();
         }
         if (reset) {
-            redactedParts = null;
+        	alreadyRedacted = false;
+            redactedSignature = null;
         }
         currentState = State.MESSAGE_VERIFIED;
     }
@@ -246,24 +260,26 @@ public class RssAlgorithmController {
         try {
             signature.initRedact(keyPair.getPublic());
             for (MessagePart messagePart : messagePartsToRedact) {
-                signature.addIdentifier(messagePart.toIdentifier());
+            	Identifier identifier = messagePart.toIdentifier();
+                signature.addIdentifier(identifier);
             }
             
             // If redactedParts == null, it is the first redact after creating/loading the signed message
             // Otherwise redact again on the already redacted message
-            if(redactedParts == null) {
-            	redactedSignature = signature.redact(originalSignature);
+            if(alreadyRedacted) {
+            	redactedSignature = signature.redact(redactedSignature);
             } else {
-                redactedSignature = signature.redact(redactedSignature);
+            	redactedSignature = signature.redact(originalSignature);
+            	alreadyRedacted = true;
             }
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
             throw new IllegalArgumentException("Message can not be redacted at given indices.", e);
         }
-        if (redactedParts == null) {
-            redactedParts = new ArrayList<Boolean>(Collections.nCopies(this.messageParts.size(), false));
-        }
+        
+        
+
  
         currentState = State.PARTS_REDACTED;
     }

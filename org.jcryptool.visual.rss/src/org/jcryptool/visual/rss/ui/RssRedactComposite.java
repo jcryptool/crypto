@@ -50,15 +50,11 @@ public class RssRedactComposite extends RssRightSideComposite {
              l3.setText(Descriptions.Redact + "?");
              textList = new ArrayList<Text>();
              buttonList = new ArrayList<Button>();
-             
-             int numberRedacted = 0;
+    
              for (int i = 0; i < messageParts.size(); i++) {
-                 if (messageParts.get(i).isRedactable()) {
-                     numberRedacted++;
-                     continue;
-                 }
+             
                  Label la = new Label(c, SWT.READ_ONLY);
-                 la.setText("" + (i + 1 - numberRedacted));
+                 //la.setText("" + (i + 1 - numberRedacted));
                  Text l = new Text(c, SWT.READ_ONLY | SWT.WRAP | SWT.BORDER | SWT.LEFT);
                  GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
                  labelGridData.widthHint = R_MAX_SIZE;
