@@ -216,20 +216,20 @@ public class RssOverviewComposite extends Composite {
         base.resetState(type);
         switch (type) {
         case KEY:
-            rac.setKeyAgain();
+            rac.resetToStart();
             setActiveRssBodyComposite(ActiveRssBodyComposite.SET_KEY, true);
             deactivateAll();
             updateOverview();
             break;
         case MESSAGE:
-            rac.newMessageAgain();
+            rac.resetToKeySet();
             setActiveRssBodyComposite(ActiveRssBodyComposite.SET_MESSAGE, true);
             deactivateAll();
             updateOverview();
             keyData.setLit();
             break;
         case REDACTED:
-            rac.redactAgain(reset);
+            rac.resetToMessageVerified(reset);
             setActiveRssBodyComposite(ActiveRssBodyComposite.REDACT, true);
             deactivateAll();
             updateOverview();

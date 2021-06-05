@@ -97,7 +97,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
                     AlgorithmType type = getAlgorithmType();
                                         
                     // Generate a new keypair and set the chosen algorithm variant to the rssController
-                    rssController.genKeyAndSignature(type, length);
+                    rssController.generateKey(type, length);
                     
                     // Change the visual
                     body.lightPath();

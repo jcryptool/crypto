@@ -38,72 +38,68 @@ public class RssAlgorithmController {
     private KeyPair keyPair;
     private List<String> messageParts;
     private List<Boolean> redactableParts;
-    private boolean alreadyRedacted;
     private RedactableSignature signature;
     private SignatureOutput originalSignature;
     private List<MessagePart> originalMessages;
-    private SignatureOutput redactedSignature;
+    private SignatureOutput currentSignature;
     private final Persistence persistence;
     
+    /**
+     * Creates a new algorithm controller. Therefore sets the state of it to START and initializes values.
+     */
     public RssAlgorithmController() {
         currentState = State.START;
         originalMessages = new ArrayList<MessagePart>();
         persistence = new XMLPersistence();
     }
     
+    /**
+     * Gets the current state.
+     * @return The current state.
+     */
     public State getCurrentState() {
         return currentState;
     }
     
+    /**
+     * Gets all information about the key. This information consists of the key type, 
+     * the key length and the key pair itself.
+     * @return The current key information.
+     */
     public KeyInformation getInformation() {
         return new KeyInformation(keyType, keyLength, keyPair);
     }
     
+    /**
+     * Gets the current message parts. In case the state is MESSAGE_SET and therewith the message parts were
+     * just set but not signed yet, the previous set parts are returned. Otherwise the message parts of the 
+     * currentSignature are returned.
+     * @return The current message parts.
+     */
     public List<MessagePart> getMessageParts() {
     	if(currentState == State.START || currentState == State.KEY_SET) {
     		throw new IllegalStateException();
-    	}
-    	
-    	// Does not work because of State.MESSAGE_VERIFIED happens after REDACTED_VERIFIED
-    	/*if(currentState == State.MESSAGE_SIGNED || currentState == State.MESSAGE_VERIFIED) {
-    		return originalSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
-    	}
-        
-    	if(currentState == State.PARTS_REDACTED || currentState == State.REDACTED_VERIFIED) {
-    		return redactedSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
-    	}*/
-    	
+    	}   	
     	
     	if(currentState == State.MESSAGE_SET) {
     	   	return originalMessages;
     	}
  
-      	if(redactedSignature == null) {
-    		return originalSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
-    	} else {
-    		return redactedSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
-    	}
+    	return currentSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
     }
     
+    /**
+     * Gets the message parts before redacting. Therefore the message parts of the original signature are returned.
+     * @return The original message parts.
+     */
 	public List<MessagePart> getOriginalMessageParts() {
+		if(currentState == State.START || currentState == State.KEY_SET || currentState == State.MESSAGE_SET) {
+    		throw new IllegalStateException();
+    	}   	
+		
 		return originalSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
 	}
-    
-    public List<Boolean> getRedactableParts() {
-    	if(currentState == State.MESSAGE_SIGNED || currentState == State.MESSAGE_VERIFIED) {
-    		return originalSignature.getMessageIdentifiers().stream().map(identifier -> originalSignature.isRedactable(identifier)).collect(Collectors.toList());
-    	}
         
-    	if(currentState == State.PARTS_REDACTED || currentState == State.REDACTED_VERIFIED) {
-    		return redactedSignature.getMessageIdentifiers().stream().map(identifier -> originalSignature.isRedactable(identifier)).collect(Collectors.toList());
-    	}
-    	
-        if (redactableParts == null) {
-            return new LinkedList<Boolean>();
-        }
-        return Collections.unmodifiableList(redactableParts);
-    }
-    
     
     /**
      * Gets whether there are only redactable parts allowed.
@@ -115,105 +111,120 @@ public class RssAlgorithmController {
         return algorithm.isOnlyRedactablePartsAllowed();
     }
 
-    public synchronized void setKeyAgain() {
+    /**
+     * Resets the algorithm controller to the state START. The next step is to initialize the key (again).
+     */
+    public synchronized void resetToStart() {
         if (currentState == State.START) {
             throw new IllegalStateException();
         }
-        alreadyRedacted = false;
+        
         originalMessages.clear();
         originalSignature = null;
-        redactedSignature = null;
+        currentSignature = null;
+        
         currentState = State.START;
     }
     
-    public synchronized void genKeyAndSignature(AlgorithmType algorithmType, KeyLength kl) {
+    /**
+     * Generates a new key. Gives the information of the algorithmType and the keyLength to a KeyPairGenerator
+     * to generate a new keyPair. This keyInformation is then set as the current one.
+     * @param algorithmType The type of the algorithm.
+     * @param keyLength The length of the key.
+     */
+    public synchronized void generateKey(AlgorithmType algorithmType, KeyLength keyLength) {
         if (currentState != State.START) {
             throw new IllegalStateException();
         }
         
-        KeyPairGenerator keyGen;
         try {
-            keyGen = KeyPairGenerator.getInstance(algorithmType.getKeyPairGenerationType());
-            keyGen.initialize(kl.getKl());
+          	// Generate a new key using a KeyPairGenerator instance
+        	KeyPairGenerator keyGen = KeyPairGenerator.getInstance(algorithmType.getKeyPairGenerationType());
+            keyGen.initialize(keyLength.getKl());
             KeyPair keyPair = keyGen.generateKeyPair();
-            setKey(keyPair);
-            keyLength = kl;
-            keyType = algorithmType;
-                
-            setSignature(RedactableSignature.getInstance(algorithmType.getSignatureType()));
+            
+            // Set the resulting keyInformation as the current one
+            KeyInformation keyInformation = new KeyInformation(algorithmType, keyLength, keyPair);
+            setKeyInformation(keyInformation);
+
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalArgumentException("There is no implementation for the given key type.");
         }
+        
         currentState = State.KEY_SET;
     }
     
-    private void setInformation(KeyInformation information) {
+    /**
+     * Sets the given keyInformation object to the current one. Therefore updates the information of the controller 
+     * and initializes the signature algorithm, which belongs to the key.
+     * @param information The keyInformation to set.
+     * @throws NoSuchAlgorithmException In case the algorithm for the key is not supported.
+     */
+    private void setKeyInformation(KeyInformation information) throws NoSuchAlgorithmException {
     	assert information != null;
     	
-    	//if(information.getKeyLength() == null || information.getKeyLength())
+    	// Set the signature algorithm to use
+    	this.signature = RedactableSignature.getInstance(information.algorithmType.getSignatureType());
     	
-    	
+    	// Set all information about the key and the key pair itself
     	this.keyLength = information.keyLength;
     	this.keyPair = information.keyPair;
     	this.keyType = information.algorithmType;
+    	
     	currentState = State.KEY_SET;
     }
     
-    public void setKey(KeyPair keyPair) {
-        if (keyPair == null) {
-            throw new NullPointerException();
-        }
-        this.keyPair = keyPair;
-    }
-    
-    private void setSignature(RedactableSignature signature) {
-        if (signature == null) {
-            throw new NullPointerException();
-        }
-        this.signature = signature;
-    }
-    
-    public synchronized void newMessageAgain() {
+    /**
+     * Resets the algorithm controller to the state KEY_SET. The next step is to create the message parts (again).
+     */
+    public synchronized void resetToKeySet() {
         if (!(currentState == State.MESSAGE_SIGNED
               || currentState == State.MESSAGE_VERIFIED
               || currentState == State.PARTS_REDACTED
               || currentState == State.REDACTED_VERIFIED)) {
             throw new IllegalStateException();
         }
-        alreadyRedacted = false;
+        
         originalMessages.clear();
         originalSignature = null;
-        redactedSignature = null;
+        currentSignature = null;
+        
         currentState = State.KEY_SET;
     }
     
+    /**
+     * Sets new message parts. Therefore converts the given list of Strings into a list of 
+     * MessageParts and stores those.
+     * 
+     * @param messageParts The messageParts of the new message.
+     */
     public synchronized void newMessage(List<String> messageParts) {
         if (currentState != State.KEY_SET) {
             throw new IllegalStateException();
         }
-        if (messageParts == null) {
-            throw new NullPointerException();
+        if (messageParts == null || messageParts.isEmpty()) {
+        	throw new IllegalArgumentException("Can not work with message with no parts.");
         }
-        if (messageParts.isEmpty()) {
-            throw new IllegalArgumentException("Can not have message with no parts.");
-        }
-        
+
         MessagePart newMessagePart;
         for(int i = 0; i < messageParts.size(); i++) {
         	newMessagePart = new MessagePart(messageParts.get(i), i);
         	originalMessages.add(newMessagePart);
         }
-        //this.originalMessages = messageParts.stream().map(messagePart -> new MessagePart(messagePart)).collect(Collectors.toList());
         
         currentState = State.MESSAGE_SET;
     }
     
+    /**
+     * Signs the given messageParts. Then stores the signature as originalSignature and as currentSignature.
+     * @param messageParts The messageParts to sign.
+     */
     public synchronized void signMessage(List<MessagePart> messageParts) {
         if (currentState != State.MESSAGE_SET) {
             throw new IllegalStateException();
         }
-        if (messageParts == null) {
-            throw new NullPointerException();
+        if (messageParts == null || messageParts.isEmpty()) {
+        	throw new IllegalArgumentException("Can not sign message with no parts.");
         }
         
         // Check if algorithm is allowed to have non redactable parts
@@ -224,8 +235,9 @@ public class RssAlgorithmController {
         // Save redactable informations
         originalMessages = messageParts;
 
-        //TODO make JOB:
         try {
+        	
+        	// Create signature for message
             signature.initSign(keyPair);
             MessagePart messagePart;
             for (int i = 0; i < originalMessages.size(); i++) {
@@ -233,6 +245,7 @@ public class RssAlgorithmController {
                 signature.addPart(messagePart.getMessageBytes(), messagePart.isRedactable());
             }
             originalSignature = signature.sign();
+            currentSignature = originalSignature;
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
@@ -242,17 +255,27 @@ public class RssAlgorithmController {
         currentState = State.MESSAGE_SIGNED;
     }
     
-    public synchronized void redactAgain(boolean reset) {
+    /**
+     * Resets the state to the state MESSAGE_VERIFIED. The next step is then to redact the message.
+     * @param reset Whether to reset the currentSignature to the originalSignature. Should probably be always true.
+     */
+    public synchronized void resetToMessageVerified(boolean reset) {
         if (!(currentState == State.PARTS_REDACTED || currentState == State.REDACTED_VERIFIED)) {
             throw new IllegalStateException();
         }
+        
+        // Reset signature or not
         if (reset) {
-        	alreadyRedacted = false;
-            redactedSignature = null;
+        	currentSignature = originalSignature;
         }
+        
         currentState = State.MESSAGE_VERIFIED;
     }
     
+    /**
+     * 
+     * @param messagePartsToRedact
+     */
     public synchronized void redactMessage(List<MessagePart> messagePartsToRedact) {
         if (currentState != State.MESSAGE_VERIFIED && currentState != State.PARTS_REDACTED) {
             throw new IllegalStateException();
@@ -267,15 +290,9 @@ public class RssAlgorithmController {
             	Identifier identifier = messagePart.toIdentifier();
                 signature.addIdentifier(identifier);
             }
-            
-            // If redactedParts == null, it is the first redact after creating/loading the signed message
-            // Otherwise redact again on the already redacted message
-            if(alreadyRedacted) {
-            	redactedSignature = signature.redact(redactedSignature);
-            } else {
-            	redactedSignature = signature.redact(originalSignature);
-            	alreadyRedacted = true;
-            }
+                   
+            currentSignature = signature.redact(currentSignature);
+          
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
@@ -338,7 +355,7 @@ public class RssAlgorithmController {
     private boolean unsafeVerifyRedactedMessage() {
         try {
             signature.initVerify(keyPair.getPublic());
-            return signature.verify(redactedSignature);
+            return signature.verify(currentSignature);
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
@@ -470,6 +487,7 @@ public class RssAlgorithmController {
 		assert signOut != null;
 		
 		this.originalSignature = signOut;
+		this.currentSignature = signOut;
 		
 		// Set messageParts and redactableParts
 		messageParts = new ArrayList<String>();
@@ -520,8 +538,7 @@ public class RssAlgorithmController {
 		KeyInformation information = persistence.loadInformation(path);
 		
 		if(information != null) {
-			setInformation(information);	
-			setSignature(RedactableSignature.getInstance(keyType.getSignatureType()));
+			setKeyInformation(information);
 		}
 		
 		return information;
@@ -556,7 +573,7 @@ public class RssAlgorithmController {
 	 * @throws FileNotFoundException Thrown when the given file path is invalid.
 	 */
 	public void saveRedactedSignature(String path) throws FileNotFoundException {
-		if(redactedSignature == null) {
+		if(currentSignature == null) {
 			throw new IllegalStateException("SignOut must be initialized to store it.");
 		}
 		
@@ -568,7 +585,7 @@ public class RssAlgorithmController {
 			throw new IllegalArgumentException("Path must not be empty.");
 		}
 		
-		persistence.saveSignatureOutput(redactedSignature, path);	
+		persistence.saveSignatureOutput(currentSignature, path);	
 	}
 	
 	/**
