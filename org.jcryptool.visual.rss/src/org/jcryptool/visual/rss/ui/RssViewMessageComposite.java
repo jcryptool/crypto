@@ -36,9 +36,9 @@ public class RssViewMessageComposite extends RssRightSideComposite {
         Label des1 = new Label(inner, SWT.NONE);
         des1.setText(Descriptions.MessagePart);
         Label des2 = new Label(inner, SWT.NONE);
-        des2.setText(Descriptions.ProofPart);
+        des2.setText(Descriptions.Redactable);
         
-        List<MessagePart> messages = rac.getMessageParts();
+        List<MessagePart> messages = rac.getOriginalMessageParts();
         for (int i = 0; i < messages.size(); i++) {
             Label l = new Label(inner, SWT.NONE);
             l.setText(Descriptions.Message + " " + (i + 1));
@@ -49,10 +49,9 @@ public class RssViewMessageComposite extends RssRightSideComposite {
             String msg = messages.get(i).getMessage();
             msg = getSplittedString(msg, 50);
             l2.setText(msg);
-            Text l3 = new Text(inner, SWT.READ_ONLY | SWT.WRAP | SWT.BORDER | SWT.LEFT);
-            String proofmsg = "proof.get(i)";
-            proofmsg = getSplittedString(proofmsg, 50);
-            l3.setText(proofmsg);
+            Button redactingAllowedCheckbox = new Button(inner, SWT.CHECK);
+            redactingAllowedCheckbox.setEnabled(false);
+            redactingAllowedCheckbox.setSelection(messages.get(i).isRedactable());
         }
 
         Button returnButton = new Button(leftComposite, SWT.PUSH);

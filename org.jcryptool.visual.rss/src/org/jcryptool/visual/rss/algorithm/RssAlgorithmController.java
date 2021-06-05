@@ -85,6 +85,10 @@ public class RssAlgorithmController {
     	}
     }
     
+	public List<MessagePart> getOriginalMessageParts() {
+		return originalSignature.getMessageIdentifiers().stream().map(identifier -> new MessagePart(identifier, originalSignature.isRedactable(identifier))).collect(Collectors.toList());
+	}
+    
     public List<Boolean> getRedactableParts() {
     	if(currentState == State.MESSAGE_SIGNED || currentState == State.MESSAGE_VERIFIED) {
     		return originalSignature.getMessageIdentifiers().stream().map(identifier -> originalSignature.isRedactable(identifier)).collect(Collectors.toList());
@@ -595,4 +599,6 @@ public class RssAlgorithmController {
 		
 		return null;
 	}
+
+
 }
