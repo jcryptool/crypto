@@ -147,17 +147,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 			            body.lightDataBox(DataType.MESSAGE);
 			            
 						body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
-						
-						/*
-						// Update messages and redactable
-						setMessagePartsAndRedactable(c, messageAndRedactable.getMessageParts(), messageAndRedactable.getRedactableParts());
-						
-						// Change active buttons
-						nextButton.setEnabled(true);
-	                	saveMessageButton.setEnabled(true);
-	                	signMessageButton.setEnabled(false);
-	                	
-	                    */
+					
 					}		
 				}
         	}
@@ -183,7 +173,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 					
 					// Save the key 
 					try {
-						rac.saveSignature(messageStorePath);
+						rac.saveOriginalSignature(messageStorePath);
 					} catch (FileNotFoundException e1) {
 						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);
 					}       

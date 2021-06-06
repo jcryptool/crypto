@@ -569,7 +569,7 @@ public class RssAlgorithmController {
 	 * @param path The file path to store the signatureOutput to.
 	 * @throws FileNotFoundException Thrown when the given file path is invalid.
 	 */
-	public void saveSignature(String path) throws FileNotFoundException {
+	public void saveOriginalSignature(String path) throws FileNotFoundException {
 		if(originalSignature == null) {
 			throw new IllegalStateException("SignOut must be initialized to store it.");
 		}
@@ -591,7 +591,7 @@ public class RssAlgorithmController {
 	 * @param path The file path to store the message information to.
 	 * @throws FileNotFoundException Thrown when the given file path is invalid.
 	 */
-	public void saveRedactedSignature(String path) throws FileNotFoundException {
+	public void saveCurrentSignature(String path) throws FileNotFoundException {
 		if(currentSignature == null) {
 			throw new IllegalStateException("SignOut must be initialized to store it.");
 		}

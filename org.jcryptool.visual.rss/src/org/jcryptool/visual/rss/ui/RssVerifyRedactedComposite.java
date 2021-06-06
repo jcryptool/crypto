@@ -158,7 +158,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
 					
 					// Save the key 
 					try {
-						rac.saveRedactedSignature(messageStorePath);
+						rac.saveCurrentSignature(messageStorePath);
 					} catch (FileNotFoundException e1) {
 						showErrorDialog(Descriptions.FailedToStoreSign, Descriptions.ErrorStoringSign);				
 					}       

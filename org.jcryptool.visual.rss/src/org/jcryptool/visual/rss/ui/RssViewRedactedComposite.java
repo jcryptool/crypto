@@ -1,13 +1,18 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
@@ -22,6 +27,8 @@ import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
  * @author Leon Shell, Lukas Krodinger
  */
 public class RssViewRedactedComposite extends RssRightSideComposite {
+	
+	private final Button saveMessageButton;
 
     public RssViewRedactedComposite(RssBodyComposite body, final RssAlgorithmController rac) {
         super(body, SWT.NONE);
@@ -54,7 +61,7 @@ public class RssViewRedactedComposite extends RssRightSideComposite {
             redactingAllowedCheckbox.setSelection(currentMessage.get(i).isRedactable());
         }
         
-        Button returnButton = new Button(leftComposite, SWT.PUSH);
+        Button returnButton = new Button(inner, SWT.PUSH);
         returnButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_before_black_24dp.png").createImage(true));
         returnButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
@@ -64,6 +71,40 @@ public class RssViewRedactedComposite extends RssRightSideComposite {
                 }
             }
         });
+        
+
+        // Single row for save and load button
+        Group saveLoad = new Group(leftComposite, SWT.NONE);
+        saveLoad.setText(Descriptions.LoadSave);
+        saveLoad.setLayout(new RowLayout(SWT.HORIZONTAL));
+        
+        // Button to save the message
+        saveMessageButton = new Button(saveLoad, SWT.PUSH);
+        saveMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_upload_black_24dp.png").createImage(true));
+        saveMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+
+            	// Open a dialog to get location for key file storage.
+				FileDialog messageStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				messageStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				messageStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				messageStoreDialog.setFileName("redacted-message.xml");
+				messageStoreDialog.setOverwrite(true);
+				String messageStorePath = messageStoreDialog.open();
+            	
+				// messageStorePath might be null in case the dialog was closed
+				if(messageStorePath != null && !messageStorePath.equals("")) {
+					
+					// Save the key 
+					try {
+						rac.saveCurrentSignature(messageStorePath);
+					} catch (FileNotFoundException e1) {
+						showErrorDialog(Descriptions.FailedToStoreSign, Descriptions.ErrorStoringSign);				
+					}       
+				}
+            }
+        });
+
     }
 
     @Override

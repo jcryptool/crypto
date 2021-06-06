@@ -1,7 +1,10 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.io.FileNotFoundException;
 import java.math.BigInteger;
+import java.security.InvalidKeyException;
 import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Base64;
@@ -9,9 +12,13 @@ import java.util.Base64;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
@@ -19,6 +26,8 @@ import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.KeyInformation;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
+import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
+
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPublicKey;
@@ -31,6 +40,9 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
  * @author Leon Shell, Lukas Krodinger
  */
 public class RssViewKeyComposite extends RssRightSideComposite {
+	
+	private final Button saveKeyButton;
+	
 
     public RssViewKeyComposite(RssBodyComposite body, final RssAlgorithmController rac) {
         super(body, SWT.NONE);
@@ -54,9 +66,9 @@ public class RssViewKeyComposite extends RssRightSideComposite {
             l.setText(info.getKeyLength().getKl() + "");
         }
         if (info.getKeyPair() != null) {
-            Label l1 = new Label(leftComposite, SWT.READ_ONLY);
+            Label l1 = new Label(inner, SWT.READ_ONLY);
             l1.setText(Descriptions.PrivateKey);
-            Text t1 = new Text(leftComposite, SWT.NONE | SWT.MULTI | SWT.WRAP);
+            Text t1 = new Text(inner, SWT.NONE | SWT.MULTI | SWT.WRAP);
             t1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
             
             KeyPair keyPair = info.getKeyPair();
@@ -64,9 +76,9 @@ public class RssViewKeyComposite extends RssRightSideComposite {
             
             String text1 = new String(Base64.getEncoder().encode(encodedPrivateKey));
             t1.setText(getSplittedString(text1, 50));
-            Label l2 = new Label(leftComposite, SWT.NONE);
+            Label l2 = new Label(inner, SWT.NONE);
             l2.setText(Descriptions.PublicKey);
-            Text t2 = new Text(leftComposite, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP);
+            Text t2 = new Text(inner, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP);
             t2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
                        
             byte[] encodedPublicKey = getPublicKey(keyPair);
@@ -74,8 +86,8 @@ public class RssViewKeyComposite extends RssRightSideComposite {
             String text2 = new String(Base64.getEncoder().encode(encodedPublicKey));
             t2.setText(getSplittedString(text2, 50));
         }
-
-        Button returnButton = new Button(leftComposite, SWT.PUSH);
+        
+        Button returnButton = new Button(inner, SWT.PUSH);
         returnButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_before_black_24dp.png").createImage(true));
         returnButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
@@ -85,6 +97,41 @@ public class RssViewKeyComposite extends RssRightSideComposite {
                 }
             }
         });
+        
+        // Single row for save and load button
+        Group saveLoad = new Group(leftComposite, SWT.NONE);
+        saveLoad.setText(Descriptions.LoadSave);
+        saveLoad.setLayout(new RowLayout(SWT.HORIZONTAL));       
+        
+        // Button to save key
+        saveKeyButton = new Button(saveLoad, SWT.PUSH);
+        saveKeyButton.setImage(Activator.getImageDescriptor("icons/outline_file_upload_black_24dp.png").createImage(true));
+        saveKeyButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+            	
+            	// Open a dialog to get location for key file storage.
+				FileDialog fileStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				fileStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				fileStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				fileStoreDialog.setFileName("key.xml");
+				fileStoreDialog.setOverwrite(true);
+				String keyStorePath = fileStoreDialog.open();
+            	
+				// keyStorePath might be null in case the dialog was closed
+				if(keyStorePath != null && !keyStorePath.equals("")) {
+					
+					// Save the key 
+					try {
+						rac.saveKey(keyStorePath);
+					} catch (FileNotFoundException e1) {
+						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);			
+					}            
+				}
+            }
+        });
+        
+
+
     }
 
 	/**
