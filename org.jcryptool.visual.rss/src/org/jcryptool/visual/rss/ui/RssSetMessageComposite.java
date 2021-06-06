@@ -149,24 +149,10 @@ public class RssSetMessageComposite extends RssRightSideComposite {
 			            body.lightDataBox(DataType.MESSAGE);
 			            
 						body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
-						
-						/*
-						// Update messages and redactable
-						setMessagePartsAndRedactable(c, messageAndRedactable.getMessageParts(), messageAndRedactable.getRedactableParts());
-						
-						// Change active buttons
-						nextButton.setEnabled(true);
-	                	saveMessageButton.setEnabled(true);
-	                	signMessageButton.setEnabled(false);
-	                	
-	                    */
 					}		
 				}
         	}
         });
-            
-
-        
       
     }
 

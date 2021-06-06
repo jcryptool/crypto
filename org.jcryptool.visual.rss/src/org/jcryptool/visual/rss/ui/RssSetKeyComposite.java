@@ -183,19 +183,19 @@ public class RssSetKeyComposite extends RssRightSideComposite {
             public void handleEvent(Event e) {
             	
             	// Open a dialog to get location for key file storage.
-				FileDialog fileStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-				fileStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
-				fileStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
-				fileStoreDialog.setFileName("key.xml");
-				fileStoreDialog.setOverwrite(true);
-				String keyStorePath = fileStoreDialog.open();
+				FileDialog storeDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				storeDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				storeDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				storeDialog.setFileName("key.xml");
+				storeDialog.setOverwrite(true);
+				String storePath = storeDialog.open();
             	
-				// keyStorePath might be null in case the dialog was closed
-				if(keyStorePath != null && !keyStorePath.equals("")) {
+				// storePath might be null in case the dialog was closed
+				if(storePath != null && !storePath.equals("")) {
 					
 					// Save the key 
 					try {
-						rssController.saveKey(keyStorePath);
+						rssController.saveKey(storePath);
 					} catch (FileNotFoundException e1) {
 						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);			
 					}            

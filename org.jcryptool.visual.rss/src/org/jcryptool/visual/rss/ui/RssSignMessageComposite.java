@@ -153,27 +153,27 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         	}
         });
             
-        // Button to save the message
+        // Button to save the signature
         saveMessageButton = new Button(saveLoad, SWT.PUSH);
         saveMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_upload_black_24dp.png").createImage(true));
         saveMessageButton.setEnabled(false);
         saveMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
 
-            	// Open a dialog to get location for key file storage.
-				FileDialog messageStoreDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
-				messageStoreDialog.setFilterExtensions(new String[] { "*.xml", "*" });
-				messageStoreDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
-				messageStoreDialog.setFileName("signed-message.xml");
-				messageStoreDialog.setOverwrite(true);
-				String messageStorePath = messageStoreDialog.open();
+            	// Open a dialog to get location for signature file storage.
+				FileDialog storeDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
+				storeDialog.setFilterExtensions(new String[] { "*.xml", "*" });
+				storeDialog.setFilterNames(new String[] { "XML Files", "All Files (*)" });
+				storeDialog.setFileName("signed-message.xml");
+				storeDialog.setOverwrite(true);
+				String storePath = storeDialog.open();
             	
-				// messageStorePath might be null in case the dialog was closed
-				if(messageStorePath != null && !messageStorePath.equals("")) {
+				// storePath might be null in case the dialog was closed
+				if(storePath != null && !storePath.equals("")) {
 					
-					// Save the key 
+					// Save the signature 
 					try {
-						rac.saveOriginalSignature(messageStorePath);
+						rac.saveOriginalSignature(storePath);
 					} catch (FileNotFoundException e1) {
 						showErrorDialog(Descriptions.FailedToStoreKey, Descriptions.ErrorStoringKey);
 					}       
