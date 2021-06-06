@@ -54,7 +54,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         prepareGroupView(this, Descriptions.VerifyMessage);
         prepareAboutComposite();
 
-        boolean isValid = rac.verifyOriginalMessage();
+        boolean isValid = rac.verifyOriginalSignature();
  
         body.lightPath();
 

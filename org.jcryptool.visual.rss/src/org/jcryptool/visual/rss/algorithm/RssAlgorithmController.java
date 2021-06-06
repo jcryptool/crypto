@@ -273,15 +273,16 @@ public class RssAlgorithmController {
     }
     
     /**
-     * 
-     * @param messagePartsToRedact
+     * Redacts the given messagePartsToRedact from the currentSignature. The originalSignature is not
+     * touched and can still be restored.
+     * @param messagePartsToRedact The message parts to redact from the currentSignature.
      */
     public synchronized void redactMessage(List<MessagePart> messagePartsToRedact) {
         if (currentState != State.MESSAGE_VERIFIED && currentState != State.PARTS_REDACTED) {
             throw new IllegalStateException();
         }
         if (messagePartsToRedact == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("messagePartsToRedact must not be null.");
         }
 
         try {
@@ -299,70 +300,65 @@ public class RssAlgorithmController {
             throw new IllegalArgumentException("Message can not be redacted at given indices.", e);
         }
         
-        
-
- 
         currentState = State.PARTS_REDACTED;
     }
     
-    public synchronized boolean verifyOriginalMessage() {
+    /**
+     * Verify the originalSignature with the current public key.
+     * @return True in case the signature does verify, false otherwise.
+     */
+    public synchronized boolean verifyOriginalSignature() {
         if (currentState != State.MESSAGE_SIGNED) {
             throw new IllegalStateException();
         }
-        boolean doesVerify = unsafeVerifyOriginalMessage();
-        currentState = State.MESSAGE_VERIFIED;
-        return doesVerify;
-    }
-
-    public synchronized boolean confirmVerifyOriginalMessage() {
-        if (!(currentState == State.MESSAGE_SIGNED
-              || currentState == State.MESSAGE_VERIFIED
-              || currentState == State.PARTS_REDACTED
-              || currentState == State.REDACTED_VERIFIED)) {
-            throw new IllegalStateException();
-        }
-        return unsafeVerifyOriginalMessage();
-    }
-    
-    private boolean unsafeVerifyOriginalMessage() {
+        
+        boolean doesVerify = false;
         try {
             signature.initVerify(keyPair.getPublic());
-            return signature.verify(originalSignature);
+            doesVerify = signature.verify(originalSignature);
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
             throw new IllegalStateException("Signed message can not be verified.", e);
         }
+        
+        currentState = State.MESSAGE_VERIFIED;
+        return doesVerify;
     }
-
-    public synchronized boolean verifyRedactedMessage() {
+    
+    /**
+     * Verify the currentSignature with the current public key.
+     * @return True in case the signature does verify, false otherwise.
+     */
+    public synchronized boolean verifyCurrentSignature() {
         if (currentState != State.PARTS_REDACTED) {
             throw new IllegalStateException();
         }
 
-        boolean doesVerify = unsafeVerifyRedactedMessage();
-        currentState = State.REDACTED_VERIFIED;
-        return doesVerify;
-    }
-
-    public synchronized boolean confirmVerifyRedactedMessage() {
-        if (!(currentState == State.PARTS_REDACTED || currentState == State.REDACTED_VERIFIED)) {
-            throw new IllegalStateException();
-        }
-        return unsafeVerifyRedactedMessage();
-    }
-
-    private boolean unsafeVerifyRedactedMessage() {
+        boolean doesVerify;
         try {
             signature.initVerify(keyPair.getPublic());
-            return signature.verify(currentSignature);
+            doesVerify = signature.verify(currentSignature);
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
             throw new IllegalStateException("Redacted message can not be verified.", e);
         }
+        
+        currentState = State.REDACTED_VERIFIED;
+        return doesVerify;
     }
     
+    /*
+     * **************************
+     * ENUMS
+     * **************************
+     */
+    
+    /**
+     * All states of the algorithmController.
+     * @author Leon Shell, Lukas Krodinger
+     */
     public enum State {
         START(ActiveRssBodyComposite.SET_KEY),
         KEY_SET(ActiveRssBodyComposite.SET_MESSAGE),
@@ -388,7 +384,7 @@ public class RssAlgorithmController {
      * Note to not use GLRSS or GSRSS with PSRSS, as this will not work together.
      * Also do not use BPA, as this is not implemented completely; use GLRSSwithRSAandBPA/GSRSSwithRSAandBPA instead.
      * 
-     * @author Lukas Krodinger
+     * @author Leon Shell, Lukas Krodinger
      */
     public enum AlgorithmType {
         GLRSS_WITH_RSA_AND_BPA("GLRSS", "GLRSSwithRSAandBPA", "GLRSSwithRSAandBPA", false),
@@ -448,9 +444,15 @@ public class RssAlgorithmController {
         }
     }
     
+    /*
+     * **************************
+     * Save/Load methods
+     * **************************
+     */
+    
     /**
      * The available key lengths for the generated keys.
-     * @author Lukas Krodinger
+     * @author Leon Shell, Lukas Krodinger
      */
     public enum KeyLength {
         KL_512(512),

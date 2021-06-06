@@ -53,7 +53,7 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
         prepareAboutComposite();
 
         rssAlgorithmController = rac;
-        isVerified = rac.verifyRedactedMessage();
+        isVerified = rac.verifyCurrentSignature();
         body.lightPath();
 
         messages = rac.getMessageParts();
