@@ -122,7 +122,7 @@ public class RssSetMessageComposite extends RssRightSideComposite {
         loadMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_download_black_24dp.png").createImage(true));
         loadMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
-        		MessageAndRedactable messageAndRedactable = null;
+        		boolean loadingSuccess = false;
             	
             	// Open a dialog to get the message store location.
 				FileDialog fileOpenDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
@@ -135,14 +135,14 @@ public class RssSetMessageComposite extends RssRightSideComposite {
 					
 			
 					try {
-						messageAndRedactable = rac.loadSignature(messageStorePath);
+						loadingSuccess = rac.loadSignature(messageStorePath);
 					} catch (FileNotFoundException e1) {
 						showErrorDialog(Descriptions.FailedToLoadSign, Descriptions.ErrorLoadingSign);				
 					} catch (InvalidSignatureException e1) {
 						showErrorDialog(Descriptions.FailedToLoadSign, Descriptions.InvalidSign);	
 					} 
 				
-					if(messageAndRedactable != null) {
+					if(loadingSuccess) {
 						
 						// Change visual
 			           	body.lightPath();

@@ -26,22 +26,50 @@ import de.unipassau.wolfgangpopp.xmlrss.wpprovider.RedactableSignatureException;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.SignatureOutput;
 
 /**
- * The controller of the algorithm, which uses the methods of the WPProvider from Wolfgang Popp:
- * https://github.com/woefe/xmlrss
+ * The RSSAlgorithmController is the communication layer between the WPProvider (https://github.com/woefe/xmlrss)
+ * and the UI in the org.jcryptool.cisual.rss.ui package. The class saves the current state
+ * together with the relevant information of the state. This might be information about the key or the signature.
+ * The class also delegates method calls to the WPProvider together with the needed input.
  * 
  * @author Leon Shell, Lukas Krodinger
  */
 public class RssAlgorithmController {
+	
+	/**
+	 * The current state of the RssAlgorithmController.
+	 */
     private State currentState;
+    
+    /*
+     * Information about the current key.
+     */
     private KeyLength keyLength;
     private AlgorithmType keyType;
     private KeyPair keyPair;
-    private List<String> messageParts;
-    private List<Boolean> redactableParts;
+    
+    /**
+     * The current RedactableSignature to use for signing, redacting and validating.
+     */
     private RedactableSignature signature;
-    private SignatureOutput originalSignature;
+    
+    /**
+     * The messages before signing.
+     */
     private List<MessagePart> originalMessages;
+    
+    /**
+     * The signature after signing, before redacting for the first time.
+     */
+    private SignatureOutput originalSignature;
+    
+    /**
+     * The current signature might be after signing or after (multiple) redactions.
+     */
     private SignatureOutput currentSignature;
+    
+    /**
+     * This class is for saving and loading key information or signatures.
+     */
     private final Persistence persistence;
     
     /**
@@ -443,13 +471,7 @@ public class RssAlgorithmController {
             return null;
         }
     }
-    
-    /*
-     * **************************
-     * Save/Load methods
-     * **************************
-     */
-    
+        
     /**
      * The available key lengths for the generated keys.
      * @author Leon Shell, Lukas Krodinger
@@ -478,6 +500,12 @@ public class RssAlgorithmController {
 			return valueOf("KL_"+keyLength);
 		}
     }
+    
+    /*
+     * **************************
+     * Save/Load methods
+     * **************************
+     */
 
 	/**
 	 * Sets the given SignatureOutput. 
@@ -491,18 +519,7 @@ public class RssAlgorithmController {
 		this.originalSignature = signOut;
 		this.currentSignature = signOut;
 		
-		// Set messageParts and redactableParts
-		messageParts = new ArrayList<String>();
-		redactableParts = new ArrayList<Boolean>();
-		Collection<Identifier> messageIdentifiers = signOut.getMessageIdentifiers();
-		
-		for(Identifier identifier: messageIdentifiers) {
-			messageParts.add(new String(identifier.getBytes()));
-			redactableParts.add(signOut.isRedactable(identifier));
-		}
-		
 		currentState = State.MESSAGE_SIGNED;
-		
 	}
 	
 	/**
@@ -598,7 +615,7 @@ public class RssAlgorithmController {
 	 * @throws FileNotFoundException In case the given path is invalid.
 	 * @throws InvalidSignatureException In case the signature is not supported by the visualisation or the chosen key.
 	 */
-	public MessageAndRedactable loadSignature(String path) throws FileNotFoundException, InvalidSignatureException {
+	public boolean loadSignature(String path) throws FileNotFoundException, InvalidSignatureException {
 		if(currentState == State.START) {
 			throw new IllegalStateException("The signature can not be loaded before the key is set.");
 		}
@@ -608,15 +625,17 @@ public class RssAlgorithmController {
 		}
 		
 		SignatureOutput loadedSignOut = persistence.loadSignatureOutput(path);
-		
-		// TODO: Add check, if loadedSignOut matches chosen algorithm variant.
+			
+		if(!loadedSignOut.getAlgorithmName().equals(keyType.shortName)) {
+			throw new InvalidSignatureException("The loaded signature does not match the current key.");
+		}
 		
 		if(loadedSignOut != null) {
 			setSignOut(loadedSignOut);
-			return new MessageAndRedactable(messageParts, redactableParts);
+			return true;
 		}
 		
-		return null;
+		return false;
 	}
 
 
