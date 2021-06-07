@@ -1,3 +1,12 @@
+// -----BEGIN DISCLAIMER-----
+/*******************************************************************************
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
+ *
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+// -----END DISCLAIMER-----
 package org.jcryptool.visual.errorcorrectingcodes.ui.widget;
 
 import org.eclipse.swt.SWT;
@@ -76,7 +85,7 @@ public class ArrowCanvas extends Canvas {
         Path path = new Path(gc.getDevice());
         path.moveTo((float) (x2 - arrowLength * Math.cos(theta - arrowAngle)),
                 (float) (y2 - arrowLength * Math.sin(theta - arrowAngle)));
-        path.lineTo((float) x2, (float) y2);
+        path.lineTo(x2, y2);
         path.lineTo((float) (x2 - arrowLength * Math.cos(theta + arrowAngle)),
                 (float) (y2 - arrowLength * Math.sin(theta + arrowAngle)));
         path.close();
@@ -103,7 +112,8 @@ public class ArrowCanvas extends Canvas {
      *
      * @return the display
      */
-    public Display getDisplay() {
+    @Override
+	public Display getDisplay() {
         return display;
     }
 

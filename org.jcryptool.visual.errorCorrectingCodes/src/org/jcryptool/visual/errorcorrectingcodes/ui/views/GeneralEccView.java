@@ -1,9 +1,14 @@
-/*
- * @author Daniel Hofmann
- */
+// -----BEGIN DISCLAIMER-----
+/*******************************************************************************
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
+ *
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+// -----END DISCLAIMER-----
 package org.jcryptool.visual.errorcorrectingcodes.ui.views;
 
-import static org.jcryptool.visual.errorcorrectingcodes.ui.UIHelper.codeText;
 import static org.jcryptool.visual.errorcorrectingcodes.ui.UIHelper.createArrowCanvas;
 import static org.jcryptool.visual.errorcorrectingcodes.ui.UIHelper.markCode;
 
@@ -12,14 +17,15 @@ import org.eclipse.core.databinding.beans.typed.BeanProperties;
 import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.visual.errorcorrectingcodes.algorithm.EccController;
 import org.jcryptool.visual.errorcorrectingcodes.data.EccData;
@@ -31,6 +37,7 @@ import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 /**
  * The Class GeneralEccView represents the common process of detecting and correcting errors when
  * transmitting data over a noisy channel.
+ * @author Daniel Hofmann
  */
 public class GeneralEccView extends Composite {
 
@@ -38,9 +45,7 @@ public class GeneralEccView extends Composite {
     private EccController ecc;
     private DataBindingContext dbc;
 
-    private Composite parent;
     private Composite mainComposite;
-    private Composite compHead;
     private Composite compFoot;
     private Composite compInputStep;
     private Composite compEncodeStep;
@@ -56,7 +61,6 @@ public class GeneralEccView extends Composite {
     private Group grpTextInfo;
     private Group grpReceiver;
 
-    private StyledText textInfoHead;
     private StyledText textAsBinary;
     private StyledText textInput;
     private StyledText textEncoded;
@@ -72,11 +76,9 @@ public class GeneralEccView extends Composite {
     private ArrowCanvas arrowRight2;
     private ArrowCanvas arrowUp;
 
-    private Label lblHeader;
     private Label lblTextOriginal;
     private Label lblTextEncoded;
     private Label lblTextDecoded;
-    private Composite compErrorCode;
 
 
     /**
@@ -86,7 +88,6 @@ public class GeneralEccView extends Composite {
     public GeneralEccView(Composite parent, int style) {
         super(parent, style);
         ecc = new EccController(new EccData());
-        this.parent = parent;
 
         // common grid layout for all elements
         GridLayoutFactory glf = GridLayoutFactory.fillDefaults().margins(5, 5).equalWidth(true);
@@ -99,104 +100,143 @@ public class GeneralEccView extends Composite {
         header.setTitle(Messages.GeneralEccView_lblHeader);
         header.setDescription(Messages.GeneralEccView_textHeader);
         header.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-        
-//        compHead = new Composite(this, SWT.NONE);
-//        glf.applyTo(compHead);
-//        gdf.applyTo(compHead);
-//        lblHeader = new Label(compHead, SWT.NONE);
-//        lblHeader.setFont(FontService.getHeaderFont());
-//        lblHeader.setText(Messages.GeneralEccView_lblHeader);
-//        textInfoHead = new StyledText(compHead, SWT.MULTI | SWT.READ_ONLY | SWT.WRAP);
-//        textInfoHead.setText(Messages.GeneralEccView_textHeader);
-//        GridDataFactory.fillDefaults().grab(true, false).hint(_WHINT, SWT.DEFAULT).applyTo(textInfoHead);
 
         
         mainComposite = new Composite(this, SWT.NONE);
-        glf.equalWidth(false).numColumns(5).applyTo(mainComposite);
-        gdf.applyTo(mainComposite);
+        GridLayout gl_mainComposite = new GridLayout(5, false);
+        gl_mainComposite.marginHeight = 0;
+        gl_mainComposite.marginWidth = 0;
+        mainComposite.setLayout(gl_mainComposite);
+        mainComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
         grpSender = new Group(mainComposite, SWT.NONE);
-        glf.numColumns(1).applyTo(grpSender);
-        gdf.applyTo(grpSender);
+        grpSender.setBackground(ColorService.LIGHT_AREA_BLUE);
+        grpSender.setLayout(new GridLayout());
+        grpSender.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         grpSender.setText(Messages.GeneralEccView_grpSenderStep);
+        
         compInputStep = new Composite(grpSender, SWT.NONE);
-        glf.applyTo(compInputStep);
-        GridDataFactory.fillDefaults().applyTo(compInputStep);
+        GridLayout gl_compInputStep = new GridLayout();
+        gl_compInputStep.marginHeight = 0;
+        gl_compInputStep.marginWidth = 0;
+        compInputStep.setLayout(gl_compInputStep);
+        compInputStep.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+        
         lblTextOriginal = new Label(compInputStep, SWT.NONE);
         lblTextOriginal.setText(Messages.GeneralEccView_lblTextOriginal);
+        
         textInput = new StyledText(compInputStep, SWT.BORDER);
-        GridDataFactory.fillDefaults().grab(true, false).applyTo(textInput);
+        GridData gd_textInput = new GridData(SWT.FILL, SWT.FILL, true, false);
+        gd_textInput.widthHint = _WHINT;
+        textInput.setLayoutData(gd_textInput);
         textInput.addListener(SWT.FocusOut, e -> ecc.textAsBinary());
-        textAsBinary = codeText(compInputStep, SWT.FILL, SWT.TOP);
+        
+        textAsBinary = UIHelper.mutltiLineText(compInputStep, SWT.FILL, SWT.TOP, _WHINT, 5, FontService.getNormalMonospacedFont(), true);
+        
         compArrowDown = new Composite(grpSender, SWT.NONE);
-        glf.numColumns(2).applyTo(compArrowDown);
+        compArrowDown.setLayout(new GridLayout(2, true));
         GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.TOP).applyTo(compArrowDown);
-        arrowDown = createArrowCanvas(compArrowDown, 10, 10, 10, 130, 3, 13.0);
+        
+        arrowDown = createArrowCanvas(compArrowDown, 10, 10, 10, 50, 3, 13.0);
+        
         lblTextEncoded = new Label(compArrowDown, SWT.NONE);
         lblTextEncoded.setText(Messages.GeneralEccView_lblTextEncode);
+        
         compEncodeStep = new Composite(grpSender, SWT.NONE);
-        glf.numColumns(1).applyTo(compEncodeStep);
+        GridLayout gl_compEncodeStep = new GridLayout();
+        gl_compEncodeStep.marginHeight = 0;
+        gl_compEncodeStep.marginWidth = 0;
+        compEncodeStep.setLayout(gl_compEncodeStep);
         GridDataFactory.fillDefaults().applyTo(compEncodeStep);
-        textEncoded = codeText(compEncodeStep, SWT.FILL, SWT.BOTTOM);
-
+        
+        textEncoded = UIHelper.mutltiLineText(compEncodeStep, SWT.FILL, SWT.BOTTOM, _WHINT, 5, FontService.getNormalMonospacedFont(), true);
+        
         compArrowRight1 = new Composite(mainComposite, SWT.NONE);
-        glf.applyTo(compArrowRight1);
+        compArrowRight1.setLayout(new GridLayout());
         GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(compArrowRight1);
-        arrowRight1 = createArrowCanvas(compArrowRight1, 10, 10, 130, 10, 2, 10.0);
+        arrowRight1 = createArrowCanvas(compArrowRight1, 10, 10, 50, 10, 2, 10.0);
         arrowRight1.setLineStyle(SWT.LINE_DASH);
 
         grpErrorCode = new Group(mainComposite, SWT.NONE);
-        glf.applyTo(grpErrorCode);
-        GridDataFactory.fillDefaults().grab(true, true).applyTo(grpErrorCode);
+        grpErrorCode.setBackground(ColorService.LIGHT_AREA_GREEN);
+        grpErrorCode.setLayout(new GridLayout());
+        grpErrorCode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
         grpErrorCode.setText(Messages.GeneralEccView_grpErrorCode);
-        textError = codeText(grpErrorCode, SWT.FILL, SWT.CENTER);
+        
+        textError = UIHelper.mutltiLineText(grpErrorCode, SWT.FILL, SWT.CENTER, 150, 5, FontService.getNormalMonospacedFont(), true);
 
         compArrowRight2 = new Composite(mainComposite, SWT.NONE);
-        GridLayoutFactory.fillDefaults().applyTo(compArrowRight2);
+        compArrowRight2.setLayout(new GridLayout());
         GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(compArrowRight2);
-        arrowRight2 = createArrowCanvas(compArrowRight2, 10, 10, 130, 10, 2, 10.0);
+        arrowRight2 = createArrowCanvas(compArrowRight2, 10, 10, 50, 10, 2, 10.0);
         arrowRight2.setLineStyle(SWT.LINE_DASH);
 
         grpReceiver = new Group(mainComposite, SWT.NONE);
-        glf.applyTo(grpReceiver);
+        grpReceiver.setBackground(ColorService.LIGHT_AREA_RED);
+        grpReceiver.setLayout(new GridLayout());
         gdf.applyTo(grpReceiver);
         grpReceiver.setText(Messages.GeneralEccView_grpReceiver);
+        
         compOutputStep = new Composite(grpReceiver, SWT.NONE);
-        glf.applyTo(compOutputStep);
-        GridDataFactory.fillDefaults().applyTo(compOutputStep);
-        textOutput = codeText(compOutputStep, SWT.FILL, SWT.TOP);
+        GridLayout gl_compOutputStep = new GridLayout();
+        gl_compOutputStep.marginHeight = 0;
+        gl_compOutputStep.marginWidth = 0;
+        compOutputStep.setLayout(gl_compEncodeStep);
+        compOutputStep.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+        textOutput = UIHelper.mutltiLineText(compOutputStep, SWT.FILL, SWT.FILL, _WHINT, 5, FontService.getNormalMonospacedFont(), true);
+        
         compArrowUp = new Composite(grpReceiver, SWT.NONE);
         glf.numColumns(2).applyTo(compArrowUp);
         GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(compArrowUp);
-        arrowUp = createArrowCanvas(compArrowUp, 10, 180, 10, 10, 3, 13.0);
+        arrowUp = createArrowCanvas(compArrowUp, 10, 50, 10, 10, 3, 13.0);
+        
         lblTextDecoded = new Label(compArrowUp, SWT.NONE);
         lblTextDecoded.setText(Messages.GeneralEccView_lblTextDecoded);
+        
         compDecodeStep = new Composite(grpReceiver, SWT.NONE);
-        glf.numColumns(1).applyTo(compDecodeStep);
-        GridDataFactory.fillDefaults().applyTo(compDecodeStep);
-        textCorrected = codeText(compDecodeStep, SWT.FILL, SWT.BOTTOM);
+        GridLayout gl_compDecodeStep = new GridLayout();
+        gl_compDecodeStep.marginHeight = 0;
+        gl_compDecodeStep.marginWidth = 0;
+        compDecodeStep.setLayout(gl_compDecodeStep);
+        compDecodeStep.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+        textCorrected = UIHelper.mutltiLineText(compDecodeStep, SWT.FILL, SWT.FILL, _WHINT, 5, FontService.getNormalMonospacedFont(), true);
 
         compFoot = new Composite(this, SWT.NONE);
-        glf.applyTo(compFoot);
-        gdf.applyTo(compFoot);
+        GridLayout gl_compFoot = new GridLayout(2, false);
+        gl_compFoot.marginHeight = 0;
+        gl_compFoot.marginWidth = 0;
+        compFoot.setLayout(gl_compFoot);
+        compFoot.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 
         grpFootButtons = new Group(compFoot, SWT.NONE);
-        RowLayoutFactory.fillDefaults().margins(5, 5).pack(false).spacing(10).applyTo(grpFootButtons);
+        GridLayout gl_grpFootButtons = new GridLayout(3, true);
+        gl_grpFootButtons.horizontalSpacing = 10;
+        grpFootButtons.setLayout(gl_grpFootButtons);
+        grpFootButtons.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+        
         btnPrev = new Button(grpFootButtons, SWT.NONE);
+        btnPrev.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
         btnPrev.setText(Messages.GeneralEccView_btnPrev);
         btnPrev.addListener(SWT.Selection, e -> prevStep());
+        
         btnNextStep = new Button(grpFootButtons, SWT.NONE);
+        btnNextStep.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
         btnNextStep.setText(Messages.GeneralEccView_btnNextStep);
         btnNextStep.addListener(SWT.Selection, e -> nextStep());
+        
         btnReset = new Button(grpFootButtons, SWT.NONE);
+        btnReset.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
         btnReset.setText(Messages.GeneralEccView_btnReset);
         btnReset.addListener(SWT.Selection, e -> initView());
         
         grpTextInfo = new Group(compFoot, SWT.NONE);
-        glf.applyTo(grpTextInfo);
-        GridDataFactory.fillDefaults().grab(true,true).applyTo(grpTextInfo);
+        grpTextInfo.setLayout(new GridLayout());
+        grpTextInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         grpTextInfo.setText(Messages.GeneralEccView_grpTextInfo);
-        textInfo = UIHelper.mutltiLineText(grpTextInfo, SWT.FILL, SWT.FILL, _WHINT, 6, null, true);
+        textInfo = UIHelper.mutltiLineText(grpTextInfo, SWT.FILL, SWT.FILL, SWT.DEFAULT, 5, null, true);
         textInfo.setText(Messages.GeneralEccView_textInfo_step1);
 
         bindValues();
@@ -264,7 +304,7 @@ public class GeneralEccView extends Composite {
     /**
      * Initializes the view by hiding later steps.
      */
-    private void initView() {
+    public void initView() {
         textInput.setText("hello"); //$NON-NLS-1$
         ecc.textAsBinary();
         btnPrev.setEnabled(false);
