@@ -1,3 +1,12 @@
+// -----BEGIN DISCLAIMER-----
+/*******************************************************************************
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
+ *
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+// -----END DISCLAIMER-----
 package org.jcryptool.visual.errorcorrectingcodes.ui;
 
 import org.eclipse.osgi.util.NLS;
@@ -27,6 +36,7 @@ public class Messages extends NLS {
     public static String HammingCryptoView_lblHeader;
     public static String HammingCryptoView_textHeader;
     public static String HammingCryptoView_btnGeneratePrivateKey;
+    public static String HammingCryptoView_grpInverseMatrices;
     public static String HammingCryptoView_grpEncryption;
     public static String HammingCryptoView_grpDecryption;
     public static String HammingCryptoView_grpPrivateKey;
@@ -42,6 +52,14 @@ public class Messages extends NLS {
     public static String McElieceView_errorParamsTitle;
     public static String McElieceView_errorParams;
     public static String McElieceView_errorCipher;
+    
+    public static String McElieceView_errorEncryptionFailedTitle;
+    public static String McElieceView_errorEncryptionFailed;
+    public static String McElieceView_errorDecryptionFailedTitle;
+    public static String McElieceView_errorDecryptionFailed;
+    public static String McElieceView_errorNoParametersSelectedTitle;
+    public static String McElieceView_errorNoParametersSelected;
+    
     public static String McElieceView_btnDecrypt;
     public static String McElieceView_btnEncrypt;
     public static String McElieceView_btnFillKey;
@@ -52,6 +70,8 @@ public class Messages extends NLS {
     public static String McElieceView_lblHeader;
     public static String McElieceView_lblPublicKey;
     public static String McElieceView_textHeader;
+    
+    public static String McElieceView_filename;
 
     static {
         // initialize resource bundle
