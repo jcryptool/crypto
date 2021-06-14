@@ -273,26 +273,35 @@ public class AlphabetStore extends AbstractAlphabetStore {
     }
 
     private void generateStandardAlphabets() {
-    	//TODO: maybe do umlauts in another alphabet, but for now...
-        char[] extraChars = Messages.AlphabetStore_extrachars.toCharArray();
-    	char[] set = new char[95+extraChars.length];
+    	//Printable ASCII alphabet with umlauts and line breaks 
+//        char[] extraChars = Messages.AlphabetStore_extrachars.toCharArray();
+//    	char[] set = new char[95+extraChars.length];
+    	char[] set = new char[95];
         for (int i = 32; i < 127; i++) {
             set[i - 32] = (char) i;
         }
-        for(int i=0; i<extraChars.length; i++) {
-        	set[set.length-extraChars.length+i] = extraChars[i];
-        }
+//        for(int i=0; i < extraChars.length; i++) {
+//        	set[set.length-extraChars.length+i] = extraChars[i];
+//        }
+        
+//        Alphabet extendedAsciiAlphabet = new Alphabet(set, Messages.AlphabetStore_alpha_ascii_long, Messages.AlphabetStore_alpha_ascii_short, AbstractAlphabet.NO_DISPLAY, true); 
+        
+        
+        
         Alphabet shortAsciiAlphabet = new Alphabet(set, Messages.AlphabetStore_alpha_ascii_long, Messages.AlphabetStore_alpha_ascii_short, AbstractAlphabet.NO_DISPLAY, true); 
 
         addInternAlphabet(shortAsciiAlphabet);
 
-        char[] set3 = new char[256];
-        for (int i=0; i<256; i++) {
-        	set3[i] = (char) i;
-        }
-        Alphabet ascii256Alphabet = new Alphabet(set3,
-                Messages.AlphabetStore_alpha_ascii256_long, Messages.AlphabetStore_alpha_ascii256_short, AbstractAlphabet.NO_DISPLAY, true); 
+        // Code for an alphabet containing all 256 ASCII Chars. 
+//        char[] set3 = new char[256];
+//        for (int i=0; i<256; i++) {
+//        	set3[i] = (char) i;
+//        }
+//        Alphabet ascii256Alphabet = new Alphabet(set3,
+//                Messages.AlphabetStore_alpha_ascii256_long, Messages.AlphabetStore_alpha_ascii256_short, AbstractAlphabet.NO_DISPLAY, true); 
 
+        // TODO: not included for now, as the alphabet store, on JCT restart after the first start, won't load correctly.
+//      addInternAlphabet(ascii256Alphabet);
 
         char[] set2 = new char[52];
         for (int i = 65; i < 91; i++) {
@@ -302,8 +311,7 @@ public class AlphabetStore extends AbstractAlphabetStore {
             set2[i - 71] = (char) i;
         }
         
-        // TODO: not included for now, as the alphabet store, on JCT restart after the first start, won't load correctly.
-//        addInternAlphabet(ascii256Alphabet);
+
         
         
         
