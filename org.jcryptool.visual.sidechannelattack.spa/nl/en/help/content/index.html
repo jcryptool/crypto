@@ -40,7 +40,7 @@
 
 	<p>Since the presence of the if statement in the algorithm, "Square and Multiply" is vulnerable to "Power Analysis Attack".</p>
 
-	<img width="85%" src="visual_of_sam.PNG">
+	<img width="85%" src="simple-sam-power-graph.svg">
 
 	<p>The power traces between "squaring and multiplication" and "squaring" are different. "Simple Power Analysis" can recover every bit of the secure private
 	key d through comparison and analysis of the power traces in each turn. As shown in the figure above, the private key is 1100101.</p>
@@ -56,7 +56,7 @@
 	<p>No matter the current bit is "1" or "0", squaring and multiplication operation will always be carried out. We just according the current bit to choose
 	Res_<sub>0</sub> or Res_<sub>1</sub> as the result in next turn.</p>
 
-	<img width="85%" src="powertraceofsama.PNG">
+	<img width="85%" src="secure-sam-power-graph.svg">
 
 	<p>Obviously, there are no more distinguished difference between the branches of bit "1" and bit "0", so recovering each bit of private key by comparison the
 	power traces using SPA is no more feasible.</p>

@@ -36,7 +36,7 @@ nach der Quadrierung (Res = Res <sup>2</sup> mod n) durchgeführt. Ist das gegen
 
 <p> Der "Square and Multiply"-Algorithmus ist anfällig für "Power Analysis Attack", da die Operationen "Square and Multiply" und "Multiply" unterschiedliche Spuren in Stromkurven verursachen.</p>
 
-<img width="85%" src="visual_of_sam.PNG">
+<img width="85%" src="simple-sam-power-graph.svg">
 
 <p> Die Stromkurve (Power Trace) ist zwischen den Operationen "Square and Multiply" und "Square" unterschiedlich. Dadurch kann die "Simple Power Analysis" jedes Bit des geheimen Exponenten d durch den Vergleich und die Analyse der Stromkurve feststellen. In der Abbildung oben wird die Stromkurve des privaten Schlüssel 1100101 gezeigt.</p>
 
@@ -50,7 +50,7 @@ nach der Quadrierung (Res = Res <sup>2</sup> mod n) durchgeführt. Ist das gegen
 
 <p>Egal, ob das gegenwärtige Bit gleich "1" oder "0" ist, es wird immer quadriert und multipliziert.</p>
 
-<img width="85%" src="powertraceofsama.PNG">
+<img width="85%" src="secure-sam-power-graph.svg">
 
 <p> Offensichtlich gibt es keine Unterschiede mehr, ob eine "0" oder eine "1" verarbeitet wurde. Es kann nicht mehr herausgefunden werden, ob der private Schlüssel d eine "0" oder "1" an einer Stelle enthält.</p>
 
