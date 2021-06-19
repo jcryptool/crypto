@@ -3,11 +3,14 @@ package org.jcryptool.analysis.viterbi.views;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.function.BiConsumer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -27,11 +30,13 @@ import org.jcryptool.analysis.viterbi.algorithm.BitwiseXOR;
 import org.jcryptool.analysis.viterbi.algorithm.Combination;
 import org.jcryptool.analysis.viterbi.algorithm.IO;
 import org.jcryptool.analysis.viterbi.algorithm.ModularAddition;
-import org.jcryptool.analysis.viterbi.views.XORComposite.XORCombinationBackgroundJob;
+import org.jcryptool.core.operations.algorithm.classic.textmodify.TransformData;
 import org.jcryptool.core.util.constants.IConstants;
 import org.jcryptool.core.util.directories.DirectoryService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.crypto.ui.background.BackgroundJob;
+import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
+import org.jcryptool.crypto.ui.textsource.TextInputWithSource;
 
 /**
  *
@@ -43,11 +48,6 @@ import org.jcryptool.crypto.ui.background.BackgroundJob;
 public class XORComposite extends Composite {
 	/* set default values */
 
-	public abstract class XORCombinationBackgroundJob extends BackgroundJob {
-		
-		public String __result;
-
-	}
 
 	private static final int LOADBUTTONHEIGHT = 30;
 	private static final int LOADBUTTONWIDTH = 120;
@@ -65,6 +65,19 @@ public class XORComposite extends Composite {
 	/* default value for the combination is xor */
 	private Combination combi = new BitwiseXOR();
 	private Composite g;
+	
+	private static final int viterbi_max_text_length = 2000000;
+	
+	private String lastSuccessfullLoadedText1;
+	private TextInputWithSource lastSuccessfullLoadedTextSource1;
+	private TextInputWithSource source1;
+	private String lastSuccessfullLoadedTextName1;
+	private String lastSuccessfullLoadedText2;
+	private TextInputWithSource lastSuccessfullLoadedTextSource2;
+	private TextInputWithSource source2;
+	private String lastSuccessfullLoadedTextName2;
+	private TextLoadController textloader;
+	private TextLoadController textloader2;
 
 	/**
 	 * @param the
@@ -171,6 +184,7 @@ public class XORComposite extends Composite {
 		Label plain1Label_1 = new Label(canvas_1, SWT.PUSH);
 		plain1Label_1.setText(Messages.XORComposite_Plain1);
 
+		/*
 		Button loadPlain1 = new Button(canvas_1, SWT.PUSH);
 		loadPlain1.setText(Messages.XORComposite_loadFile);
 		GridData gd_loadPlain1 = new GridData(LOADBUTTONWIDTH, LOADBUTTONHEIGHT);
@@ -178,7 +192,41 @@ public class XORComposite extends Composite {
 		gd_loadPlain1.horizontalAlignment = SWT.FILL;
 		gd_loadPlain1.verticalAlignment = SWT.FILL;
 		loadPlain1.setLayoutData(gd_loadPlain1);
+		*/
 
+		
+		textloader = new TextLoadController(canvas_1, this, SWT.NONE, true, false);
+		textloader.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+		
+		textloader.addObserver(new Observer() {
+			@Override
+			public void update(Observable o, Object arg) {
+				
+				if (textloader.getText() != null) {
+					
+					if(textloader.getText().getText().length() < viterbi_max_text_length) {
+					String text = textloader.getText().getText();
+					
+					lastSuccessfullLoadedTextSource1 = textloader.getText();
+					plain1.setText(text);
+					}else{
+						
+						boolean result = MessageDialog.openQuestion(XORComposite.this.getShell(), Messages.XORComposite_warning,Messages.XORComposite_warning_text);
+						if(result) {
+							String text = textloader.getText().getText();
+							lastSuccessfullLoadedTextSource1 = textloader.getText();
+							plain1.setText(text); // printing text into textfield
+						}
+						else {
+							textloader.setTextData(lastSuccessfullLoadedTextSource1, null, true);
+							source1 = lastSuccessfullLoadedTextSource1;
+							return;
+						}
+					}				
+				}
+			}
+		});
+		/*
 		loadPlain1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -191,10 +239,34 @@ public class XORComposite extends Composite {
 				String filename = dialog.open();
 				if (filename != null) {
 					String text = new IO().read(filename, "\r\n"); //$NON-NLS-1$
-					plain1.setText(text); // printing text into textfield
+					if(text.length() < viterbi_max_text_length) {
+						plain1.setText(text); // printing text into textfield
+						lastSuccessfullLoadedText1 = text;
+						lastSuccessfullLoadedTextName1 = filename;
+					}else {
+						
+						boolean result = MessageDialog.openQuestion(XORComposite.this.getShell(), Messages.XORComposite_warning, Messages.XORComposite_warning_text);
+						
+						if(result) {
+							
+						plain1.setText(text); // printing text into textfield
+						lastSuccessfullLoadedText1 = text;
+						lastSuccessfullLoadedTextName1 = filename;
+							
+						}else {
+							if(lastSuccessfullLoadedText1!=null){
+								plain1.setText(lastSuccessfullLoadedText1);
+							}else {
+								plain1.setText("");
+							}
+						}
+					}
+					
 				}
 			}
 		});
+		*/
+		
 		Combo loadPlain1c = new Combo(canvas_1, SWT.NONE);
 		GridData gd_loadPlain1c = new GridData(LOADBUTTONWIDTH, LOADBUTTONHEIGHT);
 		gd_loadPlain1c.grabExcessHorizontalSpace = true;
@@ -231,6 +303,7 @@ public class XORComposite extends Composite {
 		plain1Label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 		plain1Label.setText(Messages.XORComposite_Plain2);
 
+		/*
 		Button loadPlain2 = new Button(canvas, SWT.PUSH);
 		loadPlain2.setText(Messages.XORComposite_loadFile);
 		GridData gd_loadPlain2 = new GridData(LOADBUTTONWIDTH, LOADBUTTONHEIGHT);
@@ -238,11 +311,45 @@ public class XORComposite extends Composite {
 		gd_loadPlain2.verticalAlignment = SWT.TOP;
 		gd_loadPlain2.horizontalAlignment = SWT.FILL;
 		loadPlain2.setLayoutData(gd_loadPlain2);
+		*/
+		
+		textloader2 = new TextLoadController(canvas, this, SWT.NONE, true, false);
+		textloader2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
+		
+		textloader2.addObserver(new Observer() {
+			@Override
+			public void update(Observable o, Object arg) {
+				
+				if (textloader2.getText() != null) {
+					
+					if(textloader2.getText().getText().length() < viterbi_max_text_length) {
+					String text = textloader2.getText().getText();
+					
+					lastSuccessfullLoadedTextSource2 = textloader2.getText();
+					plain2.setText(text);
+					}else{
+						
+						boolean result = MessageDialog.openQuestion(XORComposite.this.getShell(), Messages.XORComposite_warning,Messages.XORComposite_warning_text);
+						if(result) {
+							String text = textloader2.getText().getText();
+							lastSuccessfullLoadedTextSource2 = textloader2.getText();
+							plain2.setText(text); // printing text into textfield
+						}
+						else {
+							textloader2.setTextData(lastSuccessfullLoadedTextSource2, null, true);
+							source2 = lastSuccessfullLoadedTextSource2;
+							return;
+						}
+					}				
+				}
+			}
+		});
 
+		/*
 		loadPlain2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
-				FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.OPEN);
+				FileDialog dialog = new FileDialog(getDisplay().getActiveShell(), SWT.OPEN);
 				dialog.setFilterNames(new String[] { IConstants.TXT_FILTER_NAME, IConstants.ALL_FILTER_NAME });
 				dialog.setFilterExtensions(
 						new String[] { IConstants.TXT_FILTER_EXTENSION, IConstants.ALL_FILTER_EXTENSION });
@@ -251,10 +358,33 @@ public class XORComposite extends Composite {
 				String filename = dialog.open();
 				if (filename != null) {
 					String text = new IO().read(filename, "\r\n"); //$NON-NLS-1$
-					plain2.setText(text); // printing text into textfield
+					if(text.length() < viterbi_max_text_length) {
+						plain2.setText(text); // printing text into textfield
+						lastSuccessfullLoadedText2 = text;
+						lastSuccessfullLoadedTextName2 = filename;
+					}else {
+						
+						boolean result = MessageDialog.openQuestion(XORComposite.this.getShell(), Messages.XORComposite_warning, Messages.XORComposite_warning_text);
+						
+						if(result) {
+							
+						plain2.setText(text); // printing text into textfield
+						lastSuccessfullLoadedText2 = text;
+						lastSuccessfullLoadedTextName2 = filename;
+							
+						}else {
+							if(lastSuccessfullLoadedText2!=null){
+								plain2.setText(lastSuccessfullLoadedText2);
+							}else {
+								plain2.setText("");
+							}
+						}
+					}
 				}
 			}
 		});
+		*/
+		
 		Combo loadPlain2c = new Combo(canvas, SWT.NONE);
 		GridData gd_loadPlain2c = new GridData(LOADBUTTONWIDTH, LOADBUTTONHEIGHT);
 		gd_loadPlain2c.grabExcessHorizontalSpace = true;
@@ -319,6 +449,16 @@ public class XORComposite extends Composite {
 	 * Creates radio buttons. This is used for determining the combination mode.
 	 */
 	private void createCombinationArea(final Composite parent) {
+
+	}
+
+	public abstract class ViterbiAnalysisJob extends BackgroundJob {
+		public String __result;
+
+		@Override
+		public String name() {
+			return "Viterbi Analysis";
+		}
 
 	}
 
@@ -447,31 +587,32 @@ public class XORComposite extends Composite {
 				String plain1Text = plain1.getText();
 				String plain2Text = plain2.getText();
 				boolean textSelection = text.getSelection();
-				XORCombinationBackgroundJob calculateJob = new XORCombinationBackgroundJob() {
+				ViterbiAnalysisJob calculateJob = new ViterbiAnalysisJob() {
 					@Override
 					public IStatus computation(IProgressMonitor monitor) {
+						monitor.worked(1);
 						cipherString = combi.add(plain1Text, plain2Text);
+						monitor.worked(2);
 						if (textSelection) {
 							this.__result = ViterbiComposite.replaceUnprintableChars(cipherString, "\ufffd");
 						} else {
 							this.__result = ViterbiComposite.stringToHex(cipherString);
 						}
+						monitor.worked(3);
 						return Status.OK_STATUS;
 					}
-					public String name() {
-						return "Viterbi: plaintext combination";
-					};
 				};
+				Display display = getDisplay();
 				calculateJob.finalizeListeners.add(status -> {
-					calculateJob.liftNoClickDisplaySynced(getDisplay());
+					calculateJob.liftNoClickDisplaySynced(display);
 					if (status.isOK()) {
-						getDisplay().syncExec(() -> {
+						display.syncExec(() -> {
 							cipher.setText(calculateJob.__result); //$NON-NLS-1$
 							subjectChanged();
 						});
 					}
 				});
-				calculateJob.imposeNoClickDisplayCurrentShellSynced(getDisplay());
+				calculateJob.imposeNoClickDisplayCurrentShellSynced(display);
 				calculateJob.runInBackground();
 			}
 		});

@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2013, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2013, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -22,13 +22,19 @@ public class Messages extends NLS {
     private Messages() {
     }
 
-    public static String JCTCA_Visual_archpic_create_text;
+    public static String JCTCA_Visual_archpic_create_explain;
     public static String JCTCA_Visual_btn_continue_to_plugin;
     public static String JCTCA_Visual_btn_show_archpic_check;
     public static String JCTCA_Visual_btn_show_archpic_create;
     public static String JCTCA_Visual_btn_show_archpic_revoke;
     public static String JCTCA_Visual_grp_explain_headline;
     public static String JCTCA_Visual_Plugin_Headline;
+    public static String JCTCA_Visual_path_to_create_img;
+    public static String JCTCA_Visual_path_to_check_img;
+    public static String JCTCA_Visual_path_to_revoke_img;
+    public static String JCTCA_Visual_visual_intro_text;
+    public static String JCTCA_Visual_archpic_check_explain;
+    public static String JCTCA_Visual_archpic_revoke_explain;
     public static String Util_CSR_Tree_Head;
     public static String Util_RR_Tree_Head;
     public static String Util_signed_files;

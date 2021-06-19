@@ -1,8 +1,8 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="de">
 <head>	  
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Visualization of an extended RSA cryptosystem (including identities and multi-prime RSA)</title>
+  <title>Extended RSA cryptosystem (including identities and multi-prime RSA)</title>
   <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
@@ -10,11 +10,13 @@
 
 <h1>Extended RSA Cryptosystem (including Identities and Multi-Prime RSA)</h1>
 
-<p>This plug-in visualizes the usage of RSA for message encryption. In most usage scenarios, this algorithm utilizes two prime numbers for key generation, and has – as every asymmetric algorithm – a private and a public key.</p>
+<p>This plug-in visualizes the usage of RSA for message encryption. In most usage scenarios, this algorithm utilizes two prime numbers for key generation, and has – as every asymmetric algorithm – a private and a public key per person (identity).</p>
 
 <p>This algorithm can also be used with more than two prime numbers – which is then called <strong>multi-prime RSA</strong>. The key generation and the encryption are working analogously to the classic RSA-algorithm (then, N is the product of all chosen prime numbers).</p>
 
-<p><b>Please note </b>that in this visualization the operations are performed on each single character. In practice, though the operations are performed on blocks or even the whole message. However, in the typical use cases RSA is not used to encrypt large amounts of data. Instead it is used to encrypt a session key, with which the actual data is encrypted (using a symmetric cipher like AES or 3DES). This is typically referred to as ‘hybrid encryption’. (Another typical use case is to sign the hash value of a message.)</p>
+<p><b>Please note </b>that in this visualization the operations are performed on each single character (sometimes called <b>textbook RSA</b>). In practice, though the operations are performed on blocks or even the whole message. However, in the typical use cases RSA is not used to encrypt large amounts of data. Instead it is used to encrypt a session key, with which the actual data is encrypted (using a symmetric cipher like AES or 3DES). This is typically referred to as ‘hybrid encryption’. (Another typical use case is to sign the hash value of a message.)</p>
+
+<img src="ExtendedRSA-Manage-Keys.png" alt="ExtendedRSA-Manage-Keys" id="ExtendedRSA-Manage-Keys" width = "90%" />
 
 <h2>Explanation of the RSA Scheme</h2>
 <p>RSA is the most-commonly used asymmetric algorithm, and has been developed by Ronald Rivest, Adi Shamir, and Leonard Adleman in 1977 (and named after their last names’ initials). The private and public keys are constructed using two randomly selected large prime numbers \(p\) and \(q\) which can be specified by the user. Then the user calculates two natural numbers (i.e., positive integers) \(e\) and \(d\) such that \((e \times d) = 1 \mod (p-1)(q-1)\).
@@ -29,15 +31,15 @@ The product \(p \times q = N\) and \(e\) then serve as the public key, the expon
 <p>The security of the RSA scheme is based on two mathematical problems. First, it is hard for big numbers to extract a root modulo \(N\) (RSA problem). Second, factorization of a number \(N = p \times q\) is hard, if the factors are sufficiently large (RSA key problem).</p>
 
 <h3>RSA Key Generation</h3>
-<p>A special characteristic of the RSA cryptosystem is that extensive calculations are necessary to generate the RSA key before the “normal” operation can take place: RSA en-/decryption (or signing/verifying).</p>
+<p>A special characteristic of the RSA cryptosystem is that extensive calculations are necessary to generate the RSA key before the “normal” operation can take place: RSA en-/decryption (or signing/verifying). However, the key generation is an initial one-time event while the encryption or siging then can use the keys generated many times.</p>
   
 <p>First of all, the RSA parameters \(p\), \(q\), \(N\) and the Euler function \(\varphi(N)\) are calculated by choosing two different prime numbers \(p\) and \(q\) at random, and then by calculating the so-called RSA modulus \(N = p \times q\). The Euler function \(\varphi(N)\) is the product of \((p-1)(q-1)\). Normally \(p\) and \(q\) are deleted after this calculation to ensure these are not revealed even by coincidence (even the key creator doesn’t know the values any more).</p>
 
-<p>In a second step, the public RSA exponent \(e\) is determined. Together with \(\varphi(N)\), the secret RSA exponent \(d\) is calculated. The number \(e\) is chosen as follows \(1 < e < \varphi(N)\), with the property that \(e\) is relatively prime to \(\varphi(N)\). A popular value for \(e\) is \(2^{16}+1 = 65537\), as in most cases this is co-prime to \(\varphi(N)\) and is especially well-suited for square and multiply exponentiation resulting in a very fast public key operation.</p>
+<p>In a second step, the public RSA exponent \(e\) is determined. Together with \(\varphi(N)\), the secret RSA exponent \(d\) is calculated. The number \(e\) is chosen as follows \(1 < e < \varphi(N)\), with the property that \(e\) is relatively prime to \(\varphi(N)\). A popular value for \(e\) is \(2^{16}+1 = 65537\), as in most cases this is co-prime to \(\varphi(N)\) and is especially well-suited for square and multiply exponentiation resulting in a very fast public key operation (so encryption and verification are fast).</p>
 
 <p>The secret exponent \(d = e^{-1} \mod \varphi(N)\) is calculated as the multiplicative inverse of the public exponent \(e\) modulo \(\varphi(N)\). In a different notation: \(e \times d = 1 \mod \varphi(N)\).</p>
 
-<p>After the RSA key generation, \(N\) and \(e\) can be published. Then, anyone could encrypt a message for the owner of the according secret RSA key \(d\) (or check a digital signature &ndash; using only the public key).</p>
+<p>After the RSA key generation, \(N\) and \(e\) can be published. Then, anyone can encrypt a message for the owner of the according secret RSA key \(d\) (or check a digital signature &ndash; using only the public key).</p>
 
 <h3>RSA Encryption / Decryption</h3>
 <p>To encrypt data with the RSA scheme, the ciphertext is calculated using the public key \(e\) of the recipient and the plaintext. The encryption function is \(c = m^e \mod N\). This means that anyone can encrypt a message using the public key. But only the owner of the associated secret key \(d\) can then decrypt the message again.</p>
@@ -45,14 +47,46 @@ The product \(p \times q = N\) and \(e\) then serve as the public key, the expon
 <p>To decrypt a ciphertext with the RSA scheme, one needs to know the private key \(d\). The decryption function, \(c^d = (m^e)^d = m^{ed} = m \mod N\), yields the plaintext \(m\) again.</p>
 
 
-<h2>Factorizing Attack</h2>
-<p>Goal of the factorizing attack is to factorize the public modulus \(N\) to reconstruct the prime numbers used for the key generation. With this prime numbers, the private key (the secret parameter \(d\)) can be calculated like at the the originally key generation. So an attacker can possibly read messages which are not assigned to him. </p>
+<p><strong>Sample from the CT-Book, chapter 4.13.3, variant 1:</strong></p>
 
-<p>This attack can be avoided by using prime numbers with a length of more than 612 bits (in case of a RSA key with two primes, the modulus is more than 1024 bit long). Even today's supercomputers have no chance to factorize such a modulus in several years. Today it is recommended to use 2048 or 4096 bit keys.</p>
+<p>With the action <strong>Manage keys</strong> and in there the tab "Create new key" an 18-bit key was generated for receiver Alice using p=503, q=509, e=65537, and d=231953. The key then was protected with a passphrase and stored in the JCT keystore.</p>
+
+<img src="ExtRSA_CreateNewKey_EN.png" alt="ExtRSA_CreateNewKey_EN" id="ExtRSA_CreateNewKey_EN" width = "90%" />
+
+<p>With the action <strong>Manage keys</strong> and in there the tab "My keys" you can see the predefined RSA keys of Alice and Bob and the ones you just created.</p>
+
+<img src="ExtRSA_ShowMyKey_EN.png" alt="ExtRSA_ShowMyKey_EN" id="ExtRSA_ShowMyKey_EN" width = "90%" />
+
+<p>With the action <strong>Encrypt and send message</strong> the string "RSA works!" was encrypted.
+An encryption is performed for each letter by itself, resulting in a ciphertext of the following hex values:  33ff8 63ca 19851 7bcc 3ca57 1883c d3b4 18758 e343 37869.<br>
+These are the same 10 values as the decimal values shown as ciphertext in the CT-Book: 212984  025546  104529  031692  248407 100412  054196  100184  058179  227433.</p>
+
+<img src="ExtRSA_Encrypt-message-and-before-send-message_EN.png" alt="ExtRSA_Encrypt-message-and-before-send-message_EN" id="ExtRSA_Encrypt-message-and-before-send-message_EN" width = "90%" />
+
+<pre><code>
+// You might check this decimal-hex equivalence via Python:
+// Coded in decimal notation, the text “RSA works!” is as follows:
+// Text:    R   S   A        w    o    r    k    s   !
+// Number: 82  83  65  32  119  111  114  107  115  33
+ahex=("33ff8", "63ca", "19851", "7bcc", "3ca57", "1883c", "d3b4", "18758", "e343", "37869")
+for i in ahex:
+	int(i,16)
+</code></pre>
+
+<p>All encrypted messages you sent can then be handled with the action <strong>Receive and decrypt message</strong> by selecting an encrypted message and a receiver, and entering the receiver's passphrase to unlock his private key.</p>
+
+<img src="ExtRSA_Receive-and-decrypt-message_EN.png" alt="ExtRSA_Receive-and-decrypt-message_EN" id="ExtRSA_Receive-and-decrypt-message_EN" width = "90%" />
+
+<h2>Factorizing Attack</h2>
+<p>Goal of the factorizing attack is to factorize the public modulus \(N\) to reconstruct the prime numbers used for key generation. Using these prime numbers, the private key (the secret parameter \(d\)) can be calculated like at the originally key generation. So an attacker can possibly read messages which are not assigned to him. </p>
+
+<p>This attack can be avoided by using prime numbers with a length of more than 1024 bits (in case of a RSA key with two primes, the modulus is then more than 2048 bit long). Even today's supercomputers then have no chance to factorize such a modulus. Today it is recommended to use 2048 or 4096 bit keys.</p>
 
 <p>In this visual a factorizing attack is implemented to factorize only small public keys. The attack tries to get all factors of the public modulus \(N\). As soon as all factors are found, the used prime numbers for the key generation are identified and the private key can be reconstructed.</p>
 
-<p>For further information please refer to:</p>
+
+<h3 id="Refer">Further Information / References</h3>
+
 <ul>
   <li><a href="PLUGINS_ROOT/org.jcryptool.visual.rsa/$nl$/help/content/index.html">JCT Plugin: RSA Cryptosystem (Encrypt, Decrypt, Sign, and Verify)</a>
 

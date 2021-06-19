@@ -90,16 +90,6 @@
                style="push"
                tooltip="%optStrategy.command.tooltip">
          </command>
-         <separator
-               name="org.jcryptool.games.numbershark.separator4"
-               visible="true">
-         </separator>
-         <command
-               commandId="org.jcryptool.games.numbershark.helpCommand"
-               icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/help_contents.png"
-               style="push"
-               tooltip="%help.command.tooltip">
-         </command>
       </menuContribution>  
       <menuContribution
             locationURI="menu:org.jcryptool.games.numbershark.NumberSharkView">
@@ -150,15 +140,6 @@
                icon="icons/wizard-icon.png"
                style="push">
          </command>
-         <separator
-               name="org.jcryptool.games.numbershark.separator8"
-               visible="true">
-         </separator>
-         <command
-               commandId="org.jcryptool.games.numbershark.helpCommand"
-               icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/help_contents.png"
-               style="push">
-         </command>
       </menuContribution>   
    </extension>
    <extension
@@ -199,10 +180,6 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="org.jcryptool.games.numbershark.handler.HelpHandler"
-            commandId="org.jcryptool.games.numbershark.helpCommand">
-      </handler>
-            <handler
             class="org.jcryptool.games.numbershark.handler.OptimalStrategyHandler"
             commandId="org.jcryptool.games.numbershark.optStrategyCommand">
       </handler>

@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2020, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2020, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -28,8 +28,10 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.jcryptool.core.util.units.UnitsService;
 import org.jcryptool.visual.sphincsplus.EnvironmentParameters;
 import org.jcryptool.visual.sphincsplus.SphincsPlus;
+import org.jcryptool.visual.sphincsplus.SphincsPlusPlugin;
 import org.jcryptool.visual.sphincsplus.algorithm.Utils;
 import org.jcryptool.visual.sphincsplus.interfaces.ISphincsPlus;
 
@@ -285,12 +287,17 @@ public class SphincsPlusSignAndVerifyView extends Composite {
 
                     }
 
-                    lbl_status.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
+                    lbl_status.setBackground(
+                            SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
                     lbl_status.setText(Messages.SphincsPlusSignAndVerifyView_lbl_status_signed);
 
-                    label_r.setText("R" + " (" + r.length + " bytes)");
-                    label_fors.setText("SIG FORS" + " (" + sig_fors_bytes.length + " bytes)");
-                    label_ht.setText("SIG HT" + " (" + sig_ht_bytes.length + " bytes)");
+                    label_r.setText("R" + " ("
+                            + UnitsService.format(r.length, SphincsPlusPlugin.PLUGIN_ID) + ")");
+                    label_fors.setText("SIG FORS" + " (" + UnitsService
+                            .format(sig_fors_bytes.length, SphincsPlusPlugin.PLUGIN_ID) + ")");
+                    label_ht.setText("SIG HT" + " ("
+                            + UnitsService.format(sig_ht_bytes.length, SphincsPlusPlugin.PLUGIN_ID)
+                            + ")");
 
                 } else {
 

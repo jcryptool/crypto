@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2014, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2014, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.jcryptool.core.logging.utils.LogUtil;
+import org.jcryptool.core.operations.providers.ProviderManager2;
 import org.jcryptool.visual.ssl.SslPlugin;
 import org.jcryptool.visual.ssl.protocol.Crypto;
 import org.jcryptool.visual.ssl.protocol.Message;
@@ -312,8 +313,12 @@ public class ClientCertificateComposite extends Composite implements
 			try {
 				exchangeKey = c.generateExchangeKey(Message
 						.getKeyPairGenerator());
+				
+				ProviderManager2.getInstance().pushFlexiProviderPromotion();
 				KeyAgreement clientKeyAgree = KeyAgreement.getInstance("DH",
 						"BC");
+				ProviderManager2.getInstance().popCryptoProviderPromotion();
+				
 				clientKeyAgree.init(exchangeKey.getPrivate());
 				clientKeyAgree.doPhase(Message
 						.getServerCertificateServerKeyExchange().getPublic(),

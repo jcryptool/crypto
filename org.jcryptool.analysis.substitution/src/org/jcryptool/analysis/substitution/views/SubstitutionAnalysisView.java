@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2013, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2013, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -18,6 +18,7 @@ import java.util.Observer;
 import java.util.Set;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -30,6 +31,7 @@ import org.jcryptool.analysis.substitution.ui.modules.SubstitutionAnalysisConfig
 import org.jcryptool.analysis.substitution.ui.modules.SubstitutionAnalysisPanel;
 import org.jcryptool.analysis.substitution.views.SubstitutionAnalysisView.State.Step;
 import org.jcryptool.core.operations.alphabets.AbstractAlphabet;
+import org.jcryptool.core.util.colors.ColorService;
 
 
 /**
@@ -59,6 +61,8 @@ public class SubstitutionAnalysisView extends ViewPart {
 	private Composite mainPanel;
 
 	private SubstitutionAnalysisConfigPanel configPanel;
+	
+	private ScrolledComposite scrolledComposite;
 
 	/*
 	 * The content provider class is responsible for
@@ -97,15 +101,25 @@ public class SubstitutionAnalysisView extends ViewPart {
 	private Composite getMainComposite() {
 		return mainComposite;
 	}
+	
+	private ScrolledComposite getScrolledComposite() {
+		return scrolledComposite;
+	}
 
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite parent) {	
+		//FIXME: TODO
+		
+		
 		mainComposite = new Composite(parent, SWT.NONE);
 		mainComposite.setLayout(new GridLayout());
+		
+		createAppropriatePanel(state);	
 
-		createAppropriatePanel(state);
-
+		
+		
+		// Register the context help
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, Activator.PLUGIN_ID + ".substitutionHelpID"); //$NON-NLS-1$
 
 	}
@@ -113,11 +127,12 @@ public class SubstitutionAnalysisView extends ViewPart {
 	private void createAppropriatePanel(State state) {
 		if(mainPanel != null && !mainPanel.isDisposed()) {
 			mainPanel.dispose();
+			
 		}
 		if(state.getStep() == Step.CONFIG) {
 			SubstitutionAnalysisConfigPanel panel = createConfigPanel(mainComposite);
 			setMainPanel(panel);
-			this.configPanel = panel;
+			this.configPanel = panel;	
 		} else if(state.getStep() == Step.ANALYSIS) {
 			SubstitutionAnalysisConfigPanel.State data = this.configPanel.getState();
 			SubstitutionAnalysisPanel panel = createAnalysisPanel(mainComposite, data.getTextForAnalysis(), data.getAlphabet(), data.getStatistics());
@@ -154,7 +169,7 @@ public class SubstitutionAnalysisView extends ViewPart {
 
 	private SubstitutionAnalysisConfigPanel createConfigPanel(Composite parent) {
 		final SubstitutionAnalysisConfigPanel panel = new SubstitutionAnalysisConfigPanel(parent, SWT.NONE);
-		panel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		panel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		panel.addObserver(new Observer() {
 
 			@Override

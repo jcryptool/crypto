@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2013, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2013, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -62,6 +62,8 @@ import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
+import org.jcryptool.core.util.units.ByteFormatter;
+import org.jcryptool.core.util.units.DefaultByteFormatter;
 import org.jcryptool.visual.huffmanCoding.HuffmanCodingPlugin;
 import org.jcryptool.visual.huffmanCoding.algorithm.BitString;
 import org.jcryptool.visual.huffmanCoding.algorithm.Huffman;
@@ -84,7 +86,7 @@ public class HuffmanCodingView extends ViewPart {
 	public final static int VIEWTREE = 1;
 	public final static int VIEWTABLE = 2;
 	private int mode = HuffmanCodingView.COMPRESS;
-
+	
 	// Algorithm attributes
 	private Huffman huffmanCode;
 	private int[] huffmanCodeBinary;
@@ -144,10 +146,14 @@ public class HuffmanCodingView extends ViewPart {
 
 	private Color labelEnabledColor;
 	private Color labelDisabledColor;
+	
+	private ByteFormatter byteFormatter;
 
 	public HuffmanCodingView() {
 		new ArrayList<TableEditor>();
 		new Hashtable<Integer, Button>();
+		
+		byteFormatter = new DefaultByteFormatter.Builder().scaleUpThreshold(15_000).build();
 	}
 
 	/**
@@ -380,7 +386,7 @@ public class HuffmanCodingView extends ViewPart {
 					huffmanCodeBinary = huffmanCode.getHuffmanBinary();
 					parseBinaryHuffman(huffmanCodeBinary);
 					outputSize
-							.setText(Integer.toString(huffmanCodeBinary.length) + " " + Messages.HuffmanCodingView_24);
+							.setText(byteFormatter.format(huffmanCodeBinary.length));
 
 					float compressedSize = huffmanCodeBinary.length;
 					float rawSize = inputString.length();
@@ -434,7 +440,7 @@ public class HuffmanCodingView extends ViewPart {
 				message = huffmanCode.getMessage();
 				textInput.setText(message);
 				btnSaveResult.setEnabled(true);
-				outputSize.setText(Integer.toString(message.length()) + " " + Messages.HuffmanCodingView_24);
+				outputSize.setText(byteFormatter.format(message.length()));
 				inputHeader.setForeground(labelEnabledColor);
 
 				float compressedSize = huffmanCodeBinary.length;
@@ -488,7 +494,7 @@ public class HuffmanCodingView extends ViewPart {
 							parseBinaryHuffman(huffmanCodeBinary);
 							btnUncompress.setEnabled(true);
 							inputSize.setText(
-									Integer.toString(huffmanCodeBinary.length) + " " + Messages.HuffmanCodingView_24);
+									byteFormatter.format(huffmanCodeBinary.length));
 						} else {
 							hexTable.removeAll();
 							hexTable.clearAll();
@@ -559,7 +565,7 @@ public class HuffmanCodingView extends ViewPart {
 					textFileUncompName.setText(filePath);
 					textFileUncompName.setSelection(filePath.length());
 					parseBinaryHuffman(filePath);
-					inputSize.setText(Integer.toString(huffmanCodeBinary.length) + " " + Messages.HuffmanCodingView_24);
+					inputSize.setText(byteFormatter.format(huffmanCodeBinary.length));
 
 					btnUncompress.setEnabled(true);
 					btnUncompress.setFocus();
@@ -620,7 +626,7 @@ public class HuffmanCodingView extends ViewPart {
 			parseBinaryHuffman(huffmanCodeBinary);
 
 		grpCenterData = new Group(compInputOutput, SWT.NONE);
-		grpCenterData.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		grpCenterData.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		grpCenterData.setLayout(new GridLayout(2, true));
 
 		inputSizeDescription = new Label(grpCenterData, SWT.NONE);
@@ -691,7 +697,7 @@ public class HuffmanCodingView extends ViewPart {
 			btnUncompress.setEnabled(true);
 
 		if (isCompressed) {
-			inputSize.setText(Integer.toString(huffmanCodeBinary.length) + " " + Messages.HuffmanCodingView_24);
+			inputSize.setText(byteFormatter.format(huffmanCodeBinary.length));
 		}
 
 		compInputText = new Composite(compInputOutput, SWT.NONE);
@@ -856,7 +862,7 @@ public class HuffmanCodingView extends ViewPart {
 		loadExampleText();
 		
 		grpCenterData = new Group(compInputOutput, SWT.NONE);
-		grpCenterData.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		grpCenterData.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		grpCenterData.setLayout(new GridLayout(2, true));
 
 
@@ -866,7 +872,7 @@ public class HuffmanCodingView extends ViewPart {
 
 		inputSize = new Text(grpCenterData, SWT.BORDER | SWT.READ_ONLY | SWT.CENTER);
 		inputSize.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		inputSize.setText(textInput.getText().length() + " " + Messages.HuffmanCodingView_24);
+		inputSize.setText(byteFormatter.format(textInput.getText().length()));
 
 		Label spacerLabel = new Label(grpCenterData, SWT.NONE);
 		spacerLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
@@ -979,7 +985,8 @@ public class HuffmanCodingView extends ViewPart {
 		textInput.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
-				inputSize.setText(Integer.toString(textInput.getText().length()) + " " + Messages.HuffmanCodingView_24);
+				inputSize.setText(byteFormatter.format(textInput.getText().length()));
+				compInputOutput.layout();
 
 				if (textInput.getText().isEmpty()) {
 					btnCompress.setEnabled(false);

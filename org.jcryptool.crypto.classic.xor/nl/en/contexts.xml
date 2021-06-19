@@ -2,7 +2,8 @@
 <contexts>
 	<context id="wizard" title="XOR">
 		<description>Select the operation (encrypt or decrypt), an alphabet and enter a key. You can select a file as key as well.&lt;br&gt;
-If you choose to enter a key, this key must only contain characters, that are contained in the alphabet selected above.</description>
+If you choose to enter a key, this key must only contain characters, that are contained in the alphabet selected above.&lt;br&gt;This dialog links by bitwise XOR the characters of the message and the repeating key
+</description>
 		<topic href="$nl$/help/content/tutorial.html" label="More about using this wizard..."/>
   <topic href="$nl$/help/content/toc_cryptology/toc_cryptology.html" label="The XOR cipher (cryptology manual)"/>
 	</context>

@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2013, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2013, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -15,59 +15,32 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 public class ResizeHelper {
-    private Image image;
-    private Image img_scaled;
-    // internal name of image - this is important because we're chosing images
-    // based on string compares
-    // if this isn't set properly, stuff will break!
-    private static String image_name;
+	
+//	private static 
 
-    public void resize_image(Label img, Composite comp_image, Image help) {
-        image = img.getImage();
-        int width = image.getBounds().width;
-        int height = image.getBounds().height;
-        double ratio = (double) width / (double) height;
-        int width_scaled = 1;
-        int height_scaled = 1;
-
-        if ((comp_image.getBounds().width / comp_image.getBounds().height) < ratio) {
-            width_scaled = comp_image.getBounds().width;
-            height_scaled = (int) (height - ((width - width_scaled) / ratio));
+    public static void resize_image(Label label, Composite comp_image) {
+        Image image = label.getImage();
+        int imageWidth = image.getBounds().width;
+        int imageHeight = image.getBounds().height;
+        double imageRatio = (double) imageWidth / (double) imageHeight;
+        int labelWidth = label.getBounds().width;
+        int labelHeight = label.getBounds().height;
+        double labelRatio = (double) labelWidth / (double) labelHeight;
+        
+        int width_scaled;
+        int height_scaled;
+        
+        // Die Bilder sind immer breiter als höher.
+        if (labelRatio < imageRatio) {
+            width_scaled = comp_image.getClientArea().width;
+            height_scaled = (int) ((double) width_scaled / imageRatio);
+//            height_scaled = (int) (height - ((width - width_scaled) / ratio));
         } else {
-            height_scaled = comp_image.getBounds().height;
-            width_scaled = (int) (width - (height - height_scaled) * ratio);
+            height_scaled = comp_image.getClientArea().height;
+            width_scaled = (int) ((double) height_scaled * imageRatio);
+//            width_scaled = (int) (width - (height - height_scaled) * ratio);
         }
 
-        img_scaled = new Image(img.getDisplay(), help.getImageData().scaledTo(width_scaled, height_scaled));
-        img.setImage(img_scaled);
-        comp_image.layout();
-    }
-
-    /**
-     * 
-     * set the internal name of an image
-     * 
-     * @param image_name internal name of the image
-     */
-    public void set_image_name(String image_name) {
-        ResizeHelper.image_name = image_name;
-
-    }
-
-    /**
-     * 
-     * Get the internal name of an image (i.e.: "Architekturskizze Zertifikat erzeugen")
-     * 
-     * @return name of the image as String
-     */
-    public String get_image_name() {
-        if (image_name == null) {
-            // Default to create certificate intro scheme, because this is the
-            // first image displayed in the view
-            // and therefore has to be shown if the user hasn't clicked any
-            // buttons yet
-            image_name = "Architekturskizze Zertifikatserzeugung";//$NON-NLS-1$
-        }
-        return ResizeHelper.image_name;
+        label.setImage(new Image(label.getDisplay(), image.getImageData().scaledTo(width_scaled, height_scaled)));
     }
 }

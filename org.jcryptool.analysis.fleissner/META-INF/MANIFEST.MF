@@ -2,14 +2,17 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.analysis.fleissner;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.5
 Bundle-Activator: org.jcryptool.analysis.fleissner.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.help,
  org.jcryptool.core.util,
  org.eclipse.swt,
- org.jcryptool.crypto.ui
+ org.jcryptool.crypto.ui,
+ org.jcryptool.crypto.classic.model,
+ org.jcryptool.core.operations,
+ org.eclipse.core.filesystem
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.jcryptool.analysis.fleissner
 Bundle-ActivationPolicy: lazy

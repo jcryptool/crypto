@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2012, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2012, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -172,6 +172,8 @@ public class ARC4Composite extends Composite {
     	td.setLayoutData(new GridData(SWT.FILL, SWT.UP, true, false, ARC4Con.H_SPAN_MAIN, ARC4Con.DESC_HEIGHT));
     	td.setTitle(Messages.PluginDescriptionCaption);
     	td.setDescription(Messages.PluginDescription);
+    	// Disable autp resizing of the TaD.
+    	
     }
     
     private void initAlgoSec() {

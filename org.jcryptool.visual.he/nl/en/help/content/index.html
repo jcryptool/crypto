@@ -18,7 +18,7 @@
 
   <p>A homomorphic encryption scheme is an encryption scheme which allows homomorphic operations to be performed on the ciphertext, without needing or being able to decrypt. These homomorphic operations are addition and multiplication, and performing these operations implies the same algebraic operations on the plaintext.<br/>
   There are three types of homomorphic encryption schemes, <a href="#partial">partially</a>, <a href="#somewhat">somewhat</a>, and <a href="#fully">fully</a> homomorphic encryption schemes. The differences between these schemes are explained below. <br/>
-  This visualization in JCT incorporates three different schemes, namely a fully homomorphic encryption scheme by <a href="#gh">Gentry and Halevi</a> and two partially homomorphic encryption schemes -- <a href="#rsa">RSA</a> and <a href="#paillier">Paillier</a>. </p>
+  This visualization in JCT incorporates three different schemes, namely a fully homomorphic encryption scheme by <a href="#gh">Gentry and Halevi</a>, and two partially homomorphic encryption schemes &ndash; <a href="#rsa">RSA</a> and <a href="#paillier">Paillier</a>. </p>
 
   <h3 id="partial">a) Partially Homomorphic Encryption</h3>
 
@@ -63,7 +63,7 @@
     (m_2^{e \cdot d}) \mod N = m_1 \cdot m_2
     \end{align*}
   } \)
-  
+
   <p>
   It is also clear that this can be repeated indefinitely. The only constraint on the
   multiplications is that the operands are \(\leq N\). But because of the size of \(N\) for secure
@@ -94,28 +94,28 @@
   homomorphically, one needs to multiply the ciphertexts, \(c_1 \cdot c_2\). This is the encryption
   of \(m_1+m_2\):
     <p>
-  
+
   \( \style{text-align:right;} {
     \begin{align*}
       c_1 \cdot c_2 = (g^{m_1}) \cdot (rl^N) \cdot (g^{m_2}) \cdot (r2^N) \; \text{mod} \;
       N^2 = (g^{m_1+m_2}) \cdot (r^N) \; \text{mod} \; N^2
     \end{align*}
   } \)
- 
+
   <p>
   and thus decrypts to \(m_1+m_2\). The addition is inherently modulo \(N\)
   (since \(g^N \equiv 1 \; \text{mod} \; N^2\)), but considering the size of \(N\), this is no
   practical boundary. </p>
-  
+
 
   <h3 id="gh">c) Gentry and Halevi - Fully Homomorphic Encryption Scheme</h3>
 
   <p>The fully homomorphic encryption scheme by <a target="_blank"
   href="https://researcher.ibm.com/researcher/files/us-shaih/fhe-implementation.pdf">
   Gentry and Halevi</a> is a variant on the scheme by <a target="_blank"
-  href="http://www.info.unicaen.fr/M2-AMI/articles-2009-2010/smart.pdf">Smart and Vercauteren</a>
+  href="https://web.archive.org/web/20120723124513/https://www.info.unicaen.fr/M2-AMI/articles-2009-2010/smart.pdf">Smart and Vercauteren</a>
   which in its turn is a variant on the original scheme as proposed by <a target="_blank"
-  href="http://domino.research.ibm.com/comm/research_projects.nsf/pages/security.homoenc.html/$FILE/stocdhe.pdf">
+  href="https://www.ibm.com/blogs/research/2018/03/elegant-disgusting-cryptography/">
   Gentry</a>. To fully explain the scheme is too extensive for this text, so a short version for
   understanding the idea is given: The scheme uses principal ideal lattices over a ring of
   polynomials modulo \(f(x) = x^n + 1\), where \(n\) is a power of 2. As additional requirement,

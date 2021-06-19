@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2019, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -13,8 +13,14 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
     private static final String BUNDLE_NAME = "org.jcryptool.analysis.fleissner.UI.messages"; //$NON-NLS-1$
-    public static String FleissnerWindow_empty;
-    public static String FleissnerWindow_file_ciphertext;
+    public static String FleissnerWindow_0;
+	public static String FleissnerWindow_1;
+	public static String FleissnerWindow_24;
+	public static String FleissnerWindow_26;
+	public static String FleissnerWindow_4;
+	public static String FleissnerWindow_5;
+	public static String FleissnerWindow_6;
+	public static String FleissnerWindow_7;
     public static String FleissnerWindow_method_analyze;
     public static String FleissnerWindow_method_decrypt;
     public static String FleissnerWindow_method_encrypt;
@@ -48,6 +54,7 @@ public class Messages extends NLS {
     public static String FleissnerWindow_label_loadText;
     public static String FleissnerWindow_toolTipText_loadText;
     public static String FleissnerWindow_statisticSelect_4gramGer;
+    public static String FleissnerWindow_statisticSelect_3gramGer;
     public static String FleissnerWindow_statisticSelect_4gramEng;
     public static String FleissnerWindow_statisticSelect_3gramEng;
     public static String FleissnerWindow_label_statistic;
@@ -101,18 +108,46 @@ public class Messages extends NLS {
     public static String FleissnerWindow_languageSelect_english;
     public static String FleissnerWindow_languageSelect_german;
     public static String FleissnerWindow_output_progress;
+    public static String FleissnerWindow_output_progress_analyze;
+    public static String FleissnerWindow_output_progress_encrypt;
+    public static String FleissnerWindow_output_progress_decrypt;
+    public static String FleissnerWindow_rr1;
+	public static String FleissnerWindow_rr2;
+	public static String FleissnerWindow_warning;
+    public static String FleissnerWindow_warning_text;
+	public static String FleissnerWindow_X1;
+	public static String FleissnerWindow_X2;
+	public static String FleissnerWindow_X3;
+	public static String FleissnerWindow_X4;
+	public static String FleissnerWindow_X5;
+	public static String FleissnerWindow_X6;
+	public static String FleissnerWindow_XY8;
+	public static String FleissnerWindow_XY9;
+	public static String FleissnerWindow_Z1;
+	public static String FleissnerWindow_Z2;
+	public static String FleissnerWindow_Z3;
+	public static String FleissnerWindow_ZZ1;
+	public static String FleissnerWindow_ZZ2;
+	public static String FleissnerWindow_ZZ3;
+	public static String FleissnerWindow_ZZ4;
+	public static String FleissnerWindow_ZZ5;
+	public static String FleissnerWindow_ZZ6;
+	public static String FleissnerWindow_ZZ7;
     public static String OutputDialog_save;
     public static String OutputDialog_detailOutput;
     public static String LoadFiles_empty;
     public static String LoadFiles_Error_FileNotFound;
     public static String LoadFiles_Error_StatisticMismatch;
-    public static String LoadFiles_file_plaintext_eng_1;
-    public static String LoadFiles_file_plaintext_eng_2;
-    public static String LoadFiles_file_plaintext_ger_1;
-    public static String LoadFiles_file_plaintext_ger_2;
-    public static String LoadFiles_file_stat_3gram_en;
-    public static String LoadFiles_file_stat_4gram_de;
-    public static String LoadFiles_file_stat_4gram_en;
+    public static String InvalidCharsWarningPlaintext;
+    public static String InvalidCharsWarningCiphertext;
+	public static String KeyPasteDialog_0;
+	public static String KeyPasteDialog_1;
+	public static String KeyPasteDialog_10;
+	public static String KeyPasteDialog_2;
+	public static String KeyPasteDialog_5;
+	public static String KeyPasteDialog_8;
+	public static String KeyPasteDialog_9;
+	public static String KeyPasteDialog_XZ3;
     static {
         // initialize resource bundle
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);

@@ -47,15 +47,6 @@
                icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/redo_edit.png"
                style="push">
          </command>
-         <separator
-               name="org.jcryptool.games.divide.separator2"
-               visible="true">
-         </separator>
-         <command
-               commandId="org.jcryptool.games.divide.helpCommand"
-               icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/help_contents.png"
-               style="push">
-         </command>
       </menuContribution>
    </extension>
    <extension
@@ -131,10 +122,6 @@
                </equals>
             </with>
          </enabledWhen>
-      </handler>
-      <handler
-            class="org.jcryptool.games.divide.handler.HelpHandler"
-            commandId="org.jcryptool.games.divide.helpCommand">
       </handler>
    </extension>
    <extension

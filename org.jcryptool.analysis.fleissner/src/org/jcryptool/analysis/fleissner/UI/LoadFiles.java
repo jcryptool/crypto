@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2019, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -48,16 +48,16 @@ public class LoadFiles {
             switch (exampleIndex) {
             
             case 0: 
-                textName = Messages.LoadFiles_file_plaintext_ger_1; 
+                textName = "files/MobyDick_de.txt"; 
                 break;
             case 1:     
-                textName = Messages.LoadFiles_file_plaintext_ger_2; 
+                textName = "files/wikiFruehchristlicheKunstGerPlaintextOriginal.txt"; 
                 break;
             case 2:
-                textName = Messages.LoadFiles_file_plaintext_eng_1; 
+                textName = "files/MobyDick_en.txt"; 
                 break;
             case 3:
-                textName = Messages.LoadFiles_file_plaintext_eng_2; 
+                textName = "files/visualArtsEngPlaintext.txt"; 
                 break;     
             }
         
@@ -126,13 +126,16 @@ public class LoadFiles {
             switch (exampleIndex) {
             
             case 0: 
-                textName = Messages.LoadFiles_file_stat_4gram_de; 
+                textName = "files/de-4gram-nocs.bin"; 
                 break;
-            case 1:
-                textName = Messages.LoadFiles_file_stat_4gram_en; 
+            case 1: 
+                textName = "files/de-3gram-nocs.bin"; 
                 break;
             case 2:
-                textName = Messages.LoadFiles_file_stat_3gram_en; 
+                textName = "files/en-4gram-nocs.bin"; 
+                break;
+            case 3:
+                textName = "files/en-3gram-nocs.bin"; 
                 break;     
             }
         

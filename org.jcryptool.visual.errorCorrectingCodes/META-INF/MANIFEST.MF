@@ -2,20 +2,21 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.visual.errorcorrectingcodes;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.5
 Bundle-Activator: org.jcryptool.visual.errorcorrectingcodes.EccPlugin
 Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.help,
- org.jcryptool.crypto.ui;bundle-version="1.0.0",
- org.jcryptool.visual.library;bundle-version="1.0.0",
+ org.jcryptool.crypto.ui,
+ org.jcryptool.visual.library,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
- org.bouncycastle;bundle-version="1.65.0",
- org.jcryptool.core.util
+ org.jcryptool.core.util,
+ bcprov;bundle-version="1.68.0",
+ org.jcryptool.core.operations;bundle-version="1.0.5"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Import-Package: org.jcryptool.core.logging.utils,

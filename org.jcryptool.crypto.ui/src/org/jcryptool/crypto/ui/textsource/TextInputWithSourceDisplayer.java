@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2012, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2012, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -102,7 +102,7 @@ public class TextInputWithSourceDisplayer extends Composite {
             // for displaying either an icon (if this is set in the style) or
             // textual description of the input type.
             lblPrimaryInputType = new Label(this, SWT.NONE);
-            GridData lblPrimaryInputTypeLData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+            GridData lblPrimaryInputTypeLData = new GridData(SWT.FILL, SWT.CENTER, false, false);
             lblPrimaryInputType.setLayoutData(lblPrimaryInputTypeLData);
         }
         {

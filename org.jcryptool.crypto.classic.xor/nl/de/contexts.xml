@@ -2,7 +2,7 @@
 <contexts>
 	<context id="wizard" title="XOR">
 		<description>Wählen Sie die Operation (Verschlüsseln oder Entschlüsseln), ein Alphabet und geben Sie einen Schlüssel ein. Alternativ kann auch eine Datei als Schlüssel gewählt werden &lt;br&gt;
-Der eingegebene Schlüssel darf nur Zeichen aus dem ausgewählten Alphabet enthalten. Nichtalphabet-Zeichen werden ignoriert.
+Der eingegebene Schlüssel darf nur Zeichen aus dem ausgewählten Alphabet enthalten. Nichtalphabet-Zeichen werden ignoriert.&lt;br&gt;Der Dialog verknüpft bitweise und per XOR die Zeichen der Nachricht und des sich wiederholenden Schlüssels.
 </description>
 		<topic href="$nl$/help/content/tutorial.html" label="Mehr zur Benutzung dieses Assistenten..."/>
   <topic href="$nl$/help/content/toc_cryptology/toc_cryptology.html" label="Die XOR-Verschlüsselung (Kryptologie-Handbuch)"/>

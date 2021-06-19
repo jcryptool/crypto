@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2011, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
@@ -58,10 +59,10 @@ public class VigenereBreakerView extends ViewPart {
         scroll.setExpandVertical(true);
         scroll.setLayout(new GridLayout());
                 
-        gui = new VigenereBreakerGui(scroll, SWT.NONE);
+        gui = new VigenereBreakerGui(scroll, this::contentChanged);
+		scroll.setContent(gui);
         
-        scroll.setContent(gui);
-        scroll.setMinSize(gui.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        contentChanged(new Control[] {gui});
         
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent,
             VigenereBreakerPlugin.PLUGIN_ID + ".vigenerebreaker"); //$NON-NLS-1$
@@ -69,10 +70,17 @@ public class VigenereBreakerView extends ViewPart {
 		// This makes the ScrolledComposite scrolling, when the mouse 
 		// is on a Text with one or more of the following tags: SWT.READ_ONLY,
 		// SWT.V_SCROLL or SWT-H_SCROLL.
-		SmoothScroller.scrollSmooth(scroll);
     
         hookActionBar();
     }
+
+	public void contentChanged(Control[] which) {
+		if (gui != null && ! gui.isDisposed()) {
+			scroll.setMinSize(gui.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			SmoothScroller.scrollSmooth(scroll);
+			this.scroll.layout(which);
+		}
+	}
 
     private void hookActionBar() {
         IToolBarManager mgr = getViewSite().getActionBars().getToolBarManager();
@@ -110,7 +118,7 @@ public class VigenereBreakerView extends ViewPart {
     private void maximizeView() {
         // checks whether view got focus before or not.
         // if first focus continue; otherwise do nothing (through return)
-        if (!first) {
+        if (first) {
             return;
         }
 

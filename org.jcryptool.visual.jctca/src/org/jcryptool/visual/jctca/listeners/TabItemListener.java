@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2013, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2013, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -151,7 +151,7 @@ public class TabItemListener implements SelectionListener {
             textSig.setExpanded(true);
             fileSig.setExpanded(true);
         }
-        parent.layout(true);
-        grp_exp.layout(true);
+        parent.layout();
+        grp_exp.layout();
     }
 }

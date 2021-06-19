@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2019, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -10,6 +10,7 @@
 package org.jcryptool.analysis.fleissner.logic;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class FleissnerGrille {
 	 
@@ -226,6 +227,24 @@ public class FleissnerGrille {
 		while (pitch>=0);
 		return this.possibleTemplates;
 	}
+
+	public int[] saveTemplate() {
+		int templateLength = this.grilleFilled.length;
+		LinkedList<Integer> coordinates = new LinkedList<Integer>();
+		for (int y=0;y<templateLength;y++) {
+			for (int x=0;x<templateLength;x++) {
+				if (this.isFilled(x, y)) {
+					coordinates.add(x);
+					coordinates.add(y);
+				}
+			}
+		}
+		int[] result = new int[coordinates.size()];
+		for (int i = 0; i < coordinates.size(); i++) {
+			result[i] = coordinates.get(i);
+		}
+		return result;
+	}
 	
 	/**
 	 * saves the current grille into an array and returns that array
@@ -307,7 +326,7 @@ public class FleissnerGrille {
 	 */
 	public String decryptText(ArrayList<char[][]> encryptedText)
 	{
-        String decryptedText = Messages.FleissnerGrille_empty;
+        String decryptedText = "";
 		int textLength = encryptedText.get(0).length;
 
 		for (char[][] text:encryptedText) 
@@ -359,7 +378,7 @@ public class FleissnerGrille {
 	 */
 	public String encryptText(String plaintext, int[] coordinates)
 	{
-        String encryptedText = Messages.FleissnerGrille_empty;
+        String encryptedText = "";
 		int templateLength = this.grilleFilled.length;
 		int holes = ((coordinates.length)/2);
 		int textChar = 0;
@@ -455,8 +474,9 @@ public class FleissnerGrille {
 	    }
 	    else {
             String templateCoordinates = Messages.MethodApplication_output_coordinates;
-            for (int i = 0; i<template.length;i++) {
-                templateCoordinates+=template[i];
+            templateCoordinates += " ";
+            for (int i = 0; i<template.length;i = i+2) {
+                templateCoordinates+=String.format("(%s, %s) ", template[i], template[i+1]);
             }
             return templateCoordinates;
 	    }
@@ -468,17 +488,18 @@ public class FleissnerGrille {
 	  @Override
 	public String toString() {
 		
-	    String s = Messages.FleissnerGrille_break;
+	    String s = "";
 		int textLength = this.grilleFilled.length;
 
 		for (int y = 0; y < textLength; y++) {
 			for (int x = 0; x < textLength; x++) {
-				s+= (this.grilleFilled[x][y] ? "X" : "-");
+				s+= (this.grilleFilled[x][y] ? "O" : "\u25A0");
 			}
             s+=Messages.FleissnerGrille_break;
 		}
 		return s;
 	}
+	  
 	
 	public boolean[][] getGrilleFilled() {
 		return this.grilleFilled;

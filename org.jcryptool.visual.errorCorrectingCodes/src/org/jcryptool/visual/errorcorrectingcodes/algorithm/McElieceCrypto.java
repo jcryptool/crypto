@@ -1,6 +1,12 @@
-/*
- * @author Daniel Hofmann
- */
+// -----BEGIN DISCLAIMER-----
+/*******************************************************************************
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
+ *
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+// -----END DISCLAIMER-----
 package org.jcryptool.visual.errorcorrectingcodes.algorithm;
 
 import java.nio.charset.StandardCharsets;
@@ -21,6 +27,7 @@ import org.bouncycastle.util.Arrays;
 // TODO: Auto-generated Javadoc
 /**
  * The Class McElieceCrypto.
+ * @author Daniel Hofmann dhofmann
  */
 public class McElieceCrypto {
 
@@ -106,7 +113,7 @@ public class McElieceCrypto {
 
             for (int i = 0; i < segments; i++) {
                 upper += encryptionCipher.maxPlainTextSize;
-                encrypted.add(encryptionCipher.messageEncrypt(Arrays.copyOfRange(message, lower, upper)));
+                encrypted.add(encryptionCipher.messageEncrypt(Arrays.copyOfRange(message, lower, upper-1)));
                 lower = upper;
             }
 
@@ -209,7 +216,7 @@ public class McElieceCrypto {
     }
 
     /**
-     * Gets the private key size.
+     * Gets the private key size in Byte
      *
      * @return the private key size
      */
@@ -218,7 +225,8 @@ public class McElieceCrypto {
             return 0;
         
         McEliecePrivateKeyParameters key = (McEliecePrivateKeyParameters) keyPair.getPrivate();
-        double size = (key.getN() - key.getK()) * key.getK() /(8 * Math.pow(2, 10));
+//        double size = (key.getN() - key.getK()) * key.getK() / (8 * Math.pow(2, 10));
+        double size = (key.getN() - key.getK()) * key.getK() / 8;
         return size;
     }
 

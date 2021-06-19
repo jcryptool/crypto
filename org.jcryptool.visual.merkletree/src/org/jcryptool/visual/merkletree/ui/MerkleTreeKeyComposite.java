@@ -12,6 +12,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.fonts.FontService;
+import org.jcryptool.core.util.units.UnitsService;
+import org.jcryptool.visual.merkletree.Activator;
 import org.jcryptool.visual.merkletree.Descriptions;
 import org.jcryptool.visual.merkletree.algorithm.ISimpleMerkle;
 import org.jcryptool.visual.merkletree.files.Converter;
@@ -96,7 +98,7 @@ public class MerkleTreeKeyComposite extends Composite {
 		Label lengthLabel = new Label(publicKeyGroup, SWT.NONE);
 		lengthLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		String cleanedPublicKey = publicKey.replaceAll("\\|", "");
-		lengthLabel.setText(Converter._numberToPrefix(cleanedPublicKey.length() / 2));
+		lengthLabel.setText(UnitsService.format(cleanedPublicKey.length() / 2, Activator.PLUGIN_ID));
 
 		Label spacerLine1 = new Label(publicKeyGroup, SWT.SEPARATOR | SWT.HORIZONTAL);
 		spacerLine1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 20, 1));
@@ -132,7 +134,7 @@ public class MerkleTreeKeyComposite extends Composite {
 		Label privateLengthLabel = new Label(privateKeyGroup, SWT.NONE);
 		privateLengthLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
 		String cleanedPrivateKey = privateKey.replaceAll("|", "");
-		privateLengthLabel.setText(Converter._numberToPrefix(cleanedPrivateKey.length() / 2));
+		privateLengthLabel.setText(UnitsService.format(cleanedPrivateKey.length() / 2, Activator.PLUGIN_ID));
 
 		Label spacerLine2 = new Label(privateKeyGroup, SWT.SEPARATOR | SWT.HORIZONTAL);
 		spacerLine2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 20, 1));
@@ -179,25 +181,29 @@ public class MerkleTreeKeyComposite extends Composite {
 		}
 
 		otsLabel = new Label(privateKeyGroup, SWT.NONE);
-		otsLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 6, 1));
+		otsLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 5, 1));
 
 		privateOTSSpinner = new Spinner(privateKeyGroup, SWT.NONE);
-		privateOTSSpinner.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		privateOTSSpinner.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 2, 1));
 		privateOTSSpinner.setMinimum(0);
 		privateOTSSpinner.setMaximum(merkle.getLeafCounter() - 1);
-
+		
 		otsLabel.setText(Descriptions.MerkleTreeKeyTab_7 + " " + privateOTSSpinner.getSelection() + "/" + (merkle.getLeafCounter() - 1));
 
 		privateOTSKey = new Text(privateKeyGroup, SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		privateOTSKey.setText(splittedPrivateKey[arrayCounter]);
-		privateOTSKey.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 13, 1));
+		privateOTSKey.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 13, 2));
+	
+		// Spacer Label which prevents the otsLabel and the privateOTSSpinner to get centered completely.
+		new Label(privateKeyGroup, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, false, 20, 1));
 
 		privateOTSSpinner.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				privateOTSKey.setText(splittedPrivateKey[privateOTSSpinner.getSelection() + arrayCounter]);
-				otsLabel.setText(Descriptions.MerkleTreeKeyTab_7 + " " + privateOTSSpinner.getSelection() + "/" + (merkle.getLeafCounter() - 1));
+			    int selectedOneTimeKeyPair = privateOTSSpinner.getSelection();
+				privateOTSKey.setText(splittedPrivateKey[selectedOneTimeKeyPair + arrayCounter]);
+				otsLabel.setText(Descriptions.MerkleTreeKeyTab_7 + " " + selectedOneTimeKeyPair + "/" + (merkle.getLeafCounter() - 1));
 			}
 
 		});

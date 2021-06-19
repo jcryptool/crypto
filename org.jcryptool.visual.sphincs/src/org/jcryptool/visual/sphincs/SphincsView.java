@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2018, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2018, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials are made available under the
 * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -22,6 +22,9 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
+import org.jcryptool.core.util.units.ByteFormatter;
+import org.jcryptool.core.util.units.DefaultByteFormatter;
+import org.jcryptool.core.util.units.UnitsService;
 import org.jcryptool.visual.sphincs.algorithm.Signature;
 import org.jcryptool.visual.sphincs.algorithm.aSPHINCS256;
 import org.jcryptool.visual.sphincs.algorithm.bcSPHINCS256;
@@ -43,7 +46,14 @@ public class SphincsView extends ViewPart {
 
     
     public SphincsView() {
-        
+        // Create ByteFormatter
+        ByteFormatter byteFormatter = new DefaultByteFormatter.Builder()
+                .scaleUpThreshold(2000)
+                .useThousandSeparators(false)
+                .build();
+        if (UnitsService.get().isRegisteringPossible()) {
+            UnitsService.get().registerFormatter(byteFormatter, SphincsPlugin.PLUGIN_ID);
+        }
     }
    
     private Composite parent;
@@ -199,6 +209,13 @@ public class SphincsView extends ViewPart {
         parent.layout();
 
         reset();
+    }
+    
+    @Override
+    public void dispose() {
+        // Override to hook the disposing of the custom plugin formatter here.
+        UnitsService.get().deregisterFormatter(SphincsPlugin.PLUGIN_ID);
+        super.dispose();
     }
 
 

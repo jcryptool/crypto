@@ -1,6 +1,12 @@
-/*
- * @author Daniel Hofmann
- */
+// -----BEGIN DISCLAIMER-----
+/*******************************************************************************
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
+ *
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+// -----END DISCLAIMER-----
 package org.jcryptool.visual.errorcorrectingcodes.algorithm;
 
 import java.security.SecureRandom;
@@ -13,11 +19,10 @@ import org.jcryptool.visual.errorcorrectingcodes.data.BitArray;
 import org.jcryptool.visual.errorcorrectingcodes.data.HammingData;
 import org.jcryptool.visual.errorcorrectingcodes.data.Matrix2D;
 
-// TODO: Auto-generated Javadoc
 /**
  * Implementation of a simplified "McEliece Cryptosystem" with Hamming(7,4) instead of Goppa code.
  * 
- * @author dhofmann
+ * @author Daniel Hofmann dhofmann
  *
  */
 public class HammingCrypto {

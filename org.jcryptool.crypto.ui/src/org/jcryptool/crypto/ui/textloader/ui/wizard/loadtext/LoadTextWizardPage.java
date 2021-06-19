@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2012, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2012, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -601,7 +601,7 @@ public class LoadTextWizardPage extends WizardPage {
 		FileDialog fd = new FileDialog(btnDatei.getShell(), SWT.OPEN);
 		fd.setText(Messages.TranspTextWizardPage_windowsfiledialogtitle);
 		fd.setFilterPath(null);
-		String[] filterExt = { "*.*" }; //$NON-NLS-1$
+		String[] filterExt = { "*" }; //$NON-NLS-1$
 		fd.setFilterExtensions(filterExt);
 		String selected = fd.open();
 		if (selected == null) return null;

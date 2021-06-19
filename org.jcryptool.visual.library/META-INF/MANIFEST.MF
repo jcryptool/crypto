@@ -2,10 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.visual.library;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.5
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.jcryptool.visual.library
-Require-Bundle: org.eclipse.ui
+Require-Bundle: org.eclipse.ui,
+ org.jcryptool.crypto.keystore
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor
 Import-Package: org.jcryptool.core.logging.utils,

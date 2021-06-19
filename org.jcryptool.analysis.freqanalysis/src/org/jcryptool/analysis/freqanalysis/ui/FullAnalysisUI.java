@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2011, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
@@ -49,6 +49,7 @@ import org.eclipse.swt.widgets.Text;
 import org.jcryptool.analysis.freqanalysis.FreqAnalysisPlugin;
 import org.jcryptool.analysis.freqanalysis.calc.FreqAnalysisCalc;
 import org.jcryptool.core.logging.utils.LogUtil;
+import org.jcryptool.core.operations.algorithm.classic.textmodify.TransformData;
 import org.jcryptool.core.operations.alphabets.AbstractAlphabet;
 import org.jcryptool.core.operations.alphabets.AlphabetsManager;
 //import org.jcryptool.core.operations.editors.EditorsManager;
@@ -96,6 +97,7 @@ public class FullAnalysisUI extends AbstractAnalysisUI {
 	private TextInputWithSource source;
 
 	private FreqAnalysisCalc myAnalysis;
+	TransformData myModifySettings;
 	private FreqAnalysisCalc overlayAnalysis;
 	private String myOverlayAlphabet = ""; //$NON-NLS-1$
 	private String reftext;
@@ -105,6 +107,10 @@ public class FullAnalysisUI extends AbstractAnalysisUI {
 	private boolean appropriateAlphabetToBeDetected = false;
 	private TextLoadController textloader;
 	public FreqAnalysisCalc return__freqanalysis;
+	private boolean hasUpperCase;
+	
+	private static final int fullFreqAnalysis_text_max_length = 15000000;
+	private TextInputWithSource lastSuccessfullLoadedText;
 
 	/**
 	 * Contains reference texts for overlays
@@ -153,8 +159,40 @@ public class FullAnalysisUI extends AbstractAnalysisUI {
 				if (textloader.getText() != null) {
 					myGraph.getFrequencyGraph().setInstruction(Messages.FreqAnalysisGraph_graph1);
 					myGraph.redraw();
-					text = textloader.getText().getText();
-					source = textloader.getText();
+					
+					if(textloader.getText().getText().length() < fullFreqAnalysis_text_max_length) {
+						text = textloader.getText().getText();
+						
+						lastSuccessfullLoadedText = textloader.getText();
+						source = textloader.getText();
+						}else{
+							
+							boolean result = MessageDialog.openQuestion(FullAnalysisUI.this.getShell(), Messages.SimpleAnalysisUI_warning, Messages.SimpleAnalysisUI_warning_text);
+							if(result) {
+								text = textloader.getText().getText();
+								source = textloader.getText();
+								System.out.println(text.length());
+							}
+							else {
+								textloader.setTextData(lastSuccessfullLoadedText, null, true);
+								source = lastSuccessfullLoadedText;
+								return;
+							}
+						}
+					
+					boolean cap = false;
+					
+					for(int i = 0; i< text.length();i++) {
+						if(Character.isUpperCase(text.charAt(i))) {
+							cap = true;
+							break;
+						}
+					}
+					
+					if(!cap) {
+						MessageDialog.openWarning(FullAnalysisUI.this.getShell(), Messages.SimpleAnalysisUI_warning, Messages.FreqAnalysis_capLetterWarning);
+					}
+					
 					recalcSourceInfo();	
 					
 					myGraph.getFrequencyGraph().setInstruction(Messages.FreqAnalysisGraph_shiftgraph0);
@@ -170,8 +208,9 @@ public class FullAnalysisUI extends AbstractAnalysisUI {
 						} else {
 							appropriateAlphabetToBeDetected = true;
 						}
+						
 						recalcGraph();
-						recalcSourceInfo();
+						
 					}				
 					
 				}
@@ -469,6 +508,7 @@ public class FullAnalysisUI extends AbstractAnalysisUI {
 				// combo2.setText(alphas[i].getName());
 				combo2.select(i);
 				myOverlayAlphabet = String.valueOf(alphas[i].getCharacterSet());
+				
 			}
 		}
 
@@ -589,6 +629,7 @@ public class FullAnalysisUI extends AbstractAnalysisUI {
 		job.text =  text;
 		job.myLength = myLength;
 		job.myOffset = myOffset;
+		
 		
 		job.finalizeListeners.add(status -> {
 			getDisplay().syncExec(() -> {

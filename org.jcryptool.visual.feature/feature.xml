@@ -2,7 +2,7 @@
 <feature
       id="org.jcryptool.visual.feature"
       label="JCrypTool Visual Feature"
-      version="1.0.0"
+      version="1.0.5"
       provider-name="jcryptool.org"
       plugin="org.jcryptool.visual">
 
@@ -11,7 +11,7 @@
    </description>
 
    <copyright url="https://github.com/jcryptool/crypto">
-      Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+      Copyright (c) 2011, 2021 JCrypTool Team and Contributors
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License
 v1.0 which accompanies this distribution, and is available at
@@ -252,13 +252,6 @@ litigation.
          unpack="false"/>
 
    <plugin
-         id="org.jcryptool.visual.grille"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.jcryptool.visual"
          download-size="0"
          install-size="0"
@@ -287,13 +280,6 @@ litigation.
          unpack="false"/>
 
    <plugin
-         id="org.jcryptool.visual.elGamal"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.jcryptool.visual.kleptography"
          download-size="0"
          install-size="0"
@@ -302,13 +288,6 @@ litigation.
 
    <plugin
          id="org.jcryptool.visual.library"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jcryptool.visual.rsa"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -468,7 +447,7 @@ litigation.
          version="0.0.0"
          unpack="false"/>
 
-  <plugin
+   <plugin
          id="org.jcryptool.visual.rainbow"
          download-size="0"
          install-size="0"
@@ -477,6 +456,20 @@ litigation.
 
    <plugin
          id="org.jcryptool.visual.errorcorrectingcodes"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="org.jcryptool.visual.jctca"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.jcryptool.visual.jctca"
          download-size="0"
          install-size="0"
          version="0.0.0"

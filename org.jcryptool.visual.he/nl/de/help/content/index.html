@@ -18,7 +18,7 @@
 
   <p>Eine homomorphe Verschlüsselung ist eine Verschlüsselung, die homomorphe Operationen auf dem Chiffrat erlaubt. Dafür ist es nicht notwendig, das Chiffrat entschlüsseln zu können. Diese homomorphen Operationen sind die Addition und die Multiplikation. Werden die Operationen durchgeführt, ist dies äquivalent zur Durchführung derselben Operationen auf den Klartexten.<br/>
   Es existieren drei Typen von homomorphen Verschlüsselungsschemata, "<a href="#partial">partielle</a>", "<a href="#somewhat">somewhat</a>" und "<a href="#fully">voll-homomorphe</a>" Verschlüsselungsschemata. Die Unterschiede zwischen diesen Schemata werden im Folgenden erklärt. <br/>
-  Diese Visualisierung in JCT beinhaltet drei verschiedene Schemata, ein voll-homomorphes Verschlüsselungsschema von  <a href="#gh">Gentry und Halevi</a> und zwei partiell-homomorphe Verschlüsselungsschemata -- <a href="#rsa">RSA</a> und <a href="#paillier">Paillier</a>. </p>
+  Diese Visualisierung in JCT beinhaltet drei verschiedene Schemata, ein voll-homomorphes Verschlüsselungsschema von  <a href="#gh">Gentry und Halevi</a>, und zwei partiell-homomorphe Verschlüsselungsschemata &ndash; <a href="#rsa">RSA</a> und <a href="#paillier">Paillier</a>. </p>
 
   <h4 id="partial">a) Partielle homomorphe Verschlüsselung</h4>
 
@@ -94,15 +94,15 @@
   berechnet, indem man die Chiffrate \(c_1\) und \(c_2\) multipliziert. Dies ist die Entschlüsselung
   von \(m_1+m_2\):
   <p>
-  
+
   \( \style{text-align:right;} {
     \begin{align*}
       c_1 \cdot c_2 = (g^{m_1}) \cdot (rl^N) \cdot (g^{m_2}) \cdot (r2^N) \; \text{mod} \;
       N^2 = (g^{m_1+m_2}) \cdot (r^N) \; \text{mod} \; N^2
     \end{align*}
   } \)
- 
-  <p> 
+
+  <p>
   was nichts anderes als \(m_1 + m_2\) ist. Die Addition erfolgt modulo \(N\)
   (da \(g^N \equiv 1 \; \text{mod} \; N^2)\), aber aufgrund der Größe von \(N\) ist dies, in der Praxis,
   kein Hindernis.
@@ -112,9 +112,9 @@
 
   <p>
   Das voll-homomorphe Verschlüsselungsschema von <a target="_blank"
-  href="https://researcher.ibm.com/researcher/files/us-shaih/fhe-implementation.pdf">
+  href="https://www.ibm.com/blogs/research/2018/03/elegant-disgusting-cryptography/">
   Gentry and Halevi</a> ist eine Variante des Schemas von <a target="_blank"
-  href="http://www.info.unicaen.fr/M2-AMI/articles-2009-2010/smart.pdf">Smart and Vercauteren</a>,
+  href="https://web.archive.org/web/20120723124513/https://www.info.unicaen.fr/M2-AMI/articles-2009-2010/smart.pdf">Smart and Vercauteren</a>,
   das wiederum eine Variante des Originalschemas von <a target="_blank"
   href="http://domino.research.ibm.com/comm/research_projects.nsf/pages/security.homoenc.html/$FILE/stocdhe.pdf">
   Gentry</a> ist. Eine vollständige Erklärung des Schemas wäre hier zu komplex und deshalb wird nur
@@ -127,7 +127,7 @@
   Aus dem Polynom lässt sich die Rotationsbasis \(V\) berechnen, die das zu verwendende Gitter
   beschreibt. Die Matrixdarstellung der HNF des Gitters, d.h. die Basisvektoren in den Spalten,
   müssen abgesehen von der Spalte ganz links, der Identitätsmatrix gleichen. Diese Spalte hat als
-  Einträge die Determinante des Gitters und alle Potenzen einer Wurzel \(r\) von \(f(x)\), 
+  Einträge die Determinante des Gitters und alle Potenzen einer Wurzel \(r\) von \(f(x)\),
   modulo \(d\). Als nächstes berechnet man die skalierte Inverse von \(v(x)\), d.h. ein Polynom
   \(w(x)\), so dass \(v(x) \cdot w(x) = d \; \text{mod} \; f(x)\). Hier entspricht \(d\) der
   Determinante des Gitters. Die Rotationsbasis \(W\), die ein Teil des privaten Schlüssels ist, wird
@@ -138,7 +138,7 @@
   die Erklärung, wie dies behoben werden kann.
   <br>
   Die Länge einer Nachricht in diesem Schema ist nur ein einzelnes Bit. Um ein Bit zu verschlüsseln,
-  generiert man einen zufälligen \(N\)-dimensionalen Rausch-Vektor \(u\) mit Einträgen in 
+  generiert man einen zufälligen \(N\)-dimensionalen Rausch-Vektor \(u\) mit Einträgen in
   \(\{-1,0,-1\}\). Dann berechnet man \(a=2u+b \cdot e_1\) \((e_1\) ist der Vektor \((1,0,...,0))\)
   und \(c = a \; \text{mod} \; B\). Aufgrund der speziellen Form der HNF reduziert dies
   \(c = b + 2u(r) \; \text{mod} \; d\), wobei \(u(x)\) das Polynom des Rausch-Vektors \(u\) ist. Um ein

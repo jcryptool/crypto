@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2019, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.analysis.fleissner.Activator;
 import org.jcryptool.core.logging.utils.LogUtil;
+import org.jcryptool.core.util.fonts.FontService;
 
 /**
  * @author Dinah
@@ -87,7 +88,7 @@ public class OutputDialog extends TitleAreaDialog {
         scrolledComposite.setExpandHorizontal(true);
         scrolledComposite.setExpandVertical(true);
         
-        TextFoldViewer textFoldViewer = new TextFoldViewer(scrolledComposite, SWT.NONE, this.analysisOutput);
+        TextFoldViewer textFoldViewer = new TextFoldViewer(scrolledComposite, SWT.NONE, this.analysisOutput, FontService.getNormalMonospacedFont());
         GridData foldviewLayoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		textFoldViewer.setLayoutData(foldviewLayoutData);
         textFoldViewer.redrawListeners.add(new Runnable() {

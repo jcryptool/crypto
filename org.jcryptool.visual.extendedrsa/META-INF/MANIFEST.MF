@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.visual.extendedrsa;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.5
 Bundle-Activator: org.jcryptool.visual.extendedrsa.Activator
 Require-Bundle: 
  org.eclipse.ui,
@@ -14,7 +14,9 @@ Require-Bundle:
  org.jcryptool.crypto.flexiprovider,
  org.jcryptool.crypto.flexiprovider.keystore,
  org.jcryptool.crypto.keystore,
- org.jcryptool.core.util
+ org.jcryptool.core.util,
+ org.jcryptool.core.operations,
+ bcprov;bundle-version="1.68.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.jcryptool.core.logging.utils,

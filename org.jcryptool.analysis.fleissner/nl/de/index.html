@@ -2,40 +2,414 @@
 
 <html>
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Fleißner-Analyse</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	  <title>Fleißner-Chiffre (Analyse, Verschlüsselung und Entschlüsselung)</title>
+
+	<!-- TOCbot: Table of Content generation, see https://github.com/tscanlin/tocbot -->
+	 <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script> 
+	 <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
+	 <script>TOC_generate_default("h2, h3, h4")</script> 	
+	<style>.toc-list-item {list-style-type: circle;}</style>
+	<style>
+		.center {
+		  display: block;
+		  margin-left: auto;
+		  margin-right: auto;
+		  width: 50%;
+		}	
+	</style>
 </head>
 
 <body>
 
-<h1>Fleißner-Analyse (Analyse, Verschlüsselung und Entschlüsselung)</h1>
-<!--  <h2>Content will be available soon.</h2>-->
+<h1>Fleißner-Chiffre (Analyse, Verschlüsselung und Entschlüsselung)</h1>
+<!--TODO:Im Englischen muss der letzte Punkt heißen:
+- Mit der Vermutung, dass der Geheimtext in englisch ist, wurde eine 5-Gramm-Statistik der englischen Sprache ausgewählt.-->
 
-	<p>Mit diesem Plugin können Sie Texte mit der Fleißner-Schablone ver- und entschlüsseln, aber vor allem können Sie auch Fleißner-Geheimtexte automatisiert brechen (und das für gerade und ungerade Schablonengrößen). Die maximale Schablonengröße ist 20 x 20.</p>
+<div class="TOC"></div>
 
+	<p>Mit diesem Plugin können Sie Texte mit der Fleißner-Schablone ver- und entschlüsseln, aber vor allem können Sie auch Fleißner-Geheimtexte automatisiert brechen (sowohl rechtsdrehende wie linksdrehende Schablonen; derzeit aber nur für gerade Schablonengrößen; demnächst auch für ungerade Schablonengrößen). Die maximale Schablonengröße ist 20 x 20.</p>
     
-    <p>Diese Hilfe beschreibt in den beiden folgenden PDFs das Verfahren und die Bedienung des Plug-ins:</p>
-	 
-    1) <a href="OnlineHelpAlgorithm-de.pdf"> Fleißner-Schablone und -Analyse (Algorithmus)</a>
-	
-    <p>In diesem für eine Präsentation erstellten PDF-Dokument wird die Fleißner-Schablone und deren Analyse erklärt. Neben einer kurzen Einführung zur Herkunft des Verfahrens wird der Aufbau der Schablone beschrieben sowie der mathematische Hintergrund, der am Ende des Dokuments auch noch detailliert hergeleitet wird. Im Anschluss befindet sich eine Erklärung zur Analyse, den dazu verwendeten Verfahren und eine Darstellung der Analyseergebnisse.</p>
-	
-    2) <a href="OnlineHelpUsage-de.pdf"> Bedienungsanleitung zu diesem Plug-In</a>
-	
-    <p>Im zweiten PDF-Dokument wird die Bedienung des Analyse-Plug-ins detailliert erklärt. Die Anleitung enthält Screenshots zu allen Funktionen des Plug-ins.</p>
-	
-	
-	<p><strong>Bemerkung:</strong> In JCT gibt es ein älteres Plugin namens <a href="PLUGINS_ROOT/org.jcryptool.visual.grille/$nl$/content/index.html">Fleißner-Schablone / Grille</a>, das nur zur Visualisierung der Verschlüsselung und Entschlüsslung gedacht ist und keine Texte brechen kann. In dem älteren Plugin ist die Schablonengröße eingeschränkt auf die Werte 4, 6, 8 und 10, was hier nicht der Fall ist. Wenn Sie mehr zu dem Verfahren erfahren wollen, können Sie sich auch die Onlinehilfe zum alten Plugin ansehen.</p>
+    <p>Haben Sie als Methode "Verschlüsselung" gewählt und wollen einen eigenen Text verschlüsseln, müssen Sie Ihren Text im Feld "Klartext" eingeben. Ist als Methode "Entschlüsselung" oder "Analyse" gewählt, müssen Sie Ihren Text im Feld "Geheimtext" eingeben.</p>
+    
+    <p>Diese Hilfe beschreibt das Verfahren (den Algorithmus) und die Bedienung des Plug-ins.</p>
 
+
+
+
+	<h2 id=wiefunktioniert>Wie funktionieren der Verschlüsselungs-Algorithmus und seine Kryptoanalyse</h2>
+
+	<p>Bei der Fleißner-Chiffre schreibt man den Klartext auf ein Papier, durch die Löcher einer Schablone hindurch, die dreimal je um 90° zu drehen ist.</p>
+
+    <p>Weitere Informationen finden sich in der 
+	<a target="_blank" href="https://de.wikipedia.org/wiki/Flei%C3%9Fnersche_Schablone"> Wikipedia</a>,
+<!-- BE_Jan2021: Den ff. Satzteil aktivieren, wenn das alte Plugin wieder angeboten wird!!!
+	in der Onlinehilfe zur puren Visualisierung in JCT: <a href="PLUGINS_ROOT/org.jcryptool.visual.grille/$nl$/content/index.html">Grille Cipher</a> 
+-->
+	und in der folgenden Präsentation: <a href="OnlineHelpAlgorithm-de.pdf"> Fleißner-Schablone und -Analyse (Algorithmus)</a>.
+	</p>
+	 
+    <p>Die Präsentation erklärt die Fleißner-Schablone und ihre Analyse. Neben einer kurzen Einführung zur Herkunft des Verfahrens wird der Aufbau der Schablone beschrieben sowie der mathematische Hintergrund. Im Anschluss befindet sich eine Erklärung zur Analyse und der dazu verwendeten Verfahren.</p>
+
+    <p>Zur Analyse wird derzeit pures Hill-Climbing verwendet. Um die Ergebnisse zu verbessern, ist geplant, auch Simulated Annealing zu implementieren. Während der Analyse-Prozess im Hintergund läuft, kann man in JCT weiterarbeiten. Abbrechen kann man den Hintergund-Job momentan aber noch nicht.</p>
+
+
+
+
+
+	<h2 id=manual>Bedienungsanleitung zu diesem Plug-in</h2>
 	
-	<!--  <br/>  -->
-	<h3>Weitere Information / Referenzen zur Fleißner-Schablone</h3>
+		
+<!-- BE_Jan2021: Die ff. Bemerkung aktivieren, wenn das alte Plugin wieder angeboten wird!!!
+	<p><strong>Bemerkung:</strong> In JCT gibt es ein älteres Plugin namens <a href="PLUGINS_ROOT/org.jcryptool.visual.grille/$nl$/content/index.html">Fleißner-Schablone / Grille</a>, das nur zur Visualisierung der Verschlüsselung und Entschlüsslung gedacht ist und keine Texte brechen kann. In dem älteren Plugin ist die Schablonengröße eingeschränkt auf die Werte 4, 6, 8 und 10, was hier nicht der Fall ist. Wenn Sie mehr zu dem Verfahren erfahren wollen, können Sie sich auch die Onlinehilfe zum alten Plugin ansehen.</p>
+  -->
+    
+<h3 id=h2_1>1) Analyse eines vorgegebenen Beispieltextes</h3>
+
+	<p>
+		Initial hat das Plug-in folgende Einstellungen, so dass Sie sofort loslegen können:
+		<ul>
+			<li>Als Methode ist "Analyse" ausgewählt (für einen links-drehenden Beispieltext).</li>
+			<li>Ein Beispiel-Geheimtext ist ausgewählt, der mit einer 6*6-Schablone verschlüsselt wurde.<br />Dieser Geheimtext wird rechts oben angezeigt.<br /> Natürlich können Sie auch einen eigenen Geheimtext eingeben oder laden.</li>
+			<li>Der für die Analyse verwendete Hill-Climbing-Algorithmus ist auf 20 Restarts eingestellt.</li>
+			<li>Mit der Vermutung, dass der Geheimtext in deutsch ist, wurde eine 5-Gramm-Statistik der deutschen Sprache ausgewählt.</li>
+		</ul>
+	</p>
+
+	<p><img src="Grille01.png" width="85%"/></p>
+	
+	<p>
+		Mit einem Klick auf den Button "Start" wird die Analyse durchgeführt.
+	</p>
+	<p>
+		Es dauert einen Moment, bis der Mauszeiger sich ändert und unten rechts in der Statuszeile angezeigt wird, dass ein evtl. länger laufender Hintergrundjob (für die Analyse) läuft.</p>
+	 
+    <p>Das folgende Bild zeigt das Ergebnis:
+	</p>
+
+	<p><img src="Grille02.png" width="85%"/></p>
+
+	<p>
+		Im Feld "Klartext" sieht man das Ergebnis — ausgegeben in Zeilen der Länge 1/4 der Anzahl der Felder in der Schablone: hier also der Länge \( 9 = 36 / 4 \).
+	</p>
+
+	<pre>
+NENNTMICH
+ISMAELEIN
+PAARJAHRE
+ISTSHERUN
+WICHTIGWI
+ELANGGENA
+UDAHATTEI
+CHWENIGBI
+SGARKEING
+...
+	</pre>
+	<p>
+		Wenn man die entsprechenden Sonderzeichen (sie gehören nicht zum deutschen Alphabet) einfügt, erhält man:
+	</p>
+	<pre>NENNT MICH ISMAEL. EIN PAAR JAHRE IST'S HER, UNWICHTIG, WIE LANG GENAU. DA HATTE ICH WENIG BIS GAR KEIN G...</pre>
+	
+	<p>
+		In der Gruppierung "Ausgabe" (unten) steht das Log, das automatisch nach jedem Klick auf "Start" neu erzeugt wird.<br/>
+	</p>
+	<p>
+	Darin finden Sie den gefundenen Schlüssel und auch den ursprünglichen Schlüssel, der für den zufällig erzeugten Beispieltext gewählt wurde, in drei Formaten:
+	<ul>
+		<li>in sequentieller Form (die Zählweise ist zeilenweise und beginnt mit 1): <pre>7 9 11 ...,</pre></li>
+		<li>in Koordinaten-Form (die Zählweise ist spaltenweise und beginnt mit 0): <pre>(0,1) (0,2) (2,1)</pre></li>
+		<li>in einer visuellen Form mit UTF8-Zeichen (ein helles Quadrat ist ein ausgestanztes Loch in der Schablone).</li>
+	</ul>
+	Ebenfalls ausgegeben wird der Wert der Kostenfunktion für den besten gefundenen Klartext. Je höher (weniger negativ) dieser Wert ist, desto besser ist er.
+	</p>
+
+
+
+<p><br></p>
+<h3 id=h2_2>2) Analyse eines eigenen Beispieltextes</h3>
+
+	<p>
+		Als Beispiel-Geheimtext wurde ein Text aus der <a href="https://de.wikipedia.org/wiki/Flei%C3%9Fnersche_Schablone" target="_blank">deutschen Wikipedia für die Fleissner-Chiffre</a> genommen. Wir verwendeten den Geheimtext, der durch das linksdrehende Verfahren erzeugt wurde; somit wird die  linksdrehende Analyse gewählt. Als Alphabet wird das deutsche Alphabet gewählt.
+	</p>
+
+	<p>
+		Eingabetext aus Wikipedia:
+	</p>
+
+	<pre>
+	DWNIIK
+	LEKFIL
+	RIPONE
+	PEIEDA
+	EEEODI
+	NIZAYE
+	</pre>
+
+	<p>
+		JCT findet als Klartext:
+	</p>
+	
+	<pre>
+	NLINEENZY
+	KLOPAEDIE
+	WIKIPEDIA
+	DIEFREIEO
+	</pre>
+
+
+	<p>
+		Die Statistiken der automatischen Analyse bilden die Sprache nicht perfekt ab; daher kann es passieren, dass Texte nicht ganz korrekt entschlüsselt werden. In diesem Beispiel konvergiert die Analyse bei einer Lösung, die noch <b>manuell</b> verbessert werden muss. Durch Vertauschen der oberen beiden und der unteren beiden Zeilen erhält man die richtige Lösung.
+	</p>
+	
+	<pre>
+	WIKIPEDIA
+	DIEFREIEO
+	NLINEENZY
+	KLOPAEDIE
+	=
+	WIKIPEDIA DIE FREIE ONLINE ENZYKLOPAEDIE
+	</pre>
+
+	<p>
+	Finale manuelle Korrekturen sind bei der Analyse klassischer Chiffren häufig anzutreffen.
+	</p>
+
+
+
+<p><br></p>
+<h3 id=h2_3>3) Verschlüsselung eines Beispieltextes</h3>
+
+<ul>
+	<li>Auswahl des entsprechenen Radiobuttons in der Gruppierung "Methode"</li>
+	<li>Beispieltext wählen, oder selbst einen Text eingeben oder laden</li>
+	<li>Das Alphabet einstellen (initial steht es im deutschen JCT auf dem deutschen Alphabet)</li>
+</ul>
+<!-- TODO: engl letzter Punkt -->
+
+
+	<p>
+		In der Gruppierung "Klartext" ist der Klartext einzugeben.
+	</p><p>
+		Im Gruppierungstitel der beiden rechten Textfelder wird noch die Länge angegeben: "gefiltert" meint die Länge der Zeichen im Alphabet; "ungefiltert" meint die Länge des ursprünglichen Textes (aus dem bei der Filterung alle Nichtalphabet-Zeichen entfernt werden; außerdem werden Kleinbuchstaben als Großbuchstaben interpretiert, wie das in den n-Gramm-Statistiken üblich ist).
+	</p><p>
+		Das Ergebnis können Sie kopieren und auch wieder entschlüsseln.
+	</p>
+
+
+
+<p><br></p>
+<h3 id=h2_4>4) Weitere Beispiele für Grille-Geheimtexte</h3>
+
+Zum weiteren Ausprobieren werden im Folgenden einige Beispiele aufgeführt.
+
+<h4 id=h3_1>Beispiel 1: Schmeh</h4>
+
+Sie können einen Text von <a target=_blank href="https://scienceblogs.de/klausis-krypto-kolumne/2017/01/19/how-my-readers-solved-the-fleissner-challenge/">Klaus Schmeh's Kryptokolumne</a> ausprobieren; die Grille-Größe ist hier 20.
+
+	<p>
+		Die Chiffre, die ursprünglich online stand, war inkorrekt. Sie können diese korrigierte Version verwenden:
+	</p>
+<pre>
+PIENLZLALANIEGDSTFETHMOEEVEINONDTBRRMEAAUATNNMNPEOASROODPMFMHOAEMOTOEONDOAERPNXLAINEPFXECORPRDTEEIED
+THNETIUTNRIIOTYINEOWAINTDHMSSATOOURTINAGINONVATTEERDEDHDEUAMTROIINOENGSWALNRGAMTYAHTNESDAOEEIMSINTSA
+GAPBJOELSOENIHRSDHOMUAHRNDAYWTEMEIRLELERIAAITNFATAENRCTAHRRESHYOTVIICNLEIULCETSNEUAANRLRCOIHUATELSLI
+PWOEOENNSRGNSTELBSHBEAYSEUINDNCEISHNREGVOTUOFIEDNEBTAHRNEASCUENPAUNNSDWPIOEXITPTYUNGIFLIHKATSMVARAET
+</pre>
+
+	<p>
+		Als Klartext erhalten wir:
+	</p>
+<pre>
+PLANSFORMANNEDMOONEXPEDITIONSORIGINATEDDURINGTHEEISENHOWERERAINANARTICLESERIESWERNHERVONBRAUNPOPULAR
+IZEDTHEIDEAOFAMOONEXPEDITIONAMANNEDMOONLANDINGPOSEDMANYTECHNICALCHALLENGESBESIDESGUIDANCEANDWEIGHTMA
+NAGEMENTATMOSPHERICREENTRYWITHOUTOVERHEATINGWASAMAJORHURDLEAFTERTHESOVIETUNIONSLAUNCHOFTHESPUTNIKSAT
+ELLITEVONBRAUNPROMOTEDAPLANFORTHEUNITEDSTATESARMYTOESTABLISHAMILITARYLUNAROUTPOSTBYNINETEENSIXTYFIVE
+</pre>
+
+	<p>
+		Durch Einfügen von Leer- und Sonderzeichen wird der Text wieder lesbarer:
+	</p>
+<pre>
+PLANS FOR MANNED MOON EXPEDITIONS ORIGINATED DURING THE EISENHOWER ...</pre>
+
+	<p>
+		Je größer die Grille ist, desto schwerer ist es für die Analyse, eine gute Lösung zu finden. Eine höhere Anzahl von Restarts verlangsamt zwar die Analyse, aber findet normalerweise bessere Lösungen.
+	</p><p>
+		Diese Grille ist mit Schlüsselgröße 20 x 20	das anspruchsvollste Beispiel. Die Analyse braucht hier normalerweise weit mehr als 100 Restarts um sinnvoll zusammenhängende Teile des Klartextes zu finden.
+	</p><p>
+		Der Klartext ist Englisch; die Statistik-Sprache sollte entsprechend gewählt werden.
+	</p>
+
+
+
+<h4 id=h3_2>Beispiel 2: Schmeh 1870</h4>
+
+	<p>
+		Ein weiteres Beispiel von der Kryptokolumne: <a target=_blank href="https://scienceblogs.de/klausis-krypto-kolumne/2020/09/29/can-you-solve-this-turning-grille-cryptogram-from-1870/">Eine Chiffre von 1870</a>. Die Grille-Größe ist 12.
+	</p>
+
+	<p>
+		Transkript (linksrotierend):
+	</p>
+
+<pre>
+NVRDIEMHNEAT
+IRVOAEINFYIU
+BRNTTTEHSEUA
+FHSEREPEFDRF
+OORRMOSVTOHO
+EIDFNOTSHTUH
+RETRTEEEAMLE
+EUGGSTSRIELA
+TARIEGTEAMRY
+OBSFOUCTTOHT
+EMTRPHCOLIIE
+XPSIHRTEIEYN
+</pre>
+
+
+
+<h4 id=h3_3>Beispiel 3: Wikipedia deutsch</h4>
+
+	<p>
+		Die <a target=_blank href="https://de.wikipedia.org/wiki/Flei%C3%9Fnersche_Schablone#Beispiel">Deutsche Wikipedia zur Grille-Chiffre</a> hat zwei Beispiele: eines links- und eines rechtsrotierend. Die Grille-Größe ist 6.
+	</p>
+
+	<p>
+		Rechtsrotierend (Geheimtext):
+	</p>
+
+<pre>
+KWNILK
+LODPII
+AIPENE
+FEDEDR
+IEEEII
+NEZAYO
+</pre>
+
+	<p>
+		Linksrotierend (Geheimtext):
+	</p>
+
+<pre>
+DWNIIK
+LEKFIL
+RIPONE
+PEIEDA
+EEEODI
+NIZAYE
+</pre>
+
+	<p>
+		Der Klartext lautet in beiden Fällen:
+	</p>
+
+<pre>
+WIKIPEDIA DIE FREIE ONLINE ENZYKLOPAEDIE
+</pre>
+
+	<p>
+		Beachten Sie, dass hier der Klartext sehr kurz ist, und dass die Statistiken die Sprache nicht perfekt abbilden können. Darum kann es nötig sein, noch manuelle Anpassungen vorzunehmen, nachdem die Analyse durchgeführt wurde.
+	</p>
+
+
+
+<h4 id=h3_4>Beispiele 4: Gaines</h4>
+
+	<p>
+		Das Buch <a target=_blank href="https://informatika.stei.itb.ac.id/~rinaldi.munir/Kriptografi/2010-2011/cryptanalysis.pdf">Gaines, Helen (1956): Cryptanalysis - a study of ciphers and their solution</a> hat mehrere Beispiele. Die Grille-Größe und Sprache sowie die Lösung herauszufinden, bleibt dem Leser als Aufgabe überlassen.
+	</p>
+
+<p>Seite 35, Aufgabe 22:</p>
+
+<pre>
+TSTHE
+TTUSH
+OEDGF
+RDOEO
+GRISA
+AMSNM
+QEUGI
+BRIEL
+NOSTH
+SICLS
+ETSWA
+THABR
+YPAE
+</pre>
+
+<p>Seite 35, Aufgabe 23</p>
+
+<pre>
+AEKDS
+PVTOO
+NNAAO
+NRONP
+ROCTI
+EHTRE
+HNETI
+AFGSR
+HTNIL
+OVTEF
+FALMK
+IECLA
+ASNM
+</pre>
+
+<p>Seite 35, Aufgabe 25</p>
+
+<pre>
+RNIII
+NGTFL
+AILNN
+DEETD
+RVEUS
+ESTHR
+EIGEY
+FIANO
+URRDL
+GYTNH
+AEONR
+NEKCD
+EEISE
+YBSEF
+WYPGR
+LOLOE
+UOFHP
+ATVER
+EHERA
+EDFMI
+TRHNE
+EISYT
+QTSII
+SAUSG
+IEAIC
+ASLLK
+LLTTX
+HVHEA
+RXAX
+</pre>
+
+
+
+	<h2 id-ref>Weitere Informationen / Referenzen zur Fleißner-Schablone</h2>
 	
 	<ul>
 	<li><a target="_blank" href="https://de.wikipedia.org/wiki/Flei%C3%9Fnersche_Schablone"> Wikipedia: Fleißnersche Schablone </a></li>
-	<li><a target="_blank" href="https://en.wikipedia.org/wiki/Grille_(cryptography)">Wikipedia: Grille </a></li>
+	<li><a target="_blank" href="https://en.wikipedia.org/wiki/Grille_(cryptography)">Wikipedia: Grille (Englisch)</a></li>
 	</ul>
-
+</div>
 
 </body>
 </html>
+
+
+<!-- Sammlung
+BE_Jan2021: Die ff. Bemerkung aktivieren, wenn das alte Plugin wieder angeboten wird!!!
+	<p><strong>Bemerkung:</strong> In JCT gibt es ein älteres Plugin namens <a href="PLUGINS_ROOT/org.jcryptool.visual.grille/$nl$/content/index.html">Fleißner-Schablone / Grille</a>, das nur zur Visualisierung der Verschlüsselung und Entschlüsslung gedacht ist und keine Texte brechen kann. In dem älteren Plugin ist die Schablonengröße eingeschränkt auf die Werte 4, 6, 8 und 10, was hier nicht der Fall ist. Wenn Sie mehr zu dem Verfahren erfahren wollen, können Sie sich auch die Onlinehilfe zum alten Plugin ansehen.</p>
+  <li><a href="PLUGINS_ROOT/org.jcryptool.visual.extendedrsa/$nl$/help/content/rsaHelp.html">JCT Plugin: Visualization of an Extended RSA Cryptosystem (including Identities and Multi-Prime RSA)</a>
+- links zur alten PDF hilfe:
+    1) <a href="OnlineHelpAlgorithm-de.pdf"> Fleißner-Schablone und -Analyse (Algorithmus)</a>
+    2) <a href="OnlineHelpUsage-de.pdf"> Bedienungsanleitung zu diesem Plug-In</a>
+-->

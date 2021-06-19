@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2011, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -18,6 +18,8 @@ public class Messages extends NLS {
 	public static String AlphabetStore_alpha_adfgvx_short;
 	public static String AlphabetStore_alpha_ascii_long;
 	public static String AlphabetStore_alpha_ascii_short;
+	public static String AlphabetStore_alpha_ascii256_long;
+	public static String AlphabetStore_alpha_ascii256_short;
 	public static String AlphabetStore_alpha_lowlatin_long;
 	public static String AlphabetStore_alpha_lowlatin_short;
 	public static String AlphabetStore_alpha_playfair_long;
@@ -26,6 +28,10 @@ public class Messages extends NLS {
 	public static String AlphabetStore_alpha_uplatin_short;
 	public static String AlphabetStore_alpha_uplolatin_long;
 	public static String AlphabetStore_alpha_uplolatin_short;
+	public static String AlphabetStore_alpha_xor8_long;
+	public static String AlphabetStore_alpha_xor8_short;
+	public static String AlphabetStore_alpha_xor16_long;
+	public static String AlphabetStore_alpha_xor16_short;
 	public static String AlphabetStore_alpha_xor32_long;
 	public static String AlphabetStore_alpha_xor32_short;
 	public static String AlphabetStore_alpha_xor64_long;

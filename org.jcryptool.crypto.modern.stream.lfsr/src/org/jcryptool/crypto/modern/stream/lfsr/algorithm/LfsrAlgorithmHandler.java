@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2010, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2010, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -122,13 +122,12 @@ public class LfsrAlgorithmHandler extends AbstractAlgorithmHandler {
 		}
 		try {
 			//Create the directory LFSR in folder .jcryptool if it doesn't exist.
-			// The folder .jcryptool exists by default.
-			File dir = new File(System.getProperty("user.home") + "/Documents/.jcryptool/LFSR");
+			File dir = new File(System.getProperty("user.dir") + "\\workspace\\LFSR \\");
 			if (!dir.exists()) {
 				dir.mkdir();
 			}
 			//create the file savedSettings.txt in folder LFSR if it doesn't exist.
-			File file = new File(System.getProperty("user.home") + "/Documents/.jcryptool/LFSR/savedSettings.txt");
+			File file = new File(System.getProperty("user.dir") + "\\workspace\\LFSR\\savedSettings.txt");
 			if (!file.exists()) {
 				file.createNewFile();
 			}

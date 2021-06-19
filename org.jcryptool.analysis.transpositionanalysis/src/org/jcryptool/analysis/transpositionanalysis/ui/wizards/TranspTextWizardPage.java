@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2011, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,7 +12,7 @@ package org.jcryptool.analysis.transpositionanalysis.ui.wizards;
 
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2011, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -29,6 +29,8 @@ import java.util.Observer;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
@@ -79,6 +81,8 @@ import org.jcryptool.crypto.ui.textsource.TextSourceType;
  * @author SLeischnig A Wizard page to set a text for the transposition analysis
  */
 public class TranspTextWizardPage extends WizardPage {
+
+	private static final int auto_max_length = 30000;
 
 	public static class PageConfiguration {
 		TextInputWithSource text;
@@ -213,6 +217,12 @@ public class TranspTextWizardPage extends WizardPage {
 	private Label lblCharacters;
 	private Label lblyouCanChange;
 	private Button buttonTransformText;
+	
+	private GridData text1lData;
+	private Composite compTextshortened;
+	private String lastDisplayedText;
+	private String lastDisplayedFullText;
+	private Composite container;
 
 	private TransformData lastTransform = null;
 	private TransformData transformation = null;
@@ -349,10 +359,28 @@ public class TranspTextWizardPage extends WizardPage {
 		textfieldComp.setLayout(composite2Layout);
 
 		txtInputText = new Text(textfieldComp, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
-		GridData text1LData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		//text1lData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		text1lData = new GridData();
+		text1lData.grabExcessVerticalSpace = true;
+		text1lData.verticalAlignment = SWT.FILL;
+		text1lData.grabExcessHorizontalSpace = true;
+		text1lData.horizontalAlignment = GridData.FILL;
+		
+		compTextshortened = new Composite(textfieldComp, SWT.NONE);
+		compTextshortened.setLayout(new GridLayout());
+		compTextshortened.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		
+		Link lblTextshortened = new Link(compTextshortened, SWT.NONE);
+		lblTextshortened.setText(Messages.TranspTextWizardPage_0);
+		lblTextshortened.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				displayText(lastDisplayedFullText, true);
+			}
+		});
 
 		buttonTransformText = new Button(grpText, SWT.CHECK);
-		buttonTransformText.setText("Filter text...");
+		buttonTransformText.setText("Filter text..."); //$NON-NLS-1$
 		buttonTransformText.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -395,10 +423,10 @@ public class TranspTextWizardPage extends WizardPage {
 		int charHeight = temp.getFontMetrics().getAscent() + 2 * temp.getFontMetrics().getLeading();
 		int height = lines * charHeight;
 		temp.dispose();
-		text1LData.widthHint = 200;
-		text1LData.heightHint = height;
+		text1lData.widthHint = 200;
+		text1lData.heightHint = height;
 
-		txtInputText.setLayoutData(text1LData);
+		txtInputText.setLayoutData(text1lData);
 
 		parttextGroup = new Group(pageComposite, SWT.NONE);
 		GridLayout composite4Layout = new GridLayout(3, false);
@@ -415,6 +443,9 @@ public class TranspTextWizardPage extends WizardPage {
 		parttextCheck = new Button(parttextGroup, SWT.CHECK | SWT.LEFT);
 		parttextCheck.setText(Messages.TranspTextWizardPage_takeonlyapartofthetext);
 		parttextCheck.setSelection(init_croptext);
+		
+		//set checkbox default to true
+		parttextCheck.setSelection(true);
 
 		parttextCheck.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -429,7 +460,7 @@ public class TranspTextWizardPage extends WizardPage {
 
 		parttextCount.setEnabled(parttextCheck.getSelection());
 		parttextCount.setMinimum(1);
-		parttextCount.setMaximum(200);
+		parttextCount.setMaximum(400);
 		parttextCount.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
@@ -738,7 +769,7 @@ public class TranspTextWizardPage extends WizardPage {
 		FileDialog fd = new FileDialog(btnDatei.getShell(), SWT.OPEN);
 		fd.setText(Messages.TranspTextWizardPage_windowsfiledialogtitle);
 		fd.setFilterPath(null);
-		String[] filterExt = { "*.*" }; //$NON-NLS-1$
+		String[] filterExt = { "*" }; //$NON-NLS-1$
 		fd.setFilterExtensions(filterExt);
 		String selected = fd.open();
 		if (selected == null)
@@ -754,10 +785,12 @@ public class TranspTextWizardPage extends WizardPage {
 		btnZwischenablageeigeneEingabe.setSelection(sourceType.equals(TextSourceType.USERINPUT));
 		if (writeText) {
 			if (textInput != null) {
-				textOnlyInput.writeContent(textString);
+				//textOnlyInput.writeContent(textString);
+				displayText(textString);
 				textOnlyInput.synchronizeWithUserSide();
 			} else {
-				txtInputText.setText(textString);
+				//txtInputText.setText(textString);
+				displayText(textString);
 			}
 		}
 
@@ -777,6 +810,46 @@ public class TranspTextWizardPage extends WizardPage {
 
 		txtInputText.setEditable(sourceType.equals(TextSourceType.USERINPUT));
 	}
+	
+	private void displayText(String textString, boolean shortenIfNecessary) {
+		// TODO Auto-generated method stub
+		boolean makePreview = shortenIfNecessary && textString.length() > auto_max_length;
+		String previewText = textString;
+		if (makePreview) {
+			previewText = textString.subSequence(0, Math.min(textString.length(), auto_max_length)).toString();
+		}
+		lastDisplayedText = previewText;
+		lastDisplayedFullText = textString;
+		txtInputText.setText(previewText);
+		toggleTextshortenedDisplay(lastDisplayedText.length() < lastDisplayedFullText.length(), textString);
+	}
+	
+	private String makeShortenedTextForTablePreview(String textString, boolean shortenIfNecessary) {
+		// TODO Auto-generated method stub
+		boolean makePreview = shortenIfNecessary && textString.length() > auto_max_length;
+		String previewText = textString;
+		if (makePreview) {
+			previewText = textString.subSequence(0, Math.min(textString.length(), auto_max_length)).toString();
+			return previewText;
+		}
+		//lastDisplayedText = previewText;
+		//lastDisplayedFullText = textString;
+		txtInputText.setText(previewText);
+		//toggleTextshortenedDisplay(lastDisplayedText.length() < lastDisplayedFullText.length(), textString);
+		return previewText;
+	}
+
+	private void displayText(String textString) {
+		displayText(textString, true);
+	}
+
+
+	private void toggleTextshortenedDisplay(boolean b, String textString) {
+			GridData ldata = (GridData) compTextshortened.getLayoutData();
+			ldata.exclude = !b;
+			compFileInputDetails.setVisible(b);
+			pageComposite.layout(new Control[] { compTextshortened });
+	}
 
 	/**
 	 * Assumes that the selection index is not "-1" -> something is actually
@@ -792,6 +865,7 @@ public class TranspTextWizardPage extends WizardPage {
 	protected List<IEditorReference> getEditorsNotNecessarilyFresh() {
 		return editorRefs;
 	}
+	
 
 	private void showLoadFromFileComponents(boolean b, String fileName) {
 		if (b) {
@@ -852,8 +926,13 @@ public class TranspTextWizardPage extends WizardPage {
 	private void forcePreview() {
 		PageConfiguration pageConfig = getPageConfiguration();
 		transpositionTable1.setReadInOrder(pageConfig.getReadInDirection());
-		transpositionTable1.setText(pageConfig.getText().getText(), pageConfig.getColumnCount(), !pageConfig.isCrop(),
+		String text = pageConfig.getText().getText();
+		transpositionTable1.setText(makeShortenedTextForTablePreview(text,true), pageConfig.getColumnCount(), !pageConfig.isCrop(),
 				pageConfig.getCropLength(), pageConfig.getColumnOrder(), true);
+	
+		txtInputText.setText(makeShortenedTextForTablePreview(text,true));
+		//pageConfig.getText().setText(makeShortenedTextForTablePreview(text, true));
+		
 		lastPreviewedPageConfig = pageConfig;
 	}
 
@@ -955,5 +1034,7 @@ public class TranspTextWizardPage extends WizardPage {
 				parttextCheck.getSelection(), parttextCount.getSelection(), directionChooserIn.getInput().getContent(),
 				isPageBuilt ? transpositionTable1.getColumnOrder() : init_columnOrder);
 	}
+	
+	
 
 }

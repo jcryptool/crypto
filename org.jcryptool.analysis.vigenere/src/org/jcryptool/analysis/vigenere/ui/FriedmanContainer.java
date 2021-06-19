@@ -1,5 +1,5 @@
 /* *****************************************************************************
- * Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2011, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License
@@ -143,7 +143,9 @@ public class FriedmanContainer {
         List<FriedmanData> peaks = new ArrayList<FriedmanData>();
 
         for (int i = 0; i < perc; i++) {
+        	if(i< data.size()) {
             peaks.add(data.get(i));
+        	}
         }
 
         Collections.sort(peaks, new Comparator<FriedmanData>() {

@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2014, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2014, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -19,6 +19,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.jcryptool.core.util.colors.ColorService;
 
 
 /**
@@ -72,14 +73,14 @@ public class Arrows extends Canvas
 			
 			if(a[5]==180)
 			{
-				gc.setBackground(this.getDisplay().getSystemColor(SWT.COLOR_DARK_GREEN));
-				gc.setForeground(this.getDisplay().getSystemColor(SWT.COLOR_DARK_GREEN));
+				gc.setBackground(ColorService.getColor(SWT.COLOR_DARK_GREEN));
+				gc.setForeground(ColorService.getColor(SWT.COLOR_DARK_GREEN));
 				
 			}
 			else
 			{
-				gc.setBackground(this.getDisplay().getSystemColor(SWT.COLOR_BLACK));
-				gc.setForeground(this.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+				gc.setBackground(ColorService.BLACK);
+				gc.setForeground(ColorService.BLACK);
 			}
 			gc.drawLine(x1, y1, x2,y2);
 			if(y1!=y2)

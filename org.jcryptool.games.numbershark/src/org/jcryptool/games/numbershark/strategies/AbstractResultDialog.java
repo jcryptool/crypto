@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2011, 2021 JCrypTool Team and Contributors
 * 
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -150,8 +150,8 @@ public abstract class AbstractResultDialog extends TitleAreaDialog {
 
                 FileDialog saveDialog = new FileDialog(Display.getCurrent().getActiveShell(), SWT.SAVE);
                 saveDialog.setFilterPath(DirectoryService.getUserHomeDir());
-                saveDialog.setFilterNames(new String[] { "CSV-File", "All Files (*.*)" });
-                saveDialog.setFilterExtensions(new String[] { "*.csv", "*.*" });
+                saveDialog.setFilterNames(new String[] { "CSV-File", "All Files" });
+                saveDialog.setFilterExtensions(new String[] { "*.csv", "*" });
                 saveDialog.setFileName("log_numberShark_" + min + "-" + max + ".csv");
                 saveDialog.setOverwrite(true);
 

@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2012, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2012, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -58,6 +58,14 @@ public class TextLoadController extends Composite {
 		return transformData;
 	}
 	
+	public void setEnabled(boolean b) {
+		if(this.btnLoadText != null && ! this.btnLoadText.isDisposed()) {
+			this.btnLoadText.setEnabled(b);
+			this.transformDisplay.setEnabled(b);
+			this.loadTextLink.setEnabled(b);
+		}
+		
+	}
 	
 	/**
 	 * Creates the text loading controller (a button with maybe additional displays/controls; see below)
@@ -106,7 +114,10 @@ public class TextLoadController extends Composite {
 	
 	private void createDisplayerCtrls() {
 		compDisplayer = new Composite(this, SWT.NONE);
-		compDisplayer.setLayout(new GridLayout(3-(showFrontLabel?0:1)+(oneRow?1:0), false));
+		GridLayout layout = new GridLayout(3-(showFrontLabel?0:1)+(oneRow?1:0), false);
+		layout.marginWidth = 0;
+		layout.marginHeight = 1;
+		compDisplayer.setLayout(layout);
 		compDisplayer.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		if(showFrontLabel) {
@@ -115,7 +126,7 @@ public class TextLoadController extends Composite {
 		}
 		
 		displayer = new TextInputWithSourceDisplayer(compDisplayer, this, new TextInputWithSource(""), new TextInputWithSourceDisplayer.Style(true, false)); //$NON-NLS-1$
-		displayer.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+		displayer.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		
 		createTransformDisplays(compDisplayer);
 		

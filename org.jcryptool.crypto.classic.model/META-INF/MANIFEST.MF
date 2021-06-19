@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.crypto.classic.model;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.5
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.apache.commons.cli;bundle-version="1.2.0",
@@ -19,6 +19,7 @@ Export-Package: org.jcryptool.crypto.classic.model,
  org.jcryptool.crypto.classic.model.algorithmconfig,
  org.jcryptool.crypto.classic.model.algorithmconfig.ui,
  org.jcryptool.crypto.classic.model.handlers,
+ org.jcryptool.crypto.classic.model.ngram,
  org.jcryptool.crypto.classic.model.ui.wizard,
  org.jcryptool.crypto.classic.model.ui.wizard.util
 Bundle-Activator: org.jcryptool.crypto.classic.model.ClassicCryptoModelPlugin

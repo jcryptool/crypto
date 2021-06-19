@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2011, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -38,6 +38,7 @@ import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.core.util.input.ButtonInput;
 import org.jcryptool.core.util.input.InputVerificationResult;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
+import org.jcryptool.core.util.ui.auto.LayoutAdvisor;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
 import org.jcryptool.crypto.classic.transposition.algorithm.TranspositionKey;
 import org.jcryptool.crypto.classic.transposition.algorithm.TranspositionTable;
@@ -205,7 +206,7 @@ public class TranspAnalysisUI extends Composite implements Observer {
 	}
 
 	private void initGUI() {
-
+		
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.marginHeight = 0;
 		gridLayout.marginWidth = 0;
@@ -217,9 +218,9 @@ public class TranspAnalysisUI extends Composite implements Observer {
 		scrolledComposite.setExpandVertical(true);
 
 		content = new Composite(scrolledComposite, SWT.NONE);
-		content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,1,1));
 		content.setLayout(new GridLayout(1, true));
-
+		
 		TitleAndDescriptionComposite td = new TitleAndDescriptionComposite(content);
 		td.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		td.setTitle(Messages.TranspAnalysisUI_view_title);
@@ -446,7 +447,7 @@ public class TranspAnalysisUI extends Composite implements Observer {
 
 		previewGroup = new Group(compResults, SWT.NONE);
 		previewGroup.setLayout(new GridLayout());
-		previewGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		previewGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		previewGroup.setText(Messages.TranspAnalysisUI_Results);
 		previewGroup.setFont(FontService.getLargeFont());
 
@@ -546,8 +547,8 @@ public class TranspAnalysisUI extends Composite implements Observer {
 		previewText = new Text(previewGroup, SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
 		GridData previewTextLData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		previewTextLData.minimumHeight = 100;
-		previewTextLData.heightHint = 220;
-		previewTextLData.widthHint = previewGroup.getClientArea().x - 10;
+		//previewTextLData.heightHint = 220;
+		previewTextLData.widthHint = 600;
 		previewText.setLayoutData(previewTextLData);
 		previewText.setEditable(false);
 
@@ -571,7 +572,10 @@ public class TranspAnalysisUI extends Composite implements Observer {
 		displayTextSource(null, false, false);
 
 		scrolledComposite.setContent(content);
-
+		scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        SmoothScroller.scrollSmooth(scrolledComposite);
+        LayoutAdvisor.addPreLayoutRootComposite(content);
+		
 	}
 
 	protected TranspositionKey getKeyUsedToEncrypt() {
@@ -607,8 +611,8 @@ public class TranspAnalysisUI extends Composite implements Observer {
 		// Recalculate the size of the scrolled composite after the warning is
 		// displayed.
 		// This avoids text being cut of at the bottom of the plugin.
-		content.layout();
 		scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		content.layout();
 
 	}
 
@@ -627,15 +631,19 @@ public class TranspAnalysisUI extends Composite implements Observer {
 		int result = dialog.open();
 
 		if (result == Window.OK) {
-			textPageConfiguration = textWizard.getTextPageConfig();
+			
+			textPageConfiguration = textWizard.getTextPageConfig();	
+			textPageConfiguration.getText().setText(makeShortenedTextForTablePreview(textPageConfiguration.getText().getText(), true));
 			setText(textPageConfiguration.getText(), false);
 			setReadInMode(textPageConfiguration.getReadInDirection(), false);
 			readinDirChooser.setDirection(textPageConfiguration.getReadInDirection());
 			setCrop(textPageConfiguration.isCrop(), false);
 			setCroplength(textPageConfiguration.getCropLength(), false);
 			setBlocklength(textPageConfiguration.getColumnCount(), false);
+			
 			displayTextTransformBtn(false, true, new TransformData());
 			applyTransformationInput.writeContent(false);
+			
 			applyTransformationInput.synchronizeWithUserSide();
 
 			doAutoCrop = (blocklength > 0 && !crop || blocklength == 0 && crop);
@@ -655,16 +663,32 @@ public class TranspAnalysisUI extends Composite implements Observer {
 			readinDirChooser.setEnabled(true);
 
 			// Recalc size after new line added
-			content.layout();
-			scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			
+			
+			//scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 			// This makes the ScrolledComposite scrolling, when the mouse
 			// is on a Text with one or more of the following tags: SWT.READ_ONLY,
 			// SWT.V_SCROLL or SWT-H_SCROLL.
-			SmoothScroller.scrollSmooth(scrolledComposite);
+			// SmoothScroller.scrollSmooth(scrolledComposite);
+			// LayoutAdvisor.addPreLayoutRootComposite(scrolledComposite);
+			scrolledComposite.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			content.layout();
 
 		}
 	}
+	
+	private String makeShortenedTextForTablePreview(String textString, boolean shortenIfNecessary) {
+		// TODO Auto-generated method stub
+		boolean makePreview = shortenIfNecessary && textString.length() > 30000;
+		String previewText = textString;
+		if (makePreview) {
+			previewText = textString.subSequence(0, Math.min(textString.length(), 30000)).toString();
+			return previewText;
+		}
+		return previewText;
+	}
+	
 
 	/**
 	 * switch load text / show text source composites.
@@ -776,7 +800,7 @@ public class TranspAnalysisUI extends Composite implements Observer {
 				lastPreviewedText = String.valueOf(table.readOutContent(readoutDirChooser.getInput().getContent()));
 				previewText.setText(lastPreviewedText);
 				btnDecipher.setEnabled(true);
-
+				
 				String maskParams = Messages.TranspAnalysisUI_lbl_params_mask;
 				String paramsLblText = Messages.TranspAnalysisUI_lblNewLabel_1_text + String.format(maskParams,
 						TranspositionTable.readDirectionToString(readoutDirChooser.getInput().getContent()),

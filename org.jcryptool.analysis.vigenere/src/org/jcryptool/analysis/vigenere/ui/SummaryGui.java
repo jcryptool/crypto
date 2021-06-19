@@ -1,5 +1,5 @@
 /* *****************************************************************************
- * Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2011, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License
@@ -292,7 +292,7 @@ public class SummaryGui extends Content {
 				}
 			}
 		} else {
-			throw new UnsupportedOperationException("Can't select an item in an empty combo box"); //$NON-NLS-1$
+//			throw new UnsupportedOperationException("Can't select an item in an empty combo box"); //$NON-NLS-1$
 		}
 	}
 

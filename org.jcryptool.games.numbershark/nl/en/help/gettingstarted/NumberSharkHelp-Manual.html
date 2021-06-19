@@ -168,23 +168,23 @@ The number next to "Minimal points to win" is the total number (score) you shoul
 <p>&nbsp;</p>
 <h2 id = "optStrat">3. The optimal strategies</h2>
 
-<p>You might have already found your own strategy so winning against the Number Shark is not a problem for you anymore. Then the question arises about an optimal move sequence &ndash; a sequence which leads to the maximum score. And you might ask yourself how this optimal strategy works. (Note: The maximum core for a playing field size is unique, but sequences are not: There are different sequences which lead to the same score.)</p>
+<p>You might have already found your own strategy so winning against the Number Shark is not a problem for you anymore. Then the question arises about an optimal move sequence &ndash; a sequence which leads to the maximum score. And you might ask yourself how this optimal strategy works. (Note: The maximum score for a playing field size is unique, but sequences are not: So there are different sequences which lead to the same score.)</p>
 
-<p>Unfortunately, we haven't yet found such a general strategy. The first numbers to be taken are clear &ndash; e.g. the first move must take the largest prime number. But then at some point there are several ways you could go. With an algorithm of van Nek, we managed to cleverly try all possibilities and discard useless branches, such that an optimal move sequence can be given. These optimal move sequences (up to n = 404) can be shown and even recalculated in the wizard.</p>
+<p>Unfortunately, we haven't yet found such a general strategy. The first numbers to be taken are clear &ndash; e.g. the first move must take the largest prime number. But then at some point there are several ways you could go. With an algorithm of van Nek, we managed to cleverly try all possibilities and discard useless branches, such that an optimal move sequence can be given. These optimal move sequences (up to n = 519) can be shown and even recalculated in the wizard.</p>
 
 <p>A look at the wizard is worth it, maybe you can find a strategy which always finds an optimal sequence?</p>
 
 
 <h3>3.1 The wizard for optimal strategies</h3>
 
-<p>By clicking on the (completely filled) star icon <img src="Manual_optStrat.jpg" alt=""/> in the toolbar  the wizard to calculate optimal strategies pops up.</p>
+<p>By clicking on the (completely filled) star icon <img src="Manual_optStrat.jpg" alt=""/> in the toolbar the wizard to calculate optimal strategies pops up.</p>
 <img src="Manual_WizardoptStrat.png" width="85%"/>
 
 <p>There you got to choose between the following:</p>
 
 <ul>
-  <li><strong>"Show pre-calculated optimal strategies (for playing fields of size 2-250)"</strong></li>
-  <p>Already calculated move sequences for playing field sizes between 2 and 250 can be viewed and analyzed here.</p>
+  <li><strong>"Show pre-calculated optimal strategies (for playing fields of size 2-519)"</strong></li>
+  <p>Already calculated move sequences for playing field sizes between 2 and 519 can be viewed and analyzed here. The current real value (519) in the JCT program is much better than the value shown in the screenshot here (250).</p>
   
   <li><br><strong>"Calculate the optimal strategy with the algorithm of van Nek"</strong></li>
   <p>By choosing this option, move sequences can be calculated with the backtracking algorithm developed by van Nek. Further more, you can set the range of playing field sizes you want the sequences to be calculated for.</p>
@@ -221,7 +221,7 @@ The number next to "Minimal points to win" is the total number (score) you shoul
 
 <p>Another name of the "Number Shark" game is "Taxman" game.</p>
 
-<p>The site <a target="_blank" href="https://oeis.org/A019312"> Integer Sequences</a> of the OEIS Foundation contains the known maximum scores for n=1,...,404. There, the sequence can also be displayed graphically. Meanwhile, for each n an according optimal move sequence is stated in the notes (thanks to Dan Hoey). A formula for the optimal value (score) is not known yet.</p>
+<p>The site <a target="_blank" href="https://oeis.org/A019312"> Integer Sequences</a> of the OEIS Foundation contains the known maximum scores for n=1,...,519 (status as of May 2020). There, the sequence can also be displayed graphically. Meanwhile, for each "n" an according optimal move sequence is stated in the notes (thanks to Dan Hoey). A formula for the optimal value (score) is not known yet.</p>
 
 <p>Further references can be found <a href="PLUGINS_ROOT/org.jcryptool.games.numbershark/$nl$/help/reference/NumberSharkHelp-Bibliography.html">here</a>.</p>
   <!-- Zum lokalen Testen geht auch:
@@ -229,7 +229,7 @@ The number next to "Minimal points to win" is the total number (score) you shoul
   -->
 
 
-  <!-- Last edit: BE, 2019-08-07  -->
+  <!-- Last edit: BE, 2021-01-09  -->
 
 <p>&nbsp;</p>
 </body>

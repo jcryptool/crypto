@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2011, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -28,7 +28,7 @@ public class ECDHView extends ViewPart {
 	 * Show the animation (moving keys from A to S and B to S) or not.</br>
 	 * Default is true
 	 */
-	public boolean showAnimation = true;
+	public boolean showAnimation = false;
 
 	/**
 	 * The constructor.

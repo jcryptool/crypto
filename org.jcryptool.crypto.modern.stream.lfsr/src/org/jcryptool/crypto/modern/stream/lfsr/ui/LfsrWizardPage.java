@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2011, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -192,7 +192,7 @@ public class LfsrWizardPage extends WizardPage implements Listener {
 	private boolean loadSavedSettings() {
 		// Check if s savefile exists.
 		// If one exists continue, else return with false.
-		File file = new File(System.getProperty("user.home") + "/Documents/.jcryptool/LFSR/savedSettings.txt"); //$NON-NLS-1$ //$NON-NLS-2$
+		File file = new File(System.getProperty("user.dir") + "\\workspace\\LFSR\\savedSettings.txt"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (!file.exists()) {
 			return false;
 		}
@@ -369,7 +369,7 @@ public class LfsrWizardPage extends WizardPage implements Listener {
 			public void widgetSelected(SelectionEvent e) {
 				// Delete the old savefile to enable resetting the plugin via the
 				// createControl().
-				File file = new File(System.getProperty("user.home") + "/Documents/.jcryptool/LFSR/savedSettings.txt"); //$NON-NLS-1$ //$NON-NLS-2$
+				File file = new File(System.getProperty("user.dir") + "\\workspace\\LFSR\\savedSettings.txt"); //$NON-NLS-1$ //$NON-NLS-2$
 				if (file.exists()) {
 					file.delete();
 				}
@@ -488,7 +488,7 @@ public class LfsrWizardPage extends WizardPage implements Listener {
 		tapSettings01StringText.setBackground(ColorService.LIGHTGRAY);
 		tapSettings01StringText.setForeground(ColorService.GRAY);
 		tapSettings01StringText.setEditable(false);
-		tapSettings01StringText.setText(Messages.LfsrWizardPage_tapAs01string + "0000000000000000000000001"); //$NON-NLS-1$
+		tapSettings01StringText.setText(Messages.LfsrWizardPage_tapAs01string + "000000000000001"); //$NON-NLS-1$
 
 	}
 
@@ -552,7 +552,7 @@ public class LfsrWizardPage extends WizardPage implements Listener {
 		seedValue01StringText.setBackground(ColorService.LIGHTGRAY);
 		seedValue01StringText.setForeground(ColorService.GRAY);
 		seedValue01StringText.setEditable(false);
-		seedValue01StringText.setText(Messages.LfsrWizardPage_seedValueAs01String + "1000000000000000000000000"); //$NON-NLS-1$
+		seedValue01StringText.setText(Messages.LfsrWizardPage_seedValueAs01String + "100000000000000"); //$NON-NLS-1$
 
 	}
 
