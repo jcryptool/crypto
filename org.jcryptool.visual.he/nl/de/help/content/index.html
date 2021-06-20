@@ -1,11 +1,12 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE html>
 
-<html>
+<html lang="de">
 <head>
 
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Homomorphe Verschlüsselung</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 
-	  <title>Homomorphe Verschlüsselung</title>
 </head>
 
 <body>
@@ -35,23 +36,138 @@
 
   <h4 id="rsa">a) RSA – Partiell-homomorphes Verschlüsselungsschema</h4>
 
-  <p>RSA ist ein weit verbreitetes Public-Key-Kryptosystem, das die <b>Multiplikation</b> von Chiffraten erlaubt. Im Allgemeinen funktioniert es wie folgt (für weitere Informationen siehe <a target="_blank" href="https://de.wikipedia.org/wiki/RSA-Kryptosystem">https://de.wikipedia.org/wiki/RSA-Kryptosystem</a>): Man wählt zwei große, verschiedene Primzahlen, p und q. Je größer diese Primzahlen gewählt werden, desto größer ist die Sicherheit. Dann berechnet man das Produkt N der beiden Primzahlen. Als nächstes wählt man einen öffentlichen Exponenten, der teilerfremd zu (p-1)(q-1) ist. Die Teilerfremdheit sichert, dass die multiplikative Inverse zu e modulo (p-1)(q-1) existiert. Diese Inverse wird mit dem Euklidischen Algorithmus berechnet und mit d bezeichnet, d ist der private Exponent. Sind diese Berechnungen durchgeführt, kann das Schema verwendet werden. Der öffentliche Schlüssel besteht aus N und e, der private aus d. <br/>
-  Ver- und Entschlüsseln von Zahlen mit RSA ist einfach. Um eine Zahl m zu verschlüsseln, wird c = m^e mod N berechnet. Um ein Chiffrat c zu entschlüsseln, berechnet man m' = c^d mod N = m^(e*d) mod N = m. <br/>
-  Um zu zeigen, dass RSA partiell homomorph ist, nehmen wir zwei Zahlen m1 und m2, und ihre zugehörigen Chiffrate c1 und c2. Das Produkt m1*m2 kann homomorph berechnet werden, indem lediglich das Produkt der Chiffrate c1 und c2 gebildet wird. Entschlüsselt ergibt dies m1*m2; (c1*c2)^d mod N = (c1^d)*(c2^d) mod N = (m1^(e*d))*(m2^(e*d)) mod N = m1*m2. Es ist ersichtlich, dass man dies beliebig oft wiederholen kann. Die einzige Beschränkung bei der Multiplikation ist, dass die Operatoren < N sind. Aufgrund der Größe von N ist dies, in der Praxis, kein Hindernis für eine sichere Verschlüsselung. Dieses Schema ist nur partiell-homomorph, da man nur Multiplikationen durchführen kann. </p>
+  <p>RSA ist ein weit verbreitetes Public-Key-Kryptosystem, das die <b>Multiplikation</b> von
+  Chiffraten erlaubt. Im Allgemeinen funktioniert es wie folgt (für weitere Informationen siehe
+  <a target="_blank" href="https://de.wikipedia.org/wiki/RSA-Kryptosystem">
+  https://de.wikipedia.org/wiki/RSA-Kryptosystem</a>): Man wählt zwei große, verschiedene
+  Primzahlen, \(p\) und \(q\). Je größer diese Primzahlen gewählt werden, desto größer ist die
+  Sicherheit. Dann berechnet man das Produkt \(N\) der beiden Primzahlen. Als nächstes wählt man
+  einen öffentlichen Exponenten, der teilerfremd zu \((p-1)(q-1)\) ist. Die Teilerfremdheit sichert,
+  dass die multiplikative Inverse zu \(e\) modulo \((p-1)(q-1)\) existiert. Diese Inverse wird mit
+  dem Euklidischen Algorithmus berechnet und mit \(d\) bezeichnet, \(d\) ist der private Exponent.
+  Sind diese Berechnungen durchgeführt, kann das Schema verwendet werden.
+  Der öffentliche Schlüssel besteht aus \(N\) und \(e\), der private aus \(d\). <br/>
+  Ver- und Entschlüsseln von Zahlen mit RSA ist einfach. Um eine Zahl \(m\) zu verschlüsseln,
+  wird \(c = m^e \mod N\) berechnet. Um ein Chiffrat \(c\) zu entschlüsseln, berechnet man
+  \(m' = c^d \mod N = m^{e \cdot d} \mod N = m\).
+  </p>
+  <p>
+  Um zu zeigen, dass RSA partiell homomorph ist, nehmen wir zwei Zahlen \(m_1\) und \(m_2\), und
+  ihre zugehörigen Chiffrate \(c_1\) und \(c_2\). Das Produkt \(m_1 \cdot m_2\) kann homomorph
+  berechnet werden, indem lediglich das Produkt der Chiffrate \(c_1\) und \(c_2\) gebildet wird.
+  Entschlüsselt ergibt dies \(m_1 \cdot m_2\):
+  <p>
+
+  \( \style{text-align:right;} {
+    \begin{align*}
+    (c_1 \cdot c_2)^d \mod N = (c_1^d)\cdot(c_2^d) \mod N = (m_1^{e \cdot d}) \cdot
+    (m_2^{e \cdot d}) \mod N = m_1 \cdot m_2
+    \end{align*}
+  } \)
+
+<p>
+  Es ist ersichtlich, dass man dies beliebig oft wiederholen kann. Die einzige Beschränkung bei der
+  Multiplikation ist, dass die Operatoren \(\leq N\) sind. Aufgrund der Größe von \(N\) ist dies, in
+  der Praxis, kein Hindernis für eine sichere Verschlüsselung. Dieses Schema ist nur
+  partiell-homomorph, da man nur Multiplikationen durchführen kann. </p>
 
   <h4 id="paillier">b) Paillier – Partiell-homomorphes Verschlüsselungsschema</h4>
 
-  <p>Paillier ist ein Verschlüsselungsschema, das <b>Additionen</b> auf dem Chiffrat erlaubt. Im Allgemeinen funktioniert es wie folgt (für weitere Informationen siehe <a target="_blank" href="http://en.wikipedia.org/wiki/Paillier_cryptosystem">http://en.wikipedia.org/wiki/Paillier_cryptosystem</a>): Man wählt zwei große Primzahlen p und q, so dass gilt: ggt(p*q,(p-1)(q-1)) = 1. Diese Eigenschaft gilt immer, wenn p und q dieselbe Bitlänge haben. Jetzt berechnet man N = p*q und l = kgV(p-1,q-1). Als nächstes wählt man zufällig eine ganze Zahl g zwischen 1 und N^2, wobei N die Ordnung von g teilt. Dann berechnet man mu = (L(g^l mod N^2))^(-1) mod N, wobei L(u)=(u-1)/N. Der öffentliche Schlüssel besteht aus N und g, der private aus l und mu. <br/>
-  Um mit Paillier zu verschlüsseln, wird zunächst eine ganze Zahl m zwischen 1 und N gewählt. Dann wird zufällig eine invertierbare, ganze Zahl r zwischen 1 und N gewählt, sowie c = (g^m)*(r^N) mod N^2 berechnet. Zum Entschlüsseln eines Chiffrats berechnet man einfach m = L(c^l mod N^2)*mu mod N. <br/>
-  Um zu zeigen, dass Paillier partiell-homomorph ist, nehmen wir zwei Zahlen m1 und m2 und ihre zugehörigen Chiffrate c1 und c2. Die Summe m1+m2 wird homomorph berechnet, indem man die Chiffrate c1und c2 multipliziert. Dies ist die Entschlüsselung von m1+m2: c1*c2=(g^m1)*(rl^N)*(g^m2)*(r2^N) mod N^2=(g^(m1+m2))*(r^N) mod N^2, was nichts anderes als m1+m2 ist. Die Addition erfolgt modulo N (da g^N=1 mod N^2), aber aufgrund der Größe von N ist dies, in der Praxis, kein Hindernis. </p>
+  <p>Paillier ist ein Verschlüsselungsschema, das <b>Additionen</b> auf dem Chiffrat erlaubt. Im
+  Allgemeinen funktioniert es wie folgt (für weitere Informationen siehe <a target="_blank"
+  href="http://en.wikipedia.org/wiki/Paillier_cryptosystem">
+  http://en.wikipedia.org/wiki/Paillier_cryptosystem</a>): Man wählt zwei große Primzahlen \(p\) und
+  \(q\), so dass gilt: \(\text{ggt}(p \cdot q,(p-1)(q-1)) = 1\). Diese Eigenschaft gilt immer, wenn
+  \(p\) und \(q\) dieselbe Bitlänge haben. Jetzt berechnet man \(N = p \cdot q\) und
+  \(l = \text{kgV}(p-1,q-1)\). Als nächstes wählt man zufällig eine ganze Zahl \(g\) zwischen
+  1 und \(N^2\), wobei \(N\) die Ordnung von \(g\) teilt. Dann berechnet man
+  \(\mu = (L(g^{\,l} \; \text{mod} \; N^2))^{-1} \; \text{mod} \; N\), wobei \(L(u)=\frac{u-1}{N}\). Der
+  öffentliche Schlüssel besteht aus \(N\) und \(g\), der private aus \(l\) und \(\mu\).
+  <br>
+  Um mit Paillier zu verschlüsseln, wird zunächst eine ganze Zahl \(m\) zwischen 1 und \(N\)
+  gewählt. Dann wird zufällig eine invertierbare, ganze Zahl \(r\) zwischen 1 und \(N\) gewählt,
+  sowie \(c = (g^m) \cdot (r^N) \; \text{mod} \; N^2\) berechnet. Zum Entschlüsseln eines Chiffrats
+  berechnet man einfach \(m = L(c^{\,l} \; \text{mod} \; N^2) \cdot \mu \; \text{mod} \; N\).
+  <br>
+  Um zu zeigen, dass Paillier partiell-homomorph ist, nehmen wir zwei Zahlen \(m_1\) und \(m_2\)
+  und ihre zugehörigen Chiffrate \(c_1\) und \(c_2\). Die Summe \(m_1+m_2\) wird homomorph
+  berechnet, indem man die Chiffrate \(c_1\) und \(c_2\) multipliziert. Dies ist die Entschlüsselung
+  von \(m_1+m_2\):
+  <p>
+
+  \( \style{text-align:right;} {
+    \begin{align*}
+      c_1 \cdot c_2 = (g^{m_1}) \cdot (rl^N) \cdot (g^{m_2}) \cdot (r2^N) \; \text{mod} \;
+      N^2 = (g^{m_1+m_2}) \cdot (r^N) \; \text{mod} \; N^2
+    \end{align*}
+  } \)
+
+  <p>
+  was nichts anderes als \(m_1 + m_2\) ist. Die Addition erfolgt modulo \(N\)
+  (da \(g^N \equiv 1 \; \text{mod} \; N^2)\), aber aufgrund der Größe von \(N\) ist dies, in der Praxis,
+  kein Hindernis.
+  </p>
 
   <h4 id="gh">c) Gentry und Halevi – Voll-homomorphes Verschlüsselungsschema</h4>
 
-  <p>Das voll-homomorphe Verschlüsselungsschema von <a target="_blank" href="https://www.ibm.com/blogs/research/2018/03/elegant-disgusting-cryptography/">Gentry and Halevi</a> ist eine Variante des Schemas von <a target="_blank" href="https://web.archive.org/web/20120723124513/https://www.info.unicaen.fr/M2-AMI/articles-2009-2010/smart.pdf">Smart and Vercauteren</a>, das wiederum eine Variante des Originalschemas von <a target="_blank" href="http://domino.research.ibm.com/comm/research_projects.nsf/pages/security.homoenc.html/$FILE/stocdhe.pdf">Gentry</a> ist. Eine vollständige Erklärung des Schemas wäre hier zu komplex und deshalb wird nur eine kurze Erklärung zum Grundverständnis geliefert: Das Schema nutzt überwiegend ideale Gitter auf einem Polynomring modulo f(x) = x^n +1, wobei n eine Potenz von 2 ist. Als zusätzliche Anforderung muss die Hermitische Normal Form (HNF) des Gitters durch zwei ganze Zahlen repräsentierbar sein. <br/>
-  In der Schlüsselerzeugungsphase, wählt man ein zufälliges Polynom v(x) mit Grad N-1. Aus dem Polynom lässt sich die Rotationsbasis V berechnen, die das zu verwendende Gitter beschreibt. Die Matrixdarstellung der HNF des Gitters, d.h. die Basisvektoren in den Spalten, müssen, abgesehen von der Spalte ganz links, der Identitätsmatrix gleichen. Diese Spalte hat als Einträge die Determinante des Gitters und alle Potenzen einer Wurzel r von f(x), modulo d. Als nächstes berechnet man die skalierte Inverse von v(x), d.h. ein Polynom w(x), so dass v(x)*w(x)=d mod f(x). Hier entspricht d der Determinante des Gitters. Die Rotationsbasis W, die ein Teil des privaten Schlüssels ist, wird aus dem Vektor w(x) berechnet. Im Prinzip hat man nun alle benötigten Werte für ein Verschlüsselungsschema. Der öffentliche Schlüssel in diesem Fall ist die HNF des Gitters, bezeichnet mit B. Der private Schlüssel besteht aus den Rotationsbasen V und W. Dieses Schema ist leider nur somewhat homomorph. Nach der Erläuterung der Ver- und Entschlüsselung folgt die Erklärung, wie dies behoben werden kann. <br/>
-  Die Länge einer Nachricht in diesem Schema ist nur ein einzelnes Bit. Um ein Bit zu verschlüsseln, generiert man einen zufälligen N-dimensionalen Rausch-Vektor u mit Einträgen in {-1,0,-1}. Dann berechnet man a=2u+b*e1 (e1 ist der Vektor (1,0,...,0)) und c = a mod B. Aufgrund der speziellen Form der HNF reduziert dies c = b + 2u(r) mod d, wobei u(x) das Polynom des Rausch-Vektors u ist. Um ein Chiffrat c zu entschlüsseln, berechnet man m = c mod V. Wiederum aufgrund der speziellen Form der HNF, reduziert sich dies auf b=(c*wi mod d) mod 2, wobei wi ein ungerader Term des Polynoms w(x) ist. Bezeichnen wir diesen Term mit w. <br/>
-  Aufgrund der speziellen Form kann man, wie oben bereits bemerkt, den öffentlichen Schlüssel mit den ganzen Zahlen d und r und den privaten Schlüssel mit der ganzen Zahl w bezeichnen. Dieses Schema ist nur somewhat homomorph, da es die Chiffrate nicht so aktualisieren kann, dass der Rausch-Vektor reduziert wird. Der Trick, dies doch zu tun, nennt sich Bootstrapping. Grob gesagt kann das Schema den eigenen Entschlüsselungsalgorithmus homomorph, zusammen mit einigen homomorphen Operationen, evaluieren. Das Schema kann einige Operationen evaluieren und dann das Chiffrat aktualisieren, so dass der Fehler im Chiffrat verringert wird. Der Verschlüsseler "startet" also die Entschlüsselung. Um dies zu erreichen, wird ein "Hinweis" auf die geheime, ganze Zahl w gegeben. Damit die Sicherheit nicht gefährdet wird, wird eine große Anzahl Zahlen zu dem öffentlichen Schlüssel hinzugefügt, von denen sich eine kleine Teilmenge zum geheimen w summiert. Um den Entschlüsselungsalgorithmus zu evaluieren, muss natürlich das Geheimnis implizit "bekannt" sind. Deshalb wird der Vektor, der diese kleine Teilmenge beschreibt, genauer ein Vektor, der eine 1 an der Position der Vektorelemente in der Teilmenge besitzt, verschlüsselt und dem öffentlichen Schlüssel hinzugefügt. <br/>
-  Jetzt, da das Geheimnis homomorph im öffentlichen Schlüssel verfügbar ist, kann das Chiffrat aktualisiert werden und somit ist das Schema voll-homomorph geworden. Die Operationen für Multiplikation und Addition sind dieselben wie für das Chiffrat. Zusätzlich muss man das Chiffrat nach jeder Operation aktualisieren, damit gesichert ist, dass das Schema das Chiffrat noch korrekt entschlüsseln kann. </p>
+  <p>
+  Das voll-homomorphe Verschlüsselungsschema von <a target="_blank"
+  href="https://www.ibm.com/blogs/research/2018/03/elegant-disgusting-cryptography/">
+  Gentry and Halevi</a> ist eine Variante des Schemas von <a target="_blank"
+  href="https://web.archive.org/web/20120723124513/https://www.info.unicaen.fr/M2-AMI/articles-2009-2010/smart.pdf">Smart and Vercauteren</a>,
+  das wiederum eine Variante des Originalschemas von <a target="_blank"
+  href="http://domino.research.ibm.com/comm/research_projects.nsf/pages/security.homoenc.html/$FILE/stocdhe.pdf">
+  Gentry</a> ist. Eine vollständige Erklärung des Schemas wäre hier zu komplex und deshalb wird nur
+  eine kurze Erklärung zum Grundverständnis geliefert: Das Schema nutzt überwiegend ideale Gitter
+  auf einem Polynomring modulo \(f(x) = x^n + 1\), wobei \(n\) eine Potenz von 2 ist. Als
+  zusätzliche Anforderung muss die Hermitische Normal Form (HNF) des Gitters durch zwei ganze
+  Zahlen repräsentierbar sein.
+  <br>
+  In der Schlüsselerzeugungsphase, wählt man ein zufälliges Polynom \(v(x)\) mit Grad \(N-1\).
+  Aus dem Polynom lässt sich die Rotationsbasis \(V\) berechnen, die das zu verwendende Gitter
+  beschreibt. Die Matrixdarstellung der HNF des Gitters, d.h. die Basisvektoren in den Spalten,
+  müssen abgesehen von der Spalte ganz links, der Identitätsmatrix gleichen. Diese Spalte hat als
+  Einträge die Determinante des Gitters und alle Potenzen einer Wurzel \(r\) von \(f(x)\),
+  modulo \(d\). Als nächstes berechnet man die skalierte Inverse von \(v(x)\), d.h. ein Polynom
+  \(w(x)\), so dass \(v(x) \cdot w(x) = d \; \text{mod} \; f(x)\). Hier entspricht \(d\) der
+  Determinante des Gitters. Die Rotationsbasis \(W\), die ein Teil des privaten Schlüssels ist, wird
+  aus dem Vektor \(w(x)\) berechnet. Im Prinzip hat man nun alle benötigten Werte für ein
+  Verschlüsselungsschema. Der öffentliche Schlüssel in diesem Fall ist die HNF des Gitters,
+  bezeichnet mit \(B\). Der private Schlüssel besteht aus den Rotationsbasen \(V\) und \(W\). Dieses
+  Schema ist leider nur somewhat homomorph. Nach der Erläuterung der Ver- und Entschlüsselung folgt
+  die Erklärung, wie dies behoben werden kann.
+  <br>
+  Die Länge einer Nachricht in diesem Schema ist nur ein einzelnes Bit. Um ein Bit zu verschlüsseln,
+  generiert man einen zufälligen \(N\)-dimensionalen Rausch-Vektor \(u\) mit Einträgen in
+  \(\{-1,0,-1\}\). Dann berechnet man \(a=2u+b \cdot e_1\) \((e_1\) ist der Vektor \((1,0,...,0))\)
+  und \(c = a \; \text{mod} \; B\). Aufgrund der speziellen Form der HNF reduziert dies
+  \(c = b + 2u(r) \; \text{mod} \; d\), wobei \(u(x)\) das Polynom des Rausch-Vektors \(u\) ist. Um ein
+  Chiffrat \(c\) zu entschlüsseln, berechnet man \(m = c \; \text{mod} \; V\). Wiederum aufgrund der
+  speziellen Form der HNF, reduziert sich dies auf
+  \(b = (c \cdot wi \; \text{mod} \; d) \; \text{mod} \; 2\), wobei \(wi\) ein ungerader Term des
+  Polynoms \(w(x)\) ist. Wir bezeichnen diesen Term mit \(w\).
+  <br>
+  Aufgrund der speziellen Form kann man, wie oben bereits bemerkt, den öffentlichen Schlüssel mit
+  den ganzen Zahlen \(d\) und \(r\) und den privaten Schlüssel mit der ganzen Zahl \(w\) bezeichnen.
+  Dieses Schema ist nur somewhat homomorph, da es die Chiffrate nicht so aktualisieren kann, dass
+  der Rausch-Vektor reduziert wird. Der Trick, dies doch zu tun, nennt sich Bootstrapping. Grob
+  gesagt kann das Schema den eigenen Entschlüsselungsalgorithmus homomorph, zusammen mit einigen
+  homomorphen Operationen, evaluieren. Das Schema kann einige Operationen evaluieren und dann das
+  Chiffrat aktualisieren, so dass der Fehler im Chiffrat verringert wird. Der Verschlüsseler
+  "startet" also die Entschlüsselung. Um dies zu erreichen, wird ein "Hinweis" auf die geheime,
+  ganze Zahl \(w\) gegeben. Damit die Sicherheit nicht gefährdet wird, wird eine große Anzahl Zahlen
+  zu dem öffentlichen Schlüssel hinzugefügt, von denen sich eine kleine Teilmenge zum geheimen \(w\)
+  summiert. Um den Entschlüsselungsalgorithmus zu evaluieren, muss natürlich das Geheimnis implizit
+  "bekannt" sind. Deshalb wird der Vektor, der diese kleine Teilmenge beschreibt, genauer ein
+  Vektor, der eine 1 an der Position der Vektorelemente in der Teilmenge besitzt, verschlüsselt und
+  dem öffentlichen Schlüssel hinzugefügt.
+  <br>
+  Jetzt, da das Geheimnis homomorph im öffentlichen Schlüssel verfügbar ist, kann das Chiffrat
+  aktualisiert werden und somit ist das Schema voll-homomorph geworden. Die Operationen für
+  Multiplikation und Addition sind dieselben wie für das Chiffrat. Zusätzlich muss man das Chiffrat
+  nach jeder Operation aktualisieren, damit gesichert ist, dass das Schema das Chiffrat noch korrekt
+  entschlüsseln kann.
+  </p>
 
   <h3 id="plugin">3) Plug-in-Benutzerhilfe</h3>
 
