@@ -23,15 +23,11 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -52,23 +48,10 @@ import org.jcryptool.core.operations.editors.AbstractEditorService;
 import org.jcryptool.core.operations.editors.EditorsManager;
 import org.jcryptool.core.util.constants.IConstants;
 import org.jcryptool.crypto.ui.textmodify.wizard.ModifyWizard;
-//import org.jcryptool.core.operations.editors.EditorsManager;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 public class EntropyUIconfig extends Composite {
 
 	private Combo cComboSignificance;
-	private CLabel cStatusLabel;
-	private CLabel cLabel1;
 	private Button buttonFilter;
 	private Button buttonStart;
 	private Button buttonDeepAnalysis;
@@ -80,16 +63,6 @@ public class EntropyUIconfig extends Composite {
 	private String editorname;
 
 	private TransformData myModifySettings;
-	private FormData cLabel1LData;
-	private FormData cStatusLabelLData;
-
-	/**
-	 * Overriding checkSubclass allows this class to extend
-	 * org.eclipse.swt.widgets.Composite
-	 */
-	protected void checkSubclass() {
-
-	}
 
 	/**
 	 * Auto-generated method to display this org.eclipse.swt.widgets.Composite
@@ -124,186 +97,165 @@ public class EntropyUIconfig extends Composite {
 	}
 
 	private void initGUI() {
-		try {
-			FormLayout thisLayout = new FormLayout();
-			this.setLayout(thisLayout);
+		GridLayout gl_thisLayout = new GridLayout();
+		this.setLayout(gl_thisLayout);
 
-			cStatusLabel = new CLabel(this, SWT.BORDER);
-			cStatusLabelLData = new FormData();
-			cStatusLabelLData.width = 525;
-			cStatusLabelLData.left = new FormAttachment(0, 1000, 65);
-			cStatusLabel.setLayoutData(cStatusLabelLData);
-			cStatusLabel.setText(Messages.EntropyUIconfig_0);
+		groupAnalysisConfig = new Group(this, SWT.NONE);
+		groupAnalysisConfig.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+		GridLayout groupAnalysisConfigLayout = new GridLayout();
+		groupAnalysisConfig.setLayout(groupAnalysisConfigLayout);
+		groupAnalysisConfig.setText(Messages.EntropyUIconfig_2);
 
-			cLabel1 = new CLabel(this, SWT.NONE);
-			cStatusLabelLData.top = new FormAttachment(cLabel1, 0, SWT.TOP);
-			cLabel1LData = new FormData();
-			cLabel1.setLayoutData(cLabel1LData);
-			cLabel1.setText(Messages.EntropyUIconfig_1);
-
-			groupAnalysisConfig = new Group(this, SWT.NONE);
-			cLabel1LData.left = new FormAttachment(groupAnalysisConfig, 0, SWT.LEFT);
-			GridLayout groupAnalysisConfigLayout = new GridLayout();
-			groupAnalysisConfig.setLayout(groupAnalysisConfigLayout);
-			FormData groupAnalysisConfigLData = new FormData();
-			groupAnalysisConfigLData.left = new FormAttachment(0, 1000, 12);
-			groupAnalysisConfigLData.top = new FormAttachment(0, 1000, 12);
-			groupAnalysisConfigLData.right = new FormAttachment(1000, 1000, -12);
-			groupAnalysisConfig.setLayoutData(groupAnalysisConfigLData);
-			groupAnalysisConfig.setText(Messages.EntropyUIconfig_2);
-
-			buttonFilter = new Button(groupAnalysisConfig, SWT.PUSH | SWT.CENTER);
-			buttonFilter.setText(Messages.EntropyUIconfig_3);
-			buttonFilter.setToolTipText(Messages.EntropyUIconfig_24);
-			buttonFilter.addSelectionListener(new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent evt) {
-					myModifySettings = getWizardSettings(myModifySettings);
-				}
-			});
-
-			buttonStandardAnalysis = new Button(groupAnalysisConfig, SWT.RADIO | SWT.LEFT);
-			GridData buttonStandardAnalysisData = new GridData();
-			buttonStandardAnalysisData.verticalAlignment = SWT.BOTTOM;
-			buttonStandardAnalysisData.verticalIndent = ((this.getDisplay().getBounds().height) / 100) * 2;
-			buttonStandardAnalysis.setLayoutData(buttonStandardAnalysisData);
-			buttonStandardAnalysis.setText(Messages.EntropyUIconfig_4);
-			buttonStandardAnalysis.setSelection(true);
-			buttonStandardAnalysis.setToolTipText(Messages.EntropyUIconfig_26);
-			buttonStandardAnalysis.addSelectionListener(new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent evt) {
-					cComboSignificance.setEnabled(false);
-					cComboTupelLength.setEnabled(true);
-				}
-			});
-
-			cComboTupelLength = new Combo(groupAnalysisConfig, SWT.BORDER | SWT.READ_ONLY);
-			for (int i = 1; i <= 30; i++) {
-				cComboTupelLength.add(Messages.EntropyUIconfig_5 + i);
+		buttonFilter = new Button(groupAnalysisConfig, SWT.PUSH | SWT.CENTER);
+		buttonFilter.setText(Messages.EntropyUIconfig_3);
+		buttonFilter.setToolTipText(Messages.EntropyUIconfig_24);
+		buttonFilter.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent evt) {
+				myModifySettings = getWizardSettings(myModifySettings);
 			}
-			cComboTupelLength.select(4);
+		});
 
-			buttonDeepAnalysis = new Button(groupAnalysisConfig, SWT.RADIO | SWT.LEFT);
-			GridData buttonDeepAnalysisData = new GridData();
-			buttonDeepAnalysisData.verticalAlignment = SWT.BOTTOM;
-			buttonDeepAnalysisData.verticalIndent = ((this.getDisplay().getBounds().height) / 100) * 2;
-			buttonDeepAnalysis.setLayoutData(buttonDeepAnalysisData);
-			buttonDeepAnalysis.setText(Messages.EntropyUIconfig_6);
-			buttonDeepAnalysis.setToolTipText(Messages.EntropyUIconfig_27);
-			buttonDeepAnalysis.addSelectionListener(new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent evt) {
-					cComboTupelLength.setEnabled(false);
-					cComboSignificance.setEnabled(true);
-				}
-			});
+		buttonStandardAnalysis = new Button(groupAnalysisConfig, SWT.RADIO | SWT.LEFT);
+		GridData buttonStandardAnalysisData = new GridData();
+		buttonStandardAnalysisData.verticalAlignment = SWT.BOTTOM;
+		buttonStandardAnalysisData.verticalIndent = 25;
+		buttonStandardAnalysis.setLayoutData(buttonStandardAnalysisData);
+		buttonStandardAnalysis.setText(Messages.EntropyUIconfig_4);
+		buttonStandardAnalysis.setSelection(true);
+		buttonStandardAnalysis.setToolTipText(Messages.EntropyUIconfig_26);
+		buttonStandardAnalysis.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent evt) {
+				cComboSignificance.setEnabled(false);
+				cComboTupelLength.setEnabled(true);
+			}
+		});
 
-			cComboSignificance = new Combo(groupAnalysisConfig, SWT.BORDER | SWT.READ_ONLY);
-			cComboSignificance.add(Messages.EntropyUIconfig_9);
-			cComboSignificance.add(Messages.EntropyUIconfig_10);
-			cComboSignificance.add(Messages.EntropyUIconfig_11);
-			cComboSignificance.add(Messages.EntropyUIconfig_12);
-			cComboSignificance.add(Messages.EntropyUIconfig_13);
-			cComboSignificance.select(1);
-			cComboSignificance.setEnabled(false);
+		cComboTupelLength = new Combo(groupAnalysisConfig, SWT.BORDER | SWT.READ_ONLY);
+		for (int i = 1; i <= 30; i++) {
+			cComboTupelLength.add(Messages.EntropyUIconfig_5 + i);
+		}
+		cComboTupelLength.select(4);
 
-			buttonStart = new Button(this, SWT.PUSH | SWT.CENTER);
-			cLabel1LData.top = new FormAttachment(buttonStart, 6);
-			FormData button1LData = new FormData();
-			button1LData.left = new FormAttachment(0, 1000, 12);
-			button1LData.top = new FormAttachment(groupAnalysisConfig, 6);
-			buttonStart.setLayoutData(button1LData);
-			buttonStart.setText(Messages.EntropyUIconfig_22);
-			buttonStart.setToolTipText(Messages.EntropyUIconfig_23);
-			buttonStart.addSelectionListener(new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent evt) {
-					final int n = buttonDeepAnalysis.getSelection() ? 50 : cComboTupelLength.getSelectionIndex() + 1;
-					final double sig = getSignificance();
+		buttonDeepAnalysis = new Button(groupAnalysisConfig, SWT.RADIO | SWT.LEFT);
+		GridData buttonDeepAnalysisData = new GridData();
+		buttonDeepAnalysisData.verticalAlignment = SWT.BOTTOM;
+		buttonDeepAnalysisData.verticalIndent = 25;
+		buttonDeepAnalysis.setLayoutData(buttonDeepAnalysisData);
+		buttonDeepAnalysis.setText(Messages.EntropyUIconfig_6);
+		buttonDeepAnalysis.setToolTipText(Messages.EntropyUIconfig_27);
+		buttonDeepAnalysis.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent evt) {
+				cComboTupelLength.setEnabled(false);
+				cComboSignificance.setEnabled(true);
+			}
+		});
 
-					if (checkEditor()) {
-						String input = getEditorText();
-						editorname = EditorsManager.getInstance().getActiveEditorTitle();
-						if (input.length() >= n) {
+		cComboSignificance = new Combo(groupAnalysisConfig, SWT.BORDER | SWT.READ_ONLY);
+		cComboSignificance.add(Messages.EntropyUIconfig_9);
+		cComboSignificance.add(Messages.EntropyUIconfig_10);
+		cComboSignificance.add(Messages.EntropyUIconfig_11);
+		cComboSignificance.add(Messages.EntropyUIconfig_12);
+		cComboSignificance.add(Messages.EntropyUIconfig_13);
+		cComboSignificance.select(1);
+		cComboSignificance.setEnabled(false);
 
-							Job job = new Job(Messages.EntropyUIconfig_14) {
-								public IStatus run(final IProgressMonitor monitor) {
-									monitor.beginTask(Messages.EntropyUIconfig_19, 2);
+		buttonStart = new Button(this, SWT.PUSH | SWT.CENTER);
+		buttonStart.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
+		buttonStart.setText(Messages.EntropyUIconfig_22);
+		buttonStart.setToolTipText(Messages.EntropyUIconfig_23);
+		buttonStart.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent evt) {
+				final int n = buttonDeepAnalysis.getSelection() ? 50 : cComboTupelLength.getSelectionIndex() + 1;
+				final double sig = getSignificance();
 
-									Display.getDefault().asyncExec(new Runnable() {
-										public void run() {
-											blockStartButton();
-										}
-									});
+				if (checkEditor()) {
+					String input = getEditorText();
+					editorname = EditorsManager.getInstance().getActiveEditorTitle();
+					if (input.length() >= n) {
 
-									if (monitor.isCanceled()) {
-										return Status.CANCEL_STATUS;
+						Job job = new Job(Messages.EntropyUIconfig_14) {
+							@Override
+							public IStatus run(final IProgressMonitor monitor) {
+								monitor.beginTask(Messages.EntropyUIconfig_19, 2);
+
+								Display.getDefault().asyncExec(new Runnable() {
+									@Override
+									public void run() {
+										blockStartButton();
 									}
+								});
 
-									final EntropyCalc calc = new EntropyCalc(getEditorText(), n, sig, myModifySettings,
-											entropyUIpointer, editorname);
-
-									monitor.worked(1);
-
-									calc.startCalculator();
-
-									Display.getDefault().asyncExec(new Runnable() {
-										public void run() {
-											entropyUIpointer.getCompositeResults().printSummary(calc);
-											entropyUIpointer.getCompositeTable().printEntropyMatrix(calc);
-											entropyUIpointer.getCMainTabFolder().setSelection(1);
-										}
-									});
-
-									monitor.worked(2);
-
-									monitor.done();
-
-									Display.getDefault().asyncExec(new Runnable() {
-										public void run() {
-											freeStartButton();
-										}
-									});
-
-									return Status.OK_STATUS;
+								if (monitor.isCanceled()) {
+									return Status.CANCEL_STATUS;
 								}
-							};
-							job.setUser(true);
-							job.schedule();
-						} else {
-							MessageDialog.openInformation(entropyUIpointer.getShell(), Messages.EntropyUIconfig_15,
-									Messages.EntropyUIconfig_16);
-						}
-					} else {
-						MessageDialog dialog = new MessageDialog(entropyUIpointer.getShell(),
-								Messages.EntropyUIconfig_17, null, Messages.EntropyUIconfig_18,
-								MessageDialog.INFORMATION,
-								new String[] { Messages.EntropyUIconfig_25, Messages.EntropyUIconfig_20 }, 1);
-						int result = dialog.open();
-						if (result == 0) {
-							try {
-								String s = ""; //$NON-NLS-1$
-								InputStream is = new ByteArrayInputStream(s.getBytes(IConstants.UTF8_ENCODING));
-								IEditorInput input = AbstractEditorService.createOutputFile(is);
-								EditorsManager.getInstance().openNewTextEditor(input);
-							} catch (UnsupportedEncodingException ueex) {
-								MessageBox box = new MessageBox(getShell(), SWT.ICON_INFORMATION);
-								box.setText(Messages.EntropyUIconfig_29);
-								box.setMessage(Messages.EntropyUIconfig_30);
-								box.open();
-							} catch (PartInitException piex) {
-								MessageBox box = new MessageBox(getShell(), SWT.ICON_INFORMATION);
-								box.setText(Messages.EntropyUIconfig_29);
-								box.setMessage(Messages.EntropyUIconfig_30);
-								box.open();
+
+								final EntropyCalc calc = new EntropyCalc(getEditorText(), n, sig, myModifySettings,
+										entropyUIpointer, editorname);
+
+								monitor.worked(1);
+
+								calc.startCalculator();
+
+								Display.getDefault().asyncExec(new Runnable() {
+									@Override
+									public void run() {
+										entropyUIpointer.getCompositeResults().printSummary(calc);
+										entropyUIpointer.getCompositeTable().printEntropyMatrix(calc);
+										entropyUIpointer.getCMainTabFolder().setSelection(1);
+									}
+								});
+
+								monitor.worked(2);
+
+								monitor.done();
+
+								Display.getDefault().asyncExec(new Runnable() {
+									@Override
+									public void run() {
+										freeStartButton();
+									}
+								});
+
+								return Status.OK_STATUS;
 							}
+						};
+						job.setUser(true);
+						job.schedule();
+					} else {
+						MessageDialog.openInformation(entropyUIpointer.getShell(), Messages.EntropyUIconfig_15,
+								Messages.EntropyUIconfig_16);
+					}
+				} else {
+					MessageDialog dialog = new MessageDialog(entropyUIpointer.getShell(), Messages.EntropyUIconfig_17,
+							null, Messages.EntropyUIconfig_18, MessageDialog.INFORMATION,
+							new String[] { Messages.EntropyUIconfig_25, Messages.EntropyUIconfig_20 }, 1);
+					int result = dialog.open();
+					if (result == 0) {
+						try {
+							String s = ""; //$NON-NLS-1$
+							InputStream is = new ByteArrayInputStream(s.getBytes(IConstants.UTF8_ENCODING));
+							IEditorInput input = AbstractEditorService.createOutputFile(is);
+							EditorsManager.getInstance().openNewTextEditor(input);
+						} catch (UnsupportedEncodingException ueex) {
+							MessageBox box = new MessageBox(getShell(), SWT.ICON_INFORMATION);
+							box.setText(Messages.EntropyUIconfig_29);
+							box.setMessage(Messages.EntropyUIconfig_30);
+							box.open();
+						} catch (PartInitException piex) {
+							MessageBox box = new MessageBox(getShell(), SWT.ICON_INFORMATION);
+							box.setText(Messages.EntropyUIconfig_29);
+							box.setMessage(Messages.EntropyUIconfig_30);
+							box.open();
 						}
 					}
 				}
-			});
+			}
+		});
 
-			this.layout();
-			pack();
-		} catch (Exception e) {
-			LogUtil.logError(e);
-		}
 	}
 
 	/**
