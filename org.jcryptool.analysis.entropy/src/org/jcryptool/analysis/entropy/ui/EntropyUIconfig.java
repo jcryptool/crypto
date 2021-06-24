@@ -25,9 +25,6 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -36,7 +33,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -64,31 +60,6 @@ public class EntropyUIconfig extends Composite {
 
 	private TransformData myModifySettings;
 
-	/**
-	 * Auto-generated method to display this org.eclipse.swt.widgets.Composite
-	 * inside a new Shell.
-	 */
-	public static void showGUI() {
-		Display display = Display.getDefault();
-		Shell shell = new Shell(display);
-		EntropyUIconfig inst = new EntropyUIconfig(shell, SWT.NULL);
-		Point size = inst.getSize();
-		shell.setLayout(new FillLayout());
-		shell.layout();
-		if (size.x == 0 && size.y == 0) {
-			inst.pack();
-			shell.pack();
-		} else {
-			Rectangle shellBounds = shell.computeTrim(0, 0, size.x, size.y);
-			shell.setSize(shellBounds.width, shellBounds.height);
-		}
-		shell.open();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
-		}
-	}
-
 	public EntropyUIconfig(Composite parent, int style) {
 		super(parent, style);
 		initGUI();
@@ -98,6 +69,7 @@ public class EntropyUIconfig extends Composite {
 
 	private void initGUI() {
 		GridLayout gl_thisLayout = new GridLayout();
+		gl_thisLayout.verticalSpacing = 20;
 		this.setLayout(gl_thisLayout);
 
 		groupAnalysisConfig = new Group(this, SWT.NONE);
