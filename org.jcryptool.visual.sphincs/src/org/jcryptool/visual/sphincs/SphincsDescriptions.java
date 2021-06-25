@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2018, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2018, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -54,7 +54,7 @@ public class SphincsDescriptions extends NLS {
 	public static String SphincsDescription_keyInfo3;
 
 	public static String SphincsDescription_bracket;
-	public static String SphincsDescription_bytes;
+	public static String SphincsDescription_bracketClose;
 
 	public static String SphincsDescription_btn_Generation;
 	public static String SphincsDescription_btn_renewKey;

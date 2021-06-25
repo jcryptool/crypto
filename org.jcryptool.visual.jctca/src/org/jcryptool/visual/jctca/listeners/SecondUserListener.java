@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2013, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2013, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -117,7 +117,7 @@ public class SecondUserListener implements SelectionListener {
                                     file = new FileInputStream(sig.getPath());
                                     bufin = new BufferedInputStream(file);
 
-                                    byte[] buffer = new byte[1024];
+                                    byte[] buffer = new byte[2048];
                                     int len;
                                     while (file.available() != 0) {
                                         len = bufin.read(buffer);

@@ -7,7 +7,7 @@
       		category="org.jcryptool.visual"
             class="org.jcryptool.visual.errorcorrectingcodes.ui.views.EccMainView"
             id="org.jcryptool.visual.errorcorrectingcodes.ui"
-            icon="icons/view.gif"
+            icon="platform:/plugin/org.eclipse.ui/icons/full/eview16/defaultview_misc.png"
             name="%view.name"
             restorable="true">
       </view>
@@ -58,7 +58,7 @@
 			<menuContribution
 				locationURI="toolbar:org.jcryptool.visual.errorcorrectingcodes.ui">
 			<command commandId="org.jcryptool.visual.errorcorrectingcodes.restartCommand" 
-				icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/new_wiz.png" 
+				icon="platform:/plugin/org.jcryptool.core.util/icons/icon_reset.png" 
 				style="push">
 			</command>
 		</menuContribution>

@@ -2,61 +2,169 @@
 
 <html>
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Simple Power Analysis (SPA) gegen RSA</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Simple Power Analysis (SPA) gegen RSA</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
 <h1>Simple Power Analysis (SPA) gegen RSA</h1>
 
-<p>Simple Power Analysis (SPA) umfasst die visuelle Interpretation von Stromkurven (Power Traces) oder Diagrammen, die die elektrische Aktivität kryptografischer Geräte (Smartcards, integrierten Schaltkreisen, ...) im Laufe der Zeit abbilden. </p>
-
-<h2>RSA Parameter Erklärung</h2>
-
-<img width="40%" src="rsa_parameter.PNG">
-
-<p>Chiffretext c: Zeigt den, mit dem geheimen privaten Schlüssel d (z. B. 101) verschlüsselten Geheimtext (z. B. 5454).</p>
-
-<p>P und Q sind zwei teilerfremde Zahlen. Das Modul n ist P * Q.</p>
-
-<p>R = c<sup>d</sup> mod n ist der entschlüsselte Klartext. Der "Square and Multiply"-Algorithmus wird in der Regel verwendet, um die Potenz von c<sup>d</sup> mod n zu berechnen. Es ist ein effizienter Algorithmus zur schnellen Berechnung von großen Potenzen natürlicher Zahlen. Jedoch ist er anfällig für Power Analysis.</p>
+<p>
+  Simple Power Analysis (SPA) umfasst die Analyse von Stromkurven (Power Traces)
+  oder Diagrammen, die die elektrische Aktivität kryptografischer Geräte abbilden (z.B. Smartcards,
+  integrierte Schaltkreise, CPUs, etc.). Mithilfe dieser Information wird versucht, Geheimnisse 
+  aus den Geräten zu extrahieren.
+</p>
 
 <h2>Unsicherer "Square and Multiply"-Algorithmus</h2>
 
-<img width="60%" src="square_and_multiply.jpg">
+<p>
+  Ein gutes Beispiel für die Anfälligkeit eines Algorithmus gegen einen SPA-basierten Angriff, ist
+  der Square-And-Multiply-Algorithmus, der bei RSA zum Einsatz kommt.
+</p>
 
-<p>Der "Square and Multiply"-Algorithmus wird verwendet, um die Potenzierung des privaten und des öffentliche Schlüssels während der Ver- und Entschlüsselung des RSA-Algorithmus auszuführen. </p>
+<pre>
+  <code style="background-color: #eee;border: 1px solid #999;display: block;padding: 10px;">
+  c     - Typ: Ganzzahl Basis für die Potenzrechnung
+  power - Typ: Ganzzahl Potenz
+  n     - Typ: Ganzzahl Divisor the Modulo-Operation
+  
+  Operators:
+  >> - Bitshift nach rechts
+  &  - logisches Und
+  %  - Modulo
+  
+  def unsafe_square_and_multiply(c, power, n):
+      res = 1
+      while power > 0:                  # Wir iterieren über die Bits durch verkleinern von 'power'
+          res = (res * res) % n         # 'square'-Schritt
+          b = power & 1                 # Ermittlung des Bits in der jeweiligen Runde, indem mit 1 ein 'logisches und' gerechnet wird.
+          if b == 1:                    
+              res = (res * c) % n       # Falls das Bit eine 1 ist, muss multipliziert werden ('multiply'-Schritt)
+          power = power >> 1            # Durch ein Bitshift nach rechts rückt das nächste Bit für die nächste Runde an die niedrigste Stelle.
+      return  res       
+  </code>
+</pre>
+
+<p> 
+  Der Algorithmus funktioniert folgendermaßen: es wird eine Schleife über die binäre
+  Representation des Exponenten (Variable <b>power</b>) gerechnet. Dabei gehen wir hier vom niedrigsten zum
+  höchsten Bit vor. Die Binärrepresentation lässt sich auf verschiedene Weisen berechnen,
+  in diesem Fall werden Bit-Operationen verwendet. Das niedrigste Bit wird durch ein logisches und
+  mit der Zahl 1 ermittelt. 
+  Für jedes Bit des Exponenten, wird eine Platzhalter-Variable <b>res</b> quadriert.
+  Falls sich an der aktuellen Stelle des Exponenten eine 1 befindet, wird die Basis <b>c</b>
+  hineinmultipliziert.
+   Das nächste Bit rückt durch einen Bitshift nach rechts nach - diese Operation verwirft das
+   niedrigste Bit und rückt die Restlichen nach.
+   Ist die Zahl 0, sind keine Bits mehr im Exponenten und die Berechnung ist fertig. <b>res</b>
+   wird als Ergebnis zurückgegeben.</p>
+   
+<p>
+  Der Algorithmus basiert darauf, das Potenzen von Potenzen multipliziert werden, so ist z.B.
+  \(2^{2^{2^2}}\) das gleiche wie \(2^8\), da \(2 \cdot 2 \cdot 2\) ergibt \(8\). Da binäre Potenzen
+  sehr schnell wachsen (\(2^{30}\) ist bereits größer als eine Milliarde), lassen sich damit
+  innerhalb weniger 100 Runden, RSA Ver- und Entschlüsselungsoperationen durchführen.
+ 
+ <p>
+ <b>Beachte:</b> es gibt neben dieser noch viele andere Varianten des
+ "Square and Multiply"-Algorithmus. Diese ist in Python geschrieben und kann auch kopiert und
+ ausgeführt werden.
+ 
+<h2>RSA Parameter Erklärung</h2>
+
+<p>
+  Im Plug-in selbst können die Parameter einer RSA-Entschlüsselung ausgewählt werden, das als
+  Beispiel dient.
+</p>
+
+<img style="width: 20%; min-width: 100px; max-width: 400px" src="rsa_parameter.PNG">
+
+<p>
+  Chiffretext \(c\): Zeigt den, mit dem geheimen privaten Schlüssel \(d\) (z. B. \(101\))
+  verschlüsselten Geheimtext (z. B. \(5454\)).
+</p>
+
+<p>\(P\) und \(Q\) sind zwei teilerfremde Zahlen. Der Modulus \(n\) ist \(P \cdot Q\).</p>
+
+<p>
+  \(R = c^d \; \text{mod} \; n\) ist der entschlüsselte Klartext, das Ergebnis des
+  "Square and Multiply" Algorithmus.
+</p>
 
 <img width="85%" src="executeprocessofsaq.PNG">
 
-<p> Wie oben gezeigt, wird der private Schlüssel zunächst von der dezimalen Darstellung in binäre Darstellung umgewandelt (z.B. 101 (dezimal) zu 1100101 (binär)). Danach quadrieren wir die Bits von links nach rechts und verrechnen sie mit dem vorherigen Ergebnis: Ist das gegenwärtige Bit ein "1", wird eine Multiplikation (Res = Res * c mod n) 
-nach der Quadrierung (Res = Res <sup>2</sup> mod n) durchgeführt. Ist das gegenwärtige Bit eine "0", führen wir nur die Quadrierung aus.</p>
+<p>
+Im Plug-in sehen wir die einzelnen Schritte einer Berechnung.
+</p>
 
 <h2> Demonstration von SPA gegen RSA </h2>
 
-<p> Der "Square and Multiply"-Algorithmus ist anfällig für "Power Analysis Attack", da die Operationen "Square and Multiply" und "Multiply" unterschiedliche Spuren in Stromkurven verursachen.</p>
+<p> Der "Square and Multiply"-Algorithmus ist anfällig für "Power Analysis Attack", da die
+optionale Operation "Multiply" eine eindeutig unterschiedliche Spur in Stromkurven verursacht.</p>
 
-<img width="85%" src="visual_of_sam.PNG">
+<img width="85%" src="simple-sam-power-graph.svg">
 
-<p> Die Stromkurve (Power Trace) ist zwischen den Operationen "Square and Multiply" und "Square" unterschiedlich. Dadurch kann die "Simple Power Analysis" jedes Bit des geheimen Exponenten d durch den Vergleich und die Analyse der Stromkurve feststellen. In der Abbildung oben wird die Stromkurve des privaten Schlüssel 1100101 gezeigt.</p>
+<p>
+  Die Stromkurve (Power Trace) ist zwischen den Operationen "Square and Multiply (SM)" und
+  "Square (S)" unterschiedlich. Dadurch kann die "Simple Power Analysis" jedes Bit des geheimen
+  Exponenten \(d\) durch den Vergleich und die Analyse der Stromkurve feststellen. In der Abbildung
+  oben wird die Stromkurve des privaten Schlüssel 1100101 gezeigt.
+</p>
 
 <h2> Verbesserter "Square and Multiply always"-Algorithmus </h2>
 
-<p> Der original "Square and Multiply"-Algorithmus kann durch hinzufügen einer Dummy-Multiplikation, wenn das gegenwärtige Bit gleich "0" ist, verbessert werden. </p>
+<p>
+  Der "Square and Multiply"-Algorithmus kann durch hinzufügen einer einfachen Dummy-Multiplikation
+  erheblich verbessert werden. Wenn das aktuelle Bit gleich "0" ist, kann eine nicht relevante
+  Berechnung durchgeführt werden, die in etwa denselben Aufwand wie ein Multiply-Schritt verursacht,
+  aber für das Endergebnis nicht relevant ist. </p>
 
-<img width="60%" src="square_and_multiply_always.jpg">
+<pre>
+  <code style="background-color: #eee;border: 1px solid #999;display: block;padding: 10px;">
+  c     - Typ: Ganzzahl Basis für die Potenzrechnung
+  power - Typ: Ganzzahl Potenz
+  n     - Typ: Ganzzahl Divisor the Modulo-Operation
+  
+  Operators:
+  >> - Bitshift nach rechts
+  &  - logisches Und
+  %  - Modulo
+  
+  def square_and_multiply(c, power, n):
+      res = 1
+      while power > 0:                  # Wir iterieren über die Bits durch verkleinern von 'power'
+          res = (res * res) % n         # 'square'-Schritt
+          b = power & 1                 # Ermittlung des Bits in der jeweiligen Runde, indem mit 1 ein 'logisches und' gerechnet wird.
+          if b == 1:                    
+              res = (res * c) % n       # Falls das Bit eine 1 ist, muss multipliziert werden ('multiply'-Schritt)
+          else:
+              tmp = (res * c) % n       # Dummy-Multiplikation deren Ergebnis verworfen wird
+          power = power >> 1            # Durch ein Bitshift nach rechts rückt das nächste Bit für die nächste Runde an die niedrigste Stelle.
+      return  res       
+  </code>
+</pre>
+
 
 <img width="85%" src="processofsama.PNG">
 
 <p>Egal, ob das gegenwärtige Bit gleich "1" oder "0" ist, es wird immer quadriert und multipliziert.</p>
 
-<img width="85%" src="powertraceofsama.PNG">
+<img width="85%" src="secure-sam-power-graph.svg">
 
-<p> Offensichtlich gibt es keine Unterschiede mehr, ob eine "0" oder eine "1" verarbeitet wurde. Es kann nicht mehr herausgefunden werden, ob der private Schlüssel d eine "0" oder "1" an einer Stelle enthält.</p>
+<p>
+  Offensichtlich gibt es keine Unterschiede mehr, ob eine "0" oder eine "1" verarbeitet wurde. Es
+  kann nicht mehr herausgefunden werden, ob der private Schlüssel d eine "0" oder "1" an einer
+  Stelle enthält.
+</p>
 
-<p> Für weitere Informationen über elliptischen Kurve Berechnung, siehe Unterabschnitt "Simple Power Analysis" in "Power-Analyse" oder
-<a target="_blank" href="http://en.wikipedia.org/wiki/Power_analysis#Simple_Power_Analysis">http://en.wikipedia.org/wiki/Power_analysis#Simple_Power_Analysis</a>.</p>
+<p>
+  Für weitere Informationen über elliptischen Kurve Berechnung, siehe Unterabschnitt "Simple
+  Power Analysis" in "Power-Analyse" oder
+  <a target="_blank" href="http://en.wikipedia.org/wiki/Power_analysis#Simple_Power_Analysis">
+  http://en.wikipedia.org/wiki/Power_analysis#Simple_Power_Analysis</a>.
+</p>
 
 </body>
 </html>
-<br>

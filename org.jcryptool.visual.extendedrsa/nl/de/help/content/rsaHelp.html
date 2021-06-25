@@ -1,9 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-  "http://www.w3.org/TR/html4/loose.dtd">
-  
+<!DOCTYPE html>
+<html lang="de">
 <head>	  
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>Erweitertes RSA-Kryptosystem (inklusive Identitäten und multi-primem RSA)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Erweitertes RSA-Kryptosystem (inklusive Identitäten und multi-primem RSA)</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
@@ -12,51 +12,42 @@
 
 <p>In dieser Visualisierung wird das asymmetrische Verschlüsselungsverfahren RSA näher betrachtet. Das Verfahren verwendet normalerweise zwei Primzahlen für die Schlüsselgenerierung und hat – wie jedes asymmetrische Verfahren – pro Subjekt (Identität) einen privaten Schlüssel und einen öffentlichen Schlüssel.</p>
 
-<p>Jedoch kann dieses Verfahren auch mit mehr als zwei Primzahlen verwendet werden, was als <strong>multi-primes</strong> RSA-Verfahren bezeichnet wird. Die Schlüsselgenerierung und die Verschlüsselung funktionieren dann analog zum klassischen RSA-System (N ist dann das Produkt aus allen gewählten Primzahlen).</p>
-
+<p>Jedoch kann dieses Verfahren auch mit mehr als zwei Primzahlen verwendet werden, was als <strong>multi-primes</strong> RSA-Verfahren bezeichnet wird. Die Schlüsselgenerierung und die Verschlüsselung funktionieren dann analog zum klassischen RSA-System (\(N\) ist dann das Produkt aus allen gewählten Primzahlen).</p>
 <p><b>Bitte beachten Sie</b>, dass diese Visualisierung die Operationen auf einzelnen Zeichen durchführt (was manchmal auch als <b>Textbook-RSA</b> bezeichnet wird). In der Praxis werden die Operationen auf Zeichenblöcken oder der gesamten Nachricht durchgeführt. RSA wird normalerweise nicht verwendet, um große Datenmengen zu verschlüsseln, sondern um einen Sessionkey zu verschlüsseln (mit diesem werden dann die Daten mit einem symmetrischen Verfahren verschlüsselt) oder um einen Hashwert der Nachricht zu signieren.</p>
 
 <img src="ExtendedRSA-Manage-Keys.png" alt="ExtendedRSA-Manage-Keys" id="ExtendedRSA-Manage-Keys" width = "90%" />
 
-
-<br/><br/> 
 <h2>Erklärung des RSA-Schemas</h2>
-<p>Die bekannteste asymmetrische Verschlüsselung, die RSA-Verschlüsselung, wurde 1977 von Ronald Rivest, Adi Shamir und Leonard Adleman entwickelt. Die privaten und öffentlichen Schlüssel werden mit Hilfe von zwei zufälligen, großen Primzahlen, p und q, konstruiert, die vom Nutzer gewählt, aber geheim gehalten werden müssen. Anschließend berechnet der Nutzer zwei natürliche Zahlen e und d. Das Produkt p*q = <strong>N</strong> und der Exponent <strong>e</strong> dienen dann als öffentlicher, und der Exponent <strong>d</strong> als privater Schlüssel.</p>
+<p>Die bekannteste asymmetrische Verschlüsselung, die RSA-Verschlüsselung, wurde 1977 von Ronald Rivest, Adi Shamir und Leonard Adleman entwickelt. Die privaten und öffentlichen Schlüssel werden mit Hilfe von zwei zufälligen, großen Primzahlen, \(p\) und \(q\), konstruiert, die vom Nutzer gewählt, aber geheim gehalten werden müssen. Anschließend berechnet der Nutzer zwei natürliche Zahlen \(e\) und \(d\), so dass \(e \cdot d = 1 \mod (p-1)(q-1)\). Das Produkt \(p \cdot q = N\) und der Exponent \(e\) dienen dann als öffentlicher, und der Exponent \(d\) als privater Schlüssel.</p>
   
-<p>Da dieser Verschlüsselungsalgorithmus nur auf ganzen Zahlen funktioniert, werden vor dem Verschlüsseln die Klartextzeichen in Zahlen konvertiert. Normalerweise wird dies mit Hilfe des ASCII-Codes durchgeführt. Es ist aber auch möglich, sich z.B. auf A=0, B=1 .... Z=25 zu einigen. In dieser Visualisierung wird die ASCII-Code-Variante umgesetzt.</p>
+<p>Da dieser Verschlüsselungsalgorithmus nur auf ganzen Zahlen funktioniert, werden vor dem Verschlüsseln die Klartextzeichen in Zahlen konvertiert. Normalerweise wird dies mit Hilfe des ASCII-Codes durchgeführt. Es ist aber auch möglich, sich z.B. auf \(A=0, B=1,...,Z=25\) zu einigen. In dieser Visualisierung wird die ASCII-Code-Variante umgesetzt.</p>
 
-<p>Die Zahl jedes Klartextzeichens muss kleiner sein als das Produkt N. Warum das so ist, wird klar, wenn man die Ver- und Entschlüsselungsfunktionen betrachtet (m = Zahlenwert des Klartextzeichens, c = Zahlenwert des Geheimtextzeichens): c = m^e mod N und m = c^d mod N. Da modulo gerechnet wird, ist es möglich, zuerst die Reste von jedem Faktor und dann den Rest des Produkts modulo N zu berechnen. Wenn der Klartextzeichen-Wert m größer als N wäre, wäre es nicht möglich, in jedem Fall ein eindeutiges Geheimtextzeichen c zu erhalten.</p>
+<p>Die Zahl jedes Klartextzeichens muss kleiner sein als das Produkt \(N\). Warum das so ist, wird klar, wenn man die Ver- und Entschlüsselungsfunktionen betrachtet (\(m\) = Zahlenwert des Klartextzeichens, \(c\) = Zahlenwert des Geheimtextzeichens): \(c = m^e \mod N\) und \(m = c^d \mod N\). Da modulo gerechnet wird, ist es möglich, zuerst die Reste von jedem Faktor und dann den Rest des Produkts modulo \(N\) zu berechnen. Wenn der Klartextzeichen-Wert \(m\) größer als \(N\) wäre, wäre es nicht möglich, in jedem Fall ein eindeutiges Geheimtextzeichen \(c\) zu erhalten.</p>
 
-<p>Die Sicherheit des RSA-Schemas basiert auf zwei mathematischen Problemen: Erstens ist es schwierig, für große Zahlen eine Wurzel modulo N zu berechnen (RSA-Problem). Zweitens ist die Faktorisierung von N = p*q schwierig, wenn die Faktoren ausreichend groß gewählt werden (RSA-Schlüsselproblem).</p>
-
+<p>Die Sicherheit des RSA-Schemas basiert auf zwei mathematischen Problemen: Erstens ist es schwierig, für große Zahlen eine Wurzel modulo \(N\) zu berechnen (RSA-Problem). Zweitens ist die Faktorisierung von \(N = p \cdot q\) schwierig, wenn die Faktoren ausreichend groß gewählt werden (RSA-Schlüsselproblem).</p>
 
 <h3>RSA-Schlüsselgenerierung</h3>
 <p>Eine besondere Charakteristik des RSA-Kryptosystems ist, dass umfangreiche Berechnungen nötig sind, um einen RSA-Schlüssel zu generieren (das ist aber ein initialer, einmaliger Vorgang). Erst danach können Ver- und Entschlüsselung bzw. Signieren/Verifizieren durchgeführt werden kann.</p>
 
-<p>Als erstes werden die RSA-Parameter p, q, N und die Eulersche Zahl phi(N) mit Hilfe von zwei zufälligen Primzahlen, p und q, berechnet. Der sogenannte RSA-Modulus N wird als Produkt von p und q berechnet: N = p*q. Die Zahl phi(N) ergibt sich als Produkt (p-1)*(q-1). Im Standardfall werden hiernach p und q gelöscht (somit kennt sie auch der Schlüsselerzeuger nicht mehr und braucht sie auch nicht geheim zu halten).</p>
+<p>Als erstes werden die RSA-Parameter \(p\), \(q\), \(N\) und die Eulersche Zahl \(\varphi(N)\) mit Hilfe von zwei zufälligen Primzahlen \(p\) und \(q\), berechnet (\(\varphi :=\) Eulersche Phi-Funktion). Der sogenannte RSA-Modulus \(N\) wird als Produkt von \(p\) und \(q\) berechnet: \(N = p \cdot q\). Die Zahl \(\varphi(N)\) ergibt sich als Produkt \((p-1)(q-1)\). Im Standardfall werden \(p\) und \(q\) gelöscht (somit kennt sie auch der Schlüsselerzeuger nicht mehr und braucht sie auch nicht geheim zu halten).</p>
 
-<p>Als zweiter Schritt wird der öffentliche Exponent e bestimmt. Mit dessen Hilfe sowie phi(N), wird der private Exponent d berechnet. Der Exponent e wird wie folgt gewählt: 1 < e < phi(N), mit der Voraussetzung, dass e relativ prim zu phi(N) ist. Ein besonders beliebter Wert für e ist 2^16+1 = 65537. Diese Zahl ist meistens co-prim zu phi(N) und besonders gut für "square and multiply" Exponentiationen geeignet. Dies resultiert in sehr schnellen Operationen mit dem öffentlichen Schlüssel (d.h. verschlüsseln und verifizieren gehen schnell).</p>
+<p>Als zweiter Schritt wird der öffentliche Exponent \(e\) bestimmt. Mit dessen Hilfe sowie \(\varphi(N)\), wird der private Exponent \(d\) berechnet. Der Exponent \(e\) wird wie folgt gewählt: \(1 < e < \varphi(N)\), mit der Voraussetzung, dass \(e\) relativ prim zu \(\varphi(N)\) ist. Ein besonders beliebter Wert für \(e\) ist \(2^{16}+1 = 65537\). Diese Zahl ist meistens co-prim zu \(\varphi(N)\) und besonders gut für große Potenzrechnungen mit dem "square and multiply"-Algorithmus geeignet. Dies resultiert in sehr schnellen Operationen mit dem öffentlichen Schlüssel (d.h. verschlüsseln und verifizieren gehen schnell).</p>
 
-<p>Der private Exponent d = e^(-1) mod phi(N) wird als multiplikative Inverse des öffentlichen Exponenten e modulo phi(N) berechnet. Anders geschrieben: e*d = 1 mod ((p-1)(q-1)). Nach der Schlüsselerzeugung können N und e öffentlich gemacht werden. Anschließend kann jeder eine Nachricht für den Besitzer des zugehörigen privaten Schlüssels d verschlüsseln oder eine digitale Signatur überprüfen  &ndash;  einzig und allein durch die Verwendung des öffentlichen Schlüssels.</p>
-
+<p>Der private Exponent \(d = e^{-1} \mod \varphi(N)\) wird als multiplikative Inverse des öffentlichen Exponenten \(e\) modulo \(\varphi(N)\) berechnet. Anders geschrieben: \(e \cdot d = 1 \mod (p-1)(q-1)\). Nach der Schlüsselerzeugung können \(N\) und \(e\) öffentlich gemacht werden. Anschließend kann jeder eine Nachricht für den Besitzer des zugehörigen privaten Schlüssels \(d\) verschlüsseln oder eine digitale Signatur überprüfen &ndash; einzig und allein durch die Verwendung des öffentlichen Schlüssels.</p>
 
 <h3>RSA Ver- / Entschlüsselung</h3>
-<p>Um Daten mit RSA zu <b>verschlüsseln</b>, wird der Geheimtext mit Hilfe des öffentlichen Schlüssels e des Empfängers und des Klartexts berechnet. Die Verschlüsselungsfunktion ist c = m^e mod N. Das heißt, dass jeder eine Nachricht mit Hilfe des öffentlichen Schlüssels verschlüsseln kann. Allerdings kann nur der Besitzer des zugehörigen privaten Schlüssels d die Nachricht wieder entschlüsseln.</p>
+<p>Um Daten mit RSA zu <b>verschlüsseln</b>, wird der Geheimtext mit Hilfe des öffentlichen Schlüssels \(e\) des Empfängers und des Klartexts berechnet. Die Verschlüsselungsfunktion ist \(c = m^e \mod N\). Das heißt, dass jeder eine Nachricht mit Hilfe des öffentlichen Schlüssels verschlüsseln kann. Allerdings kann nur der Besitzer des zugehörigen privaten Schlüssels \(d\) die Nachricht wieder entschlüsseln.</p>
   
-<p>Um einen Geheimtext mit RSA zu <b>entschlüsseln</b>, muss der private Schlüssel d bekannt sein. Die Entschlüsselungsfunktion, c^d = (m^e)^d = m^(e*d) = m mod N, berechnet den Klartext m.</p>
+<p>Um einen Geheimtext mit RSA zu <b>entschlüsseln</b>, muss der private Schlüssel \(d\) bekannt sein. Die Entschlüsselungsfunktion, \(c^d = {(m^e)}^d = m^{ed} = m \mod N\), berechnet den Klartext \(m\).</p>
 
 
-
-<br/> <!-- <br/> -->
 <h2>Faktorisierungsangriff</h2>
-<p>Ziel des Faktorisierungsangriffes ist es, den öffentlich bekannten Modulus N zu faktorisieren und so die Primfaktoren zu rekonstruieren. Mit diesen Primzahlen kann dann &ndash; genau wie bei der ursprünglichen Schlüsselerstellung &ndash; der private Schlüssel (der geheime Parameter d) berechnet werden. Dadurch kann der Angreifer Nachrichten lesen, die nicht für ihn bestimmt sind.</p>
+<p>Ziel des Faktorisierungsangriffes ist es, den öffentlich bekannten Modulus \(N\) zu faktorisieren und so die Primfaktoren zu rekonstruieren. Mit diesen Primzahlen kann dann &ndash; genau wie bei der ursprünglichen Schlüsselerstellung &ndash; der private Schlüssel (der geheime Parameter \(d\)) berechnet werden. Dadurch kann der Angreifer Nachrichten lesen, die nicht für ihn bestimmt sind.</p>
 
-<p>Durch Verwendung von Primzahlen von mehr als 1024 bit Länge (was im 2-Primzahl-Fall zu Modulen von mehr als 2048 bit Länge führt) kann man diesen Angriff vermeiden &ndash; auch heutige Supercomputer haben dann keine Chance.</p>
+<p>Durch Verwendung von Primzahlen von mehr als 1024 bit Länge (was im 2-Primzahl-Fall zu Modulen von mehr als 2048 bit Länge führt) kann man diesen Angriff vermeiden &ndash; auch heutige Supercomputer haben dann keine Chance. Für echte Anwendungen wird eine Schlüssellänge von 2048 oder 4096 bit empfohlen.</p>
 
 <p>In dieser Visualisierung ist ein Faktorisierungsangriff implementiert, um vor allem kleine Schlüssel zu faktorisieren. Dazu wird versucht, die Teiler des öffentlichen Modulus zu finden. Sobald alle Teiler gefunden sind, sind die Primzahlen zur Schlüsselrekonstruktion bekannt und der Faktorisierungsangriff wird erfolgreich beendet.</p>
 
-
-<br/>
 <h3 id="Sig">Weitere Informationen / Literaturhinweise</h3>
 <ul>
   <li><a href="PLUGINS_ROOT/org.jcryptool.visual.rsa/$nl$/help/content/index.html">JCT-Plugin: RSA-Kryptosystem (verschlüsseln, entschlüsseln, signieren und verifizieren)</a>
@@ -66,5 +57,5 @@
   <li><a target="_blank" href="https://www.cryptool.org/images/ctp/documents/CT-Book-de.pdf">Das CrypTool-Buch, Kapitel 4</a></li>
 </ul>
 
-<br/>
 </body>
+</html>

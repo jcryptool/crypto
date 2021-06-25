@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -80,7 +80,8 @@ public class Messages extends NLS {
     public static String Repeat_0;
     public static String Repeat_1;
     public static String Repeat_2;
-    public static String Repeat_3;
+    public static String Repeat_3_1;
+    public static String Repeat_3_2;
     public static String Repeat_4;
     public static String Repeat_5;
     public static String Repeat_6;

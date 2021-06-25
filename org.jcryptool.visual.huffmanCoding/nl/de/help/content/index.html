@@ -1,9 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+
+<html lang="de">
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Huffman-Kodierung</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Huffman-Kodierung</title>
 </head>
+
 <body>
 <h1>Huffman-Kodierung</h1>
 
@@ -43,19 +45,19 @@ Das Plug-in besteht aus drei Registerkarten: <b>Komprimierung/Dekomprimierung</b
 
 
 <p><br /></p>
-<h2><a name="Kapitel1">1) Reiter Komprimierung/Dekomprimierung</a></h2>
+<h2><a name="Kapitel1">1) Tab Komprimierung/Dekomprimierung</a></h2>
 
+<p>
+<img src="huffman_03_scenario.jpg" width="50%" style="border:4px outset black"/>
 <p>
 Auf der ersten Registerkarte <b>Komprimierung/Dekomprimierung</b> hat man zwei Szenarien zur Auswahl:
 </p>
 
 <p><img src="huffman_03_scenario.jpg" width="60%"/><p>
 
-
-
 <h3> Szenario 1 &ndash; Komprimieren </h3>
 <p>
-In diesem Szenario geht es um die Komprimierung von Text. Dabei hat man die Möglichkeit, den Text entweder aus einer Textdatei (.txt) zu laden, oder manuell in das Feld <b>Eingabetext</b> einzugeben. 
+In diesem Szenario geht es um die Komprimierung von Text. Dabei hat man die Möglichkeit, den Text entweder aus einer Textdatei (.txt) zu laden, oder manuell in das Feld <b>Eingabetext</b> einzugeben.
 </p>
 
 <p>
@@ -63,13 +65,13 @@ In diesem Szenario geht es um die Komprimierung von Text. Dabei hat man die Mög
 Button <b>Komprimieren</b> verfügbar ist, muss zumidnest ein Zeichen eingegeben werden.
 </p>
 
-<p><img src="huffman_04_plain-input.jpg" width="85%"/><p>
+<p><img src="huffman_04_plain-input.jpg" width="70%" style="border:4px outset black"/><p>
 
 <p>
 Je nach Länge der Eingabe wird das Informationsfeld in der Mitte aktualisiert. Später nach abgeschlossenem Vorgang findet sich in diesem zusätzliche Information zu Länge der komprimierten Ausgabe und Kompressionsrate.
 </p>
 
-<img src="huffman_05_infobox.jpg" width="85%"/>
+<img src="huffman_05_infobox.jpg" width="50%" style="border:4px outset black"/>
 
 
 
@@ -78,32 +80,32 @@ Je nach Länge der Eingabe wird das Informationsfeld in der Mitte aktualisiert. 
 Zuerst den Punkt <b>Klartext aus Datei</b> auswählen, um den Modus zu wechseln. Per Klick auf den Button <b>Datei öffnen...</b> wird der Dateiauswahl-Dialog geöffnet und Textdateien (ISO-8859-1) können geladen werden. Nachdem man die Datei ausgewählt hat, wird der Inhalt der Datei in das Feld <b>Eingabetext</b> geladen und der Button <b>Komprimieren</b> wird aktiviert. Die Dateigröße wird im Informationsfeld in der Mitte angezeigt. <a target="_blank" href="http://de.wikipedia.org/wiki/ISO_8859-1"><b>ISO-8859-1</b></a> ist ein Standard zur Zeichenkodierung mit acht Bit.
 </p>
 
-<p><img src="huffman_06_plain-input-file.jpg" width="100%"></p>
+<p><img src="huffman_06_plain-input-file.jpg" width="80%" style="border:4px outset black"></p>
 
 <p>
 Durch Klick auf den Button <img src="huffman_07_btn-compress.jpg"> wird der Text im Feld 
 <b>Eingabetext</b> komprimiert. Nachdem der Vorgang abgeschlossen ist, wird eine Erfolgsmeldung angezeigt.
 </p>
 
-<img src="huffman_08_comp-popup.jpg" width="85%"/>
+<img src="huffman_08_comp-popup.jpg" width="50%"/>
  
 <p>
 Die Ausgabe der komprimierten Daten in binärer Form erfolgt über eine simple Tabelle. Sie sind in hexadezimaler Form aufsteigend adressiert eingetragen. Die erste Spalte und die erste Zeile dienen zur Nummerierung der Bytes, pro Zeile jeweils 16 (0xF) Bytes.
-Die Darstellung scheint auf den ersten Blick länger als der ursprüngliche Text. Das liegt daran, dass die visuelle Darstellung in hexadezimaler Form mehr Platz benötigt. Der Vergleich an Länge vor und nach der Komprimierung in Byte wird im Infofeld in der Mitte aktualisiert. Außerdem gibt die Kompressionsrate an, um wie viel Prozent die Ausgabe reduziert werden konnte. Beachten Sie, dass bei kurzen Texten die komprimierte Ausgabe länger als der Eingabetext sein kann. Das geschieht, wenn Statusinformation zur Komprimierung (Overhead) mehr Platz benötigt, als durch Komprimierung gewonnen wird. Dann ist auch die Kompressionsrate negativ. <br> 
+Die Darstellung scheint auf den ersten Blick länger als der ursprüngliche Text. Das liegt daran, dass die visuelle Darstellung in hexadezimaler Form mehr Platz benötigt. Der Vergleich an Länge vor und nach der Komprimierung in Byte wird im Infofeld in der Mitte aktualisiert. Außerdem gibt die Kompressionsrate an, um wie viel Prozent die Ausgabe reduziert werden konnte. Beachten Sie, dass bei kurzen Texten die komprimierte Ausgabe länger als der Eingabetext sein kann. Das geschieht, wenn Statusinformation zur Komprimierung (Overhead) mehr Platz benötigt, als durch Komprimierung gewonnen wird. Dann ist auch die Kompressionsrate negativ. <br>
 über den Button <b> Ergebnis speichern </b> kann per Speicherdialog eine binäre Ausgabedatei mit der Dateiendung <b>.huffman</b> erzeugt werden.
 </p>
 
-<p><img src="huffman_09_hex-output.jpg" width="100%"></p>
+<p><img src="huffman_09_hex-output.jpg" width="80%" style="border:4px outset black"></p>
 
 <p>
-Nun kann das Ergebnis im Szenario <b>Dekomprimieren</b> direkt wieder zurückkonvertiert, oder für später aufgehoben werden. Beachten Sie, dass diese Form der Huffman-Komprimierung nicht mit Implementierungen anderer Software kompatibel sein muss. Verwenden Sie die erzeugte .huffman-Datei nur mit JCrypTool. 
+Nun kann das Ergebnis im Szenario <b>Dekomprimieren</b> direkt wieder zurückkonvertiert, oder für später aufgehoben werden. Beachten Sie, dass diese Form der Huffman-Komprimierung nicht mit Implementierungen anderer Software kompatibel sein muss. Verwenden Sie die erzeugte .huffman-Datei nur mit JCrypTool.
 </p>
 
 
 
 <h3>Szenario 2 &ndash; Dekomprimieren</h3>
 <p>
-In diesem Szenario können komprimierte Daten wieder in den ursprünglichen Zustand dekomprimiert werden. Es gibt zwei Optionen: Entweder kann eine unmittelbar zuvor komprimierte Ausgabe wieder rückgewandelt werden (etwa zur überprüfung), oder es kann eine bereits bestehende Datei mit Endung .huffman geladen werden.  
+In diesem Szenario können komprimierte Daten wieder in den ursprünglichen Zustand dekomprimiert werden. Es gibt zwei Optionen: Entweder kann eine unmittelbar zuvor komprimierte Ausgabe wieder rückgewandelt werden (etwa zur überprüfung), oder es kann eine bereits bestehende Datei mit Endung .huffman geladen werden.
 </p>
 
 
@@ -111,7 +113,7 @@ In diesem Szenario können komprimierte Daten wieder in den ursprünglichen Zust
 <b>a)</b> Standardmäßig ist der Modus <b>Von "Komprimieren" übernehmen </b> ausgewählt. Haben Sie bereits in dieser Sitzung eine Komprimierung durchgeführt, wird die letzte Ausgabe automatisch befüllt und kann wieder dekomprimiert werden. Sind keine Daten vorhanden bleibt das Feld leer und der Button <b> Dekomprimieren </b> ist nicht aktiv.
 </p>
 
-<p><img src="huffman_10_just-compressed.jpg" width="100%"></p>
+<p><img src="huffman_10_just-compressed.jpg" width="80%" style="border:4px outset black"></p>
 
 
 <p>
@@ -119,22 +121,17 @@ In diesem Szenario können komprimierte Daten wieder in den ursprünglichen Zust
 Beachten Sie, dass diese Form der Huffman-Komprimierung nicht mit Implementierungen anderer Software kompatibel sein muss. Verwenden Sie daher nur von JCrypTool erzeugte .huffman-Dateien.
 </p>
 
-<p><img src="huffman_11_compressed_file.jpg" width="100%"></p>
+<p><img src="huffman_11_compressed_file.jpg" width="80%" style="border:4px outset black"></p>
 
 <p>
 Durch Klick auf den Button <img src="huffman_12_btn-decompress.jpg"> werden die Daten dekomprimiert und der rekonstruierte Text in dem Feld <b>Dekomprimierte Ausgabe</b> angezeigt Zusätzlich wird Information zu Größe der Ausgabe und Kompressionsrate
 ergänzt. Der Button <b>Text speichern</b> öffnet einen Dialog zum Speichern der Ausgabe als Textdatei.
 </p>
 
-<p><img src="huffman_13_decomp-output.jpg" width="85%" /></p>
-
-
-
-
-
+<p><img src="huffman_13_decomp-output.jpg" width="85%" style="border:4px outset black"/></p>
 
 <p><br /></p>
-<h2><a name="Kapitel2">2) Reiter Huffman-Baum</a></h2>
+<h2><a name="Kapitel2">2) Tab Huffman-Baum</a></h2>
 
 <p>
 Nach erfolgreicher Komprimierung bzw. Dekomprimierung wird auf der zweiten Registerkarte (<b>Huffman-Baum</b>) die Baumstruktur graphisch dargestellt.
@@ -145,27 +142,27 @@ Der Huffman-Baum ist ein Binärbaum, der seine Informationen an seinen Blättern
 </p>
 
 <p>
-Auf den Kanten des Graphen werden die Bits <b>1</b> oder <b>0</b> dargestellt, die zusammen das Codewort für das jeweilige Zeichens ergeben. 
+Auf den Kanten des Graphen werden die Bits <b>1</b> oder <b>0</b> dargestellt, die zusammen das Codewort für das jeweilige Zeichens ergeben.
 </p>
 
 <p>
 Beim Wurzelknoten und bei den inneren Knoten des Baums, der durch Komprimierung erstellt wurde, werden die Wahrscheinlichkeiten der Zeichen dargestellt. Bei einem Baum, der durch Dekomprimieren erzeugt wurde, werden der Wurzelknoten bzw. die inneren Knoten als leere Knoten dargestellt, da in diesem Fall keine Wahrscheinlichkeiten berechnet werden.
 </p>
 
-<p><img src="huffman_14_tree.jpg" width="100%"></p>
+<p><img src="huffman_14_tree.jpg" width="90%"></p>
 
 <p>
 Wird der Mauszeiger über ein Blatt bewegt, erscheint der Pfad des Zeichens. Dieser ist zugleich das binäre Codewort.
 </p>
 
-<p><img src="huffman_15_leaf-tooltip.jpg" width="100%"></p>
+<p><img src="huffman_15_leaf-tooltip.jpg" width="90%"></p>
 
 <p>
-Beim Klick auf eines der Blätter wird der dazu gehörige Zweig selektiert: Der gesamte Zweig von der Wurzel bis zum angeklickten Blatt wird farblich hervorgehoben und man kann den Zweig bei Bedarf verschieben. Das Codewort des ausgewählten Blattes wird oben 
+Beim Klick auf eines der Blätter wird der dazu gehörige Zweig selektiert: Der gesamte Zweig von der Wurzel bis zum angeklickten Blatt wird farblich hervorgehoben und man kann den Zweig bei Bedarf verschieben. Das Codewort des ausgewählten Blattes wird oben
 angezeigt.
 </p>
 
-<p><img src="huffman_16_leaf-selection.jpg" width="100%"></p>
+<p><img src="huffman_16_leaf-selection.jpg" width="90%"></p>
 
 <p>
 Das Layout des Huffman-Baums kann durch Klicken auf das <img src="huffman_17_change-layout.jpg">-Icon gewechselt werden. Es befindet sich
@@ -173,13 +170,13 @@ in der rechten oberen Ecke des Fensters. Das Standard-Layout ist das <b>TreeLayo
 <br>Weitere verfügbare Layouts sind: <b>HorizontalTreeLayout</b>
 </p>
 
-<p><img src="huffman_18_layout-1.jpg" width="100%"></p>
+<p><img src="huffman_18_layout-1.jpg" width="90%"></p>
 
 <p>
 und <b>RadialLayout</b>
 </p>
 
-<p><img src="huffman_19_layout-2.jpg" width="100%"></p>
+<p><img src="huffman_19_layout-2.jpg" width="90%"></p>
 
 <p>
 Für den graphischen Aufbau des Huffman-Baums wurde das 
@@ -187,24 +184,16 @@ Für den graphischen Aufbau des Huffman-Baums wurde das
 Mit ZEST ist es moöglich, Graphen auf einfache Weise darzustellen.
 </p>
 
-
-
-
-
+<a name="Kapitel3"><b>3)</b></a> Auf der dritten Registerkarte wird die Code-Tabelle angezeigt. Dabei wird für jedes <b>ASCII-Zeichen</b>, das in dem
 
 <p><br /></p>
-<h2><a name="Kapitel3">3) Reiter Code-Tabelle </a></h2>
+<h2><a name="Kapitel3">3) Tab Code-Tabelle </a></h2>
 
 <p>
 Auf der dritten Registerkarte wird die Code-Tabelle angezeigt. Dabei wird für jedes <b>ASCII-Zeichen</b>, das in dem Eingabetext vorkommt, das dazu gehörige Codewort angezeigt. Beim Klick auf den Button <b>Zweig anzeigen</b>, wechselt die Ansicht auf die Registerkarte <b>Huffman-Baum</b> und selektiert den dazu passenden Zweig.
 </p>
 
-<p><img src="huffman_20_show-branch.jpg" width="100%"></p>
-
-
-
-
-
+<p><img src="huffman_20_show-branch.jpg" width="90%"></p>
 
 <p><br /></p>
 <h2><a name="Kapitel4">4) Bedeutung der Ikonen in der Toolbar</a></h2>
@@ -215,11 +204,9 @@ Die Plug-in-Toolbar hat zwei spezifische Ikonen:
 
 <ol type="a">
 	<li>Durch Klicken auf das <img src="huffman_21_startover.jpg">-Icon (<b>Neustart</b>) kehrt man zum Initial-Zustand des Plug-ins zurück und kann den Algorithmus von vorne beginnen.</li>
-	
+
 	<li>Man kann durch Klicken auf das <img src="huffman_17_change-layout.jpg">-Icon das Layout des Huffman-Baums dynamisch ändern. Standardmäßig wird der Huffman-Baum im <b>Baum-Layout</b> angezeigt. Zusätzlich sind das <b>Horizontale Baum-Layout</b> und das <b>Radiale Layout</b> verfügbar. Unterschiedliche Darstellungsmöglichkeiten des Huffman-Baums sollen die Lesbarkeit des Baums erleichtern.</li>
 </ol>
-
-
 
 <p><br /></p>
 <h2><a name="Kapitel5">5) Quellen</a></h2>
@@ -240,8 +227,5 @@ Die Plug-in-Toolbar hat zwei spezifische Ikonen:
 
 </ol>
 
-
-
-<p><br /></p>
 </body>
 </html>

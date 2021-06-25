@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2013, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2013, 2021 JCrypTool Team and Contributors
  * 
  * All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
@@ -142,7 +142,7 @@ public class CreateCertListener implements SelectionListener {
     private void generateNewRSAKeyPair() {
         RSAKeyPairGenerator gen = new RSAKeyPairGenerator();
         SecureRandom sr = new SecureRandom();
-        gen.init(new RSAKeyGenerationParameters(BigInteger.valueOf(3), sr, 1024, 80));
+        gen.init(new RSAKeyGenerationParameters(BigInteger.valueOf(3), sr, 2048, 80));
         AsymmetricCipherKeyPair keypair = gen.generateKeyPair();
         RSAKeyParameters publicKey = (RSAKeyParameters) keypair.getPublic();
         RSAPrivateCrtKeyParameters privateKey = (RSAPrivateCrtKeyParameters) keypair.getPrivate();
@@ -159,10 +159,10 @@ public class CreateCertListener implements SelectionListener {
                                     privateKey.getDQ(), privateKey.getQInv()));
             String name = txt_first_name.getText() + " " //$NON-NLS-1$
                     + txt_last_name.getText();
-            KeyStoreAlias privAlias = new KeyStoreAlias(name, KeyType.KEYPAIR_PRIVATE_KEY, "RSA", 1024, //$NON-NLS-1$
+            KeyStoreAlias privAlias = new KeyStoreAlias(name, KeyType.KEYPAIR_PRIVATE_KEY, "RSA", 2048, //$NON-NLS-1$
                     (name.concat(privKey.toString())).hashCode() + " ",//$NON-NLS-1$
                     privKey.getClass().getName());
-            KeyStoreAlias pubAlias = new KeyStoreAlias(name, KeyType.KEYPAIR_PUBLIC_KEY, "RSA", 1024,//$NON-NLS-1$
+            KeyStoreAlias pubAlias = new KeyStoreAlias(name, KeyType.KEYPAIR_PUBLIC_KEY, "RSA", 2048,//$NON-NLS-1$
                     (name.concat(privKey.toString())).hashCode() + " ",//$NON-NLS-1$
                     pubKey.getClass().getName());
             mng.addKeyPair(privKey, CertificateFactory.createJCrypToolCertificate(pubKey),

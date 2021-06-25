@@ -1,6 +1,6 @@
 //-----BEGIN DISCLAIMER-----
 /*******************************************************************************
-* Copyright (c) 2013, 2020 JCrypTool Team and Contributors
+* Copyright (c) 2013, 2021 JCrypTool Team and Contributors
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
@@ -11,7 +11,6 @@
 package org.jcryptool.visual.jctca.listeners;
 
 import java.math.BigInteger;
-import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.UnrecoverableEntryException;
@@ -19,7 +18,6 @@ import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 
-import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -225,16 +223,17 @@ public class CAListener implements SelectionListener {
                 CRLEntry crle = new CRLEntry(sn, revokeTime);
                 CertificateCSRR.getInstance().addCRLEntry(crle);
                 // mng.addCertificate(cert, new KeyStoreAlias("JCT-CA Certificate Revocation List - DO NOT DELETE",
-                // KeyType.PUBLICKEY, "RSA", 1024, cert.getPublicKey().hashCode()+"",cert.getClass().toString()));
-                KeyPair kp = Util.asymmetricKeyPairToNormalKeyPair(CertificateCSRR.getInstance().getCAKey(0));
+                // KeyType.PUBLICKEY, "RSA", 2048, cert.getPublicKey().hashCode()+"",cert.getClass().toString()));
+//                KeyPair kp = CertificateCSRR.getInstance().getCAKey(0);
+                PrivateKey privKey = CertificateCSRR.getInstance().getCAKey(0);
                 KeyStoreManager.getInstance().addKeyPair(
-                        kp.getPrivate(),
+                		privKey,
                         cert,
                         KeyStoreManager.KEY_PASSWORD,
                         new KeyStoreAlias(
-                                "JCT-PKI Certificate Revocation List", KeyType.KEYPAIR_PRIVATE_KEY, "RSA", 1024, kp.getPrivate().hashCode() + "", cert.getClass().toString()), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                "JCT-PKI Certificate Revocation List", KeyType.KEYPAIR_PRIVATE_KEY, "RSA", 2048, privKey.hashCode() + "", cert.getClass().toString()), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         new KeyStoreAlias(
-                                "JCT-PKI Certificate Revocation List", KeyType.KEYPAIR_PUBLIC_KEY, revokeTime.getTime() + "", 1024, kp.getPrivate().hashCode() + "", kp.getPrivate().getClass().toString())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                                "JCT-PKI Certificate Revocation List", KeyType.KEYPAIR_PUBLIC_KEY, revokeTime.getTime() + "", 2048, privKey.hashCode() + "", privKey.getClass().toString())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 this.removeEntry(sel);
                 Util.showMessageBox(Messages.CAListener_msgbox_title_cert_revoked,
                         Messages.CAListener_msgbox_text_cert_revoked, SWT.ICON_INFORMATION);
@@ -262,11 +261,12 @@ public class CAListener implements SelectionListener {
             Date expiryDate = new Date(System.currentTimeMillis() + (10 * 5 * 60 * 60 * 1000));
             BigInteger serialNumber = new BigInteger(System.currentTimeMillis() + "");// serial number for certificate //$NON-NLS-1$
 
-            AsymmetricCipherKeyPair keypair = csrr.getCAKey(0);
-            KeyPair kp = Util.asymmetricKeyPairToNormalKeyPair(keypair);
+//            AsymmetricCipherKeyPair keypair = csrr.getCAKey(0);
+//            KeyPair kp = Util.asymmetricKeyPairToNormalKeyPair(keypair);
+            PrivateKey privKey = csrr.getCAKey(0);
             X509Certificate caCert = csrr.getCACert(0);
             X509Certificate cert = Util.certificateForKeyPair(csr, serialNumber, caCert, expiryDate, startDate,
-                    kp.getPrivate());
+            		privKey);
             try {
                 PrivateKey priv = mng.getPrivateKey(csr.getPrivAlias(), KeyStoreManager.KEY_PASSWORD);
                 this.removeEntry(sel);

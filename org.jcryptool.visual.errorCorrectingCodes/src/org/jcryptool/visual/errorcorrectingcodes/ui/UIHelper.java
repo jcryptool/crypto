@@ -1,7 +1,14 @@
+// -----BEGIN DISCLAIMER-----
+/*******************************************************************************
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
+ *
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+// -----END DISCLAIMER-----
 package org.jcryptool.visual.errorcorrectingcodes.ui;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -58,13 +65,12 @@ public class UIHelper {
         int border = readonly ? 0 : SWT.BORDER;
         StyledText text = new StyledText(p, read_only | border | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
         text.setAlwaysShowScrollBars(false);
-        text.setMargins(2, 2, 4, 2);
         if (font != null)
             text.setFont(font);
         if (readonly)
             text.setBackground(p.getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-        Point hint = new Point(width, lines * (text.getLineHeight())+4);
+        Point hint = new Point(width, lines * (text.getLineHeight()) + 4);
         GridDataFactory.fillDefaults().align(hAlign, vAlign).grab(true, true).hint(hint).applyTo(text);
         return text;
     }
@@ -87,7 +93,7 @@ public class UIHelper {
     }
 
     public static StyledText codeText(Composite p, int hAlign, int vAlign) {
-        StyledText st = mutltiLineText(p, hAlign, vAlign, SWT.DEFAULT, 5, FontService.getLargeFont(),true);
+        StyledText st = mutltiLineText(p, hAlign, vAlign, SWT.DEFAULT, 5, FontService.getNormalMonospacedFont(), true);
         return st;
     }
 
@@ -154,12 +160,5 @@ public class UIHelper {
         return canvas;
     }
     
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
 
 }

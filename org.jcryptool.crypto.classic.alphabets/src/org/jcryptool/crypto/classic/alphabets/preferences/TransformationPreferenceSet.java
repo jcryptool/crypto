@@ -1,6 +1,6 @@
 // -----BEGIN DISCLAIMER-----
 /*******************************************************************************
- * Copyright (c) 2011, 2020 JCrypTool Team and Contributors
+ * Copyright (c) 2011, 2021 JCrypTool Team and Contributors
  *
  * All rights reserved. This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
@@ -149,6 +149,26 @@ public class TransformationPreferenceSet {
     	result.put(org.jcryptool.crypto.classic.alphabets.tools.Messages.AlphabetStore_alpha_adfgvx_long,
     			new TransformData(
     					AlphabetsManager.getInstance().getAlphabetByName("ADFGVX Alphabet"), //$NON-NLS-1$
+    					true, //(if "UPPERCASE" or "LOWERCASE" is selected as standard, if this transformation is activated) 
+    					true, // upper/lowercase transformation activate flag
+    					false, // delete-blanks-transformation activate flag
+    					false, // alphabet transformation activate flag
+    					true  // umlaut transformation activate flag
+    					)
+    			);
+    	result.put(org.jcryptool.crypto.classic.alphabets.tools.Messages.AlphabetStore_alpha_xor8_long,
+    			new TransformData(
+    					AlphabetsManager.getInstance().getAlphabetByName("Xor Alphabet with 8 characters"), //$NON-NLS-1$
+    					true, //(if "UPPERCASE" or "LOWERCASE" is selected as standard, if this transformation is activated) 
+    					true, // upper/lowercase transformation activate flag
+    					false, // delete-blanks-transformation activate flag
+    					false, // alphabet transformation activate flag
+    					true  // umlaut transformation activate flag
+    					)
+    			);
+    	result.put(org.jcryptool.crypto.classic.alphabets.tools.Messages.AlphabetStore_alpha_xor16_long,
+    			new TransformData(
+    					AlphabetsManager.getInstance().getAlphabetByName("Xor Alphabet with 16 characters"), //$NON-NLS-1$
     					true, //(if "UPPERCASE" or "LOWERCASE" is selected as standard, if this transformation is activated) 
     					true, // upper/lowercase transformation activate flag
     					false, // delete-blanks-transformation activate flag

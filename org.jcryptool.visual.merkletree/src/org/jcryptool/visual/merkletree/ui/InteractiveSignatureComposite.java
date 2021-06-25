@@ -3,6 +3,7 @@ package org.jcryptool.visual.merkletree.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jcryptool.visual.merkletree.Activator;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.SWTEventDispatcher;
@@ -41,6 +42,7 @@ import org.eclipse.zest.core.widgets.GraphNode;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
+import org.jcryptool.core.util.units.UnitsService;
 import org.jcryptool.visual.merkletree.Descriptions;
 import org.jcryptool.visual.merkletree.MerkleTreeView;
 import org.jcryptool.visual.merkletree.algorithm.ISimpleMerkle;
@@ -839,7 +841,7 @@ public class InteractiveSignatureComposite extends Composite {
 			sigStringIndex = goingBack ? sigStringIndex - 1 : sigStringIndex;
 			signatureText.setText(signature[sigStringIndex] + "|");
 			signatureSize.setText(Descriptions.InteractiveSignature_11 + " "
-					+ Converter._numberToPrefix(signatureText.getText().length() / 2));
+					+ UnitsService.format(signatureText.getText().length() / 2, Activator.PLUGIN_ID));
 			if (mode == SUIT.XMSS_MT && goingBack == false) {
 				GraphNode[] tmpArray = new GraphNode[1];
 				tmpArray[0] = leaves[currentIndex];
@@ -891,7 +893,7 @@ public class InteractiveSignatureComposite extends Composite {
 				signatureText.append(signature[i] + "|");
 			}
 			signatureSize.setText(Descriptions.InteractiveSignature_11 + " "
-					+ Converter._numberToPrefix(signatureText.getText().length() / 2));
+					+ UnitsService.format(signatureText.getText().length() / 2, Activator.PLUGIN_ID));
 			goingBack = false;
 			break;
 
@@ -933,7 +935,7 @@ public class InteractiveSignatureComposite extends Composite {
 				}
 			}
 			signatureSize.setText(Descriptions.InteractiveSignature_11 + " "
-					+ Converter._numberToPrefix(signatureText.getText().length() / 2));
+					+ UnitsService.format(signatureText.getText().length() / 2, Activator.PLUGIN_ID));
 
 			isNextListener = true;
 			goingBack = false;

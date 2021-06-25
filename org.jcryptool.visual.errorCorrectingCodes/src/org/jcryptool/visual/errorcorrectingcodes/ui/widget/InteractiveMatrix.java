@@ -1,18 +1,28 @@
-/*
- * @author Daniel Hofmann
- */
+// -----BEGIN DISCLAIMER-----
+/*******************************************************************************
+ * Copyright (c) 2019, 2021 JCrypTool Team and Contributors
+ *
+ * All rights reserved. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
+// -----END DISCLAIMER-----
 package org.jcryptool.visual.errorcorrectingcodes.ui.widget;
 
 import java.util.ArrayList;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackListener;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Shell;
 import org.jcryptool.visual.errorcorrectingcodes.data.Matrix2D;
 
 /**
@@ -20,6 +30,7 @@ import org.jcryptool.visual.errorcorrectingcodes.data.Matrix2D;
  * modified by user input. It consists of a rows * columns grid of buttons that switch their value
  * from 1 to 0 on mouse click.
  * 
+ * @author Daniel Hofmann
  */
 public class InteractiveMatrix extends Composite {
 
@@ -27,9 +38,6 @@ public class InteractiveMatrix extends Composite {
 
     /** The button grid represented as a one-dimensional ArrayList. */
     private ArrayList<Button> buttonGrid;
-    
-    /** Button to view and edit the matrix via text.*/
-    private Button btnEdit;
     
     /** The modified flag, false by default */
     boolean modified;
@@ -43,7 +51,6 @@ public class InteractiveMatrix extends Composite {
 
     private Composite compControlButtons;
 
-    private MatrixEditDialog matrixEditDialog;
 
     /**
      * Instantiates a new interactive matrix.
@@ -59,10 +66,15 @@ public class InteractiveMatrix extends Composite {
         this.columns = columns;
         this.permutation = false;
         buttonGrid = new ArrayList<>();
+        
+        setLayout(new GridLayout());
        
         compMatrixElements = new Composite(this, SWT.NONE);
-        GridLayoutFactory.fillDefaults().numColumns(columns).applyTo(compMatrixElements);
-        GridDataFactory.fillDefaults().grab(true, true).applyTo(compMatrixElements);
+        GridLayout gl_compMatrixElements = new GridLayout(columns, false);
+        gl_compMatrixElements.marginHeight = 0;
+        gl_compMatrixElements.marginWidth = 0;
+        compMatrixElements.setLayout(gl_compMatrixElements);
+        compMatrixElements.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -75,27 +87,49 @@ public class InteractiveMatrix extends Composite {
                     setMatrixValues(e, (Point) btn.getData());
                     modified = true;
                 });
+                
+                // Change the mouse icon to a hand when over a button
+                btn.addMouseTrackListener(new MouseTrackListener() {
+					
+					@Override
+					public void mouseHover(MouseEvent e) {
+						
+					}
+					
+					@Override
+					public void mouseExit(MouseEvent e) {
+						Shell s = Display.getCurrent().getActiveShell();
+						// Perform a check if the Shell exists. 
+						// The shell does not exist, if the JCT has no focus,
+						// but the user hoovers over the buttons.
+						if (s != null) {
+							InteractiveMatrix.this.getDisplay().getActiveShell().setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_ARROW));
+						}
+					}
+					
+					@Override
+					public void mouseEnter(MouseEvent e) {
+						Shell s = Display.getCurrent().getActiveShell();
+						// Perform a check if the Shell exists. 
+						// The shell does not exist, if the JCT has no focus,
+						// but the user hoovers over the buttons.
+						if (s != null) {
+							s.setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_HAND));
+						}
+					}
+				});
 
-                GridDataFactory.fillDefaults().applyTo(btn);
                 buttonGrid.add(btn);
             }
         }
         
         compControlButtons = new Composite(this, SWT.NONE); 
-        GridLayoutFactory.fillDefaults().applyTo(compControlButtons);
-        GridDataFactory.fillDefaults().grab(true, true).applyTo(compControlButtons);
-
-        btnEdit = new Button(compControlButtons,SWT.NONE);
-        btnEdit.setText(Messages.InteractiveMatrix_1);
-        btnEdit.addListener(SWT.Selection, e -> {
-            matrixEditDialog = new MatrixEditDialog(this.getShell());
-            matrixEditDialog.setMatrix(matrix);
-            
-            if (matrixEditDialog.open() == Window.OK) {
-                this.setMatrix(matrixEditDialog.getMatrix());
-            }
-        });
         
+        GridLayout gl_compControlButtons = new GridLayout();
+        gl_compControlButtons.marginHeight = 0;
+        gl_compControlButtons.marginWidth = 0;
+        compControlButtons.setLayout(gl_compControlButtons);
+      
       
     }
 

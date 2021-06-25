@@ -1,9 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
+
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Merkle-Hellman Knapsack Cryptosystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Merkle-Hellman Knapsack Cryptosystem</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
+
 <body>
 <h1>Merkle-Hellman Knapsack Cryptosystem</h1>
 
@@ -30,7 +33,8 @@ The plug-in can be started via the menu <b>Visuals</b> or via the crypto explore
 <img width="85%" src="merkleHellman_main.jpg">
 
 <p>
-The plug-in consists of a description field at the top, and three basic areas below: <b>Key generation</b>, <b>Encryption</b> and <b>Decryption</b>.
+The plug-in consists of a description field at the top, and three basic areas below:
+<b>Key generation</b>, <b>Encryption</b> and <b>Decryption</b>.
 
 <p>
 In the description field the corresponding statements about the algorithm are displayed dynamically,
@@ -53,23 +57,30 @@ depending on user selection.
 <img width="85%" src="merkleHellman_key.jpg">
 <p>
 
-On this selection, the user can either use the automatically and randomly generated sample values for <b>A(i)</b>, <b>M</b> and <b>W</b>, or he can manually enter new values, or he can generate new values for the private key by clicking the button <b>Generate private key</b> <img src="merkleHellman_generatePrivKey.jpg">.
+On this selection, the user can either use the automatically and randomly generated sample values
+for <b>A(i)</b>, <b>M</b> and <b>W</b>, or he can manually enter new values, or he can generate new
+values for the private key by clicking the button <b>Generate private key</b>
+<img src="merkleHellman_generatePrivKey.jpg">.
 
 <p>
-If the entered private key elements A(i) are not a superincreasing vector and the user is clicking on the button <img src="merkleHellman_generatePubKey.jpg" style="vertical-align:middle">, the user gets displayed the following note message:
+If the entered private key elements A(i) are not a superincreasing vector and the user is clicking
+on the button <img src="merkleHellman_generatePubKey.jpg" style="vertical-align:middle">, the user
+gets displayed the following note message:
 <p>
-<img width="85%" src="merkleHellman_superIncreasing.jpg">
+<img width="50%" src="merkleHellman_superIncreasing.jpg">
 <p>
 
-There is also a check for the parameters ​​<b>M</b> and <b>W</b> when the user is clicking the button <img src="merkleHellman_generatePubKey.jpg" style="vertical-align:middle">. Depending on which condition is violated different information dialogs pop up.
+There is also a check for the parameters ​​<b>M</b> and <b>W</b> when the user is clicking the button
+<img src="merkleHellman_generatePubKey.jpg" style="vertical-align:middle">. Depending on which
+condition is violated different information dialogs pop up.
 <p>
-For M <= SUM(A(i)) the following information is shown:
+For M \(\leq\) SUM(A(i)) the following information is shown:
 <p>
-<img width="85%" src="merkleHellman_M.jpg">
+<img width="50%" src="merkleHellman_M.jpg">
 <p>
-For ggT(M,W) != 1 the following information is shown:
+For \(\gcd(M,W) \neq 1\) the following information is shown:
 <p>
-<img width="85%" src="merkleHellman_W.jpg">
+<img width="50%" src="merkleHellman_W.jpg">
 <p>
 
 After all conditions are met the public key will be calculated and the elements B(i) are shown in the <b>Public key B</b> area.
@@ -80,47 +91,62 @@ After all conditions are met the public key will be calculated and the elements 
 <a name="Kapitel2"><b>2) Encryption</b></a> 
 <p>
 
-After the keys have been generated, the user can enter a message <b>m</b> in the corresponding field. As you type the message, the binary representation is dynamically calculated in addition and shown below in the field <b>binary representation of m</b>. The button <img src="merkleHellman_encrypt.jpg" style="vertical-align:middle"> will be activated once a valid value <b>m</b> is entered.
+After the keys have been generated, the user can enter a message <b>m</b> in the corresponding
+field. As you type the message, the binary representation is dynamically calculated in addition and
+shown below in the field <b>binary representation of m</b>. The button
+<img src="merkleHellman_encrypt.jpg" style="vertical-align:middle"> will be activated once a valid
+value <b>m</b> is entered.
 <p>
-<img width="85%" src="merkleHellman_bin.jpg">
+<img width="50%" src="merkleHellman_bin.jpg">
 <p>
-When you click on the button <img src="merkleHellman_encrypt.jpg" style="vertical-align:middle"> the message parts are calculated and the iterations of the calculation will be shown in the table below. The ciphertext is calculated, displayed and entered into the decryption area.
+When you click on the button <img src="merkleHellman_encrypt.jpg" style="vertical-align:middle">
+the message parts are calculated and the iterations of the calculation will be shown in the table
+below. The ciphertext is calculated, displayed and entered into the decryption area.
 <p>
-<img width="85%" src="merkleHellman_encryptIteration.jpg">
+<img width="50%" src="merkleHellman_encryptIteration.jpg">
 <p>
 
 <a name="Kapitel3"><b>3) Decryption</b></a> 
 <p>
-For the decryption you can enter any value for <b>c</b>. The binary representation of the entered value is dynamically calculated and shown again. 
+For the decryption you can enter any value for <b>c</b>. The binary representation of the entered
+value is dynamically calculated and shown again. 
 
 <p>
-<img width="85%" src="merkleHellman_decrypt.jpg">
+<img width="50%" src="merkleHellman_decrypt.jpg">
 <p>
-By clicking the button <img src="merkleHellman_decrypt_button.jpg" style="vertical-align:middle"> the ciphertext will be decryped and its iterations of the calculation will be shown in the table. After the decryption the user has the possibility to decrypt other messages with the same keys.
+By clicking the button <img src="merkleHellman_decrypt_button.jpg" style="vertical-align:middle">
+the ciphertext will be decryped and its iterations of the calculation will be shown in the table.
+After the decryption the user has the possibility to decrypt other messages with the same keys.
 <p>
-<img width="85%" src="merkleHellman_decrypt_iteration.jpg">
+<img width="50%" src="merkleHellman_decrypt_iteration.jpg">
 <p>
-In case that the decryption was successful the following message will be displayed and both the plaintext and the ciphertest will be colored green:
+In case that the decryption was successful the following message will be displayed and both the
+plaintext and the ciphertest will be colored green:
 <p>
-<img width="85%" src="merkleHellman_decrypt_success.jpg">
+<img width="50%" src="merkleHellman_decrypt_success.jpg">
 <p>
 Otherwise, the plaintext and the ciphertext are highlighted in red color and the following message appears:
 <p>
-<img width="85%" src="merkleHellman_decrypt_failed.jpg">
+<img width="50%" src="merkleHellman_decrypt_failed.jpg">
 <p>
 
 <a name="Kapitel4"><b>4) Meaning of the icons in the menu bar</b></a>
 <p>
 <ol type="a">
-	<li>Clicking on the icon <img src="merkleHellman_icon_new.jpg" style="vertical-align:middle"> (Restart) brings the plug-in back to its initial state of the plug-in back, so you can start the algorithm from scratch.</li>
-	<li>You can change the values of the private key by clicking on the icon <img src="merkleHellman_icon_undo.jpg" style="vertical-align:middle"> (Reset function). Clicking this icon deletes all entries in the plug-in besides the private key.
+  <li>Clicking on the icon <img src="merkleHellman_icon_new.jpg" style="vertical-align:middle">
+  (Restart) brings the plug-in back to its initial state of the plug-in back, so you can start the
+  algorithm from scratch.</li>
+  <li>You can change the values of the private key by clicking on the icon
+  <img src="merkleHellman_icon_undo.jpg" style="vertical-align:middle"> (Reset function). Clicking
+  this icon deletes all entries in the plug-in besides the private key.
 </ol>
 
 <p>
 <a name="Kapitel5"><b>5) References</b></a> 
 <ol type="1">
 <li>&nbsp Wikipedia-Link <a target="_blank" href="http://en.wikipedia.org/wiki/Merkle%E2%80%93Hellman_knapsack_cryptosystem">Merkle-Hellman-Kryptosystem</a>
-<li>&nbsp Dogan, Ferit: <i>Design and implementation of plug-ins for JCrypTool - Merkle-Hellman and Hashes Visualization</i> Diploma Thesis 2015 - TU-Darmstadt
+<li>&nbsp Dogan, Ferit: <i>Design and implementation of plug-ins for JCrypTool - Merkle-Hellman
+and Hashes Visualization</i> Diploma Thesis 2015 - TU-Darmstadt
 </ol>
 
 </body>
