@@ -12,7 +12,6 @@ package org.jcryptool.analysis.entropy.ui;
 import java.text.DecimalFormat;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -25,25 +24,25 @@ public class EntropyUIresults extends Composite {
 
 	private DecimalFormat twoD;
 	private Text textNoAnalysisStarted;
-	private CLabel textName;
-	private CLabel cLdiffchars;
-	private CLabel labelCond;
-	private CLabel labelRedN;
-	private CLabel labelEntN;
-	private CLabel labelRed1;
-	private CLabel labelEnt1;
-	private CLabel labelMaxent;
-	private CLabel conditionalEntropy;
-	private CLabel tupelNRedundancy;
-	private CLabel tupelNEntropy;
-	private CLabel labelFilename;
-	private CLabel singleCharEntropy;
-	private CLabel singleCharRedundancy;
-	private CLabel maxEntropy;
-	private CLabel labelAllchars;
-	private CLabel labelDiffchars;
+	private Text textName;
+	private Text cLdiffchars;
+	private Text labelCond;
+	private Text labelRedN;
+	private Text labelEntN;
+	private Text labelRed1;
+	private Text labelEnt1;
+	private Text labelMaxent;
+	private Text conditionalEntropy;
+	private Text tupelNRedundancy;
+	private Text tupelNEntropy;
+	private Text labelFilename;
+	private Text singleCharEntropy;
+	private Text singleCharRedundancy;
+	private Text maxEntropy;
+	private Text labelAllchars;
+	private Text labelDiffchars;
 	private Group groupAnalysis;
-	private CLabel cLallchars;
+	private Text cLallchars;
 	private Group groupFilter;
 
 	public EntropyUIresults(Composite parent, int style) {
@@ -57,7 +56,7 @@ public class EntropyUIresults extends Composite {
 		gl_this.verticalSpacing = 20;
 		setLayout(gl_this);
 
-		textNoAnalysisStarted = new Text(this, SWT.READ_ONLY);
+		textNoAnalysisStarted = new Text(this, SWT.READ_ONLY | SWT.MULTI);
 		textNoAnalysisStarted.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		textNoAnalysisStarted.setText(Messages.EntropyUIresults_16);
 		textNoAnalysisStarted.setBackground(ColorService.LIGHTGRAY);
@@ -70,26 +69,26 @@ public class EntropyUIresults extends Composite {
 		groupFilter.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		groupFilter.setText(Messages.EntropyUIresults_17);
 		
-		textName = new CLabel(groupFilter, SWT.NONE);
+		textName = new Text(groupFilter, SWT.READ_ONLY);
 		textName.setText(Messages.EntropyUIresults_23);
 		
-		labelFilename = new CLabel(groupFilter, SWT.NONE);
+		labelFilename = new Text(groupFilter, SWT.READ_ONLY);
 		labelFilename.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
 		labelFilename.setText("..."); //$NON-NLS-1$
 		labelFilename.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 		
-		cLdiffchars = new CLabel(groupFilter, SWT.NONE);
+		cLdiffchars = new Text(groupFilter, SWT.READ_ONLY);
 		cLdiffchars.setText(Messages.EntropyUIresults_22);
 
-		labelAllchars = new CLabel(groupFilter, SWT.NONE);
+		labelAllchars = new Text(groupFilter, SWT.READ_ONLY);
 		labelAllchars.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
 		labelAllchars.setText("0"); //$NON-NLS-1$
 		labelAllchars.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 		
-		cLallchars = new CLabel(groupFilter, SWT.NONE);
+		cLallchars = new Text(groupFilter, SWT.READ_ONLY);
 		cLallchars.setText(Messages.EntropyUIresults_21);
 
-		labelDiffchars = new CLabel(groupFilter, SWT.NONE);
+		labelDiffchars = new Text(groupFilter, SWT.READ_ONLY);
 		labelDiffchars.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
 		labelDiffchars.setText("0"); //$NON-NLS-1$
 		labelDiffchars.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
@@ -101,56 +100,56 @@ public class EntropyUIresults extends Composite {
 		groupAnalysis.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		groupAnalysis.setText(Messages.EntropyUIresults_3);
 
-		maxEntropy = new CLabel(groupAnalysis, SWT.NONE);
+		maxEntropy = new Text(groupAnalysis, SWT.READ_ONLY);
 		maxEntropy.setText(Messages.EntropyUIresults_15);
 
-		labelMaxent = new CLabel(groupAnalysis, SWT.NONE);
+		labelMaxent = new Text(groupAnalysis, SWT.READ_ONLY);
 		labelMaxent.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
 		labelMaxent.setText("0"); //$NON-NLS-1$
 		labelMaxent.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
-		singleCharEntropy = new CLabel(groupAnalysis, SWT.NONE);
+		singleCharEntropy = new Text(groupAnalysis, SWT.READ_ONLY);
 		singleCharEntropy.setText(Messages.EntropyUIresults_14);
 
-		labelEnt1 = new CLabel(groupAnalysis, SWT.NONE);
+		labelEnt1 = new Text(groupAnalysis, SWT.READ_ONLY);
 		labelEnt1.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
 		labelEnt1.setText("G(1) = 0"); //$NON-NLS-1$
 		labelEnt1.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
-		singleCharRedundancy = new CLabel(groupAnalysis, SWT.NONE);
+		singleCharRedundancy = new Text(groupAnalysis, SWT.READ_ONLY);
 		GridData gd_singleCharRedundancy = new GridData();
 		gd_singleCharRedundancy.horizontalIndent = 30;
 		singleCharRedundancy.setLayoutData(gd_singleCharRedundancy);
 		singleCharRedundancy.setText(Messages.EntropyUIresults_13);
 
-		labelRed1 = new CLabel(groupAnalysis, SWT.NONE);
+		labelRed1 = new Text(groupAnalysis, SWT.READ_ONLY);
 		labelRed1.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
 		labelRed1.setText("0 %"); //$NON-NLS-1$
 		labelRed1.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
-		tupelNEntropy = new CLabel(groupAnalysis, SWT.NONE);
+		tupelNEntropy = new Text(groupAnalysis, SWT.READ_ONLY);
 		tupelNEntropy.setText(Messages.EntropyUIresults_12);
 
-		labelEntN = new CLabel(groupAnalysis, SWT.NONE);
+		labelEntN = new Text(groupAnalysis, SWT.READ_ONLY);
 		labelEntN.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
 		labelEntN.setText("G(n) = 0"); //$NON-NLS-1$
 		labelEntN.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
-		tupelNRedundancy = new CLabel(groupAnalysis, SWT.NONE);
+		tupelNRedundancy = new Text(groupAnalysis, SWT.READ_ONLY);
 		GridData gd_tupelNRedundancy = new GridData();
 		gd_tupelNRedundancy.horizontalIndent = 30;
 		tupelNRedundancy.setLayoutData(gd_tupelNRedundancy);
 		tupelNRedundancy.setText(Messages.EntropyUIresults_11);
 
-		labelRedN = new CLabel(groupAnalysis, SWT.NONE);
+		labelRedN = new Text(groupAnalysis, SWT.READ_ONLY);
 		labelRedN.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
 		labelRedN.setText("0 %"); //$NON-NLS-1$
 		labelRedN.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
-		conditionalEntropy = new CLabel(groupAnalysis, SWT.NONE);
+		conditionalEntropy = new Text(groupAnalysis, SWT.READ_ONLY);
 		conditionalEntropy.setText(Messages.EntropyUIresults_10);
 
-		labelCond = new CLabel(groupAnalysis, SWT.NONE);
+		labelCond = new Text(groupAnalysis, SWT.READ_ONLY);
 		labelCond.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
 		labelCond.setText("F(n) = 0"); //$NON-NLS-1$
 		labelCond.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
@@ -165,7 +164,7 @@ public class EntropyUIresults extends Composite {
 		double[][] entMatrix = eC.getResultMatrix();
 
 		if (actualN.equals(n)) {
-			textNoAnalysisStarted.setText(Messages.EntropyUIresults_24 + (actualN + 1) + Messages.EntropyUIresults_25);
+			textNoAnalysisStarted.setText(Messages.EntropyUIresults_24 + actualN + Messages.EntropyUIresults_25);
 		} else {
 			textNoAnalysisStarted.setText(
 					Messages.EntropyUIresults_26 + twoD.format(signiveau * 100) + Messages.EntropyUIresults_27);
