@@ -88,6 +88,7 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         }
         
         Button returnButton = new Button(inner, SWT.PUSH);
+        returnButton.setText(Descriptions.ReturnButton);
         returnButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_before_black_24dp.png").createImage(true));
         returnButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
@@ -105,6 +106,7 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         
         // Button to save key
         saveKeyButton = new Button(saveLoad, SWT.PUSH);
+        saveKeyButton.setText(Descriptions.Save);
         saveKeyButton.setImage(Activator.getImageDescriptor("icons/outline_file_upload_black_24dp.png").createImage(true));
         saveKeyButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {

@@ -119,6 +119,7 @@ public class RssSetMessageComposite extends RssRightSideComposite {
        
         // Button to load the message
         loadMessageButton = new Button(saveLoad, SWT.PUSH);
+        loadMessageButton.setText(Descriptions.Load);
         loadMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_download_black_24dp.png").createImage(true));
         loadMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {

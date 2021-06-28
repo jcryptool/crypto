@@ -111,6 +111,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
 
         // Next button
         nextButton = new Button(inner, SWT.PUSH);
+        nextButton.setText(Descriptions.Next);
         nextButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
         nextButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
@@ -125,6 +126,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
                    
         // Button to save the signature
         saveMessageButton = new Button(saveLoad, SWT.PUSH);
+        saveMessageButton.setText(Descriptions.Save);
         saveMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_upload_black_24dp.png").createImage(true));
         saveMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {

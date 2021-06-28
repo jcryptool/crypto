@@ -62,6 +62,7 @@ public class RssViewRedactedComposite extends RssRightSideComposite {
         }
         
         Button returnButton = new Button(inner, SWT.PUSH);
+        returnButton.setText(Descriptions.ReturnButton);
         returnButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_before_black_24dp.png").createImage(true));
         returnButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
@@ -80,6 +81,7 @@ public class RssViewRedactedComposite extends RssRightSideComposite {
         
         // Button to save the signature
         saveMessageButton = new Button(saveLoad, SWT.PUSH);
+        saveMessageButton.setText(Descriptions.Save);
         saveMessageButton.setImage(Activator.getImageDescriptor("icons/outline_file_upload_black_24dp.png").createImage(true));
         saveMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
