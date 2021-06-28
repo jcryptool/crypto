@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<contexts>
-   <context id="view" title="GsRss">
-      <description>This visual demonstrates the signing of messages with a redactable signature scheme based on sets.</description>
-      <topic href="$nl$/help/content/GsRssHelp.html" label="GsRss"/>
-   </context>
-</contexts>

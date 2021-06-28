@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<contexts>
-   <context id="view" title="GsRss">
-      <description>Diese Visualisierung demonstriert die Signatur einer Nachricht bestehend aus Sets, welche nach dem signieren geschwärzt werden kann.</description>
-      <topic href="$nl$/help/content/GsRssHelp.html" label="GsRss"/>
-   </context>
-</contexts>
