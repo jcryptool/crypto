@@ -141,7 +141,7 @@ public class EntropyUIconfig extends Composite {
 		buttonStart.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
-				final int n = buttonDeepAnalysis.getSelection() ? 50 : cComboTupelLength.getSelectionIndex() + 1;
+				final int n = buttonDeepAnalysis.getSelection() ? 0 : cComboTupelLength.getSelectionIndex() + 1;
 				final double sig = getSignificance();
 
 				if (checkEditor()) {
