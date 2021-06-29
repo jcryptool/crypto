@@ -96,23 +96,34 @@ public class EntropyUIresults extends Composite {
 		groupAnalysis = new Group(this, SWT.NONE);
 		GridLayout gl_groupAnalysis = new GridLayout(2, false);
 		gl_groupAnalysis.horizontalSpacing = 20;
+		gl_groupAnalysis.verticalSpacing = 0;
 		groupAnalysis.setLayout(gl_groupAnalysis);
 		groupAnalysis.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		groupAnalysis.setText(Messages.EntropyUIresults_3);
 
 		maxEntropy = new Text(groupAnalysis, SWT.READ_ONLY);
+		GridData gd_maxEntropy = new GridData();
+		gd_maxEntropy.verticalIndent = 5;
+		maxEntropy.setLayoutData(gd_maxEntropy);
 		maxEntropy.setText(Messages.EntropyUIresults_15);
 
 		labelMaxent = new Text(groupAnalysis, SWT.READ_ONLY);
-		labelMaxent.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
+		GridData gd_labelMaxent = new GridData(SWT.FILL, SWT.DEFAULT, true, false);
+		gd_labelMaxent.verticalIndent = 5;
+		labelMaxent.setLayoutData(gd_labelMaxent);
 		labelMaxent.setText("0"); //$NON-NLS-1$
 		labelMaxent.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
 		singleCharEntropy = new Text(groupAnalysis, SWT.READ_ONLY);
+		GridData gd_singleCharEntropy = new GridData();
+		gd_singleCharEntropy.verticalIndent = 5;
+		singleCharEntropy.setLayoutData(gd_singleCharEntropy);
 		singleCharEntropy.setText(Messages.EntropyUIresults_14);
 
 		labelEnt1 = new Text(groupAnalysis, SWT.READ_ONLY);
-		labelEnt1.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
+		GridData gd_labelEnt1 = new GridData(SWT.FILL, SWT.DEFAULT, true, false);
+		gd_labelEnt1.verticalIndent = 5;
+		labelEnt1.setLayoutData(gd_labelEnt1);
 		labelEnt1.setText("G(1) = 0"); //$NON-NLS-1$
 		labelEnt1.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
@@ -128,11 +139,16 @@ public class EntropyUIresults extends Composite {
 		labelRed1.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
 		tupelNEntropy = new Text(groupAnalysis, SWT.READ_ONLY);
+		GridData gd_tupelNEntropy = new GridData();
+		gd_tupelNEntropy.verticalIndent = 5;
+		tupelNEntropy.setLayoutData(gd_tupelNEntropy);
 		tupelNEntropy.setText(Messages.EntropyUIresults_12);
 
 		labelEntN = new Text(groupAnalysis, SWT.READ_ONLY);
-		labelEntN.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
-		labelEntN.setText("G(n) = 0"); //$NON-NLS-1$
+		GridData gd_labelEntN = new GridData(SWT.FILL, SWT.DEFAULT, true, false);
+		gd_labelEntN.verticalIndent = 5;
+		labelEntN.setLayoutData(gd_labelEntN);
+		labelEntN.setText("G(n) / n = 0"); //$NON-NLS-1$
 		labelEntN.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
 		tupelNRedundancy = new Text(groupAnalysis, SWT.READ_ONLY);
@@ -147,10 +163,15 @@ public class EntropyUIresults extends Composite {
 		labelRedN.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 
 		conditionalEntropy = new Text(groupAnalysis, SWT.READ_ONLY);
+		GridData gd_conditionalEntropy = new GridData();
+		gd_conditionalEntropy.verticalIndent = 5;
+		conditionalEntropy.setLayoutData(gd_conditionalEntropy);
 		conditionalEntropy.setText(Messages.EntropyUIresults_10);
 
 		labelCond = new Text(groupAnalysis, SWT.READ_ONLY);
-		labelCond.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
+		GridData gd_labelCond = new GridData(SWT.FILL, SWT.DEFAULT, true, false);
+		gd_labelCond.verticalIndent = 5;
+		labelCond.setLayoutData(gd_labelCond);
 		labelCond.setText("F(n) = 0"); //$NON-NLS-1$
 		labelCond.setForeground(ColorService.getColor(SWT.COLOR_BLUE));
 	}
@@ -176,7 +197,7 @@ public class EntropyUIresults extends Composite {
 		labelMaxent.setText(twoD.format(entMatrix[0][4]));
 		labelEnt1.setText("G(1) = " + twoD.format(entMatrix[0][6])); //$NON-NLS-1$
 		labelRed1.setText(twoD.format(entMatrix[0][8] * 100) + " %"); //$NON-NLS-1$
-		labelEntN.setText("G(" + (actualN) + ") = " + twoD.format(entMatrix[actualN - 1][6])); //$NON-NLS-1$ //$NON-NLS-2$
+		labelEntN.setText("G(" + (actualN) + ") / n = " + twoD.format(entMatrix[actualN - 1][6])); //$NON-NLS-1$ //$NON-NLS-2$
 		labelRedN.setText(twoD.format(entMatrix[actualN - 1][8] * 100) + " %"); //$NON-NLS-1$
 		labelCond.setText("F(" + actualN + ") = " + twoD.format(entMatrix[actualN - 1][0])); //$NON-NLS-1$ //$NON-NLS-2$
 	}
