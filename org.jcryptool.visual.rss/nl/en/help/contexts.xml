@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <contexts>
    <context id="view" title="Redactable Signature Schemes">
-      <description>Visualization to help with understanding Redactable Signature Schemes</description>
+      <description>Digital signature schemes are used to provide data integrity and data origin authentication for a signed message. A redactable signature scheme enables the attestation of a message in such a way that, if certain parts of the signed message (known as fields) are redacted (erased, blanked out or permanently removed), the attestation of the redacted message with respect to its integrity and origin authentication can still be verified. More precisely, upon signing a message, the signer knowing the private signature key can define which parts of the message can later be redacted (in the sense of ISO/IEC 27038) by any entity only knowing the message, the signature, and the signer’s redaction key. Any other modification of the signed message (e.g. redaction of other message parts or insertion/ modification of any parts) invalidates the attestation given by the signature. 
+Redactable signature schemes can serve as a basic building block in many privacy-preserving applications, such as privacy-preserving data sharing or authentication, where an entity can decide to only reveal the information from a larger set of signed information that is absolutely necessary to forward to a receiver, while the latter is still assured that the received information was previously attested, e.g. signed by a public authority.</description>
       <topic href="nl/en/help/content/index.html" label="Redactable Signature Schemes"/>
    </context>
 </contexts>
