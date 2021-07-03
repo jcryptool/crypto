@@ -1,9 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML>
 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Das SPHINCS+-Signaturverfahren</title>
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
+
 </head>
 <body>
 	<h1>Das SPHINCS+-Signaturverfahren (und wie man das Plugin benutzt)</h1>
@@ -70,54 +72,54 @@
 				</td>
 			</tr>
 			<tr>
-				<td>n</td>
+				<td>\(n\)</td>
 				<td>Der Sicherheitsparameter des Verfahrens. Die Länge der Signatur ist
-					ein Vielfaches von n. Der Parameter n definiert die Ausgabelänge
-					aller benutzten kryptografischen Funktionen, ausgenommen H<sub>msg</sub>.
+					ein Vielfaches von \(n\). Der Parameter \(n\) definiert die Ausgabelänge
+					aller benutzten kryptografischen Funktionen, ausgenommen \(H_\text{msg}\).
 				</td>
 			</tr>
 			<tr>
-				<td>h</td>
-				<td>Der Parameter h gibt die Höhe des Hypertrees an, und somit
-					die Anzahl der FORS-Instanzen. <br>Je größer h ist,
+				<td>\(h\)</td>
+				<td>Der Parameter \(h\) gibt die Höhe des Hypertrees an, und somit
+					die Anzahl der FORS-Instanzen. <br>Je größer \(h\) ist,
 					desto unwahrscheinlicher ist es, dass ein FORS-Schlüsselpaar
 					mehrmals verwendet wird. Das Verfahren wird sicherer, jedoch wächst
 					dadurch die Höhe des Hypertrees und somit die Signaturlänge.
 				</td>
 			</tr>
 			<tr>
-				<td>d</td>
-				<td>Mit dem Parameter d lässt sich die Geschwindigkeit des
+				<td>\(d\)</td>
+				<td>Mit dem Parameter \(d\) lässt sich die Geschwindigkeit des
 					Verfahrens beeinflussen. Er definiert die Anzahl der Ebenen in den
-					XMSS-Bäumen im Hypertree. Dadurch muss Parameter d den Parameter h
-					teilen. <br>Je größer d ist, desto kleiner sind die Unterbäume
-					und desto schneller kann signiert werden. Jedoch definiert d auch
+					XMSS-Bäumen im Hypertree. Dadurch muss Parameter \(d\) den Parameter \(h\)
+					teilen. <br>Je größer \(d\) ist, desto kleiner sind die Unterbäume
+					und desto schneller kann signiert werden. Jedoch definiert \(d\) auch
 					die Anzahl der WOTS+-Signaturen in einem Hypertree, und somit auch
 					in der entstehenden Signatur.
 				</td>
 			</tr>
 			<tr>
-				<td>log(t) bzw. a</td>
-				<td>Der Parameter a berechnet sich aus dem Zweierlogarothmus (Logarithmus dualis)
-					von t.<br> t definiert die Anzahl der Blätter in einem
+				<td>\(\log(t)\) bzw. \(a\)</td>
+				<td>Der Parameter \(a\) berechnet sich aus dem Zweierlogarothmus (Logarithmus dualis)
+					von \(t\).<br> \(t\) definiert die Anzahl der Blätter in einem
 					FORS-Baum und muss ein Vielfaches von 2 sein.<br>Ein kleineres
-					t führt zu kleineren und schnelleren Signaturen, jedoch benötigt
+					\(t\) führt zu kleineren und schnelleren Signaturen, jedoch benötigt
 					ein vordefiniertes Sicherheitslevel dann einen größeren Wert für den Parameter
-					k.
+					\(k\).
 				</td>
 			</tr>
 			<tr>
-				<td>k</td>
-				<td>Der Parameter k hängt mit dem Parameter t zusammen. Diese 2
+				<td>\(k\)</td>
+				<td>Der Parameter \(k\) hängt mit dem Parameter \(t\) zusammen. Diese 2
 					Parameter definieren die Geschwindigkeit und die Sicherheit von
 					FORS.</td>
 			</tr>
 			<tr>
-				<td>w</td>
-				<td>Der Winternitz-Parameter w definiert die Anzahl und Länge
+				<td>\(w\)</td>
+				<td>Der Winternitz-Parameter \(w\) definiert die Anzahl und Länge
 					der Hash-Ketten pro WOTS<sup>+</sup>-Instanz.<br>Ein größerer
 					Wert führt zu einer linear größeren Länge der Ketten, jedoch zu
-					einer logarithmisch-reduzierten Anzahl. Ein großer Wert w führt zu
+					einer logarithmisch-reduzierten Anzahl. Ein großer Wert \(w\) führt zu
 					kürzeren Signaturen, jedoch wird auf Kosten der Geschwindigkeit
 					(exponentiell).
 				</td>
@@ -166,9 +168,9 @@
 		eingeben werden. Dadurch lassen sich Signaturen reproduzieren.<br>
 		Wenn man diese Checkbox aktiviert, wird auch der Titel des Knopfs "Schlüssel generieren"
 		geändert in "Schlüssel setzen".</p>
-	<p>Der Schlüssel besteht aus vier je n-Byte langen Teilen (also aus je 2*n Hexzeichen).
+	<p>Der Schlüssel besteht aus vier je \(n\)-Byte langen Teilen (also aus je \(2 \cdot n\) Hexzeichen).
 		In der grafischen Oberfläche werden diese Teile einzeln dargestellt. Die
-		Abkürzung "SK" steht für "Secret Key" (privater Schlüssel) und "PK"
+		Abkürzung \(SK\) steht für "Secret Key" (privater Schlüssel) und \(PK\)
 		für "Public Key" (öffentlicher Schlüssel).</p>
 	<table border=1>
 		<thead>
@@ -177,24 +179,24 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>SK.seed</td>
-				<td>Der Initialisierungsvektor SK.seed wird zur Erstellung
+				<td>\(SK\).seed</td>
+				<td>Der Initialisierungsvektor \(SK\).seed wird zur Erstellung
 					aller geheimen Schlüssel von WOTS<sup>+</sup> und FORS verwendet.
 					Er ist der geheime Schlüssel des Hypertrees.
 				</td>
 			</tr>
 			<tr>
-				<td>SK.prf</td>
-				<td>Der geheime Schlüssel SK.prf wird verwendet, um einen
+				<td>\(SK\).prf</td>
+				<td>Der geheime Schlüssel \(SK\).prf wird verwendet, um einen
 					zufälligen Wert für den Nachrichten-Hash zu berechnen.</td>
 			</tr>
 			<tr>
-				<td>PK.seed</td>
-				<td>PK.seed ist ein zufälliger Wert.</td>
+				<td>\(PK\).seed</td>
+				<td>\(PK\).seed ist ein zufälliger Wert.</td>
 			</tr>
 			<tr>
-				<td>PK.root</td>
-				<td>PK.root ist der öffentliche Schlüssel des Hypertrees.</td>
+				<td>\(PK\).root</td>
+				<td>\(PK\).root ist der öffentliche Schlüssel des Hypertrees.</td>
 			</tr>
 		</tbody>
 	</table>
@@ -221,7 +223,7 @@
 	<p>Normalerweise ist die Verifikation immer ok. Um einen Fehler zu erzwingen,
 		können Sie nach der Signaturerstellung die benutzte Nachricht ändern.
 		Dann passt sie nicht mehr zur berechneten Signatur.</p>
-	<p>Drücken Sie mehrfach auf den Knopf "Nachricht signieren", wird jeweils eine neue Signatur berechnet. Diese hat aufgrund der Zufallskomponenten R jeweils einen anderen Wert.</p>
+	<p>Drücken Sie mehrfach auf den Knopf "Nachricht signieren", wird jeweils eine neue Signatur berechnet. Diese hat aufgrund der Zufallskomponenten \(R\) jeweils einen anderen Wert.</p>
 	<p>Die Statusanzeige rechts neben den beiden Knöpfen zeigt Ihnen den aktuellen Status an.</p>
 
 	<h4>Gruppierung "Zeichendarstellung"</h4>
@@ -231,7 +233,7 @@
 	<h4>Gruppierung "Signaturwerte"</h4>
 	<p>Eine SPHINCS+-Signatur besteht aus 3 Teilen, die in der
 		grafischen Oberfläche getrennt dargestellt werden.</p>
-	<p>Diese Werte sind der zufällige Wert "R", der Signaturteil, den
+	<p>Diese Werte sind der zufällige Wert \(R\), der Signaturteil, den
 		FORS generiert, und der Signaturteil, der aus dem Hypertree generiert
 		wird.</p>
 

@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="content-type" content="text / html; charset = UTF-8">
 <title>The SPHINCS+ signature</title>
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 <body>
 	<h1>The SPHINCS+ signature (and how to use the plugin)</h1>
@@ -21,7 +22,7 @@
 	<li><a href="ablauf.html">Process/scheme </a></li>
 	</ul>
 
-	<p>Remark: Besides the newer scheme <b>SPHINCS+</b>, JCT also contains the older PQC scheme <a href="PLUGINS_ROOT/org.jcryptool.visual.sphincs/$nl$/help/content/index.html">SPHINCS</a></p>.
+	<p>Remark: Besides the newer scheme <b>SPHINCS+</b>, JCT also contains the older PQC scheme <a href="PLUGINS_ROOT/org.jcryptool.visual.sphincs/$nl$/help/content/index.html">SPHINCS</a>.</p>
 
 
 
@@ -68,48 +69,48 @@
 						In the second combo box you choose which hash method is used.</td>
 				</Tr>
 				<Tr>
-					<td>n</td>
+					<td>\(n\)</td>
 					<td>The security parameter of the procedure. The signature length is
-					a multiple of n. The parameter n defines the output length of all
-					used cryptographic functions except H<sub>msg</sub>.</td>
+					a multiple of \(n\). The parameter \(n\) defines the output length of all
+					used cryptographic functions except \(H_\text{msg}\).</td>
 				</Tr>
 				<Tr>
-					<td>h</td>
-					<td>The parameter h indicates the height of the hypertree, and
+					<td>\(h\)</td>
+					<td>The parameter \(h\) indicates the height of the hypertree, and
 					thus the number of FORS instances.<br>
-					The bigger the parameter h is the more unlikely it is that a FORS key
+					The bigger the parameter \(h\) is the more unlikely it is that a FORS key
 					pair is used several times. The process is more secure, but thus
 					the height of the hypertree and thus the signature length grows.</td>
 				</Tr>
 				<Tr>
-					<td>d</td>
-					<td>The parameter d can be used to influence the speed of the process.
-						d defines the number of levels in the
-						XMSS trees in the hypertree. As a result, parameter d must divide
-						parameter h.<br> The larger d is, the smaller are the
-						subtrees and the faster the signing works. However, d also defines
+					<td>\(d\)</td>
+					<td>The parameter \(d\) can be used to influence the speed of the process.
+						\(d\) defines the number of levels in the
+						XMSS trees in the hypertree. As a result, parameter \(d\) must divide
+						parameter \(h\).<br> The larger \(d\) is, the smaller are the
+						subtrees and the faster the signing works. However, \(d\) also defines
 						the number of WOTS+ signatures in a hypertree, and also in the
 						resulting signature.</td>
 				</Tr>
 				<Tr>
-					<td>log (t) or a</td>
-					<td>The parameter a is calculated by the logarithm dualis
-						of t.<br> t defines the number of leaves in one FORS
-						tree and must be a multiple of 2.<br> A smaller t leads
+					<td>\(\log(t)\) or \(a\)</td>
+					<td>The parameter \(a\) is calculated by the logarithm dualis
+						of \(t\).<br> \(t\) defines the number of leaves in one FORS
+						tree and must be a multiple of 2.<br> A smaller \(t\) leads
 						to smaller and faster signatures, but given a predefined security
-						level it involves a larger parameter k.</td>
+						level it involves a larger parameter \(k\).</td>
 				</Tr>
 				<Tr>
-					<td>k</td>
-					<td>The k parameter is related to the t parameter. These 2
+					<td>\(k\)</td>
+					<td>The \(k\) parameter is related to the \(t\) parameter. These 2
 						parameters define the speed and security of FORS.</Td>
 				</Tr>
 				<Tr>
-					<td>w</td>
-					<td>The Winternitz parameter w defines the number and length
+					<td>\(w\)</td>
+					<td>The Winternitz parameter \(w\) defines the number and length
 						of the hash chains per WOTS<sup>+</sup> instance. <br> A bigger
 						value leads to a linearly longer length of the chains, but to
-						a logarithmically reduced number of them. A large value w leads to shorter
+						a logarithmically reduced number of them. A large value \(w\) leads to shorter
 						signatures, however, this will be at the expense of speed
 						(exponentially).</td>
 				</Tr>
@@ -154,9 +155,9 @@
 			Enabling this checkbox also changes the title of the button
 			"Generate keys"	to "Set keys".</p>
 		<p>The secret key consists of four parts each n bytes long
-			(so each is 2*n hex characters long). In the graphical user
+			(so each is \(2 \cdot n\) hex characters long). In the graphical user
 			interface, these parts are displayed separately. The abbreviation
-			"SK" stands for "secret key" (private key) and "PK" for "public key".</p>
+			\(SK\) stands for "secret key" (private key) and \(PK\) for "public key".</p>
 		<table border=1>
 			<Thead>
 				<td>Component</td>
@@ -164,23 +165,23 @@
 			</Thead>
 			<Tbody>
 				<Tr>
-					<td>SK.seed</td>
-					<td>The initialization vector SK.seed is used to create all
+					<td>\(SK\).seed</td>
+					<td>The initialization vector \(SK\).seed is used to create all
 						secret keys of WOTS<sup>+</sup> and FORS. It is the secret
 						key of the hypertree.</td>
 				</Tr>
 				<Tr>
-					<Td>SK.prf</td>
-					<td>The secret key SK.prf is used to calculate the random
+					<Td>\(SK\).prf</td>
+					<td>The secret key \(SK\).prf is used to calculate the random
 						value for the message hash.</td>
 				</Tr>
 				<Tr>
-					<td>PK.seed</td>
-					<td>PK.seed is a random value.</td>
+					<td>\(PK\).seed</td>
+					<td>\(PK\).seed is a random value.</td>
 				</Tr>
 				<Tr>
-					<td>PK.root</td>
-					<td>PK.root is the public key of the hypertree.</td>
+					<td>\(PK\).root</td>
+					<td>\(PK\).root is the public key of the hypertree.</td>
 				</Tr>
 			</Tbody>
 		</Table>
@@ -208,7 +209,7 @@
 			Then it doesn't fit any more to the generated signature.</p>
 		<p>If you push several times on the button "Sign message", you'll
 			notice, that always a new signature is calculated. This signature
-			each time has a different value, as the random value R is different.</p>
+			each time has a different value, as the random value \(R\) is different.</p>
 		<p>The status rectangle on the right of the two buttons shows the current status.</p>
 
 		<h4>Grouping "Character encoding"</h4>
@@ -218,7 +219,7 @@
 		<h4>Grouping "Signature values"</h4>
 		<p>A SPHINCS+ signature consists of 3 parts each displayed separately in the
 			graphical user interface.</p>
-		<p>These values are the random value "R", the signature part
+		<p>These values are the random value \(R\), the signature part
 			generated by FORS, and the signature part generated from the hypertree.</p>
 
 
