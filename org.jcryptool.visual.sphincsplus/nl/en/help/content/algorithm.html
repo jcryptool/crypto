@@ -17,7 +17,6 @@
 		explained here first and then follows the process and the Relationship
 		between the elements.</P>
 
-	<p>&nbsp;</p>
 	<h2>FORS</h2>
 	<p>FORS is the abbreviation for "Forest of random subsets". FORS is
 		a "few-times signature scheme". It's an improvement from HORST, which
@@ -80,7 +79,7 @@
 		bytes.<br> The key generation can be split up into several
 		steps:</p>
 	<ol>
-		<li>For each signature element:</li>
+		<li>For each signature element:
 		<ol>
 			<li>Calculate the next index (\(t\) bits from the message hash are
 				interpreted as a number)</li>
@@ -89,6 +88,7 @@
 				function)</li>
 			<li>Append the key and path to the FORS signature</li>
 		</ol>
+		</li>
 		<li>Return the entire FORS signature</li>
 	</ol>
 	<p>A signature has the following scheme:</p>
@@ -129,18 +129,18 @@
 		hash function \(T_k\).</p>
 	<p>The algorithm has the following scheme:</p>
 	<ol>
-		<li>For each signature element:</li>
+		<li>For each signature element:
 		<ol>
 			<li>Calculate the next index (\(t\) bits from the message hash are
 				interpreted as a number)</li>
 			<li>Calculate the sheet</li>
 			<li>Calculate the root from the leaf and the Authentication path</li>
 		</ol>
+		</li>
 		<li>Create the public key and give it back</li>
 	</ol>
 
 
-	<p>&nbsp;</p>
 	<h2>WOTS<sup>+</sup> one-time signatures</h2>
 	<p>WOTS+ describes a procedure for any message sign. The private
 		key may only be signed once be used. If a key is used twice, it will
@@ -201,13 +201,14 @@
 		<li>Convert message to base \(w\)</li>
 		<li>Calculate checksum</li>
 		<li>Convert the checksum to the base \(w\)</li>
-		<li>\(\text{len}\) times the following steps:</li>
+		<li>\(\text{len}\) times the following steps:
 		<ol>
 			<li>Set the chain address</li>
 			<li>Calling the chain function with the hash of \(SK\).seed and
 				\(\text{adrs}\), \(0\), message at current position, \(PK\).seed and
 				\(\text{adrs}\). Append result to the current position of the signature.</li>
 		</ol>
+		</li>
 		<li>Return the signature</li>
 	</ol>
 
@@ -235,7 +236,6 @@
 		chain function.</P>
 
 
-	<p>&nbsp;</p>
 	<h2>XMSS</h2>
 	<p>XMSS stands for "eXtended Merkle Signature Scheme", which is the WOTS+
 		is connected to a binary hash tree. There will be \(2^{h'}\)
@@ -282,13 +282,14 @@
 				<li>Calculate a node by computing a public one WOTS key</li>
 				<li>Set tree height and tree index</li>
 				<li>For each node on the stack that has the same height as the
-					calculated node:</li>
+					calculated node:
 				<ol>
 					<li>Set the index of the tree</li>
 					<li>Calculate the new node by hovering the Concatenation of
 						the node on the stack with the previously calculated Node</li>
 					<li>Set the height of the tree</li>
 				</ol>
+				</li>
 				<li>Add stack to recalculated node</li>
 			</ol></li>
 		<li>Return the node</li>
@@ -361,16 +362,16 @@
 			using <a href="#wotspkFromSig"> wots_pkFromSig () </a> and save in
 			node [0]</li>
 		<li>Calculate the root using the public WOTS+ key and the
-			authentication path</li>
+			authentication path
 		<ol>
 			<li>Set the address</li>
 			<li>Hash the node and the current authentication path</li>
 		</ol>
+		</li>
 		<li>Return the node</li>
 	</ol>
 
 
-	<p>&nbsp;</p>
 	<h2>The SPHINCS<sup>+</sup> hypertree</h2>
 	<p>The SPHINCS+ hypertree is a variant of XMSS<sup>MT</sup>. It is a
 		certification tree of XMSS instances. In this tree will always the
@@ -438,18 +439,18 @@
 		value. The process is up to the last Step equal to signing:</p>
 	<ol>
 		<li>Sign the first node (root)</li>
-		<li>For each of the \(d-1\) nodes:</li>
+		<li>For each of the \(d-1\) nodes:
 		<ol>
 			<li>Compute the secret XMSS key of the node</li>
 			<li>Sign the next node with the current</li>
 			<li>Set the next node as current</li>
 		</ol>
+		</li>
 		<li>If the last node is equal to the public key of the
 			hypertrees, then the signature is verified correctly.</Li>
 	</ol>
 
 
-	<p>&nbsp;</p>
 	<h2>SPHINCS+</h2>
 	<h4>SPHINCS+ parameter</h4>
 	<p>The effects of the parameters have already been described in the <a
@@ -602,7 +603,6 @@
 	</table>
 
 
-	<p>&nbsp;</p>
 	<h2>Literature / Recommended reading</h2>
 	<ul>
 		<li>Webpage about SPHINCS+ &ndash; Stateless hash-based signatures: <a
@@ -626,16 +626,6 @@
 			target="_blank" href="https://www.springer.com/de/book/9783540887010">https://www.springer.com/de/book/9783540887010</a>
 		</li>
 	</ul>
-<br>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-

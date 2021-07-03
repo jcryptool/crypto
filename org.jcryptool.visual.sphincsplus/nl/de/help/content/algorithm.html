@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <title>Der SPHINCS+-Algorithmus</title>
@@ -18,7 +18,6 @@
 		werden hier zuerst erklärt und danach folgt der Ablauf und der
 		Zusammenhang zwischen den Elementen.</p>
 
-	<p>&nbsp;</p>
 	<h2>FORS</h2>
 	<p>FORS ist die Abkürzung für "Forest of random Subsets". FORS ist
 		ein "few-times signature scheme". Es ist eine Verbesserung von HORST,
@@ -85,7 +84,7 @@
 		mit \(log_2(t) \cdot n\) Bytes.<br> Die Schlüsselerzeugung lässt sich auf
 		mehrere Schritte aufteilen:</p>
 	<ol>
-		<li>Für jedes Signaturelement:</li>
+		<li>Für jedes Signaturelement:
 		<ol>
 			<li>Berechne den nächsten Index (\(t\) Bits aus dem Nachrichtenhash
 				werden als Zahl interpretiert)</li>
@@ -94,6 +93,7 @@
 				TreeHash-Funktion)</li>
 			<li>Hänge den Schlüssel und den Pfad an die FORS-Signatur an</li>
 		</ol>
+</li>
 		<li>Zurückgeben der gesamten FORS-Signatur</li>
 	</ol>
 	<p>Eine Signatur hat dann folgendes Schema:</p>
@@ -136,7 +136,7 @@
 		Hashfunktion \(T_k\) gehasht.</p>
 	<p>Der Algorithmus hat folgendes Schema:</p>
 	<ol>
-		<li>Für jedes Signaturelement:</li>
+		<li>Für jedes Signaturelement:
 		<ol>
 			<li>Berechne den nächsten Index (\(t\) Bits aus dem Nachrichten-Hash
 				werden als Zahl interpretiert)</li>
@@ -144,11 +144,11 @@
 			<li>Berechne die Wurzel ausgehend vom Blatt und den
 				Authentifizierungspfad</li>
 		</ol>
+		</li>
 		<li>Erstelle den öffentlichen Schlüssel und gib diesen zurück</li>
 	</ol>
 
 
-	<p>&nbsp;</p>
 	<h2>WOTS<sup>+</sup>-Einmal-Signaturen</h2>
 	<p>WOTS+ beschreibt ein Verfahren um eine beliebige Nachricht zu
 		signieren. Der private Schlüssel darf nur ein Mal zum Signieren
@@ -211,13 +211,14 @@
 		<li>Nachricht zur Basis \(w\) umwandeln</li>
 		<li>Prüfsumme berechnen</li>
 		<li>Umwandeln der Prüfsumme zur Basis \(w\)</li>
-		<li>\(\text{len}\) Mal folgende Schritte machen:</li>
+		<li>\(\text{len}\) Mal folgende Schritte machen:
 		<ol>
 			<li>Setzen der Kettenadresse</li>
 			<li>Aufrufen der Ketten-Funktion mit dem Hash von \(SK\).seed und
 				\(\text{adrs}\), 0, Nachricht an der aktuellen Position, \(PK\).seed und \(\text{adrs}\).
 				Ergebnis anhängen an die aktuelle Position der Signatur.</li>
 		</ol>
+		</li>
 		<li>Zurückgeben der Signatur</li>
 	</ol>
 
@@ -247,7 +248,6 @@
 		Schlüssels von WOTS+ und der Ausgabe der Kettenfunktion generiert.</p>
 
 
-	<p>&nbsp;</p>
 	<h2>XMSS</h2>
 	<p>XMSS steht für "eXtended Merkle Signature Scheme", welches die
 		Verbindung von WOTS<sup>+</sup> mit einem binären Hashbaum ist. Es werden \(2^{h'}\)
@@ -297,7 +297,7 @@
 					WOTS-Schlüssels</li>
 				<li>Setzen der Baumhöhe und des Baumindexes</li>
 				<li>Für jeden Knoten am Stack, welcher die selbe Höhe hat, wie
-					der berechnete Knoten:</li>
+					der berechnete Knoten:
 				<ol>
 					<li>Setzen des Indexes des Baums</li>
 					<li>Berechnen des neuen Knotens mittel Hashen der
@@ -305,6 +305,7 @@
 						Knoten</li>
 					<li>Setzen der Höhe des Baums</li>
 				</ol>
+				</li>
 				<li>Stack dem neu berechneten Knoten hinzufügen</li>
 			</ol></li>
 		<li>Zurückgeben des Knotens</li>
@@ -378,16 +379,16 @@
 			WOTS+Signatur mittels <a href="#wotspkFromSig">wots_pkFromSig()</a> und
 			speichern in node[0]</li>
 		<li>Berechnen der Wurzel mithilfe des öffentlichen
-			WOTS+-Schlüssels und dem Authentifizierungspfades</li>
+			WOTS+-Schlüssels und dem Authentifizierungspfades
 		<ol>
 			<li>Setzen der Adresse</li>
 			<li>Hashen des Knoten und den aktuellen Authentifizierungspfad</li>
 		</ol>
+		</li>
 		<li>Zurückgeben des Knoten</li>
 	</ol>
 
 
-	<p>&nbsp;</p>
 	<h2>Der SPHINCS<sup>+</sup>-Hypertree</h2>
 	<p>Der SPHINCS+-Hypertree ist eine Variante von XMSS<sup>MT</sup>. Es ist
 		ein Zertifizierungsbaum von XMSS-Instanzen. In diesem Baum wird immer
@@ -459,18 +460,18 @@
 		Schritt gleich dem Signieren:</p>
 	<ol>
 		<li>Signieren des ersten Knotens (Wurzel)</li>
-		<li>Für jeden der \(d-1\) Knoten:</li>
+		<li>Für jeden der \(d-1\) Knoten:
 		<ol>
 			<li>Berechnen des geheimen XMSS-Schlüssels des Knotens</li>
 			<li>Signieren des nächsten Knoten mit dem aktuellen</li>
 			<li>Setzen des nächsten Knoten als aktuellen</li>
 		</ol>
+		</li>
 		<li>Wenn der letzte Knoten gleich dem öffentelichen Schlüssel des
 			Hypertrees ist, dann ist die Signatur korrekt verifiziert</li>
 	</ol>
 
 
-	<p>&nbsp;</p>
 	<h2>SPHINCS+</h2>
 	<h4>SPHINCS+-Parameter</h4>
 	<p>Die Auswirkungen der Parameter wurde bereits in der <a
@@ -628,7 +629,6 @@
 	</table>
 
 
-	<p>&nbsp;</p>
 	<h2>Literatur / Empfohlene Links</h2>
 	<ul>
 		<li>Webseite zu SPHINCS+ &ndash; Stateless hash-based signatures: <a
@@ -656,12 +656,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 
-<html>
+<html lang="de">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Das SPHINCS+-Signaturverfahren</title>
@@ -13,7 +13,8 @@
 		Signaturverfahren, das als Quantencomputer-resistent gilt. Stand Juni
 		2019 ist es in der Kategorie "Digital Signature Algorithm" in der 2. Runde der
 		NIST-Competition <a
-			target="_blank" href="https://csrc.nist.gov/Projects/Post-Quantum-Cryptography/Round-2-Submissions">Post-Quantum Cryptography</a>.</p>
+			target="_blank" href="https://csrc.nist.gov/Projects/Post-Quantum-Cryptography/Round-2-Submissions">
+			PPost-Quantum Cryptography</a>.</p>
 	<p>Die JCT-Onlinehilfe zu SPHINCS+ ist in drei Teile aufgeteilt:</p>
 	<ul>
 		<li><a href="index.html">Benutzung des Plugins [diese Seite]</a></li>
@@ -21,13 +22,11 @@
 		<li><a href="ablauf.html">Ablauf</a></li>
 	</ul>
 
-	<p>Bemerkung: Neben dem neueren Verfahren <b>SPHINCS+</b> ist in JCT auch das ältere PQC-Verfahren <a href="PLUGINS_ROOT/org.jcryptool.visual.sphincs/$nl$/help/content/index.html">SPHINCS</a> implementiert.</p>
-<!-- 
-	<ol id="tableofcontent"></ol>
- -->
+	<p>
+	Bemerkung: Neben dem neueren Verfahren <b>SPHINCS+</b> ist in JCT auch das ältere
+	PQC-Verfahren <a href="PLUGINS_ROOT/org.jcryptool.visual.sphincs/$nl$/help/content/index.html">
+	SPHINCS</a> implementiert.</p>
 
-
-	<p>&nbsp;</p>
 	<h2>Benutzung des Plugins</h2>
 	<p>Das Plugin wird über das Hauptmenü "Visualisierung" und den
 		Menüeintrag "SPHINCS+-Signatur" gestartet. Danach erscheint ein Tab
@@ -40,15 +39,17 @@
 	</ul>
 	<p>Im Folgenden werden die Inhalte der 4 Unter-Tabs beschrieben.</p>
 
-
-	<p>&nbsp;</p>
 	<h2 id="params">1. Unter-Tab "Parameter und Schlüsselerzeugung"</h2>
-	<p>Im ersten Unter-Tab können Sie die benutzten Parameter sehen und ändern, und die Schlüssel generieren, die dann im 2. Unter-Tab zum Signieren und Verifizieren benutzt werden.</p>
-	<p> Der folgende Screenshot zeigt die Standardeinstellungen, und Schlüssel, die durch Drücken des Buttons "Schlüssel generieren" zufällig erzeugt wurden. Sie können Schlüssel auch von Hand eingeben, um Beispiele aus der Literatur zu testen.</p>
-	<img src="images/SPHINCSplus_Sub-tab1_After-Pressing-KeyGen.png" alt="Sub-tab 1" id="subtab1" width = "90%" />
+	<p>Im ersten Unter-Tab können Sie die benutzten Parameter sehen und ändern, und die Schlüssel
+	generieren, die dann im 2. Unter-Tab zum Signieren und Verifizieren benutzt werden.</p>
+	<p> Der folgende Screenshot zeigt die Standardeinstellungen, und Schlüssel, die durch Drücken
+		des Buttons "Schlüssel generieren" zufällig erzeugt wurden. Sie können Schlüssel auch von Hand
+		eingeben, um Beispiele aus der Literatur zu testen.</p>
+	<img src="images/SPHINCSplus_Sub-tab1_After-Pressing-KeyGen.png" alt="Sub-tab 1" id="subtab1" width="90%" />
 	
 	<h4 id="Parameter">Gruppierung "Parameter"</h4>
-	<p>Im ersten Unter-Tab können Sie die ff. Verfahrensparameter verändern und einsehen. Die Parameter sind im Dezimalsystem (Basis 10) angegeben.</p>
+	<p>Im ersten Unter-Tab können Sie die ff. Verfahrensparameter verändern und einsehen. Die
+	Parameter sind im Dezimalsystem (Basis 10) angegeben.</p>
 	<table border=1>
 		<thead>
 			<tr>
@@ -159,8 +160,6 @@
 		</tbody>
 	</table>
 
-
-	<p>&nbsp;</p>
 	<h4>Gruppierung "Secret- und Public-Key-Komponenten (Schlüssel-Komponenten)"</h4>
 	<p>Die Anzeige der Schlüssel kann mit den beiden Radiobuttons zwischen
 		"Hex" (Hexadezimal) und "Base64" gewechselt werden.</p>
@@ -201,14 +200,18 @@
 		</tbody>
 	</table>
 
-
-
-	<p>&nbsp;</p>
 	<h2 id="signing">2. Unter-Tab "Signierung und Verifikation"</h2>
-	<p>Im zweiten Unter-Tab können Sie eine Nachricht eingeben und dann mit SPHINCS+ signieren (Voraussetzung ist, dass die Schlüssel im ersten Unter-Tab erzeugt wurden). Anschließend können Sie die Signatur verifizieren.</p>
-	<p> Solange Sie nichts ändern, wird die Verifikation immer erfolgreich sein (ok). Wenn Sie die Nachricht ändern und nochmal den Button "Signatur verifizieren" drücken, wird die Verifikation nicht erfolgreich sein.<br> Die Signaturwerte kann man momentan in diesem Unter-Tab nicht ändern. Wenn Sie im ersten Unter-Tab nochmal neue Schlüssel generieren, werden diese hier erst genutzt, wenn Sie die Nachricht nochmal signieren.</p>
-	<img src="images/SPHINCSplus_Sub-tab2_After-Pressing-Verify.png" alt="Sub-tab 2" id="subtab2" width = "90%" />
-	
+	<p>Im zweiten Unter-Tab können Sie eine Nachricht eingeben und dann mit SPHINCS+ signieren
+	(Voraussetzung ist, dass die Schlüssel im ersten Unter-Tab erzeugt wurden). Anschließend können
+	Sie die Signatur verifizieren.</p>
+	<p> Solange Sie nichts ändern, wird die Verifikation immer erfolgreich sein (ok). Wenn Sie die
+	Nachricht ändern und nochmal den Button "Signatur verifizieren" drücken, wird die Verifikation
+	nicht erfolgreich sein.<br> Die Signaturwerte kann man momentan in diesem Unter-Tab nicht ändern.
+	Wenn Sie im ersten Unter-Tab nochmal neue Schlüssel generieren, werden diese hier erst genutzt,
+	wenn Sie die Nachricht nochmal signieren.</p>
+
+	<img src="images/SPHINCSplus_Sub-tab2_After-Pressing-Verify.png" alt="Sub-tab 2" id="subtab2" width="90%" />
+
 	<h4>Gruppierung "Nachricht"</h4>
 	<p>Hier können Sie die Nachricht eingeben, die signiert werden soll.</p>
 
@@ -223,7 +226,8 @@
 	<p>Normalerweise ist die Verifikation immer ok. Um einen Fehler zu erzwingen,
 		können Sie nach der Signaturerstellung die benutzte Nachricht ändern.
 		Dann passt sie nicht mehr zur berechneten Signatur.</p>
-	<p>Drücken Sie mehrfach auf den Knopf "Nachricht signieren", wird jeweils eine neue Signatur berechnet. Diese hat aufgrund der Zufallskomponenten \(R\) jeweils einen anderen Wert.</p>
+	<p>Drücken Sie mehrfach auf den Knopf "Nachricht signieren", wird jeweils eine neue Signatur
+		berechnet. Diese hat aufgrund der Zufallskomponenten \(R\) jeweils einen anderen Wert.</p>
 	<p>Die Statusanzeige rechts neben den beiden Knöpfen zeigt Ihnen den aktuellen Status an.</p>
 
 	<h4>Gruppierung "Zeichendarstellung"</h4>
@@ -237,11 +241,22 @@
 		FORS generiert, und der Signaturteil, der aus dem Hypertree generiert
 		wird.</p>
 
-	<p>&nbsp;</p>
 	<h2 id="hypertree">3. Unter-Tab "SPHINCS+-Hypertree"</h2>
+	<div class="base-box info">
+		<div>
+			<svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+			fill="#1565C0"><path d="M0 0h24v24H0V0z" fill="none"/>
+			<path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+			<span>Info:</span> Dieser Tab ist unter Linux (GTK) aufgrund technischer Probleme nicht verfügbar.
+		</div>
+	</div>
+
 	<p>In dritten Unter-Tab wird ein typischer Hypertree mit seinen Elementen grafisch angezeigt.</p>
-	<p>Die Unter-Tabs 3 und 4 können unabhängig von der Schlüsselerzeugung im ersten Unter-Tab aufgerufen werden. Deshalb hat der Hypertree eine feste Größe und wird (noch) nicht aus den im ersten Unter-Tab erstellten Parametern dynamisch aufgebaut.</p>
-	<img src="images/SPHINCSplus_Sub-tab3_Hypertree.png" alt="Sub-tab 3" id="subtab3" width = "90%" />
+	<p>Die Unter-Tabs 3 und 4 können unabhängig von der Schlüsselerzeugung im ersten Unter-Tab
+		aufgerufen werden. Deshalb hat der Hypertree eine feste Größe und wird (noch) nicht aus den
+		im ersten Unter-Tab erstellten Parametern dynamisch aufgebaut.</p>
+
+	<img src="images/SPHINCSplus_Sub-tab3_Hypertree.png" alt="Sub-tab 3" id="subtab3" width="90%" />
 	
 	<p>Im oberen Abschnitt befinden sich eine Beschreibung und ein
 		dynamisches Textfeld. Das dynamische Textfeld zeigt Informationen zu dem
@@ -254,16 +269,23 @@
 	<p>Die Blätter des Hypertree sind FORS-Bäume. Klickt man mit der Maus auf einen FORS-Baum,
 		springt man einen Unter-Tab weiter auf den vierten Unter-Tab des Plugins.</p>
 
-
-	<p>&nbsp;</p>
 	<h2 id="forstree">4. Unter-Tab "SPHINCS+-FORS"</h2>
+
+	<div class="base-box info">
+		<div>
+			<svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+			fill="#1565C0"><path d="M0 0h24v24H0V0z" fill="none"/>
+			<path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+			<span>Info:</span> Dieser Tab ist unter Linux (GTK) aufgrund technischer Probleme nicht verfügbar.
+		</div>
+	</div>
+
 	<p>Der öffentliche Schlüssel des FORS-Baums wird als Blatt im
 		Hypertree verwendet. Der FORS-Baum besteht wiederum aus Unterbäumen.
 		Diese Unterbäume werden als ausklappbares Element dargestellt. Dabei
 		sind die Wurzel und das Container-Element grün markiert &ndash; sie stellen
 		das gleiche Element dar.</p>
-	<img src="images/SPHINCSplus_Sub-tab4_FORS.png" alt="Sub-tab 4" id="subtab4" width = "90%" />
 
-<p>&nbsp;</p>
+	<img src="images/SPHINCSplus_Sub-tab4_FORS.png" alt="Sub-tab 4" id="subtab4" width="90%"/>
 </body>
 </html>
