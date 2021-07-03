@@ -9,8 +9,88 @@
 <body>
  <h1>The Entropy Analysis</h1>
  <div class="TOC"></div> <hr />
- <p>The Entropy Analysis plug-in calculates the measure of <b>entropy</b> referring to <b>Claude Elwood Shannon</b> [1].</p>
+ <p>The Entropy Analysis plug-in calculates the measure of <b>entropy</b> referring to <b>Claude Elwood Shannon</b> [1]. In the JCrypTool implementation, the entropy is calculated on the alphabet of observed characters in the text.</p>
  <p>It uses the texteditor as message source. After opening a text in the editor, you can start the calculation in the "Configuration and Start" tab. The results are shown in the tabs "Result summary" and "entropy table". </p>
+
+<p>
+The entropy of a document is an index of its information content. The entropy is measured in bits per character. Texts in a natural language have an entropy of around 4.0 (depending on the alphabet size). Completely random texts have a value of 8.0. The output of modern encryption
+methods is usually above 7.9.
+</p>
+<p>
+<br/><b>
+Information content of a source
+</b>
+</p>
+<p>
+From the information theory point of view, the data in the current window can be viewed as
+a message source. To calculate the information content one examines the probability
+distribution of this source. It is assumed here that the individual messages (characters in
+the document / file) are stochastically independent of each other and are transmitted by
+the source with a uniform probability.
+The information content of a message M[i] is defined by
+</p>
+<p>
+information content(M[i]) := log(1/p[i]) = -log(p[i])
+</p>
+<p>
+where p[i] is the probability that message M[i] is transmitted by the message source and
+log denotes logarithms to base 2 (as indeed it does elsewhere in this document).
+This means that the information content depends exclusively on the probability distribution
+with which the source generates the messages. The semantic content of the message
+does not enter into the calculation. As the information content of an unusual message is
+higher than that of a common message, the inverse value of the probability is used in the
+definition.
+Moreover, the information content of two messages chosen independently of one another
+is equal to the sum of the information contents of the individual messages.
+</p>
+<p>
+<br/><b>
+Entropy
+</b>
+</p>
+<p>
+With the aid of the information content of the individual messages, the average amount of
+information which a source with a specified distribution delivers can be calculated. To
+calculate this mean, the individual messages are weighted with the probabilities of their
+occurrence.
+</p>
+<p>
+Entropy(p[1], p[2],..., p[r]):= - [p[1] * log(p[1]) + p[2] * log(p[2]) +... + p[r] * log(p[r])]
+</p>
+<p>
+The entropy of a source thus indicates its characteristic distribution. It measures the
+average amount of information which one can obtain through observation of the source or,
+conversely, the indeterminacy which prevails over the generated messages when one
+cannot observe the source.
+</p>
+<p>
+<br/><b>
+Simple description of entropy
+</b>
+</p>
+<p>
+Entropy is an expression of insecurity as the number of Yes/No questions which have to be
+answered in order to clarify a message or a character. If a character has a very high
+probability of occurrence, then its information content is low. This would be the case, for
+example, with a business partner who regularly replies "Yes". This reply also does not
+permit any conclusions to be drawn as to understanding or attention. Replies which occur
+very seldom have a high information content.
+</p>
+<p>
+<br/><b>
+Extreme values of entropy
+</b>
+</p>
+<p>
+For documents which contain only upper case letters, the entropy lies between 0 bit/char
+(in a document which consists of only one character) and log(26) bit/char = 4.700440
+bit/char (in a document in which all 26 characters occur equally often).
+For documents which can contain every character of the character set (0 to 255) the
+entropy lies between 0 bit/char (in a document which consists of only one character) and
+log(256) bit/char = 8 bit/char (in a document in which all 256 characters occur equally
+often).
+
+
 
  <h2 id="h2_1">Tab "Configuration and Start"</h2>
 <p>
@@ -50,7 +130,7 @@ To get the calculation running do the following three steps:
  <p><i>G(n)</i> is the entropy regarding n-tupels.</p>
  <p><i>F(n)</i> is the conditional entropy of the n-th letter considering the preceding (n-1) letters.</p>
  <p><br/></p>
- <h2>Sources id="h2_4"</h2>
+ <h2 id="h2_4">Sources</h2>
  <ul>
  <li>[1] Shannon, Claude E. ; Weaver, Warren: The mathematical theory of communication. Urbana and Chicago : University of Illinois Press, 1998. ISBN 0-252-72548-4</li>
  <li>[2] <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">https://en.wikipedia.org/wiki/Entropy_(information_theory)</a></li>
