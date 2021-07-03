@@ -3,13 +3,16 @@
 <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>The Entropy Analysis</title>
+ <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
+ <script>TOC_generate_default("h2")</script> 
 </head>
 <body>
  <h1>The Entropy Analysis</h1>
+ <div class="TOC"></div> <hr />
  <p>The Entropy Analysis plug-in calculates the measure of <b>entropy</b> referring to <b>Claude Elwood Shannon</b> [1].</p>
  <p>It uses the texteditor as message source. After opening a text in the editor, you can start the calculation in the "Configuration and Start" tab. The results are shown in the tabs "Result summary" and "entropy table". </p>
 
- <h4>"Configuration and Start"</h4>
+ <h2 id="h2_1">Tab "Configuration and Start"</h2>
 <p>
 To get the calculation running do the following three steps:
 <ol>
@@ -31,7 +34,7 @@ To get the calculation running do the following three steps:
 </dl>
 </p>
 
-<h4>"Result summary"</h4>
+<h2 id="h2_2">Tab "Result summary"</h2>
 <p>This tab shows a summary of the finished analysis. The following screenshot shows an example followed by an explanation of the values:</p>
  <img src="tab2.jpg" alt="The configuration and start tab." width="85%">
  <ol>
@@ -41,15 +44,17 @@ To get the calculation running do the following three steps:
  <li><i>Entropy:</i> Two entropy values: The Entropy resulting of statistical dependencies of length 1 (single letters only) and the entropy regarding a maximum length of n letters (n-tupel).</li>
  </ol>
 
- <h4>"entropy table"</h4>
+ <h2 id="h2_3">Tab "Entropy table"</h2>
  <p>This tabular shows all the calculated values regarding statistical dependencies from single letters up to n-tupel. </p>
  <img src="tab3.jpg" alt="The configuration and start tab." width="85%">
  <p><i>G(n)</i> is the entropy regarding n-tupels.</p>
  <p><i>F(n)</i> is the conditional entropy of the n-th letter considering the preceding (n-1) letters.</p>
  <p><br/></p>
- <p>sources:<br/>
+ <h2>Sources id="h2_4"</h2>
  <ul>
- <li>[1]<br/>Shannon, Claude E. ; Weaver, Warren: The mathematical theory of communication. Urbana and Chicago : University of Illinois Press, 1998. ISBN 0-252-72548-4</li>
+ <li>[1] Shannon, Claude E. ; Weaver, Warren: The mathematical theory of communication. Urbana and Chicago : University of Illinois Press, 1998. ISBN 0-252-72548-4</li>
+ <li>[2] <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">https://en.wikipedia.org/wiki/Entropy_(information_theory)</a></li>
+ <li>[3] <a href="https://en.wikipedia.org/wiki/Conditional_entropy">https://en.wikipedia.org/wiki/Conditional_entropy</a></li>
  </ul>
  </p>
 
