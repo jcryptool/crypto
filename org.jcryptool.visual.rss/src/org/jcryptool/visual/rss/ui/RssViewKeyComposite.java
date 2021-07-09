@@ -71,23 +71,30 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         if (info.getKeyPair() != null) {
             Label l1 = new Label(inner, SWT.READ_ONLY);
             l1.setText(Descriptions.PrivateKey);
-
-            Text t1 = new Text(inner, SWT.NONE | SWT.MULTI | SWT.WRAP);
-            t1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
            
-            //ScrolledComposite  scrolledComposite = new ScrolledComposite( inner, SWT.H_SCROLL | SWT.V_SCROLL );
-            //label.setSize( 400, 400 );
-            //scrolledComposite.setContent( t1 );
+            ScrolledComposite  sc1 = new ScrolledComposite(inner, SWT.V_SCROLL);
+            Text t1 = new Text(sc1, SWT.READ_ONLY | SWT.WRAP ); // | SWT.MULTI 
+            t1.setSize( 300, 300 );
+            sc1.setExpandHorizontal(true);
+            sc1.setExpandVertical(false);
+            sc1.setContent( t1 );
+            sc1.setMinSize(200, 200);
             
             KeyPair keyPair = info.getKeyPair();
 
             String text1 = getPrivateKeyAsString(keyPair);
             t1.setText(getSplittedString(text1, 50));
             
-            Label l2 = new Label(inner, SWT.NONE);
+            Label l2 = new Label(inner, SWT.READ_ONLY);
             l2.setText(Descriptions.PublicKey);
-            Text t2 = new Text(inner, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP);
-            t2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+            
+            ScrolledComposite sc2 = new ScrolledComposite(inner, SWT.V_SCROLL);
+            Text t2 = new Text(sc2, SWT.READ_ONLY | SWT.WRAP); //| SWT.MULTI  SWT.READ_ONLY 
+            t2.setSize( 300, 300 );
+            sc2.setExpandHorizontal(true);
+            sc2.setExpandVertical(false);
+            sc2.setContent( t2 );
+            sc2.setMinSize(200, 200);
             
             String text2 = getPublicKeyAsString(keyPair);
             t2.setText(getSplittedString(text2, 50));
