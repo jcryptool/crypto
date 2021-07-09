@@ -112,6 +112,9 @@ public class RssSetKeyComposite extends RssRightSideComposite {
             }
         });
         
+        // Use stack pane/"accordeon"?
+        //Button hash
+        
         
         // Next button
         nextButton = new Button(inner, SWT.PUSH);

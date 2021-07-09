@@ -419,7 +419,7 @@ public class RssAlgorithmController {
     	GSRSS_WITH_RSA_AND_BPA("GSRSS", "GSRSSwithRSAandBPA", "GSRSSwithRSAandBPA", false),
     	//RSS_WITH_PSA("RSS", "RSSwithPSA", "PSRSS", true),
     	GC("Generic Construction", "GCwithRSAandSHA256", "RSA", true),
-    	MERSA("SBZ02-MersaProd", "MersaWithRSAandSHA256", "Mersa256KeyPairGenerator", true);
+    	MERSA("SBZ02-MersaProd", "MERSAwithRSAandSHA3256", "MERSA16", true);
     	
     	/*
     	 * Not working, as BPPrivateKey of BPA not implemented:
