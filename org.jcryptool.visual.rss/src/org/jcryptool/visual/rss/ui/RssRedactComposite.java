@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.MessagePart;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
@@ -83,6 +84,7 @@ public class RssRedactComposite extends RssRightSideComposite {
 
        
         Button redactMessageButton = new Button(inner, SWT.PUSH);
+        redactMessageButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
         redactMessageButton.setText(Descriptions.RedactMessages);
         redactMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {

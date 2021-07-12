@@ -29,7 +29,8 @@ public class Descriptions extends NLS {
     public static String DataBoxKey;
     public static String DataBoxOrig;
     public static String DataBoxRed;
-
+    public static String Inspect;
+    public static String Reset;
     public static String Yes;
     public static String No;
     public static String Number;
@@ -67,7 +68,7 @@ public class Descriptions extends NLS {
     public static String VerifyMessage;
     public static String VerifyMessageInfoText;
     public static String Message;
-    public static String Reset;
+    public static String ResetMessageParts;
     public static String ReturnButton;
     public static String RedactMessages;
     public static String IsVerified;

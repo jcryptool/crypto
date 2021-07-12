@@ -53,14 +53,17 @@ public class RssVisualDataComposite extends Composite {
         FontData fontData = defaultFont.getFontData()[0];
         highlightedFont = new Font(getDisplay(), new FontData(fontData.getName(), fontData.getHeight(), SWT.BOLD));
 
-        GridData buttonGd = new GridData(SWT.CENTER, SWT.CENTER, true, true, 0, 0);
+        GridData buttonGd = new GridData();
 
-        viewButton = new Button(this, SWT.PUSH);
-        viewButton.setLayoutData(buttonGd);
-		viewButton.setImage(Activator.getImageDescriptor("icons/magnifying_glass.png").createImage());
         redoButton = new Button(this, SWT.PUSH);
         redoButton.setLayoutData(buttonGd);
 		redoButton.setImage(Activator.getImageDescriptor("icons/reset.png").createImage());
+		redoButton.setText(Descriptions.Reset);
+		
+        viewButton = new Button(this, SWT.PUSH);
+        viewButton.setLayoutData(buttonGd);
+		viewButton.setImage(Activator.getImageDescriptor("icons/magnifying_glass.png").createImage());
+		viewButton.setText(Descriptions.Inspect);
 
         viewButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
