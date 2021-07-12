@@ -45,6 +45,10 @@ public class Descriptions extends NLS {
     public static String NewMessage;
 	public static String AlgorithmSettings;
 	public static String SelectAlgorithmVariant;
+	public static String SelectHashMethod;
+	public static String SelectAccumulator;
+	public static String SelectUnderlayingSignatureScheme;
+	public static String SelectMaxMessageParts;
 
     // SET_MESSAGE
     public static String SetMessages;

@@ -52,9 +52,13 @@ public class RssSetKeyComposite extends RssRightSideComposite {
     private final Button generateKeyButton;
     
     private final Combo algorithmSelectionCombo;
+    private final Label hashMethodLabel;
     private final Combo hashMethodCombo;
+    private final Label maxMessagePartsLabel;
     private final Combo maxMessagePartsCombo;
+    private final Label accumulatorLabel;
     private final Combo accumulatorCombo;
+    private final Label underlayingSignatureSchemeLabel;
     private final Combo underlayingSignatureSchemeCombo;
     
     private final Composite inner;
@@ -92,52 +96,49 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         }
         keySizeCombo.select(0);
         
-        // Use stack pane/"accordeon"?
+        
+        // Begin of optional selection boxes
+        hashMethodLabel = new Label(inner, SWT.READ_ONLY);
+        hashMethodLabel.setText(Descriptions.SelectHashMethod);
         hashMethodCombo = new Combo(inner, SWT.READ_ONLY);
         for(HashMethod hashMethod: HashMethod.values()) {
         	hashMethodCombo.add(hashMethod.toString());
         }
         hashMethodCombo.select(0);
         
+        maxMessagePartsLabel = new Label(inner, SWT.READ_ONLY);
+        maxMessagePartsLabel.setText(Descriptions.SelectMaxMessageParts);
         maxMessagePartsCombo = new Combo(inner, SWT.READ_ONLY);
         for(MaxMessageParts maxMessageParts: MaxMessageParts.values()) {
         	maxMessagePartsCombo.add(maxMessageParts.toString());
         }
         maxMessagePartsCombo.select(0);
         
+        accumulatorLabel = new Label(inner, SWT.READ_ONLY);
+        accumulatorLabel.setText(Descriptions.SelectAccumulator);
         accumulatorCombo = new Combo(inner, SWT.READ_ONLY);
         for(Accumulator accumulator: Accumulator.values()) {
         	accumulatorCombo.add(accumulator.toString());
         }
         accumulatorCombo.select(0);
         
+        underlayingSignatureSchemeLabel = new Label(inner, SWT.READ_ONLY);
+        underlayingSignatureSchemeLabel.setText(Descriptions.SelectUnderlayingSignatureScheme);
         underlayingSignatureSchemeCombo = new Combo(inner, SWT.READ_ONLY);
         for(UnderlayingSignatureScheme underlayingSignatureScheme: UnderlayingSignatureScheme.values()) {
         	underlayingSignatureSchemeCombo.add(underlayingSignatureScheme.toString());
         }
         underlayingSignatureSchemeCombo.select(0);
-        // end stack pane
+        // End of optional selection boxes
+        
         
         algorithmSelectionCombo.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
         		AlgorithmType selected = AlgorithmType.valueOf(algorithmSelectionCombo.getText());
-        		System.out.println(selected);
-              
-        		switch(selected) {
-        			case GLRSS: 
-        			break;
-				case GSRSS:
-					break;
-				case GC:
-					break;
-				case MERSA:
-					break;
-				default:
-					break;
-        		}
+        		showHideCombos(selected);
             }
         });
-        
+        showHideCombos(AlgorithmType.GLRSS);
         
         // Button to generate a new key and set the algorithm controller for the selected size and variant
         generateKeyButton = new Button(inner, SWT.PUSH);
@@ -278,6 +279,53 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         
         
     }
+        
+	private void showHideCombos(AlgorithmType selected) {
+		switch(selected) {
+			case GLRSS:
+				maxMessagePartsCombo.setVisible(false);
+				maxMessagePartsLabel.setVisible(false);
+				
+				accumulatorLabel.setVisible(true);
+				accumulatorCombo.setVisible(true);
+				
+				underlayingSignatureSchemeLabel.setVisible(false);
+				underlayingSignatureSchemeCombo.setVisible(false);
+			break;
+		case GSRSS:
+				maxMessagePartsCombo.setVisible(false);
+				maxMessagePartsLabel.setVisible(false);
+				
+				accumulatorLabel.setVisible(true);
+				accumulatorCombo.setVisible(true);
+				
+				underlayingSignatureSchemeLabel.setVisible(false);
+				underlayingSignatureSchemeCombo.setVisible(false);
+			break;
+		case GC:
+				maxMessagePartsCombo.setVisible(false);
+				maxMessagePartsLabel.setVisible(false);
+				
+				accumulatorLabel.setVisible(false);
+				accumulatorCombo.setVisible(false);
+				
+				underlayingSignatureSchemeLabel.setVisible(true);
+				underlayingSignatureSchemeCombo.setVisible(true);
+			break;
+		case MERSA:
+				maxMessagePartsCombo.setVisible(true);
+				maxMessagePartsLabel.setVisible(true);
+				
+				accumulatorLabel.setVisible(false);
+				accumulatorCombo.setVisible(false);
+				
+				underlayingSignatureSchemeLabel.setVisible(false);
+				underlayingSignatureSchemeCombo.setVisible(false);
+			break;
+		default:
+			break;
+		}
+	}
 
     private KeyLength getSelectedKeyLength() {
         String keyLength = keySizeCombo.getItem(keySizeCombo.getSelectionIndex());
