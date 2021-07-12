@@ -624,7 +624,8 @@ public class RssAlgorithmController {
     public enum KeyLength {
         KL_512(512),
         KL_1024(1024),
-        KL_2048(2048);
+        KL_2048(2048),
+        KL_4096(4096);
         
         private final int length;
         
