@@ -2,9 +2,7 @@ package org.jcryptool.visual.rss.ui;
 
 import java.io.FileNotFoundException;
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
 import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Base64;
@@ -21,21 +19,21 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.jcryptool.visual.rss.Activator;
 import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.KeyInformation;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
-import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
-import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPrivateKey;
+import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GLRSSPublicKey;
+import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPublicKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPrivateKey;
 import de.unipassau.wolfgangpopp.xmlrss.wpprovider.mersa.MersaPublicKey;
-import de.unipassau.wolfgangpopp.xmlrss.wpprovider.grss.GSRSSPrivateKey;
 
 /**
  * The composite with button, text fields etc. with the function to show the set key.
@@ -46,6 +44,14 @@ public class RssViewKeyComposite extends RssRightSideComposite {
 	
 	private final Button saveKeyButton;
 	
+	private Table keyData;
+	private TableColumn column_parameter;
+	private TableColumn column_value;
+	
+	private ScrolledComposite sc;
+	private Group generalGroup;
+	private Composite composite;
+	
 
     public RssViewKeyComposite(RssBodyComposite body, final RssAlgorithmController rac) {
         super(body, SWT.NONE);
@@ -53,52 +59,128 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         prepareAboutComposite();
 
         Composite inner = new Composite(leftComposite, SWT.NONE);
-        inner.setLayout(new GridLayout(2, false));
+        inner.setLayout(new GridLayout());
 
         KeyInformation info = rac.getInformation();
-        if (info.getAlgorithmType() != null) {
-            Label l = new Label(inner, SWT.NONE);
-            l.setText(Descriptions.KeyType + ": ");
-            Label l2 = new Label(inner, SWT.NONE);
-            l2.setText(info.getAlgorithmType().toString());
-        }
-        if (info.getKeyLength() != null) {
-            Label l2 = new Label(inner, SWT.NONE);
-            l2.setText(Descriptions.KeyLength + ": ");
-            Label l = new Label(inner, SWT.NONE);
-            l.setText(info.getKeyLength().getKl() + "");
-        }
-        if (info.getKeyPair() != null) {
-            Label l1 = new Label(inner, SWT.READ_ONLY);
-            l1.setText(Descriptions.PrivateKey);
-           
-            ScrolledComposite  sc1 = new ScrolledComposite(inner, SWT.V_SCROLL);
-            Text t1 = new Text(sc1, SWT.READ_ONLY | SWT.WRAP ); // | SWT.MULTI 
-            t1.setSize( 300, 300 );
-            sc1.setExpandHorizontal(true);
-            sc1.setExpandVertical(false);
-            sc1.setContent( t1 );
-            sc1.setMinSize(200, 200);
-            
-            KeyPair keyPair = info.getKeyPair();
+        
+        /*sc = new ScrolledComposite(inner, SWT.H_SCROLL | SWT.V_SCROLL);
+        sc.setExpandHorizontal(true);
+        sc.setExpandVertical(true);
+        sc.setLayout(new GridLayout());
+        sc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 
-            String text1 = getPrivateKeyAsString(keyPair);
-            t1.setText(getSplittedString(text1, 50));
+		// define the layout for the whole TabItem now
+		generalGroup = new Group(sc, SWT.NONE);
+		generalGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+
+		// 2 columns (actions and the actionswindow)
+		generalGroup.setLayout(new GridLayout(2, false));
+
+		sc.setContent(generalGroup);
+
+		// Grid-Layout for all the buttons on the left side
+		composite = new Composite(generalGroup, SWT.NONE);
+		composite.setLayout(new GridLayout(1, true));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
+        
+        sc = new ScrolledComposite(inner, SWT.H_SCROLL | SWT.V_SCROLL);
+        sc.setSize(400,400);
+        sc.setMinSize(400, 400);*/
+        
+        final ScrolledComposite composite = new ScrolledComposite(inner, SWT.V_SCROLL);
+        composite.setLayout(new GridLayout());
+        composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+        final Table table = new Table(composite, SWT.NO_SCROLL | SWT.FULL_SELECTION);
+        table.setHeaderVisible(true);
+
+        composite.setContent(table);
+        composite.setExpandHorizontal(true);
+        composite.setExpandVertical(true);
+        composite.setAlwaysShowScrollBars(true);
+        composite.setMinSize(table.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        
+		/*keyData = new Table(inner, SWT.BORDER | SWT.FULL_SELECTION | SWT.NO_SCROLL);
+		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
+		gd_table.heightHint = 200;
+		keyData.setLayoutData(gd_table);
+		keyData.setHeaderVisible(true);
+		keyData.setLinesVisible(true);*/
+
+		/*keyData.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// copy the selected value to the clipboard
+				String selectedValue = keyData.getItem(keyData.getSelectionIndex()).getText(1);
+				final Clipboard cb = new Clipboard(extTF.getDisplay());
+				TextTransfer textTransfer = TextTransfer.getInstance();
+				cb.setContents(new Object[] { selectedValue }, new Transfer[] { textTransfer });
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});*/
+
+		column_parameter = new TableColumn(table, SWT.NONE);
+		column_parameter.setWidth(150);
+		column_parameter.setText(Descriptions.Parameter);
+
+		column_value = new TableColumn(table, SWT.NONE);
+		column_value.setWidth(300);
+		column_value.setText(Descriptions.Value);
+		
+		if (info.getAlgorithmType() != null) {
+			TableItem t1 = new TableItem(table, SWT.NONE);
+			t1.setText(new String[] { Descriptions.KeyType, info.getAlgorithmType().toString()});
+		}
+		
+		if (info.getKeyLength() != null) {
+			TableItem t2 = new TableItem(table, SWT.NONE);
+			t2.setText(new String[] { Descriptions.KeyLength, info.getKeyLength().getKl() + ""});
+		}
+		 
+        if (info.getKeyPair() != null) {          
+            KeyPair keyPair = info.getKeyPair();
             
-            Label l2 = new Label(inner, SWT.READ_ONLY);
-            l2.setText(Descriptions.PublicKey);
-            
-            ScrolledComposite sc2 = new ScrolledComposite(inner, SWT.V_SCROLL);
-            Text t2 = new Text(sc2, SWT.READ_ONLY | SWT.WRAP); //| SWT.MULTI  SWT.READ_ONLY 
-            t2.setSize( 300, 300 );
-            sc2.setExpandHorizontal(true);
-            sc2.setExpandVertical(false);
-            sc2.setContent( t2 );
-            sc2.setMinSize(200, 200);
-            
-            String text2 = getPublicKeyAsString(keyPair);
-            t2.setText(getSplittedString(text2, 50));
+            if(keyPair.getPublic() instanceof MersaPublicKey) {
+            	MersaPublicKey publicKey = (MersaPublicKey) keyPair.getPublic();
+            	MersaPrivateKey privateKey = (MersaPrivateKey) keyPair.getPrivate();
+            	
+              	for(int i = 0; i < privateKey.getNumberOfExponents(); i++) {
+            		TableItem ti = new TableItem(table, SWT.NONE);
+            		ti.setText(new String[] { "Private Exponent " + i, privateKey.getSecretExponents().get(i).toString()});
+            	}
+            	
+            	for(int i = 0; i < publicKey.getNumberOfExponents(); i++) {
+            		TableItem ti = new TableItem(table, SWT.NONE);
+            		ti.setText(new String[] { "Public Exponent " + i, publicKey.getPublicExponents().get(i).toString()});
+            	}          
+            	
+            } else {
+            	TableItem t3 = new TableItem(table, SWT.NONE);
+        		t3.setText(new String[] { Descriptions.PrivateKey, getPrivateKeyAsString(keyPair)});
+
+          		TableItem t4 = new TableItem(table, SWT.NONE);
+        		t4.setText(new String[] { Descriptions.PublicKey, getPublicKeyAsString(keyPair)});
+            }
         }
+        
+        table.getColumn(0).pack();
+        table.getColumn(1).pack();
+        composite.setMinSize(table.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+                
+		/*sc.setContent(keyData);
+	    sc.setExpandHorizontal(true);
+	    sc.setExpandVertical(true);
+	    sc.setAlwaysShowScrollBars(true);
+	    sc.setMinSize(keyData.computeSize(SWT.DEFAULT, SWT.DEFAULT));*/
+	    
+		//generalGroup.layout();
+		//generalGroup.redraw();
+		//sc.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
         
         Button returnButton = new Button(inner, SWT.PUSH);
         returnButton.setText(Descriptions.ReturnButton);
@@ -146,6 +228,53 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         });
         
 
+        /*
+         * KeyInformation info = rac.getInformation();
+        if (info.getAlgorithmType() != null) {
+            Label l = new Label(inner, SWT.NONE);
+            l.setText(Descriptions.KeyType + ": ");
+            Label l2 = new Label(inner, SWT.NONE);
+            l2.setText(info.getAlgorithmType().toString());
+        }
+        if (info.getKeyLength() != null) {
+            Label l2 = new Label(inner, SWT.NONE);
+            l2.setText(Descriptions.KeyLength + ": ");
+            Label l = new Label(inner, SWT.NONE);
+            l.setText(info.getKeyLength().getKl() + "");
+        }
+        if (info.getKeyPair() != null) {
+            Label l1 = new Label(inner, SWT.READ_ONLY);
+            l1.setText(Descriptions.PrivateKey);
+           
+            ScrolledComposite  sc1 = new ScrolledComposite(inner, SWT.V_SCROLL);
+            Text t1 = new Text(sc1, SWT.READ_ONLY | SWT.WRAP ); // | SWT.MULTI 
+            t1.setSize( 300, 300 );
+            sc1.setExpandHorizontal(true);
+            sc1.setExpandVertical(false);
+            sc1.setContent( t1 );
+            sc1.setMinSize(200, 200);
+            
+            KeyPair keyPair = info.getKeyPair();
+
+            String text1 = getPrivateKeyAsString(keyPair);
+            t1.setText(getSplittedString(text1, 50));
+            
+            Label l2 = new Label(inner, SWT.READ_ONLY);
+            l2.setText(Descriptions.PublicKey);
+            
+            ScrolledComposite sc2 = new ScrolledComposite(inner, SWT.V_SCROLL);
+            Text t2 = new Text(sc2, SWT.READ_ONLY | SWT.WRAP); //| SWT.MULTI  SWT.READ_ONLY 
+            t2.setSize( 300, 300 );
+            sc2.setExpandHorizontal(true);
+            sc2.setExpandVertical(false);
+            sc2.setContent( t2 );
+            sc2.setMinSize(200, 200);
+            
+            String text2 = getPublicKeyAsString(keyPair);
+            t2.setText(getSplittedString(text2, 50));
+        }
+        
+         */
 
     }
 

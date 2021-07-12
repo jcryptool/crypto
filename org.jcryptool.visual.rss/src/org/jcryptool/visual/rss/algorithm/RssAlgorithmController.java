@@ -368,7 +368,7 @@ public class RssAlgorithmController {
             originalSignature = signature.sign();
             currentSignature = originalSignature;
         } catch (InvalidKeyException e) {
-            throw new IllegalStateException("Invalid key for signature type.", e);
+            throw new IllegalStateException("Invalid key for signature type: " + e.getMessage(), e);
         }
                 
         currentState = State.MESSAGE_SIGNED;

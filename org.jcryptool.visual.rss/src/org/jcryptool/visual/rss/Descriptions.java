@@ -91,6 +91,9 @@ public class Descriptions extends NLS {
     public static String ViewKey;
     public static String ViewMessage;
     public static String ViewRedacted;
+	public static String Parameter;
+	public static String Value;
+
     // Key
     public static String KeyLength;
     public static String KeyType;
