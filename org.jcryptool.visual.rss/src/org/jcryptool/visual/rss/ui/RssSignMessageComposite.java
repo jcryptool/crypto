@@ -29,6 +29,8 @@ import org.jcryptool.visual.rss.persistence.MessageAndRedactable;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
+import de.unipassau.wolfgangpopp.xmlrss.wpprovider.RedactableSignatureException;
+
 /**
  * The composite with button, text fields etc. with the function select which message parts should be redactable later.
  *  
@@ -82,16 +84,22 @@ public class RssSignMessageComposite extends RssRightSideComposite {
                     for (int i = 0; i < buttonList.size(); i++) {
                     	messageParts.get(i).setRedactable(buttonList.get(i).getSelection());
                     }
-                    rac.signMessage(messageParts);
-                   
-                    // Change active buttons
-                    nextButton.setEnabled(true);
-                    saveMessageButton.setEnabled(true);
                     
-                    // Change visual
-		           	body.lightPath();
-		            body.lightDataBox(DataType.MESSAGE);
-                    
+                    try {
+						rac.signMessage(messageParts);
+						
+		                 // Change active buttons
+	                    nextButton.setEnabled(true);
+	                    saveMessageButton.setEnabled(true);
+	                    
+	                    // Change visual
+			           	body.lightPath();
+			            body.lightDataBox(DataType.MESSAGE);
+			            
+					} catch (RedactableSignatureException e1) {
+						showErrorDialog("Signing failed!",e1.getMessage());
+					}
+   
                     break;
                 }
             }

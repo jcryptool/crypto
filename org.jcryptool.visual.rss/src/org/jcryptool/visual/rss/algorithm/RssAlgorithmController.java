@@ -338,8 +338,9 @@ public class RssAlgorithmController {
     /**
      * Signs the given messageParts. Then stores the signature as originalSignature and as currentSignature.
      * @param messageParts The messageParts to sign.
+     * @throws RedactableSignatureException In case the signature could not be signed for some reason.
      */
-    public synchronized void signMessage(List<MessagePart> messageParts) {
+    public synchronized void signMessage(List<MessagePart> messageParts) throws RedactableSignatureException {
         if (currentState != State.MESSAGE_SET) {
             throw new IllegalStateException();
         }
@@ -368,8 +369,6 @@ public class RssAlgorithmController {
             currentSignature = originalSignature;
         } catch (InvalidKeyException e) {
             throw new IllegalStateException("Invalid key for signature type.", e);
-        } catch (RedactableSignatureException e) {
-            throw new IllegalStateException("Given message can not be signed.", e);
         }
                 
         currentState = State.MESSAGE_SIGNED;
