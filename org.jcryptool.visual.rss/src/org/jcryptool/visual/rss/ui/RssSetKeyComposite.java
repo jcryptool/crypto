@@ -10,6 +10,9 @@ import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -28,8 +31,14 @@ import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.algorithm.KeyInformation;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyPairGeneratorType;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.MaxMessageParts;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Scheme;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.UnderlayingSignatureScheme;
 import org.jcryptool.visual.rss.persistence.XMLPersistence;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Accumulator;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.AlgorithmType;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.HashMethod;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
 import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 
@@ -41,7 +50,13 @@ import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
 public class RssSetKeyComposite extends RssRightSideComposite {
     private final Combo keySizeCombo;
     private final Button generateKeyButton;
+    
     private final Combo algorithmSelectionCombo;
+    private final Combo hashMethodCombo;
+    private final Combo maxMessagePartsCombo;
+    private final Combo accumulatorCombo;
+    private final Combo underlayingSignatureSchemeCombo;
+    
     private final Composite inner;
     private final Button saveKeyButton;
     private final Button loadKeyButton;
@@ -65,7 +80,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         	algorithmSelectionCombo.add(signatureType.toString());
         }
         algorithmSelectionCombo.select(0);
-
+        
         // Select key length text
         Label keyLengthLabel = new Label(inner, SWT.READ_ONLY);
         keyLengthLabel.setText(Descriptions.SelectKeySize);
@@ -76,6 +91,53 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         	keySizeCombo.add(keyLength.toString());
         }
         keySizeCombo.select(0);
+        
+        // Use stack pane/"accordeon"?
+        hashMethodCombo = new Combo(inner, SWT.READ_ONLY);
+        for(HashMethod hashMethod: HashMethod.values()) {
+        	hashMethodCombo.add(hashMethod.toString());
+        }
+        hashMethodCombo.select(0);
+        
+        maxMessagePartsCombo = new Combo(inner, SWT.READ_ONLY);
+        for(MaxMessageParts maxMessageParts: MaxMessageParts.values()) {
+        	maxMessagePartsCombo.add(maxMessageParts.toString());
+        }
+        maxMessagePartsCombo.select(0);
+        
+        accumulatorCombo = new Combo(inner, SWT.READ_ONLY);
+        for(Accumulator accumulator: Accumulator.values()) {
+        	accumulatorCombo.add(accumulator.toString());
+        }
+        accumulatorCombo.select(0);
+        
+        underlayingSignatureSchemeCombo = new Combo(inner, SWT.READ_ONLY);
+        for(UnderlayingSignatureScheme underlayingSignatureScheme: UnderlayingSignatureScheme.values()) {
+        	underlayingSignatureSchemeCombo.add(underlayingSignatureScheme.toString());
+        }
+        underlayingSignatureSchemeCombo.select(0);
+        // end stack pane
+        
+        algorithmSelectionCombo.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+        		AlgorithmType selected = AlgorithmType.valueOf(algorithmSelectionCombo.getText());
+        		System.out.println(selected);
+              
+        		switch(selected) {
+        			case GLRSS: 
+        			break;
+				case GSRSS:
+					break;
+				case GC:
+					break;
+				case MERSA:
+					break;
+				default:
+					break;
+        		}
+            }
+        });
+        
         
         // Button to generate a new key and set the algorithm controller for the selected size and variant
         generateKeyButton = new Button(inner, SWT.PUSH);
@@ -92,12 +154,20 @@ public class RssSetKeyComposite extends RssRightSideComposite {
                     keySizeCombo.setEnabled(false);
                     algorithmSelectionCombo.setEnabled(false);
                     
-                    // Get selected length and algorithm type
-                    KeyLength length = getKeyLength();
-                    AlgorithmType type = getAlgorithmType();
+                    // Get selected params
+                    KeyLength length = getSelectedKeyLength();
+                    AlgorithmType algorithmType = getSelectedAlgorithmType();
+                    HashMethod hashMethod = getSelectedHashMethod();
+                    MaxMessageParts maxMessageParts = getSelectedMaxMessageParts();
+                    Accumulator accumulator = getSelectedAccumulator();
+                    UnderlayingSignatureScheme underlayingSignatureScheme = getSelectedUnderlayingSignatureScheme();
+                    
+                    // Get scheme for selected params
+                    Scheme scheme = RssAlgorithmController.getScheme(algorithmType, hashMethod, accumulator, underlayingSignatureScheme);    
+                    KeyPairGeneratorType keyGenType = RssAlgorithmController.getKeyGenType(algorithmType, maxMessageParts);
                                         
                     // Generate a new keypair and set the chosen algorithm variant to the rssController
-                    rssController.generateKey(type, length);
+                    rssController.generateKey(scheme, keyGenType, length);
                     
                     // Change the visual
                     body.lightPath();
@@ -112,10 +182,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
             }
         });
         
-        // Use stack pane/"accordeon"?
-        //Button hash
-        
-        
+
         // Next button
         nextButton = new Button(inner, SWT.PUSH);
         nextButton.setText(Descriptions.Next);
@@ -160,7 +227,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 				
 					// It is null in case the loading was not successful
 					if(loadedKeyInformation != null) {
-						keySizeCombo.setText(getKeyLength().toString());
+						keySizeCombo.setText(getSelectedKeyLength().toString());
 						algorithmSelectionCombo.setText(loadedKeyInformation.getAlgorithmType().toString());
 						
 						// Disable controls
@@ -212,15 +279,35 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         
     }
 
-    private KeyLength getKeyLength() {
+    private KeyLength getSelectedKeyLength() {
         String keyLength = keySizeCombo.getItem(keySizeCombo.getSelectionIndex());
         return KeyLength.getItem(keyLength);
     }
     
-    private AlgorithmType getAlgorithmType() {
+    private AlgorithmType getSelectedAlgorithmType() {
     	String keyText = algorithmSelectionCombo.getItem(algorithmSelectionCombo.getSelectionIndex());
-    	return AlgorithmType.fromString(keyText);
+    	return AlgorithmType.valueOf(keyText);
     }
+    
+    private UnderlayingSignatureScheme getSelectedUnderlayingSignatureScheme() {
+    	String text = underlayingSignatureSchemeCombo.getItem(underlayingSignatureSchemeCombo.getSelectionIndex());
+    	return UnderlayingSignatureScheme.valueOf(text);
+	}
+
+	private Accumulator getSelectedAccumulator() {
+    	String text = accumulatorCombo.getItem(accumulatorCombo.getSelectionIndex());
+    	return Accumulator.valueOf(text);
+	}
+
+	private MaxMessageParts getSelectedMaxMessageParts() {
+    	String text = maxMessagePartsCombo.getItem(maxMessagePartsCombo.getSelectionIndex());
+    	return MaxMessageParts.getItem(text);
+	}
+
+	private HashMethod getSelectedHashMethod() {
+    	String text = hashMethodCombo.getItem(hashMethodCombo.getSelectionIndex());
+    	return HashMethod.valueOf(text);
+	}
 
     @Override
     void prepareAboutComposite() {

@@ -2,7 +2,7 @@ package org.jcryptool.visual.rss.algorithm;
 
 import java.security.KeyPair;
 
-import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.AlgorithmType;
+import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.Scheme;
 import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
 
 /**
@@ -11,17 +11,17 @@ import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
  * @author Lukas Krodinger
  */
 public class KeyInformation {
-	public AlgorithmType algorithmType;
+	public Scheme algorithmType;
 	public KeyLength keyLength;
 	public KeyPair keyPair;
 
-	public KeyInformation(AlgorithmType algorithmType, KeyLength keyLength, KeyPair keyPair) {
+	public KeyInformation(Scheme algorithmType, KeyLength keyLength, KeyPair keyPair) {
 		this.algorithmType = algorithmType;
 		this.keyLength = keyLength;
 		this.keyPair = keyPair;
 	}
 
-	public AlgorithmType getAlgorithmType() {
+	public Scheme getAlgorithmType() {
 		return algorithmType;
 	}
 
