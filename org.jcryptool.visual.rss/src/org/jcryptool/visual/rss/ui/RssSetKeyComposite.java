@@ -131,7 +131,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         underlayingSignatureSchemeCombo.select(0);
         // End of optional selection boxes
         
-        
+        // Show/Hide optional selection boxes
         algorithmSelectionCombo.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
         		AlgorithmType selected = AlgorithmType.valueOf(algorithmSelectionCombo.getText());
@@ -139,6 +139,32 @@ public class RssSetKeyComposite extends RssRightSideComposite {
             }
         });
         showHideCombos(AlgorithmType.GLRSS);
+        
+        // Disable SHA_512 with KeySize 512
+        hashMethodCombo.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+            	HashMethod hashMethod = HashMethod.valueOf(hashMethodCombo.getText());
+        		KeyLength keySize = KeyLength.getItem(keySizeCombo.getText());
+
+        		if(hashMethod == HashMethod.SHA_512 && keySize == KeyLength.KL_512) {
+        			showWarning(Descriptions.ConfigurationNotAllowed, Descriptions.InvalidConfiguration);
+        			hashMethodCombo.select(0);
+        		}
+            }
+        });
+        
+        keySizeCombo.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+            	HashMethod hashMethod = HashMethod.valueOf(hashMethodCombo.getText());
+        		KeyLength keySize = KeyLength.getItem(keySizeCombo.getText());
+
+        		if(hashMethod == HashMethod.SHA_512 && keySize == KeyLength.KL_512) {
+        			showWarning(Descriptions.ConfigurationNotAllowed, Descriptions.InvalidConfiguration);
+        			keySizeCombo.select(1);
+        		}
+            }
+        });
+   
         
         // Button to generate a new key and set the algorithm controller for the selected size and variant
         generateKeyButton = new Button(inner, SWT.PUSH);
@@ -325,6 +351,14 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 		default:
 			break;
 		}
+	}
+	
+	private void showWarning(String title, String message) {
+		MessageBox dialog =
+		    new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_WARNING | SWT.OK);
+		dialog.setText(title);
+		dialog.setMessage(message);
+		dialog.open();		
 	}
 
     private KeyLength getSelectedKeyLength() {

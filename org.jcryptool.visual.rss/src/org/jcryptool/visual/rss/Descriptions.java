@@ -50,6 +50,8 @@ public class Descriptions extends NLS {
 	public static String SelectAccumulator;
 	public static String SelectUnderlayingSignatureScheme;
 	public static String SelectMaxMessageParts;
+	public static String ConfigurationNotAllowed;
+	public static String InvalidConfiguration;
 
     // SET_MESSAGE
     public static String SetMessages;
