@@ -10,6 +10,12 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -44,13 +50,9 @@ public class RssViewKeyComposite extends RssRightSideComposite {
 	
 	private final Button saveKeyButton;
 	
-	private Table keyData;
+	private Table table;
 	private TableColumn column_parameter;
 	private TableColumn column_value;
-	
-	private ScrolledComposite sc;
-	private Group generalGroup;
-	private Composite composite;
 	
 
     public RssViewKeyComposite(RssBodyComposite body, final RssAlgorithmController rac) {
@@ -63,72 +65,24 @@ public class RssViewKeyComposite extends RssRightSideComposite {
 
         KeyInformation info = rac.getInformation();
         
-        /*sc = new ScrolledComposite(inner, SWT.H_SCROLL | SWT.V_SCROLL);
-        sc.setExpandHorizontal(true);
-        sc.setExpandVertical(true);
-        sc.setLayout(new GridLayout());
-        sc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-
-		// define the layout for the whole TabItem now
-		generalGroup = new Group(sc, SWT.NONE);
-		generalGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-
-		// 2 columns (actions and the actionswindow)
-		generalGroup.setLayout(new GridLayout(2, false));
-
-		sc.setContent(generalGroup);
-
-		// Grid-Layout for all the buttons on the left side
-		composite = new Composite(generalGroup, SWT.NONE);
-		composite.setLayout(new GridLayout(1, true));
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
-        
-        sc = new ScrolledComposite(inner, SWT.H_SCROLL | SWT.V_SCROLL);
-        sc.setSize(400,400);
-        sc.setMinSize(400, 400);*/
-        
-        final ScrolledComposite composite = new ScrolledComposite(inner, SWT.V_SCROLL);
-        composite.setLayout(new GridLayout());
-        composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-        final Table table = new Table(composite, SWT.NO_SCROLL | SWT.FULL_SELECTION);
-        table.setHeaderVisible(true);
-
-        composite.setContent(table);
-        composite.setExpandHorizontal(true);
-        composite.setExpandVertical(true);
-        composite.setAlwaysShowScrollBars(true);
-        composite.setMinSize(table.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-        
-		/*keyData = new Table(inner, SWT.BORDER | SWT.FULL_SELECTION | SWT.NO_SCROLL);
+        table = new Table(inner, SWT.BORDER | SWT.FULL_SELECTION | SWT.H_SCROLL);
 		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
 		gd_table.heightHint = 200;
-		keyData.setLayoutData(gd_table);
-		keyData.setHeaderVisible(true);
-		keyData.setLinesVisible(true);*/
+		gd_table.widthHint = 200;
+		table.setLayoutData(gd_table);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
-		/*keyData.addSelectionListener(new SelectionListener() {
+		table.getHorizontalBar().setEnabled(true);
+		table.getHorizontalBar().setVisible(true);
 
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// copy the selected value to the clipboard
-				String selectedValue = keyData.getItem(keyData.getSelectionIndex()).getText(1);
-				final Clipboard cb = new Clipboard(extTF.getDisplay());
-				TextTransfer textTransfer = TextTransfer.getInstance();
-				cb.setContents(new Object[] { selectedValue }, new Transfer[] { textTransfer });
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});*/
 
 		column_parameter = new TableColumn(table, SWT.NONE);
-		column_parameter.setWidth(150);
+		column_parameter.setWidth(500);
 		column_parameter.setText(Descriptions.Parameter);
 
 		column_value = new TableColumn(table, SWT.NONE);
-		column_value.setWidth(300);
+		column_value.setWidth(800);
 		column_value.setText(Descriptions.Value);
 		
 		if (info.getAlgorithmType() != null) {
@@ -167,19 +121,8 @@ public class RssViewKeyComposite extends RssRightSideComposite {
             }
         }
         
-        table.getColumn(0).pack();
-        table.getColumn(1).pack();
-        composite.setMinSize(table.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-                
-		/*sc.setContent(keyData);
-	    sc.setExpandHorizontal(true);
-	    sc.setExpandVertical(true);
-	    sc.setAlwaysShowScrollBars(true);
-	    sc.setMinSize(keyData.computeSize(SWT.DEFAULT, SWT.DEFAULT));*/
-	    
-		//generalGroup.layout();
-		//generalGroup.redraw();
-		//sc.setMinSize(generalGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        inner.layout();
+        inner.redraw();
 
         
         Button returnButton = new Button(inner, SWT.PUSH);
