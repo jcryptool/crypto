@@ -44,8 +44,7 @@ public class RssAlgorithmController {
      * Information about the current key.
      */
     private KeyLength keyLength;
-    private Scheme keyType;
-    private KeyPairGeneratorType keyPairGeneratorType;
+    private Scheme scheme;
     private KeyPair keyPair;
     
     /**
@@ -96,7 +95,7 @@ public class RssAlgorithmController {
      * @return The current key information.
      */
     public KeyInformation getInformation() {
-        return new KeyInformation(keyType, keyLength, keyPair);
+        return new KeyInformation(scheme, keyLength, keyPair);
     }
     
     /**
@@ -289,7 +288,7 @@ public class RssAlgorithmController {
     	// Set all information about the key and the key pair itself
     	this.keyLength = information.keyLength;
     	this.keyPair = information.keyPair;
-    	this.keyType = information.algorithmType;
+    	this.scheme = information.algorithmType;
     	
     	currentState = State.KEY_SET;
     }
@@ -581,15 +580,21 @@ public class RssAlgorithmController {
     }
     
     public enum AlgorithmType {
-    	GLRSS(KeyPairGeneratorType.GLRSS),
-    	GSRSS(KeyPairGeneratorType.GSRSS),
-    	GC(KeyPairGeneratorType.RSA),
-    	MERSA(KeyPairGeneratorType.MERSA8, KeyPairGeneratorType.MERSA16, KeyPairGeneratorType.MERSA1024);
+    	GLRSS("GLRSS", KeyPairGeneratorType.GLRSS),
+    	GSRSS("GSRSS", KeyPairGeneratorType.GSRSS),
+    	GC("Generic Construction", KeyPairGeneratorType.RSA),
+    	MERSA("SBZ02-MersaProd", KeyPairGeneratorType.MERSA8, KeyPairGeneratorType.MERSA16, KeyPairGeneratorType.MERSA1024);
     	
+    	private final String algorithmName;
     	private final KeyPairGeneratorType[] supportedKeyPairGenerators;
     	
-    	AlgorithmType(KeyPairGeneratorType... supportedKeyPairGenerators){
+    	AlgorithmType(String algorithmName, KeyPairGeneratorType... supportedKeyPairGenerators){
+    		this.algorithmName = algorithmName;
     		this.supportedKeyPairGenerators = supportedKeyPairGenerators;
+    	}
+    	
+    	public String getAlgorithmName() {
+    		return algorithmName;
     	}
     	
     	public KeyPairGeneratorType[] getSupportedKeyPairGenerators(){
@@ -829,7 +834,7 @@ public class RssAlgorithmController {
 		
 		SignatureOutput loadedSignOut = persistence.loadSignatureOutput(path);
 			
-		if(!loadedSignOut.getAlgorithmName().equals(keyType.shortName)) {
+		if(!loadedSignOut.getAlgorithmName().equals(scheme.getAlgorithmType().getAlgorithmName())) {
 			throw new InvalidSignatureException("The loaded signature does not match the current key.");
 		}
 		
