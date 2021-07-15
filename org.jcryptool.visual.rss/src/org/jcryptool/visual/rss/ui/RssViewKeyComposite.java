@@ -68,21 +68,15 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         table = new Table(inner, SWT.BORDER | SWT.FULL_SELECTION | SWT.H_SCROLL);
 		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
 		gd_table.heightHint = 200;
-		gd_table.widthHint = 200;
+		gd_table.widthHint = 400;
 		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
-		table.getHorizontalBar().setEnabled(true);
-		table.getHorizontalBar().setVisible(true);
-
-
 		column_parameter = new TableColumn(table, SWT.NONE);
-		column_parameter.setWidth(500);
 		column_parameter.setText(Descriptions.Parameter);
 
 		column_value = new TableColumn(table, SWT.NONE);
-		column_value.setWidth(800);
 		column_value.setText(Descriptions.Value);
 		
 		if (info.getAlgorithmType() != null) {
@@ -101,17 +95,17 @@ public class RssViewKeyComposite extends RssRightSideComposite {
             if(keyPair.getPublic() instanceof MersaPublicKey) {
             	MersaPublicKey publicKey = (MersaPublicKey) keyPair.getPublic();
             	MersaPrivateKey privateKey = (MersaPrivateKey) keyPair.getPrivate();
-            	
+                 	
               	for(int i = 0; i < privateKey.getNumberOfExponents(); i++) {
-            		TableItem ti = new TableItem(table, SWT.NONE);
-            		ti.setText(new String[] { "Private Exponent " + i, privateKey.getSecretExponents().get(i).toString()});
+              		TableItem ts = new TableItem(table, SWT.NONE);
+              		ts.setText(new String[] { "Private Exponent " + i, privateKey.getSecretExponents().get(i).toString()});
             	}
             	
             	for(int i = 0; i < publicKey.getNumberOfExponents(); i++) {
-            		TableItem ti = new TableItem(table, SWT.NONE);
-            		ti.setText(new String[] { "Public Exponent " + i, publicKey.getPublicExponents().get(i).toString()});
-            	}          
-            	
+            		TableItem tp = new TableItem(table, SWT.NONE);
+            		tp.setText(new String[] { "Public Exponent " + i, publicKey.getPublicExponents().get(i).toString()});
+            	} 
+        		
             } else {
             	TableItem t3 = new TableItem(table, SWT.NONE);
         		t3.setText(new String[] { Descriptions.PrivateKey, getPrivateKeyAsString(keyPair)});
@@ -121,8 +115,9 @@ public class RssViewKeyComposite extends RssRightSideComposite {
             }
         }
         
-        inner.layout();
-        inner.redraw();
+        column_parameter.pack();
+        column_value.pack();
+
 
         
         Button returnButton = new Button(inner, SWT.PUSH);
