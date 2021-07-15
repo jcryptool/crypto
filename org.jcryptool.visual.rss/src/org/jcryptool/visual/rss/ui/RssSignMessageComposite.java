@@ -82,6 +82,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
                 case SWT.Selection:
                     signMessageButton.setEnabled(false);
                     for (int i = 0; i < buttonList.size(); i++) {
+                    	buttonList.get(i).setEnabled(false);
                     	messageParts.get(i).setRedactable(buttonList.get(i).getSelection());
                     }
                     
