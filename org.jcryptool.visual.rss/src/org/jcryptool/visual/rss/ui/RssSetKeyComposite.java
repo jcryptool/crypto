@@ -96,8 +96,6 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         }
         keySizeCombo.select(0);
         
-        
-        // Begin of optional selection boxes
         hashMethodLabel = new Label(inner, SWT.READ_ONLY);
         hashMethodLabel.setText(Descriptions.SelectHashMethod);
         hashMethodCombo = new Combo(inner, SWT.READ_ONLY);
@@ -106,14 +104,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         }
         hashMethodCombo.select(0);
         
-        maxMessagePartsLabel = new Label(inner, SWT.READ_ONLY);
-        maxMessagePartsLabel.setText(Descriptions.SelectMaxMessageParts);
-        maxMessagePartsCombo = new Combo(inner, SWT.READ_ONLY);
-        for(MaxMessageParts maxMessageParts: MaxMessageParts.values()) {
-        	maxMessagePartsCombo.add(maxMessageParts.toString());
-        }
-        maxMessagePartsCombo.select(0);
-        
+        // Begin of optional selection boxes
         accumulatorLabel = new Label(inner, SWT.READ_ONLY);
         accumulatorLabel.setText(Descriptions.SelectAccumulator);
         accumulatorCombo = new Combo(inner, SWT.READ_ONLY);
@@ -129,6 +120,14 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         	underlayingSignatureSchemeCombo.add(underlayingSignatureScheme.toString());
         }
         underlayingSignatureSchemeCombo.select(0);
+        
+        maxMessagePartsLabel = new Label(inner, SWT.READ_ONLY);
+        maxMessagePartsLabel.setText(Descriptions.SelectMaxMessageParts);
+        maxMessagePartsCombo = new Combo(inner, SWT.READ_ONLY);
+        for(MaxMessageParts maxMessageParts: MaxMessageParts.values()) {
+        	maxMessagePartsCombo.add(maxMessageParts.toString());
+        }
+        maxMessagePartsCombo.select(0);
         // End of optional selection boxes
         
         // Show/Hide optional selection boxes
