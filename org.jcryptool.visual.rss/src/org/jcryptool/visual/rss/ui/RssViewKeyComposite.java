@@ -62,13 +62,14 @@ public class RssViewKeyComposite extends RssRightSideComposite {
 
         Composite inner = new Composite(leftComposite, SWT.NONE);
         inner.setLayout(new GridLayout());
+        inner.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 
         KeyInformation info = rac.getInformation();
         
         table = new Table(inner, SWT.BORDER | SWT.FULL_SELECTION | SWT.H_SCROLL);
 		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_table.heightHint = 200;
 		gd_table.widthHint = 400;
+		gd_table.heightHint = 300;
 		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -117,7 +118,6 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         
         column_parameter.pack();
         column_value.pack();
-
 
         
         Button returnButton = new Button(inner, SWT.PUSH);
