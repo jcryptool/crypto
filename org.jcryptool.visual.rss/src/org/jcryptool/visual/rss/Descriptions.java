@@ -135,6 +135,7 @@ public class Descriptions extends NLS {
 	public static String GSRSS;
 	public static String GC;
 	public static String Mersa;
+	public static String BPA;
 
 	
 

@@ -671,7 +671,27 @@ public class RssAlgorithmController {
      * @author Lukas Krodinger
      */
     public enum Accumulator {
-        BPA;
+        BPA(Descriptions.BPA);
+    	
+    	private final String displayName;
+    	
+    	Accumulator(String displayName){
+    		this.displayName = displayName;
+    	}
+    	
+        @Override
+        public String toString() {
+        	return displayName;
+        }
+        
+        public static Accumulator fromString(String text) {
+            for (Accumulator accumulator : Accumulator.values()) {
+                if (accumulator.displayName.equalsIgnoreCase(text)) {
+                    return accumulator;
+                }
+            }
+            return null;
+        }
     }
     
     /**

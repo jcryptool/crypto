@@ -377,7 +377,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 
 	private Accumulator getSelectedAccumulator() {
     	String text = accumulatorCombo.getItem(accumulatorCombo.getSelectionIndex());
-    	return Accumulator.valueOf(text);
+    	return Accumulator.fromString(text);
 	}
 
 	private MaxMessageParts getSelectedMaxMessageParts() {
