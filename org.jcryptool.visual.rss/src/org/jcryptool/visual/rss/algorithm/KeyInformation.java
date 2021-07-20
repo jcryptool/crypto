@@ -11,18 +11,18 @@ import org.jcryptool.visual.rss.algorithm.RssAlgorithmController.KeyLength;
  * @author Lukas Krodinger
  */
 public class KeyInformation {
-	public Scheme algorithmType;
+	public Scheme scheme;
 	public KeyLength keyLength;
 	public KeyPair keyPair;
 
-	public KeyInformation(Scheme algorithmType, KeyLength keyLength, KeyPair keyPair) {
-		this.algorithmType = algorithmType;
+	public KeyInformation(Scheme scheme, KeyLength keyLength, KeyPair keyPair) {
+		this.scheme = scheme;
 		this.keyLength = keyLength;
 		this.keyPair = keyPair;
 	}
 
-	public Scheme getAlgorithmType() {
-		return algorithmType;
+	public Scheme getScheme() {
+		return scheme;
 	}
 
 	public KeyLength getKeyLength() {

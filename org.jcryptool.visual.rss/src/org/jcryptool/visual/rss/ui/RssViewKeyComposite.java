@@ -80,9 +80,9 @@ public class RssViewKeyComposite extends RssRightSideComposite {
 		column_value = new TableColumn(table, SWT.NONE);
 		column_value.setText(Descriptions.Value);
 		
-		if (info.getAlgorithmType() != null) {
+		if (info.getScheme() != null) {
 			TableItem t1 = new TableItem(table, SWT.NONE);
-			t1.setText(new String[] { Descriptions.KeyType, info.getAlgorithmType().toString()});
+			t1.setText(new String[] { Descriptions.KeyType, info.getScheme().getAlgorithmType().toString()});
 		}
 		
 		if (info.getKeyLength() != null) {

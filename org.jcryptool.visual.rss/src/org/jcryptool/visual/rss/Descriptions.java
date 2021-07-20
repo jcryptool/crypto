@@ -130,8 +130,11 @@ public class Descriptions extends NLS {
 	public static String Load;
 	public static String Save;
 
-
-
+	// Scheme Names
+	public static String GLRSS;
+	public static String GSRSS;
+	public static String GC;
+	public static String Mersa;
 
 	
 

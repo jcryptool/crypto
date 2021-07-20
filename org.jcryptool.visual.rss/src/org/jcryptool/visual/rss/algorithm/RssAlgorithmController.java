@@ -6,16 +6,11 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import org.jcryptool.visual.rss.Descriptions;
 import org.jcryptool.visual.rss.persistence.InvalidSignatureException;
-import org.jcryptool.visual.rss.persistence.MessageAndRedactable;
 import org.jcryptool.visual.rss.persistence.Persistence;
 import org.jcryptool.visual.rss.persistence.XMLPersistence;
 import org.jcryptool.visual.rss.ui.RssBodyComposite.ActiveRssBodyComposite;
@@ -134,9 +129,7 @@ public class RssAlgorithmController {
      * @return True, when all message parts must be redactable for this algorithm, false otherwise.
      */
     public boolean isOnlyRedactablePartsAllowed() {
-        String algorithmAsString = signature.getAlgorithm();
-        Scheme algorithm = Scheme.fromString(algorithmAsString);
-        return algorithm.isOnlyRedactablePartsAllowed();
+        return scheme.isOnlyRedactablePartsAllowed();
     }
 
     /**
@@ -157,7 +150,7 @@ public class RssAlgorithmController {
     /**
      * Generates a new key. Gives the information of the algorithmType and the keyLength to a KeyPairGenerator
      * to generate a new keyPair. This keyInformation is then set as the current one.
-     * @param algorithmType The type of the algorithm.
+     * @param scheme The type of the algorithm.
      * @param keyGenType The key pair generator algorithm.
      * @param keyLength The length of the key.
      */
@@ -168,7 +161,7 @@ public class RssAlgorithmController {
         
         try {
           	// Generate a new key using a KeyPairGenerator instance
-        	KeyPairGenerator keyGen = KeyPairGenerator.getInstance(keyGenType.getKeyPairGenerationType());
+        	KeyPairGenerator keyGen = KeyPairGenerator.getInstance(keyGenType.toString());
             keyGen.initialize(keyLength.getKl());
             KeyPair keyPair = keyGen.generateKeyPair();
             
@@ -283,12 +276,12 @@ public class RssAlgorithmController {
     	assert information != null;
     	
     	// Set the signature algorithm to use
-    	this.signature = RedactableSignature.getInstance(information.algorithmType.getSignatureType());
+    	this.signature = RedactableSignature.getInstance(information.scheme.getSignatureType());
     	
     	// Set all information about the key and the key pair itself
     	this.keyLength = information.keyLength;
     	this.keyPair = information.keyPair;
-    	this.scheme = information.algorithmType;
+    	this.scheme = information.scheme;
     	
     	currentState = State.KEY_SET;
     }
@@ -507,49 +500,32 @@ public class RssAlgorithmController {
      * @author Leon Shell, Lukas Krodinger
      */
     public enum Scheme {
-    	GSRSS_WITH_BPA_AND_SHA256_WITH_RSA("GSRSS", AlgorithmType.GSRSS, "GSRSSwithBPAandSHA256withRSA", false),
-    	GSRSS_WITH_BPA_AND_SHA512_WITH_RSA("GSRSS", AlgorithmType.GSRSS, "GSRSSwithBPAandSHA512withRSA", false),
-    	//GSRSS_WITH_BPA_AND_SHA3256_WITH_RSA("GSRSS", "GSRSSwithBPAandSHA3256withRSA", false),
-    	//GSRSS_WITH_BPA_AND_SHA3512_WITH_RSA("GSRSS", "GSRSSwithBPAandSHA3512withRSA", false),
+    	GSRSS_WITH_BPA_AND_SHA256_WITH_RSA(AlgorithmType.GSRSS, "GSRSSwithBPAandSHA256withRSA"),
+    	GSRSS_WITH_BPA_AND_SHA512_WITH_RSA(AlgorithmType.GSRSS, "GSRSSwithBPAandSHA512withRSA"),
+    	//GSRSS_WITH_BPA_AND_SHA3256_WITH_RSA(AlgorithmType.GSRSS, "GSRSSwithBPAandSHA3256withRSA"),
+    	//GSRSS_WITH_BPA_AND_SHA3512_WITH_RSA(AlgorithmType.GSRSS, "GSRSSwithBPAandSHA3512withRSA"),
     	
-    	GLRSS_WITH_BPA_AND_SHA256_WITH_RSA("GLRSS", AlgorithmType.GLRSS, "GLRSSwithBPAandSHA256withRSA", false),
-    	GLRSS_WITH_BPA_AND_SHA512_WITH_RSA("GLRSS", AlgorithmType.GLRSS, "GLRSSwithBPAandSHA512withRSA", false),
-    	//GLRSS_WITH_BPA_AND_SHA256_WITH_RSA("GLRSS", "GLRSSwithBPAandSHA3256withRSA", false),
-    	//GLRSS_WITH_BPA_AND_SHA512_WITH_RSA("GLRSS", "GLRSSwithBPAandSHA3512withRSA", false),
+    	GLRSS_WITH_BPA_AND_SHA256_WITH_RSA(AlgorithmType.GLRSS, "GLRSSwithBPAandSHA256withRSA"),
+    	GLRSS_WITH_BPA_AND_SHA512_WITH_RSA(AlgorithmType.GLRSS, "GLRSSwithBPAandSHA512withRSA"),
+    	//GLRSS_WITH_BPA_AND_SHA256_WITH_RSA(AlgorithmType.GLRSS, "GLRSSwithBPAandSHA3256withRSA"),
+    	//GLRSS_WITH_BPA_AND_SHA512_WITH_RSA(AlgorithmType.GLRSS, "GLRSSwithBPAandSHA3512withRSA"),
     	
-    	GC_WITH_RSA_AND_SHA256("GC",AlgorithmType.GC, "GCwithRSAandSHA256", true),
-    	GC_WITH_RSA_AND_SHA512("GC", AlgorithmType.GC, "GCwithRSAandSHA512", true),
-    	//GC_WITH_RSA_AND_SHA3256("GC", "GCwithRSAandSHA3256", true),
-    	//GC_WITH_RSA_AND_SHA3512("GC", "GCwithRSAandSHA3512", true),
+    	GC_WITH_RSA_AND_SHA256(AlgorithmType.GC, "GCwithRSAandSHA256"),
+    	GC_WITH_RSA_AND_SHA512(AlgorithmType.GC, "GCwithRSAandSHA512"),
+    	//GC_WITH_RSA_AND_SHA3256(AlgorithmType.GC, "GCwithRSAandSHA3256"),
+    	//GC_WITH_RSA_AND_SHA3512(AlgorithmType.GC, "GCwithRSAandSHA3512"),
 
-    	MERSA_WITH_RSA_AND_SHA256("MERSA", AlgorithmType.MERSA, "MERSAwithRSAandSHA256", false),
-    	MERSA_WITH_RSA_AND_SHA512("MERSA", AlgorithmType.MERSA, "MERSAwithRSAandSHA512", false);
-    	//MERSA_WITH_RSA_AND_SHA3256("MERSA", "MERSAwithRSAandSHA3256", false),
-    	//MERSA_WITH_RSA_AND_SHA3512("MERSA", "MERSAwithRSAandSHA3512", false),  	
-    	
-    	
-    	/*
-    	 * Not working, as BPPrivateKey of BPA not implemented:
-    	 * https://github.com/woefe/xmlrss/blob/2e178daad02d013352b29d05c4dacda2110960e5/src/main/java/de/unipassau/wolfgangpopp/xmlrss/wpprovider/grss/BPKeyPairGenerator.java
-    	 * TEST("GLRSSwithRSAandBPA", "GLRSS with BPA", "BPA", false); // Not Implemented, probably invalid anyway
-    	 * 
-    	 * Not working as not allowed:
-    	 * TEST2("GLRSSwithRSAandBPA", "GLRSSwithRSAandBPA with GSRSSwithRSAandBPA", "GSRSSwithRSAandBPA", false), //Invalid
-    	 * TEST3("GSRSSwithRSAandBPA", "GSRSSwithRSAandBPA with GLRSSwithRSAandBPA", "GLRSSwithRSAandBPA", false), //Invalid
-      	 * TEST4("GLRSSwithRSAandBPA", "GLRSSwithRSAandBPA with PSRSS", "PSRSS", false), //Invalid
-    	 * TEST5("GSRSSwithRSAandBPA", "GSRSSwithRSAandBPA with PSRSS", "PSRSS", false); //Invalid
-    	 */ 
-    	
-        private final String shortName;
+    	MERSA_WITH_RSA_AND_SHA256(AlgorithmType.MERSA, "MERSAwithRSAandSHA256"),
+    	MERSA_WITH_RSA_AND_SHA512(AlgorithmType.MERSA, "MERSAwithRSAandSHA512");
+    	//MERSA_WITH_RSA_AND_SHA3256(AlgorithmType.MERSA, "MERSAwithRSAandSHA3256"),
+    	//MERSA_WITH_RSA_AND_SHA3512(AlgorithmType.MERSA, "MERSAwithRSAandSHA3512"),  	
+    	    	
         private final AlgorithmType algorithmType;
         private final String signatureType;
-        private final boolean onlyRedactablePartsAllowed;
         
-        Scheme(String shortName, AlgorithmType algorithmType, String signatureType, boolean onlyRedactablePartsAllowed) {
-            this.shortName = shortName;
+        Scheme(AlgorithmType algorithmType, String signatureType) {
             this.algorithmType = algorithmType;
             this.signatureType = signatureType;
-            this.onlyRedactablePartsAllowed = onlyRedactablePartsAllowed;
         }
         
         public AlgorithmType getAlgorithmType() {
@@ -559,37 +535,28 @@ public class RssAlgorithmController {
         public String getSignatureType() {
         	return signatureType;
         }
-                     
-        @Override
-        public String toString() {
-        	return shortName;
-        }
         
         public boolean isOnlyRedactablePartsAllowed() {
-        	return onlyRedactablePartsAllowed;
-        }
+        	return algorithmType.isOnlyRedactablePartsAllowed();
+        }          
         
-        public static Scheme fromString(String text) {
-            for (Scheme keyType : Scheme.values()) {
-                if (keyType.shortName.equalsIgnoreCase(text) || keyType.signatureType.equalsIgnoreCase(text)) {
-                    return keyType;
-                }
-            }
-            return null;
-        }
     }
     
     public enum AlgorithmType {
-    	GLRSS("GLRSS", KeyPairGeneratorType.GLRSS),
-    	GSRSS("GSRSS", KeyPairGeneratorType.GSRSS),
-    	GC("Generic Construction", KeyPairGeneratorType.RSA),
-    	MERSA("SBZ02-MersaProd", KeyPairGeneratorType.MERSA8, KeyPairGeneratorType.MERSA16, KeyPairGeneratorType.MERSA1024);
+    	GLRSS(Descriptions.GLRSS, "GLRSS", false, KeyPairGeneratorType.GLRSS),
+    	GSRSS(Descriptions.GSRSS, "GSRSS", false, KeyPairGeneratorType.GSRSS),
+    	GC(Descriptions.GC, "Generic Construction", true, KeyPairGeneratorType.RSA),
+    	MERSA(Descriptions.Mersa, "SBZ02-MersaProd", false, KeyPairGeneratorType.MERSA8, KeyPairGeneratorType.MERSA16, KeyPairGeneratorType.MERSA1024);
     	
+    	private final String displayName;
     	private final String algorithmName;
+    	private final boolean onlyRedactablePartsAllowed;
     	private final KeyPairGeneratorType[] supportedKeyPairGenerators;
     	
-    	AlgorithmType(String algorithmName, KeyPairGeneratorType... supportedKeyPairGenerators){
+    	AlgorithmType(String displayName, String algorithmName, boolean onlyRedactablePartsAllowed, KeyPairGeneratorType... supportedKeyPairGenerators){
+    		this.displayName = displayName;
     		this.algorithmName = algorithmName;
+    		this.onlyRedactablePartsAllowed = onlyRedactablePartsAllowed;
     		this.supportedKeyPairGenerators = supportedKeyPairGenerators;
     	}
     	
@@ -600,25 +567,33 @@ public class RssAlgorithmController {
     	public KeyPairGeneratorType[] getSupportedKeyPairGenerators(){
     		return supportedKeyPairGenerators;
     	}
+    	
+        public boolean isOnlyRedactablePartsAllowed() {
+        	return onlyRedactablePartsAllowed;
+        }   
+    	
+        @Override
+        public String toString() {
+        	return displayName;
+        }
+        
+        public static AlgorithmType fromString(String text) {
+            for (AlgorithmType algorithmType : AlgorithmType.values()) {
+                if (algorithmType.displayName.equalsIgnoreCase(text)) {
+                    return algorithmType;
+                }
+            }
+            return null;
+        }
     }
     
     public enum KeyPairGeneratorType {
-    	GLRSS("GLRSS"),
-    	GSRSS("GSRSS"),
-    	RSA("RSA"),
-    	MERSA8("MERSA8"),
-    	MERSA16("MERSA16"),
-    	MERSA1024("MERSA1024");
-    	
-    	private final String keyPairGenerationType;
-    	
-    	KeyPairGeneratorType(String keyPairGenerationType) {
-            this.keyPairGenerationType = keyPairGenerationType;
-        }
-        
-     	public String getKeyPairGenerationType(){
-    		return keyPairGenerationType;
-    	}
+    	GLRSS,
+    	GSRSS,
+    	RSA,
+    	MERSA8,
+    	MERSA16,
+    	MERSA1024;
     }
         
     /**

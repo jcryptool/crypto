@@ -133,7 +133,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         // Show/Hide optional selection boxes
         algorithmSelectionCombo.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
-        		AlgorithmType selected = AlgorithmType.valueOf(algorithmSelectionCombo.getText());
+        		AlgorithmType selected = AlgorithmType.fromString(algorithmSelectionCombo.getText());
         		showHideCombos(selected);
             }
         });
@@ -254,7 +254,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 					// It is null in case the loading was not successful
 					if(loadedKeyInformation != null) {
 						keySizeCombo.setText(getSelectedKeyLength().toString());
-						algorithmSelectionCombo.setText(loadedKeyInformation.getAlgorithmType().toString());
+						algorithmSelectionCombo.setText(loadedKeyInformation.getScheme().toString());
 						
 						// Disable controls
 		                generateKeyButton.setEnabled(false);
@@ -367,7 +367,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
     
     private AlgorithmType getSelectedAlgorithmType() {
     	String keyText = algorithmSelectionCombo.getItem(algorithmSelectionCombo.getSelectionIndex());
-    	return AlgorithmType.valueOf(keyText);
+    	return AlgorithmType.fromString(keyText);
     }
     
     private UnderlayingSignatureScheme getSelectedUnderlayingSignatureScheme() {
