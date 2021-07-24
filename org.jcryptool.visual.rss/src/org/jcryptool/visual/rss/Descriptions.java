@@ -75,6 +75,7 @@ public class Descriptions extends NLS {
     public static String RedactMessages;
     public static String IsVerified;
 	public static String ContinueWithRedacting;
+	public static String InvalidReasons;
     // REDACT
     public static String VerifyRedacted;
     public static String Fix;

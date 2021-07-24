@@ -110,7 +110,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
            checkImage.setImage(Activator.getImageDescriptor("icons/check.png").createImage(true));
         } else {
             checkLabel = new Label(inner, SWT.NONE);
-            checkLabel.setText(Descriptions.IsVerified + ": " + Descriptions.No);
+            checkLabel.setText(Descriptions.IsVerified + ": " + Descriptions.No + "\n" + Descriptions.InvalidReasons);
             checkImage = new Label(inner, SWT.NONE);
             checkImage.setImage(Activator.getImageDescriptor("icons/notcheck.png").createImage(true));
         }
