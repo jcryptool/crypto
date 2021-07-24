@@ -121,7 +121,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
         
         // Single row for save and load button
         Group saveLoad = new Group(leftComposite, SWT.NONE);
-        saveLoad.setText(Descriptions.LoadSave);
+        saveLoad.setText(Descriptions.LoadSaveSignedMessage);
         saveLoad.setLayout(new RowLayout(SWT.HORIZONTAL));
         
        

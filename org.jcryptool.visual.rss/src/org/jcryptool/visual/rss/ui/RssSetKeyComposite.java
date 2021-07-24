@@ -224,7 +224,7 @@ public class RssSetKeyComposite extends RssRightSideComposite {
         
         // Single row for save and load button
         Group saveLoad = new Group(leftComposite, SWT.NONE);
-        saveLoad.setText(Descriptions.LoadSave);
+        saveLoad.setText(Descriptions.LoadSaveKey);
         saveLoad.setLayout(new RowLayout(SWT.HORIZONTAL));
         
         // Button to load the key

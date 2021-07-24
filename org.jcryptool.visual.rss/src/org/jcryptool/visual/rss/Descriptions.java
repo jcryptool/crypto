@@ -126,9 +126,11 @@ public class Descriptions extends NLS {
 	public static String InvalidKey;
 	public static String FailedToStoreKey;
 	public static String ErrorStoringKey;
-	public static String LoadSave;
+	public static String LoadSaveKey;
+	public static String LoadSaveSignedMessage;
 	public static String Load;
 	public static String Save;
+	
 
 	// Scheme Names
 	public static String GLRSS;
