@@ -1,5 +1,6 @@
 package org.jcryptool.visual.rss.ui;
 
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,22 +89,24 @@ public class RssRedactComposite extends RssRightSideComposite {
         redactMessageButton.setText(Descriptions.RedactMessages);
         redactMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
-                switch (e.type) {
-                case SWT.Selection:
-                    redactMessageButton.setEnabled(false);
-                    List<MessagePart> toRedact = new ArrayList<>();
-                    for (int i = 0; i < buttonList.size(); i++) {
-                        if (buttonList.get(i).getSelection()) {
-                            toRedact.add(messageParts.get(i));
-                        }
-                        buttonList.get(i).setEnabled(false);
+
+                redactMessageButton.setEnabled(false);
+                List<MessagePart> toRedact = new ArrayList<>();
+                for (int i = 0; i < buttonList.size(); i++) {
+                    if (buttonList.get(i).getSelection()) {
+                        toRedact.add(messageParts.get(i));
                     }
-                    rac.redactMessage(toRedact);
-                    body.lightPath();
-                    body.lightDataBox(DataType.REDACTED);
-                    body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_REDACTED);
-                    break;
+                    buttonList.get(i).setEnabled(false);
                 }
+                try {
+					rac.redactMessage(toRedact);
+	                body.lightPath();
+	                body.lightDataBox(DataType.REDACTED);
+	                body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_REDACTED);
+				} catch (InvalidKeyException e1) {
+					showErrorDialog("Invalid key", e1.getMessage());
+				}
+
             }
         });
     }

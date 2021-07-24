@@ -1,6 +1,7 @@
 package org.jcryptool.visual.rss.ui;
 
 import java.io.FileNotFoundException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.util.ArrayList;
@@ -57,7 +58,12 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
         prepareGroupView(this, Descriptions.VerifyMessage);
         prepareAboutComposite();
 
-        boolean isValid = rac.verifyOriginalSignature();
+        boolean isValid = false;
+		try {
+			isValid = rac.verifyOriginalSignature();
+		} catch (InvalidKeyException e2) {
+			isValid = false;
+		}
  
         body.lightPath();
 

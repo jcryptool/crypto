@@ -331,8 +331,9 @@ public class RssAlgorithmController {
      * Signs the given messageParts. Then stores the signature as originalSignature and as currentSignature.
      * @param messageParts The messageParts to sign.
      * @throws RedactableSignatureException In case the signature could not be signed for some reason.
+     * @throws InvalidKeyException In case the key is invalid (for example if the lenght of the hash value is longer than the key size)
      */
-    public synchronized void signMessage(List<MessagePart> messageParts) throws RedactableSignatureException {
+    public synchronized void signMessage(List<MessagePart> messageParts) throws RedactableSignatureException, InvalidKeyException {
         if (currentState != State.MESSAGE_SET) {
             throw new IllegalStateException();
         }
@@ -347,21 +348,16 @@ public class RssAlgorithmController {
         
         // Save redactable informations
         originalMessages = messageParts;
-
-        try {
-        	
-        	// Create signature for message
-            signature.initSign(keyPair);
-            MessagePart messagePart;
-            for (int i = 0; i < originalMessages.size(); i++) {
-            	messagePart = originalMessages.get(i);
-                signature.addPart(messagePart.getMessageBytes(), messagePart.isRedactable());
-            }
-            originalSignature = signature.sign();
-            currentSignature = originalSignature;
-        } catch (InvalidKeyException e) {
-            throw new IllegalStateException("Invalid key for signature type: " + e.getMessage(), e);
+       	
+    	// Create signature for message
+        signature.initSign(keyPair);
+        MessagePart messagePart;
+        for (int i = 0; i < originalMessages.size(); i++) {
+        	messagePart = originalMessages.get(i);
+            signature.addPart(messagePart.getMessageBytes(), messagePart.isRedactable());
         }
+        originalSignature = signature.sign();
+        currentSignature = originalSignature;
                 
         currentState = State.MESSAGE_SIGNED;
     }
@@ -387,8 +383,9 @@ public class RssAlgorithmController {
      * Redacts the given messagePartsToRedact from the currentSignature. The originalSignature is not
      * touched and can still be restored.
      * @param messagePartsToRedact The message parts to redact from the currentSignature.
+     * @throws InvalidKeyException In case the key is invalid (for example if the lenght of the hash value is longer than the key size)
      */
-    public synchronized void redactMessage(List<MessagePart> messagePartsToRedact) {
+    public synchronized void redactMessage(List<MessagePart> messagePartsToRedact) throws InvalidKeyException {
         if (currentState != State.MESSAGE_VERIFIED && currentState != State.PARTS_REDACTED) {
             throw new IllegalStateException();
         }
@@ -405,8 +402,6 @@ public class RssAlgorithmController {
                    
             currentSignature = signature.redact(currentSignature);
           
-        } catch (InvalidKeyException e) {
-            throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
             throw new IllegalArgumentException("Message can not be redacted at given indices.", e);
         }
@@ -417,8 +412,9 @@ public class RssAlgorithmController {
     /**
      * Verify the originalSignature with the current public key.
      * @return True in case the signature does verify, false otherwise.
+     * @throws InvalidKeyException In case the key is invalid (for example if the lenght of the hash value is longer than the key size)
      */
-    public synchronized boolean verifyOriginalSignature() {
+    public synchronized boolean verifyOriginalSignature() throws InvalidKeyException {
         if (currentState != State.MESSAGE_SIGNED) {
             throw new IllegalStateException();
         }
@@ -427,8 +423,6 @@ public class RssAlgorithmController {
         try {
             signature.initVerify(keyPair.getPublic());
             doesVerify = signature.verify(originalSignature);
-        } catch (InvalidKeyException e) {
-            throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
             throw new IllegalStateException("Signed message can not be verified.", e);
         }
@@ -440,8 +434,10 @@ public class RssAlgorithmController {
     /**
      * Verify the currentSignature with the current public key.
      * @return True in case the signature does verify, false otherwise.
+     * @throws InvalidKeyException In case the key is invalid (for example if the lenght of the hash value is longer than the key size)
+
      */
-    public synchronized boolean verifyCurrentSignature() {
+    public synchronized boolean verifyCurrentSignature() throws InvalidKeyException {
         if (currentState != State.PARTS_REDACTED) {
             throw new IllegalStateException();
         }
@@ -450,8 +446,6 @@ public class RssAlgorithmController {
         try {
             signature.initVerify(keyPair.getPublic());
             doesVerify = signature.verify(currentSignature);
-        } catch (InvalidKeyException e) {
-            throw new IllegalStateException("Invalid key for signature type.", e);
         } catch (RedactableSignatureException e) {
             throw new IllegalStateException("Redacted message can not be verified.", e);
         }

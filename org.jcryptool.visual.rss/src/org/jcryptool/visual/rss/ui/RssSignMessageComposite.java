@@ -1,6 +1,7 @@
 package org.jcryptool.visual.rss.ui;
 
 import java.io.FileNotFoundException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -99,6 +100,8 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 			            
 					} catch (RedactableSignatureException e1) {
 						showErrorDialog("Signing failed!",e1.getMessage());
+					} catch (InvalidKeyException e1) {
+						showErrorDialog("Invalid key", e1.getMessage());
 					}
    
                     break;
