@@ -118,6 +118,23 @@ public class RssViewKeyComposite extends RssRightSideComposite {
         
         column_parameter.pack();
         column_value.pack();
+        
+        // For copying to clipboard
+        table.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// copy the selected value to the clipboard
+				String selectedValue = table.getItem(table.getSelectionIndex()).getText(1);
+				final Clipboard cb = new Clipboard(inner.getDisplay());
+				TextTransfer textTransfer = TextTransfer.getInstance();
+				cb.setContents(new Object[] { selectedValue }, new Transfer[] { textTransfer });
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 
         
         Button returnButton = new Button(inner, SWT.PUSH);
