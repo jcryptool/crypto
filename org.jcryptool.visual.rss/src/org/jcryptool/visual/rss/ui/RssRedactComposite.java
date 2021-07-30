@@ -68,6 +68,7 @@ public class RssRedactComposite extends RssRightSideComposite {
                  Composite ch = new Composite(c, SWT.NULL);
                  ch.setLayout(new GridLayout(2, false));
                  Button b = new Button(ch, SWT.CHECK);
+                 b.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
                  b.setToolTipText(i + "");
                  b.setSelection(false);
                  Label fix = new Label(ch, SWT.NULL);

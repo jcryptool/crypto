@@ -214,7 +214,8 @@ public class RssSignMessageComposite extends RssRightSideComposite {
             l.setText(msg);
             messageList.add(msg);
             Button redactingAllowedCheckbox = new Button(c, SWT.CHECK);
-  
+            redactingAllowedCheckbox.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+            
             if (onlyRedactablePartsAllowed) {
             	
             	// If all parts must be redactable, check all checkboxes and disable the control.
