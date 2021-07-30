@@ -126,7 +126,10 @@ public class RssSetMessageComposite extends RssRightSideComposite {
                     confirmMessageButton.setEnabled(false);
                     disableMessageEditing();
                     rac.newMessage(getMessages());
-                    body.lightPath();
+                    
+	                // Change the visual
+                    // Sets the color to "lit" (see visual state component)
+                    //body.lightPath();
                     body.setActiveRssComposite(ActiveRssBodyComposite.SIGN_MESSAGE);
                 }
             }
@@ -167,7 +170,7 @@ public class RssSetMessageComposite extends RssRightSideComposite {
 					if(loadingSuccess) {
 						
 						// Change visual
-			           	body.lightPath();
+			           	//body.lightPath();
 			            body.lightDataBox(DataType.MESSAGE);
 			            
 						body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);

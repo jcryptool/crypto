@@ -61,7 +61,8 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
 			isVerified = false;
 		}
         
-        body.lightPath();
+        // Change the visual
+        //body.lightPath();
 
         messages = rac.getMessageParts();
         //originalSignedMessages = new ArrayList<String>(messages);

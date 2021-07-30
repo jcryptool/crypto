@@ -94,8 +94,9 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 	                    nextButton.setEnabled(true);
 	                    saveMessageButton.setEnabled(true);
 	                    
-	                    // Change visual
-			           	body.lightPath();
+		                // Change the visual
+	                    // Sets the color to "lit" (see visual state component)
+			           	//body.lightPath();
 			            body.lightDataBox(DataType.MESSAGE);
 			            
 					} catch (RedactableSignatureException e1) {
@@ -157,7 +158,8 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 					if(loadingSuccess) {
 						
 						// Change visual
-			           	body.lightPath();
+	                    // Sets the color to "lit" (see visual state component)
+			           	//body.lightPath();
 			            body.lightDataBox(DataType.MESSAGE);
 			            
 						body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);

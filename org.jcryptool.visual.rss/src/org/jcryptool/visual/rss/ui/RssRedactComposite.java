@@ -101,8 +101,12 @@ public class RssRedactComposite extends RssRightSideComposite {
                 }
                 try {
 					rac.redactMessage(toRedact);
-	                body.lightPath();
+					
+	                // Change the visual
+                    // Sets the color to "lit" (see visual state component)
+                    //body.lightPath();
 	                body.lightDataBox(DataType.REDACTED);
+	                
 	                body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_REDACTED);
 				} catch (InvalidKeyException e1) {
 					showErrorDialog("Invalid key", e1.getMessage());

@@ -71,8 +71,8 @@ public class RssVisualStateComposite extends Composite {
 
     public void setDeactivated() {
         setUnfocused();
-        setBackground(RssColors.GRAY);
-        l.setBackground(RssColors.GRAY);
+        setBackground(RssColors.LIGHT_GRAY);
+        l.setBackground(RssColors.LIGHT_GRAY);
         setForeground(RssColors.LIGHT_GRAY);
 
     }
