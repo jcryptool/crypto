@@ -455,6 +455,13 @@ litigation.
          unpack="false"/>
 
    <plugin
+         id="org.jcryptool.visual.rss"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.jcryptool.visual.errorcorrectingcodes"
          download-size="0"
          install-size="0"

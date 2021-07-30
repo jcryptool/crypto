@@ -9,5 +9,6 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>org.jcryptool.visual.rss</artifactId>
+	<version>1.0.7</version>
 	<packaging>eclipse-plugin</packaging>
 </project>
