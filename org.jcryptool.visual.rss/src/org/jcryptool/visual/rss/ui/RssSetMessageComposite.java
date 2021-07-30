@@ -115,7 +115,7 @@ public class RssSetMessageComposite extends RssRightSideComposite {
         });
 
         confirmMessageButton = new Button(inner, SWT.PUSH);
-        confirmMessageButton.setEnabled(false);
+        confirmMessageButton.setEnabled(addMessageTextList.stream().allMatch(l -> !l.getText().isEmpty()));
         confirmMessageButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
         confirmMessageButton.setText(Descriptions.ConfirmMessages);
         
