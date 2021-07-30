@@ -56,6 +56,7 @@ public class Descriptions extends NLS {
     // SET_MESSAGE
     public static String SetMessages;
     public static String AddMessagePart;
+    public static String RemoveMessagePart;
     public static String PasteYour;
     public static String PartHere;
     public static String ConfirmMessages;
