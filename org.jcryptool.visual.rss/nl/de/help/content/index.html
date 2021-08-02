@@ -36,20 +36,21 @@ Im Schritt <b>Neuer Schlüssel</b> können folgende Verfahren ausgewählt werden
 
 <h2 id="properties">Kryptographische Eigenschaften</h2>
 <h3 id="detectability">Erkennbarkeit von Schwärzungen</h3>
-<p>Öffentliche Schwärzung bedeutet, dass der jeweilige schwärzbare Teil der Nachricht mit der Genehmigung des Signierers aus der Menge entfernt werden kann, ohne dass zusätzliche Schlüssel benötigt werden. Öffentliche Parameter reichen also aus, um den Teil der Nachricht beim Empfänger erfolgreich zu schwärzen.</p>
-<p>Der Begriff öffentliche Parameter bezieht sich auf öffentliche Informationen, die zur Ausführung der spezifischen Algorithmen erforderlich sind, z.B. Hash-Funktionen oder Akkumulator-Funktionen, die öffentlich sind und normalerweise entweder dem Verifizierer bekannt sind oder Teil der Signatur sind. Es ist zu beachten, dass diese öffentlichen Parameter insbesondere nicht die Erzeugung neuer Signaturen ermöglichen, da hierfür immer der geheime Schlüssel des Signierers erforderlich ist.</p>
+<p>Die Erkennbarkeit von Schwärzungen bedeutet, dass jeder Dritte eine signierte Originalnachricht von einer geschwärzten signierten Nachricht unterscheiden kann, z. B. sieht eine direkt signierte Nachricht {A,D} unterscheidbar aus von {A,-,-,D,-}, die durch Schwärzung einer signierten Nachricht {A,B,C,D,E} erhalten wurde. Vorausgesetzt ist hierbei, dass "-" als spezielles Zeichen verwendet wird, um einen geschwärzten Nachrichtenteil anzuzeigen.</p>
 
 <h3 id="undetectability">Unerkennbarkeit von Schwärzungen</h3>
 <p>Unerkennbarkeit von Schwärzungen bedeutet, dass ein Angreifer eine signierte Originalnachricht nicht von einer geschwärzten signierten Nachricht unterscheiden kann.</p>
 
 <h3 id="public_redaction">Öffentliche Schwärzung</h3>
-<p>Öffentliche Schwärzung bedeutet, dass der entsprechende schwärzbare Nachrichtenteil aus dem Satz entfernt werden kann, wenn der Signierer dies genehmigt, ohne dass zusätzliche Schlüssel benötigt werden. Öffentliche Parameter reichen also aus, um den Nachrichtenteil erfolgreich zu schwärzen.</p>
+<p>Öffentliche Schwärzung bedeutet, dass der jeweilige schwärzbare Teil der Nachricht mit der Genehmigung des Signierers aus der Menge entfernt werden kann, ohne dass zusätzliche Schlüssel benötigt werden. Öffentliche Parameter reichen also aus, um den Teil der Nachricht beim Empfänger erfolgreich zu schwärzen.</p>
+<p>Der Begriff öffentliche Parameter bezieht sich auf öffentliche Informationen, die zur Ausführung der spezifischen Algorithmen erforderlich sind, z.B. Hash-Funktionen oder Akkumulator-Funktionen, die öffentlich sind und normalerweise entweder dem Verifizierer bekannt sind oder Teil der Signatur sind. Es ist zu beachten, dass diese öffentlichen Parameter insbesondere nicht die Erzeugung neuer Signaturen ermöglichen, da hierfür immer der geheime Schlüssel des Signierers erforderlich ist.</p>
+
+<h3 id="private">Private Schwärzung</h3>
+<p>Private Schwärzung bedeutet, dass die geschwärzte Nachricht keine Informationen über den Inhalt des geschwärzten Nachrichtenteils preisgibt, d.h. ein Angreifer kann beim Anblick einer geschwärzten Nachricht, die nur m2=&quotC&quot enthält und durch Schwärzung von m1 erzeugt wurde, weder von einer ursprünglichen Nachricht m={m1,m2} mit m1=&quotA&quot noch von einer ursprünglichen Nachricht m'={m1',m2} mit m1'=&quotB&quot unterscheiden.</p>
 
 <h3 id="unforgeable">Unforgeable</h3>
 <p>Unforgeable bedeutet, dass ein Angreifer, der nicht im Besitz des geheimen Signaturschlüssels ist, keine Signatur erzeugen kann, die eine Nachricht verifiziert, mit Ausnahme derjenigen Nachrichten, die durch die Durchführung einer oder mehrerer autorisierter &ndash;und somit öffentlicher&ndash; Schwärzungen erzeugt werden können.</p>
 
-<h3 id="private">Private Schwärzung</h3>
-<p>Private Schwärzung bedeutet, dass die geschwärzte Nachricht keine Informationen über den Inhalt des geschwärzten Nachrichtenteils preisgibt, d.h. ein Angreifer kann beim Anblick einer geschwärzten Nachricht, die nur m2=&quotC&quot enthält und durch Schwärzung von m1 erzeugt wurde, weder von einer ursprünglichen Nachricht m={m1,m2} mit m1=&quotA&quot noch von einer ursprünglichen Nachricht m'={m1',m2} mit m1'=&quotB&quot unterscheiden.</p>
 
 <h2 id="BPA">Baric Pfitzmann Accumulator (BPA)</h2>
 <p>Ein Akkumulatorverfahren ermöglicht es, eine endliche Menge X als einen einzigen Wert, den sogenannten Akkumulator, darzustellen. Eine Person, die über einen geheimen Wert verfügt, kann für jedes Element x von X einen so genannten Zeugen berechnen, der die Zugehörigkeit von x zu X bestätigt. Eine andere Person, die nur den Akkumulatorwert, das Element x und den dem Element entsprechenden Zeugen hat, kann die Zugehörigkeit von x zu X überprüfen. Ohne dan geheimen Wert ist es nicht möglich, Zeugenwerte zu erzeugen. Ohne den Zeugen ist es nicht möglich, zu überprüfen, ob x ein Element von X war, für das man einen Akkumulator kennt.</p>
