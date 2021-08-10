@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <contexts>
    <context id="view" title="Redactable Signature Schemes">
-      <description>Visualisierung zum besseren Verständnis von Redactable Signature Schemes</description>
-      <topic href="$nl$/help/content/index.html" label="Redactable Signature Schemes"/>
+      <description>Digitale Signaturverfahren werden verwendet, um die Datenintegrität und die Authentifizierung der Datenherkunft für eine signierte Nachricht zu gewährleisten. Ein schwärzbares Signaturverfahren ermöglicht die Bescheinigung einer Nachricht in der Weise, dass, wenn bestimmte Teile der signierten Nachricht (so genannte Felder) geschwärzt (gelöscht, ausgeblendet oder dauerhaft entfernt) werden, die Bescheinigung der geschwärzten Nachricht in Bezug auf ihre Integrität und Ursprungsauthentifizierung dennoch überprüft werden kann. Genauer gesagt kann der Unterzeichner, der den privaten Signaturschlüssel kennt, beim Signieren einer Nachricht festlegen, welche Teile der Nachricht später (im Sinne von ISO/IEC 27038) von einer beliebigen Stelle, die nur die Nachricht, die Signatur und den Redaktionsschlüssel des Unterzeichners kennt, geschwärzt werden können. Jede andere Änderung der signierten Nachricht (z. B. das Schwärzen anderer Nachrichtenteile oder das Einfügen/Ändern beliebiger Teile) macht die durch die Signatur gegebene Bescheinigung ungültig. 
+Schwärzbare Signaturverfahren können als grundlegender Baustein in vielen datenschutzfreundlichen Anwendungen dienen, z. B. bei der gemeinsamen Nutzung von Daten oder bei der Authentifizierung, bei der eine Einrichtung beschließen kann, aus einem größeren Satz signierter Informationen nur die Informationen preiszugeben, die unbedingt an einen Empfänger weitergeleitet werden müssen, während letzterer immer noch sicher sein kann, dass die empfangenen Informationen zuvor beglaubigt wurden, z. B. durch eine öffentliche Stelle signiert.</description>
+      <topic href="$nl$/help/content/index.html" label="Schwärzbare Signaturverfahren"/>
    </context>
 </contexts>

@@ -65,7 +65,9 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
 			isValid = false;
 		}
  
-        body.lightPath();
+        // Change the visual
+        // Sets the color to "lit" (see visual state component)
+        //body.lightPath();
 
         messages = rac.getMessageParts();
         numberMessages = messages.size();
@@ -99,6 +101,7 @@ public class RssVerifyMessageComposite extends RssRightSideComposite {
             Text msg = new Text(addMessageComposite, SWT.MULTI | SWT.BORDER | SWT.WRAP);
             msg.setLayoutData(new GridData(300, 50));
             msg.setText(messages.get(i).getMessage());
+            msg.setEditable(false);
             //msg.addModifyListener(getAllNotEmptyListener());
             textList.add(msg);
         }

@@ -37,14 +37,16 @@ import org.jcryptool.visual.rss.ui.RssVisualDataComposite.DataType;
  * @author Leon Shell, Lukas Krodinger
  */
 public class RssSetMessageComposite extends RssRightSideComposite {
-    private static int DEFAULT_NUMBER_PARTS = 2;
+    private static int DEFAULT_NUMBER_PARTS = 3;
     private static int MAX_NUMBER_PARTS = 5;
+    private static int MIN_NUMBER_PARTS = 2;
 
     private final Composite inner;
     private final Composite addMessageComposite;
     private final List<Text> addMessageTextList;
     private final List<Label> addMessageLabelList;
-    private final Button addMessageButton;
+    private final Button addMessagePartButton;
+    private final Button removeMessagePartButton;
     private final Button confirmMessageButton;
   
     private final Button loadMessageButton;
@@ -57,12 +59,6 @@ public class RssSetMessageComposite extends RssRightSideComposite {
 
         inner = new Composite(leftComposite, SWT.NONE);
         inner.setLayout(new GridLayout());
-
-        addMessageButton = new Button(inner, SWT.PUSH);
-        addMessageButton.setText(Descriptions.AddMessagePart);
-        if (numberMessageParts >= MAX_NUMBER_PARTS) {
-            addMessageButton.setEnabled(false);
-        }
 
         addMessageComposite = new Composite(inner, SWT.NULL);
         addMessageComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
@@ -84,12 +80,14 @@ public class RssSetMessageComposite extends RssRightSideComposite {
             addMessageTextList.add(msg);
         }
 
-        confirmMessageButton = new Button(inner, SWT.PUSH);
-        confirmMessageButton.setEnabled(false);
-        confirmMessageButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
-        confirmMessageButton.setText(Descriptions.ConfirmMessages);
-
-        addMessageButton.addListener(SWT.Selection, new Listener() {
+        addMessagePartButton = new Button(inner, SWT.PUSH);
+        addMessagePartButton.setImage(Activator.getImageDescriptor("icons/outline_add_black_24dp.png").createImage(true));
+        addMessagePartButton.setText(Descriptions.AddMessagePart);
+        if (numberMessageParts >= MAX_NUMBER_PARTS) {
+            addMessagePartButton.setEnabled(false);
+        }
+        
+        addMessagePartButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 if (e.type == SWT.Selection) {
                     body.updateBodyComposite(
@@ -98,15 +96,40 @@ public class RssSetMessageComposite extends RssRightSideComposite {
                 }
             }
         });
+        
+        removeMessagePartButton = new Button(inner, SWT.PUSH);
+        removeMessagePartButton.setImage(Activator.getImageDescriptor("icons/outline_remove_black_24dp.png").createImage(true));
+        removeMessagePartButton.setText(Descriptions.RemoveMessagePart);
+        if (numberMessageParts <= MIN_NUMBER_PARTS) {
+        	removeMessagePartButton.setEnabled(false);
+        }
+        
+        removeMessagePartButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                if (e.type == SWT.Selection) {
+                    body.updateBodyComposite(
+                            new RssSetMessageComposite(body, rac, numberMessageParts - 1, getMessages()));
+                    body.setActiveRssComposite(ActiveRssBodyComposite.SET_MESSAGE);
+                }
+            }
+        });
 
+        confirmMessageButton = new Button(inner, SWT.PUSH);
+        confirmMessageButton.setEnabled(addMessageTextList.stream().allMatch(l -> !l.getText().isEmpty()));
+        confirmMessageButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
+        confirmMessageButton.setText(Descriptions.ConfirmMessages);
+        
         confirmMessageButton.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event e) {
                 if (e.type == SWT.Selection) {
-                    addMessageButton.setEnabled(false);
+                    addMessagePartButton.setEnabled(false);
                     confirmMessageButton.setEnabled(false);
                     disableMessageEditing();
                     rac.newMessage(getMessages());
-                    body.lightPath();
+                    
+	                // Change the visual
+                    // Sets the color to "lit" (see visual state component)
+                    //body.lightPath();
                     body.setActiveRssComposite(ActiveRssBodyComposite.SIGN_MESSAGE);
                 }
             }
@@ -147,7 +170,7 @@ public class RssSetMessageComposite extends RssRightSideComposite {
 					if(loadingSuccess) {
 						
 						// Change visual
-			           	body.lightPath();
+			           	//body.lightPath();
 			            body.lightDataBox(DataType.MESSAGE);
 			            
 						body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);

@@ -58,6 +58,7 @@ public class RssViewRedactedComposite extends RssRightSideComposite {
             l2.setText(msg);
             Button redactingAllowedCheckbox = new Button(inner, SWT.CHECK);
             redactingAllowedCheckbox.setEnabled(false);
+            redactingAllowedCheckbox.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
             redactingAllowedCheckbox.setSelection(currentMessage.get(i).isRedactable());
         }
         

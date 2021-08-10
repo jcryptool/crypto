@@ -94,8 +94,9 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 	                    nextButton.setEnabled(true);
 	                    saveMessageButton.setEnabled(true);
 	                    
-	                    // Change visual
-			           	body.lightPath();
+		                // Change the visual
+	                    // Sets the color to "lit" (see visual state component)
+			           	//body.lightPath();
 			            body.lightDataBox(DataType.MESSAGE);
 			            
 					} catch (RedactableSignatureException e1) {
@@ -157,7 +158,8 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 					if(loadingSuccess) {
 						
 						// Change visual
-			           	body.lightPath();
+	                    // Sets the color to "lit" (see visual state component)
+			           	//body.lightPath();
 			            body.lightDataBox(DataType.MESSAGE);
 			            
 						body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_MESSAGE);
@@ -204,7 +206,7 @@ public class RssSignMessageComposite extends RssRightSideComposite {
 		
 		for (int i = 0; i < messages.size(); i++) {
             Label la = new Label(c, SWT.READ_ONLY);
-            la.setText("" + (i + 1));
+            la.setText(Descriptions.MessagePart + " " + (i + 1));
             Text l = new Text(c, SWT.READ_ONLY | SWT.WRAP | SWT.BORDER | SWT.LEFT);
             GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
             labelGridData.widthHint = R_MAX_SIZE;
@@ -214,7 +216,8 @@ public class RssSignMessageComposite extends RssRightSideComposite {
             l.setText(msg);
             messageList.add(msg);
             Button redactingAllowedCheckbox = new Button(c, SWT.CHECK);
-  
+            redactingAllowedCheckbox.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+            
             if (onlyRedactablePartsAllowed) {
             	
             	// If all parts must be redactable, check all checkboxes and disable the control.

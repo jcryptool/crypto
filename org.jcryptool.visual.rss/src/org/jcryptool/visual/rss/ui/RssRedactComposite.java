@@ -56,7 +56,7 @@ public class RssRedactComposite extends RssRightSideComposite {
              for (int i = 0; i < messageParts.size(); i++) {
              
                  Label la = new Label(c, SWT.READ_ONLY);
-                 //la.setText("" + (i + 1 - numberRedacted));
+                 la.setText(Descriptions.MessagePart + " " + (i + 1));
                  Text l = new Text(c, SWT.READ_ONLY | SWT.WRAP | SWT.BORDER | SWT.LEFT);
                  GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
                  labelGridData.widthHint = R_MAX_SIZE;
@@ -68,6 +68,7 @@ public class RssRedactComposite extends RssRightSideComposite {
                  Composite ch = new Composite(c, SWT.NULL);
                  ch.setLayout(new GridLayout(2, false));
                  Button b = new Button(ch, SWT.CHECK);
+                 b.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
                  b.setToolTipText(i + "");
                  b.setSelection(false);
                  Label fix = new Label(ch, SWT.NULL);
@@ -100,8 +101,12 @@ public class RssRedactComposite extends RssRightSideComposite {
                 }
                 try {
 					rac.redactMessage(toRedact);
-	                body.lightPath();
+					
+	                // Change the visual
+                    // Sets the color to "lit" (see visual state component)
+                    //body.lightPath();
 	                body.lightDataBox(DataType.REDACTED);
+	                
 	                body.setActiveRssComposite(ActiveRssBodyComposite.VERIFY_REDACTED);
 				} catch (InvalidKeyException e1) {
 					showErrorDialog("Invalid key", e1.getMessage());

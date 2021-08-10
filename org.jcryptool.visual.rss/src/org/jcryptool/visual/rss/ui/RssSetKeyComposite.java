@@ -196,7 +196,8 @@ public class RssSetKeyComposite extends RssRightSideComposite {
                     rssController.generateKey(scheme, keyGenType, length);
                     
                     // Change the visual
-                    body.lightPath();
+                    // Sets the color to "lit" (see visual state component)
+                    //body.lightPath();
                     body.lightDataBox(DataType.KEY);
                     
                     // Continue with the singing step
@@ -262,7 +263,8 @@ public class RssSetKeyComposite extends RssRightSideComposite {
 		                algorithmSelectionCombo.setEnabled(false);
 						
 		                // Change the visual
-		                body.lightPath();
+	                    // Sets the color to "lit" (see visual state component)
+		                // body.lightPath();
 		                body.lightDataBox(DataType.KEY);
 		                        	
 		                // Enable next button
