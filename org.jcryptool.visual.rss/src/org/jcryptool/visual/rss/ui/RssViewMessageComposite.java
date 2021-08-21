@@ -65,18 +65,6 @@ public class RssViewMessageComposite extends RssRightSideComposite {
             redactingAllowedCheckbox.setSelection(messages.get(i).isRedactable());
         }
 
-        Button returnButton = new Button(inner, SWT.PUSH);
-        returnButton.setText(Descriptions.ReturnButton);
-        returnButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_before_black_24dp.png").createImage(true));
-        returnButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-                switch (e.type) {
-                case SWT.Selection:
-                    body.returnToCurrentState();
-                }
-            }
-        });
-        
         
         // Single row for save and load button
         Group saveLoad = new Group(leftComposite, SWT.NONE);
@@ -111,6 +99,20 @@ public class RssViewMessageComposite extends RssRightSideComposite {
 				}
             }
         });
+
+        Label placeholder = new Label(leftComposite, SWT.SEPARATOR | SWT.HORIZONTAL); GridData gd = new GridData(SWT.FILL, SWT.CENTER, true, false); gd.minimumHeight = 5; gd.verticalIndent = 3; placeholder.setLayoutData(gd);
+        Button returnButton = new Button(leftComposite, SWT.PUSH);
+        returnButton.setText(Descriptions.ReturnButton);
+        returnButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_before_black_24dp.png").createImage(true));
+        returnButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                switch (e.type) {
+                case SWT.Selection:
+                    body.returnToCurrentState();
+                }
+            }
+        });
+        
     }
 
     @Override

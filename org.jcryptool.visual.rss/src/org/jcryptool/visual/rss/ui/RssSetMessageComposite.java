@@ -113,27 +113,7 @@ public class RssSetMessageComposite extends RssRightSideComposite {
                 }
             }
         });
-
-        confirmMessageButton = new Button(inner, SWT.PUSH);
-        confirmMessageButton.setEnabled(addMessageTextList.stream().allMatch(l -> !l.getText().isEmpty()));
-        confirmMessageButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
-        confirmMessageButton.setText(Descriptions.ConfirmMessages);
         
-        confirmMessageButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-                if (e.type == SWT.Selection) {
-                    addMessagePartButton.setEnabled(false);
-                    confirmMessageButton.setEnabled(false);
-                    disableMessageEditing();
-                    rac.newMessage(getMessages());
-                    
-	                // Change the visual
-                    // Sets the color to "lit" (see visual state component)
-                    //body.lightPath();
-                    body.setActiveRssComposite(ActiveRssBodyComposite.SIGN_MESSAGE);
-                }
-            }
-        });
         
         // Single row for save and load button
         Group saveLoad = new Group(leftComposite, SWT.NONE);
@@ -179,6 +159,27 @@ public class RssSetMessageComposite extends RssRightSideComposite {
         	}
         });
       
+
+        Label placeholder = new Label(leftComposite, SWT.SEPARATOR | SWT.HORIZONTAL); GridData gd = new GridData(SWT.FILL, SWT.CENTER, true, false); gd.minimumHeight = 5; gd.verticalIndent = 3; placeholder.setLayoutData(gd);
+        confirmMessageButton = new Button(leftComposite, SWT.PUSH);
+        confirmMessageButton.setEnabled(addMessageTextList.stream().allMatch(l -> !l.getText().isEmpty()));
+        confirmMessageButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
+        confirmMessageButton.setText(Descriptions.ConfirmMessages);
+        confirmMessageButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                if (e.type == SWT.Selection) {
+                    addMessagePartButton.setEnabled(false);
+                    confirmMessageButton.setEnabled(false);
+                    disableMessageEditing();
+                    rac.newMessage(getMessages());
+                    
+	                // Change the visual
+                    // Sets the color to "lit" (see visual state component)
+                    //body.lightPath();
+                    body.setActiveRssComposite(ActiveRssBodyComposite.SIGN_MESSAGE);
+                }
+            }
+        });
     }
 
     public RssSetMessageComposite(RssBodyComposite body, RssAlgorithmController rac) {

@@ -128,21 +128,6 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
         }
 
         
-        // Next button
-        Button nextButton = new Button(inner, SWT.PUSH);
-        nextButton.setText(Descriptions.Next);
-        nextButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
-        nextButton.addListener(SWT.Selection, new Listener() {
-            public void handleEvent(Event e) {
-                if (e.type == SWT.Selection) {
-                    body.resetStateOverview(DataType.REDACTED, false);
-                }
-            }
-        });
-        
-        if(!isVerified) {
-        	nextButton.setEnabled(false);
-        }
 
         // Single row for save and load button
         Group saveLoad = new Group(leftComposite, SWT.NONE);
@@ -177,6 +162,22 @@ public class RssVerifyRedactedComposite extends RssRightSideComposite {
             }
         });
 
+        // Next button
+        Label placeholder = new Label(leftComposite, SWT.SEPARATOR | SWT.HORIZONTAL); GridData gd = new GridData(SWT.FILL, SWT.CENTER, true, false); gd.minimumHeight = 5; gd.verticalIndent = 3; placeholder.setLayoutData(gd);
+        Button nextButton = new Button(leftComposite, SWT.PUSH);
+        nextButton.setText(Descriptions.Next);
+        nextButton.setImage(Activator.getImageDescriptor("icons/outline_navigate_next_black_24dp.png").createImage(true));
+        nextButton.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                if (e.type == SWT.Selection) {
+                    body.resetStateOverview(DataType.REDACTED, false);
+                }
+            }
+        });
+        
+        if(!isVerified) {
+        	nextButton.setEnabled(false);
+        }
     }
 
     /*private ModifyListener getAllNotEmptyListener() {

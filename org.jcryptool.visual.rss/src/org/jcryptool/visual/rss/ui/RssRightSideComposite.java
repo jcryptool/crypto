@@ -70,8 +70,8 @@ public abstract class RssRightSideComposite extends Composite {
         rightComposite = new Composite(contentCompositeR, SWT.NONE);
 
         GridLayout leftGridLayout = new GridLayout();
-        leftGridLayout.horizontalSpacing = 0;
-        leftGridLayout.verticalSpacing = 0;
+        leftGridLayout.horizontalSpacing = 5;
+        leftGridLayout.verticalSpacing = 5;
         leftComposite.setLayout(leftGridLayout);
 
         GridLayout rightGridLayout = new GridLayout();
