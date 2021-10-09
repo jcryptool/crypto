@@ -43,7 +43,7 @@ public class TextLoadController extends Composite {
 	private TextInputWithSource text;
 	private TransformData transformData;
 	private Composite compDisplayer;
-	private Button btnLoadText;
+	public Button btnLoadText;
 	private boolean showFrontLabel;
 	private boolean oneRow;
 	
