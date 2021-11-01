@@ -216,7 +216,9 @@ public class ECContentFp extends Composite{
 		});tablePoints = new Table(groupPoints, SWT.VIRTUAL | SWT.FULL_SELECTION | SWT.DOUBLE_BUFFERED);
 		tablePoints.setHeaderVisible(false);
 		tablePoints.setLinesVisible(false);
-		tablePoints.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		GridData tableLData = new GridData(SWT.FILL, SWT.FILL, true, true);
+//		tableLData.heightHint = 
+		tablePoints.setLayoutData(tableLData);
 
 		tcPoints = new TableCursor(tablePoints, SWT.NONE);
 		tcPoints.setForeground(red);

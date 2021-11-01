@@ -166,7 +166,7 @@ public class ECView extends ViewPart {
 				// Open the editor
 				try {
 					IPath location = new Path(getLogFileLocation());
-					editorPage.openEditor(new PathEditorInput(location), "org.jcryptool.editor.text.editor.JCTTextEditor"); //$NON-NLS-1$
+					editorPage.openEditor(new PathEditorInput(location), "org.jcryptool.editor.text.editor.JCTTextEditor", false); //$NON-NLS-1$
 				} catch (PartInitException e) {
 					LogUtil.logError(ECCPlugin.PLUGIN_ID, e);
 				}
@@ -197,6 +197,7 @@ public class ECView extends ViewPart {
 		try {
 			IPath location = new Path(getLogFileLocation());
 			editorPage.openEditor(new PathEditorInput(location), "org.jcryptool.editor.text.editor.JCTTextEditor"); //$NON-NLS-1$
+
 		} catch (PartInitException e) {
 			LogUtil.logError(ECCPlugin.PLUGIN_ID, e);
 		}
