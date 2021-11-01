@@ -195,7 +195,9 @@ public class ECContentFm extends Composite{
 	private void createGroupSize() {
 		groupSize = new Group(groupSettings, SWT.NONE);
 		groupSize.setText(Messages.ECView_SelectCurveSize); 
-		groupSize.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		GridData groupSizeLData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		groupSizeLData.verticalIndent = ECView.customHeightIndent;
+		groupSize.setLayoutData(groupSizeLData);
 		groupSize.setLayout(new GridLayout(2, true));
 		
 		rbtnSmall = new Button(groupSize, SWT.RADIO);
@@ -356,7 +358,9 @@ public class ECContentFm extends Composite{
 	private void createGroupSave() {
         groupSave = new Group(groupSettings, SWT.NONE);
         groupSave.setLayout(new GridLayout(1, false));
-        groupSave.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+        GridData groupSaveLData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		groupSaveLData.verticalIndent = ECView.customHeightIndent;
+        groupSave.setLayoutData(groupSaveLData);
         groupSave.setText(Messages.ECView_calculationHistory); 
         
         Button showHistoryBtn = new Button(groupSave, SWT.PUSH);
@@ -389,7 +393,9 @@ public class ECContentFm extends Composite{
 	 */
 	private void createGroupCurveType() {
 		groupCurveType = new Group(groupSettings, SWT.NONE);
-		groupCurveType.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		GridData groupCurveTypeLData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		groupCurveTypeLData.verticalIndent = ECView.customHeightIndent;
+		groupCurveType.setLayoutData(groupCurveTypeLData);
 		groupCurveType.setLayout(new GridLayout(3, true));
 		groupCurveType.setText(Messages.ECView_SelectCurveType); 
 		
@@ -447,7 +453,9 @@ public class ECContentFm extends Composite{
 	 */
 	private void createGroupCurveAttributes() {
 		groupCurveAttributes = new Group(groupSettings, SWT.NONE);
-		groupCurveAttributes.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		GridData groupCurveAttributesLData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		groupCurveAttributesLData.verticalIndent = ECView.customHeightIndent;
+		groupCurveAttributes.setLayoutData(groupCurveAttributesLData);
 		groupCurveAttributes.setLayout(new GridLayout(2, false));
 		groupCurveAttributes.setText(Messages.ECView_SelectCurveAttributes); 
 	}
@@ -632,7 +640,9 @@ public class ECContentFm extends Composite{
 		groupCalculations = new Group(groupSettings, SWT.NONE);
 		groupCalculations.setText(Messages.ECContentFm_45); 
 		groupCalculations.setLayout(new GridLayout(3, false));
-		groupCalculations.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		GridData groupCalculationsLData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		groupCalculationsLData.verticalIndent = ECView.customHeightIndent;
+		groupCalculations.setLayoutData(groupCalculationsLData);
 
 		Label label = new Label(groupCalculations, SWT.WRAP);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1));
@@ -738,7 +748,9 @@ public class ECContentFm extends Composite{
 	private void createGroupElements() {
 		groupElements = new Group(groupSettings, SWT.NONE);
 		groupElements.setLayout(new GridLayout(1, false));
-		groupElements.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		GridData groupElementsLData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		groupElementsLData.verticalIndent = ECView.customHeightIndent;
+		groupElements.setLayoutData(groupElementsLData);
 		groupElements.setText(Messages.ECView_Elements); 
 		
 		tableElements = new Table(groupElements, SWT.VIRTUAL | SWT.FULL_SELECTION | SWT.DOUBLE_BUFFERED);
