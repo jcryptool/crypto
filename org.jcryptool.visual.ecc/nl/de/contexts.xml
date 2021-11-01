@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <contexts>
- <context id="view" title="Elliptic curve calculations tutorial">
-    <description>This visualization demonstrates the calculations that can be performed on elliptic curves</description>
-    <topic href="help/content/index.html" label="Elliptic curve calculations tutorial"/>
+ <context id="view" title="Berechnungen zu Elliptischen Kurven">
+    <description>Diese Visualisiertung zeigt die Berechnungen, die an elliptischen Kurven durchgeführt werden können.</description>
+    <topic href="help/content/index.html" label="Berechnungen zu Elliptischen Kurven"/>
  </context>
 </contexts>
