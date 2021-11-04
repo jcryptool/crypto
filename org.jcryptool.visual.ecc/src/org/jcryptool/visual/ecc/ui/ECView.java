@@ -158,6 +158,9 @@ public class ECView extends ViewPart {
 		}
 		
 		// Close a propably already opened editor with the same name.
+		if(! editorPage.isEditorAreaVisible()) {
+			return;
+		}
 		IEditorReference[] er = editorPage.getEditorReferences();
 		for (int i = 0; i < er.length; i++) {
 			// Only reopen (update) the editor content, if an editor with the same name 
@@ -179,7 +182,7 @@ public class ECView extends ViewPart {
 		
 	}
 	
-	public void openLogFileInEditor() {
+	public void openLogFileInEditor(boolean activate) {
 		if (logFile == null) {
 			createLogFile();
 		}
@@ -199,7 +202,7 @@ public class ECView extends ViewPart {
 		// Open the log in the editor.
 		try {
 			IPath location = new Path(getLogFileLocation());
-			editorPage.openEditor(new PathEditorInput(location), "org.jcryptool.editor.text.editor.JCTTextEditor"); //$NON-NLS-1$
+			editorPage.openEditor(new PathEditorInput(location), "org.jcryptool.editor.text.editor.JCTTextEditor", false); //$NON-NLS-1$
 
 		} catch (PartInitException e) {
 			LogUtil.logError(ECCPlugin.PLUGIN_ID, e);

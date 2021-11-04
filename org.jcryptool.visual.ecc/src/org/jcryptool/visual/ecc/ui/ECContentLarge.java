@@ -953,7 +953,7 @@ public class ECContentLarge extends Composite {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				view.openLogFileInEditor();
+				view.openLogFileInEditor(true);
 			}
 			
 			@Override
