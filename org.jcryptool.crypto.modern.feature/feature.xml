@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="org.jcryptool.crypto.modern.feature"
-      label="JCrypTool Modern Algorithms Feature"
-      version="1.0.7"
-      provider-name="jcryptool.org"
-      plugin="org.jcryptool.crypto.modern">
-
-   <description url="https://github.com/jcryptool/crypto">
+<feature id="org.jcryptool.crypto.modern.feature" label="JCrypTool Modern Algorithms Feature" version="1.0.7" provider-name="jcryptool.org" plugin="org.jcryptool.crypto.modern"> <description url="https://github.com/jcryptool/crypto"> <!-- keep this in one line --> <!-- version:this -->
       The JCrypTool Modern Feature contains all modern crypto algorithm plug-ins of JCrypTool.
    </description>
 
