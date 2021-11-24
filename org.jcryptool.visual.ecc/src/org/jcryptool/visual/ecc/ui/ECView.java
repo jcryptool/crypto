@@ -37,7 +37,7 @@ import org.jcryptool.visual.ecc.Messages;
 
 public class ECView extends ViewPart {
 	
-	public static int customHeightIndent = 10; 
+	public static int customHeightIndent = 20; 
 	
     private Composite parent;
     private ECContentReal contentReal;
