@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.7" provider-name="jcryptool.org" plugin="org.jcryptool.visual"> <description url="https://github.com/jcryptool/crypto"> <!-- keep this in one line --> <!-- version:this -->
+<feature id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.8" provider-name="jcryptool.org" plugin="org.jcryptool.visual"> <description url="https://github.com/jcryptool/crypto"> <!-- keep this in one line --> <!-- version:this -->
       The JCrypTool Visual Feature contains all available crypto visualizations of JCrypTool.
    </description>
 
