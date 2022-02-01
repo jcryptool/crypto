@@ -1,10 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE HTML>
+
+<html lang="de">
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Verifiable Secret Sharing</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Verifiable Secret Sharing</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
+
 <body>
+
 
 <h1>Verifiable Secret Sharing</h1>
 
@@ -47,27 +51,27 @@
 <p>
 	In der Box <b>Parameter</b> werden die nötigen Parameter für den Ablauf des Algorithmus eingestellt.</p>
 <p>
-	Zuerst wählt man die Anzahl der <b>Personen n</b> aus, an die die <b>Shares</b> des Geheimnisses verteilt werden, und die Anzahl der <b>Personen t</b>, die für die Rekonstruktion des Geheimnisses nötig sind. Die Anzahl <b>t</b> der Personen
-	für die Rekonstruktion darf höchstens der Anzahl <b>n</b> aller Personen entsprechen und
+	Zuerst wählt man die Anzahl der <b>Personen \(n\)</b> aus, an die die <b>Shares</b> des Geheimnisses verteilt werden, und die Anzahl der <b>Personen \(t\)</b>, die für die Rekonstruktion des Geheimnisses nötig sind. Die Anzahl <b>\(t\)</b> der Personen
+	für die Rekonstruktion darf höchstens der Anzahl <b>\(n\)</b> aller Personen entsprechen und
 	beide müssen <b>mindestens 2</b> sein, da sonst die Idee des Secret Sharing ad absurdum geführt werden würde.
 </p>
 
-<p>Dann gibt man das <b>Geheimnis s</b> ein. Größere Werte werden auf 2.000.000 beschränkt, damit die Anwendung noch sofort reagieren kann.</p>
+<p>Dann gibt man das <b>Geheimnis \(s\)</b> ein. Größere Werte werden auf \(2.000.000\) beschränkt, damit die Anwendung noch sofort reagieren kann.</p>
 
 <p>
-	Nachdem <b>s</b> gewählt wurde, wird automatisch der <b>Modul p</b> berechnet, da er mehr als doppelt so groß wie die Zahl des Geheimnisses sein muss. Zusätzlich muss <b>p</b> eine <a target="_blank" href="https://de.wikipedia.org/wiki/Sichere_Primzahl"><b>Safe Prime</b></a> sein. Da das Finden von Safe Primes relativ aufwändig ist, wird empfohlen, die vorgeschlagenen Werte zu verwenden. Man kann jedoch auch selbst ein Modul wählen. Auch in diesem Fall muss der Modul wieder eine Safe Prime sein und mindestens doppelt so groß wie das Geheimnis s.</p>
+	Nachdem <b>\(s\)</b> gewählt wurde, wird automatisch der <b>Modul \(p\)</b> berechnet, da er mehr als doppelt so groß wie die Zahl des Geheimnisses sein muss. Zusätzlich muss <b>\(p\)</b> eine <a target="_blank" href="https://de.wikipedia.org/wiki/Sichere_Primzahl"><b>Safe Prime</b></a> sein. Da das Finden von Safe Primes relativ aufwändig ist, wird empfohlen, die vorgeschlagenen Werte zu verwenden. Man kann jedoch auch selbst ein Modul wählen. Auch in diesem Fall muss der Modul wieder eine Safe Prime sein und mindestens doppelt so groß wie das Geheimnis \(s\).</p>
 <p>
-	Des Weiteren wird der größte <b>Primfaktor q</b> von (p-1) benötigt.
-	Der Primfaktor berechnet sich automatisch aus der Safe Prime p wie folgt: q = (p-1)/2.
-	Der letzte Parameter ist der <b>Generator g</b>, der nicht geändert werden kann: Er wird ebenso wie p automatisch berechnet.
-	<b>g</b> ist ein Element des Körpers Z_p* mit der multiplikativen Ordnung <b>q</b>.
-	Aufgrund des hohen Rechenaufwands bei der Bestimmung der Ordnung des Generators&nbsp;&ndash; wenn der Generator g groß gewählt wird&nbsp;&ndash; kann dieser nicht verändert werden.
+	Des Weiteren wird der größte <b>Primfaktor \(q\)</b> von \((p-1)\) benötigt.
+	Der Primfaktor berechnet sich automatisch aus der Safe Prime \(p\) wie folgt: \(q = \frac{p-1}{2}\).
+	Der letzte Parameter ist der <b>Generator \(g\)</b>, der nicht geändert werden kann: Er wird ebenso wie \(p\) automatisch berechnet.
+	<b>\(g\)</b> ist ein Element des Körpers \(\mathbb{Z}_p^*\) mit der multiplikativen Ordnung <b>\(q\)</b>.
+	Aufgrund des hohen Rechenaufwands bei der Bestimmung der Ordnung des Generators&nbsp;&ndash; wenn der Generator \(g\) groß gewählt wird&nbsp;&ndash; kann dieser nicht verändert werden.
 </p>
 
 <p><img src="vss_parameter_2.jpg" width="85%"/></p>
 
 <p>
-	Sind alle Parameter korrekt gewählt, muss man auf <b>Koeffizienten bestimmen</b> klicken. Damit werden die t Koeffizienten angelegt (jeder gefüllt mit dem Initialwert 1) und man kann mit dem nächsten Schritt fortfahren.
+	Sind alle Parameter korrekt gewählt, muss man auf <b>Koeffizienten bestimmen</b> klicken. Damit werden die \(t\) Koeffizienten angelegt (jeder gefüllt mit dem Initialwert 1) und man kann mit dem nächsten Schritt fortfahren.
 </p>
 
 
@@ -78,9 +82,9 @@
 <p>
 	In der Box <b>Koeffizienten</b> werden die Koeffizienten für das Polynom festgelegt. Diese können Sie sich entweder vom Plug-in, mittels Klick auf den Button <b>Generieren</b>, zufällig erzeugen lassen oder wieder selbst wählen. Nur zufällige Koeffizienten schützen das Geheimnis wirklich.
 
-	Die Koeffizienten müssen natürliche Zahlen sein und kleiner als der <b>Modul q</b>. 
-	Der erste Koeffizient <b><i>a<sub>0</sub></i></b> ist das zuvor festgelegte <b>Geheimnis s</b>.
-	Zusätzlich darf der letzte Koeffizient nicht 0 sein, da sonst der Grad des Polynoms verringert werden würde und weniger Spieler als <b>t</b> eine erfolgreiche Rekonstruktion durchführen könnten.
+	Die Koeffizienten müssen natürliche Zahlen sein und kleiner als der <b>Modul \(q\)</b>. 
+	Der erste Koeffizient <b>\(a_0\)</b> ist das zuvor festgelegte <b>Geheimnis \(s\)</b>.
+	Zusätzlich darf der letzte Koeffizient nicht 0 sein, da sonst der Grad des Polynoms verringert werden würde und weniger Spieler als <b>\(t\)</b> eine erfolgreiche Rekonstruktion durchführen könnten.
 </p>
 
 <p><img src="vss_coefficients_3.jpg" width="85%"/></p>
@@ -113,8 +117,8 @@
 	Der letzte Schritt verteilt sich auf die beiden Boxen <b>Shares</b> und <b>Rekonstruktion</b>.
 </p>
 <p> In der <b>Shares</b>-Box werden die Zwischenergebnisse vor der Reduktion
-    modulo q und die Shares modulo q angezeigt.
-	Alle nachfolgenden Berechnungen hier werden mit den Shares modulo q durchgeführt.
+    modulo \(q\) und die Shares modulo \(q\) angezeigt.
+	Alle nachfolgenden Berechnungen hier werden mit den Shares modulo \(q\) durchgeführt.
 	Das Zwischenergebnis vor der Reduktion modulo q wird nicht mehr benötigt.
 	Es wird trotzdem angezeigt, damit der Benutzer nach der Rekonstruktion den Graphen des Polynoms auf seine Richtigkeit kontrollieren kann.
 </p>
@@ -132,7 +136,7 @@
 
 <p>
 	Die Rekonstruktion erfolgt in der Box <b>Rekonstruktion</b>. Bevor Sie den Button <b>Rekonstruieren</b> drücken, müssen noch die gewünschten Shares ausgewählt werden. Es ist egal, welche Shares Sie wählen, solange die Anzahl der gewählten Shares
-	mindestens <b>t</b> ist. Werden zu wenig Shares ausgewählt, wird ein falsches Polynom und somit auch ein falsches Geheimnis rekonstruiert. Das Ergebnis der Rekonstruktion wird im Tab <b>Rekonstruktionsgraph</b> angezeigt.
+	mindestens <b>\(t\)</b> ist. Werden zu wenig Shares ausgewählt, wird ein falsches Polynom und somit auch ein falsches Geheimnis rekonstruiert. Das Ergebnis der Rekonstruktion wird im Tab <b>Rekonstruktionsgraph</b> angezeigt.
 	Dies umfasst das rekonstruierte Polynom sowie dessen grafische Darstellung.
 </p>
 
