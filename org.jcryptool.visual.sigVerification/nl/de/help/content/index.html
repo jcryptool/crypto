@@ -1,103 +1,270 @@
 <!DOCTYPE html>
-<html lang = "de">
-    <head>
-        <meta charset="utf-8">
-        <title>Signatur-Verifikation</title>
-    </head>
-    <body>
-        <h1>Signatur-Verifikation</h1>
-        <p>
-		Willkommen in der Online Hilfe des Plug-Ins zur Visualisierung der Signaturverifizierung.
-		Nachfolgenden finden Sie einen überblick des Plug-Ins, sowie eine detaillierte Erklärung zu jedem Schritt des Signaturverifizierungsprozesses. 
-		Hier kommen Sie zur Hilfe der <a href="#GUI2">Validierung von Zertifikaten nach dem Schalenmodell. </a>
-        <br>
-		Die Visualisierung soll die Verifizierung einer Signatur für ein bestimmtes, signiertes Dokument zeigen.
-		Eine digitale Signatur kann zur Authentifizierung der Identität des Senders oder des Unterzeichners des Dokuments genutzt werden. 
-		Sie sichert außerdem die Integrität des Dokumentes selbst.
-		</p>
-		<p align=center><img src="GUI1.png" width="85%"></p> 
-		<h2>Allgemeine Informationen</h2>
-        <h3>Schritt zurück-Funktion</h3>
-		<p>Schrittweises zurückgehen. Alle vorgenommenen änderungen oder Einstellungen bleiben gespeichert, bis zu dem Schritt zu dem man zurück geht.</p>
-		
-		<h2>Schritt 1 – Input auswählen</h2>
-        <p>Um den Signaturverifizierungsprozess zu starten, klicken Sie den Button "Input auswählen". Wählen Sie eine bereits vorhandene Signatur-Datei aus, die mit der "Signatur-Demo"-Visualisierung erzeugt wurde. Die maximale Dateigröße wird Ihnen in der Titelzeile des Fensters angezeigt. Sollten Sie noch keine signierte Datei besitzen, können Sie sich mit der Signatur-Demo Visualisierung eine solche Datei erstellen.</p>
-      	<p><img width="85%" src="DateiAuswahlen.png"></p>
-		
-		<h2>Schritt 2 – Hashfunktion auswählen</h2>
-        <p>Der zweite Schritt des Signaturverifizierungsprozesses ist die Berechnung des Hashwertes der signierten Datei. Eine Hashfunktion bildet Daten variabler Länge auf einen Wert fester Länge ab. Statt der eigentlichen Nachricht wird nur deren Hashwert signiert (bzw. verifiziert). Dies erhöht die Effizienz in der Regel deutlich, da der Hashwert oft deutlich kleiner ist als die eigentliche Nachricht. Mit der Neuberechnung des Hashwertes der Datei kann diese auf Veränderung geprüft werden. 
-        Es muss der gleiche Hashalgorithmus verwendet werden wie bei der Signaturerstellung. Normalerweise enthält die Signatur eine Angabe dazu, welcher Algorithmus bei der Signierung verwendet wurde. Das ist hier nicht der Fall, sodass der Nutzer diese manuell angeben muss.</p>
-        
-        <img width="85%" src="HashWahlen.png">
-        
-        <h3>Beschreibung der unterstützten Hashfunktionen</h3>
-        <h4>MD5</h4>
-        <p>Der MD5-Algoritmus (veröffentlicht im Jahr 1992 und spezifiziert in RFC 1321) generiert aus einer gegebenen Nachricht einen 128-Bit langen "Fingerabdruck" oder "Hashwert". Der MD5-Algoritmus ist für digitale Signaturapplikationen vorgesehen, in der sehr große Dateien sicher "komprimiert" werden müssen, bevor sie, wie beispielsweise in einem Public-Key-Kryptosystem wie RSA, mit einem privaten Schlüssel verschlüsselt werden. </p>
-        <h4>SHA-1</h4> 
-        <p>Der “Secure Hash Algoritm” (veröffentlicht im Jahr 1995 von der United States NIST) berechnet eine verkürzte Darstellung einer Nachricht oder einer Datei. SHA-1 generiert dabei aus einer Datei beliebige Länge (< 264 Bits), eine 160-Bit-Ausgabe. SHA-1 gilt als sicher, weil es praktisch unmöglich ist, eine Nachricht zu finden, die zu einem gegebenen Hashwert passt oder zwei verschiedene Nachrichten zu finden, die denselben Hashwert generieren. Jede änderung der Nachricht hat, mit hoher Wahrscheinlichkeit, zu folge, dass der Hashwert sich ebenfalls ändert und die Verifikation der Signatur wäre nicht mehr möglich.</p>
-        <h4>SHA-256</h4>
-        <p>SHA-256 ist eine Nachfolger der SHA-1-Hashfunktion (allgemein auch als SHA-2 bezeichnet) und einer der stärksten zurzeit verfügbaren Hashfunktionen. Während SHA-1 praktisch noch nicht gebrochen wurde (in der Theorie allerdings schon), ist der SHA-256-Algorithum im Vergleich wesentlich komplexer. Es wird allgemein empfohlen diesen Algorithmus zu wählen, als SHA-1.</p>
-        <h4>SHA-384</h4>
-        <p>SHA-384 ist gleich wie SHA-512, sie unterscheiden sich allerdings in der Länge des generierten Hashwertes (SHA-384 ist verkürzt). Der initiale Hash berechnet sich aus den 64 dezimalen Bits der Quadratwurzel der aufeinanderfolgenden Primzahlen (23, 29, etc.). Zum Schluss werden nur die ersten sechs 64-Bit-Wörter aus dem Ergebnis verwendet. Die angefügte Nummer gibt die Länge der einzelnen Hashwerte (in Bits) an.</p>
-        <h4>SHA-512</h4>
-        <p>SHA-256 und SHA-512 unterscheiden sich in der Wortlänge. SHA-256 verwendet 32-Bit-Wörter, wobei SHA-512 64-Bit-Wörter verwendet. Die angefügte Nummer gibt die Länge der einzelnen Hashwerte (in Bits) an.</p>
-        
-        <h2>Schritt  3 – Signatur verifizieren</h2>
-        <p>Um die von Ihnen gewählte Signatur zu verifizieren, müssen Sie die Signaturfunktionen auswählen, mit der die Signatur erstellt wurde.</p>
-        <img width="85%" src="Signaturmethode.png">
-        
-        <h3>Beschreibung der unterstützten Signaturfunktionen</h3>
-        <h4>DSA</h4>
-        <p>Der “Digital Signature Algorithm“ (DSA) (veröffentlicht im Jahr 1991 von NIST) ist ein „United States Federal Government“-Standard für digitale Signaturen. Mit DSA ist die Entropie, Geheimhaltung, und die Einzigartigkeit des zufälligen Signatur-Wertes entscheidend. Jede Verletzung einer dieser drei Anforderungen kann dazu führen, dass der gesamte private Schlüssel dem Angreifer  offenbart wird. Wird der zufällige Signatur-Wert ein zweites Mal verwendet, ein vorhersehbarer Wert berechnet oder sind nur einige Bits des Wertes in jeder der Signaturwerte undicht, kann DAS gebrochen werden.</p>
-        <p>Lernen Sie mehr über DSA: <a target="_blank" href="https://de.wikipedia.org/wiki/Digital_Signature_Algorithm" target="_blank">DSA auf Wikipedia</a></p>
-        <h4>RSA</h4>
-        <p>RSA (veröffentlicht im Jahr 1977) ist ein Algorithmus für asymmetrische kryptografische Verfahren, die auf der mutmaßlichen Schwierigkeit der Faktorisierung von großen Zahlen, dem Faktorisierungsproblem, basiert. Jeder kann den öffentlichen Schlüssel zum Entschlüsseln einer Nachricht verwenden, aber mit den aktuelle veröffentlichten Methoden, kann nur jemand der die Primfaktoren kennt und vorausgesetzt der Schlüssel ist lang genug, die Nachricht tatsächlich dekodieren. Sichere Padding-Verfahren, wie beispielsweise RSA-PSS, sind für die Sicherheit der Signaturerstellung genauso notwendig wie für die der Verschlüsselung einer Nachricht. Der PKCS #1 Cryptography Standard definiert die Empfehlungen für die Implementierung asymmetrischer Kryptografie, die auf dem RSA-Algorithmus basieren.</p>
-        <p>Lernen Sie mehr über RSA: <a href="PLUGINS_ROOT/org.jcryptool.visual.rsa/$nl$/help/content/index.html">Besuchen Sie JCT-RSA</a></p>  
-        <h4>ECDSA</h4>
-        <p>Der “Elliptic Curve Digital Signature Algorithm” (ECDSA) (vorgeschlagen von Scott Vanstone im Jahr 1992) ist die elliptische Kurve analog dem “Digital Signature Algorithm“ (DSA). Im Gegensatz zum normalen diskreten Logarithmusproblem und dem Faktorisierungsproblem, sind für Elliptischen Kurven keine Probleme bekannt. Die Länge des privaten Schlüssels, der als sicher betrachtet wird, ist mit ECDSA wesentlich kürzer. Bei einem Sicherheitsniveau von 80 Bits, was bedeutet, ein Angreifer würde 2^80 Signaturerzeugungsprozesse benötigen um den privaten Schlüssel zu finden, ist die Größe eines öffentlichen DAS-Schlüssels mindestens 1024 Bit, während die Größe eines öffentlichen ECDA-Schlüssels 160 Bit wäre. </p>
-        <h4>RSA and MGF1</h4>
-        <p>Eine Mask Generation Function (MGF) ist eine Funktion zum Generieren von Pseudozufallszahlen in beliebiger Länge. Ohne Kenntnis über den Startwert (Seed), ist es praktisch nicht möglich die Zufallszahlen vorherzusagen. MGF1 ist ein in der PKCS#1 spezifiziertes Verfahren, welches Hash-Funktionen wie SHA-1 einsetzt, um Pseudozufallszahlen zu generieren.</p>
-        <h3>Mehr Informationen zur Kryptografie-Bibliothek BouncyCastle:</h3>
-       	<ul>
-        	<li><a target="_blank" href="http://www.bouncycastle.org/" target="_blank">Besuchen Sie BouncyCastle</a></li>
-        	<li><a target="_blank" href="https://github.com/jcryptool/core/tree/04fbe0efa19be7fee686b9fd4dcf3ee33b8e12d2/org.bouncycastle" target="_blank">Besuchen Sie BouncyCastle auf github</a></li>
-        	<li><a target="_blank" href="http://www.mobilefish.com/developer/bouncycastle/bouncycastle.html" target="_blank">Beispiele mit BouncyCastle</a></li>
-  		</ul>
-		<h3>öffentlichen Schlüssel auswählen</h3>
-		<p>Nun benötigen Sie noch den öffentlichen Schlüssel, der zu dem privaten Schlüssel passt, mit dem die Signatur erzeugt wurde. Wurde die Signatur mit einem Schlüssel aus dem JCT-üsselspeicher signiert (was momentan die einzige Möglichkeit darstellt), so kann der entsprechende öffentliche Schlüssel hier geladen werden.</p>
-		
-        <h2>Schritt 4 – Ergebnis anzeigen</h2>
-        <img width="85%" src="Hacken.png">
-        <img width="85%" src="Kreutz.png">
-        <p>Wenn die Signatur als gültig verifiziert wurde, erscheint ein grüner Haken neben dem Button "Ergebnis anzeigen", ansonsten erscheint ein rotes Kreutz. Für nähere Informationen, klicken Sie auf den Button „Ergebnis anzeigen“. Dort finden Sie alle relevanten Informationen zu der verifizierten Signatur:</p>
-        <ul>
-            <li>Den verwendeten Schlüssel</li>
-            <li>Die Verifikationsmethode</li>
-            <li>Die hexadezimale, oktale oder die binäre Darstellung der Signaturn sowie deren Länge</li>
-			<li>Die hexadezimale Darstellung des Hashwertes sowie dessen Länge</li>
-		</ul>
-        <!--<p>Klicken Sie auf den Button “Gültigkeitsmodelle”, um sich die Verifizierung von Zertifikaten nach dem Schalenmodell genauer anzusehen.</p>-->
-		<img width="85%" src="ErgebnisAnzeigen.png">
-		
-		<h1 id="GUI2">Gültigkeitsvalidierung von Zertifikaten mit dem Schalenmodell</h1>
-		<p>Diese für Lernzwecke erstellte Oberfläche zeigt, wie sich bei der Validierung nach dem Schalenmodell verschiedene Zertifikat-Gültigkeiten auf das Ergebnis auswirken.
-		Eine ausführlichere Visualisierung mit 3 Gültigkeitsmodellen, in der man die Zeitpunkte auch mit Slidern einstellen kann, finden Sie im Menü "Visualisierungen -> Zertifikat-Verifikation".</p>
-		<img width="85%" src="2ob.png">
-		<h2>Schalenmodell</h2>
-		<p>Beim Schalenmodell wird eine Signatur nur für gültig erklärt, wenn zum überprüfungszeitpunkt alle Zertifikate gültig sind. Dh. wenn zum Zeitpunkt der überprüfung zwar das Teilnehmer-Zertifikat und das Level 2-Zertifikat noch gültig sind, das Wurzel-Zertifikat aber nicht mehr gültig ist, dann wird die Signatur für ungültig erklärt. Genauso können die unteren Zertifikate kein längeres Gültigkeitsdatum als die höhergestellten haben (z. B.: Level 2 als Wurzel)</p>
-		<h3>Zertifikate</h3>
-		<h4>Wurzel-Zertifikat</h4>
-		<p>Oberstes Zertifikat-Level, welches die Gültigkeit aller untergeordneten Zertifikate bestätigt.</p>
-		<h4>Level 2-Zertifikat</h4>
-		<p>Dieses Zertifikat verweist auf das Wurzel-Zertifikat, denn es wurde von diesem signiert um dessen Korrektheit zu signalisieren.</p>
-		<h4>Teilnehmen-Zertifikat</h4>
-		<p>Das Teilnehmer-Zertifikat ist das unterste Zertifikat in der Zertifikatskette. Damit dieses Zertifikat als gültig verifiziert wird, müssen sowohl das Teilnehmer-Zertifikat als auch alle anderen Zertifikate der Kette (in diesem Fall das Teilnehmer- und das Wurzel-Zertifikat) gültig sein.</p>
-		<h3>Aktionen</h3>
-		<h4>Start- und Endgültigkeitsdaten</h4>
-		<p>Hier können Sie die Start- und Endgültigkeiten der einzelnen Zertifikate umstellen und die Auswirkungen auf die Gesamtgültigkeit betrachten. Dazu müssen Sie noch auf "Ergebnis neu berechnen" klicken.</p>
-		<h4>Daten der 3 Zertifikate zurücksetzen</h4>
-		<p>Hier werden die Standard-Zertifikate (bzw. deren standardmäßige Endgültigkeitsdaten) wiederhergestellt.</p>
-		<h4>Ergebnis neu berechnen</h4>
-		<p>Berechnet die Gültigkeit neu und entscheidet nach dem Schalenmodell ob die Zertifikatskette gültig ist oder nicht. Ist sie immer noch gültig, erscheint wieder ein grüner Hacken, ansonsten erscheind ein rotes Kreuz. Bitte bachten Sie, dass dieser Button bei einer ungültiger Datumseingabe in einem der Datumsfelder deaktiviert wird.</p>
-    </body>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Signatur-Verifikation</title>
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
+</head>
+
+<style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+  padding: 5px;
+}
+
+figcaption {
+  margin-top: 5px
+}
+</style>
+
+<body>
+  <h1>Signatur-Verifikation</h1>
+  <p>
+    Willkommen in der Online Hilfe des Plug-Ins zur Visualisierung der Signaturverifizierung. Nachfolgenden
+    finden Sie einen überblick des Plug-Ins, sowie eine detaillierte Erklärung zu jedem Schritt des
+    Signaturverifizierungsprozesses. Hier kommen Sie zur Hilfe der <a href="#GUI2">Validierung von
+      Zertifikaten nach dem Schalenmodell. </a> <br> Die Visualisierung soll die Verifizierung einer Signatur
+    für ein bestimmtes, signiertes Dokument zeigen. Eine digitale Signatur kann zur Authentifizierung der
+    Identität des Senders oder des Unterzeichners des Dokuments genutzt werden. Sie sichert außerdem die
+    Integrität des Dokumentes selbst.
+  </p>
+
+  <p align=center>
+    <img src="GUI1.png" style="width: 90%; min-width:500px; max-width: 1200px"
+    alt="Screenshot des ganzen Plugins. Die Schritte umfassen 1 Input auswählen, 2 Hashfunktion auswählen,
+    3 Signatur verifizieren 4 Ergebnis anzeigen. Unten befindet sich eine Textbox mit detaillierten Beschreibungen">
+  </p>
+
+  <h2>Allgemeine Informationen</h2>
+  <h3>Schritt zurück-Funktion</h3>
+  <p>Schrittweises zurückgehen. Alle vorgenommenen änderungen oder Einstellungen bleiben gespeichert, bis
+    zu dem Schritt zu dem man zurück geht.</p>
+
+  <h2>Schritt 1 – Input auswählen</h2>
+  <p>Um den Signaturverifizierungsprozess zu starten, klicken Sie den Button "Input auswählen". Wählen Sie
+    eine bereits vorhandene Signatur-Datei aus, die mit der "Signatur-Demo"-Visualisierung erzeugt wurde. Die
+    maximale Dateigröße wird Ihnen in der Titelzeile des Fensters angezeigt. Sollten Sie noch keine signierte
+    Datei besitzen, können Sie sich mit der Signatur-Demo Visualisierung eine solche Datei erstellen.</p>
+
+  <img src="DateiAuswahlen.png" style="width: 50%; min-width: 500px; max-width: 800px"
+  alt="Dialog zum Laden einer Signatur. Es kann mit dem Duchsuchen-Button eine Datei ausgewählt werden.">
+
+  <h2>Schritt 2 – Hashfunktion auswählen</h2>
+  <p>Der zweite Schritt des Signaturverifizierungsprozesses ist die Berechnung des Hashwertes der
+    signierten Datei. Eine Hashfunktion bildet Daten variabler Länge auf einen Wert fester Länge ab. Statt der
+    eigentlichen Nachricht wird nur deren Hashwert signiert (bzw. verifiziert). Dies erhöht die Effizienz in
+    der Regel deutlich, da der Hashwert oft deutlich kleiner ist als die eigentliche Nachricht. Mit der
+    Neuberechnung des Hashwertes der Datei kann diese auf Veränderung geprüft werden. Es muss der gleiche
+    Hashalgorithmus verwendet werden wie bei der Signaturerstellung. Normalerweise enthält die Signatur eine
+    Angabe dazu, welcher Algorithmus bei der Signierung verwendet wurde. Das ist hier nicht der Fall, sodass
+    der Nutzer diese manuell angeben muss.</p>
+
+  <img src="HashWahlen.png" style="width: 50%; min-width: 500px; max-width: 800px"
+  alt="Ein Wizard mit den möglichen Hash-Funktionen als Auswahl. Diese sind MD5, SHA-1 (angewählt), SHA-256, 
+  SHA-384 and SHA-512. Es gibt die Auswahl Fertig und Abbrechen.">
+
+  <h3>Beschreibung der unterstützten Hashfunktionen</h3>
+
+  <h4>MD5</h4>
+  <p>Der MD5-Algoritmus (veröffentlicht im Jahr 1992 und spezifiziert in RFC 1321) generiert aus einer
+    gegebenen Nachricht einen 128-Bit langen "Fingerabdruck" oder "Hashwert". Der MD5-Algoritmus ist für
+    digitale Signaturapplikationen vorgesehen, in der sehr große Dateien sicher "komprimiert" werden müssen,
+    bevor sie, wie beispielsweise in einem Public-Key-Kryptosystem wie RSA, mit einem privaten Schlüssel
+    verschlüsselt werden.</p>
+
+  <div class="base-box alert">
+    <div>
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+        fill="#b71c1c">
+        <path
+          d="M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" /></svg>
+      <span>Achtung:</span> MD5 gilt inzwischen als unsicher und darf auf keinen Fall für sichere
+      kryptografische Operationen verwendet werden.
+    </div>
+  </div>
+
+  <h4>SHA-1</h4>
+  <p>
+    Der “Secure Hash Algoritm” (veröffentlicht im Jahr 1995 von der United States NIST) berechnet eine
+    verkürzte Darstellung einer Nachricht oder einer Datei. SHA-1 generiert dabei aus einer Datei beliebige
+    Länge (\(\lt 2^{64}\) bit), eine 160-Bit-Ausgabe. Der Algorithmus führt „secure“ im Namen da er zum
+    Zeitpunkt seiner Veröffentlichung die Anforderungen an kryptografische Hash-Funktionen: pre-image
+    resistance, <span style="white-space: nowrap">2<sup>nd</sup>-preimage-resistance
+    </span> und collision resistance erfüllte.
+
+  <div class="base-box alert">
+    <div>
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+        fill="#b71c1c">
+        <path
+          d="M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" /></svg>
+      <span>Achtung:</span> MD5 gilt inzwischen als unsicher und darf auf keinen Fall für sichere
+      kryptografische Operationen verwendet werden.
+    </div>
+  </div>
+
+  </p>
+  <h4>SHA-256</h4>
+  <p>SHA-256 ist eine Nachfolger der SHA-1-Hashfunktion (allgemein auch als SHA-2 bezeichnet) und einer
+    der stärksten zurzeit verfügbaren Hashfunktionen. Während SHA-1 praktisch noch nicht gebrochen wurde (in
+    der Theorie allerdings schon), ist der SHA-256-Algorithum im Vergleich wesentlich komplexer. Es wird
+    allgemein empfohlen diesen Algorithmus zu wählen, als SHA-1.</p>
+  <h4>SHA-384</h4>
+  <p>SHA-384 ist gleich wie SHA-512, sie unterscheiden sich allerdings in der Länge des generierten
+    Hashwertes (SHA-384 ist verkürzt). Der initiale Hash berechnet sich aus den 64 dezimalen Bits der
+    Quadratwurzel der aufeinanderfolgenden Primzahlen (23, 29, etc.). Zum Schluss werden nur die ersten sechs
+    64-Bit-Wörter aus dem Ergebnis verwendet. Die angefügte Nummer gibt die Länge der einzelnen Hashwerte (in
+    Bits) an.</p>
+  <h4>SHA-512</h4>
+  <p>SHA-256 und SHA-512 unterscheiden sich in der Wortlänge. SHA-256 verwendet 32-Bit-Wörter, wobei
+    SHA-512 64-Bit-Wörter verwendet. Die angefügte Nummer gibt die Länge der einzelnen Hashwerte (in Bits) an.</p>
+
+  <h2>Schritt 3 – Signatur verifizieren</h2>
+  <p>Um die von Ihnen gewählte Signatur zu verifizieren, müssen Sie die Signaturfunktionen auswählen, mit
+    der die Signatur erstellt wurde.</p>
+
+  <img src="Signaturmethode.png" style="width: 50%; min-width: 500px; max-width: 800px"
+  alt="Ein Wizard mit den möglichen Signaturmethoden zur Auswahl. Diese sind DSA, RSA, ECDSA und
+  'RSA und MGF1'. Darunter gibt es die Möglichkeit, einen Schlüssel auszuwählen. Ganz unten sind 
+  Buttons Fertig und Abbrechen.">
+
+  <h3>Beschreibung der unterstützten Signaturfunktionen</h3>
+  <h4>DSA</h4>
+  <p>Der “Digital Signature Algorithm“ (DSA) (veröffentlicht im Jahr 1991 von NIST) ist ein „United States
+    Federal Government“-Standard für digitale Signaturen. Mit DSA ist die Entropie, Geheimhaltung, und die
+    Einzigartigkeit des zufälligen Signatur-Wertes entscheidend. Jede Verletzung einer dieser drei
+    Anforderungen kann dazu führen, dass der gesamte private Schlüssel dem Angreifer offenbart wird. Wird der
+    zufällige Signatur-Wert ein zweites Mal verwendet, ein vorhersehbarer Wert berechnet oder sind nur einige
+    Bits des Wertes in jeder der Signaturwerte undicht, kann DAS gebrochen werden.</p>
+  <p>
+    Lernen Sie mehr über DSA: <a target="_blank"
+      href="https://de.wikipedia.org/wiki/Digital_Signature_Algorithm" target="_blank">DSA auf Wikipedia</a>
+  </p>
+  <h4>RSA</h4>
+  <p>RSA (veröffentlicht im Jahr 1977) ist ein Algorithmus für asymmetrische kryptografische Verfahren,
+    die auf der mutmaßlichen Schwierigkeit der Faktorisierung von großen Zahlen, dem Faktorisierungsproblem,
+    basiert. Jeder kann den öffentlichen Schlüssel zum Entschlüsseln einer Nachricht verwenden, aber mit den
+    aktuelle veröffentlichten Methoden, kann nur jemand der die Primfaktoren kennt und vorausgesetzt der
+    Schlüssel ist lang genug, die Nachricht tatsächlich dekodieren. Sichere Padding-Verfahren, wie
+    beispielsweise RSA-PSS, sind für die Sicherheit der Signaturerstellung genauso notwendig wie für die der
+    Verschlüsselung einer Nachricht. Der PKCS #1 Cryptography Standard definiert die Empfehlungen für die
+    Implementierung asymmetrischer Kryptografie, die auf dem RSA-Algorithmus basieren.</p>
+  <p>
+    Lernen Sie mehr über RSA: <a href="PLUGINS_ROOT/org.jcryptool.visual.rsa/$nl$/help/content/index.html">Besuchen
+      Sie JCT-RSA</a>
+  </p>
+  <h4>ECDSA</h4>
+  <p>Der “Elliptic Curve Digital Signature Algorithm” (ECDSA) (vorgeschlagen von Scott Vanstone im Jahr
+    1992) ist die elliptische Kurve analog dem “Digital Signature Algorithm“ (DSA). Im Gegensatz zum normalen
+    diskreten Logarithmusproblem und dem Faktorisierungsproblem, sind für Elliptischen Kurven keine Probleme
+    bekannt. Die Länge des privaten Schlüssels, der als sicher betrachtet wird, ist mit ECDSA wesentlich
+    kürzer. Bei einem Sicherheitsniveau von 80 Bits, was bedeutet, ein Angreifer würde \(2^{80}\)
+    Signaturerzeugungsprozesse benötigen um den privaten Schlüssel zu finden, ist die Größe eines öffentlichen
+    DAS-Schlüssels mindestens 1024 Bit, während die Größe eines öffentlichen ECDA-Schlüssels 160 Bit wäre.</p>
+  <h4>RSA and MGF1</h4>
+  <p>Eine Mask Generation Function (MGF) ist eine Funktion zum Generieren von Pseudozufallszahlen in
+    beliebiger Länge. Ohne Kenntnis über den Startwert (Seed), ist es praktisch nicht möglich die
+    Zufallszahlen vorherzusagen. MGF1 ist ein in der PKCS#1 spezifiziertes Verfahren, welches Hash-Funktionen
+    wie SHA-1 einsetzt, um Pseudozufallszahlen zu generieren.</p>
+  <h3>Mehr Informationen zur Kryptografie-Bibliothek BouncyCastle:</h3>
+  <ul>
+    <li><a target="_blank" href="http://www.bouncycastle.org/" target="_blank">Besuchen Sie
+        BouncyCastle</a></li>
+    <li><a target="_blank"
+      href="https://github.com/jcryptool/core/tree/04fbe0efa19be7fee686b9fd4dcf3ee33b8e12d2/org.bouncycastle"
+      target="_blank">Besuchen Sie BouncyCastle auf github</a></li>
+    <li><a target="_blank" href="http://www.mobilefish.com/developer/bouncycastle/bouncycastle.html"
+      target="_blank">Beispiele mit BouncyCastle</a></li>
+  </ul>
+  <h3>öffentlichen Schlüssel auswählen</h3>
+  <p>Nun benötigen Sie noch den öffentlichen Schlüssel, der zu dem privaten Schlüssel passt, mit dem die
+    Signatur erzeugt wurde. Wurde die Signatur mit einem Schlüssel aus dem JCT-üsselspeicher signiert (was
+    momentan die einzige Möglichkeit darstellt), so kann der entsprechende öffentliche Schlüssel hier geladen
+    werden.</p>
+
+  <h2>Schritt 4 – Ergebnis anzeigen</h2>
+
+  <div class="row">
+    <div class="column">
+      <figure>
+        <img src="SigInvalid.png" style="width: 80%; min-width: 200px"
+          style="width:100%;min-width:200px"
+          alt="Wenn die Signatur nicht verifiziert werden konnte, wird ein rotes Kreuz angezeigt.">
+        <figcaption>Ungültige Signatur</figcaption>
+      </figure>
+    </div>
+    <div class="column">
+      <figure>
+        <img src="SigValid.png" style="width: 77%; min-width: 193px"
+          alt="Wenn die Signatur erfolgreich verifiziert werden konnte, wird ein grünes Häkchen angezeigt."
+          style="width:100%;min-width:200px">
+        <figcaption>Gültige Signatur</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <p>Wenn die Signatur als gültig verifiziert wurde, erscheint ein grüner Haken neben dem Button "Ergebnis
+    anzeigen", ansonsten erscheint ein rotes Kreutz. Für nähere Informationen, klicken Sie auf den Button
+    „Ergebnis anzeigen“. Dort finden Sie alle relevanten Informationen zu der verifizierten Signatur:</p>
+  <ul>
+    <li>Den verwendeten Schlüssel</li>
+    <li>Die Verifikationsmethode</li>
+    <li>Die hexadezimale, oktale oder die binäre Darstellung der Signaturn sowie deren Länge</li>
+    <li>Die hexadezimale Darstellung des Hashwertes sowie dessen Länge</li>
+  </ul>
+ 
+  <img src="ErgebnisAnzeigen.png" style="width: 50%; min-width: 500px; max-width: 800px"
+  alt="Screenshot des Ergebnisses. Oben wird der verwendete Algorithmus angezeigt. Darunter eine 
+  Tabelle mit den Hexadezimal und ASCII-Werten der Signatur. Die Darstellungsmöglichkeit lässt sich
+  zwischen Oktal, Hex, Dezimal und Hex-Dump ändern. Darunter der erwartete Hashwert der originalen Nachricht.
+  Ganz unten sind die Buttons Gültigkeitsmodelle und Schließen.">
+
+  <h1 id="GUI2">Gültigkeitsvalidierung von Zertifikaten mit dem Schalenmodell</h1>
+  <p>Diese für Lernzwecke erstellte Oberfläche zeigt, wie sich bei der Validierung nach dem Schalenmodell
+    verschiedene Zertifikat-Gültigkeiten auf das Ergebnis auswirken. Eine ausführlichere Visualisierung mit 3
+    Gültigkeitsmodellen, in der man die Zeitpunkte auch mit Slidern einstellen kann, finden Sie im Menü
+    "Visualisierungen -> Zertifikat-Verifikation".</p>
+
+  <p align=center>
+    <img src="2ob.png" style="width: 90%; min-width:500px; max-width: 1200px"
+    alt="Screenshot des 2. Tabs Schalenmodell. Es gibt 3 Ebenen: Wurzel-Zertifikat, Level-2-Zertifikat
+    und Teilnehmer Zertifikat. Jeweils rechts davon kann das Start- und Enddatum der gültigkeit eingestellt werden.
+    Ganz unten zeigt ein grünes Häkchen oder ein rotes X die Gültigkeit an.">
+  </p>
+
+  <h2>Schalenmodell</h2>
+  <p>Beim Schalenmodell wird eine Signatur nur für gültig erklärt, wenn zum überprüfungszeitpunkt alle
+    Zertifikate gültig sind. Dh. wenn zum Zeitpunkt der überprüfung zwar das Teilnehmer-Zertifikat und das
+    Level 2-Zertifikat noch gültig sind, das Wurzel-Zertifikat aber nicht mehr gültig ist, dann wird die
+    Signatur für ungültig erklärt. Genauso können die unteren Zertifikate kein längeres Gültigkeitsdatum als
+    die höhergestellten haben (z. B.: Level 2 als Wurzel)</p>
+  <h3>Zertifikate</h3>
+  <h4>Wurzel-Zertifikat</h4>
+  <p>Oberstes Zertifikat-Level, welches die Gültigkeit aller untergeordneten Zertifikate bestätigt.</p>
+  <h4>Level 2-Zertifikat</h4>
+  <p>Dieses Zertifikat verweist auf das Wurzel-Zertifikat, denn es wurde von diesem signiert um dessen
+    Korrektheit zu signalisieren.</p>
+  <h4>Teilnehmen-Zertifikat</h4>
+  <p>Das Teilnehmer-Zertifikat ist das unterste Zertifikat in der Zertifikatskette. Damit dieses
+    Zertifikat als gültig verifiziert wird, müssen sowohl das Teilnehmer-Zertifikat als auch alle anderen
+    Zertifikate der Kette (in diesem Fall das Teilnehmer- und das Wurzel-Zertifikat) gültig sein.</p>
+  <h3>Aktionen</h3>
+  <h4>Start- und Endgültigkeitsdaten</h4>
+  <p>Hier können Sie die Start- und Endgültigkeiten der einzelnen Zertifikate umstellen und die
+    Auswirkungen auf die Gesamtgültigkeit betrachten. Dazu müssen Sie noch auf "Ergebnis neu berechnen"
+    klicken.</p>
+  <h4>Daten der 3 Zertifikate zurücksetzen</h4>
+  <p>Hier werden die Standard-Zertifikate (bzw. deren standardmäßige Endgültigkeitsdaten)
+    wiederhergestellt.</p>
+  <h4>Ergebnis neu berechnen</h4>
+  <p>Berechnet die Gültigkeit neu und entscheidet nach dem Schalenmodell ob die Zertifikatskette gültig
+    ist oder nicht. Ist sie immer noch gültig, erscheint wieder ein grüner Hacken, ansonsten erscheind ein
+    rotes Kreuz. Bitte bachten Sie, dass dieser Button bei einer ungültiger Datumseingabe in einem der
+    Datumsfelder deaktiviert wird.</p>
+</body>
+<!-- Comment: Last Content Change and Check: ma, 2022-02-05 -->
 </html>
