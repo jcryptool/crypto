@@ -1,81 +1,218 @@
 <!DOCTYPE html>
-<html lang = "en">
-    <head>
-        <meta charset="utf-8">
-        <title>Signature Demonstration</title>
-        <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
-    </head>
-    <body>
-        <h1>Signature Demonstration</h1>
-        <p>
-        Welcome to the online help of the Signature Visualization plug in. 
-		Below you find an overview of the plug in and a more detailed description of each step of the signature generation.
-		<br>
-		This visualization demonstrates the creation of a digital signature for a given document (message).
-		A digital signature can be used to verify the identity of the message's signer.
-		It also ensures the document's integrity.</p>
-		<img width="85%" src="MainStart.png">
-        <h2>General information</h2>
-        <h3>Reset function</h3>
-		<p>The selected hash and signature function are saved. Everything else is reset to the initial state of the plug in.</p>
-		<h3>Relaunch</h3>
-		<p>Everything is reset to the initial state of the plug in, including the selected hash and signature function.</p>
-              
-        <h2>Step 1 – Choose input</h2>
-        <p>Use the button “Choose input” to start the signature process. Select an existing file or enter a text by yourself. If you want to sign an existing file, you can choose any file type you want. The file size is (approximately) limited by the maximum working memory that JCT is able to acquire.</p>
-      	<img width="85%" src="InputWizard.png"> 
-      	<img width="85%" src="InputFile.png">
-      	<img width="85%" src="InputText.png">
-        
-        <h2>Step 2 – Hash function</h2>
-        <p>The second step of the signature process is to calculate the message digest or hash value of the document. A hash function is an algorithm that maps a data set of variable length (the message) to a data set of a fixed length (hash value or message digest). Signing the hash value rather than the message improves the efficiency of the process because the hash value is usually much smaller in size than the message. The same hash algorithm used by the creator of the digital signature must be used by the verifier of a digital signature.</p>
-        <img width="85%" src="HashWizard.png">
-        <h3>Description of provided hash functions</h3>
-        <h4>MD5</h4>
-        <p>The MD5 algorithm (published in 1992 and specified in RFC 1321) takes as input a message of arbitrary length and produces as output a 128-bit "fingerprint" or "message digest". The MD5 algorithm is intended for digital signature applications, where a large file must be "compressed" in a secure manner before being encrypted with a private key under a public-key cryptosystem such as RSA.</p>
-        <h4>SHA-1</h4>
-        <p>The “Secure Hash Algorithm“ (published in 1995 by the United States NIST) computes a condensed representation of a message or a data file. When a message of any length \(\lt 2^{64}\) bits is input, the SHA-1 produces a 160-bit output. The SHA-1 is called secure because it was computationally infeasible to find a message which corresponds to a given message digest, or to find two different messages which produce the same message digest. Any change to a message in transit will, with very high probability, result in a different message digest, and the signature will fail to verify.</p>
-        <h4>SHA-256</h4>
-        <p>SHA-256 is one of the successor hash functions to SHA-1 (collectively referred to as SHA-2), and is one of the strongest hash functions available. While SHA-1 has not been compromised in real-world conditions (however in theory), SHA-256 is not much more complex to code. It is recommended to use this method instead of SHA-1.</p>
-        <h4>SHA-384</h4>
-        <p>SHA-384 is like SHA-512, but they differ in the size of the hash value (SHA-384 is truncated). The initial hash is calculated from the 64 decimal bits of the square roots of the consecutive primes (23, 29, etc.). In the end only the first six 64-bit words from the result are used. The attached number indicates the length of each hash value (in bits).</p>
-        <h4>SHA-512</h4>
-        <p>SHA-256 and SHA-512 differ in the word size. SHA-256 uses 32-bit words where SHA-512 uses 64-bit words. The attached number indicates the length of each hash value (in bits).</p>
-        
-        <h2>Step 3 – Signature function</h2>
-        <p>You can choose between different signature functions to sign the input. Some signature procedures are based on asymmetric encryption like RSA, other methods have been developed only for this purpose, for example DSA.</p>
-        <img width="85%" src="SignatureWizard.png">
-        <p>To sign a file and verify the signature, you need two different keys. The private key is for generating the signature. Only the owner of the key knows it and it has to be kept secret. The public key can be used by anybody else to verify the signature. <br> To create a signature, you have to select one of the given keys from the Standard-JCT-Keystore.</p>
-        <a target="_blank" href="https://github.com/jcryptool/core/tree/master/org.jcryptool.crypto.keystore" target="_blank">Visit Standard-JCT-Keystore</a> 
-        <h3>Description of provided signature functions</h3>
-        <h4>DSA</h4>
-        <p>The Digital Signature Algorithm (DSA) (published by the NIST in 1991) is a United States Federal Government standard for digital signatures. Entropy, secrecy, and uniqueness of the random parameter k are critical for the security of DSA. It is so critical that violating any one of those three requirements can reveal the entire private key to an attacker. Using the same value twice (even while keeping random signature value secret), using a predictable value, or leaking even a few bits of random signature value in each of several signatures, is enough to break DSA.</p>
-        <p>To learn more about DSA: <a target="_blank" href="https://en.wikipedia.org/wiki/Digital_Signature_Algorithm" target="_blank">Visit DSA on Wikipedia</a></p>
-        <h4>RSA</h4>
-        <p>RSA (the algorithm was published in 1977) is an algorithm for public-key cryptography that is based on the presumed difficulty of factoring large integers, the factoring problem. Anyone can use the public key to encrypt a message, but with currently published methods, if the public key is large enough, only someone with knowledge of the prime factors can feasibly decode the message. Secure padding schemes such as RSA-PSS are as essential for the security of message signing as they are for message encryption. The PKCS #1 cryptography standard provides recommendations for the implementation of public-key cryptography based on the RSA algorithm.</p>
-        <p>To learn more about RSA: <a href="PLUGINS_ROOT/org.jcryptool.visual.rsa/$nl$/help/content/index.html">Visit JCT-RSA</a></p>
-        <h4>ECDSA</h4>
-        <p>The Elliptic Curve Digital Signature Algorithm (ECDSA) (proposed in 1992 by Scott Vanstone) is the elliptic curve analog of the Digital Signature Algorithm (DSA). Unlike the ordinary discrete logarithm problem and the integer factorization problem, no sub exponential-time algorithm is known for the elliptic curve discrete logarithm problem. The size of a private key that is considered secure is much smaller with ECDSA. At a security level of 80 bits, meaning an attacker requires the equivalent of about \(2^{80}\) signature generations to find the private key, the size of a DSA public key is at least 1024 bits, whereas the size of an ECDSA public key would be 160 bits.</p>
-        <h4>RSA and MGF1</h4>
-        <p>A Mask Generation Function (MGF) is used to generate pseudo random numbers in an arbitrary length. Without knowing the initial value (seed) it is infeasible to predict these random numbers. MGF1, specified in PKCS#1, is a method to archive this goal by using Hash functions like SHA-1. Random numbers are an important part of Public Key Cryptography. Using MGF1 and therefore random Numbers ensure plaintext awareness. Without knowing anything about the plaintext it is basically impossible to generate a valid ciphertext.</p>
-        <h3>More information about the advanced cryptographic library BouncyCastle:</h3>
-       	<ul>
-        	<li><a target="_blank" href="http://www.bouncycastle.org/" target="_blank">Visit BouncyCastle</a></li>
-        	<li><a target="_blank" href="https://github.com/jcryptool/core/tree/master/org.bouncycastle" target="_blank">Visit BouncyCastle on github</a></li>
-        	<li><a target="_blank" href="http://www.mobilefish.com/developer/bouncycastle/bouncycastle.html" target="_blank">Examples using BouncyCastle</a></li>
-  		</ul>
-  		<br>
-  		<img width="85%" src="MainFinished.png">
-        <h2>Step 4 – Show generated signature</h2>
-        <p>To show the signature of the chosen input, click on the button “Show generated signature”. There you see all relevant information about the signature:</p>
-        <ul>
-            <li>The user who signed the file,</li>
-            <li>basic information about the key, </li>
-            <li>information about the signature method,</li>
-            <li>the hexadecimal, octal or binary representation of the signed file and the generated signature.</li>
-        </ul>
-        <p>To store the signature and the according message in a file, click on "Save". To show the signed file and the generated signature in the hex editor of JCrypTool, use the button “Open in hex editor”.</p>
-		<img width="85%" src="ShowSigWizard.png">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Signature Demonstration</title>
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 
-    </body>
+<style>
+figcaption{
+  margin-top: 5px
+}
+</style>
+</head>
+
+<body>
+  <h1>Signature Demonstration</h1>
+  <p>
+    Welcome to the online help of the Signature Visualization plug in. Below you find an overview of the plug
+    in and a more detailed description of each step of the signature generation. <br> This visualization
+    demonstrates the creation of a digital signature for a given document (message). A digital signature can
+    be used to verify the identity of the message's signer. It also ensures the document's integrity.
+  </p>
+
+  <img src="MainStart.png" style="width: 85%;min-width: 500px; max-width: 1000px"
+  alt="Screenshot of the plugin. It shows the steps 1 select input, 2 select hash function, 3 select
+  signature function, 4 show signature. In the top right corner is a text field describing each step in detail.">
+
+  <h2>General information</h2>
+  <h3>Reset function</h3>
+  <p>The selected hash and signature function are saved. Everything else is reset to the initial state of
+    the plug in.</p>
+  <h3>Relaunch</h3>
+  <p>Everything is reset to the initial state of the plug in, including the selected hash and signature
+    function.</p>
+
+  <h2>Step 1 – Choose input</h2>
+  <p>Use the button “Choose input” to start the signature process. Select an existing file or enter a text
+    by yourself. If you want to sign an existing file, you can choose any file type you want. The file size is
+    (approximately) limited by the maximum working memory that JCT is able to acquire.</p>
+   
+   <figure>
+    <img src="InputWizard.png" style="width: 50%; min-width: 500px; max-width: 800px"
+      alt="Screenshot of the plugin. Wizard to select an input. The choices are 1 select file
+      or 2 direct input. There are the buttons Back, Next, Finish and Cancel.">
+    <figcaption>
+      <b>Input-Selection 1:</b> Wizard to select the type of input
+    </figcaption>
+  </figure>
+
+  <hr>
+
+  <figure>
+    <img src="InputFile.png" style="width: 50%; min-width: 500px; max-width: 800px"
+      alt="Screenshot of the plugin. A dialogue allows to select a file (Browse button) There are the
+      buttons Back, Next, Finish and Cancel.">
+    <figcaption>
+      <b>Input-Selection 2a:</b> Wizard to choose a file as input
+    </figcaption>
+  </figure>
+
+  <hr>
+
+  <figure>
+    <img src="InputText.png" style="width: 50%; min-width: 500px; max-width: 800px"
+      alt="Screenshot des Plugins. A large text field allows to enter text. There are the buttons
+      Back, Next, Finish and Cancel.">
+    <figcaption>
+      <b>Input-Selection 2b:</b> Wizard to directly enter a text
+    </figcaption>
+  </figure>
+
+  <h2>Step 2 – Hash function</h2>
+  <p>The second step of the signature process is to calculate the message digest or hash value of the
+    document. A hash function is an algorithm that maps a data set of variable length (the message) to a data
+    set of a fixed length (hash value or message digest). Signing the hash value rather than the message
+    improves the efficiency of the process because the hash value is usually much smaller in size than the
+    message. The same hash algorithm used by the creator of the digital signature must be used by the verifier
+    of a digital signature.</p>
+
+  <img src="HashWizard.png" style="width: 50%; min-width: 500px; max-width: 800px"
+  alt="A wizard showing hash methods as choices. These are MD5, SHA-1 (selected), SHA-256, 
+  SHA-384 and SHA-512. There are buttons Finish and Cancel.">
+
+  <h3>Description of available hash functions</h3>
+  <h4>MD5</h4>
+  <p>The MD5 algorithm (published in 1992 and specified in RFC 1321) takes as input a message of arbitrary
+    length and produces as output a 128-bit "fingerprint" or "message digest". The MD5 algorithm is intended
+    for digital signature applications, where a large file must be "compressed" in a secure manner before
+    being encrypted with a private key under a public-key cryptosystem such as RSA.</p>
+
+  <div class="base-box alert">
+    <div>
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+        fill="#b71c1c">
+        <path
+          d="M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" /></svg>
+      <span>Caution:</span> MD5 is considered insecure and MUST NOT be used for secure cryptography.
+    </div>
+  </div>
+  <h4>SHA-1</h4>
+  <p>The “Secure Hash Algorithm“ (published in 1995 by the United States NIST) computes a condensed
+    representation of a message or a data file. When a message of any length \(\lt 2^{64}\) bits is input, the
+    SHA-1 produces a 160-bit output. The SHA-1 has the word "secure" in its name because it was at the
+    time of its invention computationally infeasible to find a message which corresponds to a given
+    message digest, or to find two different messages which produce the same message digest.</p>
+    
+    <div class="base-box alert">
+    <div>
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+        fill="#b71c1c">
+        <path
+          d="M11 15h2v2h-2v-2zm0-8h2v6h-2V7zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" /></svg>
+      <span>Caution:</span> SHA-1 is considered insecure and MUST NOT be used for secure cryptography.
+    </div>
+  </div>
+  <h4>SHA-256</h4>
+  <p>SHA-256 is one of the successor hash functions to SHA-1 (collectively referred to as SHA-2), and is
+    one of the most widely used hash functions. SHA-256 is considered secure by today's standards.</p>
+  <h4>SHA-384</h4>
+  <p>SHA-384 is like SHA-512, but they differ in the size of the hash value (SHA-384 is truncated). The
+    initial hash is calculated from the 64 decimal bits of the square roots of the consecutive primes (23, 29,
+    etc.). In the end only the first six 64-bit words from the result are used. The attached number indicates
+    the length of each hash value (in bits).</p>
+  <h4>SHA-512</h4>
+  <p>SHA-256 and SHA-512 differ in the word size. SHA-256 uses 32-bit words where SHA-512 uses 64-bit
+    words. The attached number indicates the length of each hash value (in bits).</p>
+
+  <h2>Step 3 – Signature function</h2>
+  <p>You can choose between different signature functions to sign the input. Some signature procedures are
+    based on asymmetric encryption like RSA, other methods have been developed only for this purpose, for
+    example DSA.</p>
+
+  <img src="SignatureWizard.png" style="width: 50%; min-width: 500px; max-width: 800px"
+  alt="A wizard with choices for the signature method. These are DSA, RSA, ECDSA and
+  'RSA and MGF1'. Below is the possibility to select a key. At the bottom are buttons Finish and Cancel">
+
+  <p>
+    To sign a file and verify the signature, you need two different keys. The private key is for generating
+    the signature. Only the owner of the key knows it and it has to be kept secret. The public key can be used
+    by anybody else to verify the signature. <br> To create a signature, you have to select one of the
+    given keys from the Standard-JCT-Keystore.
+  </p>
+  <a target="_blank" href="https://github.com/jcryptool/core/tree/master/org.jcryptool.crypto.keystore"
+    target="_blank">Visit Standard-JCT-Keystore</a>
+  <h3>Description of provided signature functions</h3>
+  <h4>DSA</h4>
+  <p>The Digital Signature Algorithm (DSA) (published by the NIST in 1991) is a United States Federal
+    Government standard for digital signatures. Entropy, secrecy, and uniqueness of the random parameter k are
+    critical for the security of DSA. It is so critical that violating any one of those three requirements can
+    reveal the entire private key to an attacker. Using the same value twice (even while keeping random
+    signature value secret), using a predictable value, or leaking even a few bits of random signature value
+    in each of several signatures, is enough to break DSA.</p>
+  <p>
+    To learn more about DSA: <a target="_blank"
+      href="https://en.wikipedia.org/wiki/Digital_Signature_Algorithm" target="_blank">Visit DSA on
+      Wikipedia</a>
+  </p>
+  <h4>RSA</h4>
+  <p>RSA (the algorithm was published in 1977) is an algorithm for public-key cryptography that is based
+    on the presumed difficulty of factoring large integers, the factoring problem. Anyone can use the public
+    key to encrypt a message, but with currently published methods, if the public key is large enough, only
+    someone with knowledge of the prime factors can feasibly decode the message. Secure padding schemes such
+    as RSA-PSS are as essential for the security of message signing as they are for message encryption. The
+    PKCS #1 cryptography standard provides recommendations for the implementation of public-key cryptography
+    based on the RSA algorithm.</p>
+  <p>
+    To learn more about RSA: <a href="PLUGINS_ROOT/org.jcryptool.visual.rsa/$nl$/help/content/index.html">Visit
+      JCT-RSA</a>
+  </p>
+  <h4>ECDSA</h4>
+  <p>The Elliptic Curve Digital Signature Algorithm (ECDSA) (proposed in 1992 by Scott Vanstone) is the
+    elliptic curve analog of the Digital Signature Algorithm (DSA). Unlike the ordinary discrete logarithm
+    problem and the integer factorization problem, no sub exponential-time algorithm is known for the elliptic
+    curve discrete logarithm problem. The size of a private key that is considered secure is much smaller with
+    ECDSA. At a security level of 80 bits, meaning an attacker requires the equivalent of about \(2^{80}\)
+    signature generations to find the private key, the size of a DSA public key is at least 1024 bits, whereas
+    the size of an ECDSA public key would be 160 bits.</p>
+  <h4>RSA and MGF1</h4>
+  <p>A Mask Generation Function (MGF) is used to generate pseudo random numbers in an arbitrary length.
+    Without knowing the initial value (seed) it is infeasible to predict these random numbers. MGF1, specified
+    in PKCS#1, is a method to archive this goal by using Hash functions like SHA-1. Random numbers are an
+    important part of Public Key Cryptography. Using MGF1 and therefore random Numbers ensure plaintext
+    awareness. Without knowing anything about the plaintext it is basically impossible to generate a valid
+    ciphertext.</p>
+  <h3>More information about the advanced cryptographic library BouncyCastle:</h3>
+  <ul>
+    <li><a target="_blank" href="http://www.bouncycastle.org/" target="_blank">Visit BouncyCastle</a></li>
+    <li><a target="_blank" href="https://github.com/jcryptool/core/tree/master/org.bouncycastle"
+      target="_blank">Visit BouncyCastle on github</a></li>
+    <li><a target="_blank" href="http://www.mobilefish.com/developer/bouncycastle/bouncycastle.html"
+      target="_blank">Examples using BouncyCastle</a></li>
+  </ul>
+
+  <img src="MainFinished.png" style="width: 70%; min-width: 500px; max-width: 900px"
+  alt="Screenshot of the plugin after all values have been selected and a signature has been created.
+  In the bottom left is the hash value of the input. On the bottom right is a button to display
+  the signature."> 
+
+  <h2>Step 4 – Show generated signature</h2>
+  <p>To show the signature of the chosen input, click on the button “Show generated signature”. There you
+    see all relevant information about the signature:</p>
+  <ul>
+    <li>The user who signed the file,</li>
+    <li>basic information about the key,</li>
+    <li>information about the signature method,</li>
+    <li>the hexadecimal, octal or binary representation of the signed file and the generated signature.</li>
+  </ul>
+  <p>To store the signature and the according message in a file, click on "Save". To show the signed file
+    and the generated signature in the hex editor of JCrypTool, use the button “Open in hex editor”.</p>
+
+  <img src="ShowSigWizard.png" style="width: 50%; min-width: 500px; max-width: 800px"
+  alt="Screenshot of the signature. At the top the owner of the signature / key is shown and the
+  method used. Below is a table with the hex and ASCII values of the signature. There are 4 different
+  display options available: Octal, Hex, Decimal and Hex dump (selected). Below is the original message.">
+
+</body>
+<!-- Comment: Last Content Change and Check: ma, 2022-02-05 -->
 </html>
