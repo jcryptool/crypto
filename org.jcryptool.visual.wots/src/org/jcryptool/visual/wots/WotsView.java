@@ -594,7 +594,7 @@ public class WotsView extends ViewPart {
 		GridData gd_lblBi = new GridData(SWT.FILL, SWT.BOTTOM, false, false, 2, 1);
 		gd_lblBi.verticalIndent = 15;
 		lblBi.setLayoutData(gd_lblBi);
-		lblBi.setText("b_i"); //$NON-NLS-1$
+		lblBi.setText("b\u1D62");
 
 		txt_Sig = new Text(container, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.MULTI);
 		gd_txt_Sig = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);

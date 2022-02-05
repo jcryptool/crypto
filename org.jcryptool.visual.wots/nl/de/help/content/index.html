@@ -2,6 +2,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Winternitz Einmal-Signaturverfahren (WOTS)</title>
+		<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 	</head>
 	<body>
 		<h1>Winternitz Einmal-Signaturverfahren (WOTS)</h1>
@@ -20,11 +21,11 @@
 		2.2.1) <a href="#genB">Erzeugung des Vektors B</a></br>
 		2.2.2) <a href="#signature">Signatur</a></br>
 		2.3) <a href="#sigver">Signaturprüfung</a></br></br>
-		3) <a href="#genB">WOTS+</a></br>
+		3) <a href="#wotsplus">WOTS+</a></br>
 		3.1) <a href="#bitstring">Bitstring R</a></br>
 		3.2) <a href="#example">Beispiel</a></br></br>
 		4) <a href="#security">Sicherheit</a></br></br>
-        5) <a href="#links">Weiterführende Verweise</a></p>
+		5) <a href="#links">Weiterführende Verweise</a></p>
 		
 		<p>Diese Visualisierung demonstriert das Winternitz Einmal-Signaturverfahren (Winternitz One-Time Signature) (WOTS).</p>
 		<p>WOTS ist ein Verfahren zum digitalen Signieren von Nachrichten.</br>
@@ -46,20 +47,20 @@
 		       <li><b>Nachricht</b> </br>
 			Man kann Nachrichten von Hand eingeben, den Inhalt einer Text-Datei laden
 		       	oder die voreingestellte Standard-Nachricht verwenden. Bei jeder Änderung der Nachricht werden die Felder
-		       	"Hash der Nachricht" und "b_i" automatisch aktualisiert, sofern Sie den Button <b>Details anzeigen</b> gedrückt haben.
+		       	Hash der Nachricht und \(b_i\) automatisch aktualisiert, sofern Sie den Button <b>Details anzeigen</b> gedrückt haben.
 		       </li>
-		       <li><b>Hash der Nachricht</b> </br>
+		       <li><b>Hash der Nachricht</b> <small>(nur wenn <b>Details anzeigen</b> aktiviert)</small></br>
 			Dieses Feld beinhaltet den Hashwert der eingegebenen Nachricht.
-		       </li>
-		       <li><b>b_i</b> </br>
-			Dieses Feld beinhaltet den Wert von b_i (Näheres zu dessen Berechnung
-		       	siehe Kapitel <a href="#siggen">Signaturerzeugung</a>).
 		       </li>
 		       <li><b>Schlüssel</b> </br>
 			In diesen Feldern werden die berechneten Schlüssel angezeigt.
 		       </li>
 		       <li><b>Signatur</b> </br>
 			Dieses Feld beinhaltet die berechnete Signatur der gegebenen Nachricht.
+		       </li>
+		       <li><b>\(\boldsymbol{b_i}\)</b> <small>(nur wenn <b>Details anzeigen</b> aktiviert)</small></br>
+			Dieses Feld beinhaltet den Wert von \(b_i\) (Näheres zu dessen Berechnung
+		       	siehe Kapitel <a href="#siggen">Signaturerzeugung</a>).
 		       </li>
 	       	</ul>
 
@@ -68,7 +69,7 @@
 		<p> </br> </p>
 		<h3 id="param">1.2) Parameter</h3>
 		<ul> 
-		       <li><b>Winternitz-Parameter w</b> </br>
+		       <li><b>Winternitz-Parameter \(\boldsymbol{w}\)</b> </br>
 			Bestimmt das Kompressionslevel bei der Schlüsselerzeugung. Man kann
 		       	beliebige ganze Zahlen größer 1 verwenden. Ein größeres w führt zu kleineren Schlüsseln und
 Signaturen, erhöht allerdings die Laufzeit der Algorithmen.
@@ -111,7 +112,7 @@ Signaturen, erhöht allerdings die Laufzeit der Algorithmen.
 			Die Signatur wird mit Hilfe des öffentlichen Schlüssels geprüft. Wenn die Signatur gültig ist, wird das Signaturfeld grün eingefärbt, anderenfalls rot.
 		       </li>			
 		       <li><b>Details anzeigen/verbergen</b> </br>
-			Mit diesem Button kann man zwischen einer Ansicht mit höherem Detailgrad und der normalen Ansicht umschalten. Als Details werden die zusätzlichen Textfelder „Hash der Nachricht“ und „b_i“ angezeigt beziehungsweise verborgen. Dies hat keine Auswirkung auf das Verfahren, sondern ist nur ein optisches Feature.
+			Mit diesem Button kann man zwischen einer Ansicht mit höherem Detailgrad und der normalen Ansicht umschalten. Als Details werden die zusätzlichen Textfelder Hash der Nachricht und \(b_i\) angezeigt beziehungsweise verborgen. Dies hat keine Auswirkung auf das Verfahren, sondern ist nur ein optisches Feature.
 		       </li>			
 		       <li><b>Reset</b> </br>
 			Löscht die berechneten Werte (Schlüssel und Signatur), verändert die restlichen Parameter jedoch nicht. D.h. die Nachricht bleibt erhalten.
@@ -130,65 +131,62 @@ Signaturen, erhöht allerdings die Laufzeit der Algorithmen.
 		<h3 id="keygen">2.1) Schlüsselerzeugung</h3>
 		<h4 id="usedParam">2.1.1) Verwendete Parameter</h4>
 		<ul> 
-		       <li><b>n = Größe eines Blocks in byte</b> </br>
-			       Die Größe der Blöcke wird von der jeweiligen Hashfunktion bestimmt (z.B. erzeugt SHA-256 einen 32 byte (256 bit) großen Hash-Wert --> Blockgröße ist 32 byte).
+		       <li><b>\(\boldsymbol{n}\)</b> = Größe eines Blocks in byte</br>
+			       Die Größe der Blöcke wird von der jeweiligen Hashfunktion bestimmt (z.B. erzeugt SHA-256 einen 32 byte (256 bit) großen Hash-Wert &#x27F6; Blockgröße ist 32 byte).
 		       </li>			
-		       <li><b>m = Hashwert-Länge der Nachricht in bit</b> </br>
+		       <li><b>\(\boldsymbol{m}\)</b> = Hashwert-Länge der Nachricht in bit</br>
 			       Somit hat der Hashwert der Nachricht bei SHA-256 eine Länge von 256 bit.
 		       </li>			
-		       <li><b>t = Anzahl der Blöcke jedes Schlüssels</b> </br>
-			       Die Anzahl t wird in zwei Schritten berechnet, und die Ergebnisse beider Berechnungen (t_1, t_2) werden addiert.
+		       <li><b>\(\boldsymbol{t}\)</b> \(= t_1 + t_2\) = Anzahl der Blöcke jedes Schlüssels</br>
+			       Die Anzahl \(t\) wird in zwei Schritten berechnet, und die Ergebnisse beider Berechnungen \((t_1, t_2)\) werden addiert.
 		       </li>			
-		       <li><b>t_1 = m/log2(w) = Anzahl der Blöcke, die aus einer Nachricht generiert werden</b> </br>
-			        Die Blöcke werden aus der Nachrichtenlänge generiert. Das Ergebnis t_1 wird aufgerundet.
+		       <li><b>\(\boldsymbol{t_1}\)</b> \(= \lceil\frac{m}{\log_2(w)}\rceil\) = Anzahl der Blöcke, die aus einer Nachricht generiert werden</br>
+			        Die Blöcke werden aus der Nachrichtenlänge generiert. Das Ergebnis \(t_1\) wird aufgerundet.
 		       </li>			
-		       <li><b>t_2 = (log2(l_1(w-1))/log2(w))+1 = Anzahl der Blöcke, die aus der Checksum generiert werden</b> </br>
-			       Die Blöcke werden aus der Checksum C (siehe unten) generiert. Das Ergebnis t_2 wird abgerundet.
-		       </li>			
-		       <li><b>t = t_1 + t_2</b> </br>
-		       </li>			
+		       <li><b>\(\boldsymbol{t_2}\)</b> \(= \lfloor\frac{\log_2(t_1(w-1))}{log_2(w)}\rfloor+1\) = Anzahl der Blöcke, die aus der Checksum generiert werden </br>
+			       Die Blöcke werden aus der Checksum \(C\) (siehe unten) generiert. Das Ergebnis \(t_2\) wird abgerundet.
 	       	</ul>
 
-		<h4 id="privkey">2.1.2) Privater Schlüssel (X)</h4>
-		<p>Der private Schlüssel X besteht aus t Blöcken. Jeder Block besteht aus n pseudozufällig erzeugten Bytes.</p>
+		<h4 id="privkey">2.1.2) Privater Schlüssel \(X\)</h4>
+		<p>Der private Schlüssel \(X\) besteht aus \(t\) Blöcken. Jeder Block besteht aus \(n\) pseudozufällig erzeugten Bytes.</p>
 
-		<h4 id="pubkey">2.1.3) Öffentlicher Schlüssel (Y)</h4>
-		<p>Der öffentliche Schlüssel Y besteht ebenfalls aus t Blöcken. Y leitet sich vom privaten Schlüssel X ab, indem die einzelnen Blöcke des privaten Schlüssels jeweils w-1 mal die Hashfunktion durchlaufen.</p>
+		<h4 id="pubkey">2.1.3) Öffentlicher Schlüssel \(Y\)</h4>
+		<p>Der öffentliche Schlüssel \(Y\) besteht ebenfalls aus \(t\) Blöcken. \(Y\) leitet sich vom privaten Schlüssel \(X\) ab, indem die einzelnen Blöcke des privaten Schlüssels jeweils \(w-1\) mal die Hashfunktion durchlaufen.</p>
 
 		<img src="images/keys.png" alt="keys" width="70%">
 		
 		<p> </br> </p>
 		<h3 id="siggen">2.2) Signaturerzeugung</h3>
-		<h4 id="genB">2.2.1) Erzeugung des Vektors B</h4>
-		<p><b>B</b> setzt sich aus t Blöcken zusammen. Zur Berechnung wird zum Nachrichtenhash m (mit m ist hier immer der Hashwert der eigentlichen Nachricht gemeint) eine Checksum C berechnet. Dazu wird vorher m zur Basis w dargestellt.</p>
-		<p><b>C</b> = Checksum = Summe aus w-1-M_i mit 1 <= i <= l_1. </p>
-		<p>Nun werden beide Werte m und C jeweils zur Basis w dargestellt; das Ergebnis bilden insgesamt t Werte (m zur Basis w resultiert in t_1 Werte, C resultiert in t_2 Werte). Um genau auf die Werte  t_1 und t_2 zu kommen, wird eine ausreichende Anzahl an "0" vorangestellt.</p>
-		<p>Zur weiteren Berechnung werden diese t Blöcke des Vektors B als natürliche Zahl (Integer) interpretiert.</p>
-		<p><b>Beispiel:</b> Block b_i  = 0111 = 7</p>
+		<h4 id="genB">2.2.1) Erzeugung des Vektors \(\boldsymbol{B}\)</h4>
+		<p><b>\(\boldsymbol{B}\)</b> setzt sich aus \(t\) Blöcken zusammen. Zur Berechnung wird zum Nachrichtenhash \(m\) (mit \(m\) ist hier immer der Hashwert der eigentlichen Nachricht gemeint) eine Checksum \(C\) berechnet. Dazu wird vorher \(m\) zur Basis \(w\) dargestellt.</p>
+		<p><b>\(\boldsymbol{C}\)</b> \(= \sum\limits_{i = 1}^{t_1} w-1-m_i\) = Checksum. </p>
+		<p>Nun werden beide Werte \(m\) und \(C\) jeweils zur Basis \(w\) dargestellt; das Ergebnis bilden insgesamt \(t\) Werte (\(m\) zur Basis \(w\) resultiert in \(t_1\) Werte, \(C\) resultiert in \(t_2\) Werte). Um genau auf die Werte \(t_1\) und \(t_2\) zu kommen, wird eine ausreichende Anzahl an "0" vorangestellt.</p>
+		<p>Zur weiteren Berechnung werden diese \(t\) Blöcke des Vektors B als natürliche Zahl (Integer) interpretiert.</p>
+		<p><b>Beispiel:</b> Block \(b_i\)  = 0111 = 7</p>
 
 		<p> </br> </p>
 		<h4 id="signature">2.2.2) Signatur</h4>
-		<p>Zur Erstellung der Signatur (welche ebenfalls aus t Blöcken besteht) durchläuft jeder Block X_i des privaten Schlüssels genau b_i mal die verwendete Hashfunktion. Das Ergebnis ist die Signatur sig.</p>
+		<p>Zur Erstellung der Signatur (welche ebenfalls aus \(t\) Blöcken besteht) durchläuft jeder Block \(X_i\) des privaten Schlüssels genau \(b_i\) mal die verwendete Hashfunktion. Das Ergebnis ist die Signatur \(\text{sig}\).</p>
 
 		<img src="images/signature.png" alt="signature" width="70%">
 
 		<p> </br> </p>
 		<h3 id="sigver">2.3) Signaturprüfung</h3>
-		<p>Um die Signatur zu überprüfen, wird der Vektor B berechnet wie in Punkt <a href="#genB">2.2.1</a>.
-		Nun durchläuft jeder Block sig_i der Signatur genau w - 1 - b_i mal die verwendete Hashfunktion. Diese Prüfsignatur besteht also aus den Blöcken des privaten Schlüssels, die jeweils w-1 mal (b_i + w - 1 - b_i) die Hashfunktion durchlaufen haben. Da das die gleiche Berechnung wie die des öffentlichen Schlüssels ist, werden nun die Blöcke mit denen des öffentlichen Schlüssels verglichen. Wenn keine Abweichungen vorhanden sind, ist die Signatur korrekt.</p>
+		<p>Um die Signatur zu überprüfen, wird der Vektor \(B\) berechnet wie in Punkt <a href="#genB">2.2.1</a>.
+		Nun durchläuft jeder Block \(\text{sig}_i\) der Signatur genau \(w - 1 - b_i\) mal die verwendete Hashfunktion. Diese Prüfsignatur besteht also aus den Blöcken des privaten Schlüssels, die jeweils \(w-1\) mal (\(b_i + w - 1 - b_i\)) die Hashfunktion durchlaufen haben. Da das die gleiche Berechnung wie die des öffentlichen Schlüssels ist, werden nun die Blöcke mit denen des öffentlichen Schlüssels verglichen. Wenn keine Abweichungen vorhanden sind, ist die Signatur korrekt.</p>
 
 		<img src="images/validated.png" alt="validated" width="70%">
 
 		<p> </br> </p>
 		<h2 id="wotsplus">3) WOTS+</h2>
-		<p>Bei WOTS+ unterscheidet sich die Verarbeitung der einzelnen Blöcke geringfügig gegenüber WOTS. Hier wird zuerst ein zusätzlicher Bitstring R erzeugt, der aus w-1, n-bit großen Blöcken besteht. Bei der Berechnung des x-ten Hashes wird der Wert vorher mit dem x-ten Block von R geXORt.</p>
+		<p>Bei WOTS+ unterscheidet sich die Verarbeitung der einzelnen Blöcke geringfügig gegenüber WOTS. Hier wird zuerst ein zusätzlicher Bitstring \(R\) erzeugt, der aus \(w-1\), \(n\)-bit großen Blöcken besteht. Bei der Berechnung des \(i\)-ten Hashes wird der Wert vorher mit dem \(i\)-ten Block von \(R\) geXORt.</p>
 
-		<h3 id="bitstring">3.1) Bitstring R</h3>
-		<p><b>R</b> besteht aus w-1 Blöcken, die jeweils aus n pseudozufälligen Bits bestehen. Diese Blöcke werden beim öffentlichen Schlüssel Y vorne angehängt.</p>
+		<h3 id="bitstring">3.1) Bitstring \(\boldsymbol{R}\)</h3>
+		<p><b>\(\boldsymbol{R}\)</b> besteht aus \(w-1\) Blöcken, die jeweils aus \(n\) pseudozufälligen Bits bestehen. Diese Blöcke werden beim öffentlichen Schlüssel \(Y\) vorne angehängt.</p>
 
 		<h3 id="example">3.2) Beispiel</h3>
-		<p><b>Berechnung des ersten Blocks des öffentlichen Schlüssels (Y_1):</b> Bevor der Block X_1 von der Hashfunktion verarbeitet wird, wird auf ihn ein XOR mit dem ersten Block des Vektors R, also R_1, angewandt. Vor dem zweiten Hashvorgang wird ein XOR mit R_2 durchgeführt. Da der Block w-1 mal die Hashfunktion durchläuft, besteht R auch aus w-1 Blöcken. </br></br>
-		<b>Berechnung des ersten Blocks der Prüfsignatur:</b> Angenommen b_1 = 6 und w = 10, dann wird sig_1 in w - 1 - b_i = 3 Runden bearbeitet.  Beim ersten Block wird nicht R_1 verwendet, sondern R_(b_i + 1), um auf den korrekten Wert zu kommen, der sich mit Y_1 (erster Block des öffentlichen Schlüssels) abgleichen lässt.</p>
+		<p><b>Berechnung des ersten Blocks des öffentlichen Schlüssels \(\boldsymbol{Y_1}\):</b> Bevor der Block \(X_1\) von der Hashfunktion verarbeitet wird, wird auf ihn ein XOR mit dem ersten Block des Vektors \(R\), also \(R_1\), angewandt. Vor dem zweiten Hashvorgang wird ein XOR mit \(R_2\) durchgeführt. Da der Block \(w-1\) mal die Hashfunktion durchläuft, besteht \(R\) auch aus \(w-1\) Blöcken. </br></br>
+		<b>Berechnung des ersten Blocks der Prüfsignatur:</b> Angenommen \(b_1 = 6\) und \(w = 10\), dann wird \(\text{sig}_1\) in \(w - 1 - b_i = 3\) Runden bearbeitet.  Beim ersten Block wird nicht \(R_1\) verwendet, sondern \(R_{b_i + 1}\), um auf den korrekten Wert zu kommen, der sich mit \(Y_1\) (erster Block des öffentlichen Schlüssels) abgleichen lässt.</p>
 
 		<img src="images/wotsplus.png" alt="wotsplus" width="70%">
 
@@ -196,7 +194,7 @@ Signaturen, erhöht allerdings die Laufzeit der Algorithmen.
 		<h2 id="security">4) Sicherheit</h2>
 		<p>Für beide Verfahren gilt, dass ein Schlüsselpaar nur zum einmaligen Signieren (Einmal-Signatur) verwendet werden darf, da ein Angreifer ansonsten Teile des privaten Schlüssels lernen kann. Um dieses Problem zu lösen, gibt es Methoden, bei denen viele öffentliche Einmal-Signatur-Schlüssel mit Hilfe eines binären Hashbaumes durch einen einzigen Hashwert authentifiziert werden (siehe Merkle-Bäume).</br></br>
 
-		Die Sicherheit hängt stark von der verwendeten Hashfunktion ab. Bei WOTS muss diese kollisionsresistent sein, bei WOTS+ 2nd-preimage-resistent. D.h. WOTS+ stellt geringere Anforderungen an die Hashfunktion, ist jedoch auch komplexer in der Berechnung.</p>
+		Die Sicherheit hängt stark von der verwendeten Hashfunktion ab. Bei WOTS muss diese kollisionsresistent sein, bei WOTS+ <span style="white-space:nowrap">2<sup>nd</sup>-preimage-resistent. D.h. WOTS+ stellt geringere Anforderungen an die Hashfunktion, ist jedoch auch komplexer in der Berechnung.</p>
 		<p> </br> </p>
                 
                 

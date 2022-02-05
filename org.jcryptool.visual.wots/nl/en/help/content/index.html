@@ -2,6 +2,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Winternitz one-time signatures (WOTS)</title>
+		<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 	</head>
 	<body>
 		<h1>Winternitz One-Time Signatures (WOTS)</h1>
@@ -20,11 +21,11 @@
 		2.2.1) <a href="#genB">Generation of vector B</a></br>
 		2.2.2) <a href="#signature">Signature</a></br>
 		2.3) <a href="#sigver">Signature validation</a></br></br>
-		3) <a href="#genB">WOTS+</a></br>
+		3) <a href="#wotsplus">WOTS+</a></br>
 		3.1) <a href="#bitstring">Bitstring R</a></br>
 		3.2) <a href="#example">Example</a></br></br>
 		4) <a href="#security">Security</a></br></br>
-        5) <a href="#links">References</a></p>
+		5) <a href="#links">References</a></p>
 		
 		<p>This visualization is a demonstration of the Winternitz One-Time Signature (WOTS).</p>
 		<p>WOTS is an algorithm to sign digital messages.</br>
@@ -43,20 +44,20 @@
 		<ul>
 		       <li><b>Message</b> </br>
                 A message can either be entered manually or be loaded from a text file.
-				Alternatively, the standard message can be used. Any change of the message automatically updates the fields "Message digest" and "b_i" if the button <b>Show details</b> has been pressed.
+				Alternatively, the standard message can be used. Any change of the message automatically updates the fields Message digest and \(b_i\) if the button <b>Show details</b> has been pressed.
 				</li>
-		       <li><b>Message digest</b> </br>
+		       <li><b>Message digest</b> <small>(only when <b>Show details</b> is activated)</small></br>
 				The content of this field is the calculated hash of the given message.
 				</li>
-		       <li><b>b_i</b> </br>
-				The content of this field is the value of b_i. For further information 
-				on how b_i is calculated see chapter <a href="#siggen">Generate signature</a>.
-		       </li>
 		       <li><b>Keys</b> </br>
 				These fields show the calculated keys.
 		       </li>
 		       <li><b>Signature</b> </br>
 				This field contains the signature after it has been calculated.
+		       </li>
+		       <li><b>\(\boldsymbol{b_i}\)</b> <small>(only when <b>Show details</b> is activated)</small></br>
+				The content of this field is the value of \(b_i\). For further information 
+				on how it is calculated see chapter <a href="#siggen">Generate signature</a>.
 		       </li>
 	       	</ul>
 
@@ -65,7 +66,7 @@
 		<p> </br> </p>
 		<h3 id="param">1.2) Parameters</h3>
 		<ul> 
-		       <li><b>Winternitz parameter w</b> </br>
+		       <li><b>Winternitz parameter \(\boldsymbol{w}\)</b> </br>
 				Determines the level of compression while generating the keys. Possible values are integers 
 				greater 1. Using a bigger value for w leads to smaller keys, but also increased runtime.
 		       </li>			
@@ -111,7 +112,7 @@
 			field will change its color to green. If the signature is invalid the color will change to red.
 		       </li>		
 		       <li><b>Show/Hide details</b> </br>
-			It is possible to enable details such as the fields "Message digest" and "b_i". 
+			It is possible to enable details such as the fields Message digest and \(b_i\). 
 			This is a pure visual feature which has no impact on the actual algorithm.
 		       </li>			
 		       <li><b>Reset</b> </br>
@@ -132,67 +133,64 @@
 		<h3 id="keygen">2.1) Key generation</h3>
 		<h4 id="usedParam">2.1.1) Used parameters</h4>
 		<ul> 
-		       <li><b>n = Size of a block in byte</b> </br>
+		       <li><b>\(\boldsymbol{n}\)</b> = Size of a block in byte </br>
 			       n is determined by the chosen hash function (for instance, SHA-256 creates a 32 byte (256 bit) output, so n is 32).
 		       </li>			
-		       <li><b>m = Size of the hash value of the message in bit</b></br>
+		       <li><b>\(\boldsymbol{m}\)</b> = Size of the hash value of the message in bit</br>
 			       The hash value of the message using SHA-256 has a length of 256 bit.
 		       </li>			
-		       <li><b>t = Number of blocks which form each key</b> </br>
-			       This number is calculated in two steps, and it is the sum of their results (t_1 and t_2).
+		       <li><b>\(\boldsymbol{t}\)</b> \(= t_1 + t_2\) = Number of blocks which form each key </br>
+			       This number is calculated in two steps, and it is the sum of their results \((t_1, t_2)\).
 		       </li>			
-		       <li><b>t_1 = m/log2(w) = number of base-w elements generated from a message</b> </br>
+		       <li><b>\(\boldsymbol{t_1}\)</b> \(= \lceil\frac{m}{\log_2(w)}\rceil\) = number of base-w elements generated from a message </br>
 			       	whereupon the result is rounded up.
 		       </li>			
-		       <li><b>t_2 = (log2(l_1(w-1))/log2(w))+1 = number of base-w elements generated from the checksum</b> </br>
+		       <li><b>\(\boldsymbol{t_2}\)</b> \(= \lfloor\frac{\log_2(t_1(w-1))}{log_2(w)}\rfloor+1\) = number of base-w elements generated from the checksum </br>
 			       	whereupon the result is rounded down.
-		       </li>			
-		       <li><b>t = t_1 + t_2</b> </br>
-		       </li>			
 	       	</ul>
 
-		<h4 id="privkey">2.1.2) Private key (X)</h4>
-		<p>The private key X consists of t blocks, each containing n pseudorandom bytes.</p>
+		<h4 id="privkey">2.1.2) Private key \(X\)</h4>
+		<p>The private key \(X\) consists of \(t\) blocks, each containing \(n\) pseudorandom bytes.</p>
 
-		<h4 id="pubkey">2.1.3) Public key (Y)</h4>
-		<p>The public key Y also consists of t blocks. These blocks are generated by hashing each block of X w-1 times.</p>
+		<h4 id="pubkey">2.1.3) Public key \(Y\)</h4>
+		<p>The public key \(Y\) also consists of \(t\) blocks. These blocks are generated by hashing each block of \(X\) \(w-1\) times.</p>
 
 		<img src="images/keys.png" alt="keys" width="70%">
 
 		<p> </br> </p>
 		<h3 id="siggen">2.2) Signature generation</h3>
-		<h4 id="genB">2.2.1) Generation of vector B</h4>
-		<p><b>B</b> consists of t blocks. To get these blocks, a checksum of m (m is the hash value of the message) is calculated. To be able to do this, m is converted to base w.</p>
-		<p><b>C</b> = checksum = sum of w-1-M_i with 1 <= i <= l_1. </p>
-		<p>Now, both m and C are converted to base w, which results in t values (m base w has t_1 values, C base w has t_2 values). 
-		If necessary, t_1 and t_2 are padded with 0s in order to calculate their correct values.</p>
-		<p>For further calculation, the t values of B are interpreted as integers.</p>
-		<p><b>Example:</b> block b_i = 0111 = 7</p>
+		<h4 id="genB">2.2.1) Generation of vector \(\boldsymbol{B}\)</h4>
+		<p><b>\(\boldsymbol{B}\)</b> consists of \(t\) blocks. To get these blocks, a checksum of \(m\) (\(m\) is the hash value of the message) is calculated. To be able to do this, \(m\) is converted to base \(w\).</p>
+		<p><b>\(\boldsymbol{C}\)</b> \(= \sum\limits_{i = 1}^{t_1} w-1-m_i\) = Checksum. </p>
+		<p>Now, both \(m\) and \(C\) are converted to base \(w\), which results in \(t\) values (\(m\) base \(w\) has \(t_1\) values, \(C\) base \(w\) has \(t_2\) values). 
+		If necessary, \(t_1\) and \(t_2\) are padded with 0s in order to calculate their correct values.</p>
+		<p>For further calculation, the \(t\) values of \(B\) are interpreted as integers.</p>
+		<p><b>Example:</b> block \(b_i\) = 0111 = 7</p>
 
 		<p> </br> </p>
 		<h4 id="signature">2.2.2) Signature</h4>
-		<p>To generate a signature, each block X_i of the t secret key blocks is hashed b_i times. The results are t blocks, which form the signature sig.</p>
+		<p>To generate a signature, each block \(X_i\) of the \(t\) secret key blocks is hashed \(b_i\) times. The results are \(t\) blocks, which form the signature \(\text{sig}\).</p>
 
 		<img src="images/signature.png" alt="signature" width="70%">
 
 		<p> </br> </p>
 		<h3 id="sigver">2.3) Signature validation</h3>
-		<p>To validate a signature, the vector B is calculated the same way as in section <a href="#genB">2.2.1</a>.
-		Each block sig_i of the signature is hashed w - 1 - b_i times. The resulting check signature consists of the blocks 
-		of the private key, which have been hashed w-1 times each (b_i + w - 1 - b_i). Because the public key also consists of the w-1 times hashed blocks of the private key, the public key and the calculated check signature should be the same. If this is the case, the signature is valid.</p>
+		<p>To validate a signature, the vector \(B\) is calculated the same way as in section <a href="#genB">2.2.1</a>.
+		Each block \(\text{sig}_i\) of the signature is hashed \(w - 1 - b_i\) times. The resulting check signature consists of the blocks 
+		of the private key, which have been hashed \(w-1\) times each (\(b_i + w - 1 - b_i\)). Because the public key also consists of the \(w-1\) times hashed blocks of the private key, the public key and the calculated check signature should be the same. If this is the case, the signature is valid.</p>
 
 		<img src="images/validated.png" alt="validated" width="70%">
 
 		<p> </br> </p>
 		<h2 id="wotsplus">3) WOTS+</h2>
-		<p>The difference between WOTS and WOTS+ is how each block is processed. In WOTS+, an additional bitstring R consisting of w-1 blocks (n bits each) is generated. When hashing the blocks for the xth time, an additional XOR with the xth block of R is applied.</p>
+		<p>The difference between WOTS and WOTS+ is how each block is processed. In WOTS+, an additional bitstring \(R\) consisting of \(w-1\) blocks (\(n\) bits each) is generated. When hashing the blocks for the \(i\)-th time, an additional XOR with the \(i\)-th block of \(R\) is applied.</p>
 
-		<h3 id="bitstring">3.1) Bitstring R</h3>
-		<p><b>R</b> consists of w-1 blocks, each block containing of n pseudorandom bits, which are added to the beginning of the public key Y.</p>
+		<h3 id="bitstring">3.1) Bitstring \(\boldsymbol{R}\)</h3>
+		<p><b>\(\boldsymbol{R}\)</b> consists of \(w-1\) blocks, each block containing of \(n\) pseudorandom bits, which are added to the beginning of the public key \(Y\).</p>
 
 		<h3 id="example">3.2) Example</h3>
-		<p><b>Calculation of the first block of the public key (Y_1):</b> Before hashing the block X_1 for the first time, an XOR operation with the first block of R (R_1) is applied. Before hashing it the second time, an XOR operation with the second block of R (R_2) is applied. Because the block is hashed w-1 times in total, R also consists of w-1 blocks.</br></br>
-		<b>Calculation of the first block of the validation signature:</b> Assuming that b_1 = 6 and w = 10, sig_1 will be processed w - 1 - b_1 = 3 times. For the first block, R_1 is not used for the XOR operation, but R_(b_i + 1) is. The reason behind this is to get the correct value, which can be compared to Y_1 (first block of the public key).</p>
+		<p><b>Calculation of the first block of the public key \(\boldsymbol{Y_1}\):</b> Before hashing the block \(X_1\) for the first time, an XOR operation with the first block of \(R\) (\(R_1\)) is applied. Before hashing it the second time, an XOR operation with the second block of \(R\) (\(R_2\)) is applied. Because the block is hashed \(w-1\) times in total, \(R\) consists of \(w-1\) blocks.</br></br>
+		<b>Calculation of the first block of the validation signature:</b> Assuming that \(b_1 = 6\) and \(w = 10\), \(\text{sig}_1\) will be processed \(w - 1 - b_1 = 3\) times. For the first block, \(R_1\) is not used for the XOR operation, but \(R_{b_i + 1}\) is. The reason behind this is to get the correct value, which can be compared to \(Y_1\) (first block of the public key).</p>
 
 		<img src="images/wotsplus.png" alt="wotsplus" width="70%">
 
@@ -202,7 +200,7 @@
 		<h2 id="security">4) Security</h2>
 		<p>For both algorithms it is absolutely necessary that a pair of keys is only used to sign one single message (one-time signature), otherwise it would be possible for an attacker to learn the whole private key by signing two chosen messages. As a solution to this problem, it is possible to authenticate many one-time public keys with a binary tree through a single hash (see Merkle trees).</br></br>
 
-		The security of both algorithms strongly depends on the used hash function. WOTS requires a collision-resistant hash function, WOTS+ a 2nd-preimage-resistent hash function. In conclusion, WOTS+ has less requirements to the used hash function, but is more complex in calculation.</p>
+		The security of both algorithms strongly depends on the used hash function. WOTS requires a collision-resistant hash function, WOTS+ a <span style="white-space:nowrap">2<sup>nd</sup>-preimage-resistent</span> hash function. In conclusion, WOTS+ has less requirements to the used hash function, but is more complex in calculation.</p>
 		<p> </br> </p>
                 
         <h2 id="links">5) References</h2>
