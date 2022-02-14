@@ -3,15 +3,15 @@
 <html>
 <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Appendix</title>
+	  <title>Anhang</title>
 </head>
 
 <body>
-<h1>Appendix</h1>
+<h1>Anhang</h1>
 
-<h2>1. Optimal scores from N=1 to N=158</h2>
+<h2>1. Optimaler Punktstand für N=1 bis N=158</h2>
 
-Optimal scores according to Dan Hoey  <a href="NumberSharkHelp-Bibliography.html">[2]</a>:
+Optimale Punktstände nach Dan Hoey  <a href="NumberSharkHelp-Bibliography.html">[2]</a>:
 <br><br>
 <table border="1">
 <tr>
@@ -67,9 +67,9 @@ Optimal scores according to Dan Hoey  <a href="NumberSharkHelp-Bibliography.html
 </tr>
 </table>
 
-<h2>2. Known scores larger as N=158</h2>
+<h2>2. Bekannte Punktestände für N > 158</h2>
 
-Scores according to John Trono <a href="NumberSharkHelp-Bibliography.html">[3]</a>:
+Punktstände nach John Trono <a href="NumberSharkHelp-Bibliography.html">[3]</a>:
 <br><br>
 <table border="1">
 <tr>
@@ -87,7 +87,7 @@ Scores according to John Trono <a href="NumberSharkHelp-Bibliography.html">[3]</
 </table>
 
 <br><br>
-Scores according to Markus Schu:
+Punktstände nach Markus Schu:
 <br><br>
 <table border="1">
 <tr>
@@ -110,10 +110,10 @@ Scores according to Markus Schu:
 </tr>
 </table>
 
-<p>Corresponding move sequences:
-<br>S1/2 - means Schu's random strategy 1/2, R - means Schu's recursive strategy
-<br>S2+R+R:N=256:(20533)(109) means, first run with S2, then the result was used for R, and again the result was used for R
-<br>(20533)(109) means (optimal known score)(length of the move sequence)
+<p>Entsprechende Zugfolgen:
+<br>S1/2 - steht für Schus Zufallsstrategie 1/2, R - steht für Schus rekursive Strategie
+<br>S2+R+R:N=256:(20533)(109) bedeutet erster Durchlauf mit S2, dessen Ergebnis für R und danach nochmals für R verwendet wird.
+<br>(20533)(109) steht für (optimaler bekannter Punktestand)(Länge der Zugfolge)
 <br>S2+R+R:N=256:(20533)(109):
 <br>251,169,247,221,209,253,161,217,203,155,235,215,205,185,141,249,237,219,213,
 201,183,177,166,254,226,218,214,206,202,194,178,159,125,175,245,147,105,63,207,189,243,171,153,255,135,225,
@@ -152,20 +152,21 @@ Scores according to Markus Schu:
 972,756,648,540,900,600,504,840,432,400,880,800,704,560,1008,784,528,792,864,672,576,480,960,720,640,896,512,768,
 </p>
 
-<h2>3. Move sequences for N=20 and N=158</h2>
+<h2>3. Zugfolgen für N=20 und N=158</h2>
 
-<p>The examples below show, that the move sequence to get the optimal score is not always unambiguous.</p>
+<p>Die folgenden Beispiele zeigen, dass die Zugfolge für den optimalen Punktstand nicht immer eindeutig ist.</p>
 <p>
-<h3>Different move sequences to get the optimal score for N=20:</h3>
+<h3>Verschiedene Zugfolgen um den optimalen Punktestand für N=20 zu erreichen:</h3>
+<p>
 N=20:19,15,10,20,16,14,12,18
 <br>N=20:19,10,14,15,20,12,16,18
 <br>N=20:19,10,20,15,12,14,18,16
 <br>N=20:19,15,10,14,20,16,12,18
 </p>
 
+<h3>Verschiedene Zugfolgen um den optimalen Punktestand für N=158 zu erreichen:</h3>
 <p>
-<h3>Different move sequences to get the optimal score for N=158:</h3>
-Move sequences according to Markus Schu:
+Zugfolgen nach Markus Schu:
 <br>N=158:157,121,143,91,133,119,95,155,145,125,115,93,141,129,123,111,94,158,146,142,134,122,118,106,75,153,117,99,81,135,
 148,154,124,116,98,147,105,92,76,152,88,138,114,102,136,78,104,156,132,70,130,110,56,140,112,100,150,90,84,126,80,120,72,144,
 108,96,128
@@ -178,23 +179,21 @@ Move sequences according to Markus Schu:
 148,124,116,154,98,147,105,92,138,102,78,76,152,136,114,104,156,88,132,70,130,110,56,140,112,100,150,90,84,126,80,120,72,144,
 108,96,128
 <br>
-<br>Move sequence according to Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a>:
+<br>Zugfolge nach Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a>:
 <br>N=158:157,121,143,91,133,119,95,155,145,125,115,93,141,129,123,111,94,158,146,142,134,122,118,106,75,153,117,99,81,135,
 148,124,116,92,76,152,147,105,98,70,56,140,112,100,80,154,110,88,150,138,114,102,136,90,78,130,104,156,132,84,126,120,72,108,
 144,96,128
 </p>
 
-<h2>4. State diagram of the Number Shark program</h2>
+<h2>4. Zustandsdiagram des Zahlenhai-Spiels</h2>
 
-<p>The figure below shows the state diagram of the Number Shark program. Per default the maximum size of the
-number set is restricted to N=1024. The value is stored in a text file "nMax.txt". If you like to play on a larger
-number set, please exchange in this file the 1024 with a larger number.
-<br><b>Pay attention, for larger numbers the support feature as well as the calculation of optimal move sequences
-will be very time consuming.</b></p>
+<p>Die folgende Abbildung zeigt das Zustandsdiagram des Zahlenhai-Spiels. Standardmäßig ist die maximale Größe
+der Zahlenmenge auf N=1024 beschränkt. Dieser Wert ist in der Textdatei "nMax.txt" gespeichert.
+Falls Sie mit einer größeren Zahl spielen möchten, erhöhen Sie die Zahl in der Datei.
+<br><b>Beachten Sie, dass für höhere Zahlen die Berechnung der Hinweise und Strategien sehr aufwendig wird.</b></p>
 
 <img src="Appendix_StateDiagram.jpg"
 	alt="State Diagram of the Number Shark Program"></img>
 
-<p> </br> </p>
 </body>
 </html>

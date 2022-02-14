@@ -3,8 +3,9 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Reference</title>
+	<title>Discussion</title>
 	<meta name="Markus Schu, M. Schu" content="Taxman, Number Shark" lang="en" content="Zahlenhai" lang="de">
+	<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
@@ -54,13 +55,17 @@ as score((a(m))(N)) = Sum(i=1 to m)ni.
 <br>See the different move sequences for N=20 or N=158 in the <a href="NumberSharkHelp-Appendix.html">Appendix</a>. q.e.d.
 </p>
 
-<p> Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> mentioned:
+<p> Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> mentioned:</p>
+<p style="margin-left:10px">
 <cite>The game can be played on an arbitrary vertex-labeled directed graph,
 and graph-theoretical constraints are useful in reducing the search
 space.  For instance, after several moves are made, the divisibility
 graph on the remaining choices often becomes disconnected, and the
 components can be optimized independently of one another.</cite>
-<br>In other words the sequencing of the components can be arbitrary, which leads to multiple optimal move sequences.</p>
+</p>
+<p>
+In other words the sequencing of the components can be arbitrary, which leads to multiple optimal move sequences.
+</p>
 
 <p>Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> already outlined, that the best choice for the first
 move is always the highest prime not exceeding N. He gave also a not strict proof. Let me do it in some strict mathematical way.
@@ -80,7 +85,7 @@ as first move, you can secure this number for your score. </p>
 <br>Assume (a(m))(N)) = (n1,n2,...,nm)(N) is an optimal move sequence and
 n1 as the number for the first move is not a prime.
 <br>That means, optimal score(N) = score((n1,n2,...,nm)(N)).
-<br>As composite number, n1 has at least two real divisors. One of these divisors is 1.
+<br>As composite number, n1 has at least two integer divisors. One of these divisors is 1.
 <br>Thus the score of ((n1,n2,...,nm)(N)) can be increased by the move sequence
 <br>((p,n1,n2,...,nm)(N)), with
 score((p,n1,n2,...,nm)(N)) = p + score((n1,n2,...,nm)(N))) and p is prime and element of the number set.
@@ -129,8 +134,9 @@ for a number in the a number set and n1 has only 1 as divisor, which is not in t
 <p><b>Example:</b>
 <br> Let {1,...,20} the number set. If you take the largest prime 19, thus 1 as free divisor of 19 will
 be taken by the Number Shark. The primes 2,3,5,7,11,13,17 are still in the number set. If you select
-one of them, this number will contribute to the score of the Number Shark. But they (only 2,3,5 and 7) could be still a free divisor
-of an other composite number. But even in this case, they will contribute to the Number Sharks score.</p>
+one of them, this number will contribute to the score of the Number Shark. But the one < N/2 (2,3,5 and 7)
+could be still a free divisor of another composite number.
+</p>
 
 <p><b>Proof:</b>
 <br>For the given number set {1,...,N} the sum of all numbers according to C.F. Gauss is N(N+1)/2.
@@ -307,13 +313,13 @@ also from interest. So the strategy 2 can be described as follows:
 </p>
 <p>
 Step 1: Take the largest active integer with the fewest divisor out of the interval N down to N/2+1.
-<br>Step 1: Calculate randomly a first border value out of the interval N/2+1 down to 0.
-<br>Step 2: Take all active integers in the interval N down to a first border value,
+<br>Step 2: Calculate randomly a first border value out of the interval N/2+1 down to 0.
+<br>Step 3: Take all active integers in the interval N down to a first border value,
 <br>whose amount of divisors are smaller as the amount of divisors from the number in step 1.
-<br>Step 3: Calculate randomly a second border value out of the interval N down to N/2+1.
-<br>Step 4: Take the largest pseudo prime in the interval N down to a second border value.
-<br>Step 5: As your current move take randomly one number out of the numbers calculated in step 1, 2 and 4
-<br>Step 6: Repeat from step 1 as long as there are still free numbers.
+<br>Step 4: Calculate randomly a second border value out of the interval N down to N/2+1.
+<br>Step 5: Take the largest pseudo prime in the interval N down to a second border value.
+<br>Step 6: As your current move take randomly one number out of the numbers calculated in step 1, 2 and 4
+<br>Step 7: Repeat from step 1 as long as there are still free numbers.
 </p>
 
 <h3>Schu's recursive strategy</h3>
