@@ -1,236 +1,318 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//DE">
+<!DOCTYPE HTML>
 
-<html>
+<html lang="en">
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
+<title>Manual</title>
 
-  <!-- Only here numbered list with a prefix word. How to cancel this if I want a normal numbered list afterwards?  -->
-  <style type="text/css">
-    ol {
-    counter-reset: number;
-    }
+<!-- Only here numbered list with a prefix word. How to cancel this if I want a normal numbered list afterwards?  -->
+<style>
+ol {
+	counter-reset: number;
+}
 
-    li {
-    list-style: none;
-    counter-increment: number;
-    }
+li {
+	list-style: none;
+	counter-increment: number;
+}
 
-    ol li::before {
-    content: "Step " counter(number) ".";
-    position: relative;
-    left:-5px
-    }
-  </style>
- 
+ol li::before {
+	content: "Step " counter(number) ".";
+	position: relative;
+	left: -5px
+}
+</style>
+
 </head>
 
 
 <body>
-<h1>Manual</h1>
+  <h1>Manual</h1>
 
-<p>This manual explains the elements of the Number Shark plugin, and heuristic and optimal winning strategies.</p>
+  <p>This manual explains the elements of the Number Shark plugin, and heuristic and optimal winning
+    strategies.</p>
 
-<p>The following image represents the start screen of the Number Shark game. The main parts are the toolbar, the playing field, the score, and a table with detailed information of the game course.</p>
+  <p>The following image represents the start screen of the Number Shark game. The main parts are the
+    toolbar, the playing field, the score, and a table with detailed information of the game course.</p>
 
-<p align=center><img src="Manual_1.jpg"
-	alt="Zahlenhai Hauptfenster mit Zahlenfeld Kontroll- und Auswahlbereich und Informationsbereich und -fenster" width="95%"/></p>
+  <img src="Manual_1.jpg"
+    alt="Main view of the game with the toolbar in the top right corner, the playing field in the top
+      middle and the scores in the bottom middle."
+    style="width: 90%; min-width: 600px; max-width: 1100px" />
 
+  <h2 id="theView">1. The view</h2>
 
-<p>&nbsp;</p>
-<h2 id = "theView">1. The view</h2>
+  <h3>1.1 The playing field</h3>
+  <p>The playing field is a rectangle filled with buttons with the numbers from 1 to e.g. 20. You can
+    select these numbers by pressing a button. If a game has more than 40 buttons (like in the following
+    picture where the size of the playing field is 190) then the buttons are distributed under several tabs
+    each with up to 40 buttons.</p>
 
-<h3>1.1 The playing field</h3>
-<p>The playing field is a rectangle filled with buttons with the numbers from 1 to e.g. 20. You can select these numbers by pressing a button. If a game has more than 40 buttons (like in the following picture where the size of the playing field is 190) then the buttons are distributed under several tabs each with up to 40 buttons.</p>
+  <p>Numbers which are selectable are displayed in blue. Numbers which are already taken appear in gray
+    and cannot be selected again (they are deactivated).</p>
 
-<p>Numbers which are selectable are displayed in blue. Numbers which are already taken appear in gray and cannot be selected again (they are deactivated).</p>
+  <p>If you remain with the mouse on an active number for a second, a tooltip will appear, providing
+    detailed information such as remaining active divisors and whether the number itself is a divisor of
+    another number in the playing field.</p>
 
-<p>If you remain with the mouse on an active number for a second, a tooltip will appear, providing detailed information such as remaining active divisors and whether the number itself is a divisor of another number in the playing field.</p>
+  <img src="Manual_2.jpg" style="width: 85%; min-width: 500px; max-width: 1000px"
+    alt="Playing field with one blue box per number from 161 to 190. The playing field is divided
+    into multiple tabs, which can be selected at the top. There are also the numbers 1 to 160.">
 
-<h3><img src="Manual_2.jpg" alt="Spielfeld" width="85%"/></h3>
+  <h3 id="Toolbar">1.2 The toolbar</h3>
 
+  <p>The toolbar is in the top right corner and has the following options:</p>
 
-<p>&nbsp;</p>
-<h3 id = "Toolbar">1.2 The toolbar</h3>
+  <p>
+    <img src="Manual_3.jpg" style="width: 40%; min-width: 200px; max-width: 420px"
+      alt="Number-Shark toolbar. There are the menu points New Game, Undo turn,
+  Redo turn, Shark meal, Hint, Heuristic strategies and Optimal strategies">
+  </p>
 
-<img src="Manual_3.jpg"
-	alt="Number Shark Toolbar" ></img>
+  <strong>"New Game"</strong>
+  <p>By clicking on "New Game" a dialog appears, where you can set up a new game and define the size of
+    the playing field. The size can vary from 2 to 1024. Starting a new game discontinues the already running
+    game.</p>
+  <p>
+    <img src="Manual_4.jpg" style="width: 40%; min-width: 300px; max-width: 650px"
+      alt="Dialogue for a new game. A slider allows to select the number set. Currently, 40 is selected.">
+  </p>
 
-<ul>
-  <li><strong>"New Game"</strong></li>
-  <p>By clicking on "New Game" a dialog appears, where you can set up a new game and define the size of the playing field. The size can vary from 2 to 1024. Starting a new game discontinues the already running game.</p>
-  <p><img src="Manual_4.jpg" alt="Neues Spiel Dialog" width="85%"/></p>
-  
-  <li><strong>"Undo"</strong></li>
-  <p>The last move can be made undone. So step-by-step all moves can be reverted. If you take back a move, you can try another move sequence (if you think you made a mistake).</p>
+  <strong>"Undo"</strong>
+  <p>The last move can be made undone. So step-by-step all moves can be reverted. If you take back a move,
+    you can try another move sequence (if you think you made a mistake).</p>
 
-  <li>"<strong>Redo</strong>"</li>
+  <strong>"Redo"</strong>
   <p>An undone step can be redone.</p>
 
-  <li><strong>"Shark meal"</strong></li>
-  <p>This button deactivates all numbers which the Number Shark will get for sure at the current stage of the game. Such numbers are larger than half of the size of the playing field and without any active divisors.</p>
+  <strong>"Shark meal"</strong>
+  <p>This button deactivates all numbers which the Number Shark will get for sure at the current stage of
+    the game. Such numbers are larger than half of the size of the playing field and without any active
+    divisors.</p>
 
-  <li><strong>"Hint"</strong></li>
-  <p>Generates a hint for a number which should be chosen next. There are situations where a hint cannot be provided.</p>
+  <strong>"Hint"</strong>
+  <p>Generates a hint for a number which should be chosen next. There are situations where a hint cannot
+    be provided.</p>
 
-  <li><strong>"Heuristic strategies"</strong></li>
-  <p>This icon opens a wizard, where different heuristic strategies generate move sequences to win the game. Further information can be found below in <a href="#heuStrat"><b>2. Heuristic strategies</b></a>.</p>
+  <strong>"Heuristic strategies"</strong>
+  <p>
+    This icon opens a wizard, where different heuristic strategies generate move sequences to win the game.
+    Further information can be found below in <a href="#heuStrat"><b>2. Heuristic strategies</b></a>.
+  </p>
 
-  <li><strong>"Optimal strategies"</strong></li>
-  <p>Opens a wizard to calculate strategies, which are optimal. Detailed information can be found below in
-  <a href="#optStrat"><b>3. Optimal strategies</b></a>
-  .</p>
+  <strong>"Optimal strategies"</strong>
+  <p>
+    Opens a wizard to calculate strategies, which are optimal. Detailed information can be found below in <a
+      href="#optStrat"><b>3. Optimal strategies</b></a> .
+  </p>
 
-  <li><strong>"Help"</strong></li>
+  <strong>"Help"</strong>
   <p>Opens the online help.</p>
-</ul>
+
+  <h3>1.3 The overview of the points</h3>
+  <p>The overview about the points can be found in the two groups "Current points" and "Course of the
+    game".</p>
+
+  <strong>"Current points"</strong>
+  <p>
+    In this group, your score and the score of the Number Shark are displayed &ndash; the colors indicate who
+    is currently leading. If your points are in green, you are about to win, if your points are shown in red,
+    the Number Shark is at the forefront.<br> The number next to "Minimal points to win" is the total
+    number (score) you should try to reach at least.
+  </p>
+
+  <strong>"Course of the game"</strong>
+  <p>This table provides detailed information about all moves of the game. For each move you can review
+    which number you took, how many points you had, and which numbers you lost in this move. Further more, you
+    get the number of active numbers left (remaining ones) and the score of the Number Shark of each move.</p>
+
+  <h2 id="heuStrat">2. The heuristic strategies</h2>
+
+  <p>After playing a bit you might already have developed your first strategy how to win against the
+    Number Shark. The wizard for heuristic strategies also provides some well elaborated move sequences which
+    help you win.</p>
 
 
+  <h3>2.1 The wizard for heuristic strategies</h3>
 
-<p>&nbsp;</p>
-<h3>1.3 The overview of the points</h3>
-<p>The overview about the points can be found in the two groups "Current points" and "Course of the game".</p>
+  <p>
+    By clicking on the (half filled) <img src="Manual_heuStrat.jpg" alt="Wizard heuristic strategies">
+    the wizard for heuristic strategies appears.
+  </p>
+  <img src="Manual_WizardheuStrat.png" style="width: 75%; min-width: 350px; max-width: 900px"
+    alt="Wizard for heuristic strategies. There are the options Max-next-step, van Nek's algorithm and
+  Schu's heuristic strategy. There are lower and upper bounds for the playing field calculation.">
 
-<ul>
-<li><strong>"Current points"</strong></li>
-<p>In this group, your score and the score of the Number Shark are displayed &ndash; the colors indicate who is currently leading. If your points are in green, you are about to win, if your points are shown in red, the Number Shark is at the forefront.<br>
-The number next to "Minimal points to win" is the total number (score) you should try to reach at least.</p>
-  
-<li><strong>"Course of the game"</strong></li>
-<p>This table provides detailed information about all moves of the game. For each move you can review which number you took, how many points you had, and which numbers you lost in this move. Further more, you get the number of active numbers left (remaining ones) and the score of the Number Shark of each move.</p>
-</ul>
+  <p>At the moment three different strategies are implemented which generate (different) move sequences.
+    These strategies can be selected with the three radio buttons. The lower two sliders define the lower and
+    upper bounds of the playing field sizes for which the move sequences will be calculated.</p>
+  <!--- Das geht noch nicht:  So you can even play on a non-standard playing field which doesn't start with a 1. -->
 
+  <strong>"Maximize the points you win in each move" (Max-next-step, Greedy)</strong>
+  <p>This strategy takes the number which maximizes the getting in each round. This means it searches the
+    number where the difference (between the number you'll get and the sum of the divisors the Number Shark
+    will get) is at its maximum. If the number is not unique, the maximum of those numbers will be taken.</p>
 
+  <br>
+  <strong>"Heuristic strategy based on van Nek's algorithm"</strong>
 
-<p>&nbsp;</p>
-<h2 id = "heuStrat">2. The heuristic strategies</h2>
+  <p>
+    This strategy is based on the algorithm of van Nek which is used to find optimal winning move sequences.
+    For details see below <a href="#optStrat"><b>3. Optimal strategies</b></a>.
+  </p>
 
-<p>After playing a bit you might already have developed your first strategy how to win against the Number Shark. The wizard for heuristic strategies also provides some well elaborated move sequences which help you win.</p>
-
-
-<h3>2.1 The wizard for heuristic strategies </h3>
-
-<p>By clicking on the (half filled) <img src="Manual_heuStrat.jpg" alt="Wizard heuristic strategies"> the wizard for heuristic strategies appears.</p>
-<img src="Manual_WizardheuStrat.png" width="85%" />
-
-<p>At the moment three different strategies are implemented which generate (different) move sequences. These strategies can be selected with the three radio buttons. The lower two sliders define the lower and upper bounds of the playing field sizes for which the move sequences will be calculated.</p>
-<!--- Das geht noch nicht:  So you can even play on a non-standard playing field which doesn't start with a 1. -->
-
-<ul>
-  <li><strong>"Maximize the points you win in each move" (Max-next-step, Greedy)</strong></li>
-  <p>This strategy takes the number which maximizes the getting in each round. This means it searches the number where the difference (between the number you'll get and the sum of the divisors the Number Shark will get) is at its maximum. If the number is not unique, the maximum of those numbers will be taken.</p>
-
-
-  <li><br><strong>"Heuristic strategy based on van Nek's algorithm"</strong></li>
-  
-  <p>This strategy is based on the algorithm of van Nek which is used to find optimal winning move sequences. For details see below <a href="#optStrat"><b>3. Optimal strategies</b></a>.</p>
-   
   <p>It consists of the following 5 steps (where N is the size of the playing field):</p>
   <ol>
-    <li>Take the largest number larger than N/2 + 1 with exactly one active divisor.</li>
+    <li>Take the largest number larger than \(\frac{N}{2} + 1\) with exactly one active divisor.</li>
     <li>As long as there is still a number which fulfills the property of Step 1, go back to Step 1.</li>
-    <li>Generate a list of numbers containing the following numbers:<br>
-  - All numbers, with the smallest amount of active divisors which are larger than N/2 + 1<br>
-  - The greatest number, which has exactly one divisor and is less than N/2 + 1</li>
+    <li>Generate a list of numbers containing the following numbers:<br> - All numbers, with the
+      smallest amount of active divisors which are larger than \(\frac{N}{2} + 1\)<br> - The greatest
+      number, which has exactly one divisor and is less than \(\frac{N}{2} + 1\)
+    </li>
     <li>From the list you just created randomly take a number as your next move.</li>
     <li>As long as there are still active numbers, go back to Step 1.</li>
   </ol>
 
-
   <br>
-  <li><br><strong>"Heuristic strategy by Schu (version 1)"</strong></li>
-   
-  <p>This strategy consists of the following 6 steps (where N is the size of the playing field):</p>
+  <br>
+  <strong>"Heuristic strategy by Schu (version 1)"</strong>
+
+  <p>This strategy consists of the following 6 steps (where \(N\) is the size of the playing field):</p>
   <ol>
-    <li>Calculate randomly a first border value out of the interval N/2+1 down to 1.</li>
-    <li>Take the largest active number with the fewest active divisors in the interval N down to the first border value created in Step 1.</li>
-    <li>Calculate randomly a second border value out of the interval N down to N/2+1.</li>
-    <li>Take the largest pseudo prime (in this game a number which has only 1 active divisor) in the interval N down to the second border value.</li>
+    <li>Calculate randomly a first border value out of the interval \(\frac{N}{2} + 1\) down to \(1\).</li>
+    <li>Take the largest active number with the fewest active divisors in the interval N down to the
+      first border value created in Step 1.</li>
+    <li>Calculate randomly a second border value out of the interval \(N\) down to \(\frac{N}{2} + 1\).</li>
+    <li>Take the largest pseudo prime (in this game a number which has only 1 active divisor) in the
+      interval \(N\) down to the second border value.</li>
     <li>As your current move take randomly one number out of the numbers calculated in step 2 and 4.</li>
     <li>Repeat from Step 1 as long as there are still free numbers.</li>
   </ol>
 
-</ul>
+  <p>
+    <br>Precise (mathematical) information can be found here: <br> <a
+      href="../reference/NumberSharkHelp-Discussion.html">Discussion of good and optimal strategies for
+      the Number Shark game</a>
+  </p>
+
+  <p>By clicking "OK", the move sequences will be calculated with the bounds and the algorithm you have
+    selected. Depending on your computer the process of calculating might take a while.</p>
+
+  <p>Finally the result dialog will appear. Sorted by the size of the playing field, you can find the
+    following information: First you see the score you can reach, then the score the Number Shark will get.
+    Next is the move sequence which is required to reach the points. In the last column the time which was
+    need to calculate the sequence is shown. If you select a row you can press the button "Play selected...":
+    Then a new game will be set up and the moves of the sequence you selected will be played in the Number
+    Shark main window.</p>
+
+  <p>With "Save as..." the whole table can be exported as a ".csv"file which then can be opened e.g. in
+    Excel or Calc.</p>
+  <img src="Manual_5.jpg" style="width: 75%; min-width: 350px; max-width: 900px"
+    alt="Output table of a heuristic strategy. There is a column for max score, number shark score and
+  the optimal move sequence.">
+
+  <h2 id="optStrat">3. The optimal strategies</h2>
+
+  <p>You might have already found your own strategy so winning against the Number Shark is not a problem
+    for you anymore. Then the question arises about an optimal move sequence &ndash; a sequence which leads to
+    the maximum score. And you might ask yourself how this optimal strategy works. (Note: The maximum score
+    for a playing field size is unique, but sequences are not: So there are different sequences which lead to
+    the same score.)</p>
+
+  <p>Unfortunately, we haven't yet found such a general strategy. The first numbers to be taken are clear
+    &ndash; e.g. the first move must take the largest prime number. But then at some point there are several
+    ways you could go. With an algorithm of van Nek, we managed to cleverly try all possibilities and discard
+    useless branches, such that an optimal move sequence can be given. These optimal move sequences (up to \(N
+    = 519\)) can be shown and even recalculated in the wizard.</p>
+
+  <p>A look at the wizard is worth it, maybe you can find a strategy which always finds an optimal
+    sequence?</p>
 
 
-<p><br>Precise (mathematical) information can be found here: <br>
-<a href="../reference/NumberSharkHelp-Discussion.html">Discussion of good and optimal strategies for the Number Shark game</a></li></p>
+  <h3>3.1 The wizard for optimal strategies</h3>
 
-<p>By clicking "OK", the move sequences will be calculated with the bounds and the algorithm you have selected. Depending on your computer the process of calculating might take a while.</p>
+  <p>
+    By clicking on the (completely filled) star icon <img src="Manual_optStrat.jpg" alt="" /> in the toolbar
+    the wizard to calculate optimal strategies pops up.
+  </p>
 
-<p>Finally the result dialog will appear. Sorted by the size of the playing field, you can find the following information: First you see the score you can reach, then the score the Number Shark will get. Next is the move sequence which is required to reach the points. In the last column the time which was need to calculate the sequence is shown. If you select a row you can press the button "Play selected...": Then a new game will be set up and the moves of the sequence you selected will be played in the Number Shark main window.</p>
+  <img src="Manual_WizardoptStrat.png" style="width: 75%; min-width: 350px; max-width: 900px"
+    alt="Wizard for optijmal strategies. There are the options pre-calculated optimal strategies
+  from 2 to 250 and optimal strategies with the algorithm of van Nek.">
 
-<p>With "Save as..." the whole table can be exported as a ".csv"file which then can be opened e.g. in Excel or Calc.</p>
-<img src="Manual_5.jpg" width="85%"/>
+  <p>There you got to choose between the following:</p>
 
+  <strong>"Show pre-calculated optimal strategies (for playing fields of size 2-519)"</strong>
+  <p>Already calculated move sequences for playing field sizes between 2 and 519 can be viewed and
+    analyzed here. The current real value (519) in the JCT program is much better than the value shown in the
+    screenshot here (250).</p>
 
+  <br>
+  <strong>"Calculate the optimal strategy with the algorithm of van Nek"</strong>
+  <p>By choosing this option, move sequences can be calculated with the backtracking algorithm developed
+    by van Nek. Further more, you can set the range of playing field sizes you want the sequences to be
+    calculated for.</p>
 
-<p>&nbsp;</p>
-<h2 id = "optStrat">3. The optimal strategies</h2>
+  <p>Note: The run time of the algorithm is exponential in the size of the playing field, so depending on
+    the interval you chose, the calculating process might take a while.</p>
 
-<p>You might have already found your own strategy so winning against the Number Shark is not a problem for you anymore. Then the question arises about an optimal move sequence &ndash; a sequence which leads to the maximum score. And you might ask yourself how this optimal strategy works. (Note: The maximum score for a playing field size is unique, but sequences are not: So there are different sequences which lead to the same score.)</p>
-
-<p>Unfortunately, we haven't yet found such a general strategy. The first numbers to be taken are clear &ndash; e.g. the first move must take the largest prime number. But then at some point there are several ways you could go. With an algorithm of van Nek, we managed to cleverly try all possibilities and discard useless branches, such that an optimal move sequence can be given. These optimal move sequences (up to n = 519) can be shown and even recalculated in the wizard.</p>
-
-<p>A look at the wizard is worth it, maybe you can find a strategy which always finds an optimal sequence?</p>
-
-
-<h3>3.1 The wizard for optimal strategies</h3>
-
-<p>By clicking on the (completely filled) star icon <img src="Manual_optStrat.jpg" alt=""/> in the toolbar the wizard to calculate optimal strategies pops up.</p>
-<img src="Manual_WizardoptStrat.png" width="85%"/>
-
-<p>There you got to choose between the following:</p>
-
-<ul>
-  <li><strong>"Show pre-calculated optimal strategies (for playing fields of size 2-519)"</strong></li>
-  <p>Already calculated move sequences for playing field sizes between 2 and 519 can be viewed and analyzed here. The current real value (519) in the JCT program is much better than the value shown in the screenshot here (250).</p>
-  
-  <li><br><strong>"Calculate the optimal strategy with the algorithm of van Nek"</strong></li>
-  <p>By choosing this option, move sequences can be calculated with the backtracking algorithm developed by van Nek. Further more, you can set the range of playing field sizes you want the sequences to be calculated for.</p>
-
-  <p>Note: The run time of the algorithm is exponential in the size of the playing field, so depending on the interval you chose, the calculating process might take a while.</p>
-
-  <p>Here we give a (simplified) description of the algorithm (N again is the size of the playing field):
+  <p>Here we give a (simplified) description of the algorithm (\(N\) again is the size of the playing
+    field):
   <ol>
-    <li>Take the largest number larger than N/2 + 1 with exactly one active divisor.</li>
+    <li>Take the largest number larger than \(\frac{N}{2} + 1\) with exactly one active divisor.</li>
     <li>As long as there is still a number which fulfills the property of Step 1, go back to Step 1.</li>
-    <li>For each remaining number, branch the problem into a subproblem by taking this number. Do the following steps for each subproblem.</li>
-    <li>If there is still a free number, go back to Step 1; otherwise save the result as new optimal move sequence, if the score is better than the score of the subproblems you have already considered.</li>
+    <li>For each remaining number, branch the problem into a subproblem by taking this number. Do the
+      following steps for each subproblem.</li>
+    <li>If there is still a free number, go back to Step 1; otherwise save the result as new optimal move
+      sequence, if the score is better than the score of the subproblems you have already considered.</li>
     <li>Go to another not yet finished subproblem.</li>
   </ol>
 
-  <p>This description of the algorithm is just the main idea. Van Nek used in his implementation some more queries because it is not always needed to evaluate all subproblems till the end. E.g. before considering a subproblem the algorithm tests if it is still possible with the remaining numbers to exceed the current optimal score. Further progress was made by using the results of the faster heuristic algorithms as good lower bounds for the score.</p>
-
-</ul>
-
-
-<p>By clicking on "OK", the move sequences of the selected playing field sizes will be shown or re-calculated. Depending on your computer the process of calculating might take a while.</p>
-
-<p>Finally the result dialog will appear. Sorted by the size of the playing field, you can find the following information: First you see the maximal score you can reach, then the score the Number Shark will get. Next is the move sequence which is required to reach the score. In the last column the time which was need to calculate the sequence is shown. If you select a row you can press the button "Play selected..." Then a new game will be set up and the moves of the sequence you selected will be played in the Number Shark main window.</p>
-
-<p>With "Save as..." the whole table can be exported as a ".csv" file which then can be opened e.g. in Excel or Calc.</p>
-<img src="Manual_6.jpg" alt="" width="85%" />
+  <p>This description of the algorithm is just the main idea. Van Nek used in his implementation some more
+    queries because it is not always needed to evaluate all subproblems till the end. E.g. before considering
+    a subproblem the algorithm tests if it is still possible with the remaining numbers to exceed the current
+    optimal score. Further progress was made by using the results of the faster heuristic algorithms as good
+    lower bounds for the score.</p>
 
 
+  <p>By clicking on "OK", the move sequences of the selected playing field sizes will be shown or
+    re-calculated. Depending on your computer the process of calculating might take a while.</p>
 
-<p>&nbsp;</p>
-<h3>3.2 Feedback and further links</h3>
+  <p>Finally the result dialog will appear. Sorted by the size of the playing field, you can find the
+    following information: First you see the maximal score you can reach, then the score the Number Shark will
+    get. Next is the move sequence which is required to reach the score. In the last column the time which was
+    need to calculate the sequence is shown. If you select a row you can press the button "Play selected..."
+    Then a new game will be set up and the moves of the sequence you selected will be played in the Number
+    Shark main window.</p>
 
-<p>If you find an optimal strategy please let us know (e.g. via email to <strong>bernhard.esslinger@uni-siegen.de</strong>).</p>
+  <p>With "Save as..." the whole table can be exported as a ".csv" file which then can be opened e.g. in
+    Excel or Calc.</p>
 
-<p>Another name of the "Number Shark" game is "Taxman" game.</p>
+  <img src="Manual_6.jpg" style="width: 75%; min-width: 350px; max-width: 900px"
+    alt="Output table of a heuristic strategy. There is a column for max score, number shark score and
+  the optimal move sequence.">
 
-<p>The site <a target="_blank" href="https://oeis.org/A019312"> Integer Sequences</a> of the OEIS Foundation contains the known maximum scores for n=1,...,519 (status as of May 2020). There, the sequence can also be displayed graphically. Meanwhile, for each "n" an according optimal move sequence is stated in the notes (thanks to Dan Hoey). A formula for the optimal value (score) is not known yet.</p>
+  <h3>3.2 Feedback and further links</h3>
 
-<p>Further references can be found <a href="PLUGINS_ROOT/org.jcryptool.games.numbershark/$nl$/help/reference/NumberSharkHelp-Bibliography.html">here</a>.</p>
-  <!-- Zum lokalen Testen geht auch:
-       Further references can be found <a href="../reference/NumberSharkHelp-Bibliography.html">here</a>.
-  -->
+  <p>
+    If you find an optimal strategy please let us know (e.g. via email to <strong>bernhard.esslinger@uni-siegen.de</strong>).
+  </p>
 
+  <p>Another name of the "Number Shark" game is "Taxman" game.</p>
 
-  <!-- Last edit: BE, 2021-01-09  -->
+  <p>
+    The site <a target="_blank" href="https://oeis.org/A019312"> Integer Sequences</a> of the OEIS Foundation
+    contains the known maximum scores for \(N=(1,...,701)\) (status as of February 2022). There, the sequence
+    can also be displayed graphically. Meanwhile, for each \(N\) an according optimal move sequence is stated
+    in the notes (thanks to Dan Hoey). A formula for the optimal value (score) is not known yet.
+  </p>
 
-<p>&nbsp;</p>
+  <p>
+    Further references can be found <a
+      href="PLUGINS_ROOT/org.jcryptool.games.numbershark/$nl$/help/reference/NumberSharkHelp-Bibliography.html">here</a>.
+  </p>
+
 </body>
+<!-- Last edit: BE, 2021-01-09  -->
 </html>

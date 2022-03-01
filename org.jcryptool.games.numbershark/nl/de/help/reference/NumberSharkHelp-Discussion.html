@@ -1,434 +1,451 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML>
 
 <html lang="de">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Diskussion</title>
-	<meta name="Markus Schu, M. Schu" content="Taxman, Number Shark" lang="en" content="Zahlenhai" lang="de">
-	<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Diskussion</title>
+<meta name="Markus Schu, M. Schu" content="Taxman, Number Shark Zahlenhai">
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
-<h1>Diskussion guter und optimaler Strategien für das Zahlenhai-Spiel</h1>
+  <h1>Diskussion guter und optimaler Strategien für das Zahlenhai-Spiel</h1>
 
-<p>In diesem Kapitel wird das Spiel Zahlenhai auf mathematischer und strategischer Ebene erörtert.</p>
+  <p>In diesem Kapitel wird das Spiel Zahlenhai auf mathematischer und strategischer Ebene erörtert.</p>
 
-<h2>1. Definitionen</h2>
+  <h2>1. Definitionen</h2>
 
-<p><b>Zahlenmenge:</b>
-<br>Das Zahlenhai-Spiel wird mit einer bestimmten Anzahl von Zahlen gespielt. Diese Menge wird
-Zahlenmenge genannt. Für die weitere Diskussion wird, wenn nicht ausdrücklich erwähnt, angenommen,
-dass die Zahlenmenge identisch ist mit \(\{1,...,N\}\), wobei \(N\) ein Element von \(\mathbb{N}\)
-ist \((N \in \mathbb{N})\). </p>
+  <p>
+    <b>Zahlenmenge:</b> <br>Das Zahlenhai-Spiel wird mit einer bestimmten Anzahl von Zahlen gespielt.
+    Diese Menge wird Zahlenmenge genannt. Für die weitere Diskussion wird, wenn nicht ausdrücklich erwähnt,
+    angenommen, dass die Zahlenmenge identisch ist mit \(\{1,...,N\}\), wobei \(N\) ein Element von
+    \(\mathbb{N}\) ist \((N \in \mathbb{N})\).
+  </p>
 
-<p><b>Pfad oder Zugfolge:</b>
-<br>Eine Pfad- oder Zugfolge ist eine Folge von Zahlen aus der Zahlenmenge, die das Spiel für ein
-gegebenes \(N\) gemäß den Regeln löst. Die Zugfolge enthält nur die Zahlen des Spielers.
-<br><br>So sind zum Beispiel \((19,15,14,20,16,12,18)(20)\) oder \((19,10,15,20,12,14,18,16)(20)\) mögliche Zugfolgen für \(N=20\).
-<br><br>Im Allgemeinen ist eine Zugfolge für \(N\) definiert als \((a(m))(N) = (n_1, n_2,...,n_m)(N)\), wobei folgende Bedingungen gelten.
-</p>
-<ul>
-<li>\(N \in \mathbb{N}, N \geq 2 \)</li>
-<li>\(m \in \mathbb{N}, m \leq N-1 \)</li>
-<li>\(\forall i,j \in \{1,\ldots,m \}: n_i \neq n_j \ | \ i \neq j\)</li>
-</ul>
+  <p>
+    <b>Pfad oder Zugfolge:</b> <br>Eine Pfad- oder Zugfolge ist eine Folge von Zahlen aus der
+    Zahlenmenge, die das Spiel für ein gegebenes \(N\) gemäß den Regeln löst. Die Zugfolge enthält nur die
+    Zahlen des Spielers. <br> <br>So sind zum Beispiel \((19,15,14,20,16,12,18)(20)\) oder
+    \((19,10,15,20,12,14,18,16)(20)\) mögliche Zugfolgen für \(N=20\). <br> <br>Im Allgemeinen ist
+    eine Zugfolge für \(N\) definiert als \((a(m))(N) = (n_1, n_2,...,n_m)(N)\), wobei folgende Bedingungen
+    gelten.
+  </p>
+  <ul>
+    <li>\(N \in \mathbb{N}, N \geq 2 \)</li>
+    <li>\(m \in \mathbb{N}, m \leq N-1 \)</li>
+    <li>\(\forall i,j \in \{1,\ldots,m \}: n_i \neq n_j \ | \ i \neq j\)</li>
+  </ul>
 
-<p>\(N\) muss also größer als eins sein, es gibt bis zu \(N - 1\) Züge und keine Zahl darf mehr als einmal gewählt werden.</p>
+  <p>\(N\) muss also größer als eins sein, es gibt bis zu \(N - 1\) Züge und keine Zahl darf mehr als
+    einmal gewählt werden.</p>
 
-<p><b>Punktestand \(\boldsymbol{P}\) und optimaler Punktestand \(\boldsymbol{P_+}\):</b>
-<br>Die Summe aller Elemente einer Zugfolge für \(N\) bestimmt die Punktzahl \(P(a(m)(N))\).
-<br><br>z.B.
-<br>Die Punktzahl \(P((19,15,14,20,16,12,18)(20))\) ist identisch mit \(19+15+14+20+16+12+18=114\).
-<br>Die Punktzahl \(P((19,10,15,20,12,14,18,16)(20))\) ist identisch mit \(19+10+15+20+12+14+18+16=124\).
-<br><br>Im Allgemeinen ist die Punktzahl \(P\) für eine Zugfolge \((a(m))(N)= (n_1, n_2,...,n_m)(N)\) definiert als
-\(P(a(m)(N)) := \sum\limits_{i=1}^{m}n_i\).
-</p>
+  <p>
+    <b>Punktestand \(\boldsymbol{P}\) und optimaler Punktestand \(\boldsymbol{P_+}\):</b> <br>Die Summe
+    aller Elemente einer Zugfolge für \(N\) bestimmt die Punktzahl \(P(a(m)(N))\). <br> <br>z.B. <br>Die
+    Punktzahl \(P((19,15,14,20,16,12,18)(20))\) ist identisch mit \(19+15+14+20+16+12+18=114\). <br>Die
+    Punktzahl \(P((19,10,15,20,12,14,18,16)(20))\) ist identisch mit \(19+10+15+20+12+14+18+16=124\). <br>
+    <br>Im Allgemeinen ist die Punktzahl \(P\) für eine Zugfolge \((a(m))(N)= (n_1, n_2,...,n_m)(N)\)
+    definiert als \(P(a(m)(N)) := \sum\limits_{i=1}^{m}n_i\).
+  </p>
 
-<p>
-Für jedes \(N\) existiert per Definition eine optimale Punktzahl \(P_+\), die wie folgt definiert ist
-</p>
+  <p>Für jedes \(N\) existiert per Definition eine optimale Punktzahl \(P_+\), die wie folgt definiert ist
+  </p>
 
-  \( \style{text-align:left;} { \begin{align*}
-    \qquad P_+ = P_+(\{1,...,N\}) = P_+(N) := \text{max}(P(a(m)(N))), \ \text{für alle} \ (a(m)(N))
+  \( \style{text-align:left;} { \begin{align*} \qquad P_+ = P_+(\{1,...,N\}) = P_+(N) :=
+  \text{max}(P(a(m)(N))), \ \text{für alle} \ (a(m)(N)) \end{align*} } \)
+
+  <p>z.B. ist die optimale Punktzahl für \(N = 20\) ist: \(P_+(20) = 124\).</p>
+
+  <p>
+    <b>„Optimaler Pfad“ oder „Optimale Zugfolge“:</b> <br>Wenn die Puntzahl \(P\) für eine Zugfolge
+    \((a(m))(N)\) die optimale Punktzahl \(P_+(N) = P(a(m)(N))\) ist, so wird die Zugfolge als optimaler Pfad
+    oder optimale Zugfolge bezeichnet.
+  </p>
+
+  <p>
+    <b>Größte Primzahl \(\boldsymbol{h_p}\):</b> <br>\(h_p :=\) die größte Primzahl in der Zahlenmenge
+    {1,...N}
+  </p>
+
+  <h2>2. Theoreme and Beobachtungen</h2>
+
+  <h3>Theorem 1</h3>
+  <p>
+    <b>Die optimale Zugfolge ist nicht immer eindeutig.</b>
+  </p>
+
+  <p>
+    <b>Beweis durch Beispiel:</b> <br>Siehe die verschiedenen Zugfolgen für \(N=20\) oder \(N=158\) im <a
+      href="NumberSharkHelp-Appendix.html">Anhang</a>. q.e.d.
+  </p>
+
+  <p>
+    Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> schreibt:
+  </p>
+  <p style="margin-left: 10px">
+    <cite>„The game can be played on an arbitrary vertex-labeled directed graph, and graph-theoretical
+      constraints are useful in reducing the search space. For instance, after several moves are made, the
+      divisibility graph on the remaining choices often becomes disconnected, and the components can be
+      optimized independently of one another.“</cite>
+  </p>
+  <p style="margin-left: 10px">
+    <cite>„Das Spiel kann auf einem beliebigen gerichteten Graphen mit beschrifteten Knoten gespielt
+      werden. Graphentheoretische Einschränkungen sind nützlich, um den Suchraum zu reduzieren. Zum Beispiel
+      spaltet sich der Teilbarkeitsgraph der verbleibenden Wahlmöglichkeiten oft nach mehreren Zügen. Diese
+      Komponenten des Graphs können dann unabhängig voneinander optimiert werden.“</cite>
+  </p>
+  <p>Mit anderen Worten: Die Reihenfolge der Komponenten kann beliebig sein, was zu mehreren optimalen
+    Zugfolgen führt.</p>
+
+  <p>
+    Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> hat bereits gezeigt, dass die beste Wahl für
+    den ersten Zug immer die höchste Primzahl ist, die \(N\) nicht übersteigt. Er gab dafür aber keinen
+    strengen Beweis (nur Plausibilität). Lassen Sie es mich auf eine formale, mathematische Weise tun.
+  </p>
+
+  <h3>Theorem 2</h3>
+  <p>
+    Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. \(h_p\) ist die höchste
+    Primzahl der Zahlenmenge. Dann muss der <b>erste Zug</b>, um eine optimale Punktzahl zu erhalten, <b>immer
+      die höchste Primzahl \(\boldsymbol{h_p}\) sein.</b>
+  </p>
+
+  <p>
+    <b>Beispiel:</b> <br> Sei \(\{1,2,3,4\}\) die Zahlenmenge. \(h_p=3\) ist die höchste Primzahl. Für
+    dieses Beispiel kann man leicht sehen, dass die \(3\) an den Zahlenhai verloren geht, wenn man die \(3\)
+    nicht im ersten Zug nimmt. Wenn man also mit der \(3\) im ersten Zug beginnt, können Sie sich diese Zahl
+    für ihr Ergebnis sichern.
+  </p>
+
+  <p>
+    <b>Beweis durch Widerspruch</b> <br>Angenommen, \((a(m)(N)) = (n_1,n_2,...,n_m)(N)\) ist eine
+    optimale Zugfolge und \(n_1\) als Zahl für den ersten Zug ist keine Primzahl. <br>Das heißt, \(P_+(N)
+    = P((n_1,n_2,...,n_m)(N))\). <br>Als zusammengesetzte Zahl hat \(n_1\) mindestens zwei ganze Teiler.
+    Einer dieser Teiler ist \(1\), sowie zumindest eine Primzahl \(p\), die kleiner sein muss als \(n_1\) und
+    ebenfalls in der Zahlenmenge ist. <br>Da der Zahlenhai kleinere Teiler einer gewählten Zahl frisst,
+    kann die Punktzahl von \(((n_1,n_2,...,n_m)(N))\) durch die Zugfolge <br>\(((p,n_1,n_2,...,n_m)(N))\),
+    mit \(p + P((n_1,n_2,...,n_m)(N)) \) erhöht werden. <br>Die größte Primzahl in der Zahlenmenge ist
+    \(h_p\). Falls \(p \lt h_p\) ist die Punktzahl \(P((p,n_1,n_2,...,n_m)(N)) \lt P((h_p,n_1,n_2,...,n_m)(N))\).
+    <br>Dies steht jedoch im Widerspruch zu unserer Annahme, dass die Zugfolge mit einer zusammengesetzen
+    Zahl optimal ist. Die größte Primzahl \(h_p\) muss demnach der beste erste Zug sein. q.e.d.
+  </p>
+
+  <p>
+    Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> berechnete optimale Ergebnisse bis zu
+    \(N=158\). Er erwähnt, dass die optimale Zugfolge im Falle, dass \(N\) eine Primzahl ist, einfach
+    identisch mit der optimalen Zugfolge von \(N-1\) ist, wobei die führende Primzahl in der Zugfolge für
+    \(N-1\) durch \(N\) ersetzt wird. Dieser Hinweis führt uns zu Theroem 3.
+  </p>
+
+  <h3>Theorem 3</h3>
+  <p>
+    Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. \((a(m))(N)) =
+    (n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge. <b>Wenn \(\boldsymbol{N+1}\) eine Primzahl ist,
+      dann ist eine optimale Zugfolge für die Zahlenmenge \(\boldsymbol{\{1,...N+1\}}\) gegeben durch
+      \(\boldsymbol{(N+1,n_2,...,n_m)(N+1)}\).</b>
+  </p>
+
+  <p>
+    <b>Beispiel:</b> <br> Sei \(\{1,2,3,4\}\) die Zahlenmenge. Die optimale Zugfolge ist \((3,4)(4)\).
+    \(5=4+1\) ist eine Primzahl. In diesem Fall ist die optimale Zugfolge \((5,4)(5)\).
+  </p>
+
+  <p>
+    <b>Beweis:</b> <br>\((a(m))(N)) = (n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge. <br>Die
+    optimale Punktzahl \(P_+\) ist: \(P(N) = \sum\limits_{i=1}^{m}n_i = n_1 + \sum\limits_{i=2}^{m}n_i\). <br>Theorem
+    2 besagt, dass \(n_1\) die höchste Primzahl in der Zahlenmenge ist. <br>Also nimmt \(n_1\) den
+    reellen Teiler \(1\) aus der Zahlenmenge weg und somit kann die verbleibende Zugfolge \((n_2,...,n_m)\)
+    als optimale Zugfolge für die Zahlenmenge \(\{2,...,N\}\setminus\{n_1\}\) interpretiert werden. <br>Theorem
+    2 besagt, dass der erste Zug für die Zahlenmenge \(\{1,...,N,N+1\}\) die höchste Primzahl ist, also
+    \(N+1\). <br>Die übrigen Zahlen bilden die Zahlenmenge \(\{2,...,N\}\). <br>Auf Seite 34 in <a
+      href="NumberSharkHelp-Bibliography.html">[5]</a> wird bewiesen, dass für alle \(n > 1, n \in \mathbb{N}
+    \), mindestens eine Primzahl \(p\) existiert, mit \(n \lt p \lt 2n\). <br>Es existiert also eine Primzahl
+    \(p\) zwischen \(\lfloor\frac{N}{2}\rfloor\) und \(N\). <br>Außerdem ist \(\lfloor\frac{N}{2}\rfloor
+    + 1 \leq p\), was bedeutet \(2 \cdot \lfloor\frac{N}{2}\rfloor + 2 \leq 2p\). <br>Außerdem kann man
+    leicht sehen, dass \(N \lt 2 \cdot \lfloor\frac{N}{2}\rfloor + 2\) ist. Das bedeutet, dass \(\frac{N}{2}-1 \lt
+    \lfloor\frac{N}{2}\rfloor\) ist. <br>Das bedeutet, dass bei \(n_1 \geq p\), \(n_1\) nicht zur
+    optimalen Punktzahl von \(\{2,...,N\}\) beitragen kann, weil \(n_1\) kein Teiler für eine Zahl in der
+    Zahlenmenge ist und \(n_1\) nur \(1\) als Teiler hat, die nicht in der Zahlenmenge ist. <br>Also ist
+    die optimale Punktzahl \(P_+(\{2,...,N\}) = P_+(\{2,...,N\} \setminus \{n_1\})\). <br>Somit ist
+    \(P_+(N+1) = (N+1) + P_+(\{2,...,N\} \setminus \{n_1\}) = P((N+1,n_2,...,n_m)(N+1))\). q.e.d.
+  </p>
+
+  <h3>Theorem 4</h3>
+  <p>
+    Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. \((a(m))(N)) =
+    (n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge. <b>Dann gilt für die optimale Punktzahl
+      \(\boldsymbol{P_+}\): </b>
+  </p>
+
+  \( \style{text-align:left;} { \begin{align*} \qquad P_+((n_1,n_2,...,n_m)(N)) \leq \frac{N(N+1)}{2} -
+  \sum\limits_{i=2, i \in \mathbb{P}}^N i - 1 \ \text{wobei gilt} \ i \neq h_p \end{align*} } \)
+
+
+  <p>
+    <b>Beispiel:</b> <br> Sei \(\{1,...,20\}\) die Zahlenmenge. Nimmt man die größte Primzahl \(19\), so
+    wird \(1\) als freier Teiler von \(19\) vom Zahlenhai genommen. Die Primzahlen \(2,3,5,7,11,13,17\)
+    befinden sich noch in der Zahlenmenge. Wenn Sie eine von ihnen auswählen, trägt diese Zahl zur Punktzahl
+    des Zahlenhais bei. Aber diejenigen \(\lt \frac{N}{2}\) (hier also \(2,3,5\) und \(7\)) könnten noch ein
+    freier Teiler einer anderen zusammengesetzten Zahl sein.
+  </p>
+
+  <p>
+    <b>Beweis:</b> <br>Für die gegebene Zahlenmenge \(\{1,...,N\}\) ist die Summe aller Zahlen nach C.F.
+    Gauß \(\frac{N(N+1)}{2}\). <br>Nach dem letzten Zug werden alle Zahlen entweder an den Spieler oder
+    an den Zahlenhai verteilt, <br>also optimale Punktzahl \(P_+(N)\) plus die Punktzahl des Zahlenhais
+    \(= \frac{N(N+1)}{2}\). <br>Gemäß Theorem 2 muss der erste Zug die höchste Primzahl \(h_p\) sein, um
+    die optimale Punktzahl zu erreichen. <br>Also trägt \(h_p\) zur optimalen Punktzahl bei, \(1\) als
+    realer Teiler zur Punktzahl des Zahlenhais. <br>Alle anderen Primzahlen haben nun keine echten Teiler
+    mehr, d.h. sie tragen alle zum Ergebnis des Zahlenhais bei. Wenn Sie eine von ihnen auswählen, wird die
+    Primzahl zur Punktzahl des Zahlenhais hinzugefügt. Ist die Primzahl ein echter Teiler einer anderen Zahl,
+    so trägt auch diese Zahl zur Punktzahl des Zahlenhais bei. Somit tragen alle Primzahlen (außer \(h_p\))
+    zur Punktzahl des Zahlenhais bei.
+  </p>
+  <p>Es gilt also für das Optimum an erreichbaren Punkten: \(P_+((n_1,n_2,...,n_m)(N)) \leq
+    \frac{N(N+1)}{2} - \sum\limits_{i=2, i \in \mathbb{P}}^N i - 1 \ \text{wobei gilt} \ i \neq h_p\). q.e.d.
+  </p>
+
+  <p>
+    Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> erwähnt, dass der zweite Zug normalerweise
+    das höchste Quadrat einer Primzahl ist, die \(N\) nicht überschreitet. Wenn man seine optimalen Zugfolgen
+    analysiert, scheint dies in der Regel richtig zu sein. Aber leider ist das nicht in allen Fällen richtig.
+  </p>
+
+  <h3>Theorem 5</h3>
+  <p>
+    <b>Der zweite Zug \(\boldsymbol{n_2}\) einer optimalen Zugfolge ist nicht immer das höchste Quadrat
+      einer Primzahl, die nicht größer als \(\boldsymbol{N}\) ist.</b>
+  </p>
+
+  <p>
+    <b>Beweis:</b> <br>Die folgende Abbildung zeigt einen Teilbarkeitsgraphen (<a
+      href="NumberSharkHelp-Bibliography.html">[5], Seite 25</a>) von \(N=8\). <br>Nach Theorem 2 muss
+    der erste Zug die höchste Primzahl sein, also \(7\). Nach diesem Zug kann der Graph modifiziert werden.
+    Die \(1\) als Teiler von \(7\) und die Primzahlen \(5\) und \(7\) können aus dem Graphen entfernt werden.
+    Wenn der zweite Zug das höchste Quadrat einer Primzahl ist, die nicht größer als \(8\) ist, muss es \(4\)
+    sein. Wählt man \(4\), kann der Teiler \(2\) von \(4\) aus dem Graphen entfernt werden und es bleiben die
+    \(8\), \(6\) und \(4\) übrig. Nur die \(6\) hat noch einen freien, reellen Teiler übrig. Daher kann auch
+    die \(8\) aus dem Graphen entfernt werden. Der letzte Zug ist also die \(6\) und die Zugfolge ist
+    \((7,4,6)\), was zur Punktzahl \(17\) führt. <br>Aber für \(N=8\) ist die optimale Punktzahl \(21\)
+    und eine optimale Zugfolge ist \((7,8,6)\). q.e.d.
+  </p>
+
+  <img src="Appendix_Theorem5.jpg" alt="Drei Graphen mit Zahlen bis 8 die die Zugfolge 7,5,6 darstellen
+  Im ersten Graphen sind alle Zahlen zu sehen. Im zweiten Graphen fällt 7 und somit auch 1 und 5 weg.
+  Im 3. Graphen bleiben nur noch 6 und 3 über, was eine Punktahl von 17 ergibt.">
+
+  <p>
+    Weitere Beispiele sind die Fälle \(N=20\) und \(N=120\). Die entsprechenden optimalen Zugfolgen sind unten
+    aufgeführt. Im Fall von \(N=20\) ist sogar das höchste Quadrat einer Primzahl, die \(20\) nicht
+    überschreitet, nämlich \(9\), nicht Teil der optimalen Zugfolge. Für \(N=120\) ist \(25\) der zweite Zug
+    anstelle von \(49\). Für diese Zugfolgen habe ich keine Beweise. Sie beruhen auf den Ergebnissen von Dan
+    Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a>. <br>\(N=20:\) 19,15,10,20,16,14,12,18, <br>\(N=120:\)
+    113,25,115,95,85,119,91,77,69,111,93,87,75,74,118,106,94,86,82,50,45,117,99,81,63,105,70,98,42,78,66,110,52,116,104,
+    100,92,88,76,114,68,102,56,112,84,80,64,60,120,96,90,72,108,
+  </p>
+
+  <p>Während meiner Untersuchungen habe ich einige Verhaltensweisen der Zugfolgen beobachtet, die mich zu
+    einigen Ideen angeregt haben. Bisher konnte ich diese Beobachtungen noch nicht beweisen, aber ich möchte
+    sie zumindest erwähnen.</p>
+
+  <h3>Beobachtung 1</h3>
+  <p>Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. \((a(m))(N)) =
+    (n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge. Dann ist die optimale Punktzahl</p>
+
+  \( \style{text-align:left;} { \begin{align*} \qquad S_+((n_1,n_2,...,n_m)(N)) \geq h_p +
+  \sum\limits_{i=K}^{N} i, \ \text{wobei für} \ i \ \text{gilt} \ i \in \mathbb{N} \setminus \mathbb{P}
   \end{align*} } \)
 
-<p>
-z.B. ist die optimale Punktzahl für \(N = 20\) ist: \(P_+(20) = 124\).
-</p>
+  <p>Die Auswahl von \(K\) erfolgt so, dass \(h_p + \sum\limits_{i=K}^{N} i \geq \frac{N(N+1)}{4}\) und
+    \(h_p + \sum\limits_{i=K+1}^{N} i \lt \frac{N(N+1)}{4}\), wobei für alle \(i\) gilt: \(i \in \mathbb{N}
+    \setminus \mathbb{P}\). Oder mit anderen Worten, eine optimale Zugfolge muss mindestens alle Zahlen \(i\)
+    enthalten, \(i\) ist Element \(\{K,...,N\} \setminus \mathbb{P}\).</p>
 
-<p><b>„Optimaler Pfad“ oder „Optimale Zugfolge“:</b>
-<br>Wenn die Puntzahl \(P\) für eine Zugfolge \((a(m))(N)\) die optimale Punktzahl \(P_+(N) = P(a(m)(N))\) ist, so wird
-die Zugfolge als optimaler Pfad oder optimale Zugfolge bezeichnet. 
-</p>
+  <p>Das Spiel enthält eine Funktion zur Überprüfung der Beobachtung. Das Ergebnis wird auf der Konsole
+    ausgegeben, nachdem eine der unten genannten Strategien ausgeführt wurde.</p>
 
-<p><b>Größte Primzahl \(\boldsymbol{h_p}\):</b>
-<br>\(h_p :=\) die größte Primzahl in der Zahlenmenge {1,...N}
-</p>
+  <h3>Beobachtung 2</h3>
+  <p>Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. Für \(N>3\)
+    existiert immer eine Zugfolge \((a(m))(N)) = (n1,n2,...,nm)(N)\) mit \(P((n_1,n_2,...,n_m)(N)) >
+    \frac{N(N+1)}{4}\). Mit anderen Worten: Sie können immer gegen den Zahlenhai gewinnen. Meine Hilfsfunktion
+    erzeugt immer eine solche Zugfolge. Details dazu finden Sie im nächsten Kapitel.</p>
 
-<h2>2. Theoreme and Beobachtungen</h2>
+  <h3>Beobachtung 3</h3>
+  <p>
+    Angenommen, \(\{1,...(N+1)\}\) mit \((N+1) \in \mathbb{N}\), ist die gegebene Zahlenmenge. \((a(m))(N)) =
+    (n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge. Dann ist <br>\(a(m))(N+1)) =
+    (N+1,n_2,...,n_m)(N)\) ein optimaler Zug, wenn \(N+1\) prim ist, sonst \(f((n_1,n_2,...,n_m)(N))\) <br>mit
+    \(f:(n_1,n_2,...,n_m)(N) \to (n_1,n_2,...,n_m')(N+1)\) als noch nicht bekannter Algorithmus oder Funktion.
+    <br>Wenn \((N+1)\) eine Primzahl ist, beweist Theorem 3 den ersten Teil des rekursiven Algorithmus. <br>Meine
+    Ergebnisse für eine Funktion \(f\) finden Sie im nächsten Kapitel.
+  </p>
 
-<h3>Theorem 1</h3>
-<p><b>Die optimale Zugfolge ist nicht immer eindeutig.</b></p>
+  <h3>Beobachtung 4</h3>
+  <p>
+    Die Primzahlen spielen eine entscheidende Rolle, um die optimale Punktzahl zu erreichen. Geben Sie dem
+    Zahlenhai die Primzahlen so langsam wie möglich. So langsam wie möglich bedeutet, nur eine oder zwei pro
+    Zug. Während des Spiels wird es passieren, dass zusammengesetzte Zahlen zu Pseudo-Primzahlen werden. Ich
+    nenne zusammengesetzte Zahlen, die keine freien, reellen Teiler mehr haben Pseudo-Primzahlen. <br>Z.B.
+    hat \(12\) zu Beginn eines Spiels die realen, freien Teiler \(6,4,3,2\) und \(1\). Nach einer Weile
+    Spielzeit hat \(12\) vielleicht nur noch die freien, realen Teiler \(6\) und \(4\). Da \(3,2\) und \(1\)
+    weg sind, haben \(6\) und \(4\) keine freien, reellen Teiler mehr, so dass \(6\) und \(4\) nach meiner
+    Definition Pseudo-Primzahlen sind. <br>Bei größeren Zahlenmengen müssen auch die Pseudoprimzahlen
+    berücksichtigt werden. Meine vorherige Aussage könnte also dahingehend geändert werden, dass ich versuche,
+    dem Zahlenhai so langsam wie möglich Prim- und Pseudoprimzahlen zu geben.
+  </p>
 
-<p><b>Beweis durch Beispiel:</b>
-<br>Siehe die verschiedenen Zugfolgen für \(N=20\) oder \(N=158\) im <a href="NumberSharkHelp-Appendix.html">Anhang</a>. q.e.d.
-</p>
+  <h3>Beobachtung 5</h3>
+  <p>
+    Für die Länge \(l\) der optimalen Zugfolge gilt die folgende Ungleichung: <br>\(l \geq
+    \lfloor\frac{N}{2}\rfloor - (\pi(N) - \pi(\lceil\frac{N}{2}\rceil) + 1\), wobei \(\pi(N)\) die Anzahl der
+    Primzahlen \(\leq N\) ist.
+  </p>
+  <p>
+    z.B. \(N=3, \lfloor\frac{3}{2}\rfloor=1, \lceil\frac{3}{2}\rceil=2, \to l \geq 1-(2-1)+1 = 1\)<br>
+    z.B. \(N=10, \lfloor\frac{10}{2}\rfloor= \lceil\frac{10}{2}\rceil=5, \to l \geq 5-(4-3)+1 = 5\)<br>
+    z.B. \(N=20, \lfloor\frac{20}{2}\rfloor= \lceil\frac{20}{2}\rceil=10, \to l \geq 10-(8-4)+1 = 7\)<br>
+    z.B. \(N=51, \lfloor\frac{51}{2}\rfloor=25, \lceil\frac{51}{2}\rceil=26, \to l \geq 25-(15-9)+1 = 20\)<br>
+    z.B. \(N=79, \lfloor\frac{79}{2}\rfloor=39, \lceil\frac{79}{2}\rceil=40, \to l \geq 39-(22-12)+1 = 30\)<br>
+    z.B. \(N=100, \lfloor\frac{100}{2}\rfloor=\lceil\frac{100}{2}\rceil=50, \to l \geq 50-(25-15)+1 = 41\)<br>
+    z.B. \(N=158, \lfloor\frac{158}{2}\rfloor=\lceil\frac{158}{2}\rceil=79, \to l \geq 79-(37-22)+1 = 65\)<br>
+    z.B. \(N=256, l \geq 106\)<br> z.B. \(N=512, l \geq 214\)<br> z.B. \(N=1024, l \geq 438\)<br>
+  </p>
 
-<p> Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> schreibt:</p>
-<p style="margin-left:10px">
-<cite >„The game can be played on an arbitrary vertex-labeled directed graph,
-and graph-theoretical constraints are useful in reducing the search
-space.  For instance, after several moves are made, the divisibility
-graph on the remaining choices often becomes disconnected, and the
-components can be optimized independently of one another.“</cite>
-</p>
-<p style="margin-left:10px">
-<cite >„Das Spiel kann auf einem beliebigen gerichteten Graphen mit beschrifteten Knoten gespielt werden.
-Graphentheoretische Einschränkungen sind nützlich, um den Suchraum zu reduzieren. Zum Beispiel spaltet sich
-der Teilbarkeitsgraph der verbleibenden Wahlmöglichkeiten oft nach mehreren Zügen.
-Diese Komponenten des Graphs können dann unabhängig voneinander optimiert werden.“</cite>
-</p>
-<p>
-Mit anderen Worten: Die Reihenfolge der Komponenten kann beliebig sein, was zu mehreren optimalen
-Zugfolgen führt. 
-</p>
+  <p>Das Spiel enthält eine Funktion zur Berechnung der geschätzten Länge. Das Ergebnis wird auf der
+    Konsole ausgegeben, nachdem eine der unten genannten Strategien ausgeführt wurde.</p>
 
-<p>Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> hat bereits gezeigt, dass die
-beste Wahl für den ersten Zug immer die höchste Primzahl ist, die \(N\) nicht übersteigt. Er gab
-dafür aber keinen strengen Beweis (nur Plausibilität). Lassen Sie es mich
-auf eine formale, mathematische Weise tun.</p>
+  <h2>3. Strategien</h2>
 
-<h3>Theorem 2</h3>
-<p>Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. \(h_p\) ist die
-höchste Primzahl der Zahlenmenge.
-Dann muss der <b>erste Zug</b>, um eine optimale Punktzahl zu erhalten, <b>immer die höchste Primzahl
-\(\boldsymbol{h_p}\) sein.</b></p>
+  <p>
+    Wenn man ein wenig mit dem Spiel herumspielt, wird man irgendwie zu dem Schluss kommen, dass die optimale
+    Zugfolge davon abhängt, <cite>die obligatorischen Faktoren so langsam wie möglich zu verbrauchen <a
+      href="NumberSharkHelp-Bibliography.html">[2]</a>.
+    </cite> Einen guten Überblick über einige Strategien finden Sie in <a href="NumberSharkHelp-Bibliography.html">[3]</a>.
+    Ich habe unabhängig davon ähnliche Strategien gefunden. Die interessantesten Strategien aus der Quelle
+    werde ich im nächsten Kapitel erläutern.
+  </p>
 
-<p><b>Beispiel:</b>
-<br> Sei \(\{1,2,3,4\}\) die Zahlenmenge. \(h_p=3\) ist die höchste Primzahl. Für dieses Beispiel kann man
-leicht sehen, dass die \(3\) an den Zahlenhai verloren geht, wenn man die \(3\) nicht im ersten Zug nimmt.
-Wenn man also mit der \(3\) im ersten Zug beginnt, können Sie sich diese Zahl für ihr Ergebnis sichern. </p>
+  <h3>Tronos Strategie #3, #7 and #9 (Gewinner-Strategie, auch genutzt für die Hinweise an den Benutzer)</h3>
 
-<p><b>Beweis durch Widerspruch</b>
-<br>Angenommen, \((a(m)(N)) = (n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge und \(n_1\) als
-Zahl für den ersten Zug ist keine Primzahl.
-<br>Das heißt, \(P_+(N) = P((n_1,n_2,...,n_m)(N))\).
-<br>Als zusammengesetzte Zahl hat \(n_1\) mindestens zwei ganze Teiler. Einer dieser Teiler ist \(1\),
-sowie zumindest eine Primzahl \(p\), die kleiner sein muss als \(n_1\) und ebenfalls in der Zahlenmenge ist.
-<br>Da der Zahlenhai kleinere Teiler einer gewählten Zahl frisst, kann die Punktzahl von 
-\(((n_1,n_2,...,n_m)(N))\) durch die Zugfolge <br>\(((p,n_1,n_2,...,n_m)(N))\), mit
-\(p + P((n_1,n_2,...,n_m)(N)) \) erhöht werden.
-<br>Die größte Primzahl in  der Zahlenmenge ist \(h_p\). Falls \(p < h_p\) ist die Punktzahl
-\(P((p,n_1,n_2,...,n_m)(N)) < P((h_p,n_1,n_2,...,n_m)(N))\).
-<br>Dies steht jedoch im Widerspruch zu unserer Annahme, dass die Zugfolge mit einer zusammengesetzen
-Zahl optimal ist. Die größte Primzahl \(h_p\) muss demnach der beste erste Zug sein. q.e.d. 
-</p>
+  <p>
+    In <a href="NumberSharkHelp-Bibliography.html">[3]</a> erwähnt John Trono einige Strategien, um eine
+    Zugfolge zu berechnen, um das Spiel zu gewinnen und eine möglichst hohe Punktzahl zu erreichen. Ich habe
+    versucht, seine Strategie #7 umzusetzen. Mit dieser Strategie hat er die höchsten Punktzahlen für
+    \(N=256\) und \(N=512\) berechnet (<a href="NumberSharkHelp-Appendix.html">Anhang</a>). Seine Strategie
+    ist wie folgt definiert.
+  </p>
 
-<p>Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> berechnete optimale Ergebnisse bis
-zu \(N=158\). Er erwähnt, dass die optimale Zugfolge im Falle, dass \(N\) eine Primzahl ist, einfach
-identisch mit der optimalen Zugfolge von \(N-1\) ist, wobei die führende Primzahl in der Zugfolge für
-\(N-1\) durch \(N\) ersetzt wird. Dieser Hinweis führt uns zu Theroem 3. 
-</p>
+  <p style="margin-left: 10px">
+    <cite>Gehen Sie in 3 Schritten vor: Wählen Sie die größte Primzahl; wählen Sie dann die ungeraden
+      Zahlen, beginnend mit der größten und arbeiten Sie abwärts, bis \(\frac{N}{2}\) erreicht ist; und wählen
+      Sie schließlich die geraden Zahlen, beginnend mit \(\frac{N}{2}+1\) und arbeiten Sie aufwärts zu \(N\).</cite>
+  </p>
 
-<h3>Theorem 3</h3>
-<p>Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. \((a(m))(N)) = 
-(n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge. <b>Wenn \(\boldsymbol{N+1}\) eine Primzahl ist, dann ist eine optimale
-Zugfolge für die Zahlenmenge \(\boldsymbol{\{1,...N+1\}}\) gegeben durch \(\boldsymbol{(N+1,n_2,...,n_m)(N+1)}\).</b></p>
+  <p>Leider konnte ich seine Ergebnisse nicht reproduzieren. Daher beschloss ich, seine Strategie Nr. 3
+    umzusetzen. Diese Strategie ist wie folgt definiert:</p>
+  <p style="margin-left: 10px">
+    <cite>Nehmen Sie immer die größte aktive ganze Zahl mit nur einem aktiven Teiler (kleiner als
+      dieser).</cite>
+  </p>
 
-<p><b>Beispiel:</b>
-<br> Sei \(\{1,2,3,4\}\) die Zahlenmenge. Die optimale Zugfolge ist \((3,4)(4)\). \(5=4+1\) ist eine Primzahl.
-In diesem Fall ist die optimale Zugfolge \((5,4)(5)\).</p>
+  <p>Diese Strategie funktioniert sehr gut bei größeren Zahlenmengen. Sie können sehr schnelle Zugfolgen
+    mit hoher Punktzahl berechnen.</p>
 
-<p><b>Beweis:</b>
-<br>\((a(m))(N)) = (n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge.
-<br>Die optimale Punktzahl \(P_+\) ist: \(P(N) = \sum\limits_{i=1}^{m}n_i = n_1 + \sum\limits_{i=2}^{m}n_i\).
-<br>Theorem 2 besagt, dass \(n_1\) die höchste Primzahl in der Zahlenmenge ist.
-<br>Also nimmt \(n_1\) den reellen Teiler \(1\) aus der Zahlenmenge weg und somit kann die verbleibende
-Zugfolge \((n_2,...,n_m)\) als optimale Zugfolge für die Zahlenmenge \(\{2,...,N\}\setminus\{n_1\}\) interpretiert werden.
-<br>Theorem 2 besagt, dass der erste Zug für die Zahlenmenge \(\{1,...,N,N+1\}\) die höchste Primzahl ist, also \(N+1\).
-<br>Die übrigen Zahlen bilden die Zahlenmenge \(\{2,...,N\}\). 
-<br>Auf Seite 34 in <a href="NumberSharkHelp-Bibliography.html">[5]</a> wird bewiesen, dass für alle \(n > 1,
-n \in \mathbb{N} \), mindestens eine Primzahl \(p\) existiert, mit \(n < p < 2n\).
-<br>Es existiert also eine Primzahl \(p\) zwischen \(\lfloor\frac{N}{2}\rfloor\) und \(N\).
-<br>Außerdem ist \(\lfloor\frac{N}{2}\rfloor + 1 \leq p\), was bedeutet \(2 \cdot \lfloor\frac{N}{2}\rfloor + 2 \leq 2p\).
-<br>Außerdem kann man leicht sehen, dass \(N < 2 \cdot \lfloor\frac{N}{2}\rfloor + 2\) ist. Das bedeutet, dass
-\(\frac{N}{2}-1 < \lfloor\frac{N}{2}\rfloor\) ist.
-<br>Das bedeutet, dass bei \(n_1 \geq p\), \(n_1\) nicht zur optimalen Punktzahl von \(\{2,...,N\}\) beitragen kann,
-weil \(n_1\) kein Teiler für eine Zahl in der Zahlenmenge ist und \(n_1\) nur \(1\) als Teiler hat, die nicht in
-der Zahlenmenge ist.
-<br>Also ist die optimale Punktzahl \(P_+(\{2,...,N\}) = P_+(\{2,...,N\} \setminus \{n_1\})\).
-<br>Somit ist \(P_+(N+1) = (N+1) + P_+(\{2,...,N\} \setminus \{n_1\}) = P((N+1,n_2,...,n_m)(N+1))\). q.e.d.
-</p>
+  <p>Eine Abwandlung dieser Strategie besteht darin, nur nach der größten aktiven ganzen Zahl mit den
+    wenigsten Teilern zu suchen. Diese Strategie kann so modifiziert werden, dass man die größte aktive ganze
+    Zahl mit den wenigsten Teilern sucht, die größer als ein bestimmter Grenzwert ist. Tronos Strategie #9
+    verwendet genau diese Strategie mit dem Grenzwert \(\frac{N}{2}-1\). Tatsächlich war dies auch meine erste
+    Strategie. In meinem Fall ist der Grenzwert \(\frac{N}{2}+1\). Übrigens ist diese Strategie für das
+    Support-Feature implementiert. Mein Ansatz war, eine immer gewinnende Strategie zu finden, d.h. für jede
+    Zahlenmenge eine Zugfolge zu finden, die einen gegen den Zahlenhai gewinnen lässt. Offensichtlich löst
+    diese Strategie das Problem. Für die weitere Diskussion nenne ich diese Strategie die "Winner"-Strategie.</p>
 
-<h3>Theorem 4</h3>
-<p>Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. \((a(m))(N)) = 
-(n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge.
-<b>Dann gilt für die optimale Punktzahl \(\boldsymbol{P_+}\): </b></p>
+  <h3>Schus Zufallsstrategie 1</h3>
 
-  \( \style{text-align:left;} { \begin{align*}
-    \qquad  P_+((n_1,n_2,...,n_m)(N)) \leq \frac{N(N+1)}{2} - \sum\limits_{i=2, i \in \mathbb{P}}^N i - 1 \ 
-    \text{wobei gilt} \ i \neq h_p 
-  \end{align*} } \)
+  <p>
+    Mein nächster Schritt bestand darin, eine Strategie zu finden, die eine optimale Punktzahl oder zumindest
+    eine Punktzahl, die einer Optimalen so nahe wie möglich kommt, ermitteln kann. Ich fand heraus, dass die
+    Ergebnisse meiner bisherigen "Winner"-Strategie von einem geschickt gewählten Grenzwert abhängen. Werfen
+    wir einen Blick auf ein Beispiel: <br>Die Größe \(N\) der Zahlenmenge ist \(20\). In diesem Fall
+    würde mein Grenzwert zu \(\frac{20}{2}+1 = 11\) berechnet werden, also genau \(12\), denn 11 ist eine
+    Primzahl, die keine Wirkung hat. Somit würde mein Algorithmus nicht die optimale Punktzahl finden, da
+    \(10\) benötigt wird <a href="NumberSharkHelp-Appendix.html">Anhang</a>). Aber auch Tronos Strategien
+    würden scheitern, denn der Grenzwert wäre \(\frac{20}{2}-1=9\). Tronos Strategien würden also die \(9\)
+    als zweiten Zug nehmen, was nicht zu einer optimalen Punktzahl führt. Für \(N=20\) würde der Grenzwert
+    \(10\) meine Strategie zu einem optimalen Ergebnis führen. Im Gegensatz dazu ist diese Grenze für \(N=21\)
+    oder \(N=19\) nicht optimal. Auch hier wäre der Grenzwert \(9\) die optimale Wahl. <br>Die erste
+    Idee, die auf dieser Erkenntnis beruht, könnte also sein, für eine gegebene Zahlenmenge den Algorithmus
+    mit verschiedenen Grenzwerten von \(0\) bis \(\frac{N}{2}+1\) laufen zu lassen, um eine möglichst hohe
+    Punktzahl zu erhalten. Aber wenn man sich weiter zu größeren Zahlenmengen bewegt, wird man sehen, dass
+    dies nicht ausreicht. Irgendwie sollte sich der Grenzwert auch während des Spiels ändern. <br>Mein
+    zweiter Ansatz war, während des Spiels nach jedem Zug den Grenzwert zufällig von \(0\) auf
+    \(\frac{N}{2}+1\) zu ändern. Dies führt bereits zu besseren Ergebnissen. Aber um bessere Ergebnisse für
+    größere Zahlenmengen zu erhalten, müssen Pseudo-Primzahlen berücksichtigt werden. Pseudo-Primzahlen werden
+    scheinbar selten verwendet, aber manchmal werden sie eingesetzt. Pseudo-Primzahlen befinden sich im
+    Intervall \(N\) bis \(\frac{N}{2}+1\). Also habe ich eine zweite Grenze eingeführt, die sich ebenfalls
+    zufällig im Intervall \(N\) bis \(\frac{N}{2}+1\) ändert. Meine Strategie kann also wie folgt ausgedrückt
+    werden:
+  </p>
+  <p>
+    Schritt 1: Berechne zufällig einen ersten Grenzwert aus dem Intervall \(\frac{N}{2}+1\) bis hinunter zu
+    \(0\). <br>Schritt 2: Nimm die größte aktive ganze Zahl mit den wenigsten Teilern im Intervall \(N\)
+    bis hinunter zu einem ersten Grenzwert. <br>Schritt 3: Berechne zufällig einen zweiten Grenzwert aus
+    dem Intervall \(N\) bis hinunter zu \(\frac{N}{2}+1\). <br>Schritt 4: Nimm die größte Pseudoprimzahl
+    im Intervall \(N\) bis hinunter zu einem zweiten Grenzwert. <br>Schritt 5: Nimm als aktuellen Zug
+    zufällig eine Zahl aus den in Schritt 2 und 4 berechneten Zahlen. <br>Step 6: Wiederhole ab Schritt
+    1, solange noch freie Zahlen vorhanden sind.
+  </p>
 
+  <h3>Schus Zufallsstrategie 2</h3>
 
-<p><b>Beispiel:</b>
-<br> Sei \(\{1,...,20\}\) die Zahlenmenge. Nimmt man die größte Primzahl \(19\), so wird \(1\) als freier Teiler
-von \(19\) vom Zahlenhai genommen. Die Primzahlen \(2,3,5,7,11,13,17\) befinden sich noch in der Zahlenmenge.
-Wenn Sie eine von ihnen auswählen, trägt diese Zahl zur Punktzahl des Zahlenhais bei. Aber diejenigen
-\(< \frac{N}{2}\) (hier also \(2,3,5\) und \(7\)) könnten noch ein freier Teiler einer anderen zusammengesetzten Zahl sein.
-</p>
+  <p>Diese Strategie ist ähnlich wie Strategie 1. Die Modifikation beruht darauf, dass mindestens die
+    größte ganze Zahl mit den wenigsten Teilern im Intervall von \(N\) bis hinunter zu \(\frac{N}{2}+1\)
+    berücksichtigt werden soll. Nur wenn es im Intervall \(\frac{N}{2}+1\) bis hinunter zu \(0\) Zahlen mit
+    einer geringeren Anzahl von Teilern gibt, sind auch diese von Interesse. Die Strategie 2 kann also wie
+    folgt beschrieben werden:</p>
+  <p>
+    Schritt 1: Nimm die größte aktive ganze Zahl mit dem kleinsten Teiler aus dem Intervall \(N\) bis
+    \(\frac{N}{2}+1\). <br>Schritt 2: Berechne zufällig einen ersten Grenzwert aus dem Intervall
+    \(\frac{N}{2}+1\) bis hinunter zu \(0\). <br>Schritt 3: Nimm alle aktiven ganzen Zahlen im Intervall
+    \(N\) bis hinunter zu einem ersten Grenzwert, <br>dessen Anzahl der Teiler kleiner ist als die Anzahl
+    der Teiler der Zahl in Schritt 1. <br>Schritt 4: Berechne zufällig einen zweiten Grenzwert aus dem
+    Intervall \(N\) bis hinunter zu \(\frac{N}{2}+1\). <br>Schritt 5: Nimm die größte Pseudoprimzahl im
+    Intervall \(N\) bis zu einem zweiten Grenzwert. <br>Schritt 5: Nimm als aktuellen Zug zufällig eine
+    Zahl aus den in Schritt 1, 2 und 4 berechneten Zahlen. <br>Schritt 7: Wiederhole ab Schritt 1,
+    solange noch freie Zahlen vorhanden sind.
+  </p>
 
-<p><b>Beweis:</b>
-<br>Für die gegebene Zahlenmenge \(\{1,...,N\}\) ist die Summe aller Zahlen nach C.F. Gauß \(\frac{N(N+1)}{2}\).
-<br>Nach dem letzten Zug werden alle Zahlen entweder an den Spieler oder an den Zahlenhai verteilt,
-<br>also optimale Punktzahl \(P_+(N)\) plus die Punktzahl des Zahlenhais \(= \frac{N(N+1)}{2}\).
-<br>Gemäß Theorem 2 muss der erste Zug die höchste Primzahl \(h_p\) sein, um die optimale Punktzahl zu erreichen.
-<br>Also trägt \(h_p\) zur optimalen Punktzahl bei, \(1\) als realer Teiler zur Punktzahl des Zahlenhais. 
-<br>Alle anderen Primzahlen haben nun keine echten Teiler mehr, d.h. sie tragen alle zum Ergebnis 
-des Zahlenhais bei. Wenn Sie eine von ihnen auswählen, wird die Primzahl zur Punktzahl des Zahlenhais
-hinzugefügt. Ist die Primzahl ein echter Teiler einer anderen Zahl, so trägt auch diese Zahl zur
-Punktzahl des Zahlenhais bei. Somit tragen alle Primzahlen (außer \(h_p\)) zur Punktzahl des Zahlenhais bei.
-</p>
-<p>
-Es gilt also für das Optimum an erreichbaren Punkten: \(P_+((n_1,n_2,...,n_m)(N)) \leq \frac{N(N+1)}{2} - 
-\sum\limits_{i=2, i \in \mathbb{P}}^N i - 1 \ \text{wobei gilt} \ i \neq h_p\). q.e.d. 
-</p>
+  <h3>Schus rekursive Strategie</h3>
 
-<p>Dan Hoey <a href="NumberSharkHelp-Bibliography.html">[2]</a> erwähnt, dass der zweite Zug
-normalerweise das höchste Quadrat einer Primzahl ist, die \(N\) nicht überschreitet. Wenn man seine
-optimalen Zugfolgen analysiert, scheint dies in der Regel richtig zu sein. Aber leider ist das nicht
-in allen Fällen richtig.
-</p>
+  <p>Auf der Grundlage von Beobachtung 3 habe ich einen rekursiven Algorithmus entwickelt. Um eine
+    geeignete Funktion \(f\) zu definieren, analysierte ich alle optimalen Zugfolgen. Ich beobachtete, dass
+    sich beim Übergang von der optimalen Zugfolge von \(N\) zu \(N+1\) nur ein Teil der Zahlen ändert. Sehr
+    oft trat einer der drei folgenden Fälle auf:</p>
 
-<h3>Theorem 5</h3>
-<p><b>Der zweite Zug \(\boldsymbol{n_2}\) einer optimalen Zugfolge ist nicht immer das höchste Quadrat einer Primzahl, die nicht
-größer als \(\boldsymbol{N}\) ist.</b></p>
+  <p>
+    Fall 1: Es wurde nur die neue Zahl \(N+1\) hinzugefügt und der Rest der Zugfolge von \(N\) wird
+    beibehalten. <br>Fall 2: Die neue Zahl \(N+1\) wurde hinzugefügt und der Rest der Zugfolge \(N\) wird
+    bis auf eins beibehalten. <br>Fall 3: Die neue Zahl wurde hinzugefügt und der Rest der Zugfolge \(N\)
+    wird beibehalten, bis auf eine, die durch eine neue Zahl ersetzt wurde.
+  </p>
+  <p>Generell ist zu beobachten, dass von \(N \to N+1\) entweder die Länge der Zugfolge beibehalten oder
+    um eins erhöht wird. Es wird immer die neue Zahl \(N+1\) beibehalten und der Rest der Zugfolge \(N\) wird
+    neben \(r\) Zahlen beibehalten, wobei \(r\) ein Element von \(\{0,...,R\}, R \in \mathbb{R}\) und \(R \geq
+    7\) ist. Ich habe die Unterschiede von \(N \to N+1\) unten aufgelistet. Es sind nur Unterschiede mit \(r >
+    2\) erwähnt. Alle anderen Unterschiede sind \(1\) oder \(2\). Zumindest bis \(N=158\), beim Übergang von
+    \(127\) auf \(128\) war die größte Differenz \(7\). Deshalb habe ich \(R \geq 7\) definiert.</p>
+  <p>
+    \(N =\) Zahlenmengengröße (Differenzen der optimalen Zugfolge von \(N \to N+1\)) <br>\(N=20(3)\),
+    \(N=34(3)\), \(N=44(3)\), \(N=53(5)\), \(N=69(3)\), \(N=76(4)\), \(N=77(3)\), \(N=80(5)\), \(N=83(4)\),
+    \(N=104(3)\), \(N=119(5)\), \(N=125(4)\), \(N=127(7)\)
+  </p>
 
-<p><b>Beweis:</b>
-<br>Die folgende Abbildung zeigt einen Teilbarkeitsgraphen (<a href="NumberSharkHelp-Bibliography.html">[5], Seite 25</a>) von \(N=8\).
-<br>Nach Theorem 2 muss der erste Zug die höchste Primzahl sein, also \(7\). Nach diesem Zug kann der
-Graph modifiziert werden. Die \(1\) als Teiler von \(7\) und die Primzahlen \(5\) und \(7\) können aus dem Graphen
-entfernt werden. Wenn der zweite Zug das höchste Quadrat einer Primzahl ist, die nicht größer als \(8\)
-ist, muss es \(4\) sein. Wählt man \(4\), kann der Teiler \(2\) von \(4\) aus dem Graphen entfernt werden und es
-bleiben die \(8\), \(6\) und \(4\) übrig. Nur die \(6\) hat noch einen freien, reellen Teiler übrig. Daher kann auch
-die \(8\) aus dem Graphen entfernt werden. Der letzte Zug ist also die \(6\) und die Zugfolge ist \((7,4,6)\),
-was zur Punktzahl \(17\) führt.
-<br>Aber für \(N=8\) ist die optimale Punktzahl \(21\) und eine optimale Zugfolge ist \((7,8,6)\). q.e.d.
-</p>
+  <p>Die aktuelle Version des Programms Zahlenhai hat eine Funktion \(f\) implementiert, die versucht, die
+    drei oben genannten Fälle zu realisieren.</p>
 
-<img src="Appendix_Theorem5.jpg"
-	alt="State Diagram of the Number Shark program"></img>
-
-<p>Weitere Beispiele sind die Fälle \(N=20\) und \(N=120\). Die entsprechenden optimalen Zugfolgen sind
-unten aufgeführt. Im Fall von \(N=20\) ist sogar das höchste Quadrat einer Primzahl, die \(20\) nicht
-überschreitet, nämlich \(9\), nicht Teil der optimalen Zugfolge. Für \(N=120\) ist \(25\) der zweite Zug
-anstelle von \(49\). Für diese Zugfolgen habe ich keine Beweise. Sie beruhen auf den Ergebnissen von Dan
-Hoey  <a href="NumberSharkHelp-Bibliography.html">[2]</a>.
-<br>\(N=20:\) 19,15,10,20,16,14,12,18,
-<br>\(N=120:\) 113,25,115,95,85,119,91,77,69,111,93,87,75,74,118,106,94,86,82,50,45,117,99,81,63,105,70,98,42,78,66,110,52,116,104,
-100,92,88,76,114,68,102,56,112,84,80,64,60,120,96,90,72,108,
-</p>
-
-<p>
-Während meiner Untersuchungen habe ich einige Verhaltensweisen der Zugfolgen beobachtet, die mich zu
-einigen Ideen angeregt haben. Bisher konnte ich diese Beobachtungen noch nicht beweisen, aber ich
-möchte sie zumindest erwähnen.
-</p>
-
-<h3>Beobachtung 1</h3>
-<p>Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. \((a(m))(N)) = 
-(n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge. Dann ist die optimale Punktzahl
-</p>
- 
-  \( \style{text-align:left;} { \begin{align*}
-    \qquad  S_+((n_1,n_2,...,n_m)(N)) \geq h_p + \sum\limits_{i=K}^{N} i, \ \text{wobei für} \ i \ \text{gilt} \
- i \in \mathbb{N} \setminus \mathbb{P}
-  \end{align*} } \)
- 
-<p>
-Die Auswahl von \(K\) erfolgt so, dass \(h_p + \sum\limits_{i=K}^{N} i \geq \frac{N(N+1)}{4}\) und
- \(h_p + \sum\limits_{i=K+1}^{N} i < \frac{N(N+1)}{4}\), wobei für alle \(i\) gilt: \(i \in \mathbb{N} \setminus \mathbb{P}\).
-Oder mit anderen Worten, eine optimale Zugfolge muss mindestens alle Zahlen \(i\)
-enthalten, \(i\) ist Element \(\{K,...,N\} \setminus \mathbb{P}\). 
-</p>
-
-<p>Das Spiel enthält eine Funktion zur Überprüfung der Beobachtung. Das Ergebnis wird auf der
-Konsole ausgegeben, nachdem eine der unten genannten Strategien ausgeführt wurde.</p>
-
-<h3>Beobachtung 2</h3>
-<p>Angenommen, \(\{1,...N\}\) mit \(N \in \mathbb{N}\), ist die gegebene Zahlenmenge. Für \(N>3\)
-existiert immer eine Zugfolge \((a(m))(N)) = (n1,n2,...,nm)(N)\) mit \(P((n_1,n_2,...,n_m)(N)) > \frac{N(N+1)}{4}\).
-Mit anderen Worten: Sie können immer gegen den Zahlenhai gewinnen. Meine Hilfsfunktion erzeugt immer
-eine solche Zugfolge. Details dazu finden Sie im nächsten Kapitel. </p>
-
-<h3>Beobachtung 3</h3>
-<p>Angenommen, \(\{1,...(N+1)\}\) mit \((N+1) \in \mathbb{N}\), ist die gegebene Zahlenmenge.
-\((a(m))(N)) = (n_1,n_2,...,n_m)(N)\) ist eine optimale Zugfolge. Dann ist
-<br>\(a(m))(N+1)) = (N+1,n_2,...,n_m)(N)\) ein optimaler Zug, wenn \(N+1\) prim ist, sonst \(f((n_1,n_2,...,n_m)(N))\)
-<br>mit \(f:(n_1,n_2,...,n_m)(N) \to (n_1,n_2,...,n_m')(N+1)\) als noch nicht bekannter Algorithmus oder Funktion.
-<br>Wenn \((N+1)\) eine Primzahl ist, beweist Theorem 3 den ersten Teil des rekursiven Algorithmus.
-<br>Meine Ergebnisse für eine Funktion \(f\) finden Sie im nächsten Kapitel. 
-</p>
-
-<h3>Beobachtung 4</h3>
-<p>Die Primzahlen spielen eine entscheidende Rolle, um die optimale Punktzahl zu erreichen. Geben
-Sie dem Zahlenhai die Primzahlen so langsam wie möglich. So langsam wie möglich bedeutet, nur eine
-oder zwei pro Zug. Während des Spiels wird es passieren, dass zusammengesetzte Zahlen zu
-Pseudo-Primzahlen werden. Ich nenne zusammengesetzte Zahlen, die keine freien, reellen Teiler mehr
-haben Pseudo-Primzahlen. 
-<br>Z.B. hat \(12\) zu Beginn eines Spiels die realen, freien Teiler \(6,4,3,2\) und \(1\). Nach einer Weile
-Spielzeit hat \(12\) vielleicht nur noch die freien, realen Teiler \(6\) und \(4\). Da \(3,2\) und \(1\)
-weg sind, haben \(6\) und \(4\) keine freien, reellen Teiler mehr, so dass \(6\) und \(4\) nach meiner
-Definition Pseudo-Primzahlen sind. 
-<br>Bei größeren Zahlenmengen müssen auch die Pseudoprimzahlen berücksichtigt werden. Meine vorherige
-Aussage könnte also dahingehend geändert werden, dass ich versuche, dem Zahlenhai so langsam wie
-möglich Prim- und Pseudoprimzahlen zu geben.</p>
-
-<h3>Beobachtung 5</h3>
-<p>Für die Länge \(l\) der optimalen Zugfolge gilt die folgende Ungleichung: 
-<br>\(l \geq \lfloor\frac{N}{2}\rfloor - (\pi(N) - \pi(\lceil\frac{N}{2}\rceil) + 1\), wobei \(\pi(N)\) die Anzahl
-der Primzahlen \(\leq N\) ist.
-</p>
-<p>
-z.B. \(N=3, \lfloor\frac{3}{2}\rfloor=1, \lceil\frac{3}{2}\rceil=2, \to l \geq 1-(2-1)+1 = 1\)<br>
-z.B. \(N=10, \lfloor\frac{10}{2}\rfloor= \lceil\frac{10}{2}\rceil=5, \to l \geq 5-(4-3)+1 = 5\)<br>
-z.B. \(N=20, \lfloor\frac{20}{2}\rfloor= \lceil\frac{20}{2}\rceil=10, \to l \geq 10-(8-4)+1 = 7\)<br>
-z.B. \(N=51, \lfloor\frac{51}{2}\rfloor=25, \lceil\frac{51}{2}\rceil=26, \to l \geq 25-(15-9)+1 = 20\)<br>
-z.B. \(N=79, \lfloor\frac{79}{2}\rfloor=39, \lceil\frac{79}{2}\rceil=40, \to l \geq 39-(22-12)+1 = 30\)<br>
-z.B. \(N=100, \lfloor\frac{100}{2}\rfloor=\lceil\frac{100}{2}\rceil=50, \to l \geq 50-(25-15)+1 = 41\)<br>
-z.B. \(N=158, \lfloor\frac{158}{2}\rfloor=\lceil\frac{158}{2}\rceil=79, \to l \geq 79-(37-22)+1 = 65\)<br>
-z.B. \(N=256, l \geq 106\)<br>
-z.B. \(N=512, l \geq 214\)<br>
-z.B. \(N=1024, l \geq 438\)<br>
-</p>
-
-<p>Das Spiel enthält eine Funktion zur Berechnung der geschätzten Länge. Das Ergebnis wird auf der
-Konsole ausgegeben, nachdem eine der unten genannten Strategien ausgeführt wurde.</p>
-
-<h2>3. Strategien</h2>
-
-<p>Wenn man ein wenig mit dem Spiel herumspielt, wird man irgendwie zu dem Schluss kommen, dass die optimale Zugfolge davon abhängt,
-<cite>die obligatorischen Faktoren so langsam wie möglich zu verbrauchen <a href="NumberSharkHelp-Bibliography.html">[2]</a>.</cite>
-Einen guten Überblick über einige Strategien finden Sie in <a href="NumberSharkHelp-Bibliography.html">[3]</a>.
-Ich habe unabhängig davon ähnliche Strategien gefunden. Die interessantesten Strategien aus der Quelle
-werde ich im nächsten Kapitel erläutern.</p>
-
-<h3>Tronos Strategie #3, #7 and #9 (Gewinner-Strategie, auch genutzt für die Hinweise an den Benutzer)</h3>
-
-<p>In <a href="NumberSharkHelp-Bibliography.html">[3]</a> erwähnt John Trono einige Strategien, um
-eine Zugfolge zu berechnen, um das Spiel zu gewinnen und eine möglichst hohe Punktzahl zu erreichen.
-Ich habe versucht, seine Strategie #7 umzusetzen. Mit dieser Strategie hat er die höchsten Punktzahlen
-für \(N=256\) und \(N=512\) berechnet (<a href="NumberSharkHelp-Appendix.html">Anhang</a>).
-Seine Strategie ist wie folgt definiert.</p>
-
-<p style="margin-left:10px"><cite>Gehen Sie in 3 Schritten vor: Wählen Sie die größte Primzahl; wählen Sie dann die ungeraden
-Zahlen, beginnend mit der größten und arbeiten Sie abwärts, bis \(\frac{N}{2}\) erreicht ist; und wählen
-Sie schließlich die geraden Zahlen, beginnend mit \(\frac{N}{2}+1\) und arbeiten Sie aufwärts zu \(N\).</cite></p>
-
-<p>Leider konnte ich seine Ergebnisse nicht reproduzieren. Daher beschloss ich, seine Strategie
-Nr. 3 umzusetzen. Diese Strategie ist wie folgt definiert:</p>
-<p style="margin-left:10px">
-<cite>Nehmen Sie immer die größte aktive ganze Zahl mit nur einem aktiven Teiler (kleiner als dieser).</cite>
-</p>
-
-<p>Diese Strategie funktioniert sehr gut bei größeren Zahlenmengen. Sie können sehr schnelle Zugfolgen
-mit hoher Punktzahl berechnen.</p>
-
-<p>Eine Abwandlung dieser Strategie besteht darin, nur nach der größten aktiven ganzen Zahl mit den
-wenigsten Teilern zu suchen. Diese Strategie kann so modifiziert werden, dass man die größte aktive
-ganze Zahl mit den wenigsten Teilern sucht, die größer als ein bestimmter Grenzwert ist. Tronos
-Strategie #9 verwendet genau diese Strategie mit dem Grenzwert \(\frac{N}{2}-1\). Tatsächlich war dies auch
-meine erste Strategie. In meinem Fall ist der Grenzwert \(\frac{N}{2}+1\). Übrigens ist diese Strategie für das
-Support-Feature implementiert. Mein Ansatz war, eine immer gewinnende Strategie zu finden, d.h. für
-jede Zahlenmenge eine Zugfolge zu finden, die einen gegen den Zahlenhai gewinnen lässt. Offensichtlich
-löst diese Strategie das Problem. Für die weitere Diskussion nenne ich diese Strategie die
-"Winner"-Strategie.</p>
-
-<h3>Schus Zufallsstrategie 1</h3>
-
-<p>Mein nächster Schritt bestand darin, eine Strategie zu finden, die eine optimale Punktzahl oder
-zumindest eine Punktzahl, die einer Optimalen so nahe wie möglich kommt, ermitteln kann. Ich fand
-heraus, dass die Ergebnisse meiner bisherigen "Winner"-Strategie von einem geschickt gewählten
-Grenzwert abhängen. Werfen wir einen Blick auf ein Beispiel:
-<br>Die Größe \(N\) der Zahlenmenge ist \(20\). In diesem Fall würde mein Grenzwert zu \(\frac{20}{2}+1 = 11\) berechnet
-werden, also genau \(12\), denn 11 ist eine Primzahl, die keine Wirkung hat. Somit würde mein Algorithmus
-nicht die optimale Punktzahl finden, da \(10\) benötigt wird <a href="NumberSharkHelp-Appendix.html">Anhang</a>).
-Aber auch Tronos Strategien würden scheitern, denn der Grenzwert wäre \(\frac{20}{2}-1=9\). Tronos Strategien
-würden also die \(9\) als zweiten Zug nehmen, was nicht zu einer optimalen Punktzahl führt. Für \(N=20\)
-würde der Grenzwert \(10\) meine Strategie zu einem optimalen Ergebnis führen. Im Gegensatz dazu ist
-diese Grenze für \(N=21\) oder \(N=19\) nicht optimal. Auch hier wäre der Grenzwert \(9\) die optimale Wahl. 
-<br>Die erste Idee, die auf dieser Erkenntnis beruht, könnte also sein, für eine gegebene Zahlenmenge
-den Algorithmus mit verschiedenen Grenzwerten von \(0\) bis \(\frac{N}{2}+1\) laufen zu lassen, um eine möglichst
-hohe Punktzahl zu erhalten. Aber wenn man sich weiter zu größeren Zahlenmengen bewegt, wird man sehen,
-dass dies nicht ausreicht. Irgendwie sollte sich der Grenzwert auch während des Spiels ändern. 
-<br>Mein zweiter Ansatz war, während des Spiels nach jedem Zug den Grenzwert zufällig von \(0\)
-auf \(\frac{N}{2}+1\) zu ändern. Dies führt bereits zu besseren Ergebnissen. Aber um bessere Ergebnisse
-für größere Zahlenmengen zu erhalten, müssen Pseudo-Primzahlen berücksichtigt werden.
-Pseudo-Primzahlen werden scheinbar selten verwendet, aber manchmal werden sie eingesetzt.
-Pseudo-Primzahlen befinden sich im Intervall \(N\) bis \(\frac{N}{2}+1\). Also habe ich eine zweite Grenze
-eingeführt, die sich ebenfalls zufällig im Intervall \(N\) bis \(\frac{N}{2}+1\) ändert. Meine Strategie
-kann also wie folgt ausgedrückt werden:
-</p>
-<p>
-Schritt 1: Berechne zufällig einen ersten Grenzwert aus dem Intervall \(\frac{N}{2}+1\) bis hinunter zu \(0\).
-<br>Schritt 2: Nimm die größte aktive ganze Zahl mit den wenigsten Teilern im Intervall \(N\) bis
-hinunter zu einem ersten Grenzwert.
-<br>Schritt 3: Berechne zufällig einen zweiten Grenzwert aus dem Intervall \(N\) bis hinunter zu \(\frac{N}{2}+1\).
-<br>Schritt 4: Nimm die größte Pseudoprimzahl im Intervall \(N\) bis hinunter zu einem zweiten Grenzwert.
-<br>Schritt 5: Nimm als aktuellen Zug zufällig eine Zahl aus den in Schritt 2 und 4 berechneten Zahlen.
-<br>Step 6: Wiederhole ab Schritt 1, solange noch freie Zahlen vorhanden sind. 
-</p>
-
-<h3>Schus Zufallsstrategie 2</h3>
-
-<p>Diese Strategie ist ähnlich wie Strategie 1. Die Modifikation beruht darauf, dass mindestens
-die größte ganze Zahl mit den wenigsten Teilern im Intervall von \(N\) bis hinunter zu \(\frac{N}{2}+1\)
-berücksichtigt werden soll. Nur wenn es im Intervall \(\frac{N}{2}+1\) bis hinunter zu \(0\) Zahlen mit einer
-geringeren Anzahl von Teilern gibt, sind auch diese von Interesse. Die Strategie 2 kann also
-wie folgt beschrieben werden:
-</p>
-<p>
-Schritt 1: Nimm die größte aktive ganze Zahl mit dem kleinsten Teiler aus dem Intervall \(N\) bis \(\frac{N}{2}+1\).
-<br>Schritt 2: Berechne zufällig einen ersten Grenzwert aus dem Intervall \(\frac{N}{2}+1\) bis hinunter zu \(0\).
-<br>Schritt 3: Nimm alle aktiven ganzen Zahlen im Intervall \(N\) bis hinunter zu einem ersten Grenzwert,
-<br>dessen Anzahl der Teiler kleiner ist als die Anzahl der Teiler der Zahl in Schritt 1.
-<br>Schritt 4: Berechne zufällig einen zweiten Grenzwert aus dem Intervall \(N\) bis hinunter zu \(\frac{N}{2}+1\).
-<br>Schritt 5: Nimm die größte Pseudoprimzahl im Intervall \(N\) bis zu einem zweiten Grenzwert.
-<br>Schritt 5: Nimm als aktuellen Zug zufällig eine Zahl aus den in Schritt 1, 2 und 4 berechneten Zahlen.
-<br>Schritt 7: Wiederhole ab Schritt 1, solange noch freie Zahlen vorhanden sind. 
-</p>
-
-<h3>Schus rekursive Strategie</h3>
-
-<p>Auf der Grundlage von Beobachtung 3 habe ich einen rekursiven Algorithmus entwickelt. Um
-eine geeignete Funktion \(f\) zu definieren, analysierte ich alle optimalen Zugfolgen. Ich
-beobachtete, dass sich beim Übergang von der optimalen Zugfolge von \(N\) zu \(N+1\) nur ein Teil der
-Zahlen ändert. Sehr oft trat einer der drei folgenden Fälle auf:</p>
-
-<p>
-Fall 1: Es wurde nur die neue Zahl \(N+1\) hinzugefügt und der Rest der Zugfolge von \(N\) wird beibehalten.
-<br>Fall 2: Die neue Zahl \(N+1\) wurde hinzugefügt und der Rest der Zugfolge \(N\) wird bis auf eins beibehalten.
-<br>Fall 3: Die neue Zahl wurde hinzugefügt und der Rest der Zugfolge \(N\) wird beibehalten, bis
-auf eine, die durch eine neue Zahl ersetzt wurde.
-</p>
-<p>
-Generell ist zu beobachten, dass von \(N \to N+1\) entweder die Länge der Zugfolge beibehalten oder
-um eins erhöht wird. Es wird immer die neue Zahl \(N+1\) beibehalten und der Rest der Zugfolge \(N\)
-wird neben \(r\) Zahlen beibehalten, wobei \(r\) ein Element von \(\{0,...,R\}, R \in \mathbb{R}\) und \(R
-\geq 7\) ist. Ich habe die Unterschiede von \(N \to N+1\) unten aufgelistet. Es sind nur Unterschiede mit \(r
-> 2\) erwähnt. Alle anderen Unterschiede sind \(1\) oder \(2\). Zumindest bis \(N=158\), beim Übergang von
-\(127\) auf \(128\) war die größte Differenz \(7\). Deshalb habe ich \(R \geq 7\) definiert.
-</p>
-<p>
-\(N =\) Zahlenmengengröße (Differenzen der optimalen Zugfolge von \(N \to N+1\))
-<br>\(N=20(3)\), \(N=34(3)\), \(N=44(3)\), \(N=53(5)\), \(N=69(3)\), \(N=76(4)\), \(N=77(3)\),
-\(N=80(5)\), \(N=83(4)\), \(N=104(3)\), \(N=119(5)\), \(N=125(4)\), \(N=127(7)\)
-</p>
-
-<p>Die aktuelle Version des Programms Zahlenhai hat eine Funktion \(f\) implementiert, die
-versucht, die drei oben genannten Fälle zu realisieren.</p>
-
-<hr>
-<p><i>Übersetzung und Überarbeitung des englischen Originaltexts von Markus Schu durch das JCrypTool-Team</i></p>
+  <hr>
+  <p>
+    <i>Übersetzung und Überarbeitung des englischen Originaltexts von Markus Schu durch das JCrypTool-Team</i>
+  </p>
 </body>
 </html>
