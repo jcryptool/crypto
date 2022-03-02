@@ -1,108 +1,153 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//DE">
+<!DOCTYPE HTML>
 
-<html>
+<html lang="de">
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Ein erstes Spiel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Ein erstes Spiel</title>
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
-<h1>Tutorial &ndash; Ein erstes Spiel</h1>
+  <h1>Tutorial &ndash; Ein erstes Spiel</h1>
 
-<p>Wer mehr über Teiler von Zahlen und Primzahlen lernen will, der sollte
-das Zahlenhai-Spiel spielen. Aber auch wer einfach knobeln will, was die besten Züge sind, wird seinen Spaß haben.</p>
+  <p>Wer mehr über Teiler von Zahlen und Primzahlen lernen will, der sollte das Zahlenhai-Spiel spielen.
+    Aber auch wer einfach knobeln will, was die besten Züge sind, wird seinen Spaß haben.</p>
 
-<p>Dieses Tutorial basiert auf einem Zahlenfeld (Spielfeld) von 1 bis 20 (die Größe des Spielfelds kann man einstellen, wenn man das Spiel <a href="#Newgame"><b>neu startet</b></a>).</p>
+  <p>
+    Dieses Tutorial basiert auf einem Zahlenfeld (Spielfeld) von 1 bis 20 (die Größe des Spielfelds kann man
+    einstellen, wenn man das Spiel <a href="#Newgame"><b>neu startet</b></a>).
+  </p>
 
-<p>Das Spiel scheint für ein kleines Zahlenfeld einfach zu sein, es ist allerdings eine große Herausforderung für ein großes Zahlenfeld.</p>
-
-
-<p> </br> </p>
-<h4>1. Die Spielidee</h4>
-
-<p>Die Spielidee besteht darin, möglichst viele Zahlen aus einem gegebenen Zahlenfeld zu gewinnen und dabei deren Summe zu maximieren. Wenn deine Summe der gewonnenen Zahlen (dein Score) größer ist als die Summe der Zahlen des Zahlenhais, hast du gewonnen.
-Als Zweites kann man versuchen, möglichst nahe an die Summe zu kommen, die man maximal für das gegebene Zahlenfeld erreichen kann. Statt "maximale Summe" sagt man auch "optimales Ergebnis".</p>
-
-<p>Hat man eine beliebige Zahl ausgewählt, so frisst der Zahlenhai alle echten Teiler dieser Zahl (z.B. sind alle echten Teiler von 6 die Zahlen 1, 2 und 3, aber nicht die Zahl 6 selbst). Hat die Zahl keine echten, freien Teiler mehr, frisst er deine ausgewählte Zahl selbst. Der Zahlenhai bekommt also in jeder Runde etwas zu fressen.</p>
-
-<p>Das Spiel endet, wenn alle Zahlen verbraucht sind, d.h. entweder von dir ausgewählt oder vom Zahlenhai gefressen wurden.</p>
+  <p>Das Spiel scheint für ein kleines Zahlenfeld einfach zu sein, es ist allerdings eine große
+    Herausforderung für ein großes Zahlenfeld.</p>
 
 
-<p> </br> </p>
-<h4>2. Der erste Zug</h4>
+  <h4>1. Die Spielidee</h4>
 
-<p>Das Spiel startet mit dem folgenden Fenster. Das Zahlenfeld ist in diesem Tutorial auf 20 gesetzt. Nun kannst du eine der Zahlen zwischen 1 und 20 auswählen (in der ersten Runden sind alle Zahlen "auswählbar" oder "frei").</p>
+  <p>Die Spielidee besteht darin, möglichst viele Zahlen aus einem gegebenen Zahlenfeld zu gewinnen und
+    dabei deren Summe zu maximieren. Wenn deine Summe der gewonnenen Zahlen (dein Score) größer ist als die
+    Summe der Zahlen des Zahlenhais, hast du gewonnen. Als Zweites kann man versuchen, möglichst nahe an die
+    Summe zu kommen, die man maximal für das gegebene Zahlenfeld erreichen kann. Statt "maximale Summe" sagt
+    man auch "optimales Ergebnis".</p>
 
-<p>Hier ein erster Tipp: Um ein optimales Ergebnis zu erzielen, musst du als erste Zahl immer die größte verfügbare Primzahl auswählen. Für das Zahlenfeld 1 bis 20 ist das die 19. Diese hat nur die 1 als echten Teiler. Du kannst nun die Zahl 19 im Zahlenfeld anklicken.<br>
-Als weiteren Tipp (aber nicht als feste Regel) kannst du versuchen, dass der Hai pro Zug von dir nicht mehr als 2 Zahlen zu fressen bekommt.</p>
+  <p>Hat man eine beliebige Zahl ausgewählt, so frisst der Zahlenhai alle echten Teiler dieser Zahl (z.B.
+    sind alle echten Teiler von 6 die Zahlen 1, 2 und 3, aber nicht die Zahl 6 selbst). Hat die Zahl keine
+    echten, freien Teiler mehr, frisst er deine ausgewählte Zahl selbst. Der Zahlenhai bekommt also in jeder
+    Runde etwas zu fressen.</p>
 
-<img src="Tutorial_1.jpg"
-	alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich"></img>
-
-<p>Nachdem du die 19 angewählt hast, frisst der Zahlenhai die 1. Außerdem werden die beiden Zahlen grau (statt blau) hinterlegt: Sie sind nun raus aus dem Spiel und nicht mehr aktiv oder frei.</p>
-
-<p>In der detaillierten Spielverlaufstabelle (die untere Tabelle im letzten Bild) werden deine Züge dokumentiert: Darin stehen deine Zugnummer (Runde), deine ausgewählten Zahlen und dein aktueller Punktestand &ndash; und zum Zahlenhai wird angezeigt, welche Zahlen er fraß und sein aktueller Punktestand. Außerdem zeigt die letzte Spalte der Tabelle, wie viele Zahlen noch frei sind.</p>
-
-<p>Darüber ist die Gruppierung "Spielstand", die den Status zusammenfasst: Dein Punktestand ist in grün dargestellt, die Punkte des Zahlenhais sind rot, da du mit dem aktuellen Stand vorne liegst.
-Zusätzlich gibt es noch die Information über die Summe, die man mindestens erreichen muss, um zu gewinnen.</p>
-
-<p>Während des Spiels passiert es häufiger, dass einzelne Zahlen übrig bleiben, die keine freien Teiler mehr haben und selbst auch nicht Teiler für andere freie Zahlen sind. Diese Zahlen können nicht mehr zu deinem Punktekonto beitragen. In so einer Situation wird der Knopf "Haifutter" aktiv dargestellt. Durch Drücken des Knopfs werden diese Zahlen sofort aus dem Spiel genommen und zu dem Hai-Score hinzuaddiert (Futter für den Hai). Wir empfehlen, dies auch zu tun &ndash; man bekommt einfach einen besseren Überblick über die wirklich interessanten Zahlen. Das folgende Bild zeigt nun den Stand, nachdem der Knopf "Haifutter" (</img><img src="Tutorial_Haifutter.jpg" alt="Haifutter-Knopf">)
-gedrückt wurde.</p>
-
-<img src="Tutorial_2.jpg"
-	alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich"></img>
+  <p>Das Spiel endet, wenn alle Zahlen verbraucht sind, d.h. entweder von dir ausgewählt oder vom
+    Zahlenhai gefressen wurden.</p>
 
 
-<p> </br> </p>
-<h4>3. Weitere Züge</h4>
+  <h4>2. Der erste Zug</h4>
 
-<p>Nach dem ersten Zug sind die weiteren Züge etwas schwieriger. Du solltest versuchen, dem Zahlenhai so wenig Zahlen wie möglich übrig zu lassen &ndash; am besten nur einen Teiler, manchmal auch mehr. Aber wähle nicht nur kleine Zahlen aus, die nur einen Teiler haben, da diese unter Umständen als Teiler für größere Zahlen benötigt werden. Für den zweiten Zug ist es empfehlenswert, <br>15, 14 oder 10 [15=3*5, 14=2*7 oder 10=2*5]<br> zu wählen. Das folgende Bild zeigt nun den Stand des Spiels, nachdem 15 ausgewählt wurde.</p>
+  <p>Das Spiel startet mit dem folgenden Fenster. Das Zahlenfeld ist in diesem Tutorial auf 20 gesetzt.
+    Nun kannst du eine der Zahlen zwischen 1 und 20 auswählen (in der ersten Runden sind alle Zahlen
+    "auswählbar" oder "frei").</p>
 
-<img src="Tutorial_3.jpg"
-	alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich"></img>
+  <p>
+    Hier ein erster Tipp: Um ein optimales Ergebnis zu erzielen, musst du als erste Zahl immer die größte
+    verfügbare Primzahl auswählen. Für das Zahlenfeld 1 bis 20 ist das die 19. Diese hat nur die 1 als echten
+    Teiler. Du kannst nun die Zahl 19 im Zahlenfeld anklicken.<br> Als weiteren Tipp (aber nicht als
+    feste Regel) kannst du versuchen, dass der Hai pro Zug von dir nicht mehr als 2 Zahlen zu fressen bekommt.
+  </p>
 
-<p><strong>Hinweise:</strong> Wenn du mit der Maus über ein aktives Feld, z.B. das der Zahl 10, fährst, wird dir ein Tooltip (Balloontext) angezeigt, der Hilfestellung leistet. Die Hilfestellung zeigt dir die noch verfügbaren, freien Teiler der Zahl 10 und auch, für welche anderen Zahlen die Zahl 10 selbst ein Teiler ist.</p>
+  <img src="Tutorial_1.jpg" alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich">
 
-<p>Für die 10 gibt es noch einen freien Teiler (2). Wir wählen die 10 als
-nächste Zahl aus (und holen damit 8 Punkte auf: 10-2=8). Damit führt der Hai nur noch 52:44 (+8) statt 50:34 (+16).</p>
+  <p>Nachdem du die 19 angewählt hast, frisst der Zahlenhai die 1. Außerdem werden die beiden Zahlen grau
+    (statt blau) hinterlegt: Sie sind nun raus aus dem Spiel und nicht mehr aktiv oder frei.</p>
 
-<img src="Tutorial_4.jpg"
-	alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich"></img>
+  <p>In der detaillierten Spielverlaufstabelle (die untere Tabelle im letzten Bild) werden deine Züge
+    dokumentiert: Darin stehen deine Zugnummer (Runde), deine ausgewählten Zahlen und dein aktueller
+    Punktestand &ndash; und zum Zahlenhai wird angezeigt, welche Zahlen er fraß und sein aktueller
+    Punktestand. Außerdem zeigt die letzte Spalte der Tabelle, wie viele Zahlen noch frei sind.</p>
 
-<p>Du kannst noch mehr Hinweise bekommen, wenn du in der Toolbar auf den Knopf "Tipp" <img src="Tutorial_Hinweis.jpg" alt="Hinweis-Knopf"></img> klickst. Dort wird empfohlen, als nächstes die 20 anzuklicken. Wir folgen nun der Empfehlung und drücken "Ja". Einen Vorschlag gibt es nur für Zahlen, die zur optimalen Zugfolge führen; daher kommt in anderen Fällen keine Empfehlung und der Knopf ist deaktiviert.</p>
+  <p>Darüber ist die Gruppierung "Spielstand", die den Status zusammenfasst: Dein Punktestand ist in grün
+    dargestellt, die Punkte des Zahlenhais sind rot, da du mit dem aktuellen Stand vorne liegst. Zusätzlich
+    gibt es noch die Information über die Summe, die man mindestens erreichen muss, um zu gewinnen.</p>
 
-<img src="Tutorial_5.jpg"
-	alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich"></img>
+  <p>
+    Während des Spiels passiert es häufiger, dass einzelne Zahlen übrig bleiben, die keine freien Teiler mehr
+    haben und selbst auch nicht Teiler für andere freie Zahlen sind. Diese Zahlen können nicht mehr zu deinem
+    Punktekonto beitragen. In so einer Situation wird der Knopf "Haifutter" aktiv dargestellt. Durch Drücken
+    des Knopfs werden diese Zahlen sofort aus dem Spiel genommen und zu dem Hai-Score hinzuaddiert (Futter für
+    den Hai). Wir empfehlen, dies auch zu tun &ndash; man bekommt einfach einen besseren Überblick über die
+    wirklich interessanten Zahlen. Das folgende Bild zeigt nun den Stand, nachdem der Knopf "Haifutter"
+    (<img src="Tutorial_Haifutter.jpg" alt="Haifutter-Knopf">) gedrückt wurde.
+  </p>
 
-<p>Für die nächsten Züge kannst du z.B. die freien Zahlen in der Reihenfolge
-16, 12 und 14 auswählen. Alle drei Zahlen haben nur noch einen Teiler, die aber
-alle unterschiedlich sind. Wenn du deine letzte Entscheidung (z.B. nach Drücken
-der 12) revidieren möchtest, kannst du in der Toolbar den Knopf "Zurück" benutzen.</p>
-
-<p>Die Situation nach Auswahl von 14, 12 und 16 zeigt das folgende Bild.</p>
-
-<img src="Tutorial_6.jpg"
-	alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich"></img>
-
-<p>Bemerkung: Du konntest die Zahlen 16, 14 und 12 in einer beliebigen Reihenfolge nehmen, die optimale Zugfolge ist also nicht eindeutig.</p>
-
-<p>Die letzten verbleibenden Zahlen sind nun die 18 und die 9. Bitte drücke die 18, dann geht die 9 an den Zahlenhai und das Spiel ist vorbei. Das folgende Bild zeigt den entsprechenden Dialog. Glückwunsch, du hast das Spiel gewonnen. Du hast sogar ein optimales Ergebnis erreicht.</p>
-
-<p>Der Dialog schlägt vor, den aktuellen Spielverlauf in einer Logdatei (.csv) zu speichern: Stimmst du zu, wird die Spielverlaufstabelle exportiert und kann später z.B. in Excel oder Calc geöffnet werden.</p>
-
-<img src="Tutorial_7.jpg"
-	alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich und geöffnetem 'Du hast gewonnen' Fenster"></img>
-
-
-<p> </br> </p>
-<h4 id = "Newgame">4. Neues Spiel</h4>
-
-<p>Wenn du ein neues Spiel starten willst, drücke einfach den Button "Neues Spiel" in der Mitte, oder die "Neustart"-Ikone in der <a href="PLUGINS_ROOT/org.jcryptool.games.numbershark/$nl$/help/gettingstarted/NumberSharkHelp-Manual.html#Toolbar">Toolbar</a>. Die Toolbar wird oben rechts im Zahlenhai-Hauptfenster und im folgenden Bild angezeigt (der grüne Pfeil zeigt auf die Neustart-Ikone).</p>
-
-<img src="Tutorial_8.png"
-	alt="Neustart-Ikone oben"></img>
+  <img src="Tutorial_2.jpg" alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich">
 
 
-<p> </br> </p>
+  <h4>3. Weitere Züge</h4>
+
+  <p>
+    Nach dem ersten Zug sind die weiteren Züge etwas schwieriger. Du solltest versuchen, dem Zahlenhai so
+    wenig Zahlen wie möglich übrig zu lassen &ndash; am besten nur einen Teiler, manchmal auch mehr. Aber
+    wähle nicht nur kleine Zahlen aus, die nur einen Teiler haben, da diese unter Umständen als Teiler für
+    größere Zahlen benötigt werden. Für den zweiten Zug ist es empfehlenswert, <br>15, 14 oder 10 \([15=3
+    \cdot 5, 14=2 \cdot 7 \ \text{oder} \ 10=2 \cdot 5]\)<br> zu wählen. Das folgende Bild zeigt nun den
+    Stand des Spiels, nachdem 15 ausgewählt wurde.
+  </p>
+
+  <img src="Tutorial_3.jpg" alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich">
+
+  <p>
+    <strong>Hinweise:</strong> Wenn du mit der Maus über ein aktives Feld, z.B. das der Zahl 10, fährst, wird
+    dir ein Tooltip (Balloontext) angezeigt, der Hilfestellung leistet. Die Hilfestellung zeigt dir die noch
+    verfügbaren, freien Teiler der Zahl 10 und auch, für welche anderen Zahlen die Zahl 10 selbst ein Teiler
+    ist.
+  </p>
+
+  <p>Für die 10 gibt es noch einen freien Teiler (2). Wir wählen die 10 als nächste Zahl aus (und holen
+    damit 8 Punkte auf: \(10-2=8\)). Damit führt der Hai nur noch \(52:44 \ (+8)\) statt \(50:34 \ (+16)\).</p>
+
+  <img src="Tutorial_4.jpg" alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich">
+
+  <p>
+    Du kannst noch mehr Hinweise bekommen, wenn du in der Toolbar auf den Knopf "Tipp" <img
+      src="Tutorial_Hinweis.jpg" alt="Hinweis-Knopf"> klickst. Dort wird empfohlen, als nächstes die 20
+    anzuklicken. Wir folgen nun der Empfehlung und drücken "Ja". Einen Vorschlag gibt es nur für Zahlen, die
+    zur optimalen Zugfolge führen; daher kommt in anderen Fällen keine Empfehlung und der Knopf ist
+    deaktiviert.
+  </p>
+
+  <img src="Tutorial_5.jpg" alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich">
+
+  <p>Für die nächsten Züge kannst du z.B. die freien Zahlen in der Reihenfolge 16, 12 und 14 auswählen.
+    Alle drei Zahlen haben nur noch einen Teiler, die aber alle unterschiedlich sind. Wenn du deine letzte
+    Entscheidung (z.B. nach Drücken der 12) revidieren möchtest, kannst du in der Toolbar den Knopf "Zurück"
+    benutzen.</p>
+
+  <p>Die Situation nach Auswahl von 14, 12 und 16 zeigt das folgende Bild.</p>
+
+  <img src="Tutorial_6.jpg" alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich">
+
+  <p>Bemerkung: Du konntest die Zahlen 16, 14 und 12 in einer beliebigen Reihenfolge nehmen, die optimale
+    Zugfolge ist also nicht eindeutig.</p>
+
+  <p>Die letzten verbleibenden Zahlen sind nun die 18 und die 9. Bitte drücke die 18, dann geht die 9 an
+    den Zahlenhai und das Spiel ist vorbei. Das folgende Bild zeigt den entsprechenden Dialog. Glückwunsch, du
+    hast das Spiel gewonnen. Du hast sogar ein optimales Ergebnis erreicht.</p>
+
+  <p>Der Dialog schlägt vor, den aktuellen Spielverlauf in einer Logdatei (.csv) zu speichern: Stimmst du
+    zu, wird die Spielverlaufstabelle exportiert und kann später z.B. in Excel oder Calc geöffnet werden.</p>
+
+  <img src="Tutorial_7.jpg"
+    alt="Zahlenhai Spiel mit Zahlenfeld und Informationsbereich und geöffnetem 'Du hast gewonnen' Fenster">
+
+
+  <h4 id="Newgame">4. Neues Spiel</h4>
+
+  <p>
+    Wenn du ein neues Spiel starten willst, drücke einfach den Button "Neues Spiel" in der Mitte, oder die
+    "Neustart"-Ikone in der <a
+      href="PLUGINS_ROOT/org.jcryptool.games.numbershark/$nl$/help/gettingstarted/NumberSharkHelp-Manual.html#Toolbar">Toolbar</a>.
+    Die Toolbar wird oben rechts im Zahlenhai-Hauptfenster und im folgenden Bild angezeigt (der grüne Pfeil
+    zeigt auf die Neustart-Ikone).
+  </p>
+
+  <img src="Tutorial_8.png" alt="Neustart-Ikone oben">
+
 </body>
 </html>
