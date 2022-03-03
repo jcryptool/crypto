@@ -1,0 +1,186 @@
+package org.jcryptool.visual.rabin.ui;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.ui.part.ViewPart;
+import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
+import org.jcryptool.core.util.ui.auto.SmoothScroller;
+import org.jcryptool.visual.rabin.GUIHandler;
+import org.jcryptool.visual.rabin.Messages;
+import org.jcryptool.visual.rabin.Rabin;
+
+public class RabinMainView extends ViewPart {
+
+	private Composite parent;
+	private Composite rootComposite;
+	private RabinFirstTabComposite compCryptosystem;
+	private TitleAndDescriptionComposite compTad;
+	private RabinSecondTabComposite compAlgorithm;
+	private ScrolledComposite sc;
+	private TabFolder tfRabin;
+	private TabItem tabFirstItem;
+	private TabItem tabSecondItem;
+	private TabItem tabThirdItem;
+	private RabinThirdTabComposite compAttacks;
+	
+
+	public RabinMainView() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void createPartControl(Composite parent) {
+		this.parent = parent;
+		//sc = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
+		//sc = new ScrolledComposite(parent, SWT.NONE);
+		//rootComposite = new Composite(sc, SWT.NONE);
+		rootComposite = new Composite(parent, SWT.NONE);
+		//sc.setContent(rootComposite);
+		//sc.setExpandHorizontal(true);
+		//sc.setExpandVertical(true);
+		rootComposite.setLayout(new GridLayout(1, false));
+		rootComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 100));
+		
+		compTad = new TitleAndDescriptionComposite(rootComposite);
+		compTad.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compTad.setTitle(Messages.RabinMainView_compTadTitle);
+		compTad.setDescription(Messages.RabinMainView_compTadDescription);
+		
+		
+		// TODO: insert TitleAndDescriptionComposite here
+		// use <Alt>-a + f to search in workspace for classes
+		// use plugin.xml / bottom tab "Dependencies" to add plugin 
+		//   dependencies (where the TADComposite is located)
+		
+		// TODO: uncomment -> fix errors (call correctly, look how other plugins do it)
+		//Composite head = new Composite(rootComposite, SWT.NONE);
+		//head.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//head.setLayout(new GridLayout());
+		/*compTad = new TitleAndDescriptionComposite(rootComposite);
+		compTad.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compTad.setTitle("Rabin Cryptosystem");
+		compTad.setDescription("The Rabin cryptosystem is an asymmetric cryptosystem"
+				+ " sharing similarities with the RSA cryptosystem."
+				+ " Its security is based on the difficulty of computing squareroots"
+				+ " modulo a composite integer n and the integer factorization problem." 
+				+ " The plugin demonstrates the Rabin encryption scheme with a chosen"
+				+ " private key pair (p,q), where p and q are distinct prime numbers"
+				+ " with p = q \u2261 3 mod 4,"
+				+ " and the public key N = p \u00B7 q, which is used as the modulus.");*/
+		
+		Rabin rabinCryptosystemTab = new Rabin();
+		Rabin rabinAlgorithmTab = new Rabin();
+		Rabin rabinAttacksTab = new Rabin();
+		
+		
+		tfRabin = new TabFolder(rootComposite, SWT.NONE);
+		tfRabin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+	
+		tabFirstItem = new TabItem(tfRabin, SWT.NONE);
+		tabFirstItem.setText(Messages.RabinMainView_tabFirstItem);
+		
+		
+		ScrolledComposite scCryptosystem = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		scCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		scCryptosystem.setExpandVertical(true);
+		scCryptosystem.setExpandHorizontal(true);
+		
+		Composite compHoldCryptosystem = new Composite(scCryptosystem, SWT.NONE);
+		compHoldCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldCryptosystem.setLayout(new GridLayout(1, false));
+		
+		scCryptosystem.setContent(compHoldCryptosystem);
+		
+		
+		compCryptosystem = new RabinFirstTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, rabinAlgorithmTab, scCryptosystem, compHoldCryptosystem);
+		compCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compCryptosystem.setLayout(new GridLayout(1, false));
+		
+		
+		
+		scCryptosystem.setMinSize(compHoldCryptosystem.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		
+		
+		tabFirstItem.setControl(scCryptosystem);
+		
+		tabSecondItem = new TabItem(tfRabin, SWT.NONE);
+		tabSecondItem.setText(Messages.RabinMainView_tabSecondItem);
+		
+		ScrolledComposite scAlgorithm = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		scAlgorithm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		scAlgorithm.setExpandVertical(true);
+		scAlgorithm.setExpandHorizontal(true);
+		
+		Composite compHoldAlgorithm = new Composite(scAlgorithm, SWT.NONE);
+		compHoldAlgorithm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldAlgorithm.setLayout(new GridLayout(1, false));
+		
+		
+
+		scAlgorithm.setContent(compHoldAlgorithm);
+		
+		
+		compAlgorithm = new RabinSecondTabComposite(compHoldAlgorithm, SWT.NONE, rabinAlgorithmTab, rabinCryptosystemTab, scAlgorithm, compHoldAlgorithm);
+		compAlgorithm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compAlgorithm.setLayout(new GridLayout(1, false));
+		
+		
+		scAlgorithm.setMinSize(compHoldAlgorithm.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		tabSecondItem.setControl(scAlgorithm);
+		
+		
+		tabThirdItem = new TabItem(tfRabin, SWT.NONE);
+		tabThirdItem.setText(Messages.RabinMainView_tabThirdItem);
+		
+		ScrolledComposite scAttacks = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		scAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		scAttacks.setExpandVertical(true);
+		scAttacks.setExpandHorizontal(true);
+		
+		Composite compHoldAttacks = new Composite(scAttacks, SWT.NONE);
+		compHoldAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldAttacks.setLayout(new GridLayout(1, false));
+		
+		
+
+		scAttacks.setContent(compHoldAttacks);
+		
+		
+		compAttacks = new RabinThirdTabComposite(compHoldAttacks, SWT.NONE, rabinAttacksTab, rabinAlgorithmTab, scAttacks, compHoldAttacks);
+		compAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compAttacks.setLayout(new GridLayout(1, false));
+		
+		scAttacks.setMinSize(compHoldAttacks.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		tabThirdItem.setControl(scAttacks);
+		
+
+	}
+	
+	
+	/**
+	 * reset the plugin
+	 */
+	public void reset() {
+		Control[] children = parent.getChildren();
+		for (Control control : children) {
+		    control.dispose();
+		}
+		createPartControl(parent);
+		parent.requestLayout();
+	}
+	
+
+	@Override
+	public void setFocus() {
+		//compCryptosystem.setFocus();
+	}
+
+}
