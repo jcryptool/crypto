@@ -14,6 +14,7 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "org.jcryptool.crypto.ui.textloader.ui.wizard.loadtext.messages"; //$NON-NLS-1$
+	public static String LoadTextWizardPage_filter;
 	public static String LoadTextWizardPage_0;
 	public static String LoadTextWizardPage_1;
 	public static String LoadTextWizardPage_2;

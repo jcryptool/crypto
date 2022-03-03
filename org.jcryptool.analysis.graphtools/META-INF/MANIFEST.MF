@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.analysis.graphtools;singleton:=true
-Bundle-Version: 1.0.5
+Bundle-Version: 1.0.8
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.jcryptool.analysis.graphtools, org.jcryptool.analysis.graphtools.derivates
 Bundle-Vendor: %Bundle-Vendor

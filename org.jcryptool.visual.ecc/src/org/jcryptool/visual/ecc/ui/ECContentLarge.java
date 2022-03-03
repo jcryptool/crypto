@@ -140,7 +140,9 @@ public class ECContentLarge extends Composite {
 	private void createGroupSize() {
 		groupSize = new Group(groupSettings, SWT.NONE);
 		groupSize.setText(Messages.ECView_SelectCurveSize); 
-		groupSize.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		GridData groupSizeLData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		groupSizeLData.verticalIndent = ECView.customHeightIndent;
+		groupSize.setLayoutData(groupSizeLData);
 		groupSize.setLayout(new GridLayout(2, true));
 		rbtnSmall = new Button(groupSize, SWT.RADIO);
 		rbtnSmall.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
@@ -212,7 +214,9 @@ public class ECContentLarge extends Composite {
 		gridLayout1.makeColumnsEqualWidth = true;
 		groupType = new Group(groupSettings, SWT.NONE);
 		groupType.setText(Messages.ECView_SelectCurveType); 
-		groupType.setLayoutData(gridData3);
+		GridData groupTypeLData = gridData3;
+		groupTypeLData.verticalIndent = ECView.customHeightIndent;
+		groupType.setLayoutData(groupTypeLData);
 		groupType.setLayout(gridLayout1);
 		Button button = new Button(groupType, SWT.RADIO);
 		button.setText(Messages.ECView_RealNumbers); 
@@ -257,7 +261,9 @@ public class ECContentLarge extends Composite {
 		gridLayout2.numColumns = 2;
 		groupSelectAttributes = new Group(groupSettings, SWT.NONE);
 		groupSelectAttributes.setText(Messages.ECContentLarge_12); 
-		groupSelectAttributes.setLayoutData(gridData48);
+		GridData groupSelectAttributesLData = gridData48;
+		groupSelectAttributesLData.verticalIndent = ECView.customHeightIndent;
+		groupSelectAttributes.setLayoutData(groupSelectAttributesLData);
 		groupSelectAttributes.setLayout(gridLayout2);
 		Label label = new Label(groupSelectAttributes, SWT.NONE);
 		label.setText(Messages.ECView_Standard); 
@@ -315,7 +321,9 @@ public class ECContentLarge extends Composite {
 	private void createGroupCalculations() {
 				
 		groupCalculations = new Group(groupSettings, SWT.NONE);
-		groupCalculations.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		GridData groupCalculationsLData = new GridData(SWT.FILL, SWT.FILL, false, false);
+		groupCalculationsLData.verticalIndent = ECView.customHeightIndent;
+		groupCalculations.setLayoutData(groupCalculationsLData);
 		groupCalculations.setLayout(new GridLayout(2, false));
 		groupCalculations.setText(Messages.ECView_Calculations); 
 		
@@ -651,7 +659,9 @@ public class ECContentLarge extends Composite {
 		gridData30.horizontalAlignment = org.eclipse.swt.layout.GridData.FILL;
 		groupRadix = new Group(groupSettings, SWT.NONE);
 		groupRadix.setLayout(new GridLayout());
-		groupRadix.setLayoutData(gridData30);
+		GridData groupRadixLData = gridData30;
+		groupRadixLData.verticalIndent = ECView.customHeightIndent;
+		groupRadix.setLayoutData(groupRadixLData);
 		groupRadix.setText(Messages.ECView_Radix); 
 		rbtnRadix2 = new Button(groupRadix, SWT.RADIO);
 		rbtnRadix2.setText(Messages.ECView_Binary); 
@@ -932,7 +942,9 @@ public class ECContentLarge extends Composite {
 	private void createGroupSave() {
         groupSave = new Group(groupSettings, SWT.NONE);
         groupSave.setLayout(new GridLayout(1, false));
-        groupSave.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+        GridData groupSaveLData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		groupSaveLData.verticalIndent = ECView.customHeightIndent;
+        groupSave.setLayoutData(groupSaveLData);
         groupSave.setText(Messages.ECView_calculationHistory); 
         
         Button showHistoryBtn = new Button(groupSave, SWT.PUSH);
@@ -941,7 +953,7 @@ public class ECContentLarge extends Composite {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				view.openLogFileInEditor();
+				view.openLogFileInEditor(true);
 			}
 			
 			@Override

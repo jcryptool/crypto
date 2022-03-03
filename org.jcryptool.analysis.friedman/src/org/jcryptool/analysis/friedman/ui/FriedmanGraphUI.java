@@ -27,6 +27,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.jcryptool.analysis.friedman.FriedmanPlugin;
 import org.jcryptool.analysis.friedman.IFriedmanAccess;
 import org.jcryptool.analysis.friedman.calc.FriedmanCalc;
@@ -35,6 +37,9 @@ import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.crypto.ui.background.BackgroundJob;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
 import org.jcryptool.crypto.ui.textsource.TextInputWithSource;
+import org.jcryptool.core.operations.algorithm.classic.textmodify.TransformData;
+import org.jcryptool.core.operations.editors.AbstractEditorService;
+import org.jcryptool.core.operations.editors.EditorsManager;
 
 /**
  * @author SLeischnig
@@ -52,6 +57,17 @@ public class FriedmanGraphUI extends Composite implements IFriedmanAccess {
 	public FriedmanGraphUI(final Composite parent, final int style) {
 		super(parent, style);
 		initGUI();
+		if (EditorsManager.getInstance().isEditorOpen()) {
+			IEditorPart editorPart = (IEditorPart) EditorsManager.getInstance().getActiveEditorReference().getPart(false);
+			IEditorReference editorReference = EditorsManager.getInstance().getActiveEditorReference();
+
+			if(editorReference.getTitle().isBlank()) return;//TODO: more gracefully
+
+			TextInputWithSource input = new TextInputWithSource(EditorsManager.getInstance().getContentAsString(editorPart), editorReference);
+			textSelector.setTextData(input, new TransformData(), true);
+			
+			executeMainfunction();
+		}
 
 	}
 
@@ -77,7 +93,7 @@ public class FriedmanGraphUI extends Composite implements IFriedmanAccess {
 			composite1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 
-			TextLoadController textSelector = new TextLoadController(composite1, this, SWT.NONE, true, true);
+			textSelector = new TextLoadController(composite1, this, SWT.NONE, true, true);
 			GridData textSelectorLData = new GridData(SWT.CENTER, SWT.CENTER, true, false, 4, 1);
 			textSelectorLData.widthHint = 275;
 			textSelector.setLayoutData(textSelectorLData);
@@ -213,6 +229,7 @@ public class FriedmanGraphUI extends Composite implements IFriedmanAccess {
 	private FriedmanCalc myAnalysis;
 	private TextViewer myDialog;
 	public FriedmanCalc __return_myAnalysis;
+	private TextLoadController textSelector;
 
 	@Override
 	public final void execute(final boolean executeCalc) {

@@ -1,18 +1,19 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 
-<html>
+<html lang="de">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Nutzung einer festen Primzahl P</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Nutzung einer festen Primzahl P</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
-<h1>Nutzung einer festen Primzahl P</h1>
+<h1>Nutzung einer festen Primzahl \(P\)</h1>
 
-<p>Oberflächlich sieht die Benutzerschnittstelle des festen-P-Angriffs ähnlich wie die der
+<p>Oberflächlich sieht die Benutzerschnittstelle des festen-\(P\)-Angriffs ähnlich wie die der
 nicht manipulierten Schlüsselerzeugung aus. Es gibt aber zwei neue Objekte zu sehen: einen Button,
 der unten neben dem Button "Entschlüsseln" liegt namens "Öffentlicher Schlüssel und Geheimtext
-speichern", und einen Tab, der ganz oben liegt und "Angriff mit festem P" heißt:</p>
+speichern", und einen Tab, der ganz oben liegt und "Angriff mit festem \(P\)" heißt:</p>
 
 <p align=center><img src="fixed1.png" width="90%"></p>
 
@@ -23,9 +24,9 @@ wird festgehalten. Für den normalen Zuschauer wird nichts anders scheinen, weil
 dem Benutzer gesehen werden, und der öffentliche und der private Schlüssel werden immer noch zufällig
 erscheinen - wegen der zufälligen Wahl der anderen Primzahl. Der Angreifer muss jedoch nur zwei
 unterschiedliche öffentliche Schlüssel von dem Gerät finden und dann den größten
-gemeinsamen Teiler der Moduli N der beiden Schlüssel berechnen. Dieser Wert ist die
-Primzahl P, and die zweite Primzahl Q kann man dann berechnen, indem man N durch P teilt.
-Da der öffentliche Exponent E schon bekannt ist (weil es ja öffentlich ist), kann man D
+gemeinsamen Teiler der Moduli \(N\) der beiden Schlüssel berechnen. Dieser Wert ist die
+Primzahl \(P\), and die zweite Primzahl \(Q\) kann man dann berechnen, indem man \(N\) durch \(P\) teilt.
+Da der öffentliche Exponent \(E\) schon bekannt ist (weil es ja öffentlich ist), kann man \(D\)
 genau wie in dem Gerät berechnen.</p>
 
 <p>Das Problem ist, dass jeder das Nachrechnen ausführen kann, nicht nur der Angreifer, der das
@@ -40,9 +41,9 @@ mit dem privaten Schlüssel entschlüsselt hat), kann man den Button "Öffentlic
 speichern" klicken, um den Geheimtext und den entsprechenden öffentlichen Schlüssel zu
 speichern, denn beide werden öffentlich übermittelt und sind deswegen auch verfügbar für jeden,
 der die ausgehende Kommunikation beobachtet. Nachdem man ein zweites Schlüsselpaar erzeugt hat
-(wobei die Primzahl P automatisch festgehalten wird), und einen zweiten Text mit dem neuen
+(wobei die Primzahl \(P\) automatisch festgehalten wird), und einen zweiten Text mit dem neuen
 Schlüssel verschlüsselt hat, sollte man wieder beides speichern. Dann wird man automatisch zu dem
-Tab "Angriff mit festem P" gebracht:</p>
+Tab "Angriff mit festem \(P\)" gebracht:</p>
 
 <p align=center><img src="fixed2.png" width="90%"></p>
 
@@ -56,14 +57,14 @@ und prüfen, ob der Angriff wie geplant funktioniert hat.</p>
 kann man einen neuen Schlüssel und Geheimtext erzeugen und speichern, wobei das Programm
 dann fragt, welche von den schon erzeugten Schlüsseln und Geheimtexten es  überschreiben soll:</p>
 
-<p align=center><img src="fixed3.png" width="85%"/></p>
+<p align=center><img src="fixed3.png" style="width: 50%; min-width:400px; max-width:600px"/></p>
 
 <p>Sie sollen auch bemerken, dass wenn man zwei Geheimtexte mit dem gleichen öffentlichen Schlüssel
-speichert, wird der Angriff nicht funktionieren; die Moduli N werden dann gleich sein,
-und der größte gemeinsame Teiler wird genau dieses, anstatt der festen Primzahl P.
+speichert, wird der Angriff nicht funktionieren; die Moduli \(N\) werden dann gleich sein,
+und der größte gemeinsame Teiler wird genau dieses, anstatt der festen Primzahl \(P\).
 Das Programm wird davor warnen, falls man es versucht:</p>
 
-<p align=center><img src="fixed4.png" width="85%"/></p>
+<p align=center><img src="fixed4.png" style="width: 50%; min-width:400px; max-width:600px"/></p>
 
 <p>Klicken Sie <a href="index.html">hier</a>, um zurück zum Kleptographie-Index zu gehen, oder
 <a href="prf.html">hier</a>, um zur nächsten Seite (Erzeugung von P durch eine
@@ -71,8 +72,6 @@ Pseudozufallsfunktion) zu gehen.</p>
 
 <p>[YY04]<a id="YY04"></a> A. Young, M. Yung, <i>Malicious Cryptography: Exposing Cryptovirology</i>,
 John Wiley & Sons, 2004.</p>
-
-</br>
 
 </body>
 </html>

@@ -4,17 +4,76 @@
 <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	  <title>Entropie-Analyse</title>
+ <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
+ <script>TOC_generate_default("h2")</script> 
 </head>
 
 <body>
 	<h1>Entropie-Analyse</h1>
+ <div class="TOC"></div> <hr />
 
-	<p>Das Entropie-Analyse Plug-in berechnet den Wert der <b>Entropie</b> nach <b>Claude Elwood Shannon</b> [1].</p>
+	<p>Das Entropie-Analyse Plug-in berechnet den Wert der <b>Entropie</b> nach <b>Claude Elwood Shannon</b> [1]. In der JCrypTool-Implementierung wird als Alphabet die Menge der im Text beobachteten Zeichen verwendet.</p>
+	
+	<p>
+Die Entropie eines Dokuments ist eine Kennzahl für dessen Informationsgehalt. Die Entropie wird in (Bit pro Zeichen) bit/char gemessen.
+Texte in einer natürlichen Sprache haben (je nach Alphabetgröße) eine Entropie von circa 4,0. Völlig zufällige Texte haben einen Wert von 8,0. Der Ouptput moderner
+Verschlüsselungsverfahren liegt normalerweise über 7,9.
+</p>
+<p>
+<br/><b>
+Informationsgehalt einer Quelle
+</b>
+</p>
+<p>
+Die Daten im aktuellen Fenster können als Nachrichtenquelle im informationstheoretischen Sinne angesehen werden. Für die Berechnung des Informationsgehaltes betrachtet man die Wahrscheinlichkeitsverteilung dieser Quelle. Dabei geht man davon aus, dass die einzelnen Nachrichten (Zeichen des Dokuments / der Datei) stochastisch unabhängig voneinander sind und von der Quelle mit konstanter Wahrscheinlichkeit ausgestrahlt werden. Der Informationsgehalt einer Nachricht M[i] ist definiert durch: <br/>
+Informationsgehalt(M[i]) := log(1/p[i]) = -log(p[i]).<br/>
+Dabei ist p[i] die Wahrscheinlichkeit, mit der die Nachricht M[i] von der Nachrichtenquelle ausgestrahlt wird. Mit log ist (wie auch im folgenden) der Logarithmus zur Basis 2 gemeint.
+Der Informationsgehalt hängt damit ausschließlich von der Wahrscheinlichkeitsverteilung ab, mit der die Quelle die Nachrichten erzeugt. Der semantische Inhalt der Nachricht geht nicht in die Berechnung ein. Da der Informationsgehalt einer seltenen Nachricht höher als der einer häufigen Nachricht ist, wird in der Definition der Kehrwert der Wahrscheinlichkeit verwendet. Ferner ist der Informationsgehalt zweier unabhängig voneinander ausgewählter Nachrichten gleich der Summe der Informationsgehalte der einzelnen Nachrichten.
+</p>
+
+<p>
+<br/><b>
+Entropie
+</b>
+</p>
+
+<p>
+Mit Hilfe des Informationsgehaltes der einzelnen Nachrichten kann nun die mittlere Information berechnet werden, die eine Quelle mit einer gegebenen Verteilung liefert. Für die Durchschnittsbildung werden die einzelnen Nachrichten mit der Wahrscheinlichkeit ihres Auftretens gewichtet.
+</p>
+<p>
+Entropie(p[1], p[2], ..., p[r]):= - [p[1] * log(p[1]) + p[2] * log(p[2]) + ... + p[r] * log(p[r])]
+</p>
+<p>
+Die Entropie einer Quelle bezeichnet somit die sie charakterisierende Verteilung. Sie misst die Information, die man durch Beobachten der Quelle im Mittel gewinnen kann, oder umgekehrt die Unbestimmtheit, die über die erzeugten Nachrichten herrscht, wenn man die Quelle nicht beobachten kann.
+</p>
+<p>
+<br/><b>
+Anschauliche Beschreibung der Entropie
+</b>
+</p>
+<p>
+Die Entropie gibt die Unsicherheit als Anzahl der notwendigen Ja / Nein-Fragen zur Klärung einer Nachricht oder eines Zeichens an. Hat ein Zeichen eine sehr hohe Auftrittswahrscheinlichkeit, so hat es einen geringen Informationsgehalt. Dies entspricht etwa einem Gesprächspartner, der regelmäßig mit "ja" antwortet. Diese Antwort lässt auch keine Rückschlüsse auf Verständnis oder Aufmerksamkeit zu. Antworten, die sehr selten auftreten, haben einen hohen Informationsgehalt. 
+</p>
+<p>
+<br/><b>
+Extremwerte der Entropie 
+</b>
+</p>
+<p>
+Für Dokumente, die ausschließlich Großbuchstaben enthalten, ist die Entropie mindestens 0 bit/char (bei einem Dokument, das nur aus einem Zeichen besteht) und höchstens log(26) bit/char = 4,700440 bit/char (bei einem Dokument, in dem alle 26 Zeichen gleich oft vorkommen). Für Dokumente, die jedes Zeichen des Zeichensatzes (0 bis 255) enthalten können, ist die Entropie mindestens 0 bit/char (bei einem Dokument, das nur aus einem Zeichen besteht) und höchstens log(256) bit/char = 8 bit/char (bei einem Dokument, in dem alle 256 Zeichen gleich oft vorkommen).
+
+	</p>
+	<p>
+Texts in a natural language have an entropy of around 4.0 (depending on the alphabet
+size). Completely random texts have a value of 8.0. The output of modern encryption
+methods is usually above 7.9.
+	
+	</p>
 
 	<p>Es benutzt den Texteditor als Nachrichtenquelle. Nach Eingabe einer Zeichenfolge im Editor kann die Berechnung über den Tab
 	"Konfiguration und Start" begonnen werden. Die Ergebnisse befinden sich nach erfolgreicher Berechnung in den Tabs "Ergebnis" und "Wertetabelle".</p>
 
-	<h2>Tab "Konfiguration und Start"</h2>
+	<h2 id="h2_1">Tab "Konfiguration und Start"</h2>
 
 	<p>Um die Berechnung zu starten, sind folgende drei Schritte nötig:</p>
 
@@ -40,7 +99,7 @@
 		</li>
 	</ul>
 
-	<h2>Tab "Ergebnis"</h2>
+	<h2 id="h2_2">Tab "Ergebnis"</h2>
 
 	<p>Dieses Tab zeigt eine Zusammenfassung der errechneten Werte. Der folgende Screenshot zeigt ein Beispiel.</p>
 
@@ -54,8 +113,8 @@ wurde die vorgegebene Tupellänge n erreicht, oder das Signifikanzniveau wurde
 beim Zuwachs der Entropie unterschritten.</li>
  <li><i>Anzahl der Zeichen:</i> Die Werte beziehen sich auf die Anzahl der Zeichen,
 nachdem die eingestellten Filterkriterien angewandt wurden. Der erste Wert
-gibt die Anzahl der unterschiedlichen Zeichen, der zweite Werte die gesamte
-Anzahl der Zeichen an.</li>
+gibt die Anzahl der unterschiedlichen Zeichen, der zweite Werte die Gesamtzahl der Zeichen an.
+</li>
  <li><i>Maximale Entropie:</i> Der Wert der maximalen Entropie (unter Annahme von Gleichverteilung der Zeichen).</li>
  <li><i>Entropie:</i> Hier werden zwei Werte geliefert. Zum Einen die Entropie unter
 Berücksichtigung der Auftrittswahrscheinlichkeiten der einzelnen Zeichen,
@@ -63,15 +122,18 @@ und zum Anderen die Entropie unter Berücksichtigung von Abhängigkeiten
 der maximalen Länge n.</li>
  </ol>
 
- <h2>"Wertetabelle"</h2>
+ <h2 id="h2_3">Tab "Wertetabelle"</h2>
  <p>Diese Tabelle zeigt alle errechneten Werte unter Berücksichtigung der statistischen Abhängigkeiten beginnend bei einzelnen Zeichen bis hin zu n-Tupeln. </p>
  <img src="tab3.jpg" alt="Die Wertetabelle" width="85%">
- <p><i>G(n)</i> ist die (absolute) Entropie unter Berücksichtigung von n-Tupeln.</p>
+ <p><i>G(n)</i> ist die (maximale) Entropie unter Berücksichtigung von n-Tupeln.</p>
  <p><i>F(n)</i> ist die bedingte Entropie der n-ten Zeichen unter Bedingung des vorangegangenen (n-1)-Tupels.</p>
  <p><br/></p>
- <p>Quellen:<br/>
+ <h2 id="h2_4">Quellen</h2>
  <ul>
- <li>[1]<br/>Shannon, Claude E. ; Weaver, Warren: The mathematical theory of communication. Urbana and Chicago : University of Illinois Press, 1998. ISBN 0-252-72548-4</li>
+ <li>[1] Shannon, Claude E. ; Weaver, Warren: The mathematical theory of communication. Urbana and Chicago : University of Illinois Press, 1998. ISBN 0-252-72548-4</li>
+ <li>[2] <a href="https://de.wikipedia.org/wiki/Entropie_(Informationstheorie)">https://de.wikipedia.org/wiki/Entropie_(Informationstheorie)</a></li>
+ <li>[3] <a href="https://de.wikipedia.org/wiki/Bedingte_Entropie">https://de.wikipedia.org/wiki/Bedingte_Entropie</a></li>
+
  </ul> 
  </p>
 </body>

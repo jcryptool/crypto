@@ -1,129 +1,173 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Shamir's Secret Sharing</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Shamir's Secret Sharing</title>
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 <body>
-<h1>Shamir's Secret Sharing</h1>
+  <h1>Shamir's Secret Sharing</h1>
+
+  <p>
+    The demonstration shows how <b>Shamir's Secret Sharing</b> works. The idea is to generate a random
+    polynomial which can be uniquely determined, if a minimum number of points on it are known.
+  </p>
+
+  <p>
+    You can start this Secret Sharing plug-in using the menu <b>Visuals</b> or via the Crypto Explorer within
+    the tab <b>Visuals</b>. Processed until the end it could look like this:
+  </p>
+
+  <img src="sss_plugin.png" width="85%">
+
+  <p>Below the description header, the plug-in is divided into three sections:</p>
+  <ol>
+    <li>on the left, <b>Parameter</b> (and below dynamic information),
+    </li>
+    <li>in the middle, the output of the <b>shares</b> and below the <b>reconstruction</b>, and
+    </li>
+    <li>on the right, the <b>graph</b> of the polynomial, calculated from the reconstruction.
+    </li>
+  </ol>
+
+  <h2>Defining the parameters for the calculation</h2>
+
+  <p>
+    In the <b>Parameter</b> area, you can set parameters necessary to conduct the algorithm. Select the number
+    <b>\(\boldsymbol{n}\)</b> of persons which will get <b>shares</b>, and the number <b>\(\boldsymbol{t}\)</b>
+    of persons needed for reconstruction, where \(\boldsymbol{t} \leq \boldsymbol{n}\).
+  </p>
+
+  <p>
+    Furthermore you choose a prime <b>\(\boldsymbol{p}\)</b> as modulus and a secret <b>\(\boldsymbol{s}\)</b>
+    which is smaller than the modulus. Remark: <i>Modulus</i> means a modulo operator.
+  </p>
+
+  <img src="sss_parameter.jpg" width="85%">
+
+  <p>
+    Pressing the <b>Select</b> button opens a dialog where you can select the coefficients of the polynomial
+    (you can enter values by yourself, for instance if you want to reproduce exercise examples). The
+    coefficient \(a_0\) is the selected secret and cannot be changed. Allowed values for the coefficients are
+    only non-negative integers with the upper limit \(\boldsymbol{p} - 1\). By pressing the button <b>Generate
+      coefficients</b> it is also possible to generate valid values for the coefficients.
+  </p>
+
+  <img src="sss_coefficients.jpg" width="85%">
+
+  <p>
+    Pressing the <b>OK</b> button closes the dialog, and the polynomial is represented as a formula.
+  </p>
+
+  <p>
+    If the value for the modulus <b>\(\boldsymbol{p}\)</b> is not a prime number, first the dialog <b>Prime
+      number verification</b> opens where you can correct the input.
+  </p>
+
+  <img src="sss_prime_dialog.jpg" width="85%">
+
+  <p>
+    Invalid values of <b>\(\boldsymbol{p}\)</b> are shown in the color <b>red</b>. Users can now enter a prime
+    number manually or press the button <b>Generate next prime</b> to generate a prime number (starting from
+    the number that is shown the next bigger prime is generated). Pressing the button again calculates further
+    primes. If a prime number was entered or generated, the number is highlighted in <b>green</b> and the <b>OK</b>
+    button is activated. Pressing this button leaves the dialog and then you can select the coefficients in
+    the following dialog.
+  </p>
+
+  <p>
+    It might be that the secret <b>\(\boldsymbol{s}\)</b> was not smaller than the modulus <b>\(\boldsymbol{p}\)</b>
+    either already before the prime number verification dialog was used or through the user's input in this
+    dialog. In this case, the dialog <b>Prime number verification</b> opens in order to satisfy the condition
+    that the secret <b>\(\boldsymbol{s}\)</b> is strictly less than the modulus <b>\(\boldsymbol{p}\)</b>. The
+    user can here enter an according value of the secret <b>\(\boldsymbol{s}\)</b>. For a better overview, the
+    modulus is shown above. If s is valid, the <b>OK</b> button is activated, and the user can leave the
+    dialog with this button.
+  </p>
+
+  <img src="sss_secret_dialog.jpg" width="85%">
+
+
+  <p>
+    Pressing the button <b>Compute shares</b> will calculate the <b>\(\boldsymbol{n}\)</b> shares to be
+    distributed to the people.
+  </p>
+
+  <img src="sss_polynom.jpg" width="85%">
+
+  <p>
+    The calculated shares are displayed in the area <b>Shares</b> (in the middle).
+  </p>
+
+  <img src="sss_shares.jpg" width="85%">
+
+  <p>
+    On the right side, the corresponding <b>graph</b> of the polynomial is shown. The individual shares are
+    shown in the graph as points in the color <b>blue</b>.
+  </p>
+
+  <img src="sss_graph2.png" width="85%">
 
-<p>The demonstration shows how <b>Shamir's Secret Sharing</b> works. The idea is to generate a random polynomial which can be uniquely determined, if a minimum number of points on it are known.</p>
+  <p>
+    Via check boxes, you can select the <b>shares</b> that you want to use for the reconstruction. The
+    selected shares are represented in a different color for better navigation. You must select at least two
+    shares, thus the <b>Reconstruct</b> button is activated. To select or deselect all shares, you can also
+    use the buttons <b>Select all</b> or <b>Deselect all</b>.
+  </p>
 
-<p>You can start this Secret Sharing plug-in using the menu <b>Visuals</b> or via the Crypto Explorer within the tab <b>Visuals</b>. Processed until the end it could look like this:</p>
+  <p>
+    By pressing the button <b>Reconstruct</b> then the reconstruction of the polynomial is calculated. The
+    interim results of the calculation are displayed in the area of <b>Reconstruction</b>.<br> Remark: If
+    you selected less than <b>\(\boldsymbol{t}\)</b> check boxes, a wrong curve is painted and you get an
+    explanation on a red ground in the area Info.
+  </p>
 
-<img src="sss_plugin.png" width="85%">
+  <img src="sss_reconstruction.jpg" width="85%">
 
-<p>Below the description header, the plug-in is divided into three sections:
-<ol>
-  <li>on the left, <b>Parameter</b> (and below dynamic information),</li>
-  <li>in the middle, the output of the <b>shares</b> and below the <b>reconstruction</b>, and</li>
-  <li>on the right, the <b>graph</b> of the polynomial, calculated from the reconstruction.</li>
-</ol>
-</p>
+  <p>
+    In the lower part, right from the button <b>Reset</b>, the reconstructed polynomial is shown. The result
+    is shown in <b>green</b>, if the polynomial has been fully reconstructed. The color <b>red</b> is used, if
+    not enough points (shares) were selected for reconstruction.
+  </p>
 
+  <img src="sss_ergebnis.jpg" width="85%">
 
-<p> </br> </p>
-<h2>Defining the parameters for the calculation</h2>
+  <p>In the event that the polynomial was not properly restored, the two polynomials represented as a
+    graph in different colors.</p>
 
-<p>In the <b>Parameter</b> area, you can set parameters necessary to conduct the algorithm. Select the <b>number n of persons</b> which will get <b>shares</b>, and the <b>number t of persons</b> needed for reconstruction, where t &le; n.</p>
+  <img src="sss_graph_reconstruct2.png" width="85%">
 
-<p>Furthermore you choose a prime <b>p</b> as modulus and a secret <b>s</b> which is smaller than the modulus. Remark: <i>Modulus</i> means a modulo operator.</p>
+  <p>
+    The points in <b>deep blue</b> represent the shares that are known. Grey points represent equivalent
+    points to the actual share with respect to the module <b>\(\boldsymbol{p}\)</b>. When reconstructing with
+    too few shares, the red curve, representing the wrong reconstruction, passes through equivalent points to
+    the known shares, but this information is not enough to infer the correct values of the unknown shares.
+  </p>
 
-<img src="sss_parameter.jpg" width="85%">
+  <p>If you move the mouse cursor over a point in the graph, you see the according share coordinates.</p>
 
-<p>Pressing the <b>Select</b> button opens a dialog where you can select the coefficients of the polynomial (you can enter values by yourself, for instance if you want to reproduce exercise examples). The coefficient <i>a<sub>0</sub></i> is the selected secret and cannot be changed.  Allowed values for the coefficients are only non-negative integers with the upper limit <i>p-1</i>.  By pressing the button <b>Generate coefficients</b> it is also possible to generate valid values for the coefficients.</p>
+  <p>
+    Pressing the button <b>Reset</b> (lower left) or the restart icon in the top right causes all parameters
+    to be set back to their default values.
+  </p>
 
-<img src="sss_coefficients.jpg" width="85%">
+  <h2>
+    The notification area <b>Info</b>
+  </h2>
 
-<p>Pressing the <b>OK</b> button closes the dialog, and the polynomial is represented as a formula.</p>
+  <p>The notification area shows comments the respective final result after the calculation.</p>
 
+  <img src="sss_info.jpg" width="85%">
 
+  <h2>Sample with bigger number for shares and reconstruction</h2>
 
+  <p>
+    While large numbers cannot be recognized well in the graph, they are shown in the in the middle in the two
+    areas <b>Shares</b> and <b>Reconstruction</b>.
+  </p>
 
-<p> If the value for the modulus <b>p</b> is not a prime number, first the dialog <b>Prime number verification</b> opens where you can correct the input.</p>
+  <img src="sss_shares_big.jpg" width="85%">
+  <img src="sss_reconstruction_big.jpg" width="85%">
 
-<img src="sss_prime_dialog.jpg" width="85%">
-
-<p>Invalid values of <b>p</b> are shown in the color <b>red</b>. Users can now enter a prime number manually or press the button <b>Generate next prime</b> to generate a prime number (starting from the number that is shown the next bigger prime is generated). Pressing the button again calculates further primes.
-
-If a prime number was entered or generated, the number is highlighted in <b>green</b> and the <b>OK</b> button is activated. Pressing this button leaves the dialog and then you can select the coefficients in the following dialog.</p>
-
-
-
-<p>It might be that the secret <b>s</b> was not smaller than the modulus <b>p</b> either already before the prime number verification dialog was used or through the user's input in this dialog. In this case, the dialog <b>Prime number verification</b> opens in order to satisfy the condition that the secret <b>s</b> is strictly less than the modulus <b>p</b>. The user can here enter an according value of the secret <b>s</b>. For a better overview, the modulus is shown above. If s is valid, the <b>OK</b> button
-is activated, and the user can leave the dialog with this button.</p>
-
-<img src="sss_secret_dialog.jpg" width="85%">
-
-
-<p>Pressing the button <b>Compute shares</b> will calculate the <b>n</b> shares to be distributed to the people.</p>
-
-<img src="sss_polynom.jpg" width="85%">
-
-
-
-<p>The calculated shares are displayed in the area <b>Shares</b> (in the middle).</p>
-
-<img src="sss_shares.jpg" width="85%">
-
-
-
-<p>On the right side, the corresponding <b>graph</b> of the polynomial is shown. The individual shares are shown in the graph as points in the color <b>blue</b>.</p>
-
-<img src="sss_graph2.png" width="85%">
-
-
-
-<p>Via check boxes, you can select the <b>shares</b> that you want to use for the reconstruction. The selected shares are represented in a different color for better navigation. You must select at least two shares, thus the <b>Reconstruct</b> button is activated.  To select or deselect all shares, you can also use the buttons <b>Select all</b> or <b>Deselect all</b>.</p>
-
-<p>By pressing the button <b>Reconstruct</b> then the reconstruction of the polynomial is calculated. The interim results of the calculation are displayed in the area of <b>Reconstruction</b>.<br> Remark: If you selected less than <b>t</b> check boxes, a wrong curve is painted and you get an explanation on a red ground in the area Info.</p>
-
-<img src="sss_reconstruction.jpg" width="85%">
-
-
-
-<p>In the lower part, right from the button <b>Reset</b>, the reconstructed polynomial is shown. The result is shown in <b>green</b>, if the polynomial has been fully reconstructed. The color <b>red</b> is used, if not enough points (shares) were selected for reconstruction.</p>
-
-<img src="sss_ergebnis.jpg" width="85%">
-
-
-
-
-<p>In the event that the polynomial was not properly restored, the two polynomials represented as a graph in different colors.</p>
-
-<img src="sss_graph_reconstruct2.png" width="85%">
-
-<p>The points in <b>deep blue</b> represent the shares that are known. Grey points represent equivalent points to the actual share with respect to the module p. When reconstructing with too few shares, the red curve, representing the wrong reconstruction, passes through equivalent points to the known shares, but this information is not enough to infer the correct values of the unknown shares.</p>
-
-<p>If you move the mouse cursor over a point in the graph, you see the according share coordinates.</p>
-
-
-
-<p>Pressing the button <b>Reset</b> (lower left) xxxxxxxxxxxxxxxxxxx all parameters besides <b>n</b> and <b>t</b> are set back. Clicking the <b>Restart</b> icon (upper right) also <b>n</b> and <b>t</b> are set back to their default values 4 and 3.</p>
-
-
-
-<p> </br> </p>
-<h2>The notification area <b>Info</b></h2>
-
-<p>The notification area shows comments the respective final result after the calculation.</p>
-
-<img src="sss_info.jpg" width="85%">
-
-
-
-
-<p> </br> </p>
-<h2>Sample with bigger number for shares and reconstruction</h2>
-
-<p>While large numbers cannot be recognized well in the graph, they are shown in the in the middle in the two areas <b>Shares</b> and <b>Reconstruction</b>. </p>
-
-<img src="sss_shares_big.jpg" width="85%">
-<p> </br> </p>
-<img src="sss_reconstruction_big.jpg" width="85%">
-
-
-
-<p> </br> </p>
 </body>
 </html>

@@ -2,68 +2,170 @@
 
 <html>
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>Simple Power Analysis(SPA) against RSA</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Simple Power Analysis(SPA) against RSA</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
-	<h1>Simple Power Analysis(SPA) against RSA</h1>
+<h1>Simple Power Analysis(SPA) against RSA</h1>
 
-	<p>Simple power analysis (SPA) involves visually interpreting power traces, or graphs of electrical activity, over time. <br></p>
+<p>
+  Simple power analysis (SPA) involves analysing power traces or graphs of electrical activity
+  in cryptographic devices such as smartcards, integrated curcuits, CPUs, etc.
+  The goal is to extract secrets from the devices using the information about the electrical
+  activity.
+</p>
 
-	<h2>RSA parameter explanation</h2>
+<h2>Insecure "Square and Multiply" algorithm explanation</h2>
 
-	<img width="40%" src="rsa_parameter.PNG">
+<p>The "Square and Multiply" algorithm is used to calculate the exponentiation of large numbers in an efficient manner. 
+This is needed in the RSA algorithm in which encryption and decryption takes place by exponantiation of
+the plain text/cipher text with the public or private key. These exponents are in most cases more
+than 2000 bit long.
+</p>
 
-	<p>Ciphertext c (e.g. 5454): demonstrates the encrypted ciphertext by using the secret private key d(e.g. 101).</p>
+<p>
+  The algorithm is based on the principle of nested exponentiation. For example, \(2^{2^{2^2}}\) is
+  the same as \(2^8\), because the powers get multiplied and \(2 \cdot 2 \cdot 2\) equals \(8\).
+  As this binary exponentiation (a simple duplication each time) grows very quickly (\(2^{30}\) is
+  already greater than a billion) it is possible to process very large exponents within a few 100
+  rounds.
+</p>
+  
+<pre>
+  <code style="background-color: #eee;border: 1px solid #999;display: block;padding: 10px;">
+  c     - type: integer base of the exponential calculation
+  power - type: integer exponent or power
+  n     - type: integer divisor for the modulo operation
+  
+  Operators:
+  >> - right shift
+  &  - logical and
+  %  - modulo remainder
+  
+  def unsafe_square_and_multiply(c, power, n):
+      res = 1
+      while power > 0:               # iterate over the power's bits as long as its not 0
+          res = (res * res) % n      # 'square' step
+          b = power & 1              # determine the power's lowest bit by a logical and with 1 and power
+          if b == 1:
+              res = (res * c) % n    # If the bit is a one, do a 'multiply' step
+          power = power >> 1         # Shift the power one bit to the right, to advance to the next round
+      return  res       
+  </code>
+</pre>
 
-	<p>P and Q are two coprime numbers and the module n = P*Q.</p>
+<p>
+This is how it works: the base concept is to iterate over the bits of the exponent (variable
+<b>power</b>) from the lowest to the highest one. For each step we square a temporary variable
+<b>res</b>, which is the first part of the algorithms name. Then the bit of the exponent is taken
+into account: if it is a 0 nothing is done, if it is a 1, the temporary <b>res</b> is multiplied
+with the base <b>c</b> (multiply step).
+The next bit is then shifted to the right. This means the current bit is discarded and the next one
+takes its place. If the number is 0 there are no more bits left and the algorithm is finished.
+</p>
 
-	<p>R = c<sup>d</sup> mod n is the decrypted plaintext. Square and Multiply algorithm is normally used to execute the exponentiation result of c<sup>d</sup>
-	mod n. It is an efficient algorithm used for the fast computation of large integer powers of a number. However, it is also vulnerable to Power Analysis.</p>
+<p>
+ <b>Note:</b> there are many variants and variations of this algorithm. This one uses bit operations
+ and is written in Python. You can copy it to a Python interpreter and try it out.
+ </p>
+ 
+<h2>RSA parameter explanation</h2>
 
-	<h2>Insecure "Square and Multiply" algorithm explanation</h2>
+<p>
+  Within the plug-in you can select the parameters of an RSA decryption operation, which is used as
+example.
+</p>
 
-	<img width="60%" src="square_and_multiply.jpg">
+<img style="width: 20%; min-width: 100px; max-width: 400px" src="rsa_parameter.PNG">
 
-	<p>"Square and Multiply" algorithm is used to execute the exponentiation of the private key and public key during the encryption and decryption process of
-	RSA algorithm.</p>
+<p>Ciphertext \(c\) (e.g. \(5454\)) which shall be decrypted by the secret exponent \(d\)
+(e.g. \(101\)).</p>
 
-	<img width="85%" src="executeprocessofsaq.PNG">
+<p>\(P\) and \(Q\) are two coprime numbers and the module \(n = P \cdot Q\).</p>
 
-	<p>As shown above, the private key in decimal will first be transformed into binary form.(e.g. 101(dec.) = 1100101(bin.)). After that we calculate the
-	exponentiation result according to the current bit from left to right: if the current bit is 1, a multiplication operation (Res = Res*c mod n) will be
-	carried out after a squaring operation (Res = Res<sup>2</sup> mod n), otherwise we perform only the squaring operation without following a multiplication
-	operation.</p>
+<p>
+  \(R = c^d \; \text{mod} \; n\) is the decrypted plaintext, the output of the "Square andMultiply"
+  algorithm.
+</p>
 
-	<h2>SPA against RSA demonstration</h2>
 
-	<p>Since the presence of the if statement in the algorithm, "Square and Multiply" is vulnerable to "Power Analysis Attack".</p>
 
-	<img width="85%" src="visual_of_sam.PNG">
+<img width="85%" src="executeprocessofsaq.PNG">
 
-	<p>The power traces between "squaring and multiplication" and "squaring" are different. "Simple Power Analysis" can recover every bit of the secure private
-	key d through comparison and analysis of the power traces in each turn. As shown in the figure above, the private key is 1100101.</p>
+<h2>SPA against RSA demonstration</h2>
 
-	<h2>Secure improved "Square and Multiply always" algorithm explanation</h2>
+<p>
+  Since the presence of the if statement in the algorithm, "Square and Multiply" is vulnerable to
+  "Power Analysis Attack".
+</p>
 
-	<p>The original "Square and Multiply" algorithm could be improved through adding a dummy multiplication operation in the branch of bit "0".</p>
+<img width="85%" src="simple-sam-power-graph.svg">
 
-	<img width="60%" src="square_and_multiply_always.jpg">
-	
-	<img width="85%" src="processofsama.PNG">
+<p>
+  The power traces between "squaring and multiplication" and "squaring" are different.
+  "Simple Power Analysis" can recover every bit of the secure private key \(d\) through comparison
+  and analysis of the power traces in each turn. As shown in the figure above, the private key is
+  1100101.
+</p>
 
-	<p>No matter the current bit is "1" or "0", squaring and multiplication operation will always be carried out. We just according the current bit to choose
-	Res_<sub>0</sub> or Res_<sub>1</sub> as the result in next turn.</p>
+<h2>Secure improved "Square and Multiply always" algorithm explanation</h2>
 
-	<img width="85%" src="powertraceofsama.PNG">
+<p>
+  The original "Square and Multiply" algorithm could be improved by adding a dummy
+  multiplication operation in the branch of bit "0". It generates a comparable activity in the
+  cryptographic device and the result can be discarded.
+</p>
 
-	<p>Obviously, there are no more distinguished difference between the branches of bit "1" and bit "0", so recovering each bit of private key by comparison the
-	power traces using SPA is no more feasible.</p>
+<pre>
+  <code style="background-color: #eee;border: 1px solid #999;display: block;padding: 10px;">
+  c     - type: integer base of the exponential calculation
+  power - type: integer exponent or power
+  n     - type: integer divisor for the modulo operation
+  
+  Operators:
+  >> - right shift
+  &  - locigal and
+  %  - modulo remainder
+  
+  def square_and_multiply(c, power, n):
+      res = 1
+      while power > 0:               # iterate over the power's bits as long as its not 0
+          res = (res * res) % n      # 'square' step
+          b = power & 1              # determine the power's lowest bit by a logical and with 1 and power
+          if b == 1:
+              res = (res * c) % n    # If the bit is a one, do a 'multiply' step
+          else:
+              tmp = (res * c) % n    # If the bit is a zero, do a dummy multiplication and discard its result
+          power = power >> 1         # Shift the power one bit to the right, to advance to the next round
+      return  res       
+  </code>
+</pre>
 
-	<p>For more information on elliptic curve calculations, see the subsection "Simple Power Analysis" in "Power analysis" or
-	<a target="_blank" href="http://en.wikipedia.org/wiki/Power_analysis#Simple_Power_Analysis">http://en.wikipedia.org/wiki/Power_analysis#Simple_Power_Analysis</a>.</p>
+<p>Note how in the secure output in the right column, there is always a multiply operation</p>
 
-	<br>
+<img width="85%" src="processofsama.PNG">
+
+<p>
+  No matter the current bit is "1" or "0", squaring and multiplication operation will always
+  be carried out.
+</p>
+
+<img width="85%" src="secure-sam-power-graph.svg">
+
+<p>
+  Obviously, there are no more distinguished difference between the branches of bit "1" and bit "0",
+  so recovering each bit of private key by comparison the power traces using SPA is no more
+  feasible.
+</p>
+
+<p>
+  For more information on elliptic curve calculations, see the subsection "Simple Power Analysis"
+  in "Power analysis" or
+  <a target="_blank" href="http://en.wikipedia.org/wiki/Power_analysis#Simple_Power_Analysis">
+  http://en.wikipedia.org/wiki/Power_analysis#Simple_Power_Analysis</a>.
+</p>
+
 </body>
 </html>

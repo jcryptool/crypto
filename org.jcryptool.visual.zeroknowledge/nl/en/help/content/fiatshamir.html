@@ -1,9 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-
+<!DOCTYPE html>
 <html>
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Fiat Shamir Protocol</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Fiat Shamir Protocol</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
@@ -15,43 +15,38 @@
 <p>
 This mathematical protocol is designed to prove to Bob that Alice
 knows a secret without revealing it. It runs in the number space
-that is build up on the modulo n field, with n being the product of
-two prime numbers, p and q. P and q are only known to Alice and must
-not be made public.
+that is build up on the modulo \(n\) field, with \(n\) being the product of
+two prime numbers, \(p\) and \(q\). These two numbers are only known to
+Alice and must not be made public.
 </p>
 
 <h2>Appliance</h2>
 <p>
-Alice chooses an arbitrary number s of the modulo n field with
-<span style="white-space:nowrap"><code>gcd(s, n) = 1</code></span> and calculates
-<span style="white-space:nowrap"><code>v = s<sup>2</sup> mod n.</code></span>
-S will be the secret whereby v is public and used for the proving
-process.
+Alice chooses a secret number \(s\) of the modulo \(n\) field with
+\(\gcd(s, n) = 1\) and calculates \(v \equiv s^2 \mod n\).
+In the protocol \(s\) will be the secret whereby \(v\) is public
+and used for the proving process. One round of the protocol looks the following:
 <p>
 
 <p>
-1)
-For the iterations she chooses a randomly generated number r in the
-same number space and calculates <span style="white-space:nowrap"><code>x = r<sup>2</sup> mod n.</code></span>
-X is sent to Bob.
-</p>
-
-<p>
-2)
-Bob then chooses randomly b which is either 0 or 1 and sends it to
+<ol>
+<li>
+Alice chooses a randomly generated number \(r\) in the
+same number space and calculates \(x = r^2 \mod n\).<br>
+\(x\) is sent to Bob.
+</li>
+<li>
+Bob then chooses \(b\) randomly, which is either 0 or 1 and sends it to
 Alice.
-</p>
-
-<p>
-3)
-Alice calculates <span style="white-space:nowrap"><code>y = rs<sup>b</sup> mod n</code></span> and sends y again to Bob.
-</p>
-
-<p>
-4)
+</li>
+<li>
+Alice calculates \(y = rs^b \mod n\) and sends \(y\) to Bob.
+</li>
+<li>
 Bob checks if the following equation holds true:
-<span style="white-space:nowrap"><code>y<sup>2</sup> mod n = xv<sup>b</sup> mod n</code></span>
-</p>
+\((y^2 \mod n) = (xv^b \mod n\))
+</li>
+</ol>
 
 <p>
 If the equation holds, one iteration of the protocol is a success.
@@ -59,52 +54,75 @@ If the equation holds, one iteration of the protocol is a success.
 
 <h2>Vulnerability</h2>
 <p>
-Carol, the attacker, does not know p, q and s.
-She can choose on which x to send to Bob but has no influence on b
-which she receives. Therefore we will have two different cases:
+Carol, the attacker, does not know \(p\), \(q\) or \(s\).
+She can try to feign the possession of \(s\) to Bob.
+To achieve this she chooses a random \(x\) to send to Bob but has no
+influence on \(b\) which she receives.
+Therefore we will have two different cases:
 </p>
 
 <p>
-1) b=0<br>
-If b is zero, the equation will express as follows:
-<span style="white-space:nowrap"><code>y = rs<sup>b</sup> mod n = rs<sup>0</sup> mod n = r mod n</code></span>.<br>
-That would imply if she has chosen a random r to calculate x, she
+<b>\(b=0\)</b><br>
+If \(b\) is zero, the equation will express as follows:
+</p>
+
+\( \style{text-align:right;} {
+		\begin{align*}
+		y &= rs^b &\mod n\\
+		y &= rs^0 &\mod n\\
+		y &= r &\mod n
+		\end{align*}
+} \)
+
+<!--  \(y = rs^b \mod n = rs^0 \mod n = r \mod n\).<br>-->
+<p>
+That would imply if she has chosen a random \(r\) to calculate \(x\), she
 can now just send this number to Bob to prove her knowledge.
 </p>
 
 <p>
-2) b=1<br>
-If b is one, the equation will express as follows:
-<span style="white-space:nowrap"><code>y = rs<sup>b</sup> mod n = rs mod n</code></span><br>
-As it is not possible for Carol to calculate s from v, she would
-have to construct her x and her y so that it will match the final
+<b>\(b=1\)</b><br>
+If \(b\) is one, the equation will express as follows:
+</p>
+
+\( \style{text-align:right;} {
+		\begin{align*}
+		y &= rs^b &\mod n\\
+		y &= rs^1 &\mod n\\
+		y &= rs &\mod n\\
+		\end{align*}
+} \)
+
+<p>
+As it is not possible for Carol to calculate \(s\) from \(v\), she would
+have to construct her \(x\) and her \(y\) so that it will match the final
 check that Bob performs.
-This will be accomplished by choosing <span style="white-space:nowrap"><code>x = r<sup>2</sup> * v<sup>-1</sup> mod n</code></span> and
-<span style="white-space:nowrap"><code>y = r mod n.</code></span>
+This will be accomplished by choosing \(x = r^2 \cdot v^{-1} \mod n\)
+and \(y = r \mod n\).
 If she constructs the numbers like this she will be able to prove
-Bob her knowledge for the case b=1.
+Bob her knowledge for the case \(b=1\).
 </p>
 
 <p>
 To deceive Bob in both cases Carol would have to construct a special
-<span style="white-space:nowrap"><code>x (=r<sup>2</sup> * v<sup>-1</sup>)</code></span>,
- but still must have a number r' which holds<span style="white-space:nowrap"><code>
-r'<sup>2</sup> = x.</code></span> This is not possible and therefore she can only cheat Bob
-for either the case b=0 or b=1.
+\(x = r^2 \cdot v^{-1}\),
+ but still must have a number \(r'\) which holds 
+\(r'^2 = x\). This is not possible and therefore she can only cheat Bob
+for either the case \(b=0\) or \(b=1\), which she must decide before she
+receives \(b\) from Bob.
 </p>
 
 <p>
 As Bob chooses b randomly the probability of Carol to guess right by
-constructing a matching x is 0.5. By running ten consecutive
-iterations we have a chance to deceive Bob of less than 0.1% (0.5<sup>10</sup>),
-which should be safe enough for most considerations.
+constructing a matching \(x\) is \(0.5\). By running ten consecutive
+iterations we have a chance to deceive Bob of less than \(0.1\)% (\(0.5^{10}\))
 </p>
 
 <p>
-By clicking on the "run several times" button in the main interface,
+By clicking on the <b>run several times</b> button in the main interface,
 a Fiat Shamir protocol with adjustable iterations can be simulated
 from provers and attackers view.
 </p>
 
-</BODY>
-</HTML>
+</body>
+</html>

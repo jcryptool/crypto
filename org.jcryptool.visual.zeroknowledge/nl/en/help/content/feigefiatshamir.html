@@ -1,9 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 
 <html>
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	  <title>Feige Fiat Shamir Protocol</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Feige Fiat Shamir Protocol</title>
+  <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
@@ -13,49 +14,71 @@
 
 	<p>This mathematical protocol is designed to prove to Bob that Alice
 	knows a secret without revealing it. It runs in the number space
-	that is build up on the modulo n field, with n being the product of
-	two prime numbers, p and q. P and q are only known to Alice and must
-	not be made public.
+	that is build up on the modulo \(n\) field, with \(n\) being the product of
+	two prime numbers, \(p\) and \(q\). These two numbers are only known
+	to Alice and must not be made public.
 	Feige Fiat Shamir is an improved Fiat Shamir protocol which is less
 	vulnerable to attacks, meaning that the chance of guessing the right
 	numbers for an attacker is not 50% but 6.25%.</p>
 
 	<h2>Appliance</h2>
-	<p>Alice creates a set of numbers <span style="white-space:nowrap"><code>s<sub>1</sub>, s<sub>2</sub>, ..., s<sub>k</sub></code></span> with
-	<span style="white-space:nowrap"><code>gcd(s<sub>x</sub>), n) = 1</code></span> and calculates
-	corresponding numbers <span style="white-space:nowrap"><code>v<sub>x</sub> = s<sub>x</sub><sup>2</sup> mod n</code></span>.
-	In our example <span style="white-space:nowrap"><code>1 >= k <= 4</code></span>.
-	The <span style="white-space:nowrap"><code>s<sub>x</sub></code></span> numbers are secret whereby
-	the <span style="white-space:nowrap"><code>v<sub>x</sub></code></span> numbers are public and
-	known by Bob.</p>
+	<p>Alice creates a set of numbers \(s_1,s_2,...,s_k\) with \(\gcd(s_x, n) = 1\)
+	and calculates corresponding numbers \(v_x = s_x^2 \mod n\).
+	This plugin allows secrets with a lengh up to 4 (\(1 \leq k \leq 4\)).
+	The numbers \(s_x\) are secret whereby
+	the numbers \(v_x\) are public and known by Bob.</p>
 
 	<ol>
-		<li>For the iterations she chooses a randomly generated number r in the
-		same number space and calculates <span style="white-space:nowrap"><code>x = r<sup>2</sup> mod n</code></span>.
-		X is sent to Bob.</li>
+		<li>For the iterations she chooses a randomly generated number \(r\) in the
+		same number space and calculates \(x = r^2 \mod n\).
+		\(x\) is sent to Bob.</li>
 
-		<li>Bob then chooses randomly <span style="white-space:nowrap"><code>b<sub>1</sub> ... b<sub>k</sub></code></span>
+		<li>Bob then chooses random bits \((b_1,...,b_k)\),
 		which are either 0 or 1 and sends them to Alice.</li>
 
-		<li>Alice calculates <span style="white-space:nowrap"><code>y = rs<sub>1</sub><sup>b<sub>1</sub></sup> * s<sub>2</sub>
-		<sup>b<sub>2</sub></sup> * ... * s<sub>k</sub><sup>b<sub>k</sub></sup> mod n</code></span> and sends the result to Bob.</li>
+		<li>Alice calculates \(y \equiv r \cdot s_1^{b_1} s_2^{b_2}\ ...\ s_k^{b_k} \mod n\)
+		and sends the result to Bob.</li>
 
-		<li>Bob checks if <span style="white-space:nowrap"><code>y<sup>2</sup> = xv<sub>1</sub><sup>b<sub>1</sub></sup> * v<sub>2</sub>b<sub>2</sub>
-		* ... * v<sub>k</sub><sup>b<sub>k</sub></sup></code></span> holds true.</li>
+		<li>Bob checks if
+		\(y^2 \equiv x \cdot v_1^{b_1} v_2^{b_2}\ ...\ v_k^{b_k} \mod n\) holds true.</li>
 	</ol>
 
 	<p>If the equation holds, one iteration of the protocol is a success.</p>
 
 	<h2>Vulnerability</h2>
-	<p>Carol, the attacker, does not know p, q and s.
-	She can choose on which x to send to Bob but has no influence on the
-	vector b which she receives. Therefore she would have to guess all
-	b's right to calculate <span style="white-space:nowrap"><code>v()<sup>b()</sup></code></span>.
-	To match the equation <span style="white-space:nowrap"><code>y<sup>2</sup> = xv()<sup>b()</sup></code></span>,
-	x can be set to <span style="white-space:nowrap"><code>v()<sup>b()</sup></code></span>
-	which will lead to <span style="white-space:nowrap"><code>y<sup>2</sup> = x<sup>2</sup></code></span>.
-	This is true for x = y.
-	The probability to guess all k b's right is <span style="white-space:nowrap"><code>0.5<sup>k</sup></code></span>.</p>
+	<p> The attacker Carol does not know \(s\). She can try to feign the possesion of \(s\)
+	to Bob. To achieve this she:</p>
+
+	<ol>
+	<li>eavesdrops the public vector \(v\).</li>
+	<li>randomly selects a \(\ y \mod n\)</li>
+	<li>guesses, which \(b\) Bob will send her. Using this, she calculates \(x\) as 
+	\(x = y^2 \cdot v_1^{-b_1} \cdot v_2^{-b_2}\ \cdot\ ...\ \cdot\ v_k^{-b_k} \mod n\)</li>
+	<li>sends \(x\) to Bob</li>
+	<li>receives \(b\) from Bob. Because Carol already had to guess it in step 3,
+	it is not important anymore.</li>
+	<li>send \(y\) to Bob. If she guessed \(b\) correctly, Bob will receive a correct result, since: 
+	
+	\begin{alignat}{3}
+	y^2 &\equiv x & \cdot v_1^{b_1} &\cdot v_2^{b_2}\ &\ ...\ &v_k^{b_k} &\mod n \quad
+		|\ \textrm{substitute} \ x\\
+	y^2 &\equiv y^2 & \cdot v_1^{-b_1} v_1^{b_1} &\cdot v_2^{-b_2} v_2^{b_2}\ 
+		& ...\ &v_k^{-b_k} v_k^{b_k} &\mod n\\
+	y^2 &\equiv y^2 & \cdot \cancel{v_1^{-b_1} v_1^{b_1}} &\cdot \cancel{v_2^{-b_2} v_2^{b_2}}\ 
+		&...\ &\cancel{v_k^{-b_k} v_k^{b_k}} &\mod n\\
+	y^2 &\equiv y^2 & \color{green}{\checkmark}
+	\end{alignat}
+	</li>
+	</ol>	
+
+	<p>	If she guesses \(b\) incorrectly, not all terms would cross out 
+	and Bob's \(y\) would be different from Carol's randomly chosen one.</p>
+	
+	<p>	The probability that she guesses correctly is \(0,5^k\). This chance reduces even further
+	for each round \(t\) of the protocol \(0,5^{kt}\).
+	Even for small numbers like \(k = 4\) and \(t = 5\) this is already a chance of 1 to a million. 
+	</p>
+	
 </body>
 </html>
 

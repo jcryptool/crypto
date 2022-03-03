@@ -1,9 +1,10 @@
-<! DOCTYPE HTML PUBLIC "- // W3C // DTD HTML 4.0 Transitional // EN">
+<!DOCTYPE html>
 
 <html>
 <head>
 <meta http-equiv="content-type" content="text / html; charset = UTF-8">
 <title>The SPHINCS+ signature</title>
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 <body>
 	<h1>The SPHINCS+ signature (and how to use the plugin)</h1>
@@ -21,11 +22,10 @@
 	<li><a href="ablauf.html">Process/scheme </a></li>
 	</ul>
 
-	<p>Remark: Besides the newer scheme <b>SPHINCS+</b>, JCT also contains the older PQC scheme <a href="PLUGINS_ROOT/org.jcryptool.visual.sphincs/$nl$/help/content/index.html">SPHINCS</a></p>.
+	<p>Remark: Besides the newer scheme <b>SPHINCS+</b>, JCT also contains the older PQC scheme
+		<a href="PLUGINS_ROOT/org.jcryptool.visual.sphincs/$nl$/help/content/index.html">SPHINCS</a>.
+	</p>
 
-
-
-	<p>&nbsp;</p>
 	<h2>Using the plugin</h2>
 		<p>The plugin can be opened via the main menu entry "Visualization" and the
 			menu item "SPHINCS+ signature". Then a tab "SPHINCS+
@@ -38,15 +38,17 @@
 		</ul>
 	<p>Below, the content of the 4 sub-tabs is described.</p>
 
-
-	<p>&nbsp;</p>
 	<h2 id="params">1st sub-tab "Parameters and Key Generation"</h2>
-	<p>In the 1st sub-tab you can see and adjust the used parameters and then generate the keys which will then be used for signing and verifying in the second sub-tab.</p>
-	<p> The following screenshot shows the default settings and the keys generated randomly by pressing the button "Generate keys". You can also input your own keys to test examples from the literature.</p>
-	<img src="images/SPHINCSplus_Sub-tab1_After-Pressing-KeyGen.png" alt="Sub-tab 1" id="subtab1" width = "90%" />
+	<p>In the 1st sub-tab you can see and adjust the used parameters and then generate the keys
+		which will then be used for signing and verifying in the second sub-tab.</p>
+	<p>The following screenshot shows the default settings and the keys generated randomly by
+		pressing the button "Generate keys". You can also input your own keys to test examples
+		from the literature.</p>
+	<img src="images/SPHINCSplus_Sub-tab1_After-Pressing-KeyGen.png" alt="Sub-tab 1" id="subtab1" width="90%"/>
 	
 		<h4 id="Parameter">Grouping "Parameter"</h4>
-		<p>In the first sub-tab you can modify and view the following parameters of the procedure. The parameters are displayed in the decimal system (base 10).</p>
+		<p>In the first sub-tab you can modify and view the following parameters of the procedure.
+			The parameters are displayed in the decimal system (base 10).</p>
 		<table border=1>
 			<Thead>
 				<Tr>
@@ -68,48 +70,48 @@
 						In the second combo box you choose which hash method is used.</td>
 				</Tr>
 				<Tr>
-					<td>n</td>
+					<td>\(n\)</td>
 					<td>The security parameter of the procedure. The signature length is
-					a multiple of n. The parameter n defines the output length of all
-					used cryptographic functions except H<sub>msg</sub>.</td>
+					a multiple of \(n\). The parameter \(n\) defines the output length of all
+					used cryptographic functions except \(H_\text{msg}\).</td>
 				</Tr>
 				<Tr>
-					<td>h</td>
-					<td>The parameter h indicates the height of the hypertree, and
+					<td>\(h\)</td>
+					<td>The parameter \(h\) indicates the height of the hypertree, and
 					thus the number of FORS instances.<br>
-					The bigger the parameter h is the more unlikely it is that a FORS key
+					The bigger the parameter \(h\) is the more unlikely it is that a FORS key
 					pair is used several times. The process is more secure, but thus
 					the height of the hypertree and thus the signature length grows.</td>
 				</Tr>
 				<Tr>
-					<td>d</td>
-					<td>The parameter d can be used to influence the speed of the process.
-						d defines the number of levels in the
-						XMSS trees in the hypertree. As a result, parameter d must divide
-						parameter h.<br> The larger d is, the smaller are the
-						subtrees and the faster the signing works. However, d also defines
+					<td>\(d\)</td>
+					<td>The parameter \(d\) can be used to influence the speed of the process.
+						\(d\) defines the number of levels in the
+						XMSS trees in the hypertree. As a result, parameter \(d\) must divide
+						parameter \(h\).<br> The larger \(d\) is, the smaller are the
+						subtrees and the faster the signing works. However, \(d\) also defines
 						the number of WOTS+ signatures in a hypertree, and also in the
 						resulting signature.</td>
 				</Tr>
 				<Tr>
-					<td>log (t) or a</td>
-					<td>The parameter a is calculated by the logarithm dualis
-						of t.<br> t defines the number of leaves in one FORS
-						tree and must be a multiple of 2.<br> A smaller t leads
+					<td>\(\log(t)\) or \(a\)</td>
+					<td>The parameter \(a\) is calculated by the logarithm dualis
+						of \(t\).<br> \(t\) defines the number of leaves in one FORS
+						tree and must be a multiple of 2.<br> A smaller \(t\) leads
 						to smaller and faster signatures, but given a predefined security
-						level it involves a larger parameter k.</td>
+						level it involves a larger parameter \(k\).</td>
 				</Tr>
 				<Tr>
-					<td>k</td>
-					<td>The k parameter is related to the t parameter. These 2
+					<td>\(k\)</td>
+					<td>The \(k\) parameter is related to the \(t\) parameter. These 2
 						parameters define the speed and security of FORS.</Td>
 				</Tr>
 				<Tr>
-					<td>w</td>
-					<td>The Winternitz parameter w defines the number and length
+					<td>\(w\)</td>
+					<td>The Winternitz parameter \(w\) defines the number and length
 						of the hash chains per WOTS<sup>+</sup> instance. <br> A bigger
 						value leads to a linearly longer length of the chains, but to
-						a logarithmically reduced number of them. A large value w leads to shorter
+						a logarithmically reduced number of them. A large value \(w\) leads to shorter
 						signatures, however, this will be at the expense of speed
 						(exponentially).</td>
 				</Tr>
@@ -139,14 +141,13 @@
 				</Tr>
 				<tr>
 					<td>Button "Generate keys"</td>
-					<td>Pushing this button, a SPHINCS+ key pair is generated. The key pair is displayed in the grouping below."Enter parameters manually"</td>
+					<td>Pushing this button, a SPHINCS+ key pair is generated. The key pair is
+						displayed in the grouping below."Enter parameters manually"</td>
 				</tr>
 			</Tbody>
 		</Table>
 
-
-	<p>&nbsp;</p>
-		<h4>Grouping "Secret and public key components"</h4>
+	<h4>Grouping "Secret and public key components"</h4>
 		<p>The display of the keys can be switched between
 			"Hex" (hexadecimal) and "Base64" with two radiobuttons.</p>
 		<p>Enabling the checkbox "Enter keys manually" the seed can entered
@@ -154,9 +155,9 @@
 			Enabling this checkbox also changes the title of the button
 			"Generate keys"	to "Set keys".</p>
 		<p>The secret key consists of four parts each n bytes long
-			(so each is 2*n hex characters long). In the graphical user
+			(so each is \(2 \cdot n\) hex characters long). In the graphical user
 			interface, these parts are displayed separately. The abbreviation
-			"SK" stands for "secret key" (private key) and "PK" for "public key".</p>
+			\(SK\) stands for "secret key" (private key) and \(PK\) for "public key".</p>
 		<table border=1>
 			<Thead>
 				<td>Component</td>
@@ -164,35 +165,36 @@
 			</Thead>
 			<Tbody>
 				<Tr>
-					<td>SK.seed</td>
-					<td>The initialization vector SK.seed is used to create all
+					<td>\(SK\).seed</td>
+					<td>The initialization vector \(SK\).seed is used to create all
 						secret keys of WOTS<sup>+</sup> and FORS. It is the secret
 						key of the hypertree.</td>
 				</Tr>
 				<Tr>
-					<Td>SK.prf</td>
-					<td>The secret key SK.prf is used to calculate the random
+					<Td>\(SK\).prf</td>
+					<td>The secret key \(SK\).prf is used to calculate the random
 						value for the message hash.</td>
 				</Tr>
 				<Tr>
-					<td>PK.seed</td>
-					<td>PK.seed is a random value.</td>
+					<td>\(PK\).seed</td>
+					<td>\(PK\).seed is a random value.</td>
 				</Tr>
 				<Tr>
-					<td>PK.root</td>
-					<td>PK.root is the public key of the hypertree.</td>
+					<td>\(PK\).root</td>
+					<td>\(PK\).root is the public key of the hypertree.</td>
 				</Tr>
 			</Tbody>
 		</Table>
 
-
-
-
-	<p>&nbsp;</p>
 	<h2 id="signing">2nd sub-tab "Signing and Verification"</h2>
-	<p>In the 2nd sub-tab, you can enter a message (or keep the default) and then sign it with SPHINCS+ (prerequisite is, that keys have been created in advance in the 1st sub-tab). Afterwards you can verify the signature.</p>
-	<p>As long as you don't change anything, the verification will always succeed (ok). But if you change the message and click again the button "Verify signature", the verification will fail.<br> Currently the signature values cannot be changed in this sub-tab. If you generate again new keys in the first sub-tab, they will be used here not until you sign the message again.</p>
-	<img src="images/SPHINCSplus_Sub-tab2_After-Pressing-Verify.png" alt="Sub-tab 2" id="subtab2" width = "90%" />
+	<p>In the 2nd sub-tab, you can enter a message (or keep the default) and then sign it with
+		SPHINCS+ (prerequisite is, that keys have been created in advance in the 1st sub-tab).
+		Afterwards you can verify the signature.</p>
+	<p>As long as you don't change anything, the verification will always succeed (ok). But if you
+		change the message and click again the button "Verify signature", the verification will fail.<br>
+		Currently the signature values cannot be changed in this sub-tab. If you generate again new keys
+		in the first sub-tab, they will be used here not until you sign the message again.</p>
+	<img src="images/SPHINCSplus_Sub-tab2_After-Pressing-Verify.png" alt="Sub-tab 2" id="subtab2" width="90%" />
 	
 		<h4>Grouping "Message"</h4>
 		<p>Here you can enter the message, which should be signed.</p>
@@ -208,7 +210,7 @@
 			Then it doesn't fit any more to the generated signature.</p>
 		<p>If you push several times on the button "Sign message", you'll
 			notice, that always a new signature is calculated. This signature
-			each time has a different value, as the random value R is different.</p>
+			each time has a different value, as the random value \(R\) is different.</p>
 		<p>The status rectangle on the right of the two buttons shows the current status.</p>
 
 		<h4>Grouping "Character encoding"</h4>
@@ -218,15 +220,25 @@
 		<h4>Grouping "Signature values"</h4>
 		<p>A SPHINCS+ signature consists of 3 parts each displayed separately in the
 			graphical user interface.</p>
-		<p>These values are the random value "R", the signature part
+		<p>These values are the random value \(R\), the signature part
 			generated by FORS, and the signature part generated from the hypertree.</p>
 
-
-	<p>&nbsp;</p>
 	<h2 id="hypertree">3rd sub-tab "SPHINCS+ Hypertree"</h2>
+
+	<div>
+		<div>
+			<svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+			fill="#1565C0"><path d="M0 0h24v24H0V0z" fill="none"/>
+			<path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+			<span>Note:</span> This tab is not available under Linux (GTK) due to technical constraints.
+		</div>
+	</div>
+
 	<p>In this sub-tab a typical hypertree and its elements are graphically displayed.</p>
-	<p>The sub-tabs 3 and 4 can be opened independently of the key generation in the 1st sub-tab. So the hypertree has a fixed size and isn't (yet) generated dynamically from the parameters in the 1st sub-tab.</p>
-	<img src="images/SPHINCSplus_Sub-tab3_Hypertree.png" alt="Sub-tab 3" id="subtab3" width = "90%" />
+	<p>The sub-tabs 3 and 4 can be opened independently of the key generation in the 1st sub-tab.
+		So the hypertree has a fixed size and isn't (yet) generated dynamically from the parameters in
+		the 1st sub-tab.</p>
+	<img src="images/SPHINCSplus_Sub-tab3_Hypertree.png" alt="Sub-tab 3" id="subtab3" width="90%"/>
 
 		<p>In the upper section is a description and a dynamic text field.
 			The dynamic text field shows information for the element in the
@@ -239,16 +251,24 @@
 			one sub-tab forward to the fourth sub-tab in this plugin.</p>
 
 
-	<p>&nbsp;</p>
 	<h2 id="forest">4th sub-tab "SPHINCS+ FORS"</h2>
+
+	<div>
+		<div>
+			<svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+			fill="#1565C0"><path d="M0 0h24v24H0V0z" fill="none"/>
+			<path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+			<span>Note:</span> This tab is not available under Linux (GTK) due to technical constraints.
+		</div>
+	</div>
+
 		<p>The public key of the FORS tree is used as a leaf in the
 			hypertree. The FORS tree again consists of subtrees. These
 			subtrees are displayed as a drop-down item. There, the root and the
 			container element are marked in green &ndash; they represent the same
 			element.</p>
-	<img src="images/SPHINCSplus_Sub-tab4_FORS.png" alt="Sub-tab 4" id="subtab4" width = "90%" />
 
-<p>&nbsp;</p>		
+	<img src="images/SPHINCSplus_Sub-tab4_FORS.png" alt="Sub-tab 4" id="subtab4" width="90%"/>
 </body>
 </html>
 

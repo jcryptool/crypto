@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <title>Der SPHINCS+-Algorithmus</title>
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 <body>
 	<h1>Der Algorithmus von SPHINCS+</h1>
@@ -17,7 +18,6 @@
 		werden hier zuerst erklärt und danach folgt der Ablauf und der
 		Zusammenhang zwischen den Elementen.</p>
 
-	<p>&nbsp;</p>
 	<h2>FORS</h2>
 	<p>FORS ist die Abkürzung für "Forest of random Subsets". FORS ist
 		ein "few-times signature scheme". Es ist eine Verbesserung von HORST,
@@ -26,34 +26,34 @@
 		ist.</p>
 	<h3>Verwendete Parameter</h3>
 	<ul>
-		<li>n: definiert die Länge der geheimen und öffentlichen
+		<li>\(n\): definiert die Länge der geheimen und öffentlichen
 			Schlüssel, Anzahl der Bytes in einem Signaturelement.</li>
-		<li>k: Anzahl der geheimen Schlüsselgruppen, Bäume und Indizes,
+		<li>\(k\): Anzahl der geheimen Schlüsselgruppen, Bäume und Indizes,
 			welche von der Eingabezeichenkette berechnet werden. </li>
-		<li>t: Anzahl der Elemente pro geheimer Schlüsselgruppe, Anzahl
+		<li>\(t\): Anzahl der Elemente pro geheimer Schlüsselgruppe, Anzahl
 			der Blätter pro Hashbaum und die Obergrenze des berechneten
 			Indexwerts. Der Parameter muss ein Vielfaches von 2 sein.</li>
 	</ul>
 
 
-	<p>FORS verwendet die Parameter k und t (t=2<sup>a</sup>). Es signiert
-		Zeichenketten der Länge k*a.</p>
-	<p>Der geheime Schlüssel besteht aus k*t zufälligen Zeichenketten
-		der Bytelänge n. Die Schlüssel werden in k Gruppen mit jeweils t
+	<p>FORS verwendet die Parameter \(k\) und \(t\) \((t=2^a)\). Es signiert
+		Zeichenketten der Länge \(k \cdot a\).</p>
+	<p>Der geheime Schlüssel besteht aus \(k \cdot t\) zufälligen Zeichenketten
+		der Bytelänge \(n\). Die Schlüssel werden in \(k\) Gruppen mit jeweils \(t\)
 		Elementen gruppiert. Die Zeichenketten werden pseudozufällig mit Hilfe
-		des geheimen Hauptschlüssels SK.seed generiert.</p>
-	<p>Ein öffentlicher FORS-Schlüssel ist ein Hashwert der Länge n. Er
-		wird aus einem Hash der Wurzelknoten der k Binärbäume berechnet.</p>
-	<p>Jeder der Binärbäume hat eine Höhe a und wird verwendet, um t
-		geheime Schlüssel der k Gruppen zu authentifizieren.<p>
+		des geheimen Hauptschlüssels \(SK\).seed generiert.</p>
+	<p>Ein öffentlicher FORS-Schlüssel ist ein Hashwert der Länge \(n\). Er
+		wird aus einem Hash der Wurzelknoten der \(k\) Binärbäume berechnet.</p>
+	<p>Jeder der Binärbäume hat eine Höhe \(a\) und wird verwendet, um \(t\)
+		geheime Schlüssel der \(k\) Gruppen zu authentifizieren.<p>
 
 	<h3>FORS-Signatur</h3>
-	<p>Eine FORS-Signatur besteht aus k geheimen Schlüsselelementen und
+	<p>Eine FORS-Signatur besteht aus \(k\) geheimen Schlüsselelementen und
 		dem Authentifizierungspfad.</p>
 	<p>Um eine FORS-Signatur zu berechnen, wird der Nachrichten-Hash (md,
-		message digest) in k Bitketten der Länge a unterteilt. Hierbei ist zu
-		beachten, dass a die Anzahl der Bits ist. Die Bitketten werden dann
-		als Zahl zwischen 0 und t-1 interpretiert.<br> Um einen geheimen
+		message digest) in \(k\) Bitketten der Länge \(a\) unterteilt. Hierbei ist zu
+		beachten, dass \(a\) die Anzahl der Bits ist. Die Bitketten werden dann
+		als Zahl zwischen 0 und \(t-1\) interpretiert.<br> Um einen geheimen
 		Schlüssel zu erlangen, werden die Sets der Reihe nach ausgewählt und
 		aus den Sets wird der geheime Schlüssel mit dem berechneten Index
 		ausgewählt.</p>
@@ -64,53 +64,54 @@
 	<h4>FORS-TreeHash</h4>
 	<p>Die verwendeten Parameter sind:</p>
 	<ul>
-		<li>SK.seed, der geheime Hauptinitialisierungsvektor</li>
-		<li>s, der start index</li>
-		<li>z, die Höhe des Zielknotens</li>
-		<li>PK.seed, der öffentliche Hauptinitialisierungsvektor</li>
-		<li>adrs, die Adresse des Baums</li>
+		<li>\(SK\).seed, der geheime Hauptinitialisierungsvektor</li>
+		<li>\(s\), der start index</li>
+		<li>\(z\), die Höhe des Zielknotens</li>
+		<li>\(PK\).seed, der öffentliche Hauptinitialisierungsvektor</li>
+		<li>\(\text{adrs}\), die Adresse des Baums</li>
 	</ul>
 
-	<p>Mit der Funktion FORS-TreeHash werden die Knoten der Länge n berechnet.
+	<p>Mit der Funktion FORS-TreeHash werden die Knoten der Länge \(n\) berechnet.
 		Die Funktion funktioniert ähnlich wie die TreeHash-Funktion des
-		Merkle-Baums. Es wird vorausgesetzt, dass 2%2<sup>z</sup>=0 ist, da
+		Merkle-Baums. Es wird vorausgesetzt, dass \(2 \; \text{mod}\; 2^z=0\) ist, da
 		der TreeHash-Algorithmus ansonsten Knoten berechnen würden, welche
 		nicht im Baum sind.</p>
 
 	<h4>FORS-Signatur-Generierung</h4>
 	<p>
-		Eine FORS-Signatur besteht k Teilen, wobei jeder Teil ein geheimer
-		Schlüssel aus n Bytes ist und der dazugehörige Authentifizierungspfad
-		mit ld(t)*n Bytes.<br> Die Schlüsselerzeugung lässt sich auf
+		Eine FORS-Signatur besteht \(k\) Teilen, wobei jeder Teil ein geheimer
+		Schlüssel aus \(n\) Bytes ist und der dazugehörige Authentifizierungspfad
+		mit \(log_2(t) \cdot n\) Bytes.<br> Die Schlüsselerzeugung lässt sich auf
 		mehrere Schritte aufteilen:</p>
 	<ol>
-		<li>Für jedes Signaturelement:</li>
+		<li>Für jedes Signaturelement:
 		<ol>
-			<li>Berechne den nächsten Index (t Bits aus dem Nachrichtenhash
+			<li>Berechne den nächsten Index (\(t\) Bits aus dem Nachrichtenhash
 				werden als Zahl interpretiert)</li>
 			<li>Wähle einen geheimen Schlüssel</li>
 			<li>Berechne den Authentifizierungspfad (Aufruf der
 				TreeHash-Funktion)</li>
 			<li>Hänge den Schlüssel und den Pfad an die FORS-Signatur an</li>
 		</ol>
+</li>
 		<li>Zurückgeben der gesamten FORS-Signatur</li>
 	</ol>
 	<p>Eine Signatur hat dann folgendes Schema:</p>
 	<table border=1>
 		<tr>
-			<td>Private key value (tree 0) (n bytes)</td>
+			<td>Private key value (tree 0) (\(n\) bytes)</td>
 		</tr>
 		<tr>
-			<td>Authentifizierungspfad (tree 0) (log t * n bytes)</td>
+			<td>Authentifizierungspfad (tree 0) (\(\log_2(t \cdot n)\) bytes)</td>
 		</tr>
 		<tr>
 			<td>. . .</td>
 		</tr>
 		<tr>
-			<td>Private key value (tree k-1) (n bytes)</td>
+			<td>Private key value (tree \(k-1\)) (\(n\) bytes)</td>
 		</tr>
 		<tr>
-			<td>Authentifizierungspfad (tree k-1) (log t*n bytes)</td>
+			<td>Authentifizierungspfad (tree \(k-1\)) (\(\log_2(t \cdot n)\) bytes)</td>
 		</tr>
 	</table>
 
@@ -123,31 +124,31 @@
 		sondern nur "fors_pkFromSig".</p>
 	<p>Die Funktion nimmt folgende Parameter:</p>
 	<ul>
-		<li>Nachricht M, ein k*ld(t) langer Bitstring</li>
+		<li>Nachricht \(M\), ein \(k \cdot log_2(t)\) langer Bitstring</li>
 		<li>SIG<sub>FORS</sub>, eine FORS-Signatur
 		</li>
-		<li>PK.seed, der öffentliche Hauptinitialisierungsvektor</li>
-		<li>adrs, die Adresse des Baums. Beschreibt die Position der
+		<li>\(PK\).seed, der öffentliche Hauptinitialisierungsvektor</li>
+		<li>\(\text{adrs}\), die Adresse des Baums. Beschreibt die Position der
 			FORS-Instanz in der virtuellen SPHINCS+-Struktur.</li>
 	</ul>
-	<p>Als erstes werden die Wurzeln der k Binärbäume mittels TreeHash
+	<p>Als erstes werden die Wurzeln der \(k\) Binärbäume mittels TreeHash
 		berechnet. Danach werden die Wurzeln mittels der anpassbaren
-		Hashfunktion T<sub>k</sub> gehasht.</p>
+		Hashfunktion \(T_k\) gehasht.</p>
 	<p>Der Algorithmus hat folgendes Schema:</p>
 	<ol>
-		<li>Für jedes Signaturelement:</li>
+		<li>Für jedes Signaturelement:
 		<ol>
-			<li>Berechne den nächsten Index (t Bits aus dem Nachrichten-Hash
+			<li>Berechne den nächsten Index (\(t\) Bits aus dem Nachrichten-Hash
 				werden als Zahl interpretiert)</li>
 			<li>Berechne das Blatt</li>
 			<li>Berechne die Wurzel ausgehend vom Blatt und den
 				Authentifizierungspfad</li>
 		</ol>
+		</li>
 		<li>Erstelle den öffentlichen Schlüssel und gib diesen zurück</li>
 	</ol>
 
 
-	<p>&nbsp;</p>
 	<h2>WOTS<sup>+</sup>-Einmal-Signaturen</h2>
 	<p>WOTS+ beschreibt ein Verfahren um eine beliebige Nachricht zu
 		signieren. Der private Schlüssel darf nur ein Mal zum Signieren
@@ -155,75 +156,76 @@
 		Verfahren unsicher.</p>
 	<p>WOTS+ verwendet folgende Parameter:</p>
 	<ul>
-		<li>n: Der Sicherheitsparameter beschreibt die Nachrichtenlänge
+		<li>\(n\): Der Sicherheitsparameter beschreibt die Nachrichtenlänge
 			als auch die Länge der privaten Schlüssel, des öffentlichen
 			Schlüssels und der Signaturelemente in Bytes.</li>
-		<li>w: Der Winternitz-Parameter ist ein Element der Liste {4, 16,
-			256}. Ein größerer Wert bedeutet kleinere Signaturen, jedoch
+		<li>\(w\): Der Winternitz-Parameter ist ein Element der Liste \(\{4, 16,
+			256\}\). Ein größerer Wert bedeutet kleinere Signaturen, jedoch
 			langsamere Operationen.</li>
 	</ul>
 	<p>Die Anzahl der Elemente in einer WOTS+-Signatur, einem öffentlichen
 		Schlüssel und einem privaten Schlüssel lässt sich mit folgender Formel
-		berechnen: len = len<sub>1</sub> + len<sub>2</sub> mit:<br>
-		len<sub>1</sub>	= ceil(n / log(w))<br>
-		len<sub>2</sub> = floor(ld(len<sub>1</sub>(w-1)) / ld(w)) + 1<br></p>
+		berechnen: \(\text{len} = \text{len}_1  +  \text{len}_2\) mit:<br>
+		\(\text{len}_1 = \text{ceil}(\frac{n}{\log(w)})\)<br>
+		\(\text{len}_2 = \text{floor}(\log_2(\frac{\text{len}_1(w-1))}{\log_2(w)})) + 1\)<br></p>
 
 	<h4>WOTS<sup>+</sup>-Kettenfunktion</h4>
-	<p>Die WOTS+-Kettenfunktion berechnet eine Iteration der
-		Hash-Funktion F über die n Byte lange Eingabezeichenkette unter der
-		Verwendung von ADRS und PK.seed.</p>
+	<p>Die WOTS<sup>+</sup>-Kettenfunktion berechnet eine Iteration der
+		Hash-Funktion \(F\) über die \(n\) Byte lange Eingabezeichenkette unter der
+		Verwendung von \(\text{adrs}\) und \(PK\).seed.</p>
 	<p>Die verwendeten Parameter sind:</p>
 	<ul>
-		<li>X, die Eingabezeichenkette</li>
-		<li>i, der Startindex</li>
-		<li>s, die Anzahl der Schritte</li>
-		<li>PK.seed, der öffentliche Intialisierungsvektor</li>
-		<li>ADRS, sieben Felder mit jeweils 32-bit Wörtern um die Adresse
+		<li>\(X\), die Eingabezeichenkette</li>
+		<li>\(i\), der Startindex</li>
+		<li>\(s\), die Anzahl der Schritte</li>
+		<li>\(PK\).seed, der öffentliche Intialisierungsvektor</li>
+		<li>\(\text{adrs}\), sieben Felder mit jeweils 32-bit Wörtern um die Adresse
 			der Kette enthalten zu können</li>
 	</ul>
 
 	<p>Ablauf:</p>
 	<ol>
-		<li>Überprüfen ob S==0 ist, wenn ja, gebe X zurück</li>
-		<li>Überprüfen ob (i+s) > (w-1) ist, wenn ja, gebe NULL zurück</li>
+		<li>Überprüfen ob \(s = 0\) ist, wenn ja, gebe \(X\) zurück</li>
+		<li>Überprüfen ob \(i+s > w-1\) ist, wenn ja, gebe NULL zurück</li>
 		<li>Rekursiver Aufruf der Funktion, mit den gleichen Parametern,
-			außer s-1. Rückgabewert speichern in tmp.</li>
-		<li>setzen der Hash-Adresse auf i+s-1</li>
-		<li>Zurückgeben des Hashes von (PK.seed, ADRS, tmp);
+			außer \(s-1\). Rückgabewert speichern in tmp.</li>
+		<li>setzen der Hash-Adresse auf \(i+s-1\)</li>
+		<li>Zurückgeben des Hashes von (\(PK\).seed, \(\text{adrs}\), tmp);
 	</ol>
 
 	<h4>WOTS<sup>+</sup>-Signatur</h4>
-	<p>Eine WOTS+-Signatur ist ein Array mit der Länge len, bei dem jedes
-		Feld eine Zeichenkette mit der Länge n Bytes ist. Die Signatur wird
-		generiert, indem die Nachricht in Zahlen von 0 bis w-1 umgewandelt
-		wird. Danach wird die Basis der Zahlen auf w geändert(Länge len<sub>1</sub>).
-		Es wird eine Prüfsumme über M berechnet und auch auf Basis w
-		umgerechnet(Länge len<sub>2</sub>). Die Prüfsumme kann einen maximalen
-		Wert von len<sub>1</sub>*(w-1)*2<sup>8</sup> erreichen.<br> Jede
-		der Zahlen zur Basis w wird verwendet um einen Knoten von einer
+	<p>Eine WOTS<sup>+</sup>-Signatur ist ein Array mit der Länge \(\text{len}\), bei dem jedes
+		Feld eine Zeichenkette mit der Länge \(n\) Bytes ist. Die Signatur wird
+		generiert, indem die Nachricht in Zahlen von \(0\) bis \(w-1\) umgewandelt
+		wird. Danach wird die Basis der Zahlen auf \(w\) geändert(Länge \(\text{len}_1\)).
+		Es wird eine Prüfsumme über \(M\) berechnet und auch auf Basis \(w\)
+		umgerechnet(Länge \(\text{len}_2\)). Die Prüfsumme kann einen maximalen
+		Wert von \(len_1 \cdot (w-1) \cdot 2^8\) erreichen.<br> Jede
+		der Zahlen zur Basis \(w\) wird verwendet um einen Knoten von einer
 		anderen Hashkette zu verwenden. Die Signatur entsteht aus dem
 		Aneinanderhängen der verschiedenen Knoten. Die Parameter sind die
-		Nachricht M, SK.seed, PK.seed, ADRS.</p>
+		Nachricht \(M\), \(SK\).seed, \(PK\).seed, \(\text{adrs}\).</p>
 
 	<p>Ablauf</p>
 	<ol>
-		<li>Nachricht zur Basis w umwandeln</li>
+		<li>Nachricht zur Basis \(w\) umwandeln</li>
 		<li>Prüfsumme berechnen</li>
-		<li>Umwandeln der Prüfsumme zur Basis w</li>
-		<li>len Mal folgende Schritte machen:</li>
+		<li>Umwandeln der Prüfsumme zur Basis \(w\)</li>
+		<li>\(\text{len}\) Mal folgende Schritte machen:
 		<ol>
 			<li>Setzen der Kettenadresse</li>
-			<li>Aufrufen der Ketten-Funktion mit dem Hash von SK.seed und
-				ADRS, 0, Nachricht an der aktuellen Position, PK.seed und ADRS.
+			<li>Aufrufen der Ketten-Funktion mit dem Hash von \(SK\).seed und
+				\(\text{adrs}\), 0, Nachricht an der aktuellen Position, \(PK\).seed und \(\text{adrs}\).
 				Ergebnis anhängen an die aktuelle Position der Signatur.</li>
 		</ol>
+		</li>
 		<li>Zurückgeben der Signatur</li>
 	</ol>
 
 
 	<h4 id="wotspkFromSig"> WOTS<sup>+</sup>-Verifikation</h4>
 	<p>Gleich wie bei FORS gibt es keine direkte Funktion zum
-		Verifizieren von WOTS+-Signaturen. Es gibt nur eine Funktion, welche
+		Verifizieren von WOTS<sup>+</sup>-Signaturen. Es gibt nur eine Funktion, welche
 		den öffentlichen Schlüssel aus einer Signatur extrahiert, welcher dann
 		implizit verifiziert wird.</p>
 	<p>Die Berechnung startet mit der Berechnung der restlichen Kette,
@@ -233,70 +235,69 @@
 		öffentlichen SPHINCS+-Schlüssels gemacht.</p>
 	<p>Es werden folgende Parameter verwendet:</p>
 	<ul>
-		<li>sig, die WOTS+-Signatur</li>
-		<li>M, die Nachricht</li>
-		<li>PK.seed</li>
-		<li>ADRS</li>
+		<li>\(sig\), die WOTS<sup>+</sup>-Signatur</li>
+		<li>\(M\), die Nachricht</li>
+		<li>\(PK\).seed</li>
+		<li>\(\text{adrs}\)</li>
 	</ul>
 	<p>Der Ablauf der Berechnung des öffentlichen Schlüssels ist gleich
 		wie die Erstellung einer Signatur. Der einzige Unterschied ist, dass
 		nicht die Signatur selbst zurückgegeben wird, sondern der generierte
 		öffentliche Schlüssel. Der Schlüssel wird durch den Aufruf einer
-		Hashfunktion mit den Parametern PK.seed, der Adresse des öffentlichen
+		Hashfunktion mit den Parametern \(PK\).seed, der Adresse des öffentlichen
 		Schlüssels von WOTS+ und der Ausgabe der Kettenfunktion generiert.</p>
 
 
-	<p>&nbsp;</p>
 	<h2>XMSS</h2>
 	<p>XMSS steht für "eXtended Merkle Signature Scheme", welches die
-		Verbindung von WOTS+ mit einem binären Hashbaum ist. Es werden 2<sup>h'</sup>
+		Verbindung von WOTS<sup>+</sup> mit einem binären Hashbaum ist. Es werden \(2^{h'}\)
 		WOTS<sup>+</sup> öffentliche Schlüssel authentifiziert mittels dem
-		Binärbaum, der eine Höhe von h' hat. Somit kann jedes
-		XMSS-Schlüsselpaar der Höhe h' dafür verwendet werden, um 2<sup>h'</sup>
+		Binärbaum, der eine Höhe von \(h'\) hat. Somit kann jedes
+		XMSS-Schlüsselpaar der Höhe \(h'\) dafür verwendet werden, \(2^{h'}\)
 		verschiedene Nachrichten zu signieren.</p>
 	<p>Eine XMSS-Signatur enthält die WOTS+-Signatur von der Nachricht
 		und den Authentifizierungspfad. Der Pfad ist ein Vektor von Knoten,
 		welche bei der Verifizierung das Berechnen der Wurzel, beginnend von
-		der WOTS+-Signatur, erlaubt.</p>
+		der WOTS<sup>+</sup>-Signatur, erlaubt.</p>
 	<p>XMSS verwendet folgende Parameter:</p>
 	<ul>
-		<li>h': die Höhe (d-1) des Baums</li>
-		<li>n: die Nachrichten-und Knotenlänge</li>
-		<li>w: der Winternitz-Parameter</li>
+		<li>\(h'\): die Höhe (\(d-1\)) des Baums</li>
+		<li>\(n\): die Nachrichten-und Knotenlänge</li>
+		<li>\(w\): der Winternitz-Parameter</li>
 	</ul>
-	<p>In SPHINCS+ ist ein geheimer XMSS-Schlüssel der SK.seed, welcher
+	<p>In SPHINCS+ ist ein geheimer XMSS-Schlüssel der \(SK\).seed, welcher
 		im geheimen SPHINCS+-Schlüssel enthalten ist. Er wird verwendet um
-		einen geheimen WOTS+-Schlüssel zu generieren.</p>
+		einen geheimen WOTS<sup>+</sup>-Schlüssel zu generieren.</p>
 
 	<h4>TreeHash</h4>
 	<p>Für die Berechnung der internen Knoten des Merkle-Baums, welche
-		n Byte lange sind, wird die Funktion TreeHash verwendet. Die
+		\(n\) Byte lange sind, wird die Funktion TreeHash verwendet. Die
 		verwendeten Parameter sind:</p>
 	<ul>
-		<li>SK.seed</li>
-		<li>PK.seed</li>
-		<li>s, der Startindex. Beginnend beim Blatt des Baums, und
+		<li>\(SK\).seed</li>
+		<li>\(PK\).seed</li>
+		<li>\(s\), der Startindex. Beginnend beim Blatt des Baums, und
 			startet mit 0.</li>
-		<li>z, die Höhe des Zielknotens</li>
-		<li>ADRS, die Adresse des Baums</li>
+		<li>\(z\), die Höhe des Zielknotens</li>
+		<li>\(\text{adrs}\), die Adresse des Baums</li>
 	</ul>
-	<p>Der Algorithmus gibt die Wurzel eines Baums mit der Höhe z
+	<p>Der Algorithmus gibt die Wurzel eines Baums mit der Höhe \(z\)
 		zurück, bei dem das Blatt, welches sich links befindet, den
-		öffentlichen WOTS+-Schlüssel mit dem Index s darstellt.</p>
-	<p>Eine Voraussetzung für diesen Algorithmus ist, dass s%2<sup>z</sup>=0
+		öffentlichen WOTS<sup>+</sup>-Schlüssel mit dem Index \(s\) darstellt.</p>
+	<p>Eine Voraussetzung für diesen Algorithmus ist, dass \(s \; \text{mod} \; 2^z = 0\)
 		ergibt, ansonsten würde der Algorithmus nicht-existente Knoten
 		berechnen. Der Algorithmus hat folgenden Ablauf:</p>
 	<ol>
-		<li>Überprüfen ob s%2<sup>z</sup>=0, ansonsten Abbruch
+		<li>Überprüfen ob \(s \; \text{mod} \; 2^z = 0\), ansonsten Abbruch
 		</li>
-		<li>Für jedes Index i, bis 2<sup>z</sup>:
+		<li>Für jedes Index \(i\), bis \(2^z\):
 			<ol>
 				<li>Setzen der Adresse des WOTS-Hashes</li>
 				<li>Berechnen eines Knoten durch berechnen eines öffentlichen
 					WOTS-Schlüssels</li>
 				<li>Setzen der Baumhöhe und des Baumindexes</li>
 				<li>Für jeden Knoten am Stack, welcher die selbe Höhe hat, wie
-					der berechnete Knoten:</li>
+					der berechnete Knoten:
 				<ol>
 					<li>Setzen des Indexes des Baums</li>
 					<li>Berechnen des neuen Knotens mittel Hashen der
@@ -304,6 +305,7 @@
 						Knoten</li>
 					<li>Setzen der Höhe des Baums</li>
 				</ol>
+				</li>
 				<li>Stack dem neu berechneten Knoten hinzufügen</li>
 			</ol></li>
 		<li>Zurückgeben des Knotens</li>
@@ -314,26 +316,26 @@
 		Wurzel des binären Hashbaums. Die Wurzels wird mittels dem
 		TreeHash-Algorithmus berechnet. Die Erzeugung des öffentlichen
 		Schlüssels ist nur ein TreeHash-Aufruf.
-	<p>TreeHash wird mit den folgenden Parametern aufgerufen: SK.seed,
-		s=0, z=h', PK.seed, ADRS.</p>
+	<p>TreeHash wird mit den folgenden Parametern aufgerufen: \(SK\).seed,
+		\(s=0\), \(z=h'\), \(PK\).seed, \(\text{adrs}\).</p>
 
 	<h4>Die XMSS-Signatur</h4>
-	<p>Eine Signatur ist ein Bytestring der Länge (len+h')*n. Er
-		besteht aus einer WOTS+-Signatur mit der Länge len*n Bytes, und dem
+	<p>Eine Signatur ist ein Bytestring der Länge \((\text{len} + h') \cdot n\). Er
+		besteht aus einer WOTS+-Signatur mit der Länge \(\text{len} \cdot n\) Bytes, und dem
 		Authentifizierungspfad für das Blatt, welches für das WOTS+-Schlüsselpaar
-		verwendet wurde, mit der Länge h'*n Bytes. Die Signatur
+		verwendet wurde, mit der Länge \(h' \cdot n\) Bytes. Die Signatur
 		sieht also wie folgt aus:</p>
 	<table border=1>
 		<tr>
-			<td>sig (len * n bytes)</td>
+			<td>sig (\(\text{len} \cdot n\) bytes)</td>
 		<tr>
-			<td>AUTH [0] (n bytes)</td>
+			<td>AUTH [0] (\(n\) bytes)</td>
 		</tr>
 		<tr>
 			<td>...</td>
 		</tr>
 		<tr>
-			<td>AUTH [h-1] (n bytes)</td>
+			<td>AUTH [\(h-1\)] (\(n\) bytes)</td>
 		</tr>
 	</table>
 
@@ -345,10 +347,10 @@
 		Referenzimplementierung der TreeHash-Algorithmus verwendet.</p>
 	<p>Folgende Parameter werden benötigt:</p>
 	<ul>
-		<li>M, n-Byte lange Nachricht</li>
-		<li>SK.seed</li>
-		<li>idx, der Index des WOTS+-Schlüsselpaars</li>
-		<li>ADRS, die Adresse der XMSS-Instanz</li>
+		<li>\(M\), Nachricht mit \(n\)-Byte Länge</li>
+		<li>\(SK\).seed</li>
+		<li>\(\text{idx}\), der Index des WOTS+-Schlüsselpaars</li>
+		<li>\(\text{adrs}\), die Adresse der XMSS-Instanz</li>
 	</ul>
 	<p>Das Signieren besteht nur aus den 3 Schritten:</p>
 	<ol>
@@ -365,11 +367,11 @@
 		weiterer Folge verwendet, um implizit verglichen zu werden.<br>
 		Die Funktion verwendet folgende Parameter:</p>
 	<ul>
-		<li>idx, der Index der Signatur</li>
+		<li>\(\text{idx}\), der Index der Signatur</li>
 		<li>SIG_XMSS, die XMSS Signatur SIG<sub>XMSS</sub></li>
-		<li>M, die Nachricht mit der Länge n Bytes</li>
-		<li>PK.seed</li>
-		<li>ADRS, die Adresse der aktuellen XMSS-Instanz</li>
+		<li>\(M\), die Nachricht mit der Länge \(n\) Bytes</li>
+		<li>\(PK\).seed</li>
+		<li>\(\text{adrs}\), die Adresse der aktuellen XMSS-Instanz</li>
 	</ul>
 	<p>Der Ablauf sieht etwa so aus:</p>
 	<ol>
@@ -377,16 +379,16 @@
 			WOTS+Signatur mittels <a href="#wotspkFromSig">wots_pkFromSig()</a> und
 			speichern in node[0]</li>
 		<li>Berechnen der Wurzel mithilfe des öffentlichen
-			WOTS+-Schlüssels und dem Authentifizierungspfades</li>
+			WOTS+-Schlüssels und dem Authentifizierungspfades
 		<ol>
 			<li>Setzen der Adresse</li>
 			<li>Hashen des Knoten und den aktuellen Authentifizierungspfad</li>
 		</ol>
+		</li>
 		<li>Zurückgeben des Knoten</li>
 	</ol>
 
 
-	<p>&nbsp;</p>
 	<h2>Der SPHINCS<sup>+</sup>-Hypertree</h2>
 	<p>Der SPHINCS+-Hypertree ist eine Variante von XMSS<sup>MT</sup>. Es ist
 		ein Zertifizierungsbaum von XMSS-Instanzen. In diesem Baum wird immer
@@ -401,49 +403,49 @@
 	<img src="images/HT.png" alt="Grafische Abbildung des Hypertrees" width = "90%">
 
 	<h4>Hypertree-Schlüsselgenerierung</h4>
-	<p>Der geheime Schlüssel des Hypertrees ist der SK.seed, welcher
+	<p>Der geheime Schlüssel des Hypertrees ist der \(SK\).seed, welcher
 		verwendet wird um alle geheimen Schlüssel von WOTS+ zu generieren. Der
 		öffentliche Schlüssel des Hypertrees ist der öffentliche Schlüssel des
 		XMSS-Baums, welcher sich an der Wurzel des Hypertrees befindet. Als
 		Parameter für die Schlüsselgenerierung wird nur der geheime
-		Initialisierungsvektor SK.seed und der öffentliche Vektor PK.seed
+		Initialisierungsvektor \(SK\).seed und der öffentliche Vektor \(PK\).seed
 		verwendet. Die Funktion ist ein Aufruf von xmss_PKgen mit den 2
 		Parametern und der Wurzel-Adresse.</p>
 
 	<h4>Hypertree-Signatur</h4>
 	<p>
 		Eine Signatur SIG<sub>HT</sub> ist eine Zeichenkette der Länge
-		(h+d*len)*n. Sie besteht aus d XMSS-Signaturen, jede mit der Länge
-		(h/d +len)*n Bytes.
+		\((h+d \cdot \text{len}) \codt n\). Sie besteht aus \(d\) XMSS-Signaturen, jede
+		mit der Länge \((\frac{h}{d} + \text{len}) \cdot n\) Bytes.
 	</p>
 
 	<h4>Hypertree-Signaturgenerierung</h4>
 	<p>Eine Signatur im Hypertree benötigt folgende Aufrufparameter:</p>
 	<ul>
-		<li>M, die Nachricht</li>
-		<li>SK.seed</li>
-		<li>PK.seed</li>
-		<li>idx, der Index des Blattes, welcher im Hypertree verwendet
+		<li>\(M\), die Nachricht</li>
+		<li>\(SK\).seed</li>
+		<li>\(PK\).seed</li>
+		<li>\(\text{idx}\), der Index des Blattes, welcher im Hypertree verwendet
 			wird um die Nachricht zu signieren</li>
 	</ul>
 	<p>Eine Hypertree-Signatur besteht auf folgende Teile:</p>
 	<table border=1>
 		<tr>
-			<td>XMSS Signature SIG<sub>XMSS</sub> (layer 0) ((h/d + len)*n
-				bytes)
+			<td>XMSS Signature SIG<sub>XMSS</sub> (layer \(0\))
+				(\(\frac{h}{d} + \text{len} \cdot n\) bytes)
 			</td>
 		</tr>
 		<tr>
-			<td>XMSS Signature SIG<sub>XMSS</sub> (layer 1) ((h/d + len)*n
-				bytes)
+			<td>XMSS Signature SIG<sub>XMSS</sub> (layer \(1\))
+				(\(\frac{h}{d} + \text{len} \cdot n\) bytes)
 			</td>
 		</tr>
 		<tr>
 			<td>. . .</td>
 		</tr>
 		<tr>
-			<td>XMSS Signature SIG<sub>XMSS</sub> (layer d-1) ((h/d + len)*n
-				bytes)
+			<td>XMSS Signature SIG<sub>XMSS</sub> (layer \(d-1\))
+				(\(\frac{h}{d} + \text{len} \cdot n\) bytes)
 			</td>
 		</tr>
 	</table>
@@ -452,24 +454,24 @@
 		unter Kapitel 4.2.4 zu finden.</p>
 
 	<h4>Hypertree-Verifizierung</h4>
-	<p>Eine Signaturverifikation besteht aus d Aufrufe von XMSS, der
+	<p>Eine Signaturverifikation besteht aus \(d\) Aufrufe von XMSS, der
 		den geheimen Schlüssel von einer Signatur zurückgibt, und einem
 		Vergleich mit einem gegebenen Wert. Der Ablauf ist bis auf den letzten
 		Schritt gleich dem Signieren:</p>
 	<ol>
 		<li>Signieren des ersten Knotens (Wurzel)</li>
-		<li>Für jeden der d-1 Knoten:</li>
+		<li>Für jeden der \(d-1\) Knoten:
 		<ol>
 			<li>Berechnen des geheimen XMSS-Schlüssels des Knotens</li>
 			<li>Signieren des nächsten Knoten mit dem aktuellen</li>
 			<li>Setzen des nächsten Knoten als aktuellen</li>
 		</ol>
+		</li>
 		<li>Wenn der letzte Knoten gleich dem öffentelichen Schlüssel des
 			Hypertrees ist, dann ist die Signatur korrekt verifiziert</li>
 	</ol>
 
 
-	<p>&nbsp;</p>
 	<h2>SPHINCS+</h2>
 	<h4>SPHINCS+-Parameter</h4>
 	<p>Die Auswirkungen der Parameter wurde bereits in der <a
@@ -477,31 +479,31 @@
 
 	<h4>Die SPHINCS+-Schlüsselgenerierung</h4>
 	<p>Der geheime Schlüssel von SPHINCS+ besteht aus 2 Teilen. Einen
-		n-Byte langen SK.seed, welcher verwendet wird um alle geheimen
+		\(n\)-Byte langen \(SK\).seed, welcher verwendet wird um alle geheimen
 		WOTS+- und FORS-Schlüssel zu generieren, und einen zufällig generierten
-		Wert SK.prf, der verwendet wird um enen deterministischen zufälligen
+		Wert \(SK\).prf, der verwendet wird um enen deterministischen zufälligen
 		Nachrichten-Hash zu berechnen.</p>
-	<p>Die Schlüssel SK.seed, SK.prf und PK.seed werden durch Aufruf
+	<p>Die Schlüssel \(SK\).seed, \(SK\).prf und \(PK\).seed werden durch Aufruf
 		eines sicheren Zufallszahlengenerators generiert, der jeweils eine
-		n-Byte lange Zufallszahl zurückgibt. Der Schlüssel PK.root wird, durch
+		\(n\)-Byte lange Zufallszahl zurückgibt. Der Schlüssel \(PK\).root wird, durch
 		Aufruf der Hypertree-Funktion zum Generieren des geheimen
 		HT-Schlüssel, generieren.<p>
 
 	<h4>Die SPHINCS+-Signatur</h4>
 	<p>Die Signatur von SPHINCS+ hat eine Länge von
-		(1+k*(a+1)+h+d*len)*n Bytes. Sie besteht aus 3 Teilen:</p>
+		\((1 + k \cdot (a + 1) + h + d \cdot \text{len}) \cdot n\) Bytes.
+		Sie besteht aus 3 Teilen:</p>
 	<ul>
-		<li>Einen Zufallswert R (n bytes)</li>
-		<li>Eine FORS-Signatur SIG<sub>FORS</sub> (k*(a+1)*n Bytes)
-		</li>
-		<li>Eine Hypertree-Signatur SIG<sub>HT</sub> ((h+d*len)*n Bytes)
-		</li>
+		<li>Einen Zufallswert \(R\) (\(n\) bytes)</li>
+		<li>Eine FORS-Signatur SIG<sub>FORS</sub> (\(k \cdot (a + 1) \cdot n\) Bytes)</li>
+		<li>Eine Hypertree-Signatur SIG<sub>HT</sub> 
+			\(((h + d \cdot \text{len}) \cdot n\) Bytes)</li>
 	</ul>
 
 	<h4>SPHINCS+-Signaturerzeugung</h4>
 	<p>Die Erzeugung besteht aus 4 Schritten:</p>
 	<ol>
-		<li>Der Wert R wird pseudozufällig generiert.</li>
+		<li>Der Wert \(R\) wird pseudozufällig generiert.</li>
 		<li>Dieser Wert wird verwendet, um einen Hash der Nachricht zu
 			berechnen, welcher in eine Teilnachrichten, einen Baumindex und einen
 			Blattindex unterteilt wird.</li>
@@ -533,12 +535,12 @@
 		<thead>
 			<tr>
 				<td>Name</td>
-				<td>n</td>
-				<td>h</td>
-				<td>d</td>
-				<td>log(t)</td>
-				<td>k</td>
-				<td>w</td>
+				<td>\(n\)</td>
+				<td>\(h\)</td>
+				<td>\(d\)</td>
+				<td>\(log(t)\)</td>
+				<td>\(k\)</td>
+				<td>\(w\)</td>
 				<td>bitsec</td>
 				<td>sec level</td>
 				<td>sig bytes</td>
@@ -627,7 +629,6 @@
 	</table>
 
 
-	<p>&nbsp;</p>
 	<h2>Literatur / Empfohlene Links</h2>
 	<ul>
 		<li>Webseite zu SPHINCS+ &ndash; Stateless hash-based signatures: <a
@@ -655,12 +656,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
