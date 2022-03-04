@@ -1,11 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<html>
+<html lang="de">
 <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	  <title>Entropie-Analyse</title>
  <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
  <script>TOC_generate_default("h2")</script> 
+ <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 
 <body>
@@ -16,8 +17,8 @@
 	
 	<p>
 Die Entropie eines Dokuments ist eine Kennzahl für dessen Informationsgehalt. Die Entropie wird in (Bit pro Zeichen) bit/char gemessen.
-Texte in einer natürlichen Sprache haben (je nach Alphabetgröße) eine Entropie von circa 4,0. Völlig zufällige Texte haben einen Wert von 8,0. Der Ouptput moderner
-Verschlüsselungsverfahren liegt normalerweise über 7,9.
+Texte in einer natürlichen Sprache haben (je nach Alphabetgröße) eine Entropie von circa \(4{,}0\). Völlig zufällige Texte haben einen Wert von \(8{,}0\). Der Ouptput moderner
+Verschlüsselungsverfahren liegt normalerweise über \(7{,}9\).
 </p>
 <p>
 <br/><b>
@@ -25,9 +26,9 @@ Informationsgehalt einer Quelle
 </b>
 </p>
 <p>
-Die Daten im aktuellen Fenster können als Nachrichtenquelle im informationstheoretischen Sinne angesehen werden. Für die Berechnung des Informationsgehaltes betrachtet man die Wahrscheinlichkeitsverteilung dieser Quelle. Dabei geht man davon aus, dass die einzelnen Nachrichten (Zeichen des Dokuments / der Datei) stochastisch unabhängig voneinander sind und von der Quelle mit konstanter Wahrscheinlichkeit ausgestrahlt werden. Der Informationsgehalt einer Nachricht M[i] ist definiert durch: <br/>
-Informationsgehalt(M[i]) := log(1/p[i]) = -log(p[i]).<br/>
-Dabei ist p[i] die Wahrscheinlichkeit, mit der die Nachricht M[i] von der Nachrichtenquelle ausgestrahlt wird. Mit log ist (wie auch im folgenden) der Logarithmus zur Basis 2 gemeint.
+Die Daten im aktuellen Fenster können als Nachrichtenquelle im informationstheoretischen Sinne angesehen werden. Für die Berechnung des Informationsgehaltes betrachtet man die Wahrscheinlichkeitsverteilung dieser Quelle. Dabei geht man davon aus, dass die einzelnen Nachrichten (Zeichen des Dokuments / der Datei) stochastisch unabhängig voneinander sind und von der Quelle mit konstanter Wahrscheinlichkeit ausgestrahlt werden. Der Informationsgehalt einer Nachricht \(M_i\) ist definiert durch: <br/>
+Informationsgehalt \(M_i := \log_{2} (\frac{1}{p_i}) = -\log_2 (p_i)\).<br/>
+Dabei ist \(p_i\) die Wahrscheinlichkeit, mit der die Nachricht \(M_i\) von der Nachrichtenquelle ausgestrahlt wird. Mit \(\log_{2}\) ist (wie auch im folgenden) der Logarithmus zur Basis \(2\) (logarithmus dualis) gemeint.
 Der Informationsgehalt hängt damit ausschließlich von der Wahrscheinlichkeitsverteilung ab, mit der die Quelle die Nachrichten erzeugt. Der semantische Inhalt der Nachricht geht nicht in die Berechnung ein. Da der Informationsgehalt einer seltenen Nachricht höher als der einer häufigen Nachricht ist, wird in der Definition der Kehrwert der Wahrscheinlichkeit verwendet. Ferner ist der Informationsgehalt zweier unabhängig voneinander ausgewählter Nachrichten gleich der Summe der Informationsgehalte der einzelnen Nachrichten.
 </p>
 
@@ -41,7 +42,7 @@ Entropie
 Mit Hilfe des Informationsgehaltes der einzelnen Nachrichten kann nun die mittlere Information berechnet werden, die eine Quelle mit einer gegebenen Verteilung liefert. Für die Durchschnittsbildung werden die einzelnen Nachrichten mit der Wahrscheinlichkeit ihres Auftretens gewichtet.
 </p>
 <p>
-Entropie(p[1], p[2], ..., p[r]):= - [p[1] * log(p[1]) + p[2] * log(p[2]) + ... + p[r] * log(p[r])]
+\(\text{Entropie}(p_1, p_2, ..., p_r):= - [\, p_1 \cdot \log_{2}(p_1) + p_2 \cdot \log_{2}(p_2) + ... + p_r \cdot \log_{2}(p_r)]\)
 </p>
 <p>
 Die Entropie einer Quelle bezeichnet somit die sie charakterisierende Verteilung. Sie misst die Information, die man durch Beobachten der Quelle im Mittel gewinnen kann, oder umgekehrt die Unbestimmtheit, die über die erzeugten Nachrichten herrscht, wenn man die Quelle nicht beobachten kann.
@@ -60,13 +61,13 @@ Extremwerte der Entropie
 </b>
 </p>
 <p>
-Für Dokumente, die ausschließlich Großbuchstaben enthalten, ist die Entropie mindestens 0 bit/char (bei einem Dokument, das nur aus einem Zeichen besteht) und höchstens log(26) bit/char = 4,700440 bit/char (bei einem Dokument, in dem alle 26 Zeichen gleich oft vorkommen). Für Dokumente, die jedes Zeichen des Zeichensatzes (0 bis 255) enthalten können, ist die Entropie mindestens 0 bit/char (bei einem Dokument, das nur aus einem Zeichen besteht) und höchstens log(256) bit/char = 8 bit/char (bei einem Dokument, in dem alle 256 Zeichen gleich oft vorkommen).
+Für Dokumente, die ausschließlich Großbuchstaben enthalten, ist die Entropie mindestens \(0 \ \frac{\text{bit}}{\text{char}}\) (bei einem Dokument, das nur aus einem Zeichen besteht) und höchstens \(\log_{2} (26) \frac{\text{bit}}{\text{char}} = 4{,}700440 \frac{\text{bit}}{\text{char}}\) (bei einem Dokument, in dem alle \(26\) Zeichen gleich oft vorkommen). Für Dokumente, die jedes Zeichen des Zeichensatzes (\(0\) bis \(255\)) enthalten können, ist die Entropie mindestens \(0 \ \frac{\text{bit}}{\text{char}}\) (bei einem Dokument, das nur aus einem Zeichen besteht) und höchstens \(\log_{2} (256) \frac{\text{bit}}{\text{char}} = 8 \frac{\text{bit}}{\text{char}}\) (bei einem Dokument, in dem alle \(256\) Zeichen gleich oft vorkommen).
 
 	</p>
 	<p>
-Texts in a natural language have an entropy of around 4.0 (depending on the alphabet
-size). Completely random texts have a value of 8.0. The output of modern encryption
-methods is usually above 7.9.
+Texts in a natural language have an entropy of around \(4{,}0\) (depending on the alphabet
+size). Completely random texts have a value of \(8{,}0\). The output of modern encryption
+methods is usually above \(7{,}9\).
 	
 	</p>
 
@@ -89,8 +90,8 @@ methods is usually above 7.9.
 
 	<ul>
         <li><i>Standard-Analyse:</i><br/>
-        Es werden statistische Abhängigkeiten zwischen den Zeichen bis maximal zur vorgegebenen Tupellänge n berücksichtigt.<br/>
-		<u>Abbruchkriterium:</u> Die Analyse wird beendet, wenn <i>eine</i> der folgenden Bedingungen erfüllt ist: Die vorgegebene Tupellänge n wurde erreicht,
+        Es werden statistische Abhängigkeiten zwischen den Zeichen bis maximal zur vorgegebenen Tupellänge \(n\) berücksichtigt.<br/>
+		<u>Abbruchkriterium:</u> Die Analyse wird beendet, wenn <i>eine</i> der folgenden Bedingungen erfüllt ist: Die vorgegebene Tupellänge \(n\) wurde erreicht,
 		 oder das eingestellte Signifikanzniveau wurde unterschritten.<br/></li>
         <li><i>Tiefen-Analyse:</i><br/>
         Die zu berücksichtigende Tupellänge wird automatisch nach jedem Durchlauf um eins inkrementiert bis der Zuwachs der Entropie das
@@ -109,7 +110,7 @@ methods is usually above 7.9.
 	<ol>
 		<li><i>Abbruchkriterium:</i> Hier wird angegeben, welches Kriterium zur Beendigung der Analyse geführt hat. Dabei gibt es zwei
 		Möglichkeiten: Entweder
-wurde die vorgegebene Tupellänge n erreicht, oder das Signifikanzniveau wurde
+wurde die vorgegebene Tupellänge \(n\) erreicht, oder das Signifikanzniveau wurde
 beim Zuwachs der Entropie unterschritten.</li>
  <li><i>Anzahl der Zeichen:</i> Die Werte beziehen sich auf die Anzahl der Zeichen,
 nachdem die eingestellten Filterkriterien angewandt wurden. Der erste Wert
@@ -119,14 +120,14 @@ gibt die Anzahl der unterschiedlichen Zeichen, der zweite Werte die Gesamtzahl d
  <li><i>Entropie:</i> Hier werden zwei Werte geliefert. Zum Einen die Entropie unter
 Berücksichtigung der Auftrittswahrscheinlichkeiten der einzelnen Zeichen,
 und zum Anderen die Entropie unter Berücksichtigung von Abhängigkeiten
-der maximalen Länge n.</li>
+der maximalen Länge \(n\).</li>
  </ol>
 
  <h2 id="h2_3">Tab "Wertetabelle"</h2>
- <p>Diese Tabelle zeigt alle errechneten Werte unter Berücksichtigung der statistischen Abhängigkeiten beginnend bei einzelnen Zeichen bis hin zu n-Tupeln. </p>
+ <p>Diese Tabelle zeigt alle errechneten Werte unter Berücksichtigung der statistischen Abhängigkeiten beginnend bei einzelnen Zeichen bis hin zu \(n\)-Tupeln. </p>
  <img src="tab3.jpg" alt="Die Wertetabelle" width="85%">
- <p><i>G(n)</i> ist die (maximale) Entropie unter Berücksichtigung von n-Tupeln.</p>
- <p><i>F(n)</i> ist die bedingte Entropie der n-ten Zeichen unter Bedingung des vorangegangenen (n-1)-Tupels.</p>
+ <p><i>\(G(n)\)</i> ist die (maximale) Entropie unter Berücksichtigung von \(n\)-Tupeln.</p>
+ <p><i>\(F(n)\)</i> ist die bedingte Entropie der \(n\)-ten Zeichen unter Bedingung des vorangegangenen \((n-1)\)-Tupels.</p>
  <p><br/></p>
  <h2 id="h2_4">Quellen</h2>
  <ul>

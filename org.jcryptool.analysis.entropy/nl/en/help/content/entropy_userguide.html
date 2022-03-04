@@ -5,6 +5,7 @@
       <title>The Entropy Analysis</title>
  <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
  <script>TOC_generate_default("h2")</script> 
+ <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 <body>
  <h1>The Entropy Analysis</h1>
@@ -13,8 +14,8 @@
  <p>It uses the texteditor as message source. After opening a text in the editor, you can start the calculation in the "Configuration and Start" tab. The results are shown in the tabs "Result summary" and "entropy table". </p>
 
 <p>
-The entropy of a document is an index of its information content. The entropy is measured in bits per character. Texts in a natural language have an entropy of around 4.0 (depending on the alphabet size). Completely random texts have a value of 8.0. The output of modern encryption
-methods is usually above 7.9.
+The entropy of a document is an index of its information content. The entropy is measured in bits per character. Texts in a natural language have an entropy of around \(4.0\) (depending on the alphabet size). Completely random texts have a value of \(8.0\). The output of modern encryption
+methods is usually above \(7.9\).
 </p>
 <p>
 <br/><b>
@@ -27,14 +28,14 @@ a message source. To calculate the information content one examines the probabil
 distribution of this source. It is assumed here that the individual messages (characters in
 the document / file) are stochastically independent of each other and are transmitted by
 the source with a uniform probability.
-The information content of a message M[i] is defined by
+The information content of a message \(M_i\) is defined by
 </p>
 <p>
-information content(M[i]) := log(1/p[i]) = -log(p[i])
+information content \(M_i := \log_{2} (\frac{1}{p_i}) = -\log_2 (p_i)\)
 </p>
 <p>
-where p[i] is the probability that message M[i] is transmitted by the message source and
-log denotes logarithms to base 2 (as indeed it does elsewhere in this document).
+where \(p_i\) is the probability that message \(M_i\) is transmitted by the message source and
+\(\log_{2}\) denotes logarithms to base \(2\) (as indeed it does elsewhere in this document).
 This means that the information content depends exclusively on the probability distribution
 with which the source generates the messages. The semantic content of the message
 does not enter into the calculation. As the information content of an unusual message is
@@ -55,7 +56,7 @@ calculate this mean, the individual messages are weighted with the probabilities
 occurrence.
 </p>
 <p>
-Entropy(p[1], p[2],..., p[r]):= - [p[1] * log(p[1]) + p[2] * log(p[2]) +... + p[r] * log(p[r])]
+\(\text{Entropy}(p_1, p_2, ..., p_r):= - [\, p_1 \cdot \log_{2}(p_1) + p_2 \cdot \log_{2}(p_2) + ... + p_r \cdot \log_{2}(p_r)]\)
 </p>
 <p>
 The entropy of a source thus indicates its characteristic distribution. It measures the
@@ -82,13 +83,15 @@ Extreme values of entropy
 </b>
 </p>
 <p>
-For documents which contain only upper case letters, the entropy lies between 0 bit/char
-(in a document which consists of only one character) and log(26) bit/char = 4.700440
-bit/char (in a document in which all 26 characters occur equally often).
-For documents which can contain every character of the character set (0 to 255) the
-entropy lies between 0 bit/char (in a document which consists of only one character) and
-log(256) bit/char = 8 bit/char (in a document in which all 256 characters occur equally
-often).
+For documents which contain only upper case letters, the entropy lies between 
+\(0 \ \frac{\text{bit}}{\text{char}}\)
+(in a document which consists of only one character) and
+\(\log_{2} (26) \frac{\text{bit}}{\text{char}} = 4{,}700440 \frac{\text{bit}}{\text{char}}\)
+(in a document in which all \(26\) characters occur equally often).
+For documents which can contain every character of the character set (\(0\) to \(255\)) the
+entropy lies between \(0 \ \frac{\text{bit}}{\text{char}}\) (in a document which consists of only
+one character) and \(\log_{2} (256) \frac{\text{bit}}{\text{char}} = 8 \frac{\text{bit}}{\text{char}}\)
+(in a document in which all \(256\) characters occur equally often).
 
 
 
@@ -107,8 +110,8 @@ To get the calculation running do the following three steps:
 <h5>The analysis mode</h5>
 <dl>
         <dt><i>Standard--Analysis:</i></dt>
-        <dd>the calculation regards statistical dependencies between maximal <i>n</i> letters. The <i>n</i> is defined by the user.<br/>
-		<u>break criterion:</u> The calculation ends, when <i>one</i> of the following is satisfied: the length n is reached or the level of significance is undershot.</dd>
+        <dd>the calculation regards statistical dependencies between maximal \(n\) letters. The \(n\) is defined by the user.<br/>
+		<u>break criterion:</u> The calculation ends, when <i>one</i> of the following is satisfied: the length \(n\) is reached or the level of significance is undershot.</dd>
         <dt><i>Deep-Analysis:</i></dt>
         <dd>the program automatically increments the number of letters which are used to calculate the statistical dependencies. The calculation stops when the growth in the entropy undershots the defined significance level.</dd>
 </dl>
@@ -118,17 +121,17 @@ To get the calculation running do the following three steps:
 <p>This tab shows a summary of the finished analysis. The following screenshot shows an example followed by an explanation of the values:</p>
  <img src="tab2.jpg" alt="The configuration and start tab." width="85%">
  <ol>
- <li><i>Termination criterion:</i> Here is shown because of what criterion the calculation terminated. There are two possibilities: either the defined tupellength is reached, or the level of significance is undershot by the growth of entropy.</li>
+ <li><i>Termination criterion:</i> Here is shown because of what criterion the calculation terminated. There are two possibilities: either the defined tuple-length is reached, or the level of significance is undershot by the growth of entropy.</li>
  <li><i>Number of letters:</i> The values refer to the number of letters <i>after</i> the text has been filtered. The first value gives the number of different letters, the second value the number of all letters.</li>
  <li><i>Maximum Entropy:</i> The value of the maximum entropy under the assumption of uniform distribution.</li>
- <li><i>Entropy:</i> Two entropy values: The Entropy resulting of statistical dependencies of length 1 (single letters only) and the entropy regarding a maximum length of n letters (n-tupel).</li>
+ <li><i>Entropy:</i> Two entropy values: The Entropy resulting of statistical dependencies of length \(1\) (single letters only) and the entropy regarding a maximum length of \(n\) letters (\(n\)-tuple).</li>
  </ol>
 
  <h2 id="h2_3">Tab "Entropy table"</h2>
- <p>This tabular shows all the calculated values regarding statistical dependencies from single letters up to n-tupel. </p>
+ <p>This tabular shows all the calculated values regarding statistical dependencies from single letters up to \(n\)-tuple. </p>
  <img src="tab3.jpg" alt="The configuration and start tab." width="85%">
- <p><i>G(n)</i> is the entropy regarding n-tupels.</p>
- <p><i>F(n)</i> is the conditional entropy of the n-th letter considering the preceding (n-1) letters.</p>
+ <p><i>\(G(n)\)</i> is the entropy regarding \(n\)-tuples.</p>
+ <p><i>\(F(n)\)</i> is the conditional entropy of the \(n^\text{th}\) letter considering the preceding \((n-1)\) letters.</p>
  <p><br/></p>
  <h2 id="h2_4">Sources</h2>
  <ul>
