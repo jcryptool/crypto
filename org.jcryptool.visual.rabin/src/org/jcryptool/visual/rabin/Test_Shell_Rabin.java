@@ -21,7 +21,6 @@
 //import org.eclipse.swt.widgets.Text;
 //import org.eclipse.swt.events.SelectionAdapter;
 //import org.eclipse.swt.events.SelectionEvent;
-//import org.jcryptool.devtools.HexEditorDebugLogic;
 //import org.eclipse.swt.widgets.List;
 //import org.eclipse.swt.widgets.Combo;
 //
