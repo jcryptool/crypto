@@ -1,145 +1,156 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE HTML>
+
+<html lang="en">
 <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>The Entropy Analysis</title>
- <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
- <script>TOC_generate_default("h2")</script> 
- <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>The Entropy Analysis</title>
+<script src="${JCTJS_HOST}/javascript/jquery.js"></script>
+<!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. -->
+<script>
+  TOC_generate_default("h2, h3")
+</script>
+<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
 </head>
 <body>
- <h1>The Entropy Analysis</h1>
- <div class="TOC"></div> <hr />
- <p>The Entropy Analysis plug-in calculates the measure of <b>entropy</b> referring to <b>Claude Elwood Shannon</b> [1]. In the JCrypTool implementation, the entropy is calculated on the alphabet of observed characters in the text.</p>
- <p>It uses the texteditor as message source. After opening a text in the editor, you can start the calculation in the "Configuration and Start" tab. The results are shown in the tabs "Result summary" and "entropy table". </p>
+  <h1>The Entropy Analysis</h1>
+  <div class="TOC"></div>
+  <hr />
+  <h2 id="h2_1">About entropy</h2>
+  <p>
+    The Entropy Analysis plug-in calculates the measure of <b>entropy</b> referring to <b>Claude Elwood
+      Shannon</b> [1]. In the JCrypTool implementation, the entropy is calculated on the alphabet of observed
+    characters in the text.
+  </p>
 
-<p>
-The entropy of a document is an index of its information content. The entropy is measured in bits per character. Texts in a natural language have an entropy of around \(4.0\) (depending on the alphabet size). Completely random texts have a value of \(8.0\). The output of modern encryption
-methods is usually above \(7.9\).
-</p>
-<p>
-<br/><b>
-Information content of a source
-</b>
-</p>
-<p>
-From the information theory point of view, the data in the current window can be viewed as
-a message source. To calculate the information content one examines the probability
-distribution of this source. It is assumed here that the individual messages (characters in
-the document / file) are stochastically independent of each other and are transmitted by
-the source with a uniform probability.
-The information content of a message \(M_i\) is defined by
-</p>
-<p>
-information content \(M_i := \log_{2} (\frac{1}{p_i}) = -\log_2 (p_i)\)
-</p>
-<p>
-where \(p_i\) is the probability that message \(M_i\) is transmitted by the message source and
-\(\log_{2}\) denotes logarithms to base \(2\) (as indeed it does elsewhere in this document).
-This means that the information content depends exclusively on the probability distribution
-with which the source generates the messages. The semantic content of the message
-does not enter into the calculation. As the information content of an unusual message is
-higher than that of a common message, the inverse value of the probability is used in the
-definition.
-Moreover, the information content of two messages chosen independently of one another
-is equal to the sum of the information contents of the individual messages.
-</p>
-<p>
-<br/><b>
-Entropy
-</b>
-</p>
-<p>
-With the aid of the information content of the individual messages, the average amount of
-information which a source with a specified distribution delivers can be calculated. To
-calculate this mean, the individual messages are weighted with the probabilities of their
-occurrence.
-</p>
-<p>
-\(\text{Entropy}(p_1, p_2, ..., p_r):= - [\, p_1 \cdot \log_{2}(p_1) + p_2 \cdot \log_{2}(p_2) + ... + p_r \cdot \log_{2}(p_r)]\)
-</p>
-<p>
-The entropy of a source thus indicates its characteristic distribution. It measures the
-average amount of information which one can obtain through observation of the source or,
-conversely, the indeterminacy which prevails over the generated messages when one
-cannot observe the source.
-</p>
-<p>
-<br/><b>
-Simple description of entropy
-</b>
-</p>
-<p>
-Entropy is an expression of insecurity as the number of Yes/No questions which have to be
-answered in order to clarify a message or a character. If a character has a very high
-probability of occurrence, then its information content is low. This would be the case, for
-example, with a business partner who regularly replies "Yes". This reply also does not
-permit any conclusions to be drawn as to understanding or attention. Replies which occur
-very seldom have a high information content.
-</p>
-<p>
-<br/><b>
-Extreme values of entropy
-</b>
-</p>
-<p>
-For documents which contain only upper case letters, the entropy lies between 
-\(0 \ \frac{\text{bit}}{\text{char}}\)
-(in a document which consists of only one character) and
-\(\log_{2} (26) \frac{\text{bit}}{\text{char}} = 4{,}700440 \frac{\text{bit}}{\text{char}}\)
-(in a document in which all \(26\) characters occur equally often).
-For documents which can contain every character of the character set (\(0\) to \(255\)) the
-entropy lies between \(0 \ \frac{\text{bit}}{\text{char}}\) (in a document which consists of only
-one character) and \(\log_{2} (256) \frac{\text{bit}}{\text{char}} = 8 \frac{\text{bit}}{\text{char}}\)
-(in a document in which all \(256\) characters occur equally often).
+  <p>The entropy of a document is an index of its information content. The entropy is measured in bits per
+    character. Texts in a natural language have an entropy of around \(4.0\) (depending on the alphabet size).
+    Completely random texts have a value of \(8.0\). The output of modern encryption methods is usually above
+    \(7.9\).</p>
 
+  <h3 id="h3_1">Information content of a source</h3>
 
+  <p>From the information theory point of view, the data in the current window can be viewed as a message
+    source. To calculate the information content one examines the probability distribution of this source. It
+    is assumed here that the individual messages (characters in the document / file) are stochastically
+    independent of each other and are transmitted by the source with a uniform probability. The information
+    content of a message \(M_i\) is defined by</p>
+  <p>information content \(M_i := \log_{2} (\frac{1}{p_i}) = -\log_2 (p_i)\)</p>
+  <p>where \(p_i\) is the probability that message \(M_i\) is transmitted by the message source and
+    \(\log_{2}\) denotes logarithms to base \(2\) (as indeed it does elsewhere in this document). This means
+    that the information content depends exclusively on the probability distribution with which the source
+    generates the messages. The semantic content of the message does not enter into the calculation. As the
+    information content of an unusual message is higher than that of a common message, the inverse value of
+    the probability is used in the definition. Moreover, the information content of two messages chosen
+    independently of one another is equal to the sum of the information contents of the individual messages.</p>
 
- <h2 id="h2_1">Tab "Configuration and Start"</h2>
-<p>
-To get the calculation running do the following three steps:
-<ol>
- <li>Modify the filter settings,</li>
- <li>Select the analysis mode ("deep" or "standard", see below)</li>
- <li>Click "begin calculation"</li>
-</ol>
-</p>
-<img src="tab1.jpg" alt="The configuration and start tab." width="85%">
+  <h3 id="h3_2">Definition of entropy</h3>
 
-<p>
-<h5>The analysis mode</h5>
-<dl>
-        <dt><i>Standard--Analysis:</i></dt>
-        <dd>the calculation regards statistical dependencies between maximal \(n\) letters. The \(n\) is defined by the user.<br/>
-		<u>break criterion:</u> The calculation ends, when <i>one</i> of the following is satisfied: the length \(n\) is reached or the level of significance is undershot.</dd>
-        <dt><i>Deep-Analysis:</i></dt>
-        <dd>the program automatically increments the number of letters which are used to calculate the statistical dependencies. The calculation stops when the growth in the entropy undershots the defined significance level.</dd>
-</dl>
-</p>
+  <p>With the aid of the information content of the individual messages, the average amount of information
+    which a source with a specified distribution delivers can be calculated. To calculate this mean, the
+    individual messages are weighted with the probabilities of their occurrence.</p>
+  <p>\(\text{Entropy}(p_1, p_2, ..., p_r):= - [\, p_1 \cdot \log_{2}(p_1) + p_2 \cdot \log_{2}(p_2) + ...
+    + p_r \cdot \log_{2}(p_r)]\)</p>
+  <p>The entropy of a source thus indicates its characteristic distribution. It measures the average
+    amount of information which one can obtain through observation of the source or, conversely, the
+    indeterminacy which prevails over the generated messages when one cannot observe the source.</p>
 
-<h2 id="h2_2">Tab "Result summary"</h2>
-<p>This tab shows a summary of the finished analysis. The following screenshot shows an example followed by an explanation of the values:</p>
- <img src="tab2.jpg" alt="The configuration and start tab." width="85%">
- <ol>
- <li><i>Termination criterion:</i> Here is shown because of what criterion the calculation terminated. There are two possibilities: either the defined tuple-length is reached, or the level of significance is undershot by the growth of entropy.</li>
- <li><i>Number of letters:</i> The values refer to the number of letters <i>after</i> the text has been filtered. The first value gives the number of different letters, the second value the number of all letters.</li>
- <li><i>Maximum Entropy:</i> The value of the maximum entropy under the assumption of uniform distribution.</li>
- <li><i>Entropy:</i> Two entropy values: The Entropy resulting of statistical dependencies of length \(1\) (single letters only) and the entropy regarding a maximum length of \(n\) letters (\(n\)-tuple).</li>
- </ol>
+  <h3 id="h3_3">Simple description of entropy</h3>
 
- <h2 id="h2_3">Tab "Entropy table"</h2>
- <p>This tabular shows all the calculated values regarding statistical dependencies from single letters up to \(n\)-tuple. </p>
- <img src="tab3.jpg" alt="The configuration and start tab." width="85%">
- <p><i>\(G(n)\)</i> is the entropy regarding \(n\)-tuples.</p>
- <p><i>\(F(n)\)</i> is the conditional entropy of the \(n^\text{th}\) letter considering the preceding \((n-1)\) letters.</p>
- <p><br/></p>
- <h2 id="h2_4">Sources</h2>
- <ul>
- <li>[1] Shannon, Claude E. ; Weaver, Warren: The mathematical theory of communication. Urbana and Chicago : University of Illinois Press, 1998. ISBN 0-252-72548-4</li>
- <li>[2] <a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">https://en.wikipedia.org/wiki/Entropy_(information_theory)</a></li>
- <li>[3] <a href="https://en.wikipedia.org/wiki/Conditional_entropy">https://en.wikipedia.org/wiki/Conditional_entropy</a></li>
- </ul>
- </p>
+  <p>Entropy is an expression of insecurity as the number of Yes/No questions which have to be answered in
+    order to clarify a message or a character. If a character has a very high probability of occurrence, then
+    its information content is low. This would be the case, for example, with a business partner who regularly
+    replies "Yes". This reply also does not permit any conclusions to be drawn as to understanding or
+    attention. Replies which occur very seldom have a high information content.</p>
+
+  <h3 id="h3_4">Extreme values of entropy</h3>
+
+  <p>For documents which contain only upper case letters, the entropy lies between \(0 \
+    \frac{\text{bit}}{\text{char}}\) (in a document which consists of only one character) and \(\log_{2} (26)
+    \frac{\text{bit}}{\text{char}} = 4{,}700440 \frac{\text{bit}}{\text{char}}\) (in a document in which all
+    \(26\) characters occur equally often). For documents which can contain every character of the character
+    set (\(0\) to \(255\)) the entropy lies between \(0 \ \frac{\text{bit}}{\text{char}}\) (in a document
+    which consists of only one character) and \(\log_{2} (256) \frac{\text{bit}}{\text{char}} = 8
+    \frac{\text{bit}}{\text{char}}\) (in a document in which all \(256\) characters occur equally often).</p>
+
+  <h2 id="h2_2">Analysis plugin usage</h2>
+
+  <p>The analysis uses the text editor as message source. After opening a text in the editor, you can
+    start the calculation in the "Configuration and Start" tab. The results are shown in the tabs "Result
+    summary" and "entropy table".</p>
+
+  <h3 id="h3_5">Tab "Configuration and Start"</h3>
+  <p>To get the calculation running do the following three steps:
+  <ol>
+    <li>Modify the filter settings,</li>
+    <li>Select the analysis mode (<b>deep</b> or <b>standard</b>, see below)
+    </li>
+    <li>Click <b>begin calculation</b></li>
+  </ol>
+
+  <img src="tab1.png" style="width: 60%; min-width: 400px; max-width: 750px"
+    alt="Configuration and start page. There are 1. the button to modify filter settings. 2. Selection of
+   Standard or depth analysis with their respective parameters and 3. the button to start the analysis.">
+
+  <h4>Analysis mode</h4>
+  <ul>
+    <li><b>Standard-Analysis:</b><br> the calculation regards statistical dependencies between
+      maximal \(n\) letters. The \(n\) is defined by the user.<br /> <i>break criterion:</i> The calculation
+      ends, when <i>one</i> of the following is satisfied: the length \(n\) is reached or the level of
+      significance is undershot.</li>
+    <li><b>Deep-Analysis:</b><br> the program automatically increments the number of letters which
+      are used to calculate the statistical dependencies. The calculation stops when the growth in the entropy
+      undershots the defined significance level.</li>
+  </ul>
+
+  <h3 id="h3_6">Tab "Result summary"</h3>
+  <p>This tab shows a summary of the finished analysis. The following screenshot shows an example followed
+    by an explanation of the values:</p>
+
+  <img src="tab2.png" style="width: 60%; min-width: 400px; max-width: 750px"
+    alt="Result page of the plug-in. 1. the success state and termination criterion. 2.the summary of 
+  the filter. 3. the max entropy and 4. the values for single character entropy and n-tuple entropy">
+
+  <ol>
+    <li><i>Termination criterion:</i> Here is shown because of what criterion the calculation terminated.
+      There are two possibilities: either the defined tuple-length is reached, or the level of significance is
+      undershot by the growth of entropy.</li>
+    <li><i>Number of letters:</i> The values refer to the number of letters <i>after</i> the text has
+      been filtered. The first value gives the number of different letters, the second value the number of all
+      letters.</li>
+    <li><i>Maximum Entropy:</i> The value of the maximum entropy under the assumption of uniform
+      distribution.</li>
+    <li><i>Entropy:</i> Two entropy values: The Entropy resulting of statistical dependencies of length
+      \(1\) (single letters only) and the entropy regarding a maximum length of \(n\) letters (\(n\)-tuple).</li>
+  </ol>
+
+  <h3 id="h3_7">Tab "Entropy table"</h3>
+  <p>This tabular shows all the calculated values regarding statistical dependencies from single letters
+    up to \(n\)-tuple.</p>
+
+  <img src="tab3.png" style="width: 70%; min-width: 450px; max-width: 750px"
+    alt="Entropy table. There are the columns n (integer), entropy G(n) (floating number), growth G(n-1) to G(n)
+  (percentage), F(n) (floating number), G(n) / n (floating number) und redundancy (percentage).">
+
+  <p>
+    <i>\(G(n)\)</i> is the entropy regarding \(n\)-tuples.
+  </p>
+  <p>
+    <i>\(F(n)\)</i> is the conditional entropy of the \(n^\text{th}\) letter considering the preceding
+    \((n-1)\) letters.
+  </p>
+  <p>
+    <br />
+  </p>
+  <h2 id="h2_3">Sources</h2>
+  <ul>
+    <li>[1] Shannon, Claude E. ; Weaver, Warren: The mathematical theory of communication. Urbana and
+      Chicago : University of Illinois Press, 1998. ISBN 0-252-72548-4</li>
+    <li>[2] <a target="_blank" href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">
+        https://en.wikipedia.org/wiki/Entropy_(information_theory)</a></li>
+    <li>[3] <a target="_blank" href="https://en.wikipedia.org/wiki/Conditional_entropy">
+        https://en.wikipedia.org/wiki/Conditional_entropy</a></li>
+  </ul>
 
 </body>
+<!-- Comment: Last Content Change and Check: ma, 2022-03-04 -->
 </html>
