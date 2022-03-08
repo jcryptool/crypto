@@ -609,8 +609,8 @@ public class RabinFirstTabComposite extends Composite {
 		txtUpperLimPQSingle.setText("2^10"); //$NON-NLS-1$
 		btnSelectSingleLimit.setSelection(true);
 		btnGenKeysMan.setSelection(true);
-		btnRadEnc.setSelection(true);
-		btnEncDecStart.setEnabled(false);
+		//btnRadEnc.setSelection(true);
+		//btnEncDecStart.setEnabled(false);
 	}
 	
 	
@@ -625,7 +625,7 @@ public class RabinFirstTabComposite extends Composite {
 	 * create group "Plaintext" with its content
 	 * @param parent
 	 */
-	private void createPlainCipherContent(Composite parent) {
+	/*private void createPlainCipherContent(Composite parent) {
 		// create group for selecting a plaintext/ciphertext
 		grpPlaintext = new Group(parent, SWT.NONE);
 		grpPlaintext.setLayout(new GridLayout(3, false));
@@ -645,17 +645,17 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		// create label for description of the chosen text
-		/*Label lblDescChooseText = new Label(grpPlaintext, SWT.NONE);
-		GridData descChooseTextData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		lblDescChooseText.setLayoutData(descChooseTextData);
-		lblDescChooseText.setText(Messages.RabinFirstTabComposite_lblDescChooseText);*/
+		//Label lblDescChooseText = new Label(grpPlaintext, SWT.NONE);
+		//GridData descChooseTextData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		//lblDescChooseText.setLayoutData(descChooseTextData);
+		//lblDescChooseText.setText(Messages.RabinFirstTabComposite_lblDescChooseText);
 		
 		Text txtInfoChoosePlain = new Text(grpPlaintext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoChoosePlain.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
 		txtInfoChoosePlain.setText(Messages.RabinFirstTabComposite_lblDescChooseText);
 		guiHandler.setSizeControl(txtInfoChoosePlain, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoChoosePlain.setBackground(ColorService.LIGHTGRAY);
-	}
+	}*/
 	
 	
 	
@@ -684,8 +684,18 @@ public class RabinFirstTabComposite extends Composite {
 		npqComp.setLayout(new GridLayout(2, false));
 		
 		
-		Composite compSelectPrimeGen = new Composite(paramMainComp, SWT.NONE);
-		compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1));
+		// add composite for holding both the selection mode and the limit textfields
+		Composite compHoldSelectionPrimesAndLimits = new Composite(paramMainComp, SWT.NONE);
+		compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		compHoldSelectionPrimesAndLimits.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compHoldSelectionPrimesAndLimits, 0, 0);
+		guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
+		
+		
+		//Composite compSelectPrimeGen = new Composite(paramMainComp, SWT.NONE);
+		Composite compSelectPrimeGen = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
+		//compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1));
+		compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
 		compSelectPrimeGen.setLayout(new GridLayout(1, false));
 		
 		btnSelectSingleLimit = new Button(compSelectPrimeGen, SWT.RADIO);
@@ -819,7 +829,8 @@ public class RabinFirstTabComposite extends Composite {
 		txtWarningNpq.setForeground(ColorService.RED);
 		guiHandler.hideControl(txtWarningNpq);*/
 		
-		grpSelectSinglePandQ = new Group(paramMainComp, SWT.NONE);
+		//grpSelectSinglePandQ = new Group(paramMainComp, SWT.NONE);
+		grpSelectSinglePandQ = new Group(compHoldSelectionPrimesAndLimits, SWT.NONE);
 		grpSelectSinglePandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpSelectSinglePandQ.setLayout(new GridLayout(2, false));
 		grpSelectSinglePandQ.setText(Messages.RabinFirstTabComposite_grpSelectSinglePandQ);
@@ -885,7 +896,8 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 
-		compSelectMultiPandQ = new Composite(paramMainComp, SWT.NONE);
+		//compSelectMultiPandQ = new Composite(paramMainComp, SWT.NONE);
+		compSelectMultiPandQ = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
 		compSelectMultiPandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compSelectMultiPandQ.setLayout(new GridLayout(2, false));
 		guiHandler.hideControl(compSelectMultiPandQ);
@@ -926,6 +938,8 @@ public class RabinFirstTabComposite extends Composite {
 		// create radio button for generating keys manually 
 		btnGenKeysMan = new Button(compGenKeys, SWT.RADIO);
 		btnGenKeysMan.setText(Messages.RabinFirstTabComposite_btnGenKeysMan);
+		//btnGenKeysMan.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//guiHandler.setSizeControl(btnGenKeysMan, SWT.DEFAULT, SWT.DEFAULT);
 		
 		
 		btnGenKeysMan.addSelectionListener(new SelectionAdapter() {
@@ -933,31 +947,41 @@ public class RabinFirstTabComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				//guiHandler.btnGenKeysManAction(getCurrentInstance(), e);
+				guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
 				guiHandler.updateTextfields(getCurrentInstance());
 			}
 		});
 		
-		btnGenKeys = new Button(compGenKeys, SWT.RADIO);
+		btnGenKeys = new Button(compGenKeys, SWT.RADIO | SWT.WRAP | SWT.BORDER);
 		btnGenKeys.setText(Messages.RabinFirstTabComposite_btnGenKeys);
+		btnGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		guiHandler.setSizeControl(btnGenKeys, SWT.DEFAULT, 35);
 		
 		btnGenKeys.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				guiHandler.showControl(compHoldSelectionPrimesAndLimits);
 				guiHandler.btnGenKeysAction(getCurrentInstance(), e);
 			}
 		});
 		
 		
-		btnUseKeysAlgo = new Button(compGenKeys, SWT.RADIO);
+		
+		/**
+		 * btnUseKeysAlgo is eventually not used in this version
+		 */
+		
+		/*btnUseKeysAlgo = new Button(compGenKeys, SWT.RADIO);
 		btnUseKeysAlgo.setText(Messages.RabinFirstTabComposite_btnUseKeysAlgo);
 		btnUseKeysAlgo.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
 				guiHandler.btnUseKeysAlgoAction(getCurrentInstance(), e);
 			}
-		});
+		});*/
 		
 		
 		btnStartGenKeys = new Button(compGenKeys, SWT.PUSH);
@@ -1049,6 +1073,50 @@ public class RabinFirstTabComposite extends Composite {
 		txtUpperLimQ.addModifyListener(mlLimit);	
 
 	}
+	
+	
+	
+	
+	
+	
+	private void createSelectionCryptosystem(Composite parent) {
+		
+		Composite compSelectionCryptosystem = new Composite(parent, SWT.NONE);
+		compSelectionCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compSelectionCryptosystem.setLayout(new GridLayout(3, false));
+		
+		Composite compSelection = new Composite(compSelectionCryptosystem, SWT.NONE);
+		compSelection.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+		compSelection.setLayout(new GridLayout(2, false));
+		guiHandler.setControlMargin(compSelection, SWT.DEFAULT, 10);
+		
+		Button btnSelectCryptotb = new Button(compSelection, SWT.RADIO);
+		btnSelectCryptotb.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnSelectCryptotb.setText("Cryptosystem in textbook");
+		btnSelectCryptotb.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+			}
+		});
+		
+		Button btnSelectCryptoSteps = new Button(compSelection, SWT.RADIO);
+		btnSelectCryptoSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnSelectCryptoSteps.setText("Cryptosystem step by step");
+		btnSelectCryptoSteps.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+			}
+		});
+		
+		
+		
+		
+		
+	}
+	
+	
 
 	
 	
@@ -1057,7 +1125,7 @@ public class RabinFirstTabComposite extends Composite {
 	/**
 	 * create the table which is used in "enc/dec" group
 	 */
-	private void createTable() {
+	/*private void createTable() {
 		
 		for(int i = 0; i < plaintexts.length; i++) {
 			for(int j = 0; j < plaintexts[i].length; j++) {
@@ -1085,7 +1153,7 @@ public class RabinFirstTabComposite extends Composite {
 				});
 			}
 		}
-	}
+	}*/
 	
 	
 	
@@ -1099,7 +1167,7 @@ public class RabinFirstTabComposite extends Composite {
 	 * Create group for encryption/decryption and its content
 	 * @param parent
 	 */
-	private void createEncDecContent(Composite parent) {
+	/*private void createEncDecContent(Composite parent) {
 		
 		// create Group for encryption/decryption
 		grpEncDec = new Group(parent, SWT.NONE);
@@ -1286,7 +1354,7 @@ public class RabinFirstTabComposite extends Composite {
 		});
 
 			
-	}
+	}*/
 	
 	
 	/**
@@ -1322,12 +1390,12 @@ public class RabinFirstTabComposite extends Composite {
 		// create setting parameters group
 		createSetParamContent(this);
 		
-		
+		createSelectionCryptosystem(this);
 		// create plaintext/ciphertext content
-		createPlainCipherContent(this);
+		//createPlainCipherContent(this);
 		
 		// create encryption/decryption group
-		createEncDecContent(this);
+		//createEncDecContent(this);
 
 		initializeContent();
 		
