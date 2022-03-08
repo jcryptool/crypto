@@ -1088,7 +1088,7 @@ public class RabinFirstTabComposite extends Composite {
 		Composite compSelection = new Composite(compSelectionCryptosystem, SWT.NONE);
 		compSelection.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		compSelection.setLayout(new GridLayout(2, false));
-		guiHandler.setControlMargin(compSelection, SWT.DEFAULT, 10);
+		guiHandler.setControlMargin(compSelection, SWT.DEFAULT, 15);
 		
 		Button btnSelectCryptotb = new Button(compSelection, SWT.RADIO);
 		btnSelectCryptotb.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
