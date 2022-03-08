@@ -841,12 +841,12 @@ public class RabinSecondTabComposite extends Composite {
 			
 		});
 		
-		pWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP);
+		pWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		pWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) pWarning.getLayoutData()).horizontalIndent = 28;
 		pWarning.setText(Messages.RabinSecondTabComposite_pWarning);
-		pWarning.setBackground(ColorService.LIGHTGRAY);
-		pWarning.setForeground(ColorService.RED);
+		pWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		pWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.setSizeControlWarning(pWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(pWarning);
 		
@@ -877,12 +877,12 @@ public class RabinSecondTabComposite extends Composite {
 		});
 		
 		
-		qWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP);
+		qWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		qWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) qWarning.getLayoutData()).horizontalIndent = 28;
 		qWarning.setText(Messages.RabinSecondTabComposite_qWarning);
-		qWarning.setBackground(ColorService.LIGHTGRAY);
-		qWarning.setForeground(ColorService.RED);
+		qWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		qWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.setSizeControlWarning(qWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(qWarning);
 		
@@ -906,12 +906,12 @@ public class RabinSecondTabComposite extends Composite {
 		
 		
 		
-		nWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP);
+		nWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		nWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) nWarning.getLayoutData()).horizontalIndent = 28;
 		nWarning.setText(Messages.RabinSecondTabComposite_nWarning);
-		nWarning.setBackground(ColorService.LIGHTGRAY);
-		nWarning.setForeground(ColorService.RED);
+		nWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		nWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.setSizeControlWarning(nWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(nWarning);
 		
@@ -927,7 +927,7 @@ public class RabinSecondTabComposite extends Composite {
 		lblSepKeysInfo.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
 		
 		// textInfo
-		Text txtInfoGenKeys = new Text(grpParam, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		Text txtInfoGenKeys = new Text(grpParam, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
 		GridData txtInfoKeysData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoGenKeys.setLayoutData(txtInfoKeysData);
 		guiHandler.setSizeControl(txtInfoGenKeys, SWT.DEFAULT, SWT.DEFAULT);
@@ -1085,12 +1085,12 @@ public class RabinSecondTabComposite extends Composite {
 			}
 		});
 		
-		txtMessageSepNumWarning = new Text(compEncStepsNum, SWT.MULTI | SWT.WRAP);
+		txtMessageSepNumWarning = new Text(compEncStepsNum, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtMessageSepNumWarningData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtMessageSepNumWarning.setLayoutData(txtMessageSepNumWarningData);
 		guiHandler.setSizeControlWarning(txtMessageSepNumWarning, SWT.DEFAULT, SWT.DEFAULT);
-		txtMessageSepNumWarning.setBackground(ColorService.LIGHTGRAY);
-		txtMessageSepNumWarning.setForeground(ColorService.RED);
+		txtMessageSepNumWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtMessageSepNumWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtMessageSepNumWarning);
 	
 		
@@ -1159,12 +1159,12 @@ public class RabinSecondTabComposite extends Composite {
 		});	
 		
 		
-		txtMessageWarning = new Text(compEncSteps, SWT.MULTI | SWT.WRAP);
+		txtMessageWarning = new Text(compEncSteps, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtMessageWarningData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtMessageWarning.setLayoutData(txtMessageWarningData);
 		guiHandler.setSizeControlWarning(txtMessageWarning, SWT.DEFAULT, SWT.DEFAULT);
-		txtMessageWarning.setBackground(ColorService.LIGHTGRAY);
-		txtMessageWarning.setForeground(ColorService.RED);
+		txtMessageWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtMessageWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtMessageWarning);
 		
 			
@@ -1236,7 +1236,7 @@ public class RabinSecondTabComposite extends Composite {
 		GridData lblSepInfoEncData = new GridData(SWT.FILL, SWT.FILL, false, true);
 		lblSepInfoEnc.setLayoutData(lblSepInfoEncData);
 		
-		txtInfoEnc = new Text(grpPlaintext, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		txtInfoEnc = new Text(grpPlaintext, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
 		GridData txtInfoEncData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoEnc.setLayoutData(txtInfoEncData);
 		guiHandler.setSizeControl(txtInfoEnc, SWT.DEFAULT, SWT.DEFAULT);
@@ -1369,8 +1369,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtEnterCiphertextDecimalWarningData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtEnterCiphertextDecimalWarning.setLayoutData(txtEnterCiphertextDecimalWarningData);
 		guiHandler.setSizeControlWarning(txtEnterCiphertextDecimalWarning, SWT.DEFAULT, SWT.DEFAULT);
-		txtEnterCiphertextDecimalWarning.setBackground(ColorService.LIGHTGRAY);
-		txtEnterCiphertextDecimalWarning.setForeground(ColorService.RED);
+		txtEnterCiphertextDecimalWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtEnterCiphertextDecimalWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtEnterCiphertextDecimalWarning);
 		
 		
@@ -1416,8 +1416,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtEnterCiphertextWarning = new Text(compEnterCiphertextPart1, SWT.MULTI | SWT.WRAP);
 		txtEnterCiphertextWarningData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtEnterCiphertextWarning.setLayoutData(txtEnterCiphertextWarningData);
-		txtEnterCiphertextWarning.setForeground(ColorService.RED);
-		txtEnterCiphertextWarning.setBackground(ColorService.LIGHTGRAY);
+		txtEnterCiphertextWarning.setForeground(guiHandler.getColorBackgroundWarning());
+		txtEnterCiphertextWarning.setBackground(guiHandler.getColorForegroundWarning());
 		guiHandler.setSizeControlWarning(txtEnterCiphertextWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(txtEnterCiphertextWarning);
 		

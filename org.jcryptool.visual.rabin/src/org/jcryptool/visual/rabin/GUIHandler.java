@@ -14,6 +14,8 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.TypedEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.internal.SWTEventListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -49,7 +51,15 @@ public class GUIHandler {
 	private int blocklength;
 	private int radix = 16;
 	private String separator = "||"; //$NON-NLS-1$
-	//private DataTransfer dataTransfer;
+	
+	// colors for p and q in Cryptosystem and Algorithm tab
+	private Color colorBackgroundCorrect = ColorService.LIGHT_AREA_GREEN;
+	private Color colorBackgroundWrong = ColorService.LIGHT_AREA_RED;
+	private Color colorBackgroundNeutral = ColorService.WHITE;
+	
+	// colors for warning textfields	
+	private Color colorBackgroundWarning = ColorService.LIGHTGRAY;
+	private Color colorForegroundWarning = ColorService.RED;
 	
 	
 	
@@ -68,6 +78,87 @@ public class GUIHandler {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	/**
+	 * @return the colorBackgroundCorrect
+	 */
+	public Color getColorBackgroundCorrect() {
+		return colorBackgroundCorrect;
+	}
+
+
+
+
+
+
+
+
+
+	/**
+	 * @return the colorBackgroundWrong
+	 */
+	public Color getColorBackgroundWrong() {
+		return colorBackgroundWrong;
+	}
+
+
+
+
+
+
+
+
+
+	/**
+	 * @return the colorBackgroundNeutral
+	 */
+	public Color getColorBackgroundNeutral() {
+		return colorBackgroundNeutral;
+	}
+
+
+
+
+
+
+
+
+
+	/**
+	 * @return the colorBackgroundWarning
+	 */
+	public Color getColorBackgroundWarning() {
+		return colorBackgroundWarning;
+	}
+
+
+
+
+
+
+
+
+
+	/**
+	 * @return the colorForegroundWarning
+	 */
+	public Color getColorForegroundWarning() {
+		return colorForegroundWarning;
+	}
+
+
+
+
+
+
+
+
+
 	/**
 	 * @return limitUp
 	 */
@@ -238,6 +329,18 @@ public class GUIHandler {
 	
 	
 	
+	public static void setSizeControlStatic(Control c, int minWidth, int minHeight) {
+		GridData gd = (GridData) c.getLayoutData();
+		gd.minimumWidth = minWidth;
+		gd.minimumHeight = minHeight;
+		gd.widthHint = c.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+		gd.heightHint = c.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+	}
+	
+	
+	
+	
+	
 	/**
 	 * sets the size of the passed control but only computes the width
 	 * @param c
@@ -250,6 +353,7 @@ public class GUIHandler {
 		gd.minimumHeight = minHeight;
 		gd.widthHint = c.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
 	}
+	
 	
 	
 	
@@ -266,7 +370,17 @@ public class GUIHandler {
 		if(scMain == null)
 			return;
 		
-		scMain.setMinSize(compMain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		int width = scMain.getClientArea().width;
+		
+		/*if(width < 1000) {
+			scMain.setMinSize(compMain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			return;
+		}*/
+		
+		scMain.setMinSize(compMain.computeSize(width, SWT.DEFAULT));
+		
+		//scMain.setMinSize(compMain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 	
 	
@@ -285,7 +399,7 @@ public class GUIHandler {
 		if(scMain == null)
 			return;
 		
-		scMain.setMinSize(compMain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		//scMain.setMinSize(compMain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 	
 	
@@ -304,8 +418,22 @@ public class GUIHandler {
 		if(scMain == null)
 			return;
 		
-		scMain.setMinSize(compMain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		int width = scMain.getClientArea().width;
+		
+		/*if(width < 1000) {
+			scMain.setMinSize(compMain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			return;
+		}*/
+		
+		scMain.setMinSize(compMain.computeSize(width, SWT.DEFAULT));
+		//scMain.setMinSize(compMain.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -819,22 +947,19 @@ public class GUIHandler {
 	
 	
 	/**
-	 * update textfields for Crypptosytem and Algorithm tab, used
+	 * update textfields p and q for Cryptosystem and Algorithm tab, its currently used
 	 * @param tabComposite
 	 */
-	public void updateTextfields(Control tabComposite) {
+	/*public void updateTextfields(Control tabComposite) {
 		BigInteger ptmp = null;
 		BigInteger qtmp = null;
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
 		RabinFirstTabComposite rftc = null;
 		RabinSecondTabComposite rstc = null;
 		
-		/*Text txtP = null;
-		Text txtQ = null;
-		Combo cmbP = null;
-		Combo cmbQ = null;*/
-		
-		
+		Color colorBackgroundCorrect = this.colorBackgroundCorrectPQ;
+		Color colorBackgroundWrong = this.colorBackgroundWrongPQ;
+		Color colorBackgroundNeutral = this.colorBackgroundNeutralPQ;
 		
 		String strNumberRestriction = Messages.GUIHandler_strNumberRestriction;
 		String strMissingP = Messages.GUIHandler_strMissingP;
@@ -845,6 +970,7 @@ public class GUIHandler {
 		String strPnotEqualQ = Messages.GUIHandler_strPnotEqualQ;
 		String strPnotSuitable = Messages.GUIHandler_strPnotSuitable;
 		String strNotSuitableN = Messages.GUIHandler_strNotSuitableN;
+		
 		if(tabComposite instanceof RabinSecondTabComposite) {
 			rstc = (RabinSecondTabComposite) tabComposite;
 			
@@ -1288,6 +1414,482 @@ public class GUIHandler {
 				else if(!rabinFirst.isSuitablePrime(ptmp) && !rabinFirst.isSuitablePrime(qtmp)) {
 					txtP.setBackground(ColorService.RED);
 					txtQ.setBackground(ColorService.RED);
+					pWarning.setText(strPnotSuitable);
+					qWarning.setText(strQnotSuitable);
+					showControl(pWarning);
+					showControl(qWarning);
+				}
+			}
+
+		}
+	}*/
+	
+	
+	
+	public void updateTextfields(Control tabComposite) {
+		BigInteger ptmp = null;
+		BigInteger qtmp = null;
+		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
+		RabinFirstTabComposite rftc = null;
+		RabinSecondTabComposite rstc = null;
+		
+		Color colorBackgroundCorrect = this.colorBackgroundCorrect;
+		Color colorBackgroundWrong = this.colorBackgroundWrong;
+		Color colorBackgroundNeutral = this.colorBackgroundNeutral;
+		
+		String strNumberRestriction = Messages.GUIHandler_strNumberRestriction;
+		String strMissingP = Messages.GUIHandler_strMissingP;
+		String strUpperLimitRestriction = Messages.GUIHandler_strUpperLimitRestriction;
+		
+		String strQnotSuitable = Messages.GUIHandler_strQnotSuitable;
+		String strMissingQ = Messages.GUIHandler_strMissingQ;
+		String strPnotEqualQ = Messages.GUIHandler_strPnotEqualQ;
+		String strPnotSuitable = Messages.GUIHandler_strPnotSuitable;
+		String strNotSuitableN = Messages.GUIHandler_strNotSuitableN;
+		
+		if(tabComposite instanceof RabinSecondTabComposite) {
+			rstc = (RabinSecondTabComposite) tabComposite;
+			
+			if(rstc.getBtnGenKeysMan().getSelection())
+				rstc.getBtnStartGenKeys().setEnabled(false);
+			
+			Combo cmbP = rstc.getCmbP();
+			Combo cmbQ = rstc.getCmbQ();
+			Text pWarning = rstc.getPWarning();
+			Text qWarning = rstc.getQWarning();
+			Text nWarning = rstc.getNWarning();
+			
+			
+			String pAsStr = cmbP.getText();
+			String qAsStr = cmbQ.getText();
+			
+			if(pAsStr.isEmpty() && qAsStr.isEmpty()) {
+				
+				cmbP.setBackground(colorBackgroundNeutral);
+				cmbQ.setBackground(colorBackgroundNeutral);
+				hideControl(nWarning);
+				hideControl(pWarning);
+				hideControl(qWarning);
+				return;
+			}
+			
+			if(pAsStr.isEmpty() && !qAsStr.isEmpty()) {
+				hideControl(nWarning);
+				hideControl(pWarning);
+				hideControl(qWarning);
+				
+				if(!qAsStr.matches(pattern)) {
+					cmbP.setBackground(colorBackgroundNeutral);
+					cmbQ.setBackground(colorBackgroundWrong);
+					qWarning.setText(strNumberRestriction);
+					showControl(qWarning);
+					return;
+				}
+				
+				cmbP.setBackground(colorBackgroundWrong);
+				pWarning.setText(strMissingP);
+				showControl(pWarning);
+				
+				qtmp = new BigInteger(qAsStr);
+				
+				if(qtmp.compareTo(limitUp) > 0) {
+					cmbQ.setBackground(colorBackgroundWrong);
+					qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+					showControl(qWarning);
+					return;
+				}
+				
+				if(rabinFirst.isSuitablePrime(qtmp)) {
+					
+					cmbQ.setBackground(colorBackgroundCorrect);
+					pWarning.setText(strMissingP);
+					showControl(pWarning);
+				}
+				else {
+					cmbQ.setBackground(colorBackgroundWrong);
+					qWarning.setText(strQnotSuitable);
+					pWarning.setText(strMissingP);
+					showControl(pWarning);
+					showControl(qWarning);
+				}
+				return;
+			}
+			
+			if(!pAsStr.isEmpty() && qAsStr.isEmpty()) {
+				hideControl(nWarning);
+				hideControl(pWarning);
+				hideControl(qWarning);
+				
+				if(!pAsStr.matches(pattern)) {
+					cmbP.setBackground(colorBackgroundWrong);
+					cmbQ.setBackground(colorBackgroundNeutral);
+					pWarning.setText(strNumberRestriction);
+					showControl(pWarning);
+					return;
+				}
+				
+				cmbQ.setBackground(colorBackgroundWrong);
+				qWarning.setText(strMissingQ);
+				showControl(qWarning);
+				ptmp = new BigInteger(pAsStr);
+				
+				
+				if(ptmp.compareTo(limitUp) > 0) {
+					cmbP.setBackground(colorBackgroundWrong);
+					pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+					showControl(pWarning);
+					return;
+				}
+				
+				if(rabinFirst.isSuitablePrime(ptmp)) {
+					cmbP.setBackground(colorBackgroundCorrect);
+					qWarning.setText(strMissingQ);
+					showControl(qWarning);
+				}
+				else {
+					cmbP.setBackground(colorBackgroundWrong);
+					qWarning.setText(strMissingQ);
+					pWarning.setText(strPnotSuitable);
+					showControl(qWarning);
+					showControl(pWarning);
+				}
+				return;
+			}
+			
+			if(!pAsStr.isEmpty() && !qAsStr.isEmpty()) {
+				hideControl(nWarning);
+				hideControl(pWarning);
+				hideControl(qWarning);
+				
+				boolean checkPattern = pAsStr.matches(pattern) && qAsStr.matches(pattern);
+				
+				if(!checkPattern) {
+					if(!pAsStr.matches(pattern) && !qAsStr.matches(pattern)) {
+						cmbP.setBackground(colorBackgroundWrong);
+						cmbQ.setBackground(colorBackgroundWrong);
+						pWarning.setText(strNumberRestriction);
+						qWarning.setText(strNumberRestriction);
+						showControl(pWarning);
+						showControl(qWarning);
+					}
+					if(!pAsStr.matches(pattern) && qAsStr.matches(pattern)) {
+						cmbP.setBackground(colorBackgroundWrong);
+						cmbQ.setBackground(colorBackgroundNeutral);
+						pWarning.setText(strNumberRestriction);
+						showControl(pWarning);
+					}
+					if(pAsStr.matches(pattern) && !qAsStr.matches(pattern)) {
+						cmbP.setBackground(colorBackgroundNeutral);
+						cmbQ.setBackground(colorBackgroundWrong);
+						qWarning.setText(strNumberRestriction);
+						showControl(qWarning);
+					}
+					return;
+					
+				}
+				
+				ptmp = new BigInteger(pAsStr);
+				qtmp = new BigInteger(qAsStr);
+				
+				boolean checkUpperLimit = ptmp.compareTo(limitUp) <= 0 && qtmp.compareTo(limitUp) <= 0;
+				
+				if(!checkUpperLimit) {
+					if(!(ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
+						cmbP.setBackground(colorBackgroundWrong);
+						cmbQ.setBackground(colorBackgroundWrong);
+						pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+						qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+						showControl(pWarning);
+						showControl(qWarning);
+					}
+					
+					if(!(ptmp.compareTo(limitUp) <= 0) && (qtmp.compareTo(limitUp) <= 0)) {
+						cmbP.setBackground(colorBackgroundWrong);
+						cmbQ.setBackground(colorBackgroundCorrect);
+						pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+						showControl(pWarning);
+					}
+					
+					if((ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
+						cmbP.setBackground(colorBackgroundCorrect);
+						cmbQ.setBackground(colorBackgroundWrong);
+						qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+						showControl(qWarning);
+					}
+					return;
+				}
+				
+				
+				if(rabinFirst.isSuitablePrime(ptmp) && rabinFirst.isSuitablePrime(qtmp)) {
+					
+					if(!ptmp.equals(qtmp)) {
+						if(rabinFirst.isCompositeSuitable(ptmp, qtmp)) {
+							cmbP.setBackground(colorBackgroundCorrect);
+							cmbQ.setBackground(colorBackgroundCorrect);
+							hideControl(pWarning);
+							hideControl(qWarning);
+							hideControl(nWarning);
+							if(rstc.getBtnGenKeysMan().getSelection()) {
+								rstc.getBtnStartGenKeys().setEnabled(true);
+							}
+						}
+						else {
+							cmbP.setBackground(colorBackgroundWrong);
+							cmbQ.setBackground(colorBackgroundWrong);
+							nWarning.setText(strNotSuitableN);
+							showControl(nWarning);
+						}
+					}
+					else {
+						cmbP.setBackground(colorBackgroundWrong);
+						cmbQ.setBackground(colorBackgroundWrong);
+						nWarning.setText(strPnotEqualQ);
+						showControl(nWarning);
+					}
+				}
+				else if(rabinFirst.isSuitablePrime(ptmp) && !rabinFirst.isSuitablePrime(qtmp)) {
+					
+					cmbP.setBackground(colorBackgroundCorrect);
+					cmbQ.setBackground(colorBackgroundWrong);
+					qWarning.setText(strQnotSuitable);
+					showControl(qWarning);
+				}
+				else if(!rabinFirst.isSuitablePrime(ptmp) && rabinFirst.isSuitablePrime(qtmp)) {
+					
+					cmbP.setBackground(colorBackgroundWrong);
+					cmbQ.setBackground(colorBackgroundCorrect);
+					pWarning.setText(strPnotSuitable);
+					showControl(pWarning);
+				}
+				else if(!rabinFirst.isSuitablePrime(ptmp) && !rabinFirst.isSuitablePrime(qtmp)) {
+					cmbP.setBackground(colorBackgroundWrong);
+					cmbQ.setBackground(colorBackgroundWrong);
+					pWarning.setText(strPnotSuitable);
+					qWarning.setText(strQnotSuitable);
+					showControl(pWarning);
+					showControl(qWarning);
+				}
+			}
+			
+
+		}
+		else {
+			rftc = (RabinFirstTabComposite) tabComposite;
+			
+			if(rftc.getBtnGenKeysMan().getSelection())
+				rftc.getBtnStartGenKeys().setEnabled(false);
+			
+			Text txtP = rftc.getTxtP();
+			Text txtQ = rftc.getTxtQ();
+			Text pWarning = rftc.getPWarning();
+			Text qWarning = rftc.getQWarning();
+			Text nWarning = rftc.getNWarning();
+			
+			
+			String pAsStr = txtP.getText();
+			String qAsStr = txtQ.getText();
+			
+			if(pAsStr.isEmpty() && qAsStr.isEmpty()) {
+				
+				txtP.setBackground(colorBackgroundNeutral);
+				txtQ.setBackground(colorBackgroundNeutral);
+				hideControl(nWarning);
+				hideControl(pWarning);
+				hideControl(qWarning);
+				return;
+			}
+			
+			if(pAsStr.isEmpty() && !qAsStr.isEmpty()) {
+				hideControl(nWarning);
+				hideControl(pWarning);
+				hideControl(qWarning);
+				
+				if(!qAsStr.matches(pattern)) {
+					txtP.setBackground(colorBackgroundNeutral);
+					txtQ.setBackground(colorBackgroundWrong);
+					qWarning.setText(strNumberRestriction);
+					showControl(qWarning);
+					return;
+				}
+				
+				txtP.setBackground(colorBackgroundWrong);
+				pWarning.setText(strMissingP);
+				showControl(pWarning);
+				
+				qtmp = new BigInteger(qAsStr);
+				
+				if(qtmp.compareTo(limitUp) > 0) {
+					txtQ.setBackground(colorBackgroundWrong);
+					qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+					showControl(qWarning);
+					return;
+				}
+				
+				if(rabinFirst.isSuitablePrime(qtmp)) {
+					
+					txtQ.setBackground(colorBackgroundCorrect);
+					pWarning.setText(strMissingP);
+					showControl(pWarning);
+				}
+				else {
+					txtQ.setBackground(colorBackgroundWrong);
+					qWarning.setText(strQnotSuitable);
+					pWarning.setText(strMissingP);
+					showControl(pWarning);
+					showControl(qWarning);
+				}
+				return;
+			}
+			
+			if(!pAsStr.isEmpty() && qAsStr.isEmpty()) {
+				hideControl(nWarning);
+				hideControl(pWarning);
+				hideControl(qWarning);
+				
+				if(!pAsStr.matches(pattern)) {
+					txtP.setBackground(colorBackgroundWrong);
+					txtQ.setBackground(colorBackgroundNeutral);
+					pWarning.setText(strNumberRestriction);
+					showControl(pWarning);
+					return;
+				}
+				
+				txtQ.setBackground(colorBackgroundWrong);
+				qWarning.setText(strMissingQ);
+				showControl(qWarning);
+				ptmp = new BigInteger(pAsStr);
+				
+				
+				if(ptmp.compareTo(limitUp) > 0) {
+					txtP.setBackground(colorBackgroundWrong);
+					pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+					showControl(pWarning);
+					return;
+				}
+				
+				if(rabinFirst.isSuitablePrime(ptmp)) {
+					txtP.setBackground(colorBackgroundCorrect);
+					qWarning.setText(strMissingQ);
+					showControl(qWarning);
+				}
+				else {
+					txtP.setBackground(colorBackgroundWrong);
+					qWarning.setText(strMissingQ);
+					pWarning.setText(strPnotSuitable);
+					showControl(qWarning);
+					showControl(pWarning);
+				}
+				return;
+			}
+			
+			if(!pAsStr.isEmpty() && !qAsStr.isEmpty()) {
+				hideControl(nWarning);
+				hideControl(pWarning);
+				hideControl(qWarning);
+				
+				boolean checkPattern = pAsStr.matches(pattern) && qAsStr.matches(pattern);
+				
+				if(!checkPattern) {
+					if(!pAsStr.matches(pattern) && !qAsStr.matches(pattern)) {
+						txtP.setBackground(colorBackgroundWrong);
+						txtQ.setBackground(colorBackgroundWrong);
+						pWarning.setText(strNumberRestriction);
+						qWarning.setText(strNumberRestriction);
+						showControl(pWarning);
+						showControl(qWarning);
+					}
+					if(!pAsStr.matches(pattern) && qAsStr.matches(pattern)) {
+						txtP.setBackground(colorBackgroundWrong);
+						txtQ.setBackground(colorBackgroundNeutral);
+						pWarning.setText(strNumberRestriction);
+						showControl(pWarning);
+					}
+					if(pAsStr.matches(pattern) && !qAsStr.matches(pattern)) {
+						txtP.setBackground(colorBackgroundNeutral);
+						txtQ.setBackground(colorBackgroundWrong);
+						qWarning.setText(strNumberRestriction);
+						showControl(qWarning);
+					}
+					return;
+					
+				}
+				
+				ptmp = new BigInteger(pAsStr);
+				qtmp = new BigInteger(qAsStr);
+				
+				boolean checkUpperLimit = ptmp.compareTo(limitUp) <= 0 && qtmp.compareTo(limitUp) <= 0;
+				
+				if(!checkUpperLimit) {
+					if(!(ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
+						txtP.setBackground(colorBackgroundWrong);
+						txtQ.setBackground(colorBackgroundWrong);
+						pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+						qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+						showControl(pWarning);
+						showControl(qWarning);
+					}
+					
+					if(!(ptmp.compareTo(limitUp) <= 0) && (qtmp.compareTo(limitUp) <= 0)) {
+						txtP.setBackground(colorBackgroundWrong);
+						txtQ.setBackground(colorBackgroundCorrect);
+						pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+						showControl(pWarning);
+					}
+					
+					if((ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
+						txtP.setBackground(colorBackgroundCorrect);
+						txtQ.setBackground(colorBackgroundWrong);
+						qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+						showControl(qWarning);
+					}
+					return;
+				}
+				
+				
+				if(rabinFirst.isSuitablePrime(ptmp) && rabinFirst.isSuitablePrime(qtmp)) {
+					
+					if(!ptmp.equals(qtmp)) {
+						if(rabinFirst.isCompositeSuitable(ptmp, qtmp)) {
+							txtP.setBackground(colorBackgroundCorrect);
+							txtQ.setBackground(colorBackgroundCorrect);
+							hideControl(pWarning);
+							hideControl(qWarning);
+							hideControl(nWarning);
+							if(rftc.getBtnGenKeysMan().getSelection()) {
+								rftc.getBtnStartGenKeys().setEnabled(true);
+							}
+						}
+						else {
+							txtP.setBackground(colorBackgroundWrong);
+							txtQ.setBackground(colorBackgroundWrong);
+							nWarning.setText(strNotSuitableN);
+							showControl(nWarning);
+						}
+					}
+					else {
+						txtP.setBackground(colorBackgroundWrong);
+						txtQ.setBackground(colorBackgroundWrong);
+						nWarning.setText(strPnotEqualQ);
+						showControl(nWarning);
+					}
+				}
+				else if(rabinFirst.isSuitablePrime(ptmp) && !rabinFirst.isSuitablePrime(qtmp)) {
+					
+					txtP.setBackground(colorBackgroundCorrect);
+					txtQ.setBackground(colorBackgroundWrong);
+					qWarning.setText(strQnotSuitable);
+					showControl(qWarning);
+				}
+				else if(!rabinFirst.isSuitablePrime(ptmp) && rabinFirst.isSuitablePrime(qtmp)) {
+					
+					txtP.setBackground(colorBackgroundWrong);
+					txtQ.setBackground(colorBackgroundCorrect);
+					pWarning.setText(strPnotSuitable);
+					showControl(pWarning);
+				}
+				else if(!rabinFirst.isSuitablePrime(ptmp) && !rabinFirst.isSuitablePrime(qtmp)) {
+					txtP.setBackground(colorBackgroundWrong);
+					txtQ.setBackground(colorBackgroundWrong);
 					pWarning.setText(strPnotSuitable);
 					qWarning.setText(strQnotSuitable);
 					showControl(pWarning);

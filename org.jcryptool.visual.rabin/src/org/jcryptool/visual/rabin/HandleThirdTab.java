@@ -10,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TypedEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
@@ -52,22 +53,19 @@ public class HandleThirdTab extends GUIHandler {
 		String n = rttc.getTxtN().getText();
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
 		
-		/*if(rttc.getBtnGenKeysMan().getSelection())
-			rttc.getBtnStartGen().setEnabled(false);
-		
-		if(!e.widget.equals(rttc.getBtnGenKeysMan()))
-			rttc.getBtnFactorize().setEnabled(false);*/
+		Color neutral = this.getColorBackgroundNeutral();
+		Color wrong = this.getColorBackgroundWrong();
 		
 		rttc.getBtnFactorize().setEnabled(false);
 		
 		if(n.isEmpty()) {
-			rttc.getTxtN().setBackground(ColorService.WHITE);
+			rttc.getTxtN().setBackground(neutral);
 			hideControl(rttc.getTxtNWarning());
 			return;
 		}
 		
 		if(!n.matches(pattern)) {
-			rttc.getTxtN().setBackground(ColorService.RED);
+			rttc.getTxtN().setBackground(wrong);
 			String strOnlyNumbersGreaterZero = Messages.HandleThirdTab_strOnlyNumbersGreaterZero;
 			rttc.getTxtNWarning().setText(strOnlyNumbersGreaterZero);
 			showControl(rttc.getTxtNWarning());
@@ -80,7 +78,7 @@ public class HandleThirdTab extends GUIHandler {
 			String strMaxBitlengthOfN = Messages.HandleThirdTab_strMaxBitlengthOfN;
 			rttc.getTxtNWarning().setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
 			showControl(rttc.getTxtNWarning());
-			rttc.getTxtN().setBackground(ColorService.RED);
+			rttc.getTxtN().setBackground(wrong);
 			return;
 		}
 		
@@ -88,7 +86,7 @@ public class HandleThirdTab extends GUIHandler {
 			String strNmustBeOdd = Messages.HandleThirdTab_strNmustBeOdd;
 			rttc.getTxtNWarning().setText(strNmustBeOdd);
 			showControl(rttc.getTxtNWarning());
-			rttc.getTxtN().setBackground(ColorService.RED);
+			rttc.getTxtN().setBackground(wrong);
 			return;
 		}
 		
@@ -96,12 +94,12 @@ public class HandleThirdTab extends GUIHandler {
 			String strNmustBeComposite = Messages.HandleThirdTab_strNmustBeComposite;
 			rttc.getTxtNWarning().setText(strNmustBeComposite);
 			showControl(rttc.getTxtNWarning());
-			rttc.getTxtN().setBackground(ColorService.RED);
+			rttc.getTxtN().setBackground(wrong);
 			return;
 		}
 		
 		hideControl(rttc.getTxtNWarning());
-		rttc.getTxtN().setBackground(ColorService.WHITE);
+		rttc.getTxtN().setBackground(neutral);
 		//rttc.getBtnStartGen().setEnabled(true);
 		rttc.getBtnFactorize().setEnabled(true);
 
@@ -119,23 +117,17 @@ public class HandleThirdTab extends GUIHandler {
 		String n = txtN.getText();
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
 		
-		//if(rttc.getBtnGenKeysManPollard().getSelection())
-		//rttc.getBtnFactorizePollard().setEnabled(false);
-			//rttc.getBtnStartGenPollard().setEnabled(false);
-		
-		//if(!e.widget.equals(rttc.getBtnGenKeysManPollard()))
-			//rttc.getBtnFactorizePollard().setEnabled(false);
-		
-		
+		Color neutral = this.getColorBackgroundNeutral();
+		Color wrong = this.getColorBackgroundWrong();
 		
 		if(n.isEmpty()) {
-			txtN.setBackground(ColorService.WHITE);
+			txtN.setBackground(neutral);
 			hideControl(txtWarning);
 			return false;
 		}
 		
 		if(!n.matches(pattern)) {
-			txtN.setBackground(ColorService.RED);
+			txtN.setBackground(wrong);
 			String strOnlyNumbersGreaterZero = Messages.HandleThirdTab_strOnlyNumbersGreaterZero;
 			txtWarning.setText(strOnlyNumbersGreaterZero);
 			showControl(txtWarning);
@@ -148,7 +140,7 @@ public class HandleThirdTab extends GUIHandler {
 			String strMaxBitlengthOfN = Messages.HandleThirdTab_strMaxBitlengthOfN;
 			txtWarning.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
 			showControl(txtWarning);
-			txtN.setBackground(ColorService.RED);
+			txtN.setBackground(wrong);
 			return false;
 		}
 		
@@ -156,7 +148,7 @@ public class HandleThirdTab extends GUIHandler {
 			String strNmustBeOdd = Messages.HandleThirdTab_strNmustBeOdd;
 			txtWarning.setText(strNmustBeOdd);
 			showControl(txtWarning);
-			txtN.setBackground(ColorService.RED);
+			txtN.setBackground(wrong);
 			return false;
 		}
 		
@@ -164,16 +156,13 @@ public class HandleThirdTab extends GUIHandler {
 			String strNmustBeComposite = Messages.HandleThirdTab_strNmustBeComposite;
 			txtWarning.setText(strNmustBeComposite);
 			showControl(txtWarning);
-			txtN.setBackground(ColorService.RED);
+			txtN.setBackground(wrong);
 			return false;
 		}
 		
 		hideControl(txtWarning);
-		txtN.setBackground(ColorService.WHITE);
-		//rttc.getBtnStartGenPollard().setEnabled(true);
-		//rttc.getBtnFactorizePollard().setEnabled(true);
+		txtN.setBackground(neutral);
 		return true;
-
 	}
 	
 	
@@ -194,23 +183,18 @@ public class HandleThirdTab extends GUIHandler {
 		String strTxt = txt.getText();
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
 		
-		//if(rttc.getBtnGenKeysManPollard().getSelection())
-		//rttc.getBtnFactorizePollard().setEnabled(false);
-			//rttc.getBtnStartGenPollard().setEnabled(false);
-		
-		//if(!e.widget.equals(rttc.getBtnGenKeysManPollard()))
-			//rttc.getBtnFactorizePollard().setEnabled(false);
-		
-		
+		Color neutral = this.getColorBackgroundNeutral();
+		Color wrong = this.getColorBackgroundWrong();
+	
 		
 		if(strTxt.isEmpty()) {
-			txt.setBackground(ColorService.WHITE);
+			txt.setBackground(neutral);
 			hideControl(txtWarning);
 			return false;
 		}
 		
 		if(!strTxt.matches(pattern)) {
-			txt.setBackground(ColorService.RED);
+			txt.setBackground(wrong);
 			String strOnlyNumbersGreaterZero = Messages.HandleThirdTab_strOnlyNumbersGreaterZero;
 			txtWarning.setText(strOnlyNumbersGreaterZero);
 			showControl(txtWarning);
@@ -219,14 +203,14 @@ public class HandleThirdTab extends GUIHandler {
 		
 		
 		if(txtN.getText().isEmpty()) {
-			txt.setBackground(ColorService.RED);
+			txt.setBackground(wrong);
 			txtWarning.setText("Attention: N is missing");
 			showControl(txtWarning);
 			return false;
 		}
 		
 		this.hideControl(txtWarning);
-		txt.setBackground(ColorService.WHITE);
+		txt.setBackground(neutral);
 		
 		
 		BigInteger txtAsNum = new BigInteger(strTxt);
@@ -237,41 +221,22 @@ public class HandleThirdTab extends GUIHandler {
 			String strMaxBitlengthOfN = Messages.HandleThirdTab_strMaxBitlengthOfN;
 			txtWarningNPollard.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
 			showControl(txtWarningNPollard);
-			txtN.setBackground(ColorService.RED);
+			txtN.setBackground(wrong);
 			return false;
 		}
 		
 		
 		if(txtAsNum.compareTo(nAsNum) >= 0) {
 			// TODO continue here
-			txt.setBackground(ColorService.RED);
+			txt.setBackground(wrong);
 			txtWarning.setText("Attention: the conditon number < N has to be satisfied");
 			showControl(txtWarning);
 			return false;
 		}
 		
 		
-		
-		/*if(nAsNum.mod(BigInteger.TWO).compareTo(BigInteger.ZERO) == 0) {
-			String strNmustBeOdd = Messages.HandleThirdTab_strNmustBeOdd;
-			txtN.setText(strNmustBeOdd);
-			showControl(txtWarning);
-			txtN.setBackground(ColorService.RED);
-			return;
-		}
-		
-		if(nAsNum.isProbablePrime(1000)) {
-			String strNmustBeComposite = Messages.HandleThirdTab_strNmustBeComposite;
-			txtWarning.setText(strNmustBeComposite);
-			showControl(txtWarning);
-			txtN.setBackground(ColorService.RED);
-			return;
-		}*/
-		
 		hideControl(txtWarning);
-		txt.setBackground(ColorService.WHITE);
-		//rttc.getBtnStartGenPollard().setEnabled(true);
-		//rttc.getBtnFactorizePollard().setEnabled(true);
+		txt.setBackground(neutral);
 		return true;
 
 	}
@@ -339,8 +304,8 @@ public class HandleThirdTab extends GUIHandler {
 		rttc.getTxtQ1().setText(""); //$NON-NLS-1$
 		rttc.getTxtQ2().setText(""); //$NON-NLS-1$
 		rttc.getTxtResultQ().setText(""); //$NON-NLS-1$
-		rttc.getTxtResultP().setBackground(ColorService.WHITE);
-		rttc.getTxtResultQ().setBackground(ColorService.WHITE);
+		rttc.getTxtResultP().setBackground(this.getColorBackgroundNeutral());
+		rttc.getTxtResultQ().setBackground(this.getColorBackgroundNeutral());
 	}
 	
 	
@@ -461,6 +426,9 @@ public class HandleThirdTab extends GUIHandler {
 		String yAsStr = txtyPollard.getText();
 		String cAsStr = txtcPollard.getText();
 		
+		Color neutral = this.getColorBackgroundNeutral();
+		Color correct = this.getColorBackgroundCorrect();
+		
 		BigInteger n = new BigInteger(nAsStr);
 		BigInteger x = new BigInteger(xAsStr);
 		BigInteger y = new BigInteger(yAsStr);
@@ -473,8 +441,8 @@ public class HandleThirdTab extends GUIHandler {
 		rttc.getPollardFactorTable().removeAll();
 		txtpPollard.setText("");
 		txtqPollard.setText("");
-		txtpPollard.setBackground(ColorService.WHITE);
-		txtqPollard.setBackground(ColorService.WHITE);
+		txtpPollard.setBackground(neutral);
+		txtqPollard.setBackground(neutral);
 		
 		while(d.compareTo(BigInteger.ONE) == 0) {
 			x = this.gRndFunction(x, c, n);
@@ -501,8 +469,8 @@ public class HandleThirdTab extends GUIHandler {
 		BigInteger q = n.divide(p);
 		txtpPollard.setText(p.toString());
 		txtqPollard.setText(q.toString());
-		txtpPollard.setBackground(ColorService.GREEN);
-		txtqPollard.setBackground(ColorService.GREEN);
+		txtpPollard.setBackground(correct);
+		txtqPollard.setBackground(correct);
 	}
 	
 	
@@ -517,6 +485,10 @@ public class HandleThirdTab extends GUIHandler {
 		String nAsStr = rttc.getTxtN().getText();
 		BigInteger n = new BigInteger(nAsStr);
 		
+		Color neutral = this.getColorBackgroundNeutral();
+		Color correct = this.getColorBackgroundCorrect();
+	
+		
 		/*if(n == null) {
 			//txtWarningApplyAndFactor.setText("Attention: you must choose N first");
 			rttc.getTxtNWarning().setText("Attention: you must choose N first");
@@ -526,7 +498,7 @@ public class HandleThirdTab extends GUIHandler {
 		}*/
 		
 		hideControl(rttc.getTxtNWarning());
-		rttc.getTxtN().setBackground(ColorService.WHITE);
+		rttc.getTxtN().setBackground(neutral);
 		
 		rttc.getFactorTable().removeAll();
 		
@@ -561,8 +533,8 @@ public class HandleThirdTab extends GUIHandler {
 			rttc.getTxtQ1().setText(y.toString());
 			rttc.getTxtQ2().setText(y_2_nSquare.toString());
 			rttc.getTxtResultQ().setText(q.toString());
-			rttc.getTxtResultP().setBackground(ColorService.GREEN);
-			rttc.getTxtResultQ().setBackground(ColorService.GREEN);
+			rttc.getTxtResultP().setBackground(correct);
+			rttc.getTxtResultQ().setBackground(correct);
 		}
 		else {
 			String strCouldNotFindPandQ = Messages.HandleThirdTab_strCouldNotFindPandQ;

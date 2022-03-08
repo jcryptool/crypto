@@ -2,7 +2,11 @@ package org.jcryptool.visual.rabin.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -29,6 +33,7 @@ public class RabinMainView extends ViewPart {
 	private TabItem tabSecondItem;
 	private TabItem tabThirdItem;
 	private RabinThirdTabComposite compAttacks;
+	private Composite compHoldAlgorithm;
 	
 
 	public RabinMainView() {
@@ -95,8 +100,45 @@ public class RabinMainView extends ViewPart {
 		Composite compHoldCryptosystem = new Composite(scCryptosystem, SWT.NONE);
 		compHoldCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldCryptosystem.setLayout(new GridLayout(1, false));
+		//GUIHandler.setSizeControlStatic(compHoldCryptosystem, SWT.DEFAULT, SWT.DEFAULT);
+		
+		// test and debugging
+		/*compHoldCryptosystem.addControlListener(new ControlAdapter() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				// TODO Auto-generated method stub
+				//int width = compHoldCryptosystem.getBounds().width;
+				//int height = compHoldCryptosystem.getBounds().height;
+				int width = compHoldCryptosystem.getClientArea().width;
+				scCryptosystem.setMinSize(compHoldCryptosystem.computeSize(width, SWT.DEFAULT));
+				
+			}
+		});*/
 		
 		scCryptosystem.setContent(compHoldCryptosystem);
+		
+		// test and debugging
+		scCryptosystem.addControlListener(new ControlAdapter() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				//Rectangle r = scCryptosystem.getClientArea();
+				Rectangle r = scCryptosystem.getClientArea();			
+				int width = r.width;
+				//int height = r.height;
+				//System.out.println("width = " + width);
+				//System.out.println("height = " + height);
+				
+				//if(width < 1000)
+					//return;
+				
+				scCryptosystem.setMinSize(compHoldCryptosystem.computeSize(width, SWT.DEFAULT));
+			}
+			
+		});
+		
+		
 		
 		
 		compCryptosystem = new RabinFirstTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, rabinAlgorithmTab, scCryptosystem, compHoldCryptosystem);
@@ -119,7 +161,17 @@ public class RabinMainView extends ViewPart {
 		scAlgorithm.setExpandVertical(true);
 		scAlgorithm.setExpandHorizontal(true);
 		
-		Composite compHoldAlgorithm = new Composite(scAlgorithm, SWT.NONE);
+		scAlgorithm.addControlListener(new ControlAdapter() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				int width = scAlgorithm.getClientArea().width;
+				scAlgorithm.setMinSize(compHoldAlgorithm.computeSize(width, SWT.DEFAULT));
+			}
+		
+		});
+		
+		compHoldAlgorithm = new Composite(scAlgorithm, SWT.NONE);
 		compHoldAlgorithm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldAlgorithm.setLayout(new GridLayout(1, false));
 		
@@ -144,6 +196,16 @@ public class RabinMainView extends ViewPart {
 		scAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		scAttacks.setExpandVertical(true);
 		scAttacks.setExpandHorizontal(true);
+		
+		scAttacks.addControlListener(new ControlAdapter() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				int width = scAttacks.getClientArea().width;
+				scAttacks.setMinSize(compHoldAlgorithm.computeSize(width, SWT.DEFAULT));
+			}
+		
+		});
 		
 		Composite compHoldAttacks = new Composite(scAttacks, SWT.NONE);
 		compHoldAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

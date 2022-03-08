@@ -38,6 +38,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TypedEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -133,6 +134,7 @@ public class RabinFirstTabComposite extends Composite {
 	private Text txtSinglePQWarning;
 	private Button btnSelectSingleLimit;
 	private Button btnSelectMultiPandQ;
+	
 	
 	
 
@@ -530,7 +532,7 @@ public class RabinFirstTabComposite extends Composite {
 	private VerifyListener vlNumbers = new VerifyListener() {
 		
 		/**
-		 * is not used at the moment, but can be used
+		 * is not used at the moment, maybe for future uses
 		 */
 		@Override
 		public void verifyText(VerifyEvent e) {
@@ -597,6 +599,8 @@ public class RabinFirstTabComposite extends Composite {
 	private void initializeContent() {
 		txtP.setText("23"); //$NON-NLS-1$
 		txtQ.setText("31"); //$NON-NLS-1$
+		//txtP.setBackground(ColorService.LIGHT_AREA_RED);
+		//txtQ.setBackground(ColorService.LIGHT_AREA_GREEN);
 		txtLowLimP.setText("1"); //$NON-NLS-1$
 		txtUpperLimP.setText("2^5"); //$NON-NLS-1$
 		txtLowLimQ.setText("1"); //$NON-NLS-1$
@@ -716,7 +720,18 @@ public class RabinFirstTabComposite extends Composite {
 		// create label for prime p in npq composite
 		lblPrimeP = new Label(npqComp, SWT.NONE);
 		lblPrimeP.setText("p ="); //$NON-NLS-1$
+		
+		// test creating composite for border color
+		/*Composite compBorderColorP = new Composite(npqComp, SWT.BORDER);
+		compBorderColorP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compBorderColorP.setLayout(new GridLayout(1, false));
+		compBorderColorP.setBackground(ColorService.LIGHT_AREA_BLUE);
+		((GridLayout) compBorderColorP.getLayout()).marginHeight = 0;
+		((GridLayout) compBorderColorP.getLayout()).marginWidth = 0;*/
+		
+		
 		txtP = new Text(npqComp, SWT.BORDER);
+		//txtP = new Text(compBorderColorP, SWT.BORDER);
 		GridData txtPData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		txtP.setLayoutData(txtPData);
 		guiHandler.setSizeControl(txtP, SWT.DEFAULT, SWT.DEFAULT);
@@ -727,9 +742,13 @@ public class RabinFirstTabComposite extends Composite {
 		pWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) pWarning.getLayoutData()).horizontalIndent = 28;
 		pWarning.setText(Messages.RabinFirstTabComposite_pWarning);
-		pWarning.setBackground(ColorService.LIGHTGRAY);
-		pWarning.setForeground(ColorService.RED);
+		pWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		pWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.setSizeControlWarning(pWarning, SWT.DEFAULT, SWT.DEFAULT);
+		
+		// test setSizeControl instead of setSizeControlWarning to check whether
+		// the space at the bottom of the plugin will be removed
+		//guiHandler.setSizeControl(pWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(pWarning);
 		
 		
@@ -749,9 +768,12 @@ public class RabinFirstTabComposite extends Composite {
 		qWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) qWarning.getLayoutData()).horizontalIndent = 28;
 		qWarning.setText(Messages.RabinFirstTabComposite_qWarning);
-		qWarning.setBackground(ColorService.LIGHTGRAY);
-		qWarning.setForeground(ColorService.RED);
+		qWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		qWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.setSizeControlWarning(qWarning, SWT.DEFAULT, SWT.DEFAULT);
+		
+		// same as above with pWarning
+		//guiHandler.setSizeControl(qWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(qWarning);
 		
 		
@@ -777,9 +799,12 @@ public class RabinFirstTabComposite extends Composite {
 		nWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) nWarning.getLayoutData()).horizontalIndent = 28;
 		nWarning.setText(Messages.RabinFirstTabComposite_nWarning);
-		nWarning.setBackground(ColorService.LIGHTGRAY);
-		nWarning.setForeground(ColorService.RED);
+		nWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		nWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.setSizeControlWarning(nWarning, SWT.DEFAULT, SWT.DEFAULT);
+		
+		// same as above
+		//guiHandler.setSizeControl(nWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(nWarning);
 		
 		
@@ -845,12 +870,15 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		txtSinglePQWarning = new Text(grpSelectSinglePandQ, SWT.MULTI | SWT.WRAP);
+		txtSinglePQWarning = new Text(grpSelectSinglePandQ, SWT.MULTI | SWT.BORDER | SWT.WRAP);
 		txtSinglePQWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) txtSinglePQWarning.getLayoutData()).horizontalIndent = 80;
-		txtSinglePQWarning.setBackground(ColorService.LIGHTGRAY);
-		txtSinglePQWarning.setForeground(ColorService.RED);
+		txtSinglePQWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtSinglePQWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.setSizeControlWarning(txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
+		
+		// same as above
+		//guiHandler.setSizeControlTest(txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(txtSinglePQWarning);
 		
 		
@@ -885,8 +913,8 @@ public class RabinFirstTabComposite extends Composite {
 		txtcompGenPandQWarningData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
 		txtcompGenPandQWarning.setLayoutData(txtcompGenPandQWarningData);
 		guiHandler.setSizeControlWarning(txtcompGenPandQWarning, SWT.DEFAULT, SWT.DEFAULT);
-		txtcompGenPandQWarning.setBackground(ColorService.LIGHTGRAY);
-		txtcompGenPandQWarning.setForeground(ColorService.RED);
+		txtcompGenPandQWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtcompGenPandQWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtcompGenPandQWarning);
 		
 		
@@ -1165,8 +1193,8 @@ public class RabinFirstTabComposite extends Composite {
 		GridData txtEncDecStartWarningData = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
 		txtEncDecStartWarning.setLayoutData(txtEncDecStartWarningData);
 		guiHandler.setSizeControlWarning(txtEncDecStartWarning, SWT.DEFAULT, SWT.DEFAULT);
-		txtEncDecStartWarning.setBackground(ColorService.LIGHTGRAY);
-		txtEncDecStartWarning.setForeground(ColorService.RED);
+		txtEncDecStartWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtEncDecStartWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtEncDecStartWarning);
 		
 		
@@ -1278,10 +1306,10 @@ public class RabinFirstTabComposite extends Composite {
 		
 		sc.setContent(rootComposite);
 		sc.setExpandHorizontal(true);
-		sc.setExpandVertical(true);*/
+		sc.setExpandVertical(true);
 
 		
-		/*// create plaintext/ciphertext content
+		// create plaintext/ciphertext content
 		createPlainCipherContent(rootComposite);
 		
 		// create setting parameters group

@@ -401,8 +401,8 @@ public class RabinThirdTabComposite extends Composite {
 		((GridData) txtWarningNPollard.getLayoutData()).horizontalIndent = 32;
 		guiHandler.setSizeControlWarning(txtWarningNPollard, SWT.DEFAULT, SWT.DEFAULT);
 		//txtWarningNPollard.setText("this is a test");
-		txtWarningNPollard.setBackground(ColorService.LIGHTGRAY);
-		txtWarningNPollard.setForeground(ColorService.RED);
+		txtWarningNPollard.setBackground(guiHandler.getColorBackgroundWarning());
+		txtWarningNPollard.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtWarningNPollard);
 		
 		
@@ -422,8 +422,8 @@ public class RabinThirdTabComposite extends Composite {
 		((GridData) txtWarningxPollard.getLayoutData()).horizontalIndent = 32;
 		guiHandler.setSizeControlWarning(txtWarningxPollard, SWT.DEFAULT, SWT.DEFAULT);
 		//txtWarningxPollard.setText("this is a test");
-		txtWarningxPollard.setBackground(ColorService.LIGHTGRAY);
-		txtWarningxPollard.setForeground(ColorService.RED);
+		txtWarningxPollard.setBackground(guiHandler.getColorBackgroundWarning());
+		txtWarningxPollard.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtWarningxPollard);
 		
 		
@@ -445,8 +445,8 @@ public class RabinThirdTabComposite extends Composite {
 		((GridData) txtWarningyPollard.getLayoutData()).horizontalIndent = 32;
 		guiHandler.setSizeControlWarning(txtWarningyPollard, SWT.DEFAULT, SWT.DEFAULT);
 		//txtWarningyPollard.setText("this is a test");
-		txtWarningyPollard.setBackground(ColorService.LIGHTGRAY);
-		txtWarningyPollard.setForeground(ColorService.RED);
+		txtWarningyPollard.setBackground(guiHandler.getColorBackgroundWarning());
+		txtWarningyPollard.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtWarningyPollard);
 		
 		
@@ -457,15 +457,6 @@ public class RabinThirdTabComposite extends Composite {
 		
 		
 		
-		/*Label lblgxPollard = new Label(compSelParam, SWT.NONE);
-		lblgxPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		lblgxPollard.setText("g(x) = x\u00b2 + c, ");*/
-		
-		/*Composite compC = new Composite(compSelParam, SWT.NONE);
-		GridData gdCompC = new GridData(SWT.FILL, SWT.FILL, true, false);
-		compC.setLayoutData(gdCompC);
-		compC.setLayout(new GridLayout(2, false));
-		((GridLayout) compC.getLayout()).marginWidth = 0;*/
 		
 		
 		Label lblC = new Label(grpRndFunction, SWT.NONE);
@@ -483,8 +474,8 @@ public class RabinThirdTabComposite extends Composite {
 		((GridData) txtWarninggxPollard.getLayoutData()).horizontalIndent = 28;
 		guiHandler.setSizeControlWarning(txtWarninggxPollard, SWT.DEFAULT, SWT.DEFAULT);
 		//txtWarninggxPollard.setText("this is a test");
-		txtWarninggxPollard.setBackground(ColorService.LIGHTGRAY);
-		txtWarninggxPollard.setForeground(ColorService.RED);
+		txtWarninggxPollard.setBackground(guiHandler.getColorBackgroundWarning());
+		txtWarninggxPollard.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtWarninggxPollard);
 		
 		
@@ -758,8 +749,8 @@ public class RabinThirdTabComposite extends Composite {
 		txtNWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) txtNWarning.getLayoutData()).horizontalIndent = 28;
 		guiHandler.setSizeControlWarning(txtNWarning, SWT.DEFAULT, SWT.DEFAULT);
-		txtNWarning.setBackground(ColorService.LIGHTGRAY);
-		txtNWarning.setForeground(ColorService.RED);
+		txtNWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtNWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtNWarning);
 		
 		

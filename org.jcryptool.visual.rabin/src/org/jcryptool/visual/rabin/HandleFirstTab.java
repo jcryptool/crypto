@@ -10,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -634,15 +635,14 @@ public class HandleFirstTab extends GUIHandler {
 	
 	
 	
-	/**
-	 * update limit fields (single mode) each time you enter a char
-	 * @param rftc
-	 */
-	public void updateLimitFieldsSingle(RabinFirstTabComposite rftc) {
+	
+	/*public void updateLimitFieldsSingle(RabinFirstTabComposite rftc) {
 		String strLowLim = rftc.getTxtLowLimPQSingle().getText();
 		String strUpperLim = rftc.getTxtUpperLimPQSingle().getText();
 		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
 		
+		Color white = this.getColorBackgroundNeutral();
+		Color wrong = this.getColorBackgroundWrong();
 		
 		if(rftc.getBtnGenKeys().getSelection()) 
 			rftc.getBtnStartGenKeys().setEnabled(false);
@@ -761,6 +761,147 @@ public class HandleFirstTab extends GUIHandler {
 		
 		}
 		
+	}*/
+	
+	
+	
+	/**
+	 * update limit fields (single mode) each time you enter a char
+	 * @param rftc
+	 */
+	public void updateLimitFieldsSingle(RabinFirstTabComposite rftc) {
+		String strLowLim = rftc.getTxtLowLimPQSingle().getText();
+		String strUpperLim = rftc.getTxtUpperLimPQSingle().getText();
+		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
+		
+		Color white = this.getColorBackgroundNeutral();
+		Color wrong = this.getColorBackgroundWrong();
+		
+		if(rftc.getBtnGenKeys().getSelection()) 
+			rftc.getBtnStartGenKeys().setEnabled(false);
+		
+		BigInteger lowPQ = null;
+		BigInteger upPQ = null;
+		
+		if(strLowLim.isEmpty() && strUpperLim.isEmpty()) {
+			this.hideControl(rftc.getTxtSinglePQWarning());
+			rftc.getTxtLowLimPQSingle().setBackground(white);
+			rftc.getTxtUpperLimPQSingle().setBackground(white);
+			return;
+		}
+		
+		if(strLowLim.isEmpty() && !strUpperLim.isEmpty()) {
+			if(!strUpperLim.matches(pattern)) {
+				// testing and debugging, remove this line when done
+				//this.setSizeControlTest(rftc.getTxtSinglePQWarning(), SWT.DEFAULT, SWT.DEFAULT);
+				
+				
+				rftc.getTxtSinglePQWarning().setText(strOnlyDecAllowed);
+				
+				
+				
+				
+				this.showControl(rftc.getTxtSinglePQWarning());
+				rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+				return;
+			}
+			
+			hideControl(rftc.getTxtSinglePQWarning());
+			rftc.getTxtUpperLimPQSingle().setBackground(white);
+			rftc.getTxtLowLimPQSingle().setBackground(white);
+			
+			upPQ = getNumFromLimit(strUpperLim);
+			if(upPQ.compareTo(getLimitUp()) > 0) {
+				rftc.getTxtSinglePQWarning().setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				showControl(rftc.getTxtSinglePQWarning());
+				rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+			}
+			else {
+				hideControl(rftc.getTxtSinglePQWarning());
+				rftc.getTxtUpperLimPQSingle().setBackground(white);
+			}
+			rftc.getTxtLowLimPQSingle().setBackground(white);
+			return;
+		}
+		
+		
+		if(!strLowLim.isEmpty() && strUpperLim.isEmpty()) {
+			if(!strLowLim.matches(pattern)) {
+				rftc.getTxtSinglePQWarning().setText(strOnlyDecAllowed);
+				this.showControl(rftc.getTxtSinglePQWarning());
+				rftc.getTxtLowLimPQSingle().setBackground(wrong);
+				return;
+			}
+			
+			hideControl(rftc.getTxtSinglePQWarning());
+			rftc.getTxtLowLimPQSingle().setBackground(white);
+			rftc.getTxtUpperLimPQSingle().setBackground(white);
+			
+			
+			return;
+		}
+		
+		
+		if(!strLowLim.isEmpty() && !strUpperLim.isEmpty()) {
+			boolean checkPattern = strLowLim.matches(pattern) && strUpperLim.matches(pattern);
+			
+			if(!checkPattern) {
+				rftc.getTxtSinglePQWarning().setText(strOnlyDecAllowed);
+				this.showControl(rftc.getTxtSinglePQWarning());
+					
+				if(strLowLim.matches(pattern) && !strUpperLim.matches(pattern)) {
+					rftc.getTxtLowLimPQSingle().setBackground(white);
+					rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+				}
+				
+				if(!strLowLim.matches(pattern) && strUpperLim.matches(pattern)) {
+					rftc.getTxtLowLimPQSingle().setBackground(wrong);
+					rftc.getTxtUpperLimPQSingle().setBackground(white);
+				}
+				
+				if(!strLowLim.matches(pattern) && !strUpperLim.matches(pattern)) {
+					rftc.getTxtLowLimPQSingle().setBackground(wrong);
+					rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+				}
+				return;
+			}
+			
+			this.hideControl(rftc.getTxtSinglePQWarning());
+			rftc.getTxtLowLimPQSingle().setBackground(white);
+			
+			
+			upPQ = getNumFromLimit(strUpperLim);
+			lowPQ = getNumFromLimit(strLowLim);
+			
+			if(upPQ.compareTo(getLimitUp()) > 0) {
+				rftc.getTxtSinglePQWarning().setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				showControl(rftc.getTxtSinglePQWarning());
+				rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+			}
+			else {
+				hideControl(rftc.getTxtSinglePQWarning());
+				rftc.getTxtUpperLimPQSingle().setBackground(white);
+				
+				if(lowPQ.compareTo(upPQ) >= 0) {
+					rftc.getTxtSinglePQWarning().setText(strLowerLimitLessUpperLimit);
+					showControl(rftc.getTxtSinglePQWarning());
+					rftc.getTxtLowLimPQSingle().setBackground(wrong);
+					rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+				}
+				else {
+					hideControl(rftc.getTxtSinglePQWarning());
+					rftc.getTxtLowLimPQSingle().setBackground(white);
+					rftc.getTxtUpperLimPQSingle().setBackground(white);
+					
+					if(rftc.getBtnGenKeys().getSelection()) 
+						rftc.getBtnStartGenKeys().setEnabled(true);
+				}
+				
+				
+			}
+		
+		}
+		
 	}
 	
 	
@@ -769,22 +910,15 @@ public class HandleFirstTab extends GUIHandler {
 	
 	
 	
-	/**
-	 * update limit fields (multi mode) each time you enter a char
-	 * @param txtLowLimP
-	 * @param txtUpperLimP
-	 * @param txtLowLimQ
-	 * @param txtUpperLimQ
-	 * @param txtcompGenPandQWarning
-	 * @param btnGenKeys
-	 * @param btnStartGenKeys
-	 */
-	public void updateLimitFields(Text txtLowLimP, Text txtUpperLimP, Text txtLowLimQ, Text txtUpperLimQ, Text txtcompGenPandQWarning, Button btnGenKeys, Button btnStartGenKeys) {
+	/*public void updateLimitFields(Text txtLowLimP, Text txtUpperLimP, Text txtLowLimQ, Text txtUpperLimQ, Text txtcompGenPandQWarning, Button btnGenKeys, Button btnStartGenKeys) {
 		String txtLowP = txtLowLimP.getText();
 		String txtUpP = txtUpperLimP.getText();
 		String txtLowQ = txtLowLimQ.getText();
 		String txtUpQ = txtUpperLimQ.getText();
 		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
+		
+		Color white = this.getColorBackgroundNeutral();
+		Color wrong = this.getColorBackgroundWrong();
 		
 		if(btnGenKeys.getSelection()) 
 			btnStartGenKeys.setEnabled(false);
@@ -1813,6 +1947,1073 @@ public class HandleFirstTab extends GUIHandler {
 						txtLowLimP.setBackground(ColorService.WHITE);
 						txtLowLimQ.setBackground(ColorService.WHITE);
 						txtUpperLimQ.setBackground(ColorService.WHITE);
+
+						
+						if(btnGenKeys.getSelection()) {
+							btnStartGenKeys.setEnabled(true);
+						}
+					}
+
+				}
+	
+				
+			}
+			
+		}
+	}*/
+	
+	
+	
+	
+	
+	
+	/**
+	 * update limit fields (multi mode) each time you enter a char
+	 * @param txtLowLimP
+	 * @param txtUpperLimP
+	 * @param txtLowLimQ
+	 * @param txtUpperLimQ
+	 * @param txtcompGenPandQWarning
+	 * @param btnGenKeys
+	 * @param btnStartGenKeys
+	 */
+	public void updateLimitFields(Text txtLowLimP, Text txtUpperLimP, Text txtLowLimQ, Text txtUpperLimQ, Text txtcompGenPandQWarning, Button btnGenKeys, Button btnStartGenKeys) {
+		String txtLowP = txtLowLimP.getText();
+		String txtUpP = txtUpperLimP.getText();
+		String txtLowQ = txtLowLimQ.getText();
+		String txtUpQ = txtUpperLimQ.getText();
+		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
+		
+		Color white = this.getColorBackgroundNeutral();
+		Color wrong = this.getColorBackgroundWrong();
+		
+		if(btnGenKeys.getSelection()) 
+			btnStartGenKeys.setEnabled(false);
+		
+		BigInteger lowP = null;
+		BigInteger upP = null;
+		BigInteger lowQ = null;
+		BigInteger upQ = null;
+		
+		if(txtLowP.isEmpty() && txtUpP.isEmpty()
+				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
+			hideControl(txtcompGenPandQWarning);
+			txtLowLimP.setBackground(white);
+			txtUpperLimP.setBackground(white);
+			txtLowLimQ.setBackground(white);
+			txtUpperLimQ.setBackground(white);
+			return;
+		}
+		
+		if(txtLowP.isEmpty() && txtUpP.isEmpty()
+				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
+			if(!txtUpQ.matches(pattern)) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				txtUpperLimQ.setBackground(wrong);
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtUpperLimQ.setBackground(white);
+				
+				upQ = getNumFromLimit(txtUpQ);
+				if(upQ.compareTo(getLimitUp()) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				else {
+					hideControl(txtcompGenPandQWarning);
+					txtUpperLimQ.setBackground(white);
+				}
+			}
+			
+			txtUpperLimP.setBackground(white);
+			txtLowLimP.setBackground(white);
+			txtLowLimQ.setBackground(white);
+			return;
+		}
+		
+		if(txtLowP.isEmpty() && txtUpP.isEmpty()
+				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
+			if(!txtLowQ.matches(pattern)) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				txtLowLimQ.setBackground(wrong);
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtLowLimQ.setBackground(white);
+			}
+			
+			txtUpperLimP.setBackground(white);
+			txtLowLimP.setBackground(white);
+			txtUpperLimQ.setBackground(white);
+			
+			return;
+		}
+		
+		if(txtLowP.isEmpty() && txtUpP.isEmpty()
+				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
+			boolean valid = txtLowQ.matches(pattern) && txtUpQ.matches(pattern);
+			
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+					txtLowLimQ.setBackground(wrong);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
+					txtLowLimQ.setBackground(wrong);
+					txtUpperLimQ.setBackground(white);
+				}
+				if(txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+					txtLowLimQ.setBackground(white);
+					txtUpperLimQ.setBackground(wrong);
+				}
+			}
+			else {
+				
+				hideControl(txtcompGenPandQWarning);
+				txtLowLimQ.setBackground(white);
+				txtUpperLimQ.setBackground(white);
+				
+				lowQ = getNumFromLimit(txtLowQ);
+				upQ = getNumFromLimit(txtUpQ);
+				
+				
+				if(upQ.compareTo(getLimitUp()) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				else {
+					hideControl(txtcompGenPandQWarning);
+					txtUpperLimQ.setBackground(white);
+					
+					if(lowQ.compareTo(upQ) >= 0) {
+						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
+						showControl(txtcompGenPandQWarning);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+					}
+					else {
+						hideControl(txtcompGenPandQWarning);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(white);
+					}
+				}
+				
+				
+			}
+			txtLowLimP.setBackground(white);
+			txtUpperLimP.setBackground(white);
+			
+			return;
+		}
+		
+		
+		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
+				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
+			if(!txtUpP.matches(pattern)) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				txtUpperLimP.setBackground(wrong);
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtUpperLimP.setBackground(white);
+				
+				upP = getNumFromLimit(txtUpP);
+				if(upP.compareTo(getLimitUp()) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(wrong);
+				}
+				else {
+					hideControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(white);
+				}
+			}
+			
+			txtLowLimP.setBackground(white);
+			txtLowLimQ.setBackground(white);
+			txtUpperLimQ.setBackground(white);
+			
+			return;
+			
+		}
+		
+		
+		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
+				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
+			boolean valid = txtUpP.matches(pattern) && txtUpQ.matches(pattern);
+
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtUpP.matches(pattern) && !txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtUpperLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && !txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(white);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtUpperLimQ.setBackground(white);
+				txtUpperLimP.setBackground(white);
+				
+				upP = getNumFromLimit(txtUpP);
+				upQ = getNumFromLimit(txtUpQ);
+				
+				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
+				
+				if(!checkLimit) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+
+					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+					}
+					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+					}
+					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+					}
+				}
+				else {
+					hideControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(white);
+					txtUpperLimQ.setBackground(white);
+				}
+			}
+			txtLowLimP.setBackground(white);
+			txtLowLimQ.setBackground(white);
+			
+			return;
+		}
+		
+		
+		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
+				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
+			boolean valid = txtUpP.matches(pattern) && txtLowQ.matches(pattern);
+
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtUpP.matches(pattern) && !txtLowQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && txtLowQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && !txtLowQ.matches(pattern)) {
+					txtUpperLimP.setBackground(white);
+					txtLowLimQ.setBackground(wrong);
+				}
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtLowLimQ.setBackground(white);
+				txtUpperLimP.setBackground(white);
+				
+				upP = getNumFromLimit(txtUpP);
+				if(upP.compareTo(getLimitUp()) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(wrong);
+				}
+				else {
+					hideControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(white);	
+				}
+			}
+			txtLowLimP.setBackground(white);
+			txtUpperLimQ.setBackground(white);
+			
+			return;
+		}
+		
+		
+		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
+				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
+			
+			boolean valid = txtUpP.matches(pattern) && txtLowQ.matches(pattern)
+					&& txtUpQ.matches(pattern);
+			
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(wrong);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
+						&& txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(wrong);
+					txtUpperLimQ.setBackground(white);
+				}
+				if(!txtUpP.matches(pattern) && txtLowQ.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(white);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && txtLowQ.matches(pattern)
+						&& txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(white);
+					txtUpperLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(white);
+					txtLowLimQ.setBackground(wrong);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				if(txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
+						&& txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(white);
+					txtLowLimQ.setBackground(wrong);
+					txtUpperLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && txtLowQ.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(white);
+					txtLowLimQ.setBackground(white);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtUpperLimP.setBackground(white);
+				txtLowLimQ.setBackground(white);
+				txtUpperLimQ.setBackground(white);
+				
+				
+				lowQ = getNumFromLimit(txtLowQ);
+				upQ = getNumFromLimit(txtUpQ);
+				upP =getNumFromLimit(txtUpP);
+				
+				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
+				
+				if(!checkLimit) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+
+					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+					}
+					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+					}
+					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+					}
+				}
+				else {
+					hideControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(white);
+					txtUpperLimQ.setBackground(white);
+					
+					if(lowQ.compareTo(upQ) >= 0) {
+						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
+						showControl(txtcompGenPandQWarning);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+						txtUpperLimP.setBackground(white);
+					}
+					else {
+						hideControl(txtcompGenPandQWarning);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(white);
+						txtUpperLimP.setBackground(white);
+					}
+				}	
+			}
+			txtLowLimP.setBackground(white);
+			return;
+		}
+		
+		
+		
+		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
+				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
+			if(!txtLowP.matches(pattern)) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				txtLowLimP.setBackground(wrong);
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtLowLimP.setBackground(white);
+			}
+			
+			txtUpperLimP.setBackground(white);
+			txtLowLimQ.setBackground(white);
+			txtUpperLimQ.setBackground(white);
+			
+			return;
+
+		}
+		
+		
+		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
+				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
+			boolean valid = txtLowP.matches(pattern) && txtUpQ.matches(pattern);
+
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtLowP.matches(pattern) && !txtUpQ.matches(pattern)) {
+					txtLowLimP.setBackground(wrong);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtLowP.matches(pattern) && txtUpQ.matches(pattern)) {
+					txtLowLimP.setBackground(wrong);
+					txtUpperLimQ.setBackground(white);
+				}
+				if(txtLowP.matches(pattern) && !txtUpQ.matches(pattern)) {
+					txtLowLimP.setBackground(white);
+					txtUpperLimQ.setBackground(wrong);
+				}
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtLowLimP.setBackground(white);
+				txtUpperLimQ.setBackground(white);
+				
+				upQ = getNumFromLimit(txtUpQ);
+				
+				if(upQ.compareTo(getLimitUp()) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				else {
+					txtUpperLimQ.setBackground(white);
+					hideControl(txtcompGenPandQWarning);
+				}
+			}
+			txtUpperLimP.setBackground(white);
+			txtLowLimQ.setBackground(white);
+			
+			return;
+
+		}
+		
+		
+		
+		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
+				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
+			boolean valid = txtLowP.matches(pattern) && txtLowQ.matches(pattern);
+
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtLowP.matches(pattern) && !txtLowQ.matches(pattern)) {
+					txtLowLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(wrong);
+				}
+				if(!txtLowP.matches(pattern) && txtLowQ.matches(pattern)) {
+					txtLowLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(white);
+				}
+				if(txtLowP.matches(pattern) && !txtLowQ.matches(pattern)) {
+					txtLowLimP.setBackground(white);
+					txtLowLimQ.setBackground(wrong);
+				}
+				
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtLowLimP.setBackground(white);
+				txtLowLimQ.setBackground(white);
+			}
+			txtUpperLimP.setBackground(white);
+			txtUpperLimQ.setBackground(white);
+			
+			return;
+
+		}
+		
+		
+		
+		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
+				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
+			boolean valid = txtLowP.matches(pattern) && txtLowQ.matches(pattern)
+					&& txtUpQ.matches(pattern);
+			
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
+					&& !txtUpQ.matches(pattern)) {
+					txtLowLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(wrong);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
+						&& txtUpQ.matches(pattern)) {
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(!txtLowP.matches(pattern) && txtLowQ.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtLowP.matches(pattern) && txtLowQ.matches(pattern)
+						&& txtUpQ.matches(pattern)) {
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
+						&& txtUpQ.matches(pattern)) {
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(txtLowP.matches(pattern) && txtLowQ.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+				}
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtLowLimP.setBackground(white);
+				txtLowLimQ.setBackground(white);
+				txtUpperLimQ.setBackground(white);
+
+				
+				lowQ = getNumFromLimit(txtLowQ);
+				upQ = getNumFromLimit(txtUpQ);
+				
+				
+				if(upQ.compareTo(getLimitUp()) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				else {
+					txtUpperLimQ.setBackground(white);
+					hideControl(txtcompGenPandQWarning);
+					
+					if(lowQ.compareTo(upQ) >= 0) {
+						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
+						showControl(txtcompGenPandQWarning);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+						txtLowLimP.setBackground(white);
+					}
+					else {
+						hideControl(txtcompGenPandQWarning);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(white);
+						txtLowLimP.setBackground(white);
+					}
+				}
+				
+				
+			}
+			txtUpperLimP.setBackground(white);
+			return;
+		}
+		
+		
+		
+		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
+				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
+			boolean valid = txtLowP.matches(pattern) && txtUpP.matches(pattern);
+			
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtLowP.matches(pattern) && !txtUpP.matches(pattern)) {
+					txtLowLimP.setBackground(wrong);
+					txtUpperLimP.setBackground(wrong);
+				}
+				if(!txtLowP.matches(pattern) && txtUpP.matches(pattern)) {
+					txtLowLimP.setBackground(wrong);
+					txtUpperLimP.setBackground(white);
+				}
+				if(txtLowP.matches(pattern) && !txtUpP.matches(pattern)) {
+					txtLowLimP.setBackground(white);
+					txtUpperLimP.setBackground(wrong);
+				}
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtLowLimP.setBackground(white);
+				txtUpperLimP.setBackground(white);
+	
+				
+				lowP = getNumFromLimit(txtLowP);
+				upP = getNumFromLimit(txtUpP);
+				
+				if(upP.compareTo(getLimitUp()) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(wrong);
+				}
+				else {
+					txtUpperLimP.setBackground(white);
+					hideControl(txtcompGenPandQWarning);
+					
+					if(lowP.compareTo(upP) >= 0) {
+						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
+						showControl(txtcompGenPandQWarning);
+						txtLowLimP.setBackground(wrong);
+						txtUpperLimP.setBackground(wrong);
+					}
+					else {
+						hideControl(txtcompGenPandQWarning);
+						txtLowLimP.setBackground(white);
+						txtUpperLimP.setBackground(white);
+					}
+				}
+				
+				
+			}
+			txtLowLimQ.setBackground(white);
+			txtUpperLimQ.setBackground(white);
+			
+			return;
+		}
+		
+		
+		
+		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
+				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
+			boolean valid = txtUpP.matches(pattern) && txtLowP.matches(pattern)
+					&& txtUpQ.matches(pattern);
+			
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+					&& !txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtLowLimP.setBackground(wrong);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(white);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+				}
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtUpperLimP.setBackground(white);
+				txtLowLimP.setBackground(white);
+				txtUpperLimQ.setBackground(white);
+
+				
+				lowP = getNumFromLimit(txtLowP);
+				upP = getNumFromLimit(txtUpP);
+				upQ = getNumFromLimit(txtUpQ);
+				
+				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
+				
+				if(!checkLimit) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+
+					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+					}
+					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+					}
+					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+					}
+				}
+				else {
+					hideControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(white);
+					txtUpperLimQ.setBackground(white);
+					
+					if(lowP.compareTo(upP) >= 0) {
+						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
+						showControl(txtcompGenPandQWarning);
+						txtLowLimP.setBackground(wrong);
+						txtUpperLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+					}
+					else {
+						hideControl(txtcompGenPandQWarning);
+						txtLowLimP.setBackground(white);
+						txtUpperLimP.setBackground(white);
+						txtUpperLimQ.setBackground(white);
+					}
+				}
+			}
+			txtLowLimQ.setBackground(white);
+			return;
+		}
+		
+		
+		
+		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
+				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
+			boolean valid = txtUpP.matches(pattern) && txtLowP.matches(pattern)
+					&& txtLowQ.matches(pattern);
+			
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+					&& !txtLowQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtLowLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(white);
+				}
+				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(wrong);
+				}
+				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(wrong);
+				}
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtUpperLimP.setBackground(white);
+				txtLowLimP.setBackground(white);
+				txtLowLimQ.setBackground(white);
+
+				
+				lowP = getNumFromLimit(txtLowP);
+				upP = getNumFromLimit(txtUpP);
+				
+				if(upP.compareTo(getLimitUp()) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(wrong);
+				}
+				else {
+					hideControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(white);
+	
+					
+					if(lowP.compareTo(upP) >= 0) {
+						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
+						showControl(txtcompGenPandQWarning);
+						txtLowLimP.setBackground(wrong);
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(white);
+					}
+					else {
+						hideControl(txtcompGenPandQWarning);
+						txtLowLimP.setBackground(white);
+						txtUpperLimP.setBackground(white);
+						txtLowLimQ.setBackground(white);
+					}
+				}
+				
+				
+			}
+			txtUpperLimQ.setBackground(white);
+			return;
+		}
+		
+		
+		
+		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
+				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
+			
+			boolean valid = txtUpP.matches(pattern) && txtLowP.matches(pattern)
+					&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern);
+			
+			if(!valid) {
+				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
+				showControl(txtcompGenPandQWarning);
+				
+				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+					&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+					txtUpperLimP.setBackground(wrong);
+					txtLowLimP.setBackground(wrong);
+					txtLowLimQ.setBackground(wrong);
+					txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(wrong);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(wrong);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+				}
+				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+				}
+				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
+						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+				}
+			}
+			else {
+				hideControl(txtcompGenPandQWarning);
+				txtUpperLimP.setBackground(white);
+				txtLowLimP.setBackground(white);
+				txtLowLimQ.setBackground(white);
+				txtUpperLimQ.setBackground(white);
+
+				
+				lowP = getNumFromLimit(txtLowP);
+				upP = getNumFromLimit(txtUpP);
+				lowQ = getNumFromLimit(txtLowQ);
+				upQ = getNumFromLimit(txtUpQ);
+				
+				
+				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
+				
+				if(!checkLimit) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					showControl(txtcompGenPandQWarning);
+
+					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(wrong);
+					}
+					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(wrong);
+						txtUpperLimQ.setBackground(white);
+					}
+					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+						txtUpperLimP.setBackground(white);
+						txtUpperLimQ.setBackground(wrong);
+					}
+				}
+				else {
+					hideControl(txtcompGenPandQWarning);
+					txtUpperLimP.setBackground(white);
+					txtUpperLimQ.setBackground(white);
+					
+					
+					boolean validCondAll = lowP.compareTo(upP) < 0 && lowQ.compareTo(upQ) < 0;
+					
+					if(!validCondAll) {
+						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
+						showControl(txtcompGenPandQWarning);
+					
+						
+						if(!(lowP.compareTo(upP) < 0) && !(lowQ.compareTo(upQ) < 0)) {
+							txtLowLimP.setBackground(wrong);
+							txtUpperLimP.setBackground(wrong);
+							txtLowLimQ.setBackground(wrong);
+							txtUpperLimQ.setBackground(wrong);
+						}
+						if(!(lowP.compareTo(upP) < 0) && (lowQ.compareTo(upQ) < 0)) {
+							txtLowLimP.setBackground(wrong);
+							txtUpperLimP.setBackground(wrong);
+							txtLowLimQ.setBackground(white);
+							txtUpperLimQ.setBackground(white);
+						}
+						if((lowP.compareTo(upP) < 0) && !(lowQ.compareTo(upQ) < 0)) {
+							txtLowLimP.setBackground(white);
+							txtUpperLimP.setBackground(white);
+							txtLowLimQ.setBackground(wrong);
+							txtUpperLimQ.setBackground(wrong);
+						}
+					}
+					else {
+						hideControl(txtcompGenPandQWarning);
+						txtUpperLimP.setBackground(white);
+						txtLowLimP.setBackground(white);
+						txtLowLimQ.setBackground(white);
+						txtUpperLimQ.setBackground(white);
 
 						
 						if(btnGenKeys.getSelection()) {
