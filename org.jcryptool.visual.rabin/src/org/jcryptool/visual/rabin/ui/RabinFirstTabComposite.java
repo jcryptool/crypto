@@ -24,6 +24,7 @@ import java.util.Observer;
 import java.util.Random;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -144,6 +145,9 @@ public class RabinFirstTabComposite extends Composite {
 	
 	
 	
+	public HandleFirstTab getGUIHandler() {
+		return guiHandler;
+	}
 	
 	
 	
@@ -582,6 +586,7 @@ public class RabinFirstTabComposite extends Composite {
 			guiHandler.updateTextfields(getCurrentInstance());
 		}
 	};
+	private CryptosystemTextbookComposite cstb;
 	
 	
 	
@@ -799,7 +804,8 @@ public class RabinFirstTabComposite extends Composite {
 			
 			@Override
 			public void modifyText(ModifyEvent e) {
-				guiHandler.txtModNActionFirstTab(txtModN, btnEncDecStart);
+				//guiHandler.txtModNActionFirstTab(txtModN, btnEncDecStart);
+				//guiHandler.updateEncryptButton(txtModN, cstb.getBtnEncrypt(), cstb.getTextSelector());
 			}
 		});
 		
@@ -1079,7 +1085,7 @@ public class RabinFirstTabComposite extends Composite {
 	
 	
 	
-	private void createSelectionCryptosystem(Composite parent) {
+	private void createSelectionCryptosystemContent(Composite parent) {
 		
 		Composite compSelectionCryptosystem = new Composite(parent, SWT.NONE);
 		compSelectionCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -1109,12 +1115,284 @@ public class RabinFirstTabComposite extends Composite {
 				
 			}
 		});
-		
-		
-		
-		
-		
+				
 	}
+	
+	
+	
+//	private void createEncryptionDecryptionContent(Composite parent) {
+//		
+//		Group grpEncryptDecrypt = new Group(parent, SWT.NONE);
+//		grpEncryptDecrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//		grpEncryptDecrypt.setLayout(new GridLayout(3, false));
+//		grpEncryptDecrypt.setText("Encryption/Decryption");
+//		
+//		Composite compHoldEncryptDecryptContent = new Composite(grpEncryptDecrypt, SWT.NONE);
+//		compHoldEncryptDecryptContent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		compHoldEncryptDecryptContent.setLayout(new GridLayout(1, false));
+//		
+//		
+//		Composite compHoldEncryptDecryptRadio = new Composite(compHoldEncryptDecryptContent, SWT.NONE);
+//		compHoldEncryptDecryptRadio.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+//		compHoldEncryptDecryptRadio.setLayout(new GridLayout(2, false));
+//		
+//		
+//		
+//		Button btnRadioEncrypt = new Button(compHoldEncryptDecryptRadio, SWT.RADIO);
+//		btnRadioEncrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnRadioEncrypt.setText("Encryption");
+//		btnRadioEncrypt.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});
+//		
+//		
+//		Button btnRadioDecrypt = new Button(compHoldEncryptDecryptRadio, SWT.RADIO);
+//		btnRadioDecrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnRadioDecrypt.setText("Decryption");
+//		btnRadioDecrypt.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});
+//		
+//		
+//		
+//		Composite compHoldEncryptionProcess = new Composite(compHoldEncryptDecryptContent, SWT.NONE);
+//		compHoldEncryptionProcess.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		compHoldEncryptionProcess.setLayout(new GridLayout(3, false));
+//		guiHandler.hideControl(compHoldEncryptionProcess);
+//		
+//		
+//		Composite compHoldDecryptionProcess = new Composite(compHoldEncryptDecryptContent, SWT.NONE);
+//		compHoldDecryptionProcess.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		compHoldDecryptionProcess.setLayout(new GridLayout(4, false));
+//		
+//		
+//		
+//		
+//		TextLoadController textSelectorEncryption = new TextLoadController(compHoldEncryptionProcess, parent, SWT.NONE, true, true);
+//		textSelectorEncryption.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
+//		
+//		Composite compHoldCiphertext = new Composite(compHoldEncryptionProcess, SWT.NONE);
+//		compHoldCiphertext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		compHoldCiphertext.setLayout(new GridLayout(1, false));
+//		
+//		Label lblCiphertextDescryption = new Label(compHoldCiphertext, SWT.NONE);
+//		lblCiphertextDescryption.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+//		lblCiphertextDescryption.setText("Ciphertext");
+//		
+//		Text txtCiphertext = new Text(compHoldCiphertext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+//		txtCiphertext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		txtCiphertext.setText("this is a test");
+//		txtCiphertext.setBackground(ColorService.LIGHTGRAY);
+//		guiHandler.setSizeControl(txtCiphertext, 600, 300);
+//		
+//		Composite compHoldBtnsForFeatures = new Composite(compHoldEncryptionProcess, SWT.NONE);
+//		compHoldBtnsForFeatures.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
+//		compHoldBtnsForFeatures.setLayout(new GridLayout(1, false));
+//		
+//		Button btnEncrypt = new Button(compHoldBtnsForFeatures, SWT.PUSH);
+//		btnEncrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnEncrypt.setText("Encrypt");
+//		btnEncrypt.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});
+//		
+//		
+//		Button btnDecryptInEncryptionMode = new Button(compHoldBtnsForFeatures, SWT.PUSH);
+//		btnDecryptInEncryptionMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnDecryptInEncryptionMode.setText("Switch to decryption mode");
+//		btnDecryptInEncryptionMode.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});
+//		
+//		
+//		
+//		Button btnWriteToJCTeditor = new Button(compHoldBtnsForFeatures, SWT.PUSH);
+//		btnWriteToJCTeditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnWriteToJCTeditor.setText("Write to JCT editor");
+//		btnWriteToJCTeditor.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});
+//		
+//		
+//		
+//		
+//		TextLoadController textSelectorDecryption = new TextLoadController(compHoldDecryptionProcess, parent, SWT.NONE, true, true);
+//		textSelectorDecryption.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
+//		
+//		
+//		Composite compHoldPlaintext = new Composite(compHoldDecryptionProcess, SWT.NONE);
+//		compHoldPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		compHoldPlaintext.setLayout(new GridLayout(1, false));
+//	
+//		
+//		Label lblCiphertextSegmentsDescription = new Label(compHoldPlaintext, SWT.NONE);
+//		lblCiphertextSegmentsDescription.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+//		lblCiphertextSegmentsDescription.setText("Ciphertext separated into segments (\"||\" as separator)");
+//		
+//		
+//		Composite compCiphertextSegmentsComponents = new Composite(compHoldPlaintext, SWT.NONE);
+//		compCiphertextSegmentsComponents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		compCiphertextSegmentsComponents.setLayout(new GridLayout(3, false));
+//		
+//		
+//		Composite compChooseBlockComponents = new Composite(compCiphertextSegmentsComponents, SWT.NONE);
+//		compChooseBlockComponents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		compChooseBlockComponents.setLayout(new GridLayout(1, false));
+//		
+//		Label lblChooseBlockDesc = new Label(compChooseBlockComponents, SWT.NONE);
+//		lblChooseBlockDesc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		lblChooseBlockDesc.setText("Block");
+//		
+//		Combo cmbChooseBlock = new Combo(compChooseBlockComponents, SWT.DROP_DOWN | SWT.READ_ONLY);
+//		cmbChooseBlock.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		
+//		
+//		
+//		
+//		Text txtCiphertextSegments = new Text(compCiphertextSegmentsComponents, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER | SWT.READ_ONLY);
+//		txtCiphertextSegments.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		txtCiphertextSegments.setText("this is a test");
+//		txtCiphertextSegments.setBackground(ColorService.LIGHTGRAY);
+//		guiHandler.setSizeControl(txtCiphertextSegments, SWT.DEFAULT, SWT.DEFAULT);
+//		
+//		
+//		
+//		Composite compPrevNextComponents = new Composite(compCiphertextSegmentsComponents, SWT.NONE);
+//		compPrevNextComponents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		compPrevNextComponents.setLayout(new GridLayout(1, false));
+//		
+//		
+//		
+//		
+//		Button btnPrevBlock = new Button(compPrevNextComponents, SWT.PUSH);
+//		btnPrevBlock.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnPrevBlock.setText("Previous block");
+//		btnPrevBlock.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});
+//		
+//		
+//		Button btnNextBlock = new Button(compPrevNextComponents, SWT.PUSH);
+//		btnNextBlock.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnNextBlock.setText("Next block");
+//		btnNextBlock.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});
+//		
+//		
+//		
+//		
+//		
+//		Composite compPlaintexts = new Composite(compHoldPlaintext, SWT.NONE);
+//		compPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		compPlaintexts.setLayout(new GridLayout(4, false));
+//		
+//		
+//		Text[] plaintext = new Text[4];
+//		
+//		for(int i = 0; i < plaintext.length; i++) {
+//			plaintext[i] = new Text(compPlaintexts, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
+//			plaintext[i].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//			guiHandler.setSizeControl(plaintext[i], 100, 100);
+//		}
+//		
+//		
+//		
+//		Composite compPreviewChosenPlaintexts = new Composite(compHoldPlaintext, SWT.BORDER);
+//		compPreviewChosenPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		compPreviewChosenPlaintexts.setLayout(new GridLayout(1, false));
+//		
+//		Label lblPreviewChosenPlaintextDesc = new Label(compPreviewChosenPlaintexts, SWT.NONE);
+//		lblPreviewChosenPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+//		lblPreviewChosenPlaintextDesc.setText("Preview chosen plaintexts");
+//		
+//		
+//		Label lblSeparatePreviewDesc = new Label(compPreviewChosenPlaintexts, SWT.SEPARATOR | SWT.HORIZONTAL);
+//		lblSeparatePreviewDesc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//		
+//		
+//		Text txtChosenPlaintexts = new Text(compPreviewChosenPlaintexts, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.READ_ONLY);
+//		txtChosenPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		txtChosenPlaintexts.setText("insert something");
+//		txtChosenPlaintexts.setBackground(ColorService.LIGHTGRAY);
+//		guiHandler.setSizeControl(txtChosenPlaintexts, SWT.DEFAULT, 200);
+//		
+//		
+//		
+//		
+//		
+//		Composite compHoldBtnsForFeaturesDecryptionMode = new Composite(compHoldDecryptionProcess, SWT.NONE);
+//		compHoldBtnsForFeaturesDecryptionMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
+//		compHoldBtnsForFeaturesDecryptionMode.setLayout(new GridLayout(1, false));
+//		
+//		
+//		Button btnDecryption = new Button(compHoldBtnsForFeaturesDecryptionMode, SWT.PUSH);
+//		btnDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnDecryption.setText("Decrypt");
+//		btnDecryption.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});
+//		
+//		
+//		Button btnWriteToJCTeditorDecryptMode = new Button(compHoldBtnsForFeaturesDecryptionMode, SWT.PUSH);
+//		btnWriteToJCTeditorDecryptMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnWriteToJCTeditorDecryptMode.setText("Write to JCT editor");
+//		btnWriteToJCTeditorDecryptMode.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});
+//		
+//		
+//		
+//		
+//		
+//	
+//		
+//	
+//		
+//		
+//		
+//		
+//		
+//		
+//		Label lblSeperateDescription = new Label(grpEncryptDecrypt, SWT.SEPARATOR | SWT.VERTICAL);
+//		lblSeperateDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+//
+//		
+//		Text txtInfoEncryptionDecryption = new Text(grpEncryptDecrypt, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+//		txtInfoEncryptionDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		txtInfoEncryptionDecryption.setText("insert a text");
+//		txtInfoEncryptionDecryption.setBackground(ColorService.LIGHTGRAY);
+//		guiHandler.setSizeControl(txtInfoEncryptionDecryption, SWT.DEFAULT, SWT.DEFAULT);
+//		
+//		
+//	}
 	
 	
 
@@ -1390,7 +1668,14 @@ public class RabinFirstTabComposite extends Composite {
 		// create setting parameters group
 		createSetParamContent(this);
 		
-		createSelectionCryptosystem(this);
+		createSelectionCryptosystemContent(this);
+		
+		//createEncryptionDecryptionContent(this);
+		
+		cstb = new CryptosystemTextbookComposite(this, SWT.NONE, this);
+		cstb.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		cstb.setLayout(new GridLayout(1, false));
+		
 		// create plaintext/ciphertext content
 		//createPlainCipherContent(this);
 		

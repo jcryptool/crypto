@@ -23,6 +23,7 @@ import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
 import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
 
+
 public class HandleFirstTab extends GUIHandler {
 	
 	private String strOnlyDecAllowed = Messages.HandleFirstTab_strOnlyDecAllowed;
@@ -303,15 +304,20 @@ public class HandleFirstTab extends GUIHandler {
 	 * @param txtModN
 	 * @param btnEncDecStart
 	 */
-	public void txtModNActionFirstTab(Text txtModN, Button btnEncDecStart) {
-		String n = txtModN.getText();
+	public void updateEncryptButton(Text txtModN, Button btnEncrypt, TextLoadController textSelector) {
 		
-		if(n.isEmpty()) {
-			btnEncDecStart.setEnabled(false);
+		String n = txtModN.getText();
+		String plaintextToEncrypt = textSelector.getText().getText();
+		
+		boolean check = n.isEmpty() || plaintextToEncrypt.isEmpty();
+		
+		if(check) {
+			btnEncrypt.setEnabled(false);
 			return;
 		}
 		
-		btnEncDecStart.setEnabled(true);
+		btnEncrypt.setEnabled(true);
+		
 	}
 	
 	
@@ -408,7 +414,7 @@ public class HandleFirstTab extends GUIHandler {
 			
 		}
 		
-		if(rftc.getBtnUseKeysAlgo().getSelection()) {
+		/*if(rftc.getBtnUseKeysAlgo().getSelection()) {
 			BigInteger n = getRabinSecond().getN();
 			if(n == null) {
 				String strGenKeyPairFT = Messages.HandleFirstTab_strGenKeyPairFT;
@@ -435,7 +441,7 @@ public class HandleFirstTab extends GUIHandler {
 			rftc.getTxtModN().setText(getRabinFirst().getN().toString());
 			
 			//guiHandler.btnUseKeysAlgoAction(txtP, txtQ, txtModN, vlNumbers, txtcompGenPandQWarning);
-		}
+		}*/
 		
 		//guiHandler.btnStartGenKeysAction(txtLowLimP, txtLowLimQ, txtUpperLimP, txtUpperLimQ, txtcompGenPandQWarning);
 		

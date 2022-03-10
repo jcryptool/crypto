@@ -277,14 +277,14 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param a
 	 * @return startIdx the startIdx of elem in a
 	 */
-	private int getStartIdx(int elem, ArrayList<String> a) {
+	/*private int getStartIdx(int elem, ArrayList<String> a) {
 		int startIdx = 0;
 		for(int i = 0; i < elem - 1; i++) {
 			startIdx += a.get(i).length();
 			startIdx += separator.length() + 2;
 		}
 		return startIdx;
-	}
+	}*/
 	
 	/**
 	 * @param startIdx
@@ -292,10 +292,10 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param a
 	 * @return endIdx the endIdx of elem in a
 	 */
-	private int getEndIdx(int startIdx, int elem, ArrayList<String> a) {
+	/*private int getEndIdx(int startIdx, int elem, ArrayList<String> a) {
 		int endIdx = startIdx + a.get(elem - 1).length();
 		return endIdx;
-	}
+	}*/
 	
 	
 	

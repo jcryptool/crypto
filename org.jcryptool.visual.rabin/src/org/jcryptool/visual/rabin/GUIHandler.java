@@ -41,6 +41,7 @@ import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
  */
 public class GUIHandler {
 	
+	private GUIHandler guiHandler;
 	private ScrolledComposite scMain;
 	private Composite compMain;
 	private int limitExp = 1024;
@@ -61,6 +62,9 @@ public class GUIHandler {
 	private Color colorBackgroundWarning = ColorService.LIGHTGRAY;
 	private Color colorForegroundWarning = ColorService.RED;
 	
+	// colors for info textfields
+	private Color colorBGinfo = ColorService.LIGHTGRAY;
+	
 	
 	
 	/** 
@@ -74,12 +78,43 @@ public class GUIHandler {
 		this.compMain = compMain;
 		this.rabinFirst = rabinFirst;
 		this.rabinSecond = rabinSecond;
+		this.guiHandler = this;
 	}
 	
 	
 	
+
 	
 	
+	/*public GUIHandler(GUIHandler guiHandler) {
+		this.blocklength = guiHandler.blocklength;
+		this.bytesPerBlock = guiHandler.bytesPerBlock;
+		this.colorBackgroundCorrect = guiHandler.colorBackgroundCorrect;
+		this.colorBackgroundNeutral = guiHandler.colorBackgroundNeutral;
+		this.colorBackgroundWarning = guiHandler.colorBackgroundWarning;
+		this.colorBackgroundWrong = guiHandler.colorBackgroundWrong;
+		this.colorForegroundWarning = guiHandler.colorForegroundWarning;
+		this.compMain = guiHandler.compMain;
+		this.limitExp = guiHandler.limitExp;
+		this.limitUp = guiHandler.limitUp;
+		this.rabinFirst = guiHandler.rabinFirst;
+		this.rabinSecond = guiHandler.rabinSecond;
+		this.radix = guiHandler.radix;
+		this.scMain = guiHandler.scMain;
+		this.separator = guiHandler.separator;
+	}*/
+	
+	
+	
+	public String getSeparator() {
+		return separator;
+	}
+	
+	
+	
+	public Color getColorBGinfo() {
+		return this.colorBGinfo;
+	}
 	
 	
 	
@@ -1898,6 +1933,34 @@ public class GUIHandler {
 			}
 
 		}
+	}
+	
+	
+	
+	
+	/**
+	 * @param elem
+	 * @param a
+	 * @return startIdx the startIdx of elem in a
+	 */
+	public int getStartIdx(int elem, ArrayList<String> a) {
+		int startIdx = 0;
+		for(int i = 0; i < elem - 1; i++) {
+			startIdx += a.get(i).length();
+			startIdx += separator.length() + 2;
+		}
+		return startIdx;
+	}
+	
+	/**
+	 * @param startIdx
+	 * @param elem
+	 * @param a
+	 * @return endIdx the endIdx of elem in a
+	 */
+	public int getEndIdx(int startIdx, int elem, ArrayList<String> a) {
+		int endIdx = startIdx + a.get(elem - 1).length();
+		return endIdx;
 	}
 		
 		

@@ -681,9 +681,24 @@ public class Rabin {
 			String ptEncoded = new String(fixBigIntegerBytes(ptInBytes), charset);
 			possiblePlaintexts.add(ptEncoded);
 		}
-		
+
 		return possiblePlaintexts;
 	}
+	
+	
+	public ArrayList<ArrayList<String>> getAllPlaintextsFromListOfCiphertextblocks(ArrayList<String> ciphertextblocks, int radix){
+		ArrayList<ArrayList<String>> allPlaintexts = new ArrayList<ArrayList<String>>();
+		
+		for(String ciphertextblock : ciphertextblocks) {
+			BigInteger biCiphertextblock = new BigInteger(ciphertextblock, radix);
+			ArrayList<String> possiblePlaintexts = getPossiblePlaintextsEncoded(biCiphertextblock);
+			allPlaintexts.add(possiblePlaintexts);
+		}
+		
+		return allPlaintexts;
+	}
+	
+	
 	
 	
 	/**
@@ -797,6 +812,25 @@ public class Rabin {
 		//ciphertext = Rabin.getStringWithSepForm(paddedCiphertextList, "");
 		return ciphertext;
 	}
+	
+	
+	
+	
+	
+	public ArrayList<String> getCiphertextblocksAsList(String plaintext, int bytesPerBlock, int blocklength, int radix) {
+		String ciphertext = null;
+		String plaintextHex = bytesToString(plaintext.getBytes());
+		String paddedPlaintext = getPaddedPlaintext(plaintextHex, bytesPerBlock);
+		ArrayList<String> parsedPlaintext = parseString(paddedPlaintext, bytesPerBlock);
+		ArrayList<String> encryptedPlaintextList = getEncryptedListOfStrings(parsedPlaintext, radix);
+		ArrayList<String> paddedCiphertextList = getPaddedCiphertextblocks(encryptedPlaintextList, blocklength);
+		return paddedCiphertextList;
+	}
+	
+	
+	
+	
+	
 	
 	public boolean isInteger(BigDecimal bd) {
 		BigInteger rounded = bd.toBigInteger();
