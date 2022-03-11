@@ -69,6 +69,7 @@ public class CryptosystemTextbookComposite extends Composite {
 	private Text txtEncryptWarning;
 	private TextLoadController textSelector;
 	private Text txtEncryptionWarning;
+	private Text txtDecryptWarning;
 
 		
 	
@@ -92,6 +93,11 @@ public class CryptosystemTextbookComposite extends Composite {
 		return this;
 	}
 	
+	
+	
+	public Text getDecryptWarning() {
+		return txtDecryptWarning;
+	}
 	
 	
 	
@@ -277,7 +283,7 @@ public class CryptosystemTextbookComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				hcstb.btnDecryptInEncryptionModeAction(txtCiphertextSegments, cmbChooseBlock, btnPrevBlock, btnNextBlock, plaintexts, 
-						compHoldDecryptionProcess, compHoldEncryptionProcess, btnRadioEncrypt, btnRadioDecrypt);
+						compHoldDecryptionProcess, compHoldEncryptionProcess, btnRadioEncrypt, btnRadioDecrypt, txtDecryptWarning);
 				
 			}
 		});
@@ -306,7 +312,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		compHoldPlaintext = new Composite(compHoldDecryptionProcess, SWT.NONE);
-		compHoldPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compHoldPlaintext.setLayout(new GridLayout(1, false));
 	
 		
@@ -316,7 +322,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		compCiphertextSegmentsComponents = new Composite(compHoldPlaintext, SWT.NONE);
-		compCiphertextSegmentsComponents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compCiphertextSegmentsComponents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compCiphertextSegmentsComponents.setLayout(new GridLayout(3, false));
 		
 		
@@ -341,13 +347,25 @@ public class CryptosystemTextbookComposite extends Composite {
 		});
 		
 		
-		txtCiphertextSegments = new StyledText(compCiphertextSegmentsComponents, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER | SWT.READ_ONLY);
+		Composite compHoldCiphertextSegments = new Composite(compCiphertextSegmentsComponents, SWT.NONE);
+		compHoldCiphertextSegments.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compHoldCiphertextSegments.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compHoldCiphertextSegments, 0, 0);
+		
+		
+		/*Composite compTest = new Composite(compHoldCiphertextSegments, SWT.NONE);
+		compTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		compTest.setLayout(new GridLayout(1, false));
+		guiHandler.setSizeControl(compTest, SWT.DEFAULT, SWT.DEFAULT);*/
+		
+		
+		txtCiphertextSegments = new StyledText(compHoldCiphertextSegments, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER | SWT.READ_ONLY);
 		txtCiphertextSegments.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtCiphertextSegments.setText("this is a test");
 		txtCiphertextSegments.setBackground(ColorService.LIGHTGRAY);
 		txtCiphertextSegments.setSelectionBackground(ColorService.LIGHT_AREA_BLUE);
 		txtCiphertextSegments.setSelectionForeground(ColorService.BLACK);
-		guiHandler.setSizeControl(txtCiphertextSegments, SWT.DEFAULT, SWT.DEFAULT);
+		guiHandler.setSizeControl(txtCiphertextSegments, SWT.DEFAULT, SWT.DEFAULT + 75);
 		txtCiphertextSegments.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
@@ -355,6 +373,18 @@ public class CryptosystemTextbookComposite extends Composite {
 				hcstb.fixSelection(txtCiphertextSegments, cmbChooseBlock);
 			}
 		});
+		
+		
+		
+		txtDecryptWarning = new Text(compHoldCiphertextSegments, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtDecryptWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		txtDecryptWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtDecryptWarning.setForeground(guiHandler.getColorForegroundWarning());
+		guiHandler.setSizeControlWarning(txtDecryptWarning, SWT.DEFAULT, SWT.DEFAULT);
+		guiHandler.hideControl(txtDecryptWarning);
+		
+		
+		
 		
 		
 		compPrevNextComponents = new Composite(compCiphertextSegmentsComponents, SWT.NONE);
@@ -390,7 +420,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		compPlaintexts = new Composite(compHoldPlaintext, SWT.NONE);
-		compPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compPlaintexts.setLayout(new GridLayout(4, false));
 		
 		
@@ -405,7 +435,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		compPreviewChosenPlaintexts = new Composite(compHoldPlaintext, SWT.BORDER);
-		compPreviewChosenPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compPreviewChosenPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compPreviewChosenPlaintexts.setLayout(new GridLayout(1, false));
 		
 		Label lblPreviewChosenPlaintextDesc = new Label(compPreviewChosenPlaintexts, SWT.NONE);
@@ -424,6 +454,14 @@ public class CryptosystemTextbookComposite extends Composite {
 		guiHandler.setSizeControl(txtChosenPlaintexts, SWT.DEFAULT, 200);
 		
 		
+		/*txtDecryptWarning = new Text(compHoldPlaintext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtDecryptWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		txtDecryptWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtDecryptWarning.setForeground(guiHandler.getColorForegroundWarning());
+		guiHandler.setSizeControlWarning(txtDecryptWarning, SWT.DEFAULT, SWT.DEFAULT);
+		guiHandler.hideControl(txtDecryptWarning);*/
+		
+		
 		
 		
 		
@@ -438,7 +476,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnDecryption.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				hcstb.btnDecryptionAction(getCurrentInstance());
 			}
 		});
 		
