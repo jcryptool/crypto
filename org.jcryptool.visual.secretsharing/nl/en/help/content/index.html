@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Shamir's Secret Sharing</title>
@@ -18,8 +19,8 @@
     the tab <b>Visuals</b>. Processed until the end it could look like this:
   </p>
 
-  <img src="sss_plugin.png" style= "width: 85%; min-width: 600px; max-width: 1000px;"
-  alt="Screenshot of the plug-in. Left are input fields for parameters, the shares and in the middle bottom
+  <img src="sss_plugin.png" style="width: 85%; min-width: 600px; max-width: 1000px;"
+    alt="Screenshot of the plug-in. Left are input fields for parameters, the shares and in the middle bottom
   the information and button for reconstruction. On the right side is a plot of the polynomial with the shares">
 
   <p>Below the description header, the plug-in is divided into three sections:</p>
@@ -45,8 +46,8 @@
     which is smaller than the modulus. Remark: <i>Modulus</i> means a modulo operator.
   </p>
 
-  <img src="sss_parameter.jpg" style= "width: 40%; min-width: 300px; max-width: 500px"
-  alt="Detailed view of the parameter input: Number of persons n, Number of persons for reconstruction t,
+  <img src="sss_parameter.jpg" style="width: 40%; min-width: 300px; max-width: 500px"
+    alt="Detailed view of the parameter input: Number of persons n, Number of persons for reconstruction t,
   Modul p, secret s and the polynomial.">
 
   <p>
@@ -57,8 +58,8 @@
       coefficients</b> it is also possible to generate valid values for the coefficients.
   </p>
 
-  <img src="sss_coefficients.jpg" style= "width: 40%; min-width: 300px; max-width: 500px"
-  alt="Detailed view of the polynomial parameter input: one input field for each coefficient. a0 is the
+  <img src="sss_coefficients.jpg" style="width: 40%; min-width: 300px; max-width: 500px"
+    alt="Detailed view of the polynomial parameter input: one input field for each coefficient. a0 is the
   previously entered secret and cannot be changed.">
 
   <p>
@@ -70,8 +71,8 @@
       number verification</b> opens where you can correct the input.
   </p>
 
-  <img src="sss_prime_dialog.jpg" style= "width: 70%; min-width: 400px; max-width: 700px"
-  alt="Detailed view of the prime number verifikation: A dialogue to choose a valid prime number. 
+  <img src="sss_prime_dialog.jpg" style="width: 70%; min-width: 400px; max-width: 700px"
+    alt="Detailed view of the prime number verifikation: A dialogue to choose a valid prime number. 
   A 6 is currently entered which is highlighted in red, as it is not a prime number. A button
   allows to generate the next larger prime number and another one allows to verify it is prime.">
 
@@ -94,10 +95,9 @@
     dialog with this button.
   </p>
 
-  <img src="sss_secret_dialog.jpg" style= "width: 40%; min-width: 400px; max-width: 600px"
-  alt="Detailed view of the secret verifikation: A dialogue to choose a valid secret. A 23 is entered,
-  and highlighted in red, as it is bigger than the chosen modul 7. A button allows to verify the input."> 
-
+  <img src="sss_secret_dialog.jpg" style="width: 40%; min-width: 400px; max-width: 600px"
+    alt="Detailed view of the secret verifikation: A dialogue to choose a valid secret. A 23 is entered,
+  and highlighted in red, as it is bigger than the chosen modul 7. A button allows to verify the input.">
 
   <p>
     Pressing the button <b>Compute shares</b> will calculate the <b>\(\boldsymbol{n}\)</b> shares to be
@@ -105,14 +105,14 @@
   </p>
 
   <img src="sss_polynom.jpg" style="width: 30%; min-width: 250px; max-width: 400px"
-  alt="The chosen polynomial display and below the button to compute the shares.">
+    alt="The chosen polynomial display and below the button to compute the shares.">
 
   <p>
     The calculated shares are displayed in the area <b>Shares</b> (in the middle).
   </p>
 
   <img src="sss_shares.jpg" style="width: 30%; min-width: 250px; max-width: 400px"
-  alt="A list of the computed shares with the possibility to select them for reconstruction.">
+    alt="A list of the computed shares with the possibility to select them for reconstruction.">
 
   <p>
     On the right side, the corresponding <b>graph</b> of the polynomial is shown. The individual shares are
@@ -120,7 +120,7 @@
   </p>
 
   <img src="sss_graph2.png" style="width: 85%; min-width: 600px; max-width: 1000px"
-  alt="The polynomial plotted in a cartesian coordinate system. The shares are highlighted as blue dots.">
+    alt="The polynomial plotted in a cartesian coordinate system. The shares are highlighted as blue dots.">
 
   <p>
     Via check boxes, you can select the <b>shares</b> that you want to use for the reconstruction. The
@@ -136,8 +136,8 @@
     explanation on a red ground in the area Info.
   </p>
 
-  <img src="sss_reconstruction.jpg" style= "width: 30%; min-width: 250px; max-width: 400px"
-  alt="Output of the intermediate results w of the reconstruction calculation.">
+  <img src="sss_reconstruction.jpg" style="width: 30%; min-width: 250px; max-width: 400px"
+    alt="Output of the intermediate results w of the reconstruction calculation.">
 
   <p>
     In the lower part, right from the button <b>Reset</b>, the reconstructed polynomial is shown. The result
@@ -146,14 +146,14 @@
   </p>
 
   <img src="sss_ergebnis.jpg" style="width: 70%; min-width: 400px; max-width: 900px"
-  alt="Output of the reconstructed polynomial. It shows a red bar, as the polynomial could not be
+    alt="Output of the reconstructed polynomial. It shows a red bar, as the polynomial could not be
   reconstructed.">
 
   <p>In the event that the polynomial was not properly restored, the two polynomials represented as a
     graph in different colors.</p>
 
-  <img src="sss_graph_reconstruct2.png" style= "width: 85%; min-width: 600px; max-width: 1000px"
-  alt="The original and reconstructed polynomial plotted in a cartesian coordinate system.
+  <img src="sss_graph_reconstruct2.png" style="width: 85%; min-width: 600px; max-width: 1000px"
+    alt="The original and reconstructed polynomial plotted in a cartesian coordinate system.
   The shares are highlighted as blue dots. The lines do not match.">
 
   <p>
@@ -176,8 +176,8 @@
 
   <p>The notification area shows comments the respective final result after the calculation.</p>
 
-  <img src="sss_info.jpg" style= "width: 30%; min-width: 250px; max-width: 400px"
-  alt="Detailed view of the info box with description about the algorithm.">
+  <img src="sss_info.jpg" style="width: 30%; min-width: 250px; max-width: 400px"
+    alt="Detailed view of the info box with description about the algorithm.">
 
   <h2>Sample with bigger number for shares and reconstruction</h2>
 
@@ -188,12 +188,12 @@
 
   <p>
     <img src="sss_shares_big.jpg" style="width: 70%; min-width: 450px; max-width: 900px"
-    alt="Detailed view of the shares with a more complex example (larger numbers in range 5000 to
+      alt="Detailed view of the shares with a more complex example (larger numbers in range 5000 to
     30000 und 8 shares).">
   </p>
   <p>
     <img src="sss_reconstruction_big.jpg" style="width: 70%; min-width: 450px; max-width: 900px"
-    alt="Detailed view of the reconstruction calculation with a more complex example (larger numbers
+      alt="Detailed view of the reconstruction calculation with a more complex example (larger numbers
     and more shares).">
   </p>
 

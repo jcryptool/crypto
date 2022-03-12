@@ -22,8 +22,8 @@
     beispielsweise so aus:
   </p>
 
-  <img src="sss_plugin.png" style= "width: 85%; min-width: 600px; max-width: 1000px"
-  alt="Screenshot des Plug-ins. Links Eingabefelder für Parameter, die Shares, und links unten das Feld
+  <img src="sss_plugin.png" style="width: 85%; min-width: 600px; max-width: 1000px"
+    alt="Screenshot des Plug-ins. Links Eingabefelder für Parameter, die Shares, und links unten das Feld
   für die Rekonstruktion. Rechts das Polynom mit den eingezeichneten Shares.">
 
   <p>Das Plug-in gliedert sich – unterhalb des Beschreibungskopfs – in drei Bereiche:</p>
@@ -35,8 +35,6 @@
     <li>rechts der <b>Graph</b> des Polynoms, der aus der Rekonstruktion berechnet wird.
     </li>
   </ol>
-
-
 
   <h2>Festlegung der Parameter für die Berechnung</h2>
 
@@ -52,8 +50,8 @@
     das kleiner als der Modulus ist. Bemerkung: Mit <i>Modulus</i> ist ein modulo-Operator gemeint.
   </p>
 
-  <img src="sss_parameter.jpg" style= "width: 40%; min-width: 300px; max-width: 500px"
-  alt="Detailaufnahme der Parametereingabe: Anzahl der Personen n, Anzahl der Personen für die Rekonstruktion t,
+  <img src="sss_parameter.jpg" style="width: 40%; min-width: 300px; max-width: 500px"
+    alt="Detailaufnahme der Parametereingabe: Anzahl der Personen n, Anzahl der Personen für die Rekonstruktion t,
   Modul p, Geheimnis s und das Polynom.">
 
   <p>
@@ -65,23 +63,21 @@
     Koeffizienten generieren zu lassen.
   </p>
 
-  <img src="sss_coefficients.jpg" style= "width: 40%; min-width: 300px; max-width: 500px"
-  alt="Detailaufnahme der Parametereingabe: Ein Eingabefeld pro Koeffizient. Der erste Koeffizient a0 
+  <img src="sss_coefficients.jpg" style="width: 40%; min-width: 300px; max-width: 500px"
+    alt="Detailaufnahme der Parametereingabe: Ein Eingabefeld pro Koeffizient. Der erste Koeffizient a0
   ist das vorher eingegeben Geheimnis und kann nicht geändert werden.">
 
   <p>
     Durch Drücken des <b>OK</b>-Buttons wird der Dialog geschlossen und das Polynom als Formel dargestellt.
   </p>
 
-
-
   <p>
     Falls der Wert für den Modulus <b>\(\boldsymbol{p}\)</b> keine Primzahl ist, öffnet sich zuerst der Dialog
     <b>Primzahl-Überprüfung</b>, in dem man die Eingabe korrigieren kann.
   </p>
 
-  <img src="sss_prime_dialog.jpg" style= "width: 70%; min-width: 400px; max-width: 700px"
-  alt="Detailaufnahme der Primzahl-Verifikation: Ein Dialog zum Wählen einer Primzahl. Eine 6 ist eingegeben,
+  <img src="sss_prime_dialog.jpg" style="width: 70%; min-width: 400px; max-width: 700px"
+    alt="Detailaufnahme der Primzahl-Verifikation: Ein Dialog zum Wählen einer Primzahl. Eine 6 ist eingegeben,
   die rot dargestellt wird, da sie keine Primzahl ist. Ein Button erlaubt das erzeugen einer nächsthöheren Primzahl,
   ein zweiter das Verifizieren der Eingabe.">
 
@@ -93,9 +89,6 @@
     generiert, wird die Zahl in <b>grün</b> dargestellt und der <b>Ok</b>-Button wird aktiviert, mit dem man
     den Dialog verlassen kann, um anschließend die Koeffizienten einzugeben.
   </p>
-
-
-
 
   <p>
     Nun kann es sein, dass das Geheimnis <b>\(\boldsymbol{s}\)</b> entweder schon vor dem Dialog zur
@@ -109,43 +102,34 @@
     Benutzer den Dialog verlassen kann.
   </p>
 
-  <img src="sss_secret_dialog.jpg" style= "width: 40%; min-width: 300px; max-width: 600px"
-  alt="Detailaufnahme der Geheimnis-Verifikation: Ein Dialog zum Wählen eines validen Geheimnisses. Eine 23 ist eingegeben,
+  <img src="sss_secret_dialog.jpg" style="width: 40%; min-width: 300px; max-width: 600px"
+    alt="Detailaufnahme der Geheimnis-Verifikation: Ein Dialog zum Wählen eines validen Geheimnisses. Eine 23 ist eingegeben,
   die rot dargestellt wird, da sie größer als der eingegeben Modul 7 ist. Ein Button erlaubt das
-  Verifizieren der derzeitigen Eingabe."> 
-
-
-
+  Verifizieren der derzeitigen Eingabe.">
 
   <p>
     Durch Drücken des Buttons <b>Shares berechnen</b> werden die <b>\(\boldsymbol{n}\)</b> Shares berechnet,
     die an die Personen verteilt werden.
   </p>
 
-  <img src="sss_polynom.jpg" style= "width: 30%; min-width: 250px; max-width: 400px"
-  alt="Ausgabe des gewählten Polynoms und darunter der Button um die Shares zu berechnen.">
-
+  <img src="sss_polynom.jpg" style="width: 30%; min-width: 250px; max-width: 400px"
+    alt="Ausgabe des gewählten Polynoms und darunter der Button um die Shares zu berechnen.">
 
   <p>
     Die berechneten Shares werden in der Mitte im Bereich <b>Shares</b> angezeigt.
   </p>
 
-  <img src="sss_shares.jpg" style= "width: 30%; min-width: 250px; max-width: 400px"
-  alt="Liste der berechneten Shares mit einer Auswahlmöglichkeit für die Rekonstruktion.">
-
-
+  <img src="sss_shares.jpg" style="width: 30%; min-width: 250px; max-width: 400px"
+    alt="Liste der berechneten Shares mit einer Auswahlmöglichkeit für die Rekonstruktion.">
 
   <p>
     Auf der rechten Seite wird der dazugehörige <b>Graph</b> des Polynoms dargestellt. Die einzelnen Shares
     werden im Graphen als Punkte in der Farbe <b>blau</b> angezeigt.
   </p>
 
-  <img src="sss_graph2.png" style= "width: 85%; min-width: 600px; max-width: 1000px"
-  alt="Das Polynom eingezeichnet in einem kartesischen Koordinatensystem. Die Shares sind als
+  <img src="sss_graph2.png" style="width: 85%; min-width: 600px; max-width: 1000px"
+    alt="Das Polynom eingezeichnet in einem kartesischen Koordinatensystem. Die Shares sind als
   blaue Punkte hervorgehoben.">
-
-
-
 
   <p>
     Im <b>Shares</b>-Bereich kann man per Checkbox die Shares auswählen, die man für die Rekonstruktion
@@ -156,17 +140,13 @@
     ausgewählt, wird ein falsche Kurve gezeichnet und man erhält eine rot unterlegte Erklärung im Info-Feld.
   </p>
 
-
   <p>
     Durch Drücken des Buttons <b>Rekonstruieren</b> wird dann die Berechnung der Rekonstruktion des Polynoms
     durchgeführt. Die Zwischenergebnisse der Berechnung werden im Bereich <b>Rekonstruktion</b> angezeigt.
   </p>
 
   <img src="sss_reconstruction.jpg" style="width: 30%; min-width: 250px; max-width: 400px"
-  alt="Ausgabe der Zwischenergebnisse w der Rekonstruktionsberechnung.">
-
-
-
+    alt="Ausgabe der Zwischenergebnisse w der Rekonstruktionsberechnung.">
 
   <p>
     Ganz unten, rechts vom Button <b>Zurücksetzen</b> wird das rekonstruierte Polynom angezeigt. Dabei wird
@@ -175,10 +155,8 @@
   </p>
 
   <img src="sss_ergebnis.jpg" style="width: 70%; min-width: 400px; max-width: 900px"
-  alt="Ausgabe des rekonstruierten Polynoms. Der Screenshot zeigt einen roten Balken, da das Polynom nicht
+    alt="Ausgabe des rekonstruierten Polynoms. Der Screenshot zeigt einen roten Balken, da das Polynom nicht
   rekonstruiert werden konnte.">
-
-
 
   <p>Für den Fall, dass das Polynom nicht richtig rekonstruiert wurde, werden beide Polynome als Graph in
     unterschiedlichen Farben dargestellt.</p>
@@ -191,13 +169,12 @@
     Shares zu schließen.
   </p>
 
-  <img src="sss_graph_reconstruct2.png" style= "width: 85%; min-width: 600px; max-width: 1000px"
-  alt="Das originale und rekonstruierte Polynom eingezeichnet in einem kartesischen Koordinatensystem.
+  <img src="sss_graph_reconstruct2.png" style="width: 85%; min-width: 600px; max-width: 1000px"
+    alt="Das originale und rekonstruierte Polynom eingezeichnet in einem kartesischen Koordinatensystem.
   Die Shares sind als blaue Punkte hervorgehoben. Die beiden Linien decken sich nicht.">
 
   <p>Man kann jederzeit mit dem Mauszeiger über einen Punkt im Graphen fahren, um sich dessen
     Share-Koordinaten anzeigen zu lassen.</p>
-
 
   <p>
     Mit dem Button <b>Zurücksetzen</b> (unten links) oder beim Klick auf die <b>Neustart</b>-Ikone (oben
@@ -210,8 +187,8 @@
 
   <p>Der Benachrichtigungsbereich kommentiert das jeweilige Endergebnis nach der Berechnung.</p>
 
-  <img src="sss_info.jpg" style= "width: 30%; min-width: 250px; max-width: 400px"
-  alt="Detailaufnahme des Info-Bereichs mit Erklärungen zum Algorithmus.">
+  <img src="sss_info.jpg" style="width: 30%; min-width: 250px; max-width: 400px"
+    alt="Detailaufnahme des Info-Bereichs mit Erklärungen zum Algorithmus.">
 
   <h2>Beispiele für Shares und Rekonstruktion mit größeren Zahlen</h2>
 
@@ -222,12 +199,12 @@
 
   <p>
     <img src="sss_shares_big.jpg" style="width: 70%; min-width: 450px; max-width: 900px"
-    alt="Detailaufnahme der Shares mit einem komplexeren Beispiel (höheren Zahlen im Bereich 5000 bis
+      alt="Detailaufnahme der Shares mit einem komplexeren Beispiel (höheren Zahlen im Bereich 5000 bis
     30000 und 8 Shares).">
   </p>
   <p>
     <img src="sss_reconstruction_big.jpg" style="width: 70%; min-width: 450px; max-width: 900px"
-    alt="Detailaufnahme der Rekonstruktionsberechnungen mit einem komplexeren Beispiel (höheren Zahlen und mehr Shares).">
+      alt="Detailaufnahme der Rekonstruktionsberechnungen mit einem komplexeren Beispiel (höheren Zahlen und mehr Shares).">
   </p>
 
 </body>
