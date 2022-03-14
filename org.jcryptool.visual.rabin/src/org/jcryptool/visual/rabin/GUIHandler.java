@@ -65,6 +65,13 @@ public class GUIHandler {
 	// colors for info textfields
 	private Color colorBGinfo = ColorService.LIGHTGRAY;
 	
+	// colors for selecting controls
+	private Color colorSelectControl = ColorService.LIGHT_AREA_BLUE;
+	private Color colorDeselectControl = ColorService.LIGHTGRAY;
+	
+	// colors for buttons
+	private Color colorButtons = ColorService.LIGHT_AREA_BLUE;
+	
 	
 	
 	/** 
@@ -104,6 +111,15 @@ public class GUIHandler {
 		this.separator = guiHandler.separator;
 	}*/
 	
+	
+	public Color getColorSelectControl() {
+		return colorSelectControl;
+	}
+	
+	
+	public Color getColorDeselectControl() {
+		return colorDeselectControl;
+	}
 	
 	
 	public String getSeparator() {

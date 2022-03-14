@@ -1,5 +1,8 @@
 package org.jcryptool.visual.rabin.ui;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
@@ -19,6 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PartInitException;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
 import org.jcryptool.visual.rabin.GUIHandler;
@@ -70,6 +74,14 @@ public class CryptosystemTextbookComposite extends Composite {
 	private TextLoadController textSelector;
 	private Text txtEncryptionWarning;
 	private Text txtDecryptWarning;
+	
+	private Text txtFirstPlaintext;
+	private Text txtSecondPlaintext;
+	private Text txtThirdPlaintext;
+	private Text txtFourthPlaintext;
+	
+	private int possiblePlaintextsSize = 4;
+	private Button btnResetChosenPlaintexts;
 
 		
 	
@@ -84,13 +96,79 @@ public class CryptosystemTextbookComposite extends Composite {
 		this.hcstb = new HandleCryptosystemTextbook(rftc);
 		this.guiHandler = rftc.getGUIHandler();
 		createLoadTextContent(this);
+		createEncryptionDecryptionRadioBtns(this);
 		createEncryptionDecryptionContent(this);
+		initializeContent();
 	}
 	
 	
 	
 	public CryptosystemTextbookComposite getCurrentInstance() {
 		return this;
+	}
+	
+	
+	
+	public Button getBtnResetChosenPlaintexts() {
+		return btnResetChosenPlaintexts;
+	}
+	
+	
+	
+	public Button getBtnNextBlock() {
+		return btnNextBlock;
+	}
+	
+	
+	public Button getBtnPrevBlock() {
+		return btnPrevBlock;
+	}
+	
+	
+	public Button getBtnDecryptInEncryptionMode() {
+		return btnDecryptInEncryptionMode;
+	}
+	
+	
+	
+	public Text getTxtCiphertext() {
+		return txtCiphertext;
+	}
+	
+	
+	public Button getBtnRadioEncrypt() {
+		return btnRadioEncrypt;
+	}
+	
+	
+	public Button getBtnRadioDecrypt() {
+		return btnRadioDecrypt;
+	}
+	
+	
+	
+	public Text getTxtFirstPlaintext() {
+		return txtFirstPlaintext;
+	}
+	
+	
+	public Text getTxtSecondPlaintext() {
+		return txtSecondPlaintext;
+	}
+
+	
+	public Text getTxtThirdPlaintext() {
+		return txtThirdPlaintext;
+	}
+	
+	
+	public Text getTxtFourthPlaintext() {
+		return txtFourthPlaintext;
+	}
+	
+	
+	public Text getTxtChosenPlaintexts() {
+		return txtChosenPlaintexts;
 	}
 	
 	
@@ -162,7 +240,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		textSelector = new TextLoadController(grpLoadText, parent, SWT.NONE, true, true);
 		textSelector.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-	
+		
 		
 		
 		Label lblInfoSeperator = new Label(grpLoadText, SWT.SEPARATOR | SWT.VERTICAL);
@@ -178,6 +256,53 @@ public class CryptosystemTextbookComposite extends Composite {
 	}
 	
 	
+	
+	
+	private void initializeContent() {
+		btnRadioEncrypt.setSelection(true);
+		btnDecryptInEncryptionMode.setEnabled(false);
+		btnNextBlock.setEnabled(false);
+		btnPrevBlock.setEnabled(false);
+		btnResetChosenPlaintexts.setEnabled(false);
+	}
+	
+	
+	
+	private void createEncryptionDecryptionRadioBtns(Composite parent) {
+		
+		Composite compHoldEncryptDecryptRadio = new Composite(parent, SWT.NONE);
+		compHoldEncryptDecryptRadio.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+		compHoldEncryptDecryptRadio.setLayout(new GridLayout(2, false));
+		guiHandler.setControlMargin(compHoldEncryptDecryptRadio, SWT.DEFAULT, 15);
+
+		
+		btnRadioEncrypt = new Button(compHoldEncryptDecryptRadio, SWT.RADIO);
+		btnRadioEncrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnRadioEncrypt.setText("Encryption");
+		btnRadioEncrypt.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				guiHandler.hideControl(compHoldDecryptionProcess);
+				guiHandler.showControl(compHoldEncryptionProcess);
+				grpEncryptDecrypt.setText("Encryption");
+			}
+		});
+		
+		
+		btnRadioDecrypt = new Button(compHoldEncryptDecryptRadio, SWT.RADIO);
+		btnRadioDecrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnRadioDecrypt.setText("Decryption");
+		btnRadioDecrypt.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				guiHandler.hideControl(compHoldEncryptionProcess);
+				guiHandler.showControl(compHoldDecryptionProcess);
+				grpEncryptDecrypt.setText("Decryption");
+			}
+		});
+	}
+	
+	
 
 
 	private void createEncryptionDecryptionContent(Composite parent) {
@@ -185,14 +310,14 @@ public class CryptosystemTextbookComposite extends Composite {
 		grpEncryptDecrypt = new Group(parent, SWT.NONE);
 		grpEncryptDecrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		grpEncryptDecrypt.setLayout(new GridLayout(3, false));
-		grpEncryptDecrypt.setText("Encryption/Decryption");
+		grpEncryptDecrypt.setText("Encryption");
 		
 		compHoldEncryptDecryptContent = new Composite(grpEncryptDecrypt, SWT.NONE);
 		compHoldEncryptDecryptContent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldEncryptDecryptContent.setLayout(new GridLayout(1, false));
 		
 		
-		Composite compHoldEncryptDecryptRadio = new Composite(compHoldEncryptDecryptContent, SWT.NONE);
+		/*Composite compHoldEncryptDecryptRadio = new Composite(compHoldEncryptDecryptContent, SWT.NONE);
 		compHoldEncryptDecryptRadio.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		compHoldEncryptDecryptRadio.setLayout(new GridLayout(2, false));
 		
@@ -206,6 +331,7 @@ public class CryptosystemTextbookComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				guiHandler.hideControl(compHoldDecryptionProcess);
 				guiHandler.showControl(compHoldEncryptionProcess);
+				grpEncryptDecrypt.setText("Encryption");
 			}
 		});
 		
@@ -218,21 +344,22 @@ public class CryptosystemTextbookComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				guiHandler.hideControl(compHoldEncryptionProcess);
 				guiHandler.showControl(compHoldDecryptionProcess);
+				grpEncryptDecrypt.setText("Decryption");
 			}
-		});
+		});*/
 		
 		
 		
 		compHoldEncryptionProcess = new Composite(compHoldEncryptDecryptContent, SWT.NONE);
 		compHoldEncryptionProcess.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldEncryptionProcess.setLayout(new GridLayout(2, false));
-		guiHandler.hideControl(compHoldEncryptionProcess);
+		//guiHandler.hideControl(compHoldEncryptionProcess);
 		
 		
 		compHoldDecryptionProcess = new Composite(compHoldEncryptDecryptContent, SWT.NONE);
 		compHoldDecryptionProcess.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldDecryptionProcess.setLayout(new GridLayout(2, false));
-		
+		guiHandler.hideControl(compHoldDecryptionProcess);
 		
 		
 		compHoldCiphertext = new Composite(compHoldEncryptionProcess, SWT.NONE);
@@ -243,11 +370,18 @@ public class CryptosystemTextbookComposite extends Composite {
 		lblCiphertextDescryption.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 		lblCiphertextDescryption.setText("Ciphertext");
 		
-		txtCiphertext = new Text(compHoldCiphertext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+		txtCiphertext = new Text(compHoldCiphertext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
 		txtCiphertext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtCiphertext.setText("this is a test");
 		txtCiphertext.setBackground(ColorService.LIGHTGRAY);
-		guiHandler.setSizeControl(txtCiphertext, 600, 300);
+		guiHandler.setSizeControl(txtCiphertext, 500, 200);
+		txtCiphertext.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				hcstb.txtCiphertextModifyAction(getCurrentInstance());
+			}
+		});
 		
 		
 		txtEncryptionWarning = new Text(compHoldCiphertext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
@@ -282,11 +416,11 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnDecryptInEncryptionMode.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				hcstb.btnDecryptInEncryptionModeAction(txtCiphertextSegments, cmbChooseBlock, btnPrevBlock, btnNextBlock, plaintexts, 
-						compHoldDecryptionProcess, compHoldEncryptionProcess, btnRadioEncrypt, btnRadioDecrypt, txtDecryptWarning);
+				hcstb.btnDecryptInEncryptionModeAction(getCurrentInstance(), possiblePlaintextsSize);
 				
 			}
 		});
+		
 		
 		
 		
@@ -296,7 +430,12 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnWriteToJCTeditor.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				try {
+					hcstb.btnWriteToJCTeditor(getCurrentInstance());
+				} catch (PartInitException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -316,19 +455,24 @@ public class CryptosystemTextbookComposite extends Composite {
 		compHoldPlaintext.setLayout(new GridLayout(1, false));
 	
 		
-		Label lblCiphertextSegmentsDescription = new Label(compHoldPlaintext, SWT.NONE);
-		lblCiphertextSegmentsDescription.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		lblCiphertextSegmentsDescription.setText("Ciphertext separated into segments (\"||\" as separator)");
+		//Label lblCiphertextSegmentsDescription = new Label(compHoldPlaintext, SWT.NONE);
+		//lblCiphertextSegmentsDescription.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+		//lblCiphertextSegmentsDescription.setText("Ciphertext separated into segments (\"||\" as separator)");
 		
 		
 		compCiphertextSegmentsComponents = new Composite(compHoldPlaintext, SWT.NONE);
 		compCiphertextSegmentsComponents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compCiphertextSegmentsComponents.setLayout(new GridLayout(3, false));
+		guiHandler.setControlMargin(compCiphertextSegmentsComponents, 0, 5);
+		
+		
 		
 		
 		compChooseBlockComponents = new Composite(compCiphertextSegmentsComponents, SWT.NONE);
-		compChooseBlockComponents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		compChooseBlockComponents.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 		compChooseBlockComponents.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compChooseBlockComponents, 0, 5);
+		//((GridLayout) compChooseBlockComponents.getLayout()).marginLeft = 0;
 		
 		Label lblChooseBlockDesc = new Label(compChooseBlockComponents, SWT.NONE);
 		lblChooseBlockDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
@@ -353,6 +497,12 @@ public class CryptosystemTextbookComposite extends Composite {
 		guiHandler.setControlMargin(compHoldCiphertextSegments, 0, 0);
 		
 		
+		Label lblCiphertextSegmentsDescription = new Label(compHoldCiphertextSegments, SWT.NONE);
+		lblCiphertextSegmentsDescription.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+		lblCiphertextSegmentsDescription.setText("Ciphertext separated into segments (\"||\" as separator)");
+		
+		
+		
 		/*Composite compTest = new Composite(compHoldCiphertextSegments, SWT.NONE);
 		compTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		compTest.setLayout(new GridLayout(1, false));
@@ -374,23 +524,32 @@ public class CryptosystemTextbookComposite extends Composite {
 			}
 		});
 		
+		txtCiphertextSegments.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				hcstb.txtCiphertextSegmentsModifyAction(getCurrentInstance());
+			}
+		});
 		
 		
-		txtDecryptWarning = new Text(compHoldCiphertextSegments, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		
+		/*txtDecryptWarning = new Text(compHoldCiphertextSegments, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtDecryptWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtDecryptWarning.setBackground(guiHandler.getColorBackgroundWarning());
 		txtDecryptWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.setSizeControlWarning(txtDecryptWarning, SWT.DEFAULT, SWT.DEFAULT);
-		guiHandler.hideControl(txtDecryptWarning);
+		guiHandler.hideControl(txtDecryptWarning);*/
 		
 		
 		
 		
 		
 		compPrevNextComponents = new Composite(compCiphertextSegmentsComponents, SWT.NONE);
-		compPrevNextComponents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		compPrevNextComponents.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 		compPrevNextComponents.setLayout(new GridLayout(1, false));
-		
+		guiHandler.setControlMargin(compPrevNextComponents, 0, 5);
+		((GridLayout) compPrevNextComponents.getLayout()).marginTop = 20;
 		
 		
 		
@@ -416,21 +575,155 @@ public class CryptosystemTextbookComposite extends Composite {
 		});
 		
 		
+		txtDecryptWarning = new Text(compHoldPlaintext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtDecryptWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		txtDecryptWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtDecryptWarning.setForeground(guiHandler.getColorForegroundWarning());
+		guiHandler.setSizeControlWarning(txtDecryptWarning, SWT.DEFAULT, SWT.DEFAULT);
+		guiHandler.hideControl(txtDecryptWarning);
+		((GridData) txtDecryptWarning.getLayoutData()).horizontalIndent = 90;
 		
 		
 		
 		compPlaintexts = new Composite(compHoldPlaintext, SWT.NONE);
 		compPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compPlaintexts.setLayout(new GridLayout(4, false));
+		guiHandler.setControlMargin(compPlaintexts, 0, 5);
 		
 		
-		plaintexts = new Text[4];
+		Composite compFirstPlaintext = new Composite(compPlaintexts, SWT.NONE);
+		compFirstPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compFirstPlaintext.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compFirstPlaintext, 0, 5);
 		
-		for(int i = 0; i < plaintexts.length; i++) {
+		
+		
+		Label lblFirstPlaintextDesc = new Label(compFirstPlaintext, SWT.NONE);
+		lblFirstPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+		lblFirstPlaintextDesc.setText("Plaintext 1");
+		
+		
+		
+		txtFirstPlaintext = new Text(compFirstPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
+		txtFirstPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		guiHandler.setSizeControl(txtFirstPlaintext, 100, 100);
+		txtFirstPlaintext.setBackground(guiHandler.getColorBGinfo());
+		txtFirstPlaintext.addMouseListener(new MouseAdapter() {
+		
+			@Override
+			public void mouseDown(MouseEvent e) {
+				hcstb.txtFirstPlaintextMouseDownAction(getCurrentInstance());
+			}
+			
+		});
+		
+		
+		
+		Composite compSecondPlaintext = new Composite(compPlaintexts, SWT.NONE);
+		compSecondPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compSecondPlaintext.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compSecondPlaintext, 0, 5);
+		
+		
+		
+		Label lblSecondPlaintextDesc = new Label(compSecondPlaintext, SWT.NONE);
+		lblSecondPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+		lblSecondPlaintextDesc.setText("Plaintext 2");
+	
+		
+		
+		
+		txtSecondPlaintext = new Text(compSecondPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
+		txtSecondPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		guiHandler.setSizeControl(txtSecondPlaintext, 100, 100);
+		txtSecondPlaintext.setBackground(guiHandler.getColorBGinfo());
+		txtSecondPlaintext.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				hcstb.txtSecondPlaintextMouseDownAction(getCurrentInstance());
+			}
+			
+		});
+		
+		
+		
+		Composite compThirdPlaintext = new Composite(compPlaintexts, SWT.NONE);
+		compThirdPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compThirdPlaintext.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compThirdPlaintext, 0, 5);
+		
+		Label lblThirdPlaintextDesc = new Label(compThirdPlaintext, SWT.NONE);
+		lblThirdPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+		lblThirdPlaintextDesc.setText("Plaintext 3");
+	
+		
+		
+		
+		
+		txtThirdPlaintext = new Text(compThirdPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
+		txtThirdPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		guiHandler.setSizeControl(txtThirdPlaintext, 100, 100);
+		txtThirdPlaintext.setBackground(guiHandler.getColorBGinfo());
+		txtThirdPlaintext.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				hcstb.txtThirdPlaintextMouseDownAction(getCurrentInstance());
+			}
+			
+		});
+		
+		
+		
+		Composite compFourthPlaintext = new Composite(compPlaintexts, SWT.NONE);
+		compFourthPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compFourthPlaintext.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compFourthPlaintext, 0, 5);
+		//((GridLayout) compFourthPlaintext.getLayout()).marginRight = 5;
+		
+		
+		Label lblFourthPlaintextDesc = new Label(compFourthPlaintext, SWT.NONE);
+		lblFourthPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
+		lblFourthPlaintextDesc.setText("Plaintext 4");
+		
+	
+		
+		
+		
+		
+		txtFourthPlaintext = new Text(compFourthPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
+		txtFourthPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		guiHandler.setSizeControl(txtFourthPlaintext, 100, 100);
+		txtFourthPlaintext.setBackground(guiHandler.getColorBGinfo());
+		txtFourthPlaintext.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				hcstb.txtFourthPlaintextMouseDownAction(getCurrentInstance());
+			}
+			
+		});
+		
+		
+		//plaintexts = new Text[4];
+		
+		/*for(int i = 0; i < plaintexts.length; i++) {
 			plaintexts[i] = new Text(compPlaintexts, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
 			plaintexts[i].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 			guiHandler.setSizeControl(plaintexts[i], 100, 100);
-		}
+			plaintexts[i].addMouseListener(new MouseAdapter() {
+				
+				@Override
+				public void mouseDown(MouseEvent e) {
+					Text src = (Text) e.getSource();
+					if(i == 0) {
+						countClicksForPlaintexts[0]++;
+					}
+				}
+				
+			});
+		}*/
 		
 		
 		
@@ -452,6 +745,13 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtChosenPlaintexts.setText("insert something");
 		txtChosenPlaintexts.setBackground(ColorService.LIGHTGRAY);
 		guiHandler.setSizeControl(txtChosenPlaintexts, SWT.DEFAULT, 200);
+		txtChosenPlaintexts.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				hcstb.txtChosenPlaintextsModifyAction(getCurrentInstance());
+			}
+		});
 		
 		
 		/*txtDecryptWarning = new Text(compHoldPlaintext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
@@ -476,9 +776,10 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnDecryption.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				hcstb.btnDecryptionAction(getCurrentInstance());
+				hcstb.btnDecryptionAction(getCurrentInstance(), possiblePlaintextsSize);
 			}
 		});
+		
 		
 		
 		btnWriteToJCTeditorDecryptMode = new Button(compHoldBtnsForFeaturesDecryptionMode, SWT.PUSH);
@@ -487,9 +788,27 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnWriteToJCTeditorDecryptMode.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				try {
+					hcstb.btnWriteToJCTeditorDecryptMode(getCurrentInstance());
+				} catch (PartInitException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
+		
+		
+		
+		btnResetChosenPlaintexts = new Button(compHoldBtnsForFeaturesDecryptionMode, SWT.PUSH);
+		btnResetChosenPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnResetChosenPlaintexts.setText("Reset chosen plaintexts");
+		btnResetChosenPlaintexts.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				hcstb.btnResetChosenPlaintextsAction(getCurrentInstance(), possiblePlaintextsSize);
+			}
+		});
+		
 		
 		
 		

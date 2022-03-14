@@ -1,24 +1,39 @@
 package org.jcryptool.visual.rabin;
 
+import java.awt.event.MouseEvent;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;
 
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.PartInitException;
+import org.jcryptool.core.operations.editors.AbstractEditorService;
+import org.jcryptool.core.operations.editors.EditorsManager;
+import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
 import org.jcryptool.visual.rabin.ui.CryptosystemTextbookComposite;
 import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
 import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
+
+
+
+
+
 
 public class HandleCryptosystemTextbook {
 	
@@ -26,6 +41,8 @@ public class HandleCryptosystemTextbook {
 	ArrayList<String> ciphertextList;
 	ArrayList<ArrayList<String>> plaintexts;
 	ArrayList<ArrayList<Boolean>> clickedPlaintexts; 
+	LinkedHashMap<String, String> currentSelectedPlaintexts;
+	int[] countClicksForPlaintexts; 
 	private RabinFirstTabComposite rftc;
 	
 	
@@ -37,6 +54,8 @@ public class HandleCryptosystemTextbook {
 	public HandleCryptosystemTextbook(RabinFirstTabComposite rftc) {
 		this.rftc = rftc;
 		this.guiHandler = rftc.getGUIHandler();
+		countClicksForPlaintexts = new int[] {0, 0, 0, 0};
+		currentSelectedPlaintexts = new LinkedHashMap<String, String>();
 	}
 	
 	public void showControl(Control c) {
@@ -60,7 +79,6 @@ public class HandleCryptosystemTextbook {
 		hideControl(txtEncryptWarning);
 		
 		String plaintext = textSelector.getText().getText();
-		//String ciphertext = guiHandler.getRabinFirst().encryptPlaintext(plaintext, guiHandler.getBytesPerBlock(), guiHandler.getBlocklength(), guiHandler.getRadix());
 		ciphertextList = guiHandler.getRabinFirst().getCiphertextblocksAsList(plaintext, guiHandler.getBytesPerBlock(), guiHandler.getBlocklength(), guiHandler.getRadix());
 		String ciphertext = guiHandler.getRabinFirst().getArrayListToString(ciphertextList);
 		txtToEncrypt.setText(ciphertext);
@@ -93,48 +111,71 @@ public class HandleCryptosystemTextbook {
 	}
 	
 	
-	private void setPossiblePlaintexts(int idx, Text[] possiblePlaintexts) {
+	private void setPossiblePlaintexts(int idx, Text txtFirstPlaintext, Text txtSecondPlaintext, 
+			Text txtThirdPlaintext, Text txtFourthPlaintext) {
 		ArrayList<String> allPossiblePlaintextsForIdx = plaintexts.get(idx);
-		for(int i = 0; i < possiblePlaintexts.length; i++) {
-			String possiblePlaintext = allPossiblePlaintextsForIdx.get(i);
-			possiblePlaintexts[i].setText(possiblePlaintext);
-		}
+		txtFirstPlaintext.setText(allPossiblePlaintextsForIdx.get(0));
+		txtSecondPlaintext.setText(allPossiblePlaintextsForIdx.get(1));
+		txtThirdPlaintext.setText(allPossiblePlaintextsForIdx.get(2));
+		txtFourthPlaintext.setText(allPossiblePlaintextsForIdx.get(3));
 	}
 	
 	
 	
-	public void btnDecryptInEncryptionModeAction(StyledText txtCiphertextSegments, Combo cmbBlock, Button btnPrevBlock, 
-			Button btnNextBlock, Text[] possiblePlaintexts, Composite compHoldDecryptionProcess, 
-			Composite compHoldEncryptionProcess, Button btnRadioEncrypt, Button btnRadioDecrypt, Text txtDecryptWarning){
+	
+	public void btnDecryptInEncryptionModeAction(CryptosystemTextbookComposite cstb, int possiblePlaintextsSize){
 		
 		
-		btnRadioEncrypt.setSelection(false);
-		btnRadioDecrypt.setSelection(true);
+		cstb.getBtnRadioEncrypt().setSelection(false);
+		cstb.getBtnRadioDecrypt().setSelection(true);
 		
 		plaintexts = guiHandler.getRabinFirst().getAllPlaintextsFromListOfCiphertextblocks(ciphertextList, guiHandler.getRadix());
-		initializeClickedPlaintexts(plaintexts.size(), possiblePlaintexts.length);
+		initializeClickedPlaintexts(plaintexts.size(), possiblePlaintextsSize);
 		String ciphertextblocksWithSeparator = guiHandler.getRabinFirst().getStringWithSepForm(ciphertextList, guiHandler.getSeparator());
-		txtCiphertextSegments.setText(ciphertextblocksWithSeparator);
+		cstb.getTxtCiphertextSegments().setText(ciphertextblocksWithSeparator);
 		
-		setChooseBlock(cmbBlock, plaintexts.size());
-		cmbBlock.select(0);
+		setChooseBlock(cstb.getCmbChooseBlock(), plaintexts.size());
+		cstb.getCmbChooseBlock().select(0);
 		
 		
-		int idx = cmbBlock.getSelectionIndex();
+		int idx = cstb.getCmbChooseBlock().getSelectionIndex();
 		int elem = idx + 1;
-		markCiphertext(txtCiphertextSegments, elem, ciphertextList);
-		/*int startIdx = guiHandler.getStartIdx(elem, ciphertextList);
-		int endIdx = guiHandler.getEndIdx(startIdx, elem, ciphertextList);
-		txtCiphertextSegments.setSelection(startIdx, endIdx);*/
+		markCiphertext(cstb.getTxtCiphertextSegments(), elem, ciphertextList);
+		//int startIdx = guiHandler.getStartIdx(elem, ciphertextList);
+		//int endIdx = guiHandler.getEndIdx(startIdx, elem, ciphertextList);
+		//txtCiphertextSegments.setSelection(startIdx, endIdx);
 		
 		
-		setPossiblePlaintexts(idx, possiblePlaintexts);
+		setPossiblePlaintexts(idx, cstb.getTxtFirstPlaintext(), cstb.getTxtSecondPlaintext(), cstb.getTxtThirdPlaintext(), cstb.getTxtFourthPlaintext());
 		
+		//resetChosenPlaintexts(idx, cstb);
 		
-		hideControl(compHoldEncryptionProcess);
-		showControl(compHoldDecryptionProcess);
-		hideControl(txtDecryptWarning);
+		updateChosenPlaintexts(idx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		currentSelectedPlaintexts = new LinkedHashMap<String, String>();
+		cstb.getTxtChosenPlaintexts().setText("");
+		
+		hideControl(cstb.getCompHoldEncryptionProcess());
+		showControl(cstb.getCompHoldDecryptionProcess());
+		hideControl(cstb.getDecryptWarning());
 	
+	}
+	
+	
+	
+	
+	
+	private void updateChosenPlaintexts(int idx, CryptosystemTextbookComposite cstb, Color colorToSet, Color colorToReset) {
+		ArrayList<Boolean> clickedPlaintextsOfIdx = clickedPlaintexts.get(idx);
+		for(int i = 0; i < clickedPlaintextsOfIdx.size(); i++) {
+			if(clickedPlaintextsOfIdx.get(i)) {
+				countClicksForPlaintexts[i] = 1;
+				setColorPlaintext(cstb, i, colorToSet);
+			}
+			else {
+				countClicksForPlaintexts[i] = 0;
+				setColorPlaintext(cstb, i, colorToReset);
+			}
+		}
 	}
 	
 	
@@ -145,9 +186,14 @@ public class HandleCryptosystemTextbook {
 		
 		markCiphertext(cstb.getTxtCiphertextSegments(), elem, ciphertextList);
 		
-		setPossiblePlaintexts(nextIdx, cstb.getPlaintexts());
+		setPossiblePlaintexts(nextIdx, cstb.getTxtFirstPlaintext(), cstb.getTxtSecondPlaintext(), 
+				cstb.getTxtThirdPlaintext(), cstb.getTxtFourthPlaintext());
 		
 		cstb.getCmbChooseBlock().select(nextIdx);
+		
+		
+		// update chosen plainetxts and colors
+		updateChosenPlaintexts(nextIdx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
 	}
 	
 	
@@ -161,9 +207,13 @@ public class HandleCryptosystemTextbook {
 		
 		markCiphertext(cstb.getTxtCiphertextSegments(), elem, ciphertextList);
 		
-		setPossiblePlaintexts(nextIdx, cstb.getPlaintexts());
+		setPossiblePlaintexts(nextIdx, cstb.getTxtFirstPlaintext(), cstb.getTxtSecondPlaintext(), 
+				cstb.getTxtThirdPlaintext(), cstb.getTxtFourthPlaintext());
 		
 		cstb.getCmbChooseBlock().select(nextIdx);
+		
+		
+		updateChosenPlaintexts(nextIdx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
 	}
 	
 	
@@ -171,7 +221,8 @@ public class HandleCryptosystemTextbook {
 		int idx = cstb.getCmbChooseBlock().getSelectionIndex();
 		int elem = idx + 1;
 		markCiphertext(cstb.getTxtCiphertextSegments(), elem, ciphertextList);
-		setPossiblePlaintexts(idx, cstb.getPlaintexts());
+		setPossiblePlaintexts(idx, cstb.getTxtFirstPlaintext(), cstb.getTxtSecondPlaintext(), 
+				cstb.getTxtThirdPlaintext(), cstb.getTxtFourthPlaintext());
 	}
 	
 	
@@ -187,7 +238,7 @@ public class HandleCryptosystemTextbook {
 	
 	
 	
-	public void btnDecryptionAction(CryptosystemTextbookComposite cstb) {
+	public void btnDecryptionAction(CryptosystemTextbookComposite cstb, int possiblePlaintextsSize) {
 		if(cstb.getTextSelector().getText() == null || cstb.getTextSelector().getText().getText().isEmpty() || guiHandler.getRabinFirst().getN() == null) {
 			String strLoadTextWarning = "Attention: make sure to generate a public and private key and click on \"Load text...\" to load a ciphertext you want to decrypt";
 			cstb.getDecryptWarning().setText(strLoadTextWarning);
@@ -232,7 +283,7 @@ public class HandleCryptosystemTextbook {
 		
 		ciphertextList = guiHandler.getRabinFirst().parseString(ciphertext, guiHandler.getBlocklength());
 		plaintexts = guiHandler.getRabinFirst().getAllPlaintextsFromListOfCiphertextblocks(ciphertextList, guiHandler.getRadix());
-		initializeClickedPlaintexts(plaintexts.size(), cstb.getPlaintexts().length);
+		initializeClickedPlaintexts(plaintexts.size(), possiblePlaintextsSize);
 		String ciphertextblocksWithSeparator = guiHandler.getRabinFirst().getStringWithSepForm(ciphertextList, guiHandler.getSeparator());
 		cstb.getTxtCiphertextSegments().setText(ciphertextblocksWithSeparator);
 		
@@ -243,17 +294,217 @@ public class HandleCryptosystemTextbook {
 		int idx = cstb.getCmbChooseBlock().getSelectionIndex();
 		int elem = idx + 1;
 		markCiphertext(cstb.getTxtCiphertextSegments(), elem, ciphertextList);
-		/*int startIdx = guiHandler.getStartIdx(elem, ciphertextList);
-		int endIdx = guiHandler.getEndIdx(startIdx, elem, ciphertextList);
-		txtCiphertextSegments.setSelection(startIdx, endIdx);*/
+			
+		setPossiblePlaintexts(idx, cstb.getTxtFirstPlaintext(), cstb.getTxtSecondPlaintext(), 
+				cstb.getTxtThirdPlaintext(), cstb.getTxtFourthPlaintext());
 		
-		
-		setPossiblePlaintexts(idx, cstb.getPlaintexts());
-	
-		
-		
+		//resetChosenPlaintexts(idx, cstb);
+		updateChosenPlaintexts(idx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		currentSelectedPlaintexts = new LinkedHashMap<String, String>();
+		cstb.getTxtChosenPlaintexts().setText("");
 	}
 	
+	
+	
+	
+	private void resetChosenPlaintexts(int idx, CryptosystemTextbookComposite cstb) {
+		updateChosenPlaintexts(idx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		cstb.getTxtChosenPlaintexts().setText("");
+	}
+	
+	
+	
+	private String getCurrentSelectedPlaintexts() {
+		String ret = "";
+		Set<String> keys = currentSelectedPlaintexts.keySet();
+		for(String key : keys) {
+			ret += currentSelectedPlaintexts.get(key);
+		}
+		return ret;
+	}
+	
+	
+	
+	private void setColorPlaintext(CryptosystemTextbookComposite cstb, int idxToSet, Color color) {
+		switch(idxToSet) {
+			case 0:
+				cstb.getTxtFirstPlaintext().setBackground(color);
+				break;
+			
+			case 1:
+				cstb.getTxtSecondPlaintext().setBackground(color);
+				break;
+			
+			case 2:
+				cstb.getTxtThirdPlaintext().setBackground(color);
+				break;
+				
+			case 3:
+				cstb.getTxtFourthPlaintext().setBackground(color);
+				break;
+			
+			default:
+				break;
+		}
+	}
+	
+	
+
+	
+	
+	
+	private void txtPlaintextMouseDownAction(int idxToSet, CryptosystemTextbookComposite cstb, Color colorToSet, Color colorToReset) {
+		countClicksForPlaintexts[idxToSet] = (countClicksForPlaintexts[idxToSet] + 1) % 2;
+		
+		if(countClicksForPlaintexts[idxToSet] == 1) {
+			int idx = cstb.getCmbChooseBlock().getSelectionIndex();
+			clickedPlaintexts.get(idx).set(idxToSet, true);
+			String key = String.valueOf(idx) + String.valueOf(idxToSet);
+			//int key = Integer.parseInt(keyAsStr);
+			String val = plaintexts.get(idx).get(idxToSet);
+			currentSelectedPlaintexts.put(key, val);
+			String currentSelectedPlaintextsAsStr = getCurrentSelectedPlaintexts();
+			cstb.getTxtChosenPlaintexts().setText(currentSelectedPlaintextsAsStr);
+			setColorPlaintext(cstb, idxToSet, colorToSet);
+		}
+		
+		if(countClicksForPlaintexts[idxToSet] == 0) {
+			int idx = cstb.getCmbChooseBlock().getSelectionIndex();
+			clickedPlaintexts.get(idx).set(idxToSet, false);
+			String key = String.valueOf(idx) + String.valueOf(idxToSet);
+			//int key = Integer.parseInt(keyAsStr);
+			currentSelectedPlaintexts.remove(key);
+			String currentSelectedPlaintextsAsStr = getCurrentSelectedPlaintexts();
+			cstb.getTxtChosenPlaintexts().setText(currentSelectedPlaintextsAsStr);
+			setColorPlaintext(cstb, idxToSet, colorToReset);
+		}
+	}
+	
+	
+	
+	public void txtFirstPlaintextMouseDownAction(CryptosystemTextbookComposite cstb) {
+		if(clickedPlaintexts == null)
+			return;
+		
+		int idxToSet = 0;
+		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+	}
+	
+	
+	public void txtSecondPlaintextMouseDownAction(CryptosystemTextbookComposite cstb) {
+		if(clickedPlaintexts == null)
+			return;
+		
+		int idxToSet = 1;
+		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+	}
+	
+	
+	public void txtThirdPlaintextMouseDownAction(CryptosystemTextbookComposite cstb) {
+		if(clickedPlaintexts == null)
+			return;
+		
+		int idxToSet = 2;
+		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+	}
+	
+	
+	
+	public void txtFourthPlaintextMouseDownAction(CryptosystemTextbookComposite cstb) {
+		if(clickedPlaintexts == null)
+			return;
+		
+		int idxToSet = 3;
+		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+	}
+	
+	
+	
+	public void btnWriteToJCTeditor(CryptosystemTextbookComposite cstb) throws PartInitException {
+		String ciphertext = cstb.getTxtCiphertext().getText();
+		int len = ciphertext.length();
+		String ciphertextForFile= ""; //$NON-NLS-1$
+		int limit = 100;
+		
+		if(len < 100) {
+			ciphertextForFile = ciphertext;
+		}
+		else {
+		
+			for(int i = 0; i < len; i++) {
+				ciphertextForFile += ciphertext.charAt(i);
+				if((i+1) % limit == 0)
+					ciphertextForFile += "\n"; //$NON-NLS-1$
+			}
+		}
+		
+		
+		IEditorInput customEditorInput = AbstractEditorService.createOutputFile(ciphertextForFile);
+		EditorsManager.getInstance().openNewTextEditor(customEditorInput);
+	
+	}
+	
+	
+	
+	public void btnWriteToJCTeditorDecryptMode(CryptosystemTextbookComposite cstb) throws PartInitException {
+		String plaintext = cstb.getTxtChosenPlaintexts().getText();
+		IEditorInput customEditorInput = AbstractEditorService.createOutputFile(plaintext);
+		EditorsManager.getInstance().openNewTextEditor(customEditorInput);
+	}
+	
+	
+	
+	
+	public void txtCiphertextModifyAction(CryptosystemTextbookComposite cstb) {
+		String ciphertext = cstb.getTxtCiphertext().getText();
+		
+		if(ciphertext.isEmpty()) {
+			cstb.getBtnDecryptInEncryptionMode().setEnabled(false);
+			return;
+		}
+		
+		cstb.getBtnDecryptInEncryptionMode().setEnabled(true);
+	}
+	
+	
+	
+	public void txtCiphertextSegmentsModifyAction(CryptosystemTextbookComposite cstb) {
+		String ciphertext = cstb.getTxtCiphertextSegments().getText();
+		
+		if(ciphertext.isEmpty()) {
+			cstb.getBtnNextBlock().setEnabled(false);
+			cstb.getBtnPrevBlock().setEnabled(false);
+			return;
+		}
+		
+		cstb.getBtnNextBlock().setEnabled(true);
+		cstb.getBtnPrevBlock().setEnabled(true);
+	}
+	
+	
+	
+	
+	public void btnResetChosenPlaintextsAction(CryptosystemTextbookComposite cstb, int possiblePlaintextsSize) {
+		currentSelectedPlaintexts = new LinkedHashMap<String, String>();
+		initializeClickedPlaintexts(plaintexts.size(), possiblePlaintextsSize);
+		
+		for(int i = 0; i < clickedPlaintexts.size(); i++) {
+			resetChosenPlaintexts(i, cstb);
+		}
+	}
+	
+	
+	
+	public void txtChosenPlaintextsModifyAction(CryptosystemTextbookComposite cstb) {
+		String chosenPlaintexts = cstb.getTxtChosenPlaintexts().getText();
+		
+		if(chosenPlaintexts.isEmpty()) {
+			cstb.getBtnResetChosenPlaintexts().setEnabled(false);
+			return;
+		}
+		
+		cstb.getBtnResetChosenPlaintexts().setEnabled(true);
+	}
 	
 	
 
