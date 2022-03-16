@@ -60,8 +60,8 @@ import org.jcryptool.core.util.ui.auto.SmoothScroller;
 
 public class RabinFirstTabComposite extends Composite {
 	private Text txtEnterText;
-	private Text txtP;
-	private Text txtQ;
+	private Combo cmbP;
+	private Combo cmbQ;
 	private Text txtModN;
 	private Text txtLowLimP;
 	private Text txtUpperLimP;
@@ -279,8 +279,8 @@ public class RabinFirstTabComposite extends Composite {
 	/**
 	 * @return the txtP
 	 */
-	public Text getTxtP() {
-		return txtP;
+	public Combo getCmbP() {
+		return cmbP;
 	}
 
 
@@ -288,8 +288,8 @@ public class RabinFirstTabComposite extends Composite {
 	/**
 	 * @return the txtQ
 	 */
-	public Text getTxtQ() {
-		return txtQ;
+	public Combo getCmbQ() {
+		return cmbQ;
 	}
 
 
@@ -587,6 +587,7 @@ public class RabinFirstTabComposite extends Composite {
 		}
 	};
 	private CryptosystemTextbookComposite cstb;
+	private RabinSecondTabComposite rsct;
 	
 	
 	
@@ -602,8 +603,8 @@ public class RabinFirstTabComposite extends Composite {
 	 * initialize the content when starting the plugin
 	 */
 	private void initializeContent() {
-		txtP.setText("23"); //$NON-NLS-1$
-		txtQ.setText("31"); //$NON-NLS-1$
+		cmbP.setText("23"); //$NON-NLS-1$
+		cmbQ.setText("31"); //$NON-NLS-1$
 		//txtP.setBackground(ColorService.LIGHT_AREA_RED);
 		//txtQ.setBackground(ColorService.LIGHT_AREA_GREEN);
 		txtLowLimP.setText("1"); //$NON-NLS-1$
@@ -614,6 +615,7 @@ public class RabinFirstTabComposite extends Composite {
 		txtUpperLimPQSingle.setText("2^10"); //$NON-NLS-1$
 		btnSelectSingleLimit.setSelection(true);
 		btnGenKeysMan.setSelection(true);
+		guiHandler.initializePrimes(20, getCurrentInstance());
 		//btnRadEnc.setSelection(true);
 		//btnEncDecStart.setEnabled(false);
 	}
@@ -745,12 +747,20 @@ public class RabinFirstTabComposite extends Composite {
 		((GridLayout) compBorderColorP.getLayout()).marginWidth = 0;*/
 		
 		
-		txtP = new Text(npqComp, SWT.BORDER);
+		cmbP = new Combo(npqComp, SWT.BORDER);
 		//txtP = new Text(compBorderColorP, SWT.BORDER);
 		GridData txtPData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		txtP.setLayoutData(txtPData);
-		guiHandler.setSizeControl(txtP, SWT.DEFAULT, SWT.DEFAULT);
-		txtP.addModifyListener(mlpq);
+		cmbP.setLayoutData(txtPData);
+		guiHandler.setSizeControl(cmbP, SWT.DEFAULT, SWT.DEFAULT);
+		cmbP.addModifyListener(mlpq);
+		cmbP.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				guiHandler.cmbSelectionAction(cmbP);
+			}
+			
+		});
 		
 		
 		pWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP);
@@ -772,11 +782,19 @@ public class RabinFirstTabComposite extends Composite {
 		// create label for prime q in npq composite
 		lblPrimeQ = new Label(npqComp, SWT.NONE);
 		lblPrimeQ.setText("q ="); //$NON-NLS-1$
-		txtQ = new Text(npqComp, SWT.BORDER);
+		cmbQ = new Combo(npqComp, SWT.BORDER);
 		GridData txtQData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		txtQ.setLayoutData(txtQData);
-		guiHandler.setSizeControl(txtQ, SWT.DEFAULT, SWT.DEFAULT);
-		txtQ.addModifyListener(mlpq);
+		cmbQ.setLayoutData(txtQData);
+		guiHandler.setSizeControl(cmbQ, SWT.DEFAULT, SWT.DEFAULT);
+		cmbQ.addModifyListener(mlpq);
+		cmbQ.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				guiHandler.cmbSelectionAction(cmbQ);
+			}
+			
+		});
 		
 		
 		qWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP);
@@ -990,7 +1008,15 @@ public class RabinFirstTabComposite extends Composite {
 		});*/
 		
 		
-		btnStartGenKeys = new Button(compGenKeys, SWT.PUSH);
+		Composite compForStartAndStopBtn = new Composite(compGenKeys, SWT.NONE);
+		compForStartAndStopBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		compForStartAndStopBtn.setLayout(new GridLayout(2, false));
+		guiHandler.setControlMargin(compForStartAndStopBtn, 0, SWT.DEFAULT);
+		
+		
+		
+		
+		btnStartGenKeys = new Button(compForStartAndStopBtn, SWT.PUSH);
 		GridData btnStartGenData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
 		btnStartGenData.horizontalIndent = 5;
 		btnStartGenKeys.setLayoutData(btnStartGenData);
@@ -1001,10 +1027,23 @@ public class RabinFirstTabComposite extends Composite {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				guiHandler.btnStartGenKeysAction(getCurrentInstance(), 1000);
+				guiHandler.btnStartGenKeysAction(getCurrentInstance(), rsct, 1000);
 			}
 			
 		});
+		
+		
+		Button btnStopComputation = new Button(compForStartAndStopBtn, SWT.PUSH);
+		btnStopComputation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnStopComputation.setText("Stop computation");
+		btnStopComputation.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+			}
+		});
+		
+		
 		
 		
 		// create label for separating info
@@ -1638,7 +1677,7 @@ public class RabinFirstTabComposite extends Composite {
 	/**
 	 * create the content of the Cryptosystem tab
 	 */
-	private void createContent() {
+	private void createContent(ScrolledComposite sc, Composite rootComposite) {
 		setLayout(new GridLayout(1, false));
 		
 		//sc = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -1675,7 +1714,12 @@ public class RabinFirstTabComposite extends Composite {
 		cstb = new CryptosystemTextbookComposite(this, SWT.NONE, this);
 		cstb.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		cstb.setLayout(new GridLayout(1, false));
+		//guiHandler.hideControl(cstb);
 		
+		rsct = new RabinSecondTabComposite(this, SWT.NONE, guiHandler.getRabinFirst(), guiHandler.getRabinSecond(), sc, rootComposite);
+		rsct.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		rsct.setLayout(new GridLayout(1, false));
+		guiHandler.hideControl(rsct);
 		// create plaintext/ciphertext content
 		//createPlainCipherContent(this);
 		
@@ -1696,7 +1740,7 @@ public class RabinFirstTabComposite extends Composite {
 	 */
 	public RabinFirstTabComposite(Composite parent, int style) {
 		super(parent, style);
-		createContent();
+		//createContent();
 	}
 	
 	/**
@@ -1712,7 +1756,7 @@ public class RabinFirstTabComposite extends Composite {
 		super(parent, style);
 		HandleFirstTab guiHandler = new HandleFirstTab(rootScrolledComposite, rootComposite, rabinFirst, rabinSecond);
 		this.guiHandler = guiHandler;
-		createContent();
+		createContent(rootScrolledComposite, rootComposite);
 	}
 	
 	
@@ -1727,7 +1771,7 @@ public class RabinFirstTabComposite extends Composite {
 		super(parent, style);
 		HandleFirstTab guiHandler = new HandleFirstTab(sc, rootComposite, rabinFirst, rabinSecond);
 		this.guiHandler = guiHandler;
-		createContent();
+		//createContent();
 	}
 	
 	

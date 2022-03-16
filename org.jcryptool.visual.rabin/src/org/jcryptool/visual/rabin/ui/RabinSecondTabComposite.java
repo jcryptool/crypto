@@ -155,6 +155,10 @@ public class RabinSecondTabComposite extends Composite {
 	private HandleSecondTab guiHandler;
 	
 	
+	
+	
+	
+	
 	/**
 	 * @return nWarning
 	 */
@@ -801,7 +805,7 @@ public class RabinSecondTabComposite extends Composite {
 	 * create group "Setting parameters" and its content
 	 * @param parent
 	 */
-	private void createSetParamContent(Composite parent) {
+	/*private void createSetParamContent(Composite parent) {
 		
 		
 		// create main group for setting primes and modulus N
@@ -836,7 +840,7 @@ public class RabinSecondTabComposite extends Composite {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				guiHandler.cmbPSelectionAction(cmbP, vlNumbers);
+				guiHandler.cmbPSelectionAction(cmbP);
 			}
 			
 		});
@@ -896,13 +900,13 @@ public class RabinSecondTabComposite extends Composite {
 		guiHandler.setSizeControl(txtModN, SWT.DEFAULT, SWT.DEFAULT);
 		
 
-		/*txtWarningNpq = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtWarningNpqData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
-		txtWarningNpq.setLayoutData(txtWarningNpqData);
-		guiHandler.setSizeControlWarning(txtWarningNpq, SWT.DEFAULT, SWT.DEFAULT);
-		txtWarningNpq.setBackground(ColorService.LIGHTGRAY);
-		txtWarningNpq.setForeground(ColorService.RED);
-		guiHandler.hideControl(txtWarningNpq);*/
+		//txtWarningNpq = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		//txtWarningNpqData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		//txtWarningNpq.setLayoutData(txtWarningNpqData);
+		//guiHandler.setSizeControlWarning(txtWarningNpq, SWT.DEFAULT, SWT.DEFAULT);
+		//txtWarningNpq.setBackground(ColorService.LIGHTGRAY);
+		//txtWarningNpq.setForeground(ColorService.RED);
+		//guiHandler.hideControl(txtWarningNpq);
 		
 		
 		
@@ -979,7 +983,7 @@ public class RabinSecondTabComposite extends Composite {
 			
 		});
 			
-	}
+	}*/
 	
 	
 	
@@ -1889,9 +1893,9 @@ public class RabinSecondTabComposite extends Composite {
 		sc.setExpandHorizontal(true);
 		sc.setExpandVertical(true);*/
 		//createSetParamContent(rootComposite);
-		createSetParamContent(this);
+		//createSetParamContent(this);
 		
-		guiHandler.initializePrimes(100, getCurrentInstance());
+		//guiHandler.initializePrimes(100, getCurrentInstance());
 		
 		/*createSelectEncDecContent(rootComposite);
 		

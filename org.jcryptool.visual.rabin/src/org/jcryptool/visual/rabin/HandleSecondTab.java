@@ -778,9 +778,9 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void initializeComponents(RabinSecondTabComposite rstc) {
-		rstc.getCmbP().setText("23"); //$NON-NLS-1$
-		rstc.getCmbQ().setText("31"); //$NON-NLS-1$
-		rstc.getBtnGenKeysMan().setSelection(true);
+		//rstc.getCmbP().setText("23"); //$NON-NLS-1$
+		//rstc.getCmbQ().setText("31"); //$NON-NLS-1$
+		//rstc.getBtnGenKeysMan().setSelection(true);
 		//rstc.getBtnStartGenKeys().setEnabled(false);
 		rstc.getBtnSelectionEnc().setSelection(true);
 		rstc.getBtnText().setSelection(true);
@@ -845,13 +845,13 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param cmbP
 	 * @param vlNumbers
 	 */
-	public void cmbPSelectionAction(Combo cmbP, VerifyListener vlNumbers) {
+	public void cmbPSelectionAction(Combo cmbP) {
 		int idx = cmbP.getSelectionIndex();
 		String item = cmbP.getItem(idx);
 		
-		cmbP.removeVerifyListener(vlNumbers);
+		//cmbP.removeVerifyListener(vlNumbers);
 		cmbP.setText(item);
-		cmbP.addVerifyListener(vlNumbers);
+		//cmbP.addVerifyListener(vlNumbers);
 	}
 	
 	

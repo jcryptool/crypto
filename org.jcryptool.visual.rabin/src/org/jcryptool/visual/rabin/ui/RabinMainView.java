@@ -34,6 +34,7 @@ public class RabinMainView extends ViewPart {
 	private TabItem tabThirdItem;
 	private RabinThirdTabComposite compAttacks;
 	private Composite compHoldAlgorithm;
+	private Composite compHoldAttacks;
 	
 
 	public RabinMainView() {
@@ -153,7 +154,7 @@ public class RabinMainView extends ViewPart {
 		
 		tabFirstItem.setControl(scCryptosystem);
 		
-		tabSecondItem = new TabItem(tfRabin, SWT.NONE);
+		/*tabSecondItem = new TabItem(tfRabin, SWT.NONE);
 		tabSecondItem.setText(Messages.RabinMainView_tabSecondItem);
 		
 		ScrolledComposite scAlgorithm = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -186,7 +187,7 @@ public class RabinMainView extends ViewPart {
 		
 		
 		scAlgorithm.setMinSize(compHoldAlgorithm.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		tabSecondItem.setControl(scAlgorithm);
+		tabSecondItem.setControl(scAlgorithm);*/
 		
 		
 		tabThirdItem = new TabItem(tfRabin, SWT.NONE);
@@ -202,12 +203,12 @@ public class RabinMainView extends ViewPart {
 			@Override
 			public void controlResized(ControlEvent e) {
 				int width = scAttacks.getClientArea().width;
-				scAttacks.setMinSize(compHoldAlgorithm.computeSize(width, SWT.DEFAULT));
+				scAttacks.setMinSize(compHoldAttacks.computeSize(width, SWT.DEFAULT));
 			}
 		
 		});
 		
-		Composite compHoldAttacks = new Composite(scAttacks, SWT.NONE);
+		compHoldAttacks = new Composite(scAttacks, SWT.NONE);
 		compHoldAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldAttacks.setLayout(new GridLayout(1, false));
 		
