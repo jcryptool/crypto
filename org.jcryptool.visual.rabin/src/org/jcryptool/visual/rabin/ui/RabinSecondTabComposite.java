@@ -1045,7 +1045,7 @@ public class RabinSecondTabComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				
 				guiHandler.btnNumAction(getCurrentInstance(), e);
-	
+				txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Decimal"));
 			}
 			
 			
@@ -1057,7 +1057,7 @@ public class RabinSecondTabComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				
 				guiHandler.btnTextAction(getCurrentInstance(), e);
-				
+				txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Text"));
 			}
 		});
 		
@@ -1244,7 +1244,8 @@ public class RabinSecondTabComposite extends Composite {
 		GridData txtInfoEncData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoEnc.setLayoutData(txtInfoEncData);
 		guiHandler.setSizeControl(txtInfoEnc, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoEnc.setText(Messages.RabinSecondTabComposite_txtInfoEnc);
+		//txtInfoEnc.setText(Messages.RabinSecondTabComposite_txtInfoEnc);
+		txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Text"));
 		txtInfoEnc.setBackground(ColorService.LIGHTGRAY);
 
 	}

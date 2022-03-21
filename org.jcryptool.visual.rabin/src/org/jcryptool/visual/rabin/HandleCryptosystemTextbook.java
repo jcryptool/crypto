@@ -460,10 +460,12 @@ public class HandleCryptosystemTextbook {
 		
 		if(ciphertext.isEmpty()) {
 			cstb.getBtnDecryptInEncryptionMode().setEnabled(false);
+			cstb.getBtnWriteToJCTeditor().setEnabled(false);
 			return;
 		}
 		
 		cstb.getBtnDecryptInEncryptionMode().setEnabled(true);
+		cstb.getBtnWriteToJCTeditor().setEnabled(true);
 	}
 	
 	
@@ -500,10 +502,12 @@ public class HandleCryptosystemTextbook {
 		
 		if(chosenPlaintexts.isEmpty()) {
 			cstb.getBtnResetChosenPlaintexts().setEnabled(false);
+			cstb.getBtnWriteToJCTeditorDecryptMode().setEnabled(false);
 			return;
 		}
 		
 		cstb.getBtnResetChosenPlaintexts().setEnabled(true);
+		cstb.getBtnWriteToJCTeditorDecryptMode().setEnabled(true);
 	}
 	
 	

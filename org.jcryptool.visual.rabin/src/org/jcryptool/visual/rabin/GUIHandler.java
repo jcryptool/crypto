@@ -44,7 +44,9 @@ public class GUIHandler {
 	private GUIHandler guiHandler;
 	private ScrolledComposite scMain;
 	private Composite compMain;
-	private int limitExp = 1024;
+	private int limitExp = 5000;
+	private int limitExpPQ = 1024;
+	private BigInteger limitUpPQ = BigInteger.TWO.pow(limitExpPQ);
 	private BigInteger limitUp = BigInteger.TWO.pow(limitExp);
 	private Rabin rabinFirst;
 	private Rabin rabinSecond;
@@ -52,6 +54,8 @@ public class GUIHandler {
 	private int blocklength;
 	private int radix = 16;
 	private String separator = "||"; //$NON-NLS-1$
+	private boolean stopComputation = false;
+	
 	
 	// colors for p and q in Cryptosystem and Algorithm tab
 	private Color colorBackgroundCorrect = ColorService.LIGHT_AREA_GREEN;
@@ -110,6 +114,16 @@ public class GUIHandler {
 		this.scMain = guiHandler.scMain;
 		this.separator = guiHandler.separator;
 	}*/
+	
+	
+	public boolean getStopComputation() {
+		return stopComputation;
+	}
+	
+	
+	public void setStopComputation(boolean stopComputation) {
+		this.stopComputation = stopComputation;
+	}
 	
 	
 	public Color getColorSelectControl() {
@@ -510,7 +524,134 @@ public class GUIHandler {
 	
 	
 	
-	
+	public String getMessageByControl(String str) {
+		String message = null;
+		
+		switch(str) {
+			case "btnGenKeysMan_selection":
+				message = "To generate a private key (p,q) and a public key N do the following:\n\n"
+						+ "1) either enter p and q in the "
+						+ "corresponding fields on the left side or make use of the drop-down lists for p and q."
+						+ "\nMake sure to satisfy the conditions p = q \u2261 3 mod 4 and p \u2260 q. "
+						+ "Furthermore, p and q both must be \u2264 " + "2^" + this.getLimitExp() + ".\n"
+						+ "For a start there are already given default values for p and q.\n\n"
+						+ "2) click on \"Start\" in the middle to generate the keys.";
+					break;
+			
+			case "btnGenKeys_selection":
+				message = "To generate a private key (p,q) and a public key N do the following:\n\n"
+						+ "1) select \"Generate p and q having the same range\" or \"Generate p and q having different ranges\" on the left side.\n\n"
+						+ "2) enter a lower and an upper limit for p and q in the corresponding fields. "
+						+ "The numbers for p and q will be between the lower and upper limit. When selecting "
+						+ "\"Generate p and q having the same range\" you are supposed to enter one range, which "
+						+ "is used for both p and q. On the other hand the other option allows you to have "
+						+ "ranges for p and q independently from each other.\n"
+						+ "Only an upper limit \u2264 " + "2^" + this.getLimitExp() + " is allowed.\n"
+						+ "For a start there are already given default values for the ranges.\n\n"
+						+ "3) click on \"Start\" in the middle to generate the keys.";
+				break;
+			
+			case "txtInfoSelection_textbook":
+				message = "In this mode you are able to encrypt a chosen plaintext"
+						+ " or decrypt a chosen chiphertext in textbook mode. For example, "
+						+ "you have N = 713 = 23 \u2219 31 (default value) and want to encrypt "
+						+ "the plaintext \"hello\", then the plaintext will be split in "
+						+ "\"h || e || l || l || o\" and every letter is encrypted individually since N can only encrypt at most 9 bits "
+						+ "and one character is 8 bits long. To encrypt more characters at once you have to choose a greater N."
+						+ "On the other hand decrypting a ciphertext will result in 4 possible plaintexts, of which only one "
+						+ "is the correct one.";
+				break;
+				
+			case "txtInfoSelection_steps":
+				message = "In this mode you are able to encrypt a chosen plaintext "
+						+ "or decrypt a chosen ciphertext. But compared to the \"textbook\" version "
+						+ "you are shown every step of the encryption and decryption process "
+						+ "in detail. Furthermore you have more options for configurations.\n"
+						+ "As such, this mode is for better understanding the cryptosystem.";
+				break;
+				
+			case "txtInfoSelector":
+				message = "click on \"Load text...\" to either load a plaintext you want to encrypt "
+						+ "or a ciphertext you want to decrypt. If you want to load a plaintext "
+						+ "only characters in the UTF-8 format are allowed. If you want to load "
+						+ "a ciphertext only hexadecimal numbers (0-f) are allowed.\n"
+						+ "Furthermore make sure the length of the ciphertext is a multiple of the blocklength of N.";
+				break;
+				
+			/*case "txtInfoEncryptionDecryption_encrypt":
+				message = "click on \"Encrypt\" to encrypt a chosen plaintext. The ciphertext will be "
+						+ "shown in the box on the left side.\n\n"
+						+ "Once you have encrypted a plaintext you can click on "
+						+ "\"Decrypt and switch to decryption mode\" to decrypt your ciphertext again and "
+						+ "switch to decryption mode.\n"
+						+ "You can also click on \"Write to JCT editor\" to write your ciphertext to a build-in editor "
+						+ "in JCT.";*/
+				
+			case "txtInfoEncryptionDecryption_encrypt":
+				message = "In encryption mode you have three options you can choose from:\n\n"
+				  		+ "1) click on \"Encrypt\" to encrypt a chosen plaintext. THe ciphertext will be shown "
+				  		+ "in the box on the left side.\n\n"
+				  		+ "2) once you have encrypted a plaintext you can click on "
+				  		+ "\"Decrypt and switch to decryption mode\" to decrypt the ciphertext again and "
+				  		+ "switch to decryption mode.\n\n"
+				  		+ "3) you can click on \"Write to JCT editor\" to write your non-empty ciphertext to a build-in "
+				  		+ "editor in JCT.";
+				break;
+				
+			case "txtInfoEncryptionDecryption_decrypt":
+				message = "In decryption mode you have five options you can choose from:\n\n"
+						+ "1) click on \"Decrypt\" to decrypt a chosen ciphertext.\n"
+						+ "The ciphertext is split into blocks with a specific blocklength. "
+						+ "For example, having N = 713 = 23 \u2219 31 (default value), the blocklength "
+						+ "is 2. So its the bitlength of N divided by 8 plus 1, since one block is 8 bits long.\n"
+						+ "The ciphertext seperated into blocks is shown in the according box on the left side.\n\n"
+						+ "2) Once you have decrypted a ciphertext you can either use the drop-down list \"Block\" to choose a "
+						+ "specifc ciphertextblock or the buttons \"Previous block\" and \"Next block\" to go through the "
+						+ "ciphertextblocks one by one in a cyclic manner.\n"
+						+ "The currently selected ciphertextblock is decrypted and its four possible plaintexts are "
+						+ "shown in the according boxes on the left side.\n"
+						+ "Most of the times three of the four plaintexts consist of random characters, so "
+						+ "they do not make sense at all.\n\n"
+						+ "3) you can click on each plaintext to mark it as \"selected\" and add it to the "
+						+ "list of chosen plaintexts, which are shown in the box \"Preview chosen plaintexts\".\n"
+						+ "The first click will add the plaintext to the list and a second click will remove "
+						+ "it again.\n"
+						+ "With this you are able to select different plaintexts of your choice and connect them to"
+						+ "\"one\" plaintext.\n\n"
+						+ "4) you can click on \"Write to JCT editor\" to write the content of the box "
+						+ "\"Preview chosen plaintexts\" to a build-in editor in JCT.\n\n"
+						+ "5) you can click on \"Reset chosen plaintexts\" to reset the box "
+						+ "\"Preview chosen plaintexts\" and your whole selection of plaintexts.";
+				break;
+				
+				
+			case "txtInfoEnc_Text":
+				message = "To encrypt a plaintext in \"Text\" mode do the following:\n\n"
+						+ "1) select \"Bytes per block\" to choose how many bytes you want to encrypt at once. "
+						+ "For example, having N = 713 = 23 \u2219 31 (default value) you are able "
+						+ "to encrypt at most 1 Byte (or character/letter) at once since N has a bitlength of 10 and 1 Byte "
+						+ "is 8 bits long.\n"
+						+ "If you want to encrypt more bytes at once you need to choose a greater N.\n"
+						+ "Compared to the \"textbook\" mode you are here able to choose how many bytes "
+						+ "you want to encrypt at once. The \"textbook\" mode always uses the maximum number "
+						+ "of bytes.\n\n"
+						+ "2) enter a plaintext in the field \"Plaintext\". Only characters in the UTF-8 format are allowed.\n\n"
+						+ "3) click on \"Encrypt\" to encrypt the plaintext";
+				break;
+				
+			case "txtInfoEnc_Decimal":
+				message = "To encrypt a plaintext in \"Decimal numbers\" mode do the following:\n\n"
+						+ "1) enter a plaintext in the field \"Plaintext separated into blocks "
+						+ "(\"||\" as separator)\". You are only allowed to enter decimal numbers "
+						+ "(0-9). Furthermore make sure you enter the numbers in the format "
+						+ "\"decimal number\" or \"decimal number 1 || decimal number 2 || ...\" and "
+						+ "every decimal number is less than N.\n\n"
+						+ "3) click on \"Encrypt\" to encrypt the plaintext.";
+				
+		}
+		
+		return message;
+	}
 	
 	
 	
@@ -1541,9 +1682,9 @@ public class GUIHandler {
 			
 			qtmp = new BigInteger(qAsStr);
 			
-			if(qtmp.compareTo(limitUp) > 0) {
+			if(qtmp.compareTo(limitUpPQ) > 0) {
 				cmbQ.setBackground(colorBackgroundWrong);
-				qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+				qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExpPQ));
 				showControl(qWarning);
 				return;
 			}
@@ -1583,9 +1724,9 @@ public class GUIHandler {
 			ptmp = new BigInteger(pAsStr);
 			
 			
-			if(ptmp.compareTo(limitUp) > 0) {
+			if(ptmp.compareTo(limitUpPQ) > 0) {
 				cmbP.setBackground(colorBackgroundWrong);
-				pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+				pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExpPQ));
 				showControl(pWarning);
 				return;
 			}
@@ -1640,29 +1781,29 @@ public class GUIHandler {
 			ptmp = new BigInteger(pAsStr);
 			qtmp = new BigInteger(qAsStr);
 			
-			boolean checkUpperLimit = ptmp.compareTo(limitUp) <= 0 && qtmp.compareTo(limitUp) <= 0;
+			boolean checkUpperLimit = ptmp.compareTo(limitUpPQ) <= 0 && qtmp.compareTo(limitUpPQ) <= 0;
 			
 			if(!checkUpperLimit) {
-				if(!(ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
+				if(!(ptmp.compareTo(limitUpPQ) <= 0) && !(qtmp.compareTo(limitUpPQ) <= 0)) {
 					cmbP.setBackground(colorBackgroundWrong);
 					cmbQ.setBackground(colorBackgroundWrong);
-					pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
-					qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+					pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExpPQ));
+					qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExpPQ));
 					showControl(pWarning);
 					showControl(qWarning);
 				}
 				
-				if(!(ptmp.compareTo(limitUp) <= 0) && (qtmp.compareTo(limitUp) <= 0)) {
+				if(!(ptmp.compareTo(limitUpPQ) <= 0) && (qtmp.compareTo(limitUpPQ) <= 0)) {
 					cmbP.setBackground(colorBackgroundWrong);
 					cmbQ.setBackground(colorBackgroundCorrect);
-					pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+					pWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExpPQ));
 					showControl(pWarning);
 				}
 				
-				if((ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
+				if((ptmp.compareTo(limitUpPQ) <= 0) && !(qtmp.compareTo(limitUpPQ) <= 0)) {
 					cmbP.setBackground(colorBackgroundCorrect);
 					cmbQ.setBackground(colorBackgroundWrong);
-					qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
+					qWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExpPQ));
 					showControl(qWarning);
 				}
 				return;
