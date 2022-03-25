@@ -5,15 +5,20 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.part.ViewPart;
+import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
 import org.jcryptool.visual.rabin.GUIHandler;
@@ -40,6 +45,19 @@ public class RabinMainView extends ViewPart {
 	public RabinMainView() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	public void setBackgroundComponents(Composite parent, Color color) {
+		
+		Control[] children = parent.getChildren();
+		
+		for(Control c : children) {
+			if(!(c instanceof Combo) && !(c instanceof Button)) {
+				c.setBackground(color);
+			}
+		}
+	}
+	
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -217,12 +235,15 @@ public class RabinMainView extends ViewPart {
 		scAttacks.setContent(compHoldAttacks);
 		
 		
-		compAttacks = new RabinThirdTabComposite(compHoldAttacks, SWT.NONE, rabinAttacksTab, rabinAlgorithmTab, scAttacks, compHoldAttacks);
+		compAttacks = new RabinThirdTabComposite(compHoldAttacks, SWT.NONE, rabinAttacksTab, rabinCryptosystemTab, scAttacks, compHoldAttacks);
 		compAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compAttacks.setLayout(new GridLayout(1, false));
 		
 		scAttacks.setMinSize(compHoldAttacks.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		tabThirdItem.setControl(scAttacks);
+		
+		//setBackgroundComponents(compCryptosystem, ColorService.GRAY);
+		//setBackgroundComponents(compHoldCryptosystem, ColorService.GRAY);
 		
 
 	}

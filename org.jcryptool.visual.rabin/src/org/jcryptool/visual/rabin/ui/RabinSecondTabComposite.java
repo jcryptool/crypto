@@ -136,7 +136,7 @@ public class RabinSecondTabComposite extends Composite {
 	private Button btnPrevElem;
 	private Button btnNextElem;
 	private Text txtInfoEnc;
-	private Text txtInfoDec;
+	//private Text txtInfoDec;
 	private ScrolledComposite sc;
 	private Button btnGenKeysAlgo;
 	private GridData compBlockNData;
@@ -159,6 +159,38 @@ public class RabinSecondTabComposite extends Composite {
 	
 	
 	
+	/**
+	 * @return the txtInfoDecimalAndHex
+	 */
+	public Text getTxtInfoDecimalAndHex() {
+		return txtInfoDecimalAndHex;
+	}
+
+
+	/**
+	 * @return the txtInfoSquareRoots
+	 */
+	public Text getTxtInfoSquareRoots() {
+		return txtInfoSquareRoots;
+	}
+
+
+	/**
+	 * @return the txtInfoLC
+	 */
+	public Text getTxtInfoLC() {
+		return txtInfoLC;
+	}
+
+
+	/**
+	 * @return the txtInfoPlaintexts
+	 */
+	public Text getTxtInfoPlaintexts() {
+		return txtInfoPlaintexts;
+	}
+
+
 	/**
 	 * @return nWarning
 	 */
@@ -674,9 +706,9 @@ public class RabinSecondTabComposite extends Composite {
 	/**
 	 * @return the txtInfoDec
 	 */
-	public Text getTxtInfoDec() {
+	/*public Text getTxtInfoDec() {
 		return txtInfoDec;
-	}
+	}*/
 
 
 	/**
@@ -796,6 +828,10 @@ public class RabinSecondTabComposite extends Composite {
 			guiHandler.verifyControlFields(e);			
 		}
 	};
+	private Text txtInfoDecimalAndHex;
+	private Text txtInfoSquareRoots;
+	private Text txtInfoLC;
+	private Text txtInfoPlaintexts;
 	
 	
 
@@ -1045,7 +1081,7 @@ public class RabinSecondTabComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				
 				guiHandler.btnNumAction(getCurrentInstance(), e);
-				txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Decimal"));
+				//txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Decimal"));
 			}
 			
 			
@@ -1057,7 +1093,7 @@ public class RabinSecondTabComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				
 				guiHandler.btnTextAction(getCurrentInstance(), e);
-				txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Text"));
+				//txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Text"));
 			}
 		});
 		
@@ -1264,29 +1300,69 @@ public class RabinSecondTabComposite extends Composite {
 		guiHandler.initStates();
 		
 		
-		grpDec = new Group(parent, SWT.NONE);
+		/*grpDec = new Group(parent, SWT.NONE);
 		//grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 50));
 		grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		grpDec.setLayout(new GridLayout(2, false));
+		grpDec.setText(Messages.RabinSecondTabComposite_grpDec);*/
+		
+		
+		grpDec = new Group(parent, SWT.NONE);
+		//grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 50));
+		grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		grpDec.setLayout(new GridLayout(1, false));
 		grpDec.setText(Messages.RabinSecondTabComposite_grpDec);
 		
+		
+		
 		compHoldAllSteps = new Composite(grpDec, SWT.NONE);
-		compHoldAllSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldAllSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compHoldAllSteps.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compHoldAllSteps, 5, 0);
+		
+		
+		/*compEnterCiphertext = new Composite(compHoldAllSteps, SWT.NONE);
+		compEnterCiphertextData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		compEnterCiphertext.setLayoutData(compEnterCiphertextData);
+		compEnterCiphertext.setLayout(new GridLayout(2, false));*/
 		
 		
 		compEnterCiphertext = new Composite(compHoldAllSteps, SWT.NONE);
 		compEnterCiphertextData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		compEnterCiphertext.setLayoutData(compEnterCiphertextData);
-		compEnterCiphertext.setLayout(new GridLayout(2, false));
+		compEnterCiphertext.setLayout(new GridLayout(4, false));
+		//guiHandler.setControlMargin(compEnterCiphertext, SWT.DEFAULT, 0);
+		//((GridLayout) compEnterCiphertext.getLayout()).marginHeight = 0;
 		
-		compEnterCiphertextData.exclude = true;
+		guiHandler.hideControl(compEnterCiphertext);
+		
+		/*compEnterCiphertextData.exclude = true;
 		compEnterCiphertext.setVisible(false);
-		compHoldAllSteps.requestLayout();
+		compHoldAllSteps.requestLayout();*/
+		
+		
+		/*Composite compHoldRadioHexAndDecAndSteps = new Composite(compEnterCiphertext, SWT.NONE);
+		compHoldRadioHexAndDecAndSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldRadioHexAndDecAndSteps.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compHoldRadioHexAndDecAndSteps, SWT.DEFAULT, 0);
+		*/
+		
+		
+		
+		/*Composite compHoldRadHexDec = new Composite(compEnterCiphertext, SWT.NONE);
+		compHoldRadHexDec.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1));
+		compHoldRadHexDec.setLayout(new GridLayout(2, false));*/
+		
+		
+		/*Composite compHoldRadHexDec = new Composite(compHoldRadioHexAndDecAndSteps, SWT.NONE);
+		compHoldRadHexDec.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 1, 1));
+		compHoldRadHexDec.setLayout(new GridLayout(2, false));
+		*/
 		
 		Composite compHoldRadHexDec = new Composite(compEnterCiphertext, SWT.NONE);
-		compHoldRadHexDec.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1));
+		compHoldRadHexDec.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 1, 1));
 		compHoldRadHexDec.setLayout(new GridLayout(2, false));
+		
 		
 		btnRadHex = new Button(compHoldRadHexDec, SWT.RADIO);
 		btnRadHex.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
@@ -1317,18 +1393,13 @@ public class RabinSecondTabComposite extends Composite {
 			
 		});
 		
-		compEnterCiphertextSteps = new Composite(compEnterCiphertext, SWT.NONE);
+		/*compEnterCiphertextSteps = new Composite(compEnterCiphertext, SWT.NONE);
 		compEnterCiphertextSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		compEnterCiphertextSteps.setLayout(new GridLayout(1, false));
+		compEnterCiphertextSteps.setLayout(new GridLayout(1, false));*/
 		
-		
-		compEnterCiphertextPart1 = new Composite(compEnterCiphertextSteps, SWT.NONE);
-		compEnterCiphertextPart1Data = new GridData(SWT.FILL, SWT.FILL, true, false);
-		compEnterCiphertextPart1.setLayoutData(compEnterCiphertextPart1Data);
-		compEnterCiphertextPart1.setLayout(new GridLayout(1, false));
 		
 		btnApplyCiphertext = new Button(compEnterCiphertext, SWT.PUSH);
-		btnApplyCiphertext.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true));
+		btnApplyCiphertext.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true, 1, 2));
 		btnApplyCiphertext.setText(Messages.RabinSecondTabComposite_btnApplyCiphertext);
 		btnApplyCiphertext.addSelectionListener(new SelectionAdapter() {
 			
@@ -1342,10 +1413,59 @@ public class RabinSecondTabComposite extends Composite {
 		});
 		
 		
+		Label lblInfoDecimalAndHex = new Label(compEnterCiphertext, SWT.SEPARATOR | SWT.VERTICAL);
+		lblInfoDecimalAndHex.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2));
+		//((GridData) lblInfoDecimalAndHex.getLayoutData()).horizontalIndent = 30;
+		
+		
+		txtInfoDecimalAndHex = new Text(compEnterCiphertext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoDecimalAndHex.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+		txtInfoDecimalAndHex.setBackground(guiHandler.getColorBGinfo());
+		guiHandler.setSizeControl(txtInfoDecimalAndHex, SWT.DEFAULT, SWT.DEFAULT);
+		txtInfoDecimalAndHex.setText("test test test");
+		
+		
+		
+		
+		
+		/*compEnterCiphertextSteps = new Composite(compHoldRadioHexAndDecAndSteps, SWT.NONE);
+		compEnterCiphertextSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compEnterCiphertextSteps.setLayout(new GridLayout(1, false));
+		*/
+		
+		compEnterCiphertextSteps = new Composite(compEnterCiphertext, SWT.NONE);
+		compEnterCiphertextSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compEnterCiphertextSteps.setLayout(new GridLayout(1, false));
+		//guiHandler.setControlMargin(compEnterCiphertext, SWT.DEFAULT, 0);
+		
+		
+		
+		compEnterCiphertextPart1 = new Composite(compEnterCiphertextSteps, SWT.NONE);
+		compEnterCiphertextPart1Data = new GridData(SWT.FILL, SWT.FILL, true, false);
+		compEnterCiphertextPart1.setLayoutData(compEnterCiphertextPart1Data);
+		compEnterCiphertextPart1.setLayout(new GridLayout(1, false));
+		//guiHandler.setControlMargin(compEnterCiphertextPart1, SWT.DEFAULT, 0);
+		
+		/*btnApplyCiphertext = new Button(compEnterCiphertext, SWT.PUSH);
+		btnApplyCiphertext.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true));
+		btnApplyCiphertext.setText(Messages.RabinSecondTabComposite_btnApplyCiphertext);
+		btnApplyCiphertext.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				guiHandler.btnApplyCiphertextAction(getCurrentInstance());
+				
+			}
+			
+		});*/
+		
+		
 		compHoldDecimal = new Composite(compEnterCiphertextSteps, SWT.NONE);
 		compHoldDecimalData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		compHoldDecimal.setLayoutData(compHoldDecimalData);
 		compHoldDecimal.setLayout(new GridLayout(1, false));
+		//guiHandler.setControlMargin(compHoldDecimal, SWT.DEFAULT, 0);
 		
 		compHoldDecimalData.exclude = true;
 		compHoldDecimal.setVisible(false);
@@ -1449,6 +1569,18 @@ public class RabinSecondTabComposite extends Composite {
 		});
 		
 		
+		/*Label lblInfoDecimalAndHex = new Label(compEnterCiphertext, SWT.SEPARATOR | SWT.VERTICAL);
+		lblInfoDecimalAndHex.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		
+		
+		Text txtInfoDecimalAndHex = new Text(compEnterCiphertext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoDecimalAndHex.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		txtInfoDecimalAndHex.setBackground(guiHandler.getColorBGinfo());
+		guiHandler.setSizeControl(txtInfoDecimalAndHex, SWT.DEFAULT, SWT.DEFAULT);
+		txtInfoDecimalAndHex.setText("test test test");*/
+		
+		
+		
 		Composite compInfoDec = new Composite(grpDec, SWT.NONE);
 		GridData compInfoDecData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		compInfoDec.setLayoutData(compInfoDecData);
@@ -1456,10 +1588,33 @@ public class RabinSecondTabComposite extends Composite {
 		
 		
 		
-		Composite compTest = new Composite(compHoldAllSteps, SWT.NONE);
+		/*Composite compHoldTestAndInfo = new Composite(compHoldAllSteps, SWT.NONE);
+		compHoldTestAndInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compHoldTestAndInfo.setLayout(new GridLayout(3, false));*/
+		
+		
+		
+		/*Composite compHoldTestAndSQR = new Composite(compHoldTestAndInfo, SWT.NONE);
+		compHoldTestAndSQR.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldTestAndSQR.setLayout(new GridLayout(1, false));*/
+		
+		Composite compHoldTestAndSQR = new Composite(compHoldAllSteps, SWT.NONE);
+		compHoldTestAndSQR.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldTestAndSQR.setLayout(new GridLayout(3, false));
+		//guiHandler.setSizeControl(compHoldTestAndSQR, 300, 400);
+		
+		
+		
+		
+		
+		/*Composite compTest = new Composite(compHoldAllSteps, SWT.NONE);
+		compTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compTest.setLayout(new GridLayout(4, false));*/
+		
+		
+		Composite compTest = new Composite(compHoldTestAndSQR, SWT.NONE);
 		compTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compTest.setLayout(new GridLayout(4, false));
-		
 		
 		
 		
@@ -1512,8 +1667,8 @@ public class RabinSecondTabComposite extends Composite {
 		compNavElem.setLayout(new GridLayout(2, false));
 		
 		btnPrevElem = new Button(compNavElem, SWT.PUSH);
-		btnPrevElem.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		btnPrevElem.setText("c[i-1]"); //$NON-NLS-1$
+		btnPrevElem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		btnPrevElem.setText("Previous block"); //$NON-NLS-1$
 		btnPrevElem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1526,8 +1681,12 @@ public class RabinSecondTabComposite extends Composite {
 	
 		
 		btnNextElem = new Button(compNavElem, SWT.PUSH);
-		btnNextElem.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		btnNextElem.setText("c[i+1]"); //$NON-NLS-1$
+		btnNextElem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		//btnNextElem.pack(false);
+		//btnNextElem.setSize(btnPrevElem.getSize());
+		//((GridData) btnNextElem.getLayoutData()).
+		guiHandler.setSizeControl(btnNextElem, btnPrevElem.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, SWT.DEFAULT);
+		btnNextElem.setText("Next block"); //$NON-NLS-1$
 		btnNextElem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1559,7 +1718,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		
 		// label for separating info txt
-		Label lblSepDecInfo = new Label(compInfoDec, SWT.SEPARATOR | SWT.VERTICAL);
+		/*Label lblSepDecInfo = new Label(compInfoDec, SWT.SEPARATOR | SWT.VERTICAL);
 		lblSepDecInfo.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, false, true));
 		
 		txtInfoDec = new Text(compInfoDec, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
@@ -1567,12 +1726,33 @@ public class RabinSecondTabComposite extends Composite {
 		txtInfoDec.setLayoutData(txtInfoDecData);
 		guiHandler.setSizeControl(txtInfoDec, SWT.DEFAULT, 250);
 		txtInfoDec.setText(Messages.RabinSecondTabComposite_txtInfoDec);
-		txtInfoDec.setBackground(ColorService.LIGHTGRAY);
+		txtInfoDec.setBackground(ColorService.LIGHTGRAY);*/
+		
+		
+		
+		Label lblSeparateInfoSquareRoots = new Label(compHoldTestAndSQR, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSeparateInfoSquareRoots.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2));
+	
+		
+		txtInfoSquareRoots = new Text(compHoldTestAndSQR, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoSquareRoots.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+		txtInfoSquareRoots.setBackground(guiHandler.getColorBGinfo());
+		guiHandler.setSizeControl(txtInfoSquareRoots, SWT.DEFAULT, SWT.DEFAULT);
+		txtInfoSquareRoots.setText("test test test");
+	
+		
+		
 		
 		// create group for computing square roots
-		grpSqrRoot = new Group(compHoldAllSteps, SWT.NONE);
+		/*grpSqrRoot = new Group(compHoldAllSteps, SWT.NONE);
 		grpSqrRoot.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		grpSqrRoot.setLayout(new GridLayout(2, false));
+		grpSqrRoot.setText(Messages.RabinSecondTabComposite_grpSqrRoot);*/
+		
+		grpSqrRoot = new Group(compHoldTestAndSQR, SWT.NONE);
+		grpSqrRoot.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		grpSqrRoot.setLayout(new GridLayout(2, false));
+		//guiHandler.setSizeControl(grpSqrRoot, 700, 150);
 		grpSqrRoot.setText(Messages.RabinSecondTabComposite_grpSqrRoot);
 		
 
@@ -1628,11 +1808,47 @@ public class RabinSecondTabComposite extends Composite {
 			}
 		});
 		
+		
+		/*Label lblSeparateInfoSquareRoots = new Label(compHoldTestAndInfo, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSeparateInfoSquareRoots.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+	
+		
+		Text txtInfoSquareRoots = new Text(compHoldTestAndInfo, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+		txtInfoSquareRoots.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		txtInfoSquareRoots.setBackground(guiHandler.getColorBGinfo());
+		guiHandler.setSizeControl(txtInfoSquareRoots, SWT.DEFAULT, SWT.DEFAULT);
+		txtInfoSquareRoots.setText("test test test");*/
+		
+		
+		/*Composite compHoldLinearCongruencesAndInverseAndInfo = new Composite(compHoldAllSteps, SWT.NONE);
+		compHoldLinearCongruencesAndInverseAndInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compHoldLinearCongruencesAndInverseAndInfo.setLayout(new GridLayout(3, false));*/
+		
+		
+		/*Composite compHoldLCandInverse = new Composite(compHoldLinearCongruencesAndInverseAndInfo, SWT.NONE);
+		compHoldLCandInverse.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldLCandInverse.setLayout(new GridLayout(1, false));*/
+		
+		Composite compHoldLCandInverse = new Composite(compHoldAllSteps, SWT.NONE);
+		compHoldLCandInverse.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldLCandInverse.setLayout(new GridLayout(3, false));
+		//guiHandler.setSizeControl(compHoldLCandInverse, SWT.DEFAULT + 20, SWT.DEFAULT);
+		//guiHandler.setControlMargin(compHoldLCandInverse, SWT.DEFAULT, 0);
+		
+		
+		
+		
 		// create group for linear congruences
-		grpLinCon = new Group(compHoldAllSteps, SWT.NONE);
+		/*grpLinCon = new Group(compHoldAllSteps, SWT.NONE);
+		grpLinCon.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpLinCon.setLayout(new GridLayout(2, false));
+		grpLinCon.setText(Messages.RabinSecondTabComposite_grpLinCon);*/
+		
+		grpLinCon = new Group(compHoldLCandInverse, SWT.NONE);
 		grpLinCon.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpLinCon.setLayout(new GridLayout(2, false));
 		grpLinCon.setText(Messages.RabinSecondTabComposite_grpLinCon);
+		
 		
 		// create composite for first 2 congruences 
 		compMerge = new Composite(grpLinCon, SWT.NONE);
@@ -1698,9 +1914,27 @@ public class RabinSecondTabComposite extends Composite {
 			
 		});
 		
+		Label lblSeparateInfoLC = new Label(compHoldLCandInverse, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSeparateInfoLC.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2));
+		
+		txtInfoLC = new Text(compHoldLCandInverse, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoLC.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, true, 1, 2));
+		txtInfoLC.setBackground(guiHandler.getColorBGinfo());
+		guiHandler.setSizeControl(txtInfoLC, SWT.DEFAULT, 289);
+		txtInfoLC.setText("test test test");
+		
+		
+		
+		
+		
 		// create group for computing v = y_p * p * m_q
 		// and w = y_q * q * m_p
-		Group grpComputeIs = new Group(compHoldAllSteps, SWT.NONE);
+		/*Group grpComputeIs = new Group(compHoldAllSteps, SWT.NONE);
+		grpComputeIs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpComputeIs.setLayout(new GridLayout(2, false));
+		grpComputeIs.setText(Messages.RabinSecondTabComposite_grpComputeIs);*/
+		
+		Group grpComputeIs = new Group(compHoldLCandInverse, SWT.NONE);
 		grpComputeIs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpComputeIs.setLayout(new GridLayout(2, false));
 		grpComputeIs.setText(Messages.RabinSecondTabComposite_grpComputeIs);
@@ -1756,11 +1990,34 @@ public class RabinSecondTabComposite extends Composite {
 			}
 		});	
 		
+		
+		/*Label lblSeparateInfoLC = new Label(compHoldLinearCongruencesAndInverseAndInfo, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSeparateInfoLC.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		
+		Text txtInfoLC = new Text(compHoldLinearCongruencesAndInverseAndInfo, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+		txtInfoLC.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		txtInfoLC.setBackground(guiHandler.getColorBGinfo());
+		guiHandler.setSizeControl(txtInfoLC, SWT.DEFAULT, SWT.DEFAULT);
+		txtInfoLC.setText("test test test");*/
+		
+		Composite compHoldPlaintextsAndInfo = new Composite(compHoldAllSteps, SWT.NONE);
+		compHoldPlaintextsAndInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compHoldPlaintextsAndInfo.setLayout(new GridLayout(3, false));
+		guiHandler.setControlMargin(compHoldPlaintextsAndInfo, 5, 0);
+		
+		
 		// create group for computing plaintexts
-		grpPosPlain = new Group(compHoldAllSteps, SWT.NONE);
+		/*grpPosPlain = new Group(compHoldAllSteps, SWT.NONE);
+		grpPosPlain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpPosPlain.setLayout(new GridLayout(2, false));
+		grpPosPlain.setText(Messages.RabinSecondTabComposite_grpPosPlain);*/
+		
+		
+		grpPosPlain = new Group(compHoldPlaintextsAndInfo, SWT.NONE);
 		grpPosPlain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpPosPlain.setLayout(new GridLayout(2, false));
 		grpPosPlain.setText(Messages.RabinSecondTabComposite_grpPosPlain);
+		
 		
 		// composite for packing all plaintexts for better structure
 		compAllPt = new Composite(grpPosPlain, SWT.NONE);
@@ -1825,7 +2082,27 @@ public class RabinSecondTabComposite extends Composite {
 							
 			}
 		});
-			
+		
+		
+		Label lblSeparateInfoPlaintexts = new Label(compHoldPlaintextsAndInfo, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSeparateInfoPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		
+		
+		txtInfoPlaintexts = new Text(compHoldPlaintextsAndInfo, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, true));
+		//((GridData) txtInfoPlaintexts.getLayoutData()).heightHint = 20;
+		txtInfoPlaintexts.setBackground(guiHandler.getColorBGinfo());
+		//guiHandler.setSizeControl(txtInfoPlaintexts, 100, 10);
+		guiHandler.setSizeControl(txtInfoPlaintexts, SWT.DEFAULT, grpPosPlain.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + 10);
+		txtInfoPlaintexts.setText("test test test");
+		
+		
+		//guiHandler.setSizeControl(grpPosPlain, SWT.DEFAULT + 300, SWT.DEFAULT);
+		guiHandler.setSizeControl(grpPosPlain, SWT.DEFAULT + 536, SWT.DEFAULT);
+		guiHandler.setSizeControl(compTest, SWT.DEFAULT + 535, SWT.DEFAULT);
+		guiHandler.setSizeControl(compHoldTestAndSQR, SWT.DEFAULT + 400, SWT.DEFAULT);
+		guiHandler.setSizeControl(compEnterCiphertextSteps, SWT.DEFAULT + 478, SWT.DEFAULT);	
+		
 	}
 	
 	

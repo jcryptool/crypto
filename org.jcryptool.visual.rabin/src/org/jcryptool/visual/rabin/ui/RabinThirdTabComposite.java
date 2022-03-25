@@ -85,7 +85,7 @@ public class RabinThirdTabComposite extends Composite {
 	
 	private HandleThirdTab guiHandler;
 	
-	
+	private Thread t = null;
 	
 	
 	/**
@@ -102,6 +102,15 @@ public class RabinThirdTabComposite extends Composite {
 	
 	
 	
+	public Text getTxtInfoStopComputationPollard() {
+		return txtInfoStopComputationPollard;
+	}
+	
+	
+	public Button getBtnStopComputationPollard() {
+		return btnStopComputationPollard;
+	}
+	
 	
 	
 	/**
@@ -109,6 +118,17 @@ public class RabinThirdTabComposite extends Composite {
 	 */
 	public RabinThirdTabComposite getCurrentInstance() {
 		return this;
+	}
+	
+	
+	public Button getBtnStopComputation() {
+		return btnStopComputation;
+	}
+	
+	
+	
+	public Text getTxtInfoStopComputation() {
+		return txtInfoStopComputation;
 	}
 	
 	
@@ -284,6 +304,10 @@ public class RabinThirdTabComposite extends Composite {
 			guiHandler.verifyControlFields(e);
 		}
 	};
+	private Text txtInfoStopComputation;
+	private Button btnStopComputation;
+	private Text txtInfoStopComputationPollard;
+	private Button btnStopComputationPollard;
 	
 	
 	
@@ -369,8 +393,9 @@ public class RabinThirdTabComposite extends Composite {
 		compSelParam.setLayout(new GridLayout(2, false));
 		
 		Composite compSelMode = new Composite(grpPollardSetParam, SWT.NONE);
-		compSelMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
+		compSelMode.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		compSelMode.setLayout(new GridLayout(1, false));
+		((GridData) compSelMode.getLayoutData()).verticalIndent = 110;
 		
 		
 		Label lblSepFactorPollard = new Label(grpPollardSetParam, SWT.SEPARATOR | SWT.VERTICAL);
@@ -567,7 +592,7 @@ public class RabinThirdTabComposite extends Composite {
 		});*/
 		
 		btnFactorizePollard = new Button(compSelMode, SWT.PUSH);
-		btnFactorizePollard.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+		btnFactorizePollard.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		btnFactorizePollard.setText(Messages.RabinThirdTabComposite_btnFactorize);
 		btnFactorizePollard.setEnabled(false);
 		
@@ -577,10 +602,34 @@ public class RabinThirdTabComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
+				
 				//guiHandler.btnFactorizeAction(getCurrentInstance());	
 				guiHandler.btnFactorizePollardAction(getCurrentInstance(), txtNPollard, txtxPollard, txtyPollard, txtgxPollard, txtWarningNPollard, txtpPollard, txtqPollard);
 			}
 		});
+		
+		
+		btnStopComputationPollard = new Button(compSelMode, SWT.PUSH);
+		btnStopComputationPollard.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		btnStopComputationPollard.setText("Stop computation");
+		btnStopComputationPollard.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				guiHandler.btnStopComputationPollardAction(getCurrentInstance());
+			}
+		});
+		
+		
+		
+		txtInfoStopComputationPollard = new Text(compSelMode, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtInfoStopComputationPollard.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, true));
+		txtInfoStopComputationPollard.setBackground(ColorService.LIGHTGRAY);
+		txtInfoStopComputationPollard.setForeground(ColorService.GREEN);
+		txtInfoStopComputationPollard.setText("Stopped computation successfully");
+		guiHandler.setSizeControlWarning(txtInfoStopComputationPollard, SWT.DEFAULT, SWT.DEFAULT);
+		((GridData) txtInfoStopComputationPollard.getLayoutData()).verticalIndent = 10;
+		guiHandler.hideControl(txtInfoStopComputationPollard);
+		
 		
 		
 		Group grpPollardFactorization = new Group(compPollardRho, SWT.NONE);
@@ -640,13 +689,15 @@ public class RabinThirdTabComposite extends Composite {
 		
 		
 		Composite compGenKeys = new Composite(grpSetParam, SWT.NONE);
-		compGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
+		compGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		compGenKeys.setLayout(new GridLayout(1, false));
+		((GridLayout) compGenKeys.getLayout()).marginTop = 75;
+			
 		
 		
 		btnGenKeysAlgo = new Button(compGenKeys, SWT.PUSH);
 		btnGenKeysAlgo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnGenKeysAlgo.setText(Messages.RabinThirdTabComposite_btnGenKeysAlgo);
+		btnGenKeysAlgo.setText("Use public key generated in Cryptosystem tab");
 		btnGenKeysAlgo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -706,7 +757,7 @@ public class RabinThirdTabComposite extends Composite {
 		});*/
 		
 		btnFactorize = new Button(compGenKeys, SWT.PUSH);
-		btnFactorize.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+		btnFactorize.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		btnFactorize.setText(Messages.RabinThirdTabComposite_btnFactorize);
 		btnFactorize.setEnabled(false);
 		
@@ -716,9 +767,44 @@ public class RabinThirdTabComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
-				guiHandler.btnFactorizeAction(getCurrentInstance());		
+				//if(t == null) {
+					//t = guiHandler.btnFactorizeAction(getCurrentInstance());	
+					//t.start();
+				//}
+				
+				guiHandler.btnFactorizeFermatAction(getCurrentInstance());
+				
+				
+				//btnFactorize.setEnabled(false);
 			}
 		});
+		
+		
+		
+		btnStopComputation = new Button(compGenKeys, SWT.PUSH);
+		btnStopComputation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnStopComputation.setText("Stop computation");
+		btnStopComputation.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//guiHandler.setStopComputation(true);
+				//btnFactorize.setEnabled(true);
+				//t = null;
+				guiHandler.btnStopComputation(getCurrentInstance());
+			}
+		});
+		//btnStopComputation.setEnabled(false);
+		
+	
+		
+		txtInfoStopComputation = new Text(compGenKeys, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtInfoStopComputation.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, true));
+		txtInfoStopComputation.setBackground(ColorService.LIGHTGRAY);
+		txtInfoStopComputation.setForeground(ColorService.GREEN);
+		txtInfoStopComputation.setText("Stopped computation successfully");
+		guiHandler.setSizeControlWarning(txtInfoStopComputation, SWT.DEFAULT, SWT.DEFAULT);
+		((GridData) txtInfoStopComputation.getLayoutData()).verticalIndent = 10;
+		guiHandler.hideControl(txtInfoStopComputation);
 		
 		
 		
@@ -776,6 +862,15 @@ public class RabinThirdTabComposite extends Composite {
 		txtResultP = new Text(npqComp, SWT.BORDER | SWT.READ_ONLY);
 		txtResultP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtResultP, SWT.DEFAULT, SWT.DEFAULT);
+		/*txtResultP.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.txtResultPQAction(getCurrentInstance());
+			}
+		});*/
+		
 		
 		// result prime q
 		Composite compPrimeQ = new Composite(npqComp, SWT.NONE);
@@ -797,6 +892,14 @@ public class RabinThirdTabComposite extends Composite {
 		txtResultQ = new Text(npqComp, SWT.BORDER | SWT.READ_ONLY);
 		txtResultQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtResultQ, SWT.DEFAULT, SWT.DEFAULT);
+		
+		/*txtResultQ.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				guiHandler.txtResultPQAction(getCurrentInstance());
+			}
+		});*/
 		
 		
 		

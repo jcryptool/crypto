@@ -631,7 +631,7 @@ public class GUIHandler {
 						+ "For example, having N = 713 = 23 \u2219 31 (default value) you are able "
 						+ "to encrypt at most 1 Byte (or character/letter) at once since N has a bitlength of 10 and 1 Byte "
 						+ "is 8 bits long.\n"
-						+ "If you want to encrypt more bytes at once you need to choose a greater N.\n"
+						+ "If you want to encrypt more bytes at once you need to generate a greater N.\n"
 						+ "Compared to the \"textbook\" mode you are here able to choose how many bytes "
 						+ "you want to encrypt at once. The \"textbook\" mode always uses the maximum number "
 						+ "of bytes.\n\n"
@@ -644,9 +644,73 @@ public class GUIHandler {
 						+ "1) enter a plaintext in the field \"Plaintext separated into blocks "
 						+ "(\"||\" as separator)\". You are only allowed to enter decimal numbers "
 						+ "(0-9). Furthermore make sure you enter the numbers in the format "
-						+ "\"decimal number\" or \"decimal number 1 || decimal number 2 || ...\" and "
-						+ "every decimal number is less than N.\n\n"
-						+ "3) click on \"Encrypt\" to encrypt the plaintext.";
+						+ "\"decimal number\" or \"decimal number 1 || decimal number 2 || ...\".\n"
+						+ "Every decimal number has to be less than N.\n\n"
+						+ "2) click on \"Encrypt\" to encrypt the plaintext.";
+				break;
+				
+			case "txtInfoDecimalAndHex_decryption_hex":
+				message = "You are in \"Hex\" mode. This mode allows you to decrypt ciphertexts entered as "
+						+ "hexstrings. Keep in mind that its only the decryption without previous encryption. "
+						+ "That means, In contrast to the \"Encryption and decryption\" mode this mode computes the four possible plaintexts without notifying the "
+						+ "user which of them is the correct one since the decryption does not know it.\n\n"
+						+ "To decypt a ciphertext do the following:\n\n"
+						+ "1) enter a ciphertext in the field \"Ciphertext in base 16 format\" as hexstring, which "
+						+ "means only hexadecimal numbers (0-f) are allowed. "
+						+ "Make sure that the length of the ciphertext is a multiple of the blocklength of N.\n\n"
+						+ "2) click on \"Apply\" to get the ciphertext separated into blocks";
+				break;
+				
+			case "txtInfoSquareRoots_decryption_hex_and_decimal":
+				message = "3) Either use the drop-down list \"Block(c[i])\" to choose a specific ciphertextblock ("
+						+ "c[i] is only meant as a short version for the specific ciphertextblock. For example c[1] would "
+						+ "be the first ciphertextblock, c[2] the second and so on) or the buttons "
+						+ "\"Previous block\" and \"Next block\" to go through the ciphertextblocks in a cyclic manner.\n\n"
+						+ "4) Once you have chosen a ciphertextblock click on \"Compute square roots mod p and q\" "
+						+ "to compute the square roots of your ciphertextblock mod p and q.";
+				break;
+				
+			case "txtInfoLC_decryption_hex_and_decimal":
+				message = "5) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n"
+						+ "6) click on \"Compute v and w\" to compute the intermediate values v and w.";
+				break;
+				
+			case "txtInfoPlaintexts_decryption_hex_and_decimal":
+				message = "7) click on \"Compute all plaintexts\" to compute all plaintexts.\n"
+						+ "The whole computation is based on the Chinese remainder theorem (CRT). "
+						+ "For further information on it take a look at the CRT plugin in JCT.";
+				break;
+				
+			case "txtInfoDecimalAndHex_decryption_decimal":
+				message = "You are in \"Decimal numbers\" mode. This mode allows you to decrypt ciphertexts entered in "
+						+ "the format \"decimal number\" or \"decimal number 1 || decimal number 2 || ...\". Keep in mind that its only the decryption without previous encryption. "
+						+ "That means, In contrast to the \"Encryption and decryption\" mode this mode computes the four possible plaintexts without notifying the "
+						+ "user which of them is the correct one since the decryption does not know it.\n\n"
+						+ "To decypt a ciphertext do the following:\n\n"
+						+ "1) enter a ciphertext in the field \"Ciphertext in base 10 separated into block (|| as separator)\".\n"
+						+ "Pay attention to the mentioned format.\n\n"
+						+ "2) click on \"Apply\" to get the ciphertext separated into blocks in base 16 format.";
+				break;
+				
+			case "txtInfoSquareRoots_encryption_text":
+				message = "4) Either use the drop-down list \"Block(c[i])\" to choose a specific ciphertextblock ("
+						+ "c[i] is only meant as a short version for the specific ciphertextblock. For example c[1] would "
+						+ "be the first ciphertextblock, c[2] the second and so on) or the buttons "
+						+ "\"Previous block\" and \"Next block\" to go through the ciphertextblocks in a cyclic manner.\n\n"
+						+ "5) Once you have chosen a ciphertextblock click on \"Compute square roots mod p and q\" "
+						+ "to compute the square roots of your ciphertextblock mod p and q.";
+				break;
+				
+			case "txtInfoLC_encryption_text":
+				message = "6) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n"
+						+ "7) click on \"Compute v and w\" to compute the intermediate values v and w.";
+				break;
+				
+			case "txtInfoPlaintexts_encryption_text":
+				message = "8) click on \"Compute all plaintexts\" to compute all plaintexts.\n"
+						+ "The whole computation is based on the Chinese remainder theorem (CRT). "
+						+ "For further information on it take a look at the CRT plugin in JCT.";
+				break;
 				
 		}
 		

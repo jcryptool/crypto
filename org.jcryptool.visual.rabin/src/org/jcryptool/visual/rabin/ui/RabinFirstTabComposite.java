@@ -1093,12 +1093,28 @@ public class RabinFirstTabComposite extends Composite {
 		Label lblSepInfoSetParam = new Label(grpParam, SWT.SEPARATOR | SWT.VERTICAL);
 		lblSepInfoSetParam.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, false, true));
 		
+		/*Group grpTest = new Group(grpParam, SWT.NONE);
+		grpTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpTest.setLayout(new GridLayout(1, false));
+		grpTest.setText("Instructions");*/
+		
+		
+		
 		txtInfoSetParam = new Text(grpParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		GridData txtInfoSetParamData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoSetParam.setLayoutData(txtInfoSetParamData);
 		guiHandler.setSizeControl(txtInfoSetParam, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoSetParam.setText(guiHandler.getMessageByControl("btnGenKeysMan_selection"));
 		txtInfoSetParam.setBackground(ColorService.LIGHTGRAY);
+		
+		
+		
+		/*txtInfoSetParam = new Text(grpTest, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		GridData txtInfoSetParamData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		txtInfoSetParam.setLayoutData(txtInfoSetParamData);
+		guiHandler.setSizeControl(txtInfoSetParam, SWT.DEFAULT, SWT.DEFAULT);
+		txtInfoSetParam.setText(guiHandler.getMessageByControl("btnGenKeysMan_selection"));
+		txtInfoSetParam.setBackground(ColorService.LIGHTGRAY);*/
 		
 		
 		
