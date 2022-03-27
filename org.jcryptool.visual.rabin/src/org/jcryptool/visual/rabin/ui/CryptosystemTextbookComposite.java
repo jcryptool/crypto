@@ -108,6 +108,17 @@ public class CryptosystemTextbookComposite extends Composite {
 	}
 	
 	
+	public Group getGrpEncryptDecrypt() {
+		return grpEncryptDecrypt;
+	}
+	
+	
+	public Text getTxtInfoEncryptionDecryption() {
+		return txtInfoEncryptionDecryption;
+	}
+	
+	
+	
 	public Button getBtnWriteToJCTeditor() {
 		return btnWriteToJCTeditor;
 	}
@@ -305,10 +316,13 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnRadioEncrypt.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				guiHandler.hideControl(compHoldDecryptionProcess);
+				/*guiHandler.hideControl(compHoldDecryptionProcess);
 				guiHandler.showControl(compHoldEncryptionProcess);
 				grpEncryptDecrypt.setText("Encryption");
 				txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt"));
+				*/
+				
+				hcstb.btnRadioEncryptAction(getCurrentInstance());
 			}
 		});
 		
@@ -319,10 +333,13 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnRadioDecrypt.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				guiHandler.hideControl(compHoldEncryptionProcess);
+				/*guiHandler.hideControl(compHoldEncryptionProcess);
 				guiHandler.showControl(compHoldDecryptionProcess);
 				grpEncryptDecrypt.setText("Decryption");
 				txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_decrypt"));
+				*/
+				
+				hcstb.btnRadioDecryptAction(getCurrentInstance());
 			}
 		});
 	}
@@ -445,6 +462,18 @@ public class CryptosystemTextbookComposite extends Composite {
 				
 			}
 		});
+		
+		
+		
+		/*Button btnStopComputation = new Button(compHoldBtnsForFeatures, SWT.PUSH);
+		btnStopComputation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		btnStopComputation.setText("Stop computation");
+		btnStopComputation.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+			}
+		});*/
 		
 		
 		

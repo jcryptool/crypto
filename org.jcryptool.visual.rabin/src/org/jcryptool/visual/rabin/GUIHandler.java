@@ -48,6 +48,8 @@ public class GUIHandler {
 	private int limitExpPQ = 1024;
 	private BigInteger limitUpPQ = BigInteger.TWO.pow(limitExpPQ);
 	private BigInteger limitUp = BigInteger.TWO.pow(limitExp);
+	private int limitExpAttacks = 200;
+	private BigInteger limitUpAttacks = BigInteger.TWO.pow(limitExp);
 	private Rabin rabinFirst;
 	private Rabin rabinSecond;
 	private int bytesPerBlock;
@@ -68,6 +70,7 @@ public class GUIHandler {
 	
 	// colors for info textfields
 	private Color colorBGinfo = ColorService.LIGHTGRAY;
+	private Color colorFGinfo = ColorService.BLACK;
 	
 	// colors for selecting controls
 	private Color colorSelectControl = ColorService.LIGHT_AREA_BLUE;
@@ -75,6 +78,14 @@ public class GUIHandler {
 	
 	// colors for buttons
 	private Color colorButtons = ColorService.LIGHT_AREA_BLUE;
+	
+	// colors for composites
+	private Color colorCompositeBG = ColorService.GRAY;
+	private Color colorCompositeFG = ColorService.WHITE;
+	
+	// colors for groups
+	private Color colorGroupBG = ColorService.GRAY;
+	private Color colorGroupFG = ColorService.WHITE;
 	
 	
 	
@@ -116,11 +127,95 @@ public class GUIHandler {
 	}*/
 	
 	
+	
+	public BigInteger getLimitUpAttacks() {
+		return limitUpAttacks;
+	}
+	
+	
+	public int getLimitExpAttacks() {
+		return limitExpAttacks;
+	}
+	
+	
+	
 	public boolean getStopComputation() {
 		return stopComputation;
 	}
 	
 	
+	/**
+	 * @return the colorFGinfo
+	 */
+	public Color getColorFGinfo() {
+		return colorFGinfo;
+	}
+
+
+
+
+
+
+	/**
+	 * @return the colorButtons
+	 */
+	public Color getColorButtons() {
+		return colorButtons;
+	}
+
+
+
+
+
+
+	/**
+	 * @return the colorCompositeBG
+	 */
+	public Color getColorCompositeBG() {
+		return colorCompositeBG;
+	}
+
+
+
+
+
+
+	/**
+	 * @return the colorCompositeFG
+	 */
+	public Color getColorCompositeFG() {
+		return colorCompositeFG;
+	}
+
+
+
+
+
+
+	/**
+	 * @return the colorGroupBG
+	 */
+	public Color getColorGroupBG() {
+		return colorGroupBG;
+	}
+
+
+
+
+
+
+	/**
+	 * @return the colorGroupFG
+	 */
+	public Color getColorGroupFG() {
+		return colorGroupFG;
+	}
+
+
+
+
+
+
 	public void setStopComputation(boolean stopComputation) {
 		this.stopComputation = stopComputation;
 	}
@@ -710,6 +805,51 @@ public class GUIHandler {
 				message = "8) click on \"Compute all plaintexts\" to compute all plaintexts.\n"
 						+ "The whole computation is based on the Chinese remainder theorem (CRT). "
 						+ "For further information on it take a look at the CRT plugin in JCT.";
+				break;
+				
+			
+			case "txtInfoFactor_fermat":
+				message = "The Fermat factorization basically works like this (simplified):\n\n"
+						+ "We want to factorize N into its factors p and q. We use the fact that N can be "
+						+ "expressed as N = y\u00b2 \u2212 x\u00b2 which you can change to "
+						+ "y\u00b2 \u2212 N = x\u00b2. Then we use y as an \"anchor point\" by starting at a specific value "
+						+ "and increasing y by one in every iteration until the value \u221a(y\u00b2 \u2212 N) is an integer.\n"
+						+ "Every step is shown in the table below. In the end you can also see how the factors p and q are computed.\n\n"
+						+ "For a more detailed description take a look on the internet or click on the help button in the description "
+						+ "of the plugin.\n\n"
+						+ "To factorize a composite number N do the following:\n\n"
+						+ "1) enter N in the corresponding field, use the drop-down list or click on the button"
+						+ " \"Use public key generated in Cryptosystem tab\" to use N which was generated in the "
+						+ "Cryptosystem tab.\n"
+						+ "Only an upper limit of 2^" + getLimitExpAttacks() + " for N is allowed.\n\n"
+						+ "2) Click on \"Factorize\" to start factorizing the number. The whole algorithm is executed in the background.\n"
+						+ "In case the processing time takes too long for getting a result you can click on "
+						+ "\"Stop computation\" to stop and quit the computation.\n"
+						+ "Only one number can be factorized at one time. So if you want to factorize a new number you have to either wait "
+						+ "until the current factorization is completed or stop the current factorization.";
+				break;
+				
+				
+			case "txtInfoFactor_pollard":
+				message = "Pollard's rho factorization basically works like this (simplified):\n\n"
+						+ "To factorize N we try to find numbers say x and y such that x \u2262 y mod N "
+						+ "but x \u2261 y mod p. With that we have that N does not divide (x-y) but p divides both (x-y) "
+						+ "and N. If we compute gcd((x-y), N) now we get one of the factors p or q of N. If we then divide N "
+						+ "by the found factor we get the other factor and as such the whole factorization.\n"
+						+ "To find so called numbers x and y we use a random function, here g(x) = x\u00b2 + c.\n"
+						+ "The algorithm is shown in the table below.\n\n"
+						+ "For a more detailed description take a look on the internet or click on the help button in the "
+						+ "description of the plugin.\n\n"
+						+ "To factorize N do the following:\n\n"
+						+ "1) enter N in the corresponding field, use the drop-down list or click on the button"
+						+ " \"Use public key generated in Cryptosystem tab\" to use N which was generated in the "
+						+ "Cryptosystem tab.\n"
+						+ "Only an upper limit of 2^" + getLimitExpAttacks() + " for N is allowed.\n\n"
+						+ "2) Click on \"Factorize\" to start factorizing the number. The whole algorithm is executed in the background.\n"
+						+ "In case the processing time takes too long for getting a result you can click on "
+						+ "\"Stop computation\" to stop and quit the computation.\n"
+						+ "Only one number can be factorized at one time. So if you want to factorize a new number you have to either wait "
+						+ "until the current factorization is completed or stop the current factorization.";
 				break;
 				
 		}

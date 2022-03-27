@@ -691,10 +691,10 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void resetFinalPlaintextColor(RabinSecondTabComposite rstc) {
-		rstc.getTxtm1().setBackground(this.getColorBackgroundNeutral());
-		rstc.getTxtm2().setBackground(this.getColorBackgroundNeutral());
-		rstc.getTxtm3().setBackground(this.getColorBackgroundNeutral());
-		rstc.getTxtm4().setBackground(this.getColorBackgroundNeutral());
+		rstc.getTxtm1().setBackground(this.getColorBGinfo());
+		rstc.getTxtm2().setBackground(this.getColorBGinfo());
+		rstc.getTxtm3().setBackground(this.getColorBGinfo());
+		rstc.getTxtm4().setBackground(this.getColorBGinfo());
 	}
 	
 	

@@ -1142,6 +1142,7 @@ public class RabinSecondTabComposite extends Composite {
 		txtMessageBaseNum.setSelectionBackground(selectionBGC);
 		txtMessageBaseNum.setSelectionForeground(selectionFGC);
 		guiHandler.setSizeControl(txtMessageBaseNum, SWT.DEFAULT, SWT.DEFAULT);
+		txtMessageBaseNum.setBackground(guiHandler.getColorBGinfo());
 		
 		txtMessageBaseNum.addSelectionListener(new SelectionAdapter() {
 		
@@ -1161,6 +1162,7 @@ public class RabinSecondTabComposite extends Composite {
 		txtCipherNum.setSelectionBackground(selectionBGC);
 		txtCipherNum.setSelectionForeground(selectionFGC);
 		guiHandler.setSizeControl(txtCipherNum, SWT.DEFAULT, SWT.DEFAULT);
+		txtCipherNum.setBackground(guiHandler.getColorBGinfo());
 		
 		txtCipherNum.addSelectionListener(new SelectionAdapter() {
 			
@@ -1216,6 +1218,7 @@ public class RabinSecondTabComposite extends Composite {
 		guiHandler.setSizeControl(txtMessageSep, SWT.DEFAULT, SWT.DEFAULT);
 		txtMessageSep.setSelectionBackground(selectionBGC);
 		txtMessageSep.setSelectionForeground(selectionFGC);
+		txtMessageSep.setBackground(guiHandler.getColorBGinfo());
 		txtMessageSep.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1231,6 +1234,8 @@ public class RabinSecondTabComposite extends Composite {
 		guiHandler.setSizeControl(txtMessageBase, SWT.DEFAULT, SWT.DEFAULT);
 		txtMessageBase.setSelectionBackground(selectionBGC);
 		txtMessageBase.setSelectionForeground(selectionFGC);
+		txtMessageBase.setBackground(guiHandler.getColorBGinfo());
+		
 		txtMessageBase.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1248,6 +1253,8 @@ public class RabinSecondTabComposite extends Composite {
 		guiHandler.setSizeControl(txtCipher, SWT.DEFAULT, SWT.DEFAULT);
 		txtCipher.setSelectionBackground(selectionBGC);
 		txtCipher.setSelectionForeground(selectionFGC);
+		txtCipher.setBackground(guiHandler.getColorBGinfo());
+		
 		
 		txtCipher.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -1508,6 +1515,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtCiphertextSegmentsDecimal.setLayoutData(txtCiphertextSegmentsDecimalData);
 		txtCiphertextSegmentsDecimal.setSelectionBackground(selectionBGC);
 		txtCiphertextSegmentsDecimal.setSelectionForeground(selectionFGC);
+		txtCiphertextSegmentsDecimal.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtCiphertextSegmentsDecimal, SWT.DEFAULT, SWT.DEFAULT);
 		
 		txtCiphertextSegmentsDecimal.addSelectionListener(new SelectionAdapter() {
@@ -1541,8 +1550,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtEnterCiphertextWarning = new Text(compEnterCiphertextPart1, SWT.MULTI | SWT.WRAP);
 		txtEnterCiphertextWarningData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtEnterCiphertextWarning.setLayoutData(txtEnterCiphertextWarningData);
-		txtEnterCiphertextWarning.setForeground(guiHandler.getColorBackgroundWarning());
-		txtEnterCiphertextWarning.setBackground(guiHandler.getColorForegroundWarning());
+		txtEnterCiphertextWarning.setForeground(guiHandler.getColorForegroundWarning());
+		txtEnterCiphertextWarning.setBackground(guiHandler.getColorBackgroundWarning());
 		guiHandler.setSizeControlWarning(txtEnterCiphertextWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(txtEnterCiphertextWarning);
 		
@@ -1556,6 +1565,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtCiphertextSegments.setLayoutData(txtCiphertextSegmentsData);
 		txtCiphertextSegments.setSelectionBackground(selectionBGC);
 		txtCiphertextSegments.setSelectionForeground(selectionFGC);
+		txtCiphertextSegments.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtCiphertextSegments, SWT.DEFAULT, SWT.DEFAULT);
 		
 		
@@ -1650,6 +1661,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtCipherFirst = new Text(compTest, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.READ_ONLY);
 		GridData txtCipherFirstData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtCipherFirst.setLayoutData(txtCipherFirstData);
+		txtCipherFirst.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtCipherFirst, SWT.DEFAULT, SWT.DEFAULT);
 		
 		txtCipherFirst.addModifyListener(new ModifyListener() {
@@ -1770,6 +1783,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtmp = new Text(compMp, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.READ_ONLY);
 		GridData txtmpData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtmp.setLayoutData(txtmpData);
+		txtmp.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtmp, SWT.DEFAULT, SWT.DEFAULT);
 		
 		txtmp.addModifyListener(new ModifyListener() {
@@ -1796,6 +1811,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtmq = new Text(compMq, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.READ_ONLY);
 		GridData txtmqData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtmq.setLayoutData(txtmqData);
+		txtmq.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtmq, SWT.DEFAULT, SWT.DEFAULT);
 		
 		txtmq.addModifyListener(new ModifyListener() {
@@ -1870,6 +1887,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtyp = new Text(compMerge, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		GridData txtypData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtyp.setLayoutData(txtypData);
+		txtyp.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtyp, SWT.DEFAULT, SWT.DEFAULT);
 		
 		txtyp.addModifyListener(new ModifyListener() {
@@ -1889,6 +1908,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtyq = new Text(compMerge, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		GridData txtyqData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtyq.setLayoutData(txtyqData);
+		txtyq.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtyq, SWT.DEFAULT, SWT.DEFAULT);
 		
 		txtyq.addModifyListener(new ModifyListener() {
@@ -1961,6 +1982,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtV = new Text(compHoldvw, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		GridData txtVData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtV.setLayoutData(txtVData);
+		txtV.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtV, SWT.DEFAULT, SWT.DEFAULT);
 		
 		txtV.addModifyListener(new ModifyListener() {
@@ -1978,6 +2001,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtW = new Text(compHoldvw, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		GridData txtWData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtW.setLayoutData(txtWData);
+		txtW.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtW, SWT.DEFAULT, SWT.DEFAULT);
 		
 		txtW.addModifyListener(new ModifyListener() {
@@ -2032,6 +2057,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtm1 = new Text(compAllPt, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		GridData txtm1Data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtm1.setLayoutData(txtm1Data);
+		txtm1.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtm1, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// label for m2
@@ -2042,6 +2069,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtm2 = new Text(compAllPt, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		GridData txtm2Data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtm2.setLayoutData(txtm2Data);
+		txtm2.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtm2, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// label for m3
@@ -2052,6 +2081,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtm3 = new Text(compAllPt, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		GridData txtm3Data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtm3.setLayoutData(txtm3Data);
+		txtm3.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtm3, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// label for m4
@@ -2062,6 +2093,8 @@ public class RabinSecondTabComposite extends Composite {
 		txtm4 = new Text(compAllPt, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		GridData txtm4Data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtm4.setLayoutData(txtm4Data);
+		txtm4.setBackground(guiHandler.getColorBGinfo());
+		
 		guiHandler.setSizeControl(txtm4, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// create Composite holding "compute all plaintexts" and "continue with next block c[i]"
@@ -2119,6 +2152,8 @@ public class RabinSecondTabComposite extends Composite {
 		Composite compSelectEncDec = new Composite(parent, SWT.NONE);
 		compSelectEncDec.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 		compSelectEncDec.setLayout(new GridLayout(4, false));
+		((GridData) compSelectEncDec.getLayoutData()).verticalIndent = 40;
+		((GridLayout) compSelectEncDec.getLayout()).marginBottom = 15;	
 		
 		btnSelectionEnc = new Button(compSelectEncDec, SWT.RADIO);
 		btnSelectionEnc.setText(Messages.RabinSecondTabComposite_btnSelectionEnc);
