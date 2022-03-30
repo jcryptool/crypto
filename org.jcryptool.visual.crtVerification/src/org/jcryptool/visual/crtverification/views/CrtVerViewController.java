@@ -30,8 +30,8 @@ import org.jcryptool.visual.crtverification.verification.CertPathVerifier;
 import org.jcryptool.visual.crtverification.verification.KeystoreConnector;
 
 public class CrtVerViewController {
-    private String dateformat1 = "/MMM/yy";
-    private String dateformat2 = "MMM/yy";
+    private String dateformat1 = "/MMM/yyyy";
+    private String dateformat2 = "MMM/yyyy";
     private String dateformat3 = "yyyy";
     private KeystoreConnector ksc = new KeystoreConnector();
     private Calendar calendar = Calendar.getInstance();
