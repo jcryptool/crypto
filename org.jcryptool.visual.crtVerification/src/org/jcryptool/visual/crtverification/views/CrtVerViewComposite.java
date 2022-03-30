@@ -513,7 +513,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		lblLog.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		lblLog.setText(Messages.CrtVerViewComposite_lblLog_text);
 
-		txtLogWindow = new Text(logComposite, SWT.BORDER | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL);
+		txtLogWindow = new Text(logComposite, SWT.BORDER | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
 		txtLogWindow.setBackground(ColorService.WHITE);
 		txtLogWindow.setEditable(false);
 		GridData gd_txtLogWindow = new GridData(SWT.FILL, SWT.FILL, true, true);
