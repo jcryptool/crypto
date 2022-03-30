@@ -140,7 +140,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 	public CrtVerViewComposite(Composite parent, int style, CrtVerView view) {
 		super(parent, style);
 		setBackground(ColorService.GRAY);
-		setLayout(new FillLayout(SWT.HORIZONTAL));
+		setLayout(new FillLayout(SWT.HORIZONTAL | SWT.VERTICAL));
 		this.crtComposite = this;
 		this.controller = new CrtVerViewController(this);
 
@@ -166,6 +166,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		Composite composite = new Composite(this, SWT.NONE);
 		GridLayout gl_composite = new GridLayout(2, false);
 		composite.setLayout(gl_composite);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		// Titel und Beschreinung des Plugins.
 		TitleAndDescriptionComposite titleAndDescription = new TitleAndDescriptionComposite(composite);
@@ -507,7 +508,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 
 		Composite logComposite =  new Composite(composite, SWT.NONE);
 		logComposite.setLayout(new GridLayout());
-		logComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2));
+		logComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
 
 		Label lblLog = new Label(logComposite, SWT.NONE);
 		lblLog.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -517,8 +518,10 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		txtLogWindow.setBackground(ColorService.WHITE);
 		txtLogWindow.setEditable(false);
 		GridData gd_txtLogWindow = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd_txtLogWindow.heightHint = 200;
-		gd_txtLogWindow.widthHint = 300;
+		gd_txtLogWindow.heightHint = 300;
+		gd_txtLogWindow.widthHint = 400;
+		gd_txtLogWindow.minimumHeight = 300;
+		gd_txtLogWindow.minimumWidth = 400;
 		txtLogWindow.setLayoutData(gd_txtLogWindow);
 		
 		Group grpDetails = new Group(composite, SWT.NONE);
@@ -704,10 +707,18 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		thruCert.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		
 		Composite settingsComposite = new Composite(composite, SWT.NONE);
-		settingsComposite.setLayout(new GridLayout(5, false));
+		settingsComposite.setLayout(new GridLayout(1, true));
 		GridData gd_settingsComposite = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
 		gd_settingsComposite.verticalIndent = 30;
 		settingsComposite.setLayoutData(gd_settingsComposite);
+		
+		Composite innerSettingsCompositeLeft = new Composite(settingsComposite, SWT.NONE);
+		innerSettingsCompositeLeft.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		innerSettingsCompositeLeft.setLayout(new GridLayout(5, false));
+
+//		Composite innerSettingsCompositeRight = new Composite(settingsComposite, SWT.NONE);
+//		innerSettingsCompositeRight.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+//		innerSettingsCompositeRight.setLayout(new GridLayout(2, false));
 		
 		//Commented out because it does the same like restart in the left top. Replaced with an empty Label
 		// to reenable the Button just comment the next Label out and uncomment the following button.
@@ -758,8 +769,13 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 //		btnForward.setText(Messages.CrtVerViewComposite_signatureVerification);
 //		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
-		btnShellModel = new Button(settingsComposite, SWT.RADIO);
-		btnShellModel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
+		var space1 = new Label(innerSettingsCompositeLeft, SWT.NONE);
+		var gd1 = new GridData();
+		gd1.widthHint = 100;
+		space1.setLayoutData(gd1);
+		
+		btnShellModel = new Button(innerSettingsCompositeLeft, SWT.RADIO);
+		btnShellModel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 		btnShellModel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -770,7 +786,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		btnShellModel.setSelection(true);
 		btnShellModel.setText(Messages.CrtVerViewComposite_shellModel);
 
-		btnShellModelModified = new Button(settingsComposite, SWT.RADIO);
+		btnShellModelModified = new Button(innerSettingsCompositeLeft, SWT.RADIO);
 		btnShellModelModified.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		btnShellModelModified.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -781,8 +797,8 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		});
 		btnShellModelModified.setText(Messages.CrtVerViewComposite_modifiedshellModel);
 
-		btnChainModel = new Button(settingsComposite, SWT.RADIO);
-		btnChainModel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+		btnChainModel = new Button(innerSettingsCompositeLeft, SWT.RADIO);
+		btnChainModel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		btnChainModel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -791,15 +807,23 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 			}
 		});
 		btnChainModel.setText(Messages.CrtVerViewComposite_chainModel);
-
-		btnValidate = new Button(settingsComposite, SWT.PUSH);
-		btnValidate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		btnValidate.setText(Messages.CrtVerViewComposite_validate);
 		
-		labelValiditySymbol = new Label(settingsComposite, SWT.NONE);
+		new Label(innerSettingsCompositeLeft, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
+		var space2 = new Label(innerSettingsCompositeLeft, SWT.NONE);
+		var gd2 = new GridData();
+		gd2.widthHint = 100;
+		space2.setLayoutData(gd2);
+
+		
+		btnValidate = new Button(innerSettingsCompositeLeft, SWT.PUSH);
+		btnValidate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3,1));
+		btnValidate.setText(Messages.CrtVerViewComposite_validate);
+
+		labelValiditySymbol = new Label(innerSettingsCompositeLeft, SWT.NONE);
 		labelValiditySymbol.setImage(ImageService.getImage(Activator.PLUGIN_ID, "icons/rotesKreuzKlein.png")); //$NON-NLS-1$
 		labelValiditySymbol.setVisible(false);
+		
 
 		btnValidate.addSelectionListener(new SelectionAdapter() {
 			@Override
