@@ -425,13 +425,14 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					ChooseCert wiz = new ChooseCert(3, crtComposite);
-					WizardDialog dialog = new WizardDialog(new Shell(Display
-							.getCurrent()), wiz) {
+					WizardDialog dialog = new WizardDialog(new Shell(CrtVerViewComposite.this.getDisplay()), wiz) {
 						@Override
 						protected void configureShell(Shell newShell) {
 							super.configureShell(newShell);
 							// set size of the wizard-window (x,y)
-							newShell.setSize(700, 500);
+							var cursorX = newShell.getDisplay().getCursorLocation().x;
+							var cursorY = newShell.getDisplay().getCursorLocation().y;
+							newShell.setBounds(cursorX + 10, cursorY + 10, 700, 500);
 						}
 					};
 					if (dialog.open() == Window.OK) {
@@ -454,13 +455,13 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					ChooseCert wiz = new ChooseCert(2, crtComposite);
-					WizardDialog dialog = new WizardDialog(new Shell(Display
-							.getCurrent()), wiz) {
+					WizardDialog dialog = new WizardDialog(new Shell(CrtVerViewComposite.this.getDisplay()), wiz) {
 						@Override
 						protected void configureShell(Shell newShell) {
 							super.configureShell(newShell);
-							// set size of the wizard-window (x,y)
-							newShell.setSize(700, 500);
+							var cursorX = newShell.getDisplay().getCursorLocation().x;
+							var cursorY = newShell.getDisplay().getCursorLocation().y;
+							newShell.setBounds(cursorX + 10, cursorY + 10, 700, 500);
 						}
 					};
 					if (dialog.open() == Window.OK) {
@@ -483,13 +484,13 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					ChooseCert wiz = new ChooseCert(1, crtComposite);
-					WizardDialog dialog = new WizardDialog(new Shell(Display
-							.getCurrent()), wiz) {
+					WizardDialog dialog = new WizardDialog(new Shell(CrtVerViewComposite.this.getDisplay()), wiz) {
 						@Override
 						protected void configureShell(Shell newShell) {
 							super.configureShell(newShell);
-							// set size of the wizard-window (x,y)
-							newShell.setSize(700, 500);
+							var cursorX = newShell.getDisplay().getCursorLocation().x;
+							var cursorY = newShell.getDisplay().getCursorLocation().y;
+							newShell.setBounds(cursorX + 10, cursorY + 10, 700, 500);
 						}
 					};
 					
