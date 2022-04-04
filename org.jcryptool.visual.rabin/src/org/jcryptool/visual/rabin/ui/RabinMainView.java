@@ -106,6 +106,8 @@ public class RabinMainView extends ViewPart {
 		
 		tfRabin = new TabFolder(rootComposite, SWT.NONE);
 		tfRabin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		//tfRabin.setBackground(ColorService.GRAY);
 	
 		tabFirstItem = new TabItem(tfRabin, SWT.NONE);
 		tabFirstItem.setText(Messages.RabinMainView_tabFirstItem);
@@ -116,9 +118,14 @@ public class RabinMainView extends ViewPart {
 		scCryptosystem.setExpandVertical(true);
 		scCryptosystem.setExpandHorizontal(true);
 		
+		//scCryptosystem.setBackground(ColorService.GRAY);
+		
 		Composite compHoldCryptosystem = new Composite(scCryptosystem, SWT.NONE);
 		compHoldCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldCryptosystem.setLayout(new GridLayout(1, false));
+		
+		compHoldCryptosystem.setBackground(ColorService.GRAY);
+		
 		//GUIHandler.setSizeControlStatic(compHoldCryptosystem, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// test and debugging
@@ -164,6 +171,7 @@ public class RabinMainView extends ViewPart {
 		compCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compCryptosystem.setLayout(new GridLayout(1, false));
 		
+		compCryptosystem.setBackground(ColorService.GRAY);
 		
 		
 		scCryptosystem.setMinSize(compHoldCryptosystem.computeSize(SWT.DEFAULT, SWT.DEFAULT));
@@ -230,6 +238,7 @@ public class RabinMainView extends ViewPart {
 		compHoldAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldAttacks.setLayout(new GridLayout(1, false));
 		
+		compHoldAttacks.setBackground(ColorService.GRAY);
 		
 
 		scAttacks.setContent(compHoldAttacks);

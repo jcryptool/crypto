@@ -577,7 +577,7 @@ public class HandleSecondTab extends GUIHandler {
 			return;
 		}
 		
-		BigInteger n =this.getRabinFirst().getN();
+		BigInteger n = this.getRabinFirst().getN();
 		
 		if(n == null) {
 			rstc.getTxtEnterCiphertextDecimal().setBackground(this.getColorBackgroundWrong());
@@ -691,10 +691,10 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void resetFinalPlaintextColor(RabinSecondTabComposite rstc) {
-		rstc.getTxtm1().setBackground(this.getColorBGinfo());
-		rstc.getTxtm2().setBackground(this.getColorBGinfo());
-		rstc.getTxtm3().setBackground(this.getColorBGinfo());
-		rstc.getTxtm4().setBackground(this.getColorBGinfo());
+		rstc.getTxtm1().setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.getTxtm2().setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.getTxtm3().setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.getTxtm4().setBackground(this.getColorResetFinalPlaintextBG());
 	}
 	
 	
@@ -1124,6 +1124,8 @@ public class HandleSecondTab extends GUIHandler {
 			
 			String ciphertextInHex = getRabinFirst().getStringWithSepForm(paddedCiphertextsHex, separator);
 			
+			
+			rstc.getTxtMessageWithPadding().setText(paddedPlaintextHex);
 			rstc.getTxtMessageSep().setText(plaintextEncodedWithSep);
 			rstc.getTxtMessageBase().setText(plaintextInHex);
 			rstc.getTxtCipher().setText(ciphertextInHex);
@@ -1141,6 +1143,7 @@ public class HandleSecondTab extends GUIHandler {
 			
 			//chooseCipherAction();
 			this.chooseCipherAction(rstc);
+			
 			
 		}
 		
@@ -1192,13 +1195,16 @@ public class HandleSecondTab extends GUIHandler {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
-			rstc.getCompHoldDecimalData().exclude = true;
-			rstc.getCompHoldDecimal().setVisible(false);
+			//rstc.getCompHoldDecimalData().exclude = true;
+			//rstc.getCompHoldDecimal().setVisible(false);
 			//compEnterCiphertext.requestLayout();
 			
-			rstc.getCompEnterCiphertextPart1Data().exclude = false;
-			rstc.getCompEnterCiphertextPart1().setVisible(true);
-			rstc.getCompEnterCiphertext().requestLayout();
+			//rstc.getCompEnterCiphertextPart1Data().exclude = false;
+			//rstc.getCompEnterCiphertextPart1().setVisible(true);
+			//rstc.getCompEnterCiphertext().requestLayout();
+			
+			this.hideControl(rstc.getCompHoldDecimal());
+			this.showControl(rstc.getCompEnterCiphertextSteps());
 			
 			//saveDecDecimalState();
 			this.saveState(State.DECDECIMAL, rstc);
@@ -1224,13 +1230,16 @@ public class HandleSecondTab extends GUIHandler {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
-			rstc.getCompEnterCiphertextPart1Data().exclude = true;
-			rstc.getCompEnterCiphertextPart1().setVisible(false);
+			//rstc.getCompEnterCiphertextPart1Data().exclude = true;
+			//rstc.getCompEnterCiphertextPart1().setVisible(false);
 			//compEnterCiphertext.requestLayout();
 			
-			rstc.getCompHoldDecimalData().exclude = false;
-			rstc.getCompHoldDecimal().setVisible(true);
-			rstc.getCompEnterCiphertext().requestLayout();
+			//rstc.getCompHoldDecimalData().exclude = false;
+			//rstc.getCompHoldDecimal().setVisible(true);
+			//rstc.getCompEnterCiphertext().requestLayout();
+			
+			this.hideControl(rstc.getCompEnterCiphertextSteps());
+			this.showControl(rstc.getCompHoldDecimal());
 			
 			//saveDecHexState();
 			this.saveState(State.DECHEX, rstc);

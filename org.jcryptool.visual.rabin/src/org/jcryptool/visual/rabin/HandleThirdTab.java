@@ -603,7 +603,7 @@ public class HandleThirdTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							TableItem tableItem= new TableItem(rttc.getPollardFactorTable(), SWT.NONE);
+							TableItem tableItem = new TableItem(rttc.getPollardFactorTable(), SWT.NONE);
 							tableItem.setText(itemContent);
 						}
 					};

@@ -14,6 +14,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -82,6 +83,24 @@ public class CryptosystemTextbookComposite extends Composite {
 	
 	private int possiblePlaintextsSize = 4;
 	private Button btnResetChosenPlaintexts;
+	private Group grpLoadText;
+	private Label lblInfoSeperator;
+	private Text txtInfoSelector;
+	private Composite compHoldEncryptDecryptRadio;
+	private Label lblChooseBlockDesc;
+	private Composite compHoldCiphertextSegments;
+	private Label lblCiphertextSegmentsDescription;
+	private Composite compFirstPlaintext;
+	private Label lblFirstPlaintextDesc;
+	private Composite compSecondPlaintext;
+	private Label lblSecondPlaintextDesc;
+	private Composite compThirdPlaintext;
+	private Label lblThirdPlaintextDesc;
+	private Composite compFourthPlaintext;
+	private Label lblFourthPlaintextDesc;
+	private Label lblPreviewChosenPlaintextDesc;
+	private Label lblSeparatePreviewDesc;
+	private Label lblSeperateDescription;
 
 		
 	
@@ -98,6 +117,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		createLoadTextContent(this);
 		createEncryptionDecryptionRadioBtns(this);
 		createEncryptionDecryptionContent(this);
+		setColors();
 		initializeContent();
 	}
 	
@@ -252,6 +272,138 @@ public class CryptosystemTextbookComposite extends Composite {
 	}
 	
 	
+	
+	private void setColors() {
+		
+		Color colorBG = guiHandler.getColorDarkModeBG();
+		Color colorFG = guiHandler.getColorDarkModeFG();
+		//Color colorFG = ColorService.YELLOW;
+		Color colorTxtWarningFG = guiHandler.getColorDarkModeWarningFG();
+		Color colorButtonBG = guiHandler.getColorButtonsBG();
+		Color colorButtonFG = guiHandler.getColorButtonsFG();
+		
+		
+		this.setBackground(colorBG);
+		this.setForeground(colorFG);
+		grpEncryptDecrypt.setBackground(colorBG);
+		grpEncryptDecrypt.setForeground(colorFG);
+		compHoldEncryptDecryptContent.setBackground(colorBG);
+		compHoldEncryptDecryptContent.setForeground(colorFG);
+		btnRadioEncrypt.setBackground(colorBG);
+		btnRadioEncrypt.setForeground(colorFG);
+		btnRadioDecrypt.setBackground(colorBG);
+		btnRadioDecrypt.setForeground(colorFG);
+		compHoldEncryptionProcess.setBackground(colorBG);
+		compHoldEncryptionProcess.setForeground(colorFG);
+		compHoldDecryptionProcess.setBackground(colorBG);
+		compHoldDecryptionProcess.setForeground(colorFG);
+		//textSelectorEncryption.setBackground(colorBG);
+		//textSelectorEncryption.setForeground(colorFG);
+		compHoldCiphertext.setBackground(colorBG);
+		compHoldCiphertext.setForeground(colorFG);
+		lblCiphertextDescryption.setBackground(colorBG);
+		lblCiphertextDescryption.setForeground(colorFG);
+		txtCiphertext.setBackground(colorBG);
+		txtCiphertext.setForeground(colorFG);
+		compHoldBtnsForFeatures.setBackground(colorBG);
+		compHoldBtnsForFeatures.setForeground(colorFG);
+		btnEncrypt.setBackground(colorButtonBG);
+		btnEncrypt.setForeground(colorButtonFG);
+		btnDecryptInEncryptionMode.setBackground(colorButtonBG);
+		btnDecryptInEncryptionMode.setForeground(colorButtonFG);
+		btnDecryptInEncryptionMode.setEnabled(false);
+		btnWriteToJCTeditor.setBackground(colorButtonBG);
+		btnWriteToJCTeditor.setForeground(colorButtonFG);
+		//textSelectorDecryption.setBackground(colorBG);
+		//textSelectorDecryption.setForeground(colorFG);
+		compHoldPlaintext.setBackground(colorBG);
+		compHoldPlaintext.setForeground(colorFG);
+		compCiphertextSegmentsComponents.setBackground(colorBG);
+		compCiphertextSegmentsComponents.setForeground(colorFG);
+		compChooseBlockComponents.setBackground(colorBG);
+		compChooseBlockComponents.setForeground(colorFG);
+		cmbChooseBlock.setBackground(colorButtonBG);
+		cmbChooseBlock.setForeground(colorButtonFG);
+		txtCiphertextSegments.setBackground(colorBG);
+		txtCiphertextSegments.setForeground(colorFG);
+		compPrevNextComponents.setBackground(colorBG);
+		compPrevNextComponents.setForeground(colorFG);
+		btnPrevBlock.setBackground(colorButtonBG);
+		btnPrevBlock.setForeground(colorButtonFG);
+		btnNextBlock.setBackground(colorButtonBG);
+		btnNextBlock.setForeground(colorButtonFG);
+		compPlaintexts.setBackground(colorBG);
+		compPlaintexts.setForeground(colorFG);
+		compPreviewChosenPlaintexts.setBackground(colorBG);
+		compPreviewChosenPlaintexts.setForeground(colorFG);
+		txtChosenPlaintexts.setBackground(colorBG);
+		txtChosenPlaintexts.setForeground(colorFG);
+		compHoldBtnsForFeaturesDecryptionMode.setBackground(colorBG);
+		compHoldBtnsForFeaturesDecryptionMode.setForeground(colorFG);
+		btnDecryption.setBackground(colorButtonBG);
+		btnDecryption.setForeground(colorButtonFG);
+		btnWriteToJCTeditorDecryptMode.setBackground(colorButtonBG);
+		btnWriteToJCTeditorDecryptMode.setForeground(colorButtonFG);
+		txtInfoEncryptionDecryption.setBackground(colorBG);
+		txtInfoEncryptionDecryption.setForeground(colorFG);
+		//txtEncryptWarning.setBackground(colorBG);
+		//txtEncryptWarning.setForeground(colorFG);
+		textSelector.setBackground(colorButtonBG);
+		textSelector.setForeground(colorButtonFG);
+		txtEncryptionWarning.setBackground(colorBG);
+		txtEncryptionWarning.setForeground(colorTxtWarningFG);
+		txtDecryptWarning.setBackground(colorBG);
+		txtDecryptWarning.setForeground(colorTxtWarningFG);
+		txtFirstPlaintext.setBackground(colorBG);
+		txtFirstPlaintext.setForeground(colorFG);
+		txtSecondPlaintext.setBackground(colorBG);
+		txtSecondPlaintext.setForeground(colorFG);
+		txtThirdPlaintext.setBackground(colorBG);
+		txtThirdPlaintext.setForeground(colorFG);
+		txtFourthPlaintext.setBackground(colorBG);
+		txtFourthPlaintext.setForeground(colorFG);
+		btnResetChosenPlaintexts.setBackground(colorButtonBG);
+		btnResetChosenPlaintexts.setForeground(colorButtonFG);
+		grpLoadText.setBackground(colorBG);
+		grpLoadText.setForeground(colorFG);
+		lblInfoSeperator.setBackground(colorBG);
+		lblInfoSeperator.setForeground(colorFG);
+		txtInfoSelector.setBackground(colorBG);
+		txtInfoSelector.setForeground(colorFG);
+		compHoldEncryptDecryptRadio.setBackground(colorBG);
+		compHoldEncryptDecryptRadio.setForeground(colorFG);
+		lblChooseBlockDesc.setBackground(colorBG);
+		lblChooseBlockDesc.setForeground(colorFG);
+		compHoldCiphertextSegments.setBackground(colorBG);
+		compHoldCiphertextSegments.setForeground(colorFG);
+		lblCiphertextSegmentsDescription.setBackground(colorBG);
+		lblCiphertextSegmentsDescription.setForeground(colorFG);
+		compFirstPlaintext.setBackground(colorBG);
+		compFirstPlaintext.setForeground(colorFG);
+		lblFirstPlaintextDesc.setBackground(colorBG);
+		lblFirstPlaintextDesc.setForeground(colorFG);
+		compSecondPlaintext.setBackground(colorBG);
+		compSecondPlaintext.setForeground(colorFG);
+		lblSecondPlaintextDesc.setBackground(colorBG);
+		lblSecondPlaintextDesc.setForeground(colorFG);
+		compThirdPlaintext.setBackground(colorBG);
+		compThirdPlaintext.setForeground(colorFG);
+		lblThirdPlaintextDesc.setBackground(colorBG);
+		lblThirdPlaintextDesc.setForeground(colorFG);
+		compFourthPlaintext.setBackground(colorBG);
+		compFourthPlaintext.setForeground(colorFG);
+		lblFourthPlaintextDesc.setBackground(colorBG);
+		lblFourthPlaintextDesc.setForeground(colorFG);
+		lblPreviewChosenPlaintextDesc.setBackground(colorBG);
+		lblPreviewChosenPlaintextDesc.setForeground(colorFG);
+		lblSeparatePreviewDesc.setBackground(colorBG);
+		lblSeparatePreviewDesc.setForeground(colorFG);
+		lblSeperateDescription.setBackground(colorBG);
+		lblSeperateDescription.setForeground(colorFG);
+	}
+	
+	
+	
 	private void createLoadTextContent(Composite parent) {
 		
 		//Composite compForVerticalSpacing = new Composite(parent, SWT.NONE);
@@ -260,7 +412,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		//((GridData) compForVerticalSpacing.getLayoutData()).
 		
 		
-		Group grpLoadText = new Group(parent, SWT.NONE);
+		grpLoadText = new Group(parent, SWT.NONE);
 		grpLoadText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		grpLoadText.setLayout(new GridLayout(3, false));
 		grpLoadText.setText("Load plaintext or ciphertext");
@@ -273,12 +425,12 @@ public class CryptosystemTextbookComposite extends Composite {
 		//textSelector.setForeground(guiHandler.getColorSelectControl());
 		//((GridData) textSelector.getLayoutData()).horizontalIndent = 400;
 		
-		Label lblInfoSeperator = new Label(grpLoadText, SWT.SEPARATOR | SWT.VERTICAL);
+		lblInfoSeperator = new Label(grpLoadText, SWT.SEPARATOR | SWT.VERTICAL);
 		lblInfoSeperator.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		//((GridData) lblInfoSeperator.getLayoutData()).horizontalIndent = 20;
 		
 		
-		Text txtInfoSelector = new Text(grpLoadText, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoSelector = new Text(grpLoadText, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoSelector.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtInfoSelector.setBackground(guiHandler.getColorBGinfo());
 		guiHandler.setSizeControl(txtInfoSelector, SWT.DEFAULT, 70);
@@ -304,7 +456,7 @@ public class CryptosystemTextbookComposite extends Composite {
 	
 	private void createEncryptionDecryptionRadioBtns(Composite parent) {
 		
-		Composite compHoldEncryptDecryptRadio = new Composite(parent, SWT.NONE);
+		compHoldEncryptDecryptRadio = new Composite(parent, SWT.NONE);
 		compHoldEncryptDecryptRadio.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		compHoldEncryptDecryptRadio.setLayout(new GridLayout(2, false));
 		guiHandler.setControlMargin(compHoldEncryptDecryptRadio, SWT.DEFAULT, 15);
@@ -528,7 +680,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		guiHandler.setControlMargin(compChooseBlockComponents, 0, 5);
 		//((GridLayout) compChooseBlockComponents.getLayout()).marginLeft = 0;
 		
-		Label lblChooseBlockDesc = new Label(compChooseBlockComponents, SWT.NONE);
+		lblChooseBlockDesc = new Label(compChooseBlockComponents, SWT.NONE);
 		lblChooseBlockDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		lblChooseBlockDesc.setText("Block");
 		
@@ -545,13 +697,13 @@ public class CryptosystemTextbookComposite extends Composite {
 		});
 		
 		
-		Composite compHoldCiphertextSegments = new Composite(compCiphertextSegmentsComponents, SWT.NONE);
+		compHoldCiphertextSegments = new Composite(compCiphertextSegmentsComponents, SWT.NONE);
 		compHoldCiphertextSegments.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compHoldCiphertextSegments.setLayout(new GridLayout(1, false));
 		guiHandler.setControlMargin(compHoldCiphertextSegments, 0, 0);
 		
 		
-		Label lblCiphertextSegmentsDescription = new Label(compHoldCiphertextSegments, SWT.NONE);
+		lblCiphertextSegmentsDescription = new Label(compHoldCiphertextSegments, SWT.NONE);
 		lblCiphertextSegmentsDescription.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 		lblCiphertextSegmentsDescription.setText("Ciphertext separated into blocks (\"||\" as separator)");
 		
@@ -567,6 +719,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtCiphertextSegments.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtCiphertextSegments.setBackground(ColorService.LIGHTGRAY);
 		txtCiphertextSegments.setSelectionBackground(ColorService.LIGHT_AREA_BLUE);
+		//txtCiphertextSegments.setSelectionBackground(new Color(255, 200, 0));
 		txtCiphertextSegments.setSelectionForeground(ColorService.BLACK);
 		guiHandler.setSizeControl(txtCiphertextSegments, SWT.DEFAULT, SWT.DEFAULT + 75);
 		txtCiphertextSegments.addSelectionListener(new SelectionAdapter() {
@@ -644,22 +797,22 @@ public class CryptosystemTextbookComposite extends Composite {
 		guiHandler.setControlMargin(compPlaintexts, 0, 5);
 		
 		
-		Composite compFirstPlaintext = new Composite(compPlaintexts, SWT.NONE);
+		compFirstPlaintext = new Composite(compPlaintexts, SWT.NONE);
 		compFirstPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compFirstPlaintext.setLayout(new GridLayout(1, false));
 		guiHandler.setControlMargin(compFirstPlaintext, 0, 5);
 		
 		
 		
-		Label lblFirstPlaintextDesc = new Label(compFirstPlaintext, SWT.NONE);
+		lblFirstPlaintextDesc = new Label(compFirstPlaintext, SWT.NONE);
 		lblFirstPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		lblFirstPlaintextDesc.setText("Plaintext 1");
 		
 		
 		
 		txtFirstPlaintext = new Text(compFirstPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
-		txtFirstPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		guiHandler.setSizeControl(txtFirstPlaintext, 100, 100);
+		txtFirstPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
+		guiHandler.setSizeControl(txtFirstPlaintext, 100, 50);
 		txtFirstPlaintext.setBackground(guiHandler.getColorBGinfo());
 		txtFirstPlaintext.addMouseListener(new MouseAdapter() {
 		
@@ -672,14 +825,14 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		
-		Composite compSecondPlaintext = new Composite(compPlaintexts, SWT.NONE);
+		compSecondPlaintext = new Composite(compPlaintexts, SWT.NONE);
 		compSecondPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compSecondPlaintext.setLayout(new GridLayout(1, false));
 		guiHandler.setControlMargin(compSecondPlaintext, 0, 5);
 		
 		
 		
-		Label lblSecondPlaintextDesc = new Label(compSecondPlaintext, SWT.NONE);
+		lblSecondPlaintextDesc = new Label(compSecondPlaintext, SWT.NONE);
 		lblSecondPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		lblSecondPlaintextDesc.setText("Plaintext 2");
 	
@@ -687,8 +840,8 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		txtSecondPlaintext = new Text(compSecondPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
-		txtSecondPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		guiHandler.setSizeControl(txtSecondPlaintext, 100, 100);
+		txtSecondPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
+		guiHandler.setSizeControl(txtSecondPlaintext, 100, 50);
 		txtSecondPlaintext.setBackground(guiHandler.getColorBGinfo());
 		txtSecondPlaintext.addMouseListener(new MouseAdapter() {
 			
@@ -701,12 +854,12 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		
-		Composite compThirdPlaintext = new Composite(compPlaintexts, SWT.NONE);
+		compThirdPlaintext = new Composite(compPlaintexts, SWT.NONE);
 		compThirdPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compThirdPlaintext.setLayout(new GridLayout(1, false));
 		guiHandler.setControlMargin(compThirdPlaintext, 0, 5);
 		
-		Label lblThirdPlaintextDesc = new Label(compThirdPlaintext, SWT.NONE);
+		lblThirdPlaintextDesc = new Label(compThirdPlaintext, SWT.NONE);
 		lblThirdPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		lblThirdPlaintextDesc.setText("Plaintext 3");
 	
@@ -715,8 +868,8 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		txtThirdPlaintext = new Text(compThirdPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
-		txtThirdPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		guiHandler.setSizeControl(txtThirdPlaintext, 100, 100);
+		txtThirdPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
+		guiHandler.setSizeControl(txtThirdPlaintext, 100, 50);
 		txtThirdPlaintext.setBackground(guiHandler.getColorBGinfo());
 		txtThirdPlaintext.addMouseListener(new MouseAdapter() {
 			
@@ -729,14 +882,14 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		
-		Composite compFourthPlaintext = new Composite(compPlaintexts, SWT.NONE);
+		compFourthPlaintext = new Composite(compPlaintexts, SWT.NONE);
 		compFourthPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compFourthPlaintext.setLayout(new GridLayout(1, false));
 		guiHandler.setControlMargin(compFourthPlaintext, 0, 5);
 		//((GridLayout) compFourthPlaintext.getLayout()).marginRight = 5;
 		
 		
-		Label lblFourthPlaintextDesc = new Label(compFourthPlaintext, SWT.NONE);
+		lblFourthPlaintextDesc = new Label(compFourthPlaintext, SWT.NONE);
 		lblFourthPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
 		lblFourthPlaintextDesc.setText("Plaintext 4");
 		
@@ -746,8 +899,8 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		txtFourthPlaintext = new Text(compFourthPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
-		txtFourthPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		guiHandler.setSizeControl(txtFourthPlaintext, 100, 100);
+		txtFourthPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
+		guiHandler.setSizeControl(txtFourthPlaintext, 100, 50);
 		txtFourthPlaintext.setBackground(guiHandler.getColorBGinfo());
 		txtFourthPlaintext.addMouseListener(new MouseAdapter() {
 			
@@ -784,12 +937,13 @@ public class CryptosystemTextbookComposite extends Composite {
 		compPreviewChosenPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compPreviewChosenPlaintexts.setLayout(new GridLayout(1, false));
 		
-		Label lblPreviewChosenPlaintextDesc = new Label(compPreviewChosenPlaintexts, SWT.NONE);
+		lblPreviewChosenPlaintextDesc = new Label(compPreviewChosenPlaintexts, SWT.NONE);
 		lblPreviewChosenPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false));
-		lblPreviewChosenPlaintextDesc.setText("Preview chosen plaintexts");
+		//lblPreviewChosenPlaintextDesc.setText("Preview chosen plaintexts");
+		lblPreviewChosenPlaintextDesc.setText("Chosen plaintexts (preview)");
 		
 		
-		Label lblSeparatePreviewDesc = new Label(compPreviewChosenPlaintexts, SWT.SEPARATOR | SWT.HORIZONTAL);
+		lblSeparatePreviewDesc = new Label(compPreviewChosenPlaintexts, SWT.SEPARATOR | SWT.HORIZONTAL);
 		lblSeparatePreviewDesc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		
@@ -875,7 +1029,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		
 		
-		Label lblSeperateDescription = new Label(grpEncryptDecrypt, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSeperateDescription = new Label(grpEncryptDecrypt, SWT.SEPARATOR | SWT.VERTICAL);
 		lblSeperateDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		((GridData) lblSeperateDescription.getLayoutData()).horizontalIndent = 0;
 		

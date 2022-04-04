@@ -73,11 +73,14 @@ public class GUIHandler {
 	private Color colorFGinfo = ColorService.BLACK;
 	
 	// colors for selecting controls
-	private Color colorSelectControl = ColorService.LIGHT_AREA_BLUE;
-	private Color colorDeselectControl = ColorService.LIGHTGRAY;
+	private Color colorSelectControlBG = ColorService.LIGHT_AREA_BLUE;
+	private Color colorDeselectControlBG = ColorService.GRAY;
+	private Color colorSelectControlFG = ColorService.BLACK;
+	private Color colorDeselectControlFG = ColorService.WHITE;
 	
 	// colors for buttons
-	private Color colorButtons = ColorService.LIGHT_AREA_BLUE;
+	private Color colorButtonsBG = ColorService.LIGHT_AREA_BLUE;
+	private Color colorButtonsFG = ColorService.BLACK;
 	
 	// colors for composites
 	private Color colorCompositeBG = ColorService.GRAY;
@@ -86,6 +89,54 @@ public class GUIHandler {
 	// colors for groups
 	private Color colorGroupBG = ColorService.GRAY;
 	private Color colorGroupFG = ColorService.WHITE;
+	
+	// colors dark mode
+	
+	private Color colorDarkModeBG = ColorService.GRAY;
+	private Color colorDarkModeFG = ColorService.WHITE;
+	private Color colorDarkModeWarningFG = ColorService.LIGHT_AREA_RED;//new Color(255, 91, 91);
+	
+	
+	// colors for second tab selection of styledText
+	private Color colorSelectionStyledTextBG = ColorService.LIGHT_AREA_BLUE;
+	private Color colorSelectionStyledTextFG = ColorService.BLACK;
+	
+	
+	// colors for reset final plaintext in 2nd tab
+	private Color colorResetFinalPlaintextBG = ColorService.GRAY;
+	
+	
+	public Color getColorResetFinalPlaintextBG() {
+		return colorResetFinalPlaintextBG;
+	}
+	
+	
+	public Color getColorSelectionStyledTextBG() {
+		return colorSelectionStyledTextBG;
+	}
+	
+	
+	
+	public Color getColorSelectionStyledTextFG() {
+		return colorSelectionStyledTextFG;
+	}
+	
+	
+	
+	public Color getColorDarkModeWarningFG() {
+		return colorDarkModeWarningFG;
+	}
+	
+	
+	
+	public Color getColorDarkModeBG() {
+		return colorDarkModeBG;
+	}
+	
+	
+	public Color getColorDarkModeFG() {
+		return colorDarkModeFG;
+	}
 	
 	
 	
@@ -159,12 +210,15 @@ public class GUIHandler {
 	/**
 	 * @return the colorButtons
 	 */
-	public Color getColorButtons() {
-		return colorButtons;
+	public Color getColorButtonsBG() {
+		return colorButtonsBG;
 	}
 
 
-
+		
+	public Color getColorButtonsFG() {
+		return colorButtonsFG;
+	}
 
 
 
@@ -221,13 +275,22 @@ public class GUIHandler {
 	}
 	
 	
-	public Color getColorSelectControl() {
-		return colorSelectControl;
+	public Color getColorSelectControlBG() {
+		return colorSelectControlBG;
 	}
 	
 	
-	public Color getColorDeselectControl() {
-		return colorDeselectControl;
+	public Color getColorDeselectControlBG() {
+		return colorDeselectControlBG;
+	}
+	
+	
+	public Color getColorSelectControlFG() {
+		return colorSelectControlFG;
+	}
+	
+	public Color getColorDeselectControlFG() {
+		return colorDeselectControlFG;
 	}
 	
 	
@@ -684,8 +747,8 @@ public class GUIHandler {
 				
 			case "txtInfoEncryptionDecryption_encrypt":
 				message = "In encryption mode you have three options you can choose from:\n\n"
-				  		+ "1) click on \"Encrypt\" to encrypt a chosen plaintext. THe ciphertext will be shown "
-				  		+ "in the box on the left side.\n\n"
+				  		+ "1) click on \"Encrypt\" to encrypt a chosen plaintext. The ciphertext will be shown "
+				  		+ "in the field on the left side.\n\n"
 				  		+ "2) once you have encrypted a plaintext you can click on "
 				  		+ "\"Decrypt and switch to decryption mode\" to decrypt the ciphertext again and "
 				  		+ "switch to decryption mode.\n\n"
@@ -699,24 +762,24 @@ public class GUIHandler {
 						+ "The ciphertext is split into blocks with a specific blocklength. "
 						+ "For example, having N = 713 = 23 \u2219 31 (default value), the blocklength "
 						+ "is 2. So its the bitlength of N divided by 8 plus 1, since one block is 8 bits long.\n"
-						+ "The ciphertext seperated into blocks is shown in the according box on the left side.\n\n"
+						+ "The ciphertext seperated into blocks is shown in the according field on the left side.\n\n"
 						+ "2) Once you have decrypted a ciphertext you can either use the drop-down list \"Block\" to choose a "
 						+ "specifc ciphertextblock or the buttons \"Previous block\" and \"Next block\" to go through the "
 						+ "ciphertextblocks one by one in a cyclic manner.\n"
 						+ "The currently selected ciphertextblock is decrypted and its four possible plaintexts are "
-						+ "shown in the according boxes on the left side.\n"
+						+ "shown in the according fields on the left side.\n"
 						+ "Most of the times three of the four plaintexts consist of random characters, so "
-						+ "they do not make sense at all.\n\n"
+						+ "they do not make any sense at all.\n\n"
 						+ "3) you can click on each plaintext to mark it as \"selected\" and add it to the "
-						+ "list of chosen plaintexts, which are shown in the box \"Preview chosen plaintexts\".\n"
+						+ "list of chosen plaintexts, which are shown in the field \"Chosen plaintexts (preview)\".\n"
 						+ "The first click will add the plaintext to the list and a second click will remove "
 						+ "it again.\n"
 						+ "With this you are able to select different plaintexts of your choice and connect them to"
 						+ "\"one\" plaintext.\n\n"
-						+ "4) you can click on \"Write to JCT editor\" to write the content of the box "
-						+ "\"Preview chosen plaintexts\" to a build-in editor in JCT.\n\n"
-						+ "5) you can click on \"Reset chosen plaintexts\" to reset the box "
-						+ "\"Preview chosen plaintexts\" and your whole selection of plaintexts.";
+						+ "4) you can click on \"Write to JCT editor\" to write the content of the field "
+						+ "\"Chosen plaintexts (preview)\" to a build-in editor in JCT.\n\n"
+						+ "5) you can click on \"Reset chosen plaintexts\" to reset the field "
+						+ "\"Chosen plaintexts (preview)\" and your whole selection of plaintexts.";
 				break;
 				
 				

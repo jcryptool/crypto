@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import java.awt.Font;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ import java.util.Random;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -143,6 +146,22 @@ public class RabinFirstTabComposite extends Composite {
 	private Button btnSelectCryptoSteps;
 	
 	private Text txtInfoSetParam;
+	
+	private Composite compHoldSelectionPrimesAndLimits;
+	private Text txtInfoSelection;
+	private Composite compSelectPrimeGen;
+	private Label lblLowLimPQSingle;
+	private Label lblUpperLimPQSingle;
+	private Label lblSepInfoSetParam;
+	private Label lblLowLimP;
+	private Label lblUpperLim;
+	private Label lblLowLimQ;
+	private Label lblUpperLimQ;
+	private Composite compSelectionCryptosystem;
+	private Composite compSelection;
+	private Label lblSeparateInfoTop;
+	private Group grpInfoSelection;
+	private Label lblSeparateInfoBottom;
 	
 	
 	
@@ -608,6 +627,7 @@ public class RabinFirstTabComposite extends Composite {
 		@Override
 		public void modifyText(ModifyEvent e) {
 			guiHandler.updateTextfields(getCurrentInstance());
+			
 		}
 	};
 	
@@ -621,9 +641,176 @@ public class RabinFirstTabComposite extends Composite {
 			guiHandler.btnStartGenKeysAction(getCurrentInstance(), rstc, 1000);
 		}
 	});
-	private Composite compHoldSelectionPrimesAndLimits;
-	private Text txtInfoSelection;
+	private Composite compTest;
+	private StyledText txtInstructions;
 	
+	
+	
+	
+	private void setColors() {
+		
+		Color colorBG = guiHandler.getColorDarkModeBG();
+		Color colorFG = guiHandler.getColorDarkModeFG();
+		//Color colorFG = new Color(255, 0, 255);
+		
+		Color colorTxtWarningFG = guiHandler.getColorDarkModeWarningFG();
+		Color colorButtonBG = guiHandler.getColorButtonsBG();
+		Color colorButtonFG = guiHandler.getColorButtonsFG();
+		Color colorTxtWhichYouCanEnterBG = ColorService.WHITE;
+		Color colorTxtWhichYouCanEnterFG = ColorService.BLACK;
+		
+		//txtEnterText.setBackground(colorBG);
+		//txtEnterText.setForeground(colorFG);
+		cmbP.setBackground(colorTxtWhichYouCanEnterBG);
+		cmbP.setForeground(colorTxtWhichYouCanEnterFG);
+		cmbQ.setBackground(colorTxtWhichYouCanEnterBG);
+		cmbQ.setForeground(colorTxtWhichYouCanEnterFG);
+		txtModN.setBackground(colorBG);
+		txtModN.setForeground(colorFG);
+		txtLowLimP.setBackground(colorTxtWhichYouCanEnterBG);
+		txtLowLimP.setForeground(colorTxtWhichYouCanEnterFG);
+		txtUpperLimP.setBackground(colorTxtWhichYouCanEnterBG);
+		txtUpperLimP.setForeground(colorTxtWhichYouCanEnterFG);
+		txtLowLimQ.setBackground(colorTxtWhichYouCanEnterBG);
+		txtLowLimQ.setForeground(colorTxtWhichYouCanEnterFG);
+		txtUpperLimQ.setBackground(colorTxtWhichYouCanEnterBG);
+		txtUpperLimQ.setForeground(colorTxtWhichYouCanEnterFG);
+		//txtChosenPlain.setBackground(colorBG);
+		//txtChosenPlain.setForeground(colorFG);
+		//txtEncDecStartWarning.setBackground(colorBG);
+		//txtEncDecStartWarning.setForeground(colorFG);
+		//txtWarningNpq.setBackground(colorBG);
+		//txtWarningNpq.setForeground(colorFG);
+		txtcompGenPandQWarning.setBackground(colorBG);
+		txtcompGenPandQWarning.setForeground(colorTxtWarningFG);
+		//txtEnc.setBackground(colorBG);
+		//txtEnc.setForeground(colorFG);
+		//txtChosenPlainInfo.setBackground(colorBG);
+		//txtChosenPlainInfo.setForeground(colorFG);
+		//grpPlaintext.setBackground(colorBG);
+		//grpPlaintext.setForeground(colorFG);
+		grpParam.setBackground(colorBG);
+		grpParam.setForeground(colorFG);
+		//grpEncDec.setBackground(colorBG);
+		//grpEncDec.setForeground(colorFG);
+		//grpMessages.setBackground(colorBG);
+		//grpMessages.setForeground(colorFG);
+		//textSelector.setBackground(colorBG);
+		//textSelector.setForeground(colorFG);
+		lblPrimeP.setBackground(colorBG);
+		lblPrimeP.setForeground(colorFG);
+		lblPrimeQ.setBackground(colorBG);
+		lblPrimeQ.setForeground(colorFG);
+		lblModN.setBackground(colorBG);
+		lblModN.setForeground(colorFG);
+		npqComp.setBackground(colorBG);
+		npqComp.setForeground(colorFG);
+		genPComp.setBackground(colorBG);
+		genPComp.setForeground(colorFG);
+		genQComp.setBackground(colorBG);
+		genQComp.setForeground(colorFG);
+		paramMainComp.setBackground(colorBG);
+		paramMainComp.setForeground(colorFG);
+		compGenKeys.setBackground(colorBG);
+		compGenKeys.setForeground(colorFG);
+		//compHoldEncDec.setBackground(colorBG);
+		//compHoldEncDec.setForeground(colorFG);
+		//compPlaintexts.setBackground(colorBG);
+		//compPlaintexts.setForeground(colorFG);
+		//compHoldPlainAndText.setBackground(colorBG);
+		//compHoldPlainAndText.setForeground(colorFG);
+		//rootComposite.setBackground(colorBG);
+		//rootComposite.setForeground(colorFG);
+		//btnGenPrimes.setBackground(colorBG);
+		//btnGenPrimes.setForeground(colorFG);
+		//btnRadEnc.setBackground(colorBG);
+		//btnRadEnc.setForeground(colorFG);
+		//btnRadDec.setBackground(colorBG);
+		//btnRadDec.setForeground(colorFG);
+		//btnEncDec.setBackground(colorBG);
+		//btnEncDec.setForeground(colorFG);
+		btnGenKeysMan.setBackground(colorBG);
+		btnGenKeysMan.setForeground(colorFG);
+		//btnGenKeysAlgo.setBackground(colorBG);
+		//btnGenKeysAlgo.setForeground(colorFG);
+		//btnEncDecStart.setBackground(colorBG);
+		//btnEncDecStart.setForeground(colorFG);
+		btnStartGenKeys.setBackground(colorButtonBG);
+		//btnStartGenKeys.setForeground(colorBG);
+		btnStartGenKeys.setForeground(colorButtonFG);
+		
+		btnGenKeys.setBackground(colorBG);
+		btnGenKeys.setForeground(colorFG);
+		//btnUseKeysAlgo.setBackground(colorBG);
+		//btnUseKeysAlgo.setForeground(colorFG);
+		//sc.setBackground(colorBG);
+		//sc.setForeground(colorFG);
+		pWarning.setBackground(colorBG);
+		pWarning.setForeground(colorTxtWarningFG);
+		qWarning.setBackground(colorBG);
+		qWarning.setForeground(colorTxtWarningFG);
+		nWarning.setBackground(colorBG);
+		nWarning.setForeground(colorTxtWarningFG);
+		txtLowLimPQSingle.setBackground(colorFG);
+		txtLowLimPQSingle.setForeground(colorBG);
+		txtUpperLimPQSingle.setBackground(colorFG);
+		txtUpperLimPQSingle.setForeground(colorBG);
+		compSelectMultiPandQ.setBackground(colorBG);
+		compSelectMultiPandQ.setForeground(colorFG);
+		grpSelectSinglePandQ.setBackground(colorBG);
+		grpSelectSinglePandQ.setForeground(colorFG);
+		txtSinglePQWarning.setBackground(colorBG);
+		txtSinglePQWarning.setForeground(colorTxtWarningFG);
+		btnSelectSingleLimit.setBackground(colorBG);
+		btnSelectSingleLimit.setForeground(colorFG);
+		btnSelectMultiPandQ.setBackground(colorBG);
+		btnSelectMultiPandQ.setForeground(colorFG);
+		//cstb.setBackground(colorBG);
+		//cstb.setForeground(colorFG);
+		//rstc.setBackground(colorBG);
+		//rstc.setForeground(colorFG);
+		btnSelectCryptotb.setBackground(colorBG);
+		btnSelectCryptotb.setForeground(colorFG);
+		btnSelectCryptoSteps.setBackground(colorBG);
+		btnSelectCryptoSteps.setForeground(colorFG);
+		txtInfoSetParam.setBackground(colorBG);
+		txtInfoSetParam.setForeground(colorFG);
+		compHoldSelectionPrimesAndLimits.setBackground(colorBG);
+		compHoldSelectionPrimesAndLimits.setForeground(colorFG);
+		txtInfoSelection.setBackground(colorBG);
+		txtInfoSelection.setForeground(colorFG);
+		compSelectPrimeGen.setBackground(colorBG);
+		compSelectPrimeGen.setForeground(colorFG);
+		lblLowLimPQSingle.setBackground(colorBG);
+		lblLowLimPQSingle.setForeground(colorFG);
+		lblUpperLimPQSingle.setBackground(colorBG);
+		lblUpperLimPQSingle.setForeground(colorFG);
+		lblSepInfoSetParam.setBackground(colorBG);
+		lblSepInfoSetParam.setForeground(colorFG);
+		lblLowLimP.setBackground(colorBG);
+		lblLowLimP.setForeground(colorFG);
+		lblUpperLim.setBackground(colorBG);
+		lblUpperLim.setForeground(colorFG);
+		lblLowLimQ.setBackground(colorBG);
+		lblLowLimQ.setForeground(colorFG);
+		lblUpperLimQ.setBackground(colorBG);
+		lblUpperLimQ.setForeground(colorFG);
+		compSelectionCryptosystem.setBackground(colorBG);
+		compSelectionCryptosystem.setForeground(colorFG);
+		compSelection.setBackground(colorBG);
+		compSelection.setForeground(colorFG);
+		lblSeparateInfoTop.setBackground(colorBG);
+		lblSeparateInfoTop.setForeground(colorFG);
+		grpInfoSelection.setBackground(colorBG);
+		grpInfoSelection.setForeground(colorFG);
+		lblSeparateInfoBottom.setBackground(colorBG);
+		lblSeparateInfoBottom.setForeground(colorFG);
+		/*compTest.setBackground(colorBG);
+		compTest.setForeground(colorFG);
+		txtInstructions.setBackground(colorBG);
+		txtInstructions.setForeground(colorFG);*/
+		
+	}
 	
 	
 	
@@ -730,8 +917,7 @@ public class RabinFirstTabComposite extends Composite {
 		guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
 		
 		
-		//Composite compSelectPrimeGen = new Composite(paramMainComp, SWT.NONE);
-		Composite compSelectPrimeGen = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
+		compSelectPrimeGen = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
 		//compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1));
 		compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
 		compSelectPrimeGen.setLayout(new GridLayout(1, false));
@@ -899,8 +1085,7 @@ public class RabinFirstTabComposite extends Composite {
 		GenPQSingledata.horizontalSpan = 2;
 		lblGenPQSingle.setLayoutData(GenPQSingledata);*/
 		
-		// create label and textbox for lower limit prime p
-		Label lblLowLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
+		lblLowLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
 		String strLowerLimit = Messages.RabinFirstTabComposite_strLowerLimit;
 		lblLowLimPQSingle.setText(strLowerLimit);
 		txtLowLimPQSingle = new Text(grpSelectSinglePandQ, SWT.BORDER);
@@ -919,8 +1104,7 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		// create label and textbox for upper limit prime p
-		Label lblUpperLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
+		lblUpperLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
 		String strUpperLimit = Messages.RabinFirstTabComposite_strUpperLimit;
 		lblUpperLimPQSingle.setText(strUpperLimit);
 		txtUpperLimPQSingle = new Text(grpSelectSinglePandQ, SWT.BORDER);
@@ -1041,15 +1225,15 @@ public class RabinFirstTabComposite extends Composite {
 		});*/
 		
 		
-		Composite compForStartAndStopBtn = new Composite(compGenKeys, SWT.NONE);
+		/*Composite compForStartAndStopBtn = new Composite(compGenKeys, SWT.NONE);
 		compForStartAndStopBtn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		compForStartAndStopBtn.setLayout(new GridLayout(2, false));
 		guiHandler.setControlMargin(compForStartAndStopBtn, 0, SWT.DEFAULT);
+		*/
 		
 		
 		
-		
-		btnStartGenKeys = new Button(compForStartAndStopBtn, SWT.PUSH);
+		btnStartGenKeys = new Button(compGenKeys, SWT.PUSH);
 		GridData btnStartGenData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
 		btnStartGenData.horizontalIndent = 5;
 		btnStartGenKeys.setLayoutData(btnStartGenData);
@@ -1073,7 +1257,7 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		Button btnStopComputation = new Button(compForStartAndStopBtn, SWT.PUSH);
+		/*Button btnStopComputation = new Button(compForStartAndStopBtn, SWT.PUSH);
 		btnStopComputation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		btnStopComputation.setText("Stop computation");
 		btnStopComputation.addSelectionListener(new SelectionAdapter() {
@@ -1084,19 +1268,47 @@ public class RabinFirstTabComposite extends Composite {
 				//guiHandler.setStopComputation(true);
 				
 			}
-		});
+		});*/
 		
 		
 		
 		
-		// create label for separating info
-		Label lblSepInfoSetParam = new Label(grpParam, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSepInfoSetParam = new Label(grpParam, SWT.SEPARATOR | SWT.VERTICAL);
 		lblSepInfoSetParam.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, false, true));
 		
 		/*Group grpTest = new Group(grpParam, SWT.NONE);
 		grpTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpTest.setLayout(new GridLayout(1, false));
 		grpTest.setText("Instructions");*/
+		
+		
+		/*compTest = new Composite(grpParam, SWT.NONE);
+		compTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compTest.setLayout(new GridLayout(1, false));*/
+		//compTest.setBackground(guiHandler.getColorDarkModeBG());
+		//compTest.setForeground(guiHandler.getColorDarkModeFG());
+		
+		
+		/*Label lblInstructions = new Label(compTest, SWT.NONE);
+		lblInstructions.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		lblInstructions.setText("Instructions");
+		lblInstructions.setFont(new org.eclipse.swt.graphics.Font(getDisplay(), "test", 10, SWT.BOLD | SWT.UNDERLINE_DOUBLE));
+		lblInstructions.setBackground(guiHandler.getColorDarkModeBG());
+		lblInstructions.setForeground(guiHandler.getColorDarkModeFG());*/
+		
+		/*txtInstructions = new StyledText(compTest, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInstructions.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		txtInstructions.setText("Instructions");
+		txtInstructions.setFont(new org.eclipse.swt.graphics.Font(getDisplay(), "test", 10, SWT.BOLD));
+		StyleRange styleInstructions = new StyleRange();
+		styleInstructions.start = 0;
+		styleInstructions.length = txtInstructions.getText().length();
+		styleInstructions.underline = true;
+		txtInstructions.setStyleRange(styleInstructions);
+		
+		txtInstructions.setBackground(guiHandler.getColorBGinfo());*/
+		//txtInstructions.setForeground(guiHandler.getColorDarkModeFG());
+		
 		
 		
 		
@@ -1125,8 +1337,7 @@ public class RabinFirstTabComposite extends Composite {
 		GenPdata.horizontalSpan = 2;
 		lblGenP.setLayoutData(GenPdata);*/
 		
-		// create label and textbox for lower limit prime p
-		Label lblLowLimP = new Label(genPComp, SWT.NONE);
+		lblLowLimP = new Label(genPComp, SWT.NONE);
 		lblLowLimP.setText(strLowerLimit);
 		txtLowLimP = new Text(genPComp, SWT.BORDER);
 		txtLowLimP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -1136,8 +1347,7 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		// create label and textbox for upper limit prime p
-		Label lblUpperLim = new Label(genPComp, SWT.NONE);
+		lblUpperLim = new Label(genPComp, SWT.NONE);
 		lblUpperLim.setText(strUpperLimit);
 		txtUpperLimP = new Text(genPComp, SWT.BORDER);
 		txtUpperLimP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -1154,8 +1364,7 @@ public class RabinFirstTabComposite extends Composite {
 		GenQdata.horizontalSpan = 2;
 		lblGenQ.setLayoutData(GenPdata);*/
 		
-		// create label and textbox for lower limit prime q
-		Label lblLowLimQ = new Label(genQComp, SWT.NONE);
+		lblLowLimQ = new Label(genQComp, SWT.NONE);
 		lblLowLimQ.setText(strLowerLimit);
 		txtLowLimQ = new Text(genQComp, SWT.BORDER);
 		txtLowLimQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -1165,8 +1374,7 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		// create label and textbox for upper limit prime q
-		Label lblUpperLimQ = new Label(genQComp, SWT.NONE);
+		lblUpperLimQ = new Label(genQComp, SWT.NONE);
 		lblUpperLimQ.setText(strUpperLimit);
 		txtUpperLimQ = new Text(genQComp, SWT.BORDER);
 		txtUpperLimQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -1184,7 +1392,7 @@ public class RabinFirstTabComposite extends Composite {
 	
 	private void createSelectionCryptosystemContent(Composite parent) {
 		
-		Composite compSelectionCryptosystem = new Composite(parent, SWT.NONE);
+		compSelectionCryptosystem = new Composite(parent, SWT.NONE);
 		compSelectionCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compSelectionCryptosystem.setLayout(new GridLayout(2, false));
 		((GridLayout) compSelectionCryptosystem.getLayout()).marginHeight = 40;
@@ -1193,7 +1401,7 @@ public class RabinFirstTabComposite extends Composite {
 		//lblSeparateInfoTop.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		
 		
-		Composite compSelection = new Composite(compSelectionCryptosystem, SWT.NONE);
+		compSelection = new Composite(compSelectionCryptosystem, SWT.NONE);
 		compSelection.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
 		compSelection.setLayout(new GridLayout(2, false));
 		guiHandler.setControlMargin(compSelection, SWT.DEFAULT, SWT.DEFAULT);
@@ -1221,7 +1429,7 @@ public class RabinFirstTabComposite extends Composite {
 		
 		btnSelectCryptotb = new Button(compSelection, SWT.RADIO);
 		btnSelectCryptotb.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnSelectCryptotb.setText("Cryptosystem in textbook");
+		btnSelectCryptotb.setText("Cryptosystem in textbook format");
 		btnSelectCryptotb.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1254,11 +1462,11 @@ public class RabinFirstTabComposite extends Composite {
 	
 	private void createInfoForSelectionContent(Composite parent) {
 		
-		Label lblSeparateInfoTop = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		lblSeparateInfoTop = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
 		lblSeparateInfoTop.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		
-		Group grpInfoSelection = new Group(parent, SWT.NONE);
+		grpInfoSelection = new Group(parent, SWT.NONE);
 		grpInfoSelection.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, true));
 		grpInfoSelection.setLayout(new GridLayout(1, false));
 		grpInfoSelection.setText("Info");
@@ -1272,7 +1480,7 @@ public class RabinFirstTabComposite extends Composite {
 		txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook"));
 		
 		
-		Label lblSeparateInfoBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		lblSeparateInfoBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
 		lblSeparateInfoBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		
@@ -1843,13 +2051,21 @@ public class RabinFirstTabComposite extends Composite {
 		rstc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		rstc.setLayout(new GridLayout(1, false));
 		guiHandler.hideControl(rstc);
+		
+		//guiHandler.setControlMargin(this, 0, 0);
+		
 		// create plaintext/ciphertext content
 		//createPlainCipherContent(this);
 		
 		// create encryption/decryption group
 		//createEncDecContent(this);
 
+		
+		setColors();
+		
 		initializeContent();
+		
+		
 		
 		//sc.setMinSize(rootComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		

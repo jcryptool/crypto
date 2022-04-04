@@ -210,7 +210,7 @@ public class HandleCryptosystemTextbook {
 		
 		//resetChosenPlaintexts(idx, cstb);
 		
-		updateChosenPlaintexts(idx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		updateChosenPlaintexts(idx, cstb, guiHandler.getColorSelectControlBG(), guiHandler.getColorDeselectControlBG(), guiHandler.getColorSelectControlFG(), guiHandler.getColorDeselectControlFG());
 		currentSelectedPlaintexts = new LinkedHashMap<String, String>();
 		cstb.getTxtChosenPlaintexts().setText("");
 		
@@ -219,7 +219,8 @@ public class HandleCryptosystemTextbook {
 		hideControl(cstb.getCompHoldEncryptionProcess());
 		showControl(cstb.getCompHoldDecryptionProcess());
 		hideControl(cstb.getDecryptWarning());
-	
+		cstb.getGrpEncryptDecrypt().setText("Decryption");
+		
 	}
 	
 	
@@ -267,16 +268,16 @@ public class HandleCryptosystemTextbook {
 	
 	
 	
-	private void updateChosenPlaintexts(int idx, CryptosystemTextbookComposite cstb, Color colorToSet, Color colorToReset) {
+	private void updateChosenPlaintexts(int idx, CryptosystemTextbookComposite cstb, Color colorToSetBG, Color colorToResetBG, Color colorToSetFG, Color colorToResetFG) {
 		ArrayList<Boolean> clickedPlaintextsOfIdx = clickedPlaintexts.get(idx);
 		for(int i = 0; i < clickedPlaintextsOfIdx.size(); i++) {
 			if(clickedPlaintextsOfIdx.get(i)) {
 				countClicksForPlaintexts[i] = 1;
-				setColorPlaintext(cstb, i, colorToSet);
+				setColorPlaintext(cstb, i, colorToSetBG, colorToSetFG);
 			}
 			else {
 				countClicksForPlaintexts[i] = 0;
-				setColorPlaintext(cstb, i, colorToReset);
+				setColorPlaintext(cstb, i, colorToResetBG, colorToResetFG);
 			}
 		}
 	}
@@ -311,7 +312,7 @@ public class HandleCryptosystemTextbook {
 		
 		
 		// update chosen plainetxts and colors
-		updateChosenPlaintexts(nextIdx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		updateChosenPlaintexts(nextIdx, cstb, guiHandler.getColorSelectControlBG(), guiHandler.getColorDeselectControlBG(), guiHandler.getColorSelectControlFG(), guiHandler.getColorDeselectControlFG());
 	}
 	
 	
@@ -331,7 +332,7 @@ public class HandleCryptosystemTextbook {
 		cstb.getCmbChooseBlock().select(nextIdx);
 		
 		
-		updateChosenPlaintexts(nextIdx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		updateChosenPlaintexts(nextIdx, cstb, guiHandler.getColorSelectControlBG(), guiHandler.getColorDeselectControlBG(), guiHandler.getColorSelectControlFG(), guiHandler.getColorDeselectControlFG());
 	}
 	
 	
@@ -417,7 +418,7 @@ public class HandleCryptosystemTextbook {
 				cstb.getTxtThirdPlaintext(), cstb.getTxtFourthPlaintext());
 		
 		//resetChosenPlaintexts(idx, cstb);
-		updateChosenPlaintexts(idx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		updateChosenPlaintexts(idx, cstb, guiHandler.getColorSelectControlBG(), guiHandler.getColorDeselectControlBG(), guiHandler.getColorSelectControlFG(), guiHandler.getColorDeselectControlFG());
 		currentSelectedPlaintexts = new LinkedHashMap<String, String>();
 		cstb.getTxtChosenPlaintexts().setText("");
 	}
@@ -499,7 +500,7 @@ public class HandleCryptosystemTextbook {
 	
 	
 	private void resetChosenPlaintexts(int idx, CryptosystemTextbookComposite cstb) {
-		updateChosenPlaintexts(idx, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		updateChosenPlaintexts(idx, cstb, guiHandler.getColorSelectControlBG(), guiHandler.getColorDeselectControlBG(), guiHandler.getColorSelectControlFG(), guiHandler.getColorDeselectControlFG());
 		cstb.getTxtChosenPlaintexts().setText("");
 	}
 	
@@ -516,22 +517,26 @@ public class HandleCryptosystemTextbook {
 	
 	
 	
-	private void setColorPlaintext(CryptosystemTextbookComposite cstb, int idxToSet, Color color) {
+	private void setColorPlaintext(CryptosystemTextbookComposite cstb, int idxToSet, Color colorBG, Color colorFG) {
 		switch(idxToSet) {
 			case 0:
-				cstb.getTxtFirstPlaintext().setBackground(color);
+				cstb.getTxtFirstPlaintext().setBackground(colorBG);
+				cstb.getTxtFirstPlaintext().setForeground(colorFG);
 				break;
 			
 			case 1:
-				cstb.getTxtSecondPlaintext().setBackground(color);
+				cstb.getTxtSecondPlaintext().setBackground(colorBG);
+				cstb.getTxtSecondPlaintext().setForeground(colorFG);
 				break;
 			
 			case 2:
-				cstb.getTxtThirdPlaintext().setBackground(color);
+				cstb.getTxtThirdPlaintext().setBackground(colorBG);
+				cstb.getTxtThirdPlaintext().setForeground(colorFG);
 				break;
 				
 			case 3:
-				cstb.getTxtFourthPlaintext().setBackground(color);
+				cstb.getTxtFourthPlaintext().setBackground(colorBG);
+				cstb.getTxtFourthPlaintext().setForeground(colorFG);
 				break;
 			
 			default:
@@ -544,7 +549,7 @@ public class HandleCryptosystemTextbook {
 	
 	
 	
-	private void txtPlaintextMouseDownAction(int idxToSet, CryptosystemTextbookComposite cstb, Color colorToSet, Color colorToReset) {
+	private void txtPlaintextMouseDownAction(int idxToSet, CryptosystemTextbookComposite cstb, Color colorToSetBG, Color colorToResetBG, Color colorToSetFG, Color colorToResetFG) {
 		countClicksForPlaintexts[idxToSet] = (countClicksForPlaintexts[idxToSet] + 1) % 2;
 		
 		if(countClicksForPlaintexts[idxToSet] == 1) {
@@ -556,7 +561,7 @@ public class HandleCryptosystemTextbook {
 			currentSelectedPlaintexts.put(key, val);
 			String currentSelectedPlaintextsAsStr = getCurrentSelectedPlaintexts();
 			cstb.getTxtChosenPlaintexts().setText(currentSelectedPlaintextsAsStr);
-			setColorPlaintext(cstb, idxToSet, colorToSet);
+			setColorPlaintext(cstb, idxToSet, colorToSetBG, colorToSetFG);
 		}
 		
 		if(countClicksForPlaintexts[idxToSet] == 0) {
@@ -567,7 +572,7 @@ public class HandleCryptosystemTextbook {
 			currentSelectedPlaintexts.remove(key);
 			String currentSelectedPlaintextsAsStr = getCurrentSelectedPlaintexts();
 			cstb.getTxtChosenPlaintexts().setText(currentSelectedPlaintextsAsStr);
-			setColorPlaintext(cstb, idxToSet, colorToReset);
+			setColorPlaintext(cstb, idxToSet, colorToResetBG, colorToResetFG);
 		}
 	}
 	
@@ -638,7 +643,7 @@ public class HandleCryptosystemTextbook {
 			return;
 		
 		int idxToSet = 0;
-		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControlBG(), guiHandler.getColorDeselectControlBG(), guiHandler.getColorSelectControlFG(), guiHandler.getColorDeselectControlFG());
 	}
 	
 	
@@ -647,7 +652,7 @@ public class HandleCryptosystemTextbook {
 			return;
 		
 		int idxToSet = 1;
-		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControlBG(), guiHandler.getColorDeselectControlBG(), guiHandler.getColorSelectControlFG(), guiHandler.getColorDeselectControlFG());
 	}
 	
 	
@@ -656,7 +661,7 @@ public class HandleCryptosystemTextbook {
 			return;
 		
 		int idxToSet = 2;
-		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControlBG(), guiHandler.getColorDeselectControlBG(), guiHandler.getColorSelectControlFG(), guiHandler.getColorDeselectControlFG());
 	}
 	
 	
@@ -666,7 +671,7 @@ public class HandleCryptosystemTextbook {
 			return;
 		
 		int idxToSet = 3;
-		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControl(), guiHandler.getColorDeselectControl());
+		txtPlaintextMouseDownAction(idxToSet, cstb, guiHandler.getColorSelectControlBG(), guiHandler.getColorDeselectControlBG(), guiHandler.getColorSelectControlFG(), guiHandler.getColorDeselectControlFG());
 	}
 	
 	
