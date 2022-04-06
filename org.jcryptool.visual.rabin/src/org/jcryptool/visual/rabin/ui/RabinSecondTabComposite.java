@@ -193,6 +193,10 @@ public class RabinSecondTabComposite extends Composite {
 	
 	private Composite compSelNumTxt;
 	private Composite compHoldNextC;
+	
+	private Composite compHoldRadioHexAndDecAndSteps;
+	private Composite compHoldRadHexDec2;
+
 
 	
 	
@@ -884,8 +888,6 @@ public class RabinSecondTabComposite extends Composite {
 			guiHandler.verifyControlFields(e);			
 		}
 	};
-	private Composite compHoldRadioHexAndDecAndSteps;
-	private Composite compHoldRadHexDec2;
 	
 		
 	
@@ -2586,7 +2588,9 @@ public class RabinSecondTabComposite extends Composite {
 		createEncContent(this);
 		createDecContent(this);
 		
-		setColors();
+		
+		if(guiHandler.getDarkmode())
+			setColors();
 		
 		guiHandler.initializeComponents(getCurrentInstance());
 		

@@ -371,6 +371,7 @@ public class RabinThirdTabComposite extends Composite {
 		compSelFermatPollard = new Composite(parent, SWT.NONE);
 		compSelFermatPollard.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, false, false));
 		compSelFermatPollard.setLayout(new GridLayout(2, false));
+		//((GridLayout) compSelFermatPollard.getLayout()).marginTop = 15;
 		
 		btnSelFermat = new Button(compSelFermatPollard, SWT.RADIO);
 		btnSelFermat.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -1082,11 +1083,11 @@ public class RabinThirdTabComposite extends Composite {
 		btnSelPollard.setBackground(colorBG);
 		btnSelPollard.setForeground(colorFG);
 		txtInfoStopComputation.setBackground(colorBG);
-		txtInfoStopComputation.setForeground(colorFG);
+		txtInfoStopComputation.setForeground(ColorService.LIGHT_AREA_GREEN);
 		btnStopComputation.setBackground(colorButtonBG);
 		btnStopComputation.setForeground(colorButtonFG);
 		txtInfoStopComputationPollard.setBackground(colorBG);
-		txtInfoStopComputationPollard.setForeground(colorFG);
+		txtInfoStopComputationPollard.setForeground(ColorService.LIGHT_AREA_GREEN);
 		btnStopComputationPollard.setBackground(colorButtonBG);
 		btnStopComputationPollard.setForeground(colorButtonFG);
 		grpPollardSetParam.setBackground(colorBG);
@@ -1243,7 +1244,8 @@ public class RabinThirdTabComposite extends Composite {
 		
 		initializeContent();
 		
-		setColors();
+		if(guiHandler.getDarkmode())
+			setColors();
 		
 		//setColorsGroup(grpPollardSetParam);
 	    

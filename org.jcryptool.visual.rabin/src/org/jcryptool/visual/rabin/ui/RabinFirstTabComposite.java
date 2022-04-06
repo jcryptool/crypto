@@ -172,6 +172,15 @@ public class RabinFirstTabComposite extends Composite {
 	
 	
 	
+	public RabinSecondTabComposite getRabinSecondTabComposite() {
+		return rstc;
+	}
+	
+	
+	public CryptosystemTextbookComposite getCryptosystemTextbookComposite() {
+		return cstb;
+	}
+	
 	
 	public HandleFirstTab getGUIHandler() {
 		return guiHandler;
@@ -751,10 +760,10 @@ public class RabinFirstTabComposite extends Composite {
 		qWarning.setForeground(colorTxtWarningFG);
 		nWarning.setBackground(colorBG);
 		nWarning.setForeground(colorTxtWarningFG);
-		txtLowLimPQSingle.setBackground(colorFG);
-		txtLowLimPQSingle.setForeground(colorBG);
-		txtUpperLimPQSingle.setBackground(colorFG);
-		txtUpperLimPQSingle.setForeground(colorBG);
+		txtLowLimPQSingle.setBackground(colorTxtWhichYouCanEnterBG);
+		txtLowLimPQSingle.setForeground(colorTxtWhichYouCanEnterFG);
+		txtUpperLimPQSingle.setBackground(colorTxtWhichYouCanEnterBG);
+		txtUpperLimPQSingle.setForeground(colorTxtWhichYouCanEnterFG);
 		compSelectMultiPandQ.setBackground(colorBG);
 		compSelectMultiPandQ.setForeground(colorFG);
 		grpSelectSinglePandQ.setBackground(colorBG);
@@ -1234,9 +1243,11 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		btnStartGenKeys = new Button(compGenKeys, SWT.PUSH);
-		GridData btnStartGenData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
+		GridData btnStartGenData = new GridData(SWT.BEGINNING, SWT.CENTER, true, true);
 		btnStartGenData.horizontalIndent = 5;
+		btnStartGenData.verticalIndent = 5;
 		btnStartGenKeys.setLayoutData(btnStartGenData);
+		guiHandler.setSizeControl(btnStartGenKeys, 100, 30);
 		btnStartGenKeys.setText(Messages.RabinFirstTabComposite_btnStartGenKeys);
 		
 		btnStartGenKeys.addSelectionListener(new SelectionAdapter() {		
@@ -2059,9 +2070,9 @@ public class RabinFirstTabComposite extends Composite {
 		
 		// create encryption/decryption group
 		//createEncDecContent(this);
-
-		
-		setColors();
+	
+		if(guiHandler.getDarkmode())
+			setColors();
 		
 		initializeContent();
 		

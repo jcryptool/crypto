@@ -117,7 +117,10 @@ public class CryptosystemTextbookComposite extends Composite {
 		createLoadTextContent(this);
 		createEncryptionDecryptionRadioBtns(this);
 		createEncryptionDecryptionContent(this);
-		setColors();
+		
+		if(guiHandler.getDarkmode())
+			setColors();
+		
 		initializeContent();
 	}
 	
@@ -601,7 +604,7 @@ public class CryptosystemTextbookComposite extends Composite {
 				hcstb.btnEncryptAction(textSelector, txtCiphertext, txtEncryptionWarning);
 			}
 		});
-		btnEncrypt.setBackground(ColorService.LIGHT_AREA_BLUE);
+		//btnEncrypt.setBackground(ColorService.LIGHT_AREA_BLUE);
 		
 		
 		btnDecryptInEncryptionMode = new Button(compHoldBtnsForFeatures, SWT.PUSH);

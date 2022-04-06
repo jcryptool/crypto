@@ -674,15 +674,19 @@ public class HandleSecondTab extends GUIHandler {
 		
 		if(m1.equals(currentPlaintext)) {
 			rstc.getTxtm1().setBackground(this.getColorBackgroundCorrect());
+			rstc.getTxtm1().setForeground(this.getColorSelectControlFG());
 		}
 		if(m2.equals(currentPlaintext)) {
 			rstc.getTxtm2().setBackground(this.getColorBackgroundCorrect());
+			rstc.getTxtm2().setForeground(this.getColorSelectControlFG());
 		}
 		if(m3.equals(currentPlaintext)) {
 			rstc.getTxtm3().setBackground(this.getColorBackgroundCorrect());
+			rstc.getTxtm3().setForeground(this.getColorSelectControlFG());
 		}
 		if(m4.equals(currentPlaintext)) {
 			rstc.getTxtm4().setBackground(this.getColorBackgroundCorrect());
+			rstc.getTxtm4().setForeground(this.getColorSelectControlFG());
 		}
 	}
 	

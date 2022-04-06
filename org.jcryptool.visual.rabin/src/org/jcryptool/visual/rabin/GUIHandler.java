@@ -57,6 +57,7 @@ public class GUIHandler {
 	private int radix = 16;
 	private String separator = "||"; //$NON-NLS-1$
 	private boolean stopComputation = false;
+	private static boolean darkmode = true;
 	
 	
 	// colors for p and q in Cryptosystem and Algorithm tab
@@ -69,8 +70,8 @@ public class GUIHandler {
 	private Color colorForegroundWarning = ColorService.RED;
 	
 	// colors for info textfields
-	private Color colorBGinfo = ColorService.LIGHTGRAY;
-	private Color colorFGinfo = ColorService.BLACK;
+	private static Color colorBGinfo = ColorService.LIGHTGRAY;
+	private static Color colorFGinfo = ColorService.BLACK;
 	
 	// colors for selecting controls
 	private Color colorSelectControlBG = ColorService.LIGHT_AREA_BLUE;
@@ -104,6 +105,25 @@ public class GUIHandler {
 	
 	// colors for reset final plaintext in 2nd tab
 	private Color colorResetFinalPlaintextBG = ColorService.GRAY;
+	
+	
+	public void setColorBGinfo(Color color) {
+		this.colorBGinfo = color;
+	}
+	
+	public void setColorFGinfo(Color color) {
+		this.colorFGinfo = color;
+	}
+	
+	
+	public boolean getDarkmode() {
+		return darkmode;
+	}
+	
+	
+	public void setDarkmode(boolean val) {
+		this.darkmode = val;
+	}
 	
 	
 	public Color getColorResetFinalPlaintextBG() {
@@ -155,6 +175,9 @@ public class GUIHandler {
 	}
 	
 	
+	public GUIHandler() {
+		
+	}
 	
 
 	

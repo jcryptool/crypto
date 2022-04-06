@@ -581,8 +581,15 @@ public class HandleThirdTab extends GUIHandler {
 						rttc.getPollardFactorTable().removeAll();
 						txtpPollard.setText("");
 						txtqPollard.setText("");
-						txtpPollard.setBackground(neutral);
-						txtqPollard.setBackground(neutral);
+						
+						if(getDarkmode()) {
+							txtpPollard.setBackground(getColorDarkModeBG());
+							txtqPollard.setBackground(getColorDarkModeBG());
+						}
+						else {
+							txtpPollard.setBackground(neutral);
+							txtqPollard.setBackground(neutral);
+						}
 					}
 				};
 				
@@ -747,11 +754,20 @@ public class HandleThirdTab extends GUIHandler {
 						rttc.getTxtP1().setText("");
 						rttc.getTxtP2().setText("");
 						rttc.getTxtResultP().setText("");
-						rttc.getTxtResultP().setBackground(getColorBGinfo());
+						//rttc.getTxtP1().setBackground(getColorBGinfo());
+						//rttc.getTxtP1().setBackground(getColorBGinfo());
+						if(getDarkmode())
+							rttc.getTxtResultP().setBackground(getColorDarkModeBG());
+						else
+							rttc.getTxtResultP().setBackground(getColorBGinfo());
 						rttc.getTxtQ1().setText("");
 						rttc.getTxtQ2().setText("");
 						rttc.getTxtResultQ().setText("");
-						rttc.getTxtResultQ().setBackground(getColorBGinfo());
+						
+						if(getDarkmode())
+							rttc.getTxtResultQ().setBackground(getColorDarkModeBG());
+						else
+							rttc.getTxtResultQ().setBackground(getColorBGinfo());
 					
 						nAsStr = rttc.getCmbN().getText();
 							
