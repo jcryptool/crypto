@@ -5,15 +5,20 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.part.ViewPart;
+import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
 import org.jcryptool.visual.rabin.GUIHandler;
@@ -26,23 +31,65 @@ public class RabinMainView extends ViewPart {
 	private Composite rootComposite;
 	private RabinFirstTabComposite compCryptosystem;
 	private TitleAndDescriptionComposite compTad;
-	private RabinSecondTabComposite compAlgorithm;
-	private ScrolledComposite sc;
 	private TabFolder tfRabin;
 	private TabItem tabFirstItem;
-	private TabItem tabSecondItem;
 	private TabItem tabThirdItem;
 	private RabinThirdTabComposite compAttacks;
-	private Composite compHoldAlgorithm;
+	private Composite compHoldAttacks;
+	private Composite compHoldCryptosystem;
+	private Composite compHoldSettings;
+	
+	private GUIHandler guiHandler;
 	
 
 	public RabinMainView() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
+	private void setColors() {
+		Color colorBG = ColorService.GRAY;
+		Color colorFG = ColorService.WHITE;
+		
+		
+		//parent.setBackground(colorBG);
+		//parent.setForeground(colorFG);
+		//rootComposite.setBackground(colorBG);
+		//rootComposite.setForeground(colorFG);
+		compCryptosystem.setBackground(colorBG);
+		compCryptosystem.setForeground(colorFG);
+		//compTad.setBackground(colorBG);
+		//compTad.setForeground(colorFG);
+		//tfRabin.setBackground(colorBG);
+		//tfRabin.setForeground(colorFG);
+		compAttacks.setBackground(colorBG);
+		compAttacks.setForeground(colorFG);
+		compHoldAttacks.setBackground(colorBG);
+		compHoldAttacks.setForeground(colorFG);
+		compHoldCryptosystem.setBackground(colorBG);
+		compHoldCryptosystem.setForeground(colorFG);
+	}
+	
+	
+	
+	
+	public void setBackgroundComponents(Composite parent, Color color) {
+		
+		Control[] children = parent.getChildren();
+		
+		for(Control c : children) {
+			if(!(c instanceof Combo) && !(c instanceof Button)) {
+				c.setBackground(color);
+			}
+		}
+	}
+	
 
 	@Override
 	public void createPartControl(Composite parent) {
 		this.parent = parent;
+		guiHandler = new GUIHandler();
 		//sc = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 		//sc = new ScrolledComposite(parent, SWT.NONE);
 		//rootComposite = new Composite(sc, SWT.NONE);
@@ -87,6 +134,8 @@ public class RabinMainView extends ViewPart {
 		
 		tfRabin = new TabFolder(rootComposite, SWT.NONE);
 		tfRabin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		//tfRabin.setBackground(ColorService.GRAY);
 	
 		tabFirstItem = new TabItem(tfRabin, SWT.NONE);
 		tabFirstItem.setText(Messages.RabinMainView_tabFirstItem);
@@ -97,9 +146,14 @@ public class RabinMainView extends ViewPart {
 		scCryptosystem.setExpandVertical(true);
 		scCryptosystem.setExpandHorizontal(true);
 		
-		Composite compHoldCryptosystem = new Composite(scCryptosystem, SWT.NONE);
+		//scCryptosystem.setBackground(ColorService.GRAY);
+		
+		compHoldCryptosystem = new Composite(scCryptosystem, SWT.NONE);
 		compHoldCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldCryptosystem.setLayout(new GridLayout(1, false));
+		
+		//compHoldCryptosystem.setBackground(ColorService.GRAY);
+		
 		//GUIHandler.setSizeControlStatic(compHoldCryptosystem, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// test and debugging
@@ -145,6 +199,7 @@ public class RabinMainView extends ViewPart {
 		compCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compCryptosystem.setLayout(new GridLayout(1, false));
 		
+		//compCryptosystem.setBackground(ColorService.GRAY);
 		
 		
 		scCryptosystem.setMinSize(compHoldCryptosystem.computeSize(SWT.DEFAULT, SWT.DEFAULT));
@@ -153,7 +208,7 @@ public class RabinMainView extends ViewPart {
 		
 		tabFirstItem.setControl(scCryptosystem);
 		
-		tabSecondItem = new TabItem(tfRabin, SWT.NONE);
+		/*tabSecondItem = new TabItem(tfRabin, SWT.NONE);
 		tabSecondItem.setText(Messages.RabinMainView_tabSecondItem);
 		
 		ScrolledComposite scAlgorithm = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -186,7 +241,7 @@ public class RabinMainView extends ViewPart {
 		
 		
 		scAlgorithm.setMinSize(compHoldAlgorithm.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		tabSecondItem.setControl(scAlgorithm);
+		tabSecondItem.setControl(scAlgorithm);*/
 		
 		
 		tabThirdItem = new TabItem(tfRabin, SWT.NONE);
@@ -202,26 +257,71 @@ public class RabinMainView extends ViewPart {
 			@Override
 			public void controlResized(ControlEvent e) {
 				int width = scAttacks.getClientArea().width;
-				scAttacks.setMinSize(compHoldAlgorithm.computeSize(width, SWT.DEFAULT));
+				scAttacks.setMinSize(compHoldAttacks.computeSize(width, SWT.DEFAULT));
 			}
 		
 		});
 		
-		Composite compHoldAttacks = new Composite(scAttacks, SWT.NONE);
+		compHoldAttacks = new Composite(scAttacks, SWT.NONE);
 		compHoldAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldAttacks.setLayout(new GridLayout(1, false));
 		
+		//compHoldAttacks.setBackground(ColorService.GRAY);
 		
 
 		scAttacks.setContent(compHoldAttacks);
 		
 		
-		compAttacks = new RabinThirdTabComposite(compHoldAttacks, SWT.NONE, rabinAttacksTab, rabinAlgorithmTab, scAttacks, compHoldAttacks);
+		compAttacks = new RabinThirdTabComposite(compHoldAttacks, SWT.NONE, rabinAttacksTab, rabinCryptosystemTab, scAttacks, compHoldAttacks);
 		compAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compAttacks.setLayout(new GridLayout(1, false));
 		
 		scAttacks.setMinSize(compHoldAttacks.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		tabThirdItem.setControl(scAttacks);
+		
+		
+		TabItem tabFourthItem = new TabItem(tfRabin, SWT.NONE);
+		tabFourthItem.setText("Settings");
+		
+		ScrolledComposite scSettings = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		scSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		scSettings.setExpandVertical(true);
+		scSettings.setExpandHorizontal(true);
+		
+		
+		scSettings.addControlListener(new ControlAdapter() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				int width = scSettings.getClientArea().width;
+				scSettings.setMinSize(compHoldSettings.computeSize(width, SWT.DEFAULT));
+			}
+		
+		});
+		
+		
+		compHoldSettings = new Composite(scSettings, SWT.NONE);
+		compHoldSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldSettings.setLayout(new GridLayout(1, false));
+	
+	
+		scSettings.setContent(compHoldSettings);
+		
+		
+		Settings settings = new Settings(compHoldSettings, SWT.NONE, this);
+		settings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		settings.setLayout(new GridLayout(1, false));
+		
+		
+		scSettings.setMinSize(compHoldSettings.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		tabFourthItem.setControl(scSettings);
+		
+		
+		if(guiHandler.getDarkmode())
+			setColors();
+		
+		//setBackgroundComponents(compCryptosystem, ColorService.GRAY);
+		//setBackgroundComponents(compHoldCryptosystem, ColorService.GRAY);
 		
 
 	}
