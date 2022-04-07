@@ -1,6 +1,8 @@
 package org.jcryptool.visual.rabin.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -168,6 +170,15 @@ public class Settings extends Composite {
 		txtInfoMode.setText("Select \"Classic mode\" or \"Dark mode\" and click on \"Apply\" to "
 				+ "either activate the classic mode or the dark mode. Be aware that the plugin will restart "
 				+ "after clicking on \"Apply\"");
+		txtInfoMode.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoMode, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		

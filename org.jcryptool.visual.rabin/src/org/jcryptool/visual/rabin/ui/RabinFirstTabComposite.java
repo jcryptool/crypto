@@ -1054,6 +1054,15 @@ public class RabinFirstTabComposite extends Composite {
 		});
 		
 		txtModN.setBackground(ColorService.LIGHTGRAY);
+		txtModN.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtModN, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -1329,6 +1338,14 @@ public class RabinFirstTabComposite extends Composite {
 		guiHandler.setSizeControl(txtInfoSetParam, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoSetParam.setText(guiHandler.getMessageByControl("btnGenKeysMan_selection"));
 		txtInfoSetParam.setBackground(ColorService.LIGHTGRAY);
+		txtInfoSetParam.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoSetParam, SWT.CURSOR_ARROW);
+			}
+		});
 		
 		
 		
@@ -1489,6 +1506,14 @@ public class RabinFirstTabComposite extends Composite {
 		guiHandler.setSizeControlWarning(txtInfoSelection, SWT.DEFAULT + 400, SWT.DEFAULT);
 		txtInfoSelection.setBackground(guiHandler.getColorBGinfo());
 		txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook"));
+		txtInfoSelection.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoSelection, SWT.CURSOR_ARROW);
+			}
+		});
 		
 		
 		lblSeparateInfoBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);

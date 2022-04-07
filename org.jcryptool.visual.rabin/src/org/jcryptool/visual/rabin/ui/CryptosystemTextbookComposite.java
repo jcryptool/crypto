@@ -11,15 +11,19 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -438,6 +442,14 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtInfoSelector.setBackground(guiHandler.getColorBGinfo());
 		guiHandler.setSizeControl(txtInfoSelector, SWT.DEFAULT, 70);
 		txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector"));
+		txtInfoSelector.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoSelector, SWT.CURSOR_ARROW);
+			}
+		});
 		
 		//((GridData) textSelector.getLayoutData()).horizontalIndent = 400;
 	}
@@ -578,6 +590,15 @@ public class CryptosystemTextbookComposite extends Composite {
 				hcstb.txtCiphertextModifyAction(getCurrentInstance());
 			}
 		});
+		txtCiphertext.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtCiphertext, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		txtEncryptionWarning = new Text(compHoldCiphertext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
@@ -791,6 +812,15 @@ public class CryptosystemTextbookComposite extends Composite {
 		guiHandler.setSizeControlWarning(txtDecryptWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(txtDecryptWarning);
 		((GridData) txtDecryptWarning.getLayoutData()).horizontalIndent = 90;
+		txtDecryptWarning.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtDecryptWarning, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -825,6 +855,14 @@ public class CryptosystemTextbookComposite extends Composite {
 			}
 			
 		});
+		txtFirstPlaintext.addMouseTrackListener(new MouseTrackAdapter() {
+				
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtFirstPlaintext, SWT.CURSOR_ARROW);
+			}
+		});
 		
 		
 		
@@ -854,6 +892,15 @@ public class CryptosystemTextbookComposite extends Composite {
 			}
 			
 		});
+		txtSecondPlaintext.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtSecondPlaintext, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -882,6 +929,15 @@ public class CryptosystemTextbookComposite extends Composite {
 			}
 			
 		});
+		txtThirdPlaintext.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtThirdPlaintext, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -913,6 +969,15 @@ public class CryptosystemTextbookComposite extends Composite {
 			}
 			
 		});
+		txtFourthPlaintext.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtFourthPlaintext, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		//plaintexts = new Text[4];
@@ -961,6 +1026,15 @@ public class CryptosystemTextbookComposite extends Composite {
 				hcstb.txtChosenPlaintextsModifyAction(getCurrentInstance());
 			}
 		});
+		txtChosenPlaintexts.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtChosenPlaintexts, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		/*txtDecryptWarning = new Text(compHoldPlaintext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
@@ -1041,7 +1115,15 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtInfoEncryptionDecryption.setBackground(ColorService.LIGHTGRAY);
 		guiHandler.setSizeControl(txtInfoEncryptionDecryption, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt"));
-		
+		txtInfoEncryptionDecryption.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoEncryptionDecryption, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		

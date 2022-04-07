@@ -12,6 +12,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -456,6 +457,15 @@ public class RabinThirdTabComposite extends Composite {
 		txtInfoFactorPollard.setText(guiHandler.getMessageByControl("txtInfoFactor_pollard"));
 		
 		txtInfoFactorPollard.setBackground(ColorService.LIGHTGRAY);
+		txtInfoFactorPollard.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoFactorPollard, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		lblNPollard = new Label(compSelParam, SWT.NONE);
@@ -574,6 +584,15 @@ public class RabinThirdTabComposite extends Composite {
 		txtpPollard = new Text(grpResult, SWT.SINGLE | SWT.LEAD | SWT.BORDER | SWT.READ_ONLY);
 		txtpPollard.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		guiHandler.setSizeControl(txtpPollard, SWT.DEFAULT, SWT.DEFAULT);
+		txtpPollard.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtpPollard, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		lblqPollard = new Label(grpResult, SWT.NONE);
@@ -583,7 +602,15 @@ public class RabinThirdTabComposite extends Composite {
 		txtqPollard = new Text(grpResult, SWT.SINGLE | SWT.LEAD | SWT.BORDER | SWT.READ_ONLY);
 		txtqPollard.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		guiHandler.setSizeControl(txtqPollard, SWT.DEFAULT, SWT.DEFAULT);
-		
+		txtqPollard.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtqPollard, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -876,7 +903,16 @@ public class RabinThirdTabComposite extends Composite {
 		txtInfoFactor.setText(guiHandler.getMessageByControl("txtInfoFactor_fermat"));
 		
 		
-		txtInfoFactor.setBackground(ColorService.LIGHTGRAY);	
+		txtInfoFactor.setBackground(ColorService.LIGHTGRAY);
+		txtInfoFactor.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoFactor, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		lblN = new Label(npqComp, SWT.NONE);
@@ -917,17 +953,44 @@ public class RabinThirdTabComposite extends Composite {
 		txtP1 = new Text(compPrimeP, SWT.BORDER | SWT.READ_ONLY);
 		txtP1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtP1, SWT.DEFAULT, SWT.DEFAULT);
+		txtP1.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtP1, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		lblPlusP = new Label(compPrimeP, SWT.NONE);
 		lblPlusP.setText("+"); //$NON-NLS-1$
 		txtP2 = new Text(compPrimeP, SWT.BORDER | SWT.READ_ONLY);
 		txtP2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtP2, SWT.DEFAULT, SWT.DEFAULT);
+		txtP2.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtP2, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		lblResultP = new Label(npqComp, SWT.NONE);
 		lblResultP.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 		lblResultP.setText("= "); //$NON-NLS-1$
 		txtResultP = new Text(npqComp, SWT.BORDER | SWT.READ_ONLY);
 		txtResultP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtResultP, SWT.DEFAULT, SWT.DEFAULT);
+		txtResultP.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtResultP, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		/*txtResultP.addModifyListener(new ModifyListener() {
 			
 			@Override
@@ -949,17 +1012,44 @@ public class RabinThirdTabComposite extends Composite {
 		txtQ1 = new Text(compPrimeQ, SWT.BORDER | SWT.READ_ONLY);
 		txtQ1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtQ1, SWT.DEFAULT, SWT.DEFAULT);
+		txtQ1.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtQ1, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		lblMinusQ = new Label(compPrimeQ, SWT.NONE);
 		lblMinusQ.setText("\u2212"); //$NON-NLS-1$
 		txtQ2 = new Text(compPrimeQ, SWT.BORDER | SWT.READ_ONLY);
 		txtQ2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtQ2, SWT.DEFAULT, SWT.DEFAULT);
+		txtQ2.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtQ2, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		lblResultQ = new Label(npqComp, SWT.NONE);
 		lblResultQ.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 		lblResultQ.setText("= "); //$NON-NLS-1$
 		txtResultQ = new Text(npqComp, SWT.BORDER | SWT.READ_ONLY);
 		txtResultQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtResultQ, SWT.DEFAULT, SWT.DEFAULT);
+		txtResultQ.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtResultQ, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		/*txtResultQ.addModifyListener(new ModifyListener() {
 			

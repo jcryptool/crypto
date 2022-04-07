@@ -15,6 +15,7 @@ import org.eclipse.swt.events.TypedEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.internal.SWTEventListener;
 import org.eclipse.swt.layout.GridData;
@@ -541,6 +542,11 @@ public class GUIHandler {
 	public void setRadix(int radix) {
 		this.radix = radix;
 	}
+	
+	
+	public void setCursorControl(Control c, int cursor) {
+		c.setCursor(new Cursor(Display.getDefault(), cursor));
+	}
 
 
 	
@@ -710,7 +716,7 @@ public class GUIHandler {
 		
 		switch(str) {
 			case "btnGenKeysMan_selection":
-				message = "To generate a private key (p,q) and a public key N do the following:\n\n"
+				message = "To generate a private key (p,q) and a public key N manually do the following:\n\n"
 						+ "1) either enter p and q in the "
 						+ "corresponding fields on the left side or make use of the drop-down lists for p and q."
 						+ "\nMake sure to satisfy the conditions p = q \u2261 3 mod 4 and p \u2260 q. "
@@ -720,7 +726,7 @@ public class GUIHandler {
 					break;
 			
 			case "btnGenKeys_selection":
-				message = "To generate a private key (p,q) and a public key N do the following:\n\n"
+				message = "To generate a private key (p,q) and a public key N using limits do the following:\n\n"
 						+ "1) select \"Generate p and q having the same range\" or \"Generate p and q having different ranges\" on the left side.\n\n"
 						+ "2) enter a lower and an upper limit for p and q in the corresponding fields. "
 						+ "The numbers for p and q will be between the lower and upper limit. When selecting "

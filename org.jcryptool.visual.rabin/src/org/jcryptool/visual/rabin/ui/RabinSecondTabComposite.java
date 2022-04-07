@@ -12,6 +12,8 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -1458,6 +1460,15 @@ public class RabinSecondTabComposite extends Composite {
 			}
 			
 		});
+		txtMessageBaseNum.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtMessageBaseNum, SWT.CURSOR_ARROW);
+			}
+		});
+	
 	
 		lblCipherNum = new Label(compEncStepsNum, SWT.NONE);
 		lblCipherNum.setText(Messages.RabinSecondTabComposite_lblCipherNum);
@@ -1478,6 +1489,15 @@ public class RabinSecondTabComposite extends Composite {
 			}
 			
 		});
+		txtCipherNum.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtCipherNum, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -1523,6 +1543,14 @@ public class RabinSecondTabComposite extends Composite {
 		txtMessageWithPadding.setLayoutData(txtMessageWithPaddingData);
 		guiHandler.setSizeControl(txtMessageWithPadding, SWT.DEFAULT, SWT.DEFAULT);
 		txtMessageWithPadding.setBackground(guiHandler.getColorBGinfo());
+		txtMessageWithPadding.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtMessageWithPadding, SWT.CURSOR_ARROW);
+			}
+		});
 	
 		
 		
@@ -1543,6 +1571,15 @@ public class RabinSecondTabComposite extends Composite {
 				guiHandler.fixSelection(guiHandler.getPlaintextEncodedList(), txtMessageSep, getCurrentInstance());
 			}
 		});
+		txtMessageSep.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtMessageSep, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 				
 		
@@ -1565,6 +1602,15 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});
+		txtMessageBase.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtMessageBase, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 	
 		lblCipher = new Label(compEncSteps, SWT.NONE);
@@ -1584,6 +1630,15 @@ public class RabinSecondTabComposite extends Composite {
 				guiHandler.fixSelection(guiHandler.getCurrentCiphertextList(), txtCipher, getCurrentInstance());
 			}
 		});
+		txtCipher.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtCipher, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 				
 		btnEnc = new Button(grpPlaintext, SWT.PUSH);
@@ -1611,6 +1666,15 @@ public class RabinSecondTabComposite extends Composite {
 		//txtInfoEnc.setText(Messages.RabinSecondTabComposite_txtInfoEnc);
 		txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Text"));
 		txtInfoEnc.setBackground(ColorService.LIGHTGRAY);
+		txtInfoEnc.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoEnc, SWT.CURSOR_ARROW);
+			}
+		});
+	
 
 	}
 	
@@ -1750,8 +1814,16 @@ public class RabinSecondTabComposite extends Composite {
 		txtInfoDecimalAndHex.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtInfoDecimalAndHex.setBackground(guiHandler.getColorBGinfo());
 		guiHandler.setSizeControl(txtInfoDecimalAndHex, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoDecimalAndHex.setText("test test test");
-		
+		//txtInfoDecimalAndHex.setText("test test test");
+		txtInfoDecimalAndHex.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoDecimalAndHex, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -1825,6 +1897,15 @@ public class RabinSecondTabComposite extends Composite {
 				guiHandler.handleDecimalNumbersDecMode(getCurrentInstance());
 			}
 		});
+		txtEnterCiphertextDecimal.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtEnterCiphertextDecimal, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		txtEnterCiphertextDecimalWarning = new Text(compHoldDecimal, SWT.MULTI | SWT.WRAP);
 		txtEnterCiphertextDecimalWarningData = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -1857,6 +1938,15 @@ public class RabinSecondTabComposite extends Composite {
 			}
 			
 		});
+		txtCiphertextSegmentsDecimal.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtCiphertextSegmentsDecimal, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -1925,6 +2015,15 @@ public class RabinSecondTabComposite extends Composite {
 			}
 			
 		});
+		txtCiphertextSegments.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtCiphertextSegments, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -2052,6 +2151,15 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});
+		txtCipherFirst.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtCipherFirst, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		compNavElem = new Composite(compTest, SWT.NONE);
 		compNavElem.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -2129,7 +2237,15 @@ public class RabinSecondTabComposite extends Composite {
 		txtInfoSquareRoots.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
 		txtInfoSquareRoots.setBackground(guiHandler.getColorBGinfo());
 		guiHandler.setSizeControl(txtInfoSquareRoots, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoSquareRoots.setText("test test test");
+		//txtInfoSquareRoots.setText("test test test");
+		txtInfoSquareRoots.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoSquareRoots, SWT.CURSOR_ARROW);
+			}
+		});
 	
 		
 		
@@ -2173,6 +2289,15 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});
+		txtmp.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtmp, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		// create group for m_q
 		compMq = new Composite(grpSqrRoot, SWT.NONE);
@@ -2200,6 +2325,15 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});
+		txtmq.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtmq, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		/*Label lblSeparateInfoSquareRoots = new Label(compHoldTestAndInfo, SWT.SEPARATOR | SWT.VERTICAL);
@@ -2274,6 +2408,15 @@ public class RabinSecondTabComposite extends Composite {
 				guiHandler.txtYpAction(getCurrentInstance());
 			}
 		});
+		txtyp.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtyp, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		lblyq = new Label(compMerge, SWT.NONE);
 		lblyq.setText("y_q = "); //$NON-NLS-1$
@@ -2294,6 +2437,15 @@ public class RabinSecondTabComposite extends Composite {
 				guiHandler.txtYqAction(getCurrentInstance());
 			}
 		});
+		txtyq.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtyq, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		btnComputeYpYq = new Button(grpLinCon, SWT.PUSH);
 		btnComputeYpYq.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
@@ -2317,7 +2469,15 @@ public class RabinSecondTabComposite extends Composite {
 		txtInfoLC.setBackground(guiHandler.getColorBGinfo());
 		guiHandler.setSizeControl(txtInfoLC, SWT.DEFAULT, 289);
 		txtInfoLC.setText("test test test");
-		
+		txtInfoLC.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoLC, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		
@@ -2369,6 +2529,15 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});	
+		txtV.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtV, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		lblW = new Label(compHoldvw, SWT.NONE);
 		lblW.setText("w = "); //$NON-NLS-1$
@@ -2388,6 +2557,15 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});	
+		txtW.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtW, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		/*Label lblSeparateInfoLC = new Label(compHoldLinearCongruencesAndInverseAndInfo, SWT.SEPARATOR | SWT.VERTICAL);
@@ -2433,6 +2611,15 @@ public class RabinSecondTabComposite extends Composite {
 		txtm1.setBackground(guiHandler.getColorBGinfo());
 		
 		guiHandler.setSizeControl(txtm1, SWT.DEFAULT, SWT.DEFAULT);
+		txtm1.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtm1, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		lblm2 = new Label(compAllPt, SWT.NONE);
 		lblm2.setText(Messages.RabinSecondTabComposite_lblm2);
@@ -2444,6 +2631,15 @@ public class RabinSecondTabComposite extends Composite {
 		txtm2.setBackground(guiHandler.getColorBGinfo());
 		
 		guiHandler.setSizeControl(txtm2, SWT.DEFAULT, SWT.DEFAULT);
+		txtm2.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtm2, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		lblm3 = new Label(compAllPt, SWT.NONE);
 		lblm3.setText(Messages.RabinSecondTabComposite_lblm3);
@@ -2455,6 +2651,15 @@ public class RabinSecondTabComposite extends Composite {
 		txtm3.setBackground(guiHandler.getColorBGinfo());
 		
 		guiHandler.setSizeControl(txtm3, SWT.DEFAULT, SWT.DEFAULT);
+		txtm3.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtm3, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		lblm4 = new Label(compAllPt, SWT.NONE);
 		lblm4.setText(Messages.RabinSecondTabComposite_lblm4);
@@ -2466,6 +2671,15 @@ public class RabinSecondTabComposite extends Composite {
 		txtm4.setBackground(guiHandler.getColorBGinfo());
 		
 		guiHandler.setSizeControl(txtm4, SWT.DEFAULT, SWT.DEFAULT);
+		txtm4.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtm4, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		compHoldNextC = new Composite(grpPosPlain, SWT.NONE);
 		compHoldNextC.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, false, true));
@@ -2496,7 +2710,16 @@ public class RabinSecondTabComposite extends Composite {
 		txtInfoPlaintexts.setBackground(guiHandler.getColorBGinfo());
 		//guiHandler.setSizeControl(txtInfoPlaintexts, 100, 10);
 		guiHandler.setSizeControl(txtInfoPlaintexts, SWT.DEFAULT, grpPosPlain.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + 10);
-		txtInfoPlaintexts.setText("test test test");
+		//txtInfoPlaintexts.setText("test test test");
+		txtInfoPlaintexts.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoPlaintexts, SWT.CURSOR_ARROW);
+			}
+		});
+	
 		
 		
 		//guiHandler.setSizeControl(grpPosPlain, SWT.DEFAULT + 300, SWT.DEFAULT);
