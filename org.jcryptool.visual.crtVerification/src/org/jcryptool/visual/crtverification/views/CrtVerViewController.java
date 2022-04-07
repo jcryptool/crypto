@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -30,8 +31,8 @@ import org.jcryptool.visual.crtverification.verification.CertPathVerifier;
 import org.jcryptool.visual.crtverification.verification.KeystoreConnector;
 
 public class CrtVerViewController {
-    private String dateformat1 = "/MMM/yy";
-    private String dateformat2 = "MMM/yy";
+    private String dateformat1 = "/ MMM / yyyy"; // custom format for german; look for "marker-1" in this file
+    private String dateformat2 = "MMM / yyyy";
     private String dateformat3 = "yyyy";
     private KeystoreConnector ksc = new KeystoreConnector();
     private Calendar calendar = Calendar.getInstance();
@@ -182,7 +183,13 @@ public class CrtVerViewController {
         } else {
             calendar.add(Calendar.MONTH, selection - default_selection);
         }
-        return String.valueOf(dt1.format(calendar.getTime()));
+        if(Locale.getDefault().getLanguage().toLowerCase().contains("de")) {
+        	// (marker-1)
+        	var monthnames = new String[] {"Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"};       	
+        	return String.format("/ %s / %s", monthnames[calendar.getTime().getMonth()], calendar.get(Calendar.YEAR));
+        } else {
+			return String.valueOf(dt1.format(calendar.getTime()));
+        }
     }
 
     /**
