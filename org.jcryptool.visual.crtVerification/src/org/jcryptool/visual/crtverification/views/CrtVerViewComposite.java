@@ -509,7 +509,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 
 		Composite logComposite =  new Composite(composite, SWT.NONE);
 		logComposite.setLayout(new GridLayout());
-		logComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+		logComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
 
 		Label lblLog = new Label(logComposite, SWT.NONE);
 		lblLog.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -564,7 +564,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		
 		textRootCaFromDay = new Text(grpDetails, SWT.BORDER | SWT.CENTER);
 		GridData gd_textRootCaFromDay = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		gd_textRootCaFromDay.horizontalIndent = 30;
+		gd_textRootCaFromDay.horizontalIndent = 10;
 		gd_textRootCaFromDay.widthHint = 20;
 		textRootCaFromDay.setLayoutData(gd_textRootCaFromDay);
 		textRootCaFromDay.addFocusListener(new FocusAdapter() {
@@ -655,7 +655,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 
 		textRootCaThruDay = new Text(grpDetails, SWT.BORDER | SWT.CENTER);
 		GridData gd_textRootCaThruDay = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		gd_textRootCaThruDay.horizontalIndent = 30;
+		gd_textRootCaThruDay.horizontalIndent = 10;
 		gd_textRootCaThruDay.widthHint = 20;
 		textRootCaThruDay.setLayoutData(gd_textRootCaThruDay);
 		textRootCaThruDay.addFocusListener(new FocusAdapter() {
@@ -709,7 +709,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		
 		Composite settingsComposite = new Composite(composite, SWT.NONE);
 		settingsComposite.setLayout(new GridLayout(1, true));
-		GridData gd_settingsComposite = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
+		GridData gd_settingsComposite = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
 		gd_settingsComposite.verticalIndent = 30;
 		settingsComposite.setLayoutData(gd_settingsComposite);
 		
