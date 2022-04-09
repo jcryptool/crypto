@@ -45,7 +45,7 @@ public class GUIHandler {
 	private GUIHandler guiHandler;
 	private ScrolledComposite scMain;
 	private Composite compMain;
-	private int limitExp = 5000;
+	private int limitExp = 1024;
 	private int limitExpPQ = 1024;
 	private BigInteger limitUpPQ = BigInteger.TWO.pow(limitExpPQ);
 	private BigInteger limitUp = BigInteger.TWO.pow(limitExp);

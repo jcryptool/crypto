@@ -142,6 +142,10 @@ public class Settings extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				
 				if(btnRadioClassicMode.getSelection()) {
+					
+					if(!guiHandler.getDarkmode())
+						return;
+					
 					guiHandler.setDarkmode(false);
 					//guiHandler.setColorBGinfo(ColorService.LIGHTGRAY);
 					//guiHandler.setColorFGinfo(ColorService.BLACK);
@@ -149,6 +153,10 @@ public class Settings extends Composite {
 				}
 				
 				else if(btnRadioDarkMode.getSelection()) {
+					
+					if(guiHandler.getDarkmode())
+						return;
+					
 					guiHandler.setDarkmode(true);
 					//guiHandler.setColorBGinfo(ColorService.GRAY);
 					//guiHandler.setColorFGinfo(ColorService.WHITE);
