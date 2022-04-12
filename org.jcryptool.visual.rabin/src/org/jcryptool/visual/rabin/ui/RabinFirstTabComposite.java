@@ -55,11 +55,29 @@ import org.jcryptool.visual.rabin.GUIHandler;
 import org.jcryptool.visual.rabin.HandleFirstTab;
 import org.jcryptool.visual.rabin.Messages;
 import org.jcryptool.visual.rabin.Rabin;
+import org.jcryptool.visual.rabin.Util;
 import org.eclipse.swt.layout.GridData;
 import org.jcryptool.core.operations.editors.AbstractEditorService;
 import org.jcryptool.core.operations.editors.EditorsManager;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.ui.auto.SmoothScroller; 
+
+// App { 
+//   var gui = GUI {
+//     public btn = ???
+//     public comp = ???
+//     setLayout(..)
+//   } 
+// 	 var controller = new Controller(gui) {
+//     ...
+//     gui.btn.addSelectio(..)
+//     
+//   }
+//   public void main {
+//     controller.setListeners
+//     gui.paint(isDarkMode)
+//   }
+// }
 
 public class RabinFirstTabComposite extends Composite {
 	private Text txtEnterText;
@@ -658,6 +676,8 @@ public class RabinFirstTabComposite extends Composite {
 	
 	private void setColors() {
 		
+		
+		
 		Color colorBG = guiHandler.getColorDarkModeBG();
 		Color colorFG = guiHandler.getColorDarkModeFG();
 		//Color colorFG = new Color(255, 0, 255);
@@ -910,6 +930,7 @@ public class RabinFirstTabComposite extends Composite {
 		
 		// create main composite for entering parameter settings
 		paramMainComp = new Composite(grpParam, SWT.NONE);
+		//paramMainComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		paramMainComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		paramMainComp.setLayout(new GridLayout(2, false));
 		
@@ -917,13 +938,17 @@ public class RabinFirstTabComposite extends Composite {
 		npqComp = new Composite(paramMainComp, SWT.NONE);
 		npqComp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		npqComp.setLayout(new GridLayout(2, false));
+		//guiHandler.setSizeControl(npqComp, npqComp.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, 100);
 		
 		
 		compHoldSelectionPrimesAndLimits = new Composite(paramMainComp, SWT.NONE);
+		//compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, 800, 400);
 		compHoldSelectionPrimesAndLimits.setLayout(new GridLayout(1, false));
 		guiHandler.setControlMargin(compHoldSelectionPrimesAndLimits, 0, 0);
-		guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
+		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, npqComp.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, 1000);
+		//guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
 		
 		
 		compSelectPrimeGen = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
@@ -979,6 +1004,12 @@ public class RabinFirstTabComposite extends Composite {
 		cmbP.setLayoutData(txtPData);
 		guiHandler.setSizeControl(cmbP, SWT.DEFAULT, SWT.DEFAULT);
 		cmbP.addModifyListener(mlpq);
+
+		// LAMBDA!! :)
+//		cmbP.addSelectionListener(Util.listenToClick((SelectionEvent e) -> { 
+//			guiHandler.cmbSelectionAction(cmbP);
+//		}));
+		
 		cmbP.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
@@ -1163,11 +1194,13 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
+		
 		// create composite for entering lower and upper limit for 
 		// prime p
 		//genPComp = new Composite(paramMainComp, SWT.NONE);
 		genPComp = new Group(compSelectMultiPandQ, SWT.NONE);
 		genPComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//genPComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		genPComp.setLayout(new GridLayout(2, false));
 		genPComp.setText(Messages.RabinFirstTabComposite_genPComp);
 		
@@ -1176,6 +1209,7 @@ public class RabinFirstTabComposite extends Composite {
 		//genQComp = new Composite(paramMainComp, SWT.NONE);
 		genQComp = new Group(compSelectMultiPandQ, SWT.NONE);
 		genQComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//genQComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		genQComp.setLayout(new GridLayout(2, false));
 		genQComp.setText(Messages.RabinFirstTabComposite_genQComp);
 		
@@ -1188,11 +1222,16 @@ public class RabinFirstTabComposite extends Composite {
 		txtcompGenPandQWarning.setForeground(guiHandler.getColorForegroundWarning());
 		guiHandler.hideControl(txtcompGenPandQWarning);
 		
+		//guiHandler.setSizeControl(npqComp, compHoldSelectionPrimesAndLimits.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, SWT.DEFAULT);
+		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, npqComp.getSize().x, SWT.DEFAULT);
+
+		
 		
 		// create composite for how to generate the keys
 		compGenKeys = new Composite(grpParam, SWT.NONE);
-		compGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		compGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		compGenKeys.setLayout(new GridLayout(1, false));
+		((GridLayout) compGenKeys.getLayout()).marginTop = 30;
 		
 		// create radio button for generating keys manually 
 		btnGenKeysMan = new Button(compGenKeys, SWT.RADIO);
@@ -1369,7 +1408,10 @@ public class RabinFirstTabComposite extends Composite {
 		lblLowLimP.setText(strLowerLimit);
 		txtLowLimP = new Text(genPComp, SWT.BORDER);
 		txtLowLimP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		//txtLowLimP.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false));
 		guiHandler.setSizeControl(txtLowLimP, SWT.DEFAULT, SWT.DEFAULT);
+		//guiHandler.setSizeControl(txtLowLimP, 20, SWT.DEFAULT);
+		
 		
 		txtLowLimP.addModifyListener(mlLimit);
 		
@@ -1378,6 +1420,8 @@ public class RabinFirstTabComposite extends Composite {
 		lblUpperLim = new Label(genPComp, SWT.NONE);
 		lblUpperLim.setText(strUpperLimit);
 		txtUpperLimP = new Text(genPComp, SWT.BORDER);
+		//txtUpperLimP.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false));
+		//guiHandler.setSizeControl(txtUpperLimP, 20, SWT.DEFAULT);
 		txtUpperLimP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		guiHandler.setSizeControl(txtUpperLimP, SWT.DEFAULT, SWT.DEFAULT);
 		
@@ -1410,6 +1454,12 @@ public class RabinFirstTabComposite extends Composite {
 	
 		
 		txtUpperLimQ.addModifyListener(mlLimit);	
+		
+		
+		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, SWT.DEFAULT + 400, SWT.DEFAULT);
+		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, 500, SWT.DEFAULT);
+		//guiHandler.setSizeControl(paramMainComp, 30, SWT.DEFAULT);
+		guiHandler.setSizeControlWarning(paramMainComp, SWT.DEFAULT, SWT.DEFAULT);
 
 	}
 	
