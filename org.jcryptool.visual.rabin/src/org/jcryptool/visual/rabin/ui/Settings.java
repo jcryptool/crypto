@@ -10,6 +10,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -28,7 +29,14 @@ public class Settings extends Composite {
 	private Label lblSeparateInfo;
 	private Text txtInfoMode;
 	
+	private Color colorButtonBG;
+	private Color colorButtonFG;
+	
 	private RabinMainView rmv;
+	private RabinFirstTabComposite rftc;
+	private RabinSecondTabComposite rstc;
+	private CryptosystemTextbookComposite cstb;
+	private RabinThirdTabComposite rttc;
 	
 
 	public Settings(Composite parent, int style) {
@@ -41,11 +49,18 @@ public class Settings extends Composite {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Settings(Composite parent, int style, RabinMainView rmv) {
+	public Settings(Composite parent, int style, RabinMainView rmv, RabinFirstTabComposite rftc, RabinThirdTabComposite rttc) {
 		super(parent, style);
 		this.rmv = rmv;
+		this.rftc = rftc;
+		this.cstb = rftc.getCryptosystemTextbookComposite();
+		this.rstc = rftc.getRabinSecondTabComposite();
+		this.rttc = rttc;
 		guiHandler = new GUIHandler();
 		createContent(this);
+		
+		colorButtonBG = rftc.getBtnStartGenKeys().getBackground();
+		colorButtonFG = rftc.getBtnStartGenKeys().getForeground();
 		
 		if(guiHandler.getDarkmode())
 			setColors();
@@ -108,8 +123,38 @@ public class Settings extends Composite {
 		btnRadioClassicMode.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				/*GUIHandler.colorDarkModeBG = ColorService.getColor(SWT.COLOR_WIDGET_BACKGROUND);
+				GUIHandler.colorDarkModeFG = null;//ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
+				GUIHandler.colorButtonsBG = colorButtonBG;
+				GUIHandler.colorButtonsFG = colorButtonFG; //ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
+				GUIHandler.colorDarkModeWarningFG = ColorService.RED;
+				GUIHandler.colorDeselectControlBG = ColorService.LIGHTGRAY;
+				GUIHandler.colorDeselectControlFG = null;//ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
+				GUIHandler.colorResetFinalPlaintextBG = ColorService.LIGHTGRAY;
+				GUIHandler.colorSelectControlBG = ColorService.LIGHT_AREA_BLUE;
+				GUIHandler.colorSelectControlFG = ColorService.BLACK;
+				GUIHandler.colorTxtWhichYouCanEnterBG = ColorService.WHITE;
+				GUIHandler.colorTxtWhichYouCanEnterFG = null;//ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
+				
+				
+				rmv.setColors();
+				rftc.setColors();
+				rstc.setColors();
+				cstb.setColors();
+				rttc.setColors();
+				
+				rftc.getCmbP().setText(rftc.getCmbP().getText());
+				rftc.getCmbQ().setText(rftc.getCmbQ().getText());
+				rftc.getTxtLowLimP().setText(rftc.getTxtLowLimP().getText());
+				rftc.getTxtLowLimQ().setText(rftc.getTxtLowLimQ().getText());
+				rftc.getTxtUpperLimP().setText(rftc.getTxtUpperLimP().getText());
+				rftc.getTxtUpperLimQ().setText(rftc.getTxtUpperLimQ().getText());
+				rftc.getTxtLowLimPQSingle().setText(rftc.getTxtLowLimPQSingle().getText());
+				rftc.getTxtUpperLimPQSingle().setText(rftc.getTxtUpperLimPQSingle().getText());*/
+				
 				
 			}
+			
 		});
 		
 		
@@ -120,6 +165,39 @@ public class Settings extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
+				
+				/*GUIHandler.colorDarkModeBG = ColorService.GRAY;
+				GUIHandler.colorDarkModeFG = ColorService.WHITE;
+				GUIHandler.colorButtonsBG = ColorService.LIGHT_AREA_BLUE;
+				GUIHandler.colorButtonsFG =  ColorService.BLACK;
+				GUIHandler.colorDarkModeWarningFG = ColorService.LIGHT_AREA_RED;
+				GUIHandler.colorDeselectControlBG = ColorService.GRAY;
+				GUIHandler.colorDeselectControlFG = ColorService.WHITE;
+				GUIHandler.colorResetFinalPlaintextBG = ColorService.GRAY;
+				GUIHandler.colorSelectControlBG = ColorService.LIGHT_AREA_BLUE;
+				GUIHandler.colorSelectControlFG = ColorService.BLACK;
+				GUIHandler.colorTxtWhichYouCanEnterBG = ColorService.WHITE;
+				GUIHandler.colorTxtWhichYouCanEnterFG = ColorService.BLACK;
+		
+				
+				rmv.setColors();
+				rftc.setColors();
+				rstc.setColors();
+				cstb.setColors();
+				rttc.setColors();
+				
+				
+				rftc.getCmbP().setText(rftc.getCmbP().getText());
+				rftc.getCmbQ().setText(rftc.getCmbQ().getText());
+				rftc.getTxtLowLimP().setText(rftc.getTxtLowLimP().getText());
+				rftc.getTxtLowLimQ().setText(rftc.getTxtLowLimQ().getText());
+				rftc.getTxtUpperLimP().setText(rftc.getTxtUpperLimP().getText());
+				rftc.getTxtUpperLimQ().setText(rftc.getTxtUpperLimQ().getText());
+				rftc.getTxtLowLimPQSingle().setText(rftc.getTxtLowLimPQSingle().getText());
+				rftc.getTxtUpperLimPQSingle().setText(rftc.getTxtUpperLimPQSingle().getText());
+			
+				*/
+			
 			}
 		});
 		
@@ -156,6 +234,16 @@ public class Settings extends Composite {
 					
 					if(guiHandler.getDarkmode())
 						return;
+					
+					GUIHandler.colorDeselectControlBG = ColorService.GRAY;
+					GUIHandler.colorDeselectControlFG = ColorService.WHITE;
+					GUIHandler.colorResetFinalPlaintextBG = ColorService.GRAY;
+					GUIHandler.colorResetFinalPlaintextFG = ColorService.WHITE;
+					GUIHandler.colorSelectControlBG = ColorService.LIGHT_AREA_BLUE;
+					GUIHandler.colorSelectControlFG = ColorService.BLACK;
+					GUIHandler.colorTxtWhichYouCanEnterBG = ColorService.WHITE;
+					GUIHandler.colorTxtWhichYouCanEnterFG = ColorService.BLACK;
+					
 					
 					guiHandler.setDarkmode(true);
 					//guiHandler.setColorBGinfo(ColorService.GRAY);

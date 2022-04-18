@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.colors.ColorService;
+import org.jcryptool.visual.rabin.GUIHandler;
 import org.jcryptool.visual.rabin.HandleThirdTab;
 import org.jcryptool.visual.rabin.Messages;
 import org.jcryptool.visual.rabin.Rabin;
@@ -1086,7 +1087,7 @@ public class RabinThirdTabComposite extends Composite {
 	
 	
 	
-	private void setColors() {
+	public void setColors() {
 		
 		Color colorBG = guiHandler.getColorDarkModeBG();
 		Color colorFG = guiHandler.getColorDarkModeFG();
@@ -1094,8 +1095,8 @@ public class RabinThirdTabComposite extends Composite {
 		Color colorTxtWarningFG = guiHandler.getColorDarkModeWarningFG();
 		Color colorButtonBG = guiHandler.getColorButtonsBG();
 		Color colorButtonFG = guiHandler.getColorButtonsFG();
-		Color colorTxtWhichYouCanEnterBG = ColorService.WHITE;
-		Color colorTxtWhichYouCanEnterFG = ColorService.BLACK;
+		Color colorTxtWhichYouCanEnterBG = GUIHandler.colorTxtWhichYouCanEnterBG;
+		Color colorTxtWhichYouCanEnterFG = GUIHandler.colorTxtWhichYouCanEnterFG;
 
 		
 		this.setBackground(colorBG);

@@ -48,9 +48,9 @@ public class RabinMainView extends ViewPart {
 	
 	
 	
-	private void setColors() {
-		Color colorBG = ColorService.GRAY;
-		Color colorFG = ColorService.WHITE;
+	public void setColors() {
+		Color colorBG = guiHandler.colorDarkModeBG;
+		Color colorFG = guiHandler.colorDarkModeFG;
 		
 		
 		//parent.setBackground(colorBG);
@@ -308,7 +308,7 @@ public class RabinMainView extends ViewPart {
 		scSettings.setContent(compHoldSettings);
 		
 		
-		Settings settings = new Settings(compHoldSettings, SWT.NONE, this);
+		Settings settings = new Settings(compHoldSettings, SWT.NONE, this, compCryptosystem, compAttacks);
 		settings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		settings.setLayout(new GridLayout(1, false));
 		

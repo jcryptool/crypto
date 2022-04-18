@@ -190,6 +190,15 @@ public class RabinFirstTabComposite extends Composite {
 	
 	
 	
+	
+	
+	public Composite getCompSelectPrimeGen() {
+		return compSelectPrimeGen;
+	}
+	
+	
+	
+	
 	public RabinSecondTabComposite getRabinSecondTabComposite() {
 		return rstc;
 	}
@@ -668,13 +677,19 @@ public class RabinFirstTabComposite extends Composite {
 			guiHandler.btnStartGenKeysAction(getCurrentInstance(), rstc, 1000);
 		}
 	});
-	private Composite compTest;
-	private StyledText txtInstructions;
+	public Composite compTest;
+	public StyledText txtInstructions;
+	public Composite compHoldLayoutContent;
+	public Label lblSepParamContentBottom;
+	public Label lblSepSelectionCryptoBottom;
+	public Composite compHoldSepAndInfoForCryptoSelection;
+	public Label lblSepInfoForCryptoSelection;
+	public Composite compHoldSepAndInfoForParam;
 	
 	
 	
 	
-	private void setColors() {
+	public void setColors() {
 		
 		
 		
@@ -738,8 +753,8 @@ public class RabinFirstTabComposite extends Composite {
 		genPComp.setForeground(colorFG);
 		genQComp.setBackground(colorBG);
 		genQComp.setForeground(colorFG);
-		paramMainComp.setBackground(colorBG);
-		paramMainComp.setForeground(colorFG);
+		//paramMainComp.setBackground(colorBG);
+		//paramMainComp.setForeground(colorFG);
 		compGenKeys.setBackground(colorBG);
 		compGenKeys.setForeground(colorFG);
 		//compHoldEncDec.setBackground(colorBG);
@@ -828,16 +843,29 @@ public class RabinFirstTabComposite extends Composite {
 		compSelectionCryptosystem.setForeground(colorFG);
 		compSelection.setBackground(colorBG);
 		compSelection.setForeground(colorFG);
-		lblSeparateInfoTop.setBackground(colorBG);
-		lblSeparateInfoTop.setForeground(colorFG);
-		grpInfoSelection.setBackground(colorBG);
-		grpInfoSelection.setForeground(colorFG);
-		lblSeparateInfoBottom.setBackground(colorBG);
-		lblSeparateInfoBottom.setForeground(colorFG);
+		//lblSeparateInfoTop.setBackground(colorBG);
+		//lblSeparateInfoTop.setForeground(colorFG);
+		//grpInfoSelection.setBackground(colorBG);
+		//grpInfoSelection.setForeground(colorFG);
+		//lblSeparateInfoBottom.setBackground(colorBG);
+		//lblSeparateInfoBottom.setForeground(colorFG);
 		/*compTest.setBackground(colorBG);
 		compTest.setForeground(colorFG);
 		txtInstructions.setBackground(colorBG);
 		txtInstructions.setForeground(colorFG);*/
+		
+		compHoldLayoutContent.setBackground(colorBG);
+		compHoldLayoutContent.setForeground(colorFG);
+		lblSepParamContentBottom.setBackground(colorBG);
+		lblSepParamContentBottom.setForeground(colorFG);
+		lblSepSelectionCryptoBottom.setBackground(colorBG);
+		lblSepSelectionCryptoBottom.setForeground(colorFG);
+		compHoldSepAndInfoForCryptoSelection.setBackground(colorBG);
+		compHoldSepAndInfoForCryptoSelection.setForeground(colorFG);
+		lblSepInfoForCryptoSelection.setBackground(colorBG);
+		lblSepInfoForCryptoSelection.setForeground(colorFG);
+		compHoldSepAndInfoForParam.setBackground(colorBG);
+		compHoldSepAndInfoForParam.setForeground(colorFG);
 		
 	}
 	
@@ -864,6 +892,9 @@ public class RabinFirstTabComposite extends Composite {
 		btnGenKeysMan.setSelection(true);
 		guiHandler.initializePrimes(20, getCurrentInstance());
 		btnSelectCryptotb.setSelection(true);
+		guiHandler.hideControl(getCompHoldSelectionPrimesAndLimits());
+		guiHandler.hideControl(getCompSelectPrimeGen());
+		
 		//btnRadEnc.setSelection(true);
 		//btnEncDecStart.setEnabled(false);
 	}
@@ -923,63 +954,68 @@ public class RabinFirstTabComposite extends Composite {
 		
 		// create group for setting parameters
 		grpParam = new Group(parent, SWT.NONE);
-		grpParam.setLayout(new GridLayout(4, false));
-		grpParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		//grpParam.setLayout(new GridLayout(4, false));
+		grpParam.setLayout(new GridLayout(2, false));
+		grpParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpParam.setText(Messages.RabinFirstTabComposite_grpParam);
+		//((GridData) grpParam.getLayoutData()).widthHint = 800;
 		
 		
 		// create main composite for entering parameter settings
-		paramMainComp = new Composite(grpParam, SWT.NONE);
+		//paramMainComp = new Composite(grpParam, SWT.NONE);
 		//paramMainComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		paramMainComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		paramMainComp.setLayout(new GridLayout(2, false));
+		//paramMainComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//paramMainComp.setLayout(new GridLayout(2, false));
 		
 		// create composite for setting p, q, N manually
-		npqComp = new Composite(paramMainComp, SWT.NONE);
-		npqComp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		npqComp = new Composite(grpParam, SWT.NONE);
+		npqComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		npqComp.setLayout(new GridLayout(2, false));
+		//npqComp = new Composite(paramMainComp, SWT.NONE);
+		//npqComp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		//npqComp.setLayout(new GridLayout(2, false));
 		//guiHandler.setSizeControl(npqComp, npqComp.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, 100);
 		
 		
-		compHoldSelectionPrimesAndLimits = new Composite(paramMainComp, SWT.NONE);
-		//compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, 800, 400);
-		compHoldSelectionPrimesAndLimits.setLayout(new GridLayout(1, false));
-		guiHandler.setControlMargin(compHoldSelectionPrimesAndLimits, 0, 0);
-		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, npqComp.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, 1000);
-		//guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
-		
-		
-		compSelectPrimeGen = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
-		//compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1));
-		compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
-		compSelectPrimeGen.setLayout(new GridLayout(1, false));
-		
-		btnSelectSingleLimit = new Button(compSelectPrimeGen, SWT.RADIO);
-		btnSelectSingleLimit.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnSelectSingleLimit.setText(Messages.RabinFirstTabComposite_btnSelectSingleLimit);
-		btnSelectSingleLimit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				guiHandler.hideControl(compSelectMultiPandQ);
-				guiHandler.showControl(grpSelectSinglePandQ);
-				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
-			}
-		});
-		
-		
-		btnSelectMultiPandQ = new Button(compSelectPrimeGen, SWT.RADIO);
-		btnSelectMultiPandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnSelectMultiPandQ.setText(Messages.RabinFirstTabComposite_btnSelectMultiPandQ);
-		btnSelectMultiPandQ.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				guiHandler.hideControl(grpSelectSinglePandQ);
-				guiHandler.showControl(compSelectMultiPandQ);
-				guiHandler.updateLimitFields(txtLowLimP, txtUpperLimP, txtLowLimQ, txtUpperLimQ, txtcompGenPandQWarning, btnGenKeys, btnStartGenKeys);
-			}
-		});
+//		compHoldSelectionPrimesAndLimits = new Composite(paramMainComp, SWT.NONE);
+//		//compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+//		compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+//		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, 800, 400);
+//		compHoldSelectionPrimesAndLimits.setLayout(new GridLayout(1, false));
+//		guiHandler.setControlMargin(compHoldSelectionPrimesAndLimits, 0, 0);
+//		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, npqComp.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, 1000);
+//		//guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
+//		
+//		
+//		compSelectPrimeGen = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
+//		//compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1));
+//		compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
+//		compSelectPrimeGen.setLayout(new GridLayout(1, false));
+//		
+//		btnSelectSingleLimit = new Button(compSelectPrimeGen, SWT.RADIO);
+//		btnSelectSingleLimit.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnSelectSingleLimit.setText(Messages.RabinFirstTabComposite_btnSelectSingleLimit);
+//		btnSelectSingleLimit.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				guiHandler.hideControl(compSelectMultiPandQ);
+//				guiHandler.showControl(grpSelectSinglePandQ);
+//				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
+//			}
+//		});
+//		
+//		
+//		btnSelectMultiPandQ = new Button(compSelectPrimeGen, SWT.RADIO);
+//		btnSelectMultiPandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnSelectMultiPandQ.setText(Messages.RabinFirstTabComposite_btnSelectMultiPandQ);
+//		btnSelectMultiPandQ.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				guiHandler.hideControl(grpSelectSinglePandQ);
+//				guiHandler.showControl(compSelectMultiPandQ);
+//				guiHandler.updateLimitFields(txtLowLimP, txtUpperLimP, txtLowLimQ, txtUpperLimQ, txtcompGenPandQWarning, btnGenKeys, btnStartGenKeys);
+//			}
+//		});
 		
 		
 		
@@ -1111,127 +1147,170 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		// create text warning for npqComp
-		
-		/*txtWarningNpq = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtWarningNpqData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
-		txtWarningNpq.setLayoutData(txtWarningNpqData);
-		guiHandler.setSizeControlWarning(txtWarningNpq, SWT.DEFAULT, SWT.DEFAULT);
-		txtWarningNpq.setBackground(ColorService.LIGHTGRAY);
-		txtWarningNpq.setForeground(ColorService.RED);
-		guiHandler.hideControl(txtWarningNpq);*/
-		
-		//grpSelectSinglePandQ = new Group(paramMainComp, SWT.NONE);
-		grpSelectSinglePandQ = new Group(compHoldSelectionPrimesAndLimits, SWT.NONE);
-		grpSelectSinglePandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		grpSelectSinglePandQ.setLayout(new GridLayout(2, false));
-		grpSelectSinglePandQ.setText(Messages.RabinFirstTabComposite_grpSelectSinglePandQ);
-		//guiHandler.hideControl(grpSelectSinglePandQ);
-		
-		/*Label lblGenPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
-		lblGenPQSingle.setText("Prime number p and q");
-		GridData GenPQSingledata = new GridData();
-		GenPQSingledata.horizontalSpan = 2;
-		lblGenPQSingle.setLayoutData(GenPQSingledata);*/
-		
-		lblLowLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
-		String strLowerLimit = Messages.RabinFirstTabComposite_strLowerLimit;
-		lblLowLimPQSingle.setText(strLowerLimit);
-		txtLowLimPQSingle = new Text(grpSelectSinglePandQ, SWT.BORDER);
-		txtLowLimPQSingle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		guiHandler.setSizeControl(txtLowLimPQSingle, SWT.DEFAULT, SWT.DEFAULT);
-		
-		txtLowLimPQSingle.addModifyListener(new ModifyListener() {
-			
-			@Override
-			public void modifyText(ModifyEvent e) {
-				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
-				
-			}
-		});
-		
-		
-		
-		
-		lblUpperLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
-		String strUpperLimit = Messages.RabinFirstTabComposite_strUpperLimit;
-		lblUpperLimPQSingle.setText(strUpperLimit);
-		txtUpperLimPQSingle = new Text(grpSelectSinglePandQ, SWT.BORDER);
-		txtUpperLimPQSingle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		guiHandler.setSizeControl(txtUpperLimPQSingle, SWT.DEFAULT, SWT.DEFAULT);
-		
-		txtUpperLimPQSingle.addModifyListener(new ModifyListener() {
-			
-			@Override
-			public void modifyText(ModifyEvent e) {
-				
-				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
-			}
-		});
-		
-		
-		
-		txtSinglePQWarning = new Text(grpSelectSinglePandQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtSinglePQWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		((GridData) txtSinglePQWarning.getLayoutData()).horizontalIndent = 80;
-		txtSinglePQWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		txtSinglePQWarning.setForeground(guiHandler.getColorForegroundWarning());
-		guiHandler.setSizeControlWarning(txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
-		
-		// same as above
-		//guiHandler.setSizeControlTest(txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
-		guiHandler.hideControl(txtSinglePQWarning);
-		
-		
-		
-		
-
-		//compSelectMultiPandQ = new Composite(paramMainComp, SWT.NONE);
-		compSelectMultiPandQ = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
-		compSelectMultiPandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compSelectMultiPandQ.setLayout(new GridLayout(2, false));
-		guiHandler.hideControl(compSelectMultiPandQ);
-		
-		
-		
-		
-		// create composite for entering lower and upper limit for 
-		// prime p
-		//genPComp = new Composite(paramMainComp, SWT.NONE);
-		genPComp = new Group(compSelectMultiPandQ, SWT.NONE);
-		genPComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		//genPComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		genPComp.setLayout(new GridLayout(2, false));
-		genPComp.setText(Messages.RabinFirstTabComposite_genPComp);
-		
-		// create composite for entering lower and upper limit for 
-		// prime q
-		//genQComp = new Composite(paramMainComp, SWT.NONE);
-		genQComp = new Group(compSelectMultiPandQ, SWT.NONE);
-		genQComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		//genQComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		genQComp.setLayout(new GridLayout(2, false));
-		genQComp.setText(Messages.RabinFirstTabComposite_genQComp);
-		
-		
-		txtcompGenPandQWarning = new Text(compSelectMultiPandQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtcompGenPandQWarningData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
-		txtcompGenPandQWarning.setLayoutData(txtcompGenPandQWarningData);
-		guiHandler.setSizeControlWarning(txtcompGenPandQWarning, SWT.DEFAULT, SWT.DEFAULT);
-		txtcompGenPandQWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		txtcompGenPandQWarning.setForeground(guiHandler.getColorForegroundWarning());
-		guiHandler.hideControl(txtcompGenPandQWarning);
-		
-		//guiHandler.setSizeControl(npqComp, compHoldSelectionPrimesAndLimits.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, SWT.DEFAULT);
-		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, npqComp.getSize().x, SWT.DEFAULT);
+//		compHoldSelectionPrimesAndLimits = new Composite(paramMainComp, SWT.NONE);
+//		//compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+//		compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+//		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, 800, 400);
+//		compHoldSelectionPrimesAndLimits.setLayout(new GridLayout(1, false));
+//		guiHandler.setControlMargin(compHoldSelectionPrimesAndLimits, 0, 0);
+//		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, npqComp.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, 1000);
+//		//guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
+//		
+//		
+//		compSelectPrimeGen = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
+//		//compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1));
+//		compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
+//		compSelectPrimeGen.setLayout(new GridLayout(1, false));
+//		
+//		btnSelectSingleLimit = new Button(compSelectPrimeGen, SWT.RADIO);
+//		btnSelectSingleLimit.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnSelectSingleLimit.setText(Messages.RabinFirstTabComposite_btnSelectSingleLimit);
+//		btnSelectSingleLimit.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				guiHandler.hideControl(compSelectMultiPandQ);
+//				guiHandler.showControl(grpSelectSinglePandQ);
+//				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
+//			}
+//		});
+//		
+//		
+//		btnSelectMultiPandQ = new Button(compSelectPrimeGen, SWT.RADIO);
+//		btnSelectMultiPandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+//		btnSelectMultiPandQ.setText(Messages.RabinFirstTabComposite_btnSelectMultiPandQ);
+//		btnSelectMultiPandQ.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				guiHandler.hideControl(grpSelectSinglePandQ);
+//				guiHandler.showControl(compSelectMultiPandQ);
+//				guiHandler.updateLimitFields(txtLowLimP, txtUpperLimP, txtLowLimQ, txtUpperLimQ, txtcompGenPandQWarning, btnGenKeys, btnStartGenKeys);
+//			}
+//		});
+//		
+//		
+//		
+//		// create text warning for npqComp
+//		
+//		/*txtWarningNpq = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+//		txtWarningNpqData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+//		txtWarningNpq.setLayoutData(txtWarningNpqData);
+//		guiHandler.setSizeControlWarning(txtWarningNpq, SWT.DEFAULT, SWT.DEFAULT);
+//		txtWarningNpq.setBackground(ColorService.LIGHTGRAY);
+//		txtWarningNpq.setForeground(ColorService.RED);
+//		guiHandler.hideControl(txtWarningNpq);*/
+//		
+//		//grpSelectSinglePandQ = new Group(paramMainComp, SWT.NONE);
+//		grpSelectSinglePandQ = new Group(compHoldSelectionPrimesAndLimits, SWT.NONE);
+//		grpSelectSinglePandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		grpSelectSinglePandQ.setLayout(new GridLayout(2, false));
+//		grpSelectSinglePandQ.setText(Messages.RabinFirstTabComposite_grpSelectSinglePandQ);
+//		//guiHandler.hideControl(grpSelectSinglePandQ);
+//		
+//		/*Label lblGenPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
+//		lblGenPQSingle.setText("Prime number p and q");
+//		GridData GenPQSingledata = new GridData();
+//		GenPQSingledata.horizontalSpan = 2;
+//		lblGenPQSingle.setLayoutData(GenPQSingledata);*/
+//		
+//		lblLowLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
+//		String strLowerLimit = Messages.RabinFirstTabComposite_strLowerLimit;
+//		lblLowLimPQSingle.setText(strLowerLimit);
+//		txtLowLimPQSingle = new Text(grpSelectSinglePandQ, SWT.BORDER);
+//		txtLowLimPQSingle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//		guiHandler.setSizeControl(txtLowLimPQSingle, SWT.DEFAULT, SWT.DEFAULT);
+//		
+//		txtLowLimPQSingle.addModifyListener(new ModifyListener() {
+//			
+//			@Override
+//			public void modifyText(ModifyEvent e) {
+//				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
+//				
+//			}
+//		});
+//		
+//		
+//		
+//		
+//		lblUpperLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
+//		String strUpperLimit = Messages.RabinFirstTabComposite_strUpperLimit;
+//		lblUpperLimPQSingle.setText(strUpperLimit);
+//		txtUpperLimPQSingle = new Text(grpSelectSinglePandQ, SWT.BORDER);
+//		txtUpperLimPQSingle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+//		guiHandler.setSizeControl(txtUpperLimPQSingle, SWT.DEFAULT, SWT.DEFAULT);
+//		
+//		txtUpperLimPQSingle.addModifyListener(new ModifyListener() {
+//			
+//			@Override
+//			public void modifyText(ModifyEvent e) {
+//				
+//				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
+//			}
+//		});
+//		
+//		
+//		
+//		txtSinglePQWarning = new Text(grpSelectSinglePandQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+//		txtSinglePQWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+//		((GridData) txtSinglePQWarning.getLayoutData()).horizontalIndent = 80;
+//		txtSinglePQWarning.setBackground(guiHandler.getColorBackgroundWarning());
+//		txtSinglePQWarning.setForeground(guiHandler.getColorForegroundWarning());
+//		guiHandler.setSizeControlWarning(txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
+//		
+//		// same as above
+//		//guiHandler.setSizeControlTest(txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
+//		guiHandler.hideControl(txtSinglePQWarning);
+//		
+//		
+//		
+//		
+//
+//		//compSelectMultiPandQ = new Composite(paramMainComp, SWT.NONE);
+//		compSelectMultiPandQ = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
+//		compSelectMultiPandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		compSelectMultiPandQ.setLayout(new GridLayout(2, false));
+//		guiHandler.setControlMargin(compSelectMultiPandQ, 0, 0);
+//		guiHandler.hideControl(compSelectMultiPandQ);
+//		
+//		
+//		
+//		
+//		// create composite for entering lower and upper limit for 
+//		// prime p
+//		//genPComp = new Composite(paramMainComp, SWT.NONE);
+//		genPComp = new Group(compSelectMultiPandQ, SWT.NONE);
+//		genPComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		//genPComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+//		genPComp.setLayout(new GridLayout(2, false));
+//		genPComp.setText(Messages.RabinFirstTabComposite_genPComp);
+//		
+//		// create composite for entering lower and upper limit for 
+//		// prime q
+//		//genQComp = new Composite(paramMainComp, SWT.NONE);
+//		genQComp = new Group(compSelectMultiPandQ, SWT.NONE);
+//		genQComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		//genQComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+//		genQComp.setLayout(new GridLayout(2, false));
+//		genQComp.setText(Messages.RabinFirstTabComposite_genQComp);
+//		
+//		
+//		txtcompGenPandQWarning = new Text(compSelectMultiPandQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+//		txtcompGenPandQWarningData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+//		txtcompGenPandQWarning.setLayoutData(txtcompGenPandQWarningData);
+//		guiHandler.setSizeControlWarning(txtcompGenPandQWarning, SWT.DEFAULT, SWT.DEFAULT);
+//		txtcompGenPandQWarning.setBackground(guiHandler.getColorBackgroundWarning());
+//		txtcompGenPandQWarning.setForeground(guiHandler.getColorForegroundWarning());
+//		guiHandler.hideControl(txtcompGenPandQWarning);
+//		
+//		//guiHandler.setSizeControl(npqComp, compHoldSelectionPrimesAndLimits.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, SWT.DEFAULT);
+//		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, npqComp.getSize().x, SWT.DEFAULT);
 
 		
 		
 		// create composite for how to generate the keys
 		compGenKeys = new Composite(grpParam, SWT.NONE);
-		compGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+		compGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		compGenKeys.setLayout(new GridLayout(1, false));
-		((GridLayout) compGenKeys.getLayout()).marginTop = 30;
+		//((GridLayout) compGenKeys.getLayout()).marginTop = 30;
 		
 		// create radio button for generating keys manually 
 		btnGenKeysMan = new Button(compGenKeys, SWT.RADIO);
@@ -1331,9 +1410,180 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
+		compHoldSelectionPrimesAndLimits = new Composite(grpParam, SWT.NONE);
+		//compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		compHoldSelectionPrimesAndLimits.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, 800, 400);
+		compHoldSelectionPrimesAndLimits.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compHoldSelectionPrimesAndLimits, 0, 0);
+		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, npqComp.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, 1000);
+		//guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
 		
-		lblSepInfoSetParam = new Label(grpParam, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSepInfoSetParam.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, false, true));
+		
+		compSelectPrimeGen = new Composite(grpParam, SWT.NONE);
+		//compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1));
+		//compSelectPrimeGen.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
+		compSelectPrimeGen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		compSelectPrimeGen.setLayout(new GridLayout(1, false));
+		
+		btnSelectSingleLimit = new Button(compSelectPrimeGen, SWT.RADIO);
+		btnSelectSingleLimit.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnSelectSingleLimit.setText(Messages.RabinFirstTabComposite_btnSelectSingleLimit);
+		btnSelectSingleLimit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				guiHandler.hideControl(compSelectMultiPandQ);
+				guiHandler.showControl(grpSelectSinglePandQ);
+				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
+			}
+		});
+		
+		
+		btnSelectMultiPandQ = new Button(compSelectPrimeGen, SWT.RADIO);
+		btnSelectMultiPandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		btnSelectMultiPandQ.setText(Messages.RabinFirstTabComposite_btnSelectMultiPandQ);
+		btnSelectMultiPandQ.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				guiHandler.hideControl(grpSelectSinglePandQ);
+				guiHandler.showControl(compSelectMultiPandQ);
+				guiHandler.updateLimitFields(txtLowLimP, txtUpperLimP, txtLowLimQ, txtUpperLimQ, txtcompGenPandQWarning, btnGenKeys, btnStartGenKeys);
+			}
+		});
+		
+		
+		
+		// create text warning for npqComp
+		
+		/*txtWarningNpq = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtWarningNpqData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		txtWarningNpq.setLayoutData(txtWarningNpqData);
+		guiHandler.setSizeControlWarning(txtWarningNpq, SWT.DEFAULT, SWT.DEFAULT);
+		txtWarningNpq.setBackground(ColorService.LIGHTGRAY);
+		txtWarningNpq.setForeground(ColorService.RED);
+		guiHandler.hideControl(txtWarningNpq);*/
+		
+		//grpSelectSinglePandQ = new Group(paramMainComp, SWT.NONE);
+		grpSelectSinglePandQ = new Group(compHoldSelectionPrimesAndLimits, SWT.NONE);
+		grpSelectSinglePandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpSelectSinglePandQ.setLayout(new GridLayout(2, false));
+		grpSelectSinglePandQ.setText(Messages.RabinFirstTabComposite_grpSelectSinglePandQ);
+		//guiHandler.hideControl(grpSelectSinglePandQ);
+		
+		/*Label lblGenPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
+		lblGenPQSingle.setText("Prime number p and q");
+		GridData GenPQSingledata = new GridData();
+		GenPQSingledata.horizontalSpan = 2;
+		lblGenPQSingle.setLayoutData(GenPQSingledata);*/
+		
+		lblLowLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
+		String strLowerLimit = Messages.RabinFirstTabComposite_strLowerLimit;
+		lblLowLimPQSingle.setText(strLowerLimit);
+		txtLowLimPQSingle = new Text(grpSelectSinglePandQ, SWT.BORDER);
+		txtLowLimPQSingle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		guiHandler.setSizeControl(txtLowLimPQSingle, SWT.DEFAULT, SWT.DEFAULT);
+		
+		txtLowLimPQSingle.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
+				
+			}
+		});
+		
+		
+		
+		
+		lblUpperLimPQSingle = new Label(grpSelectSinglePandQ, SWT.NONE);
+		String strUpperLimit = Messages.RabinFirstTabComposite_strUpperLimit;
+		lblUpperLimPQSingle.setText(strUpperLimit);
+		txtUpperLimPQSingle = new Text(grpSelectSinglePandQ, SWT.BORDER);
+		txtUpperLimPQSingle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		guiHandler.setSizeControl(txtUpperLimPQSingle, SWT.DEFAULT, SWT.DEFAULT);
+		
+		txtUpperLimPQSingle.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				
+				guiHandler.updateLimitFieldsSingle(getCurrentInstance());
+			}
+		});
+		
+		
+		
+		txtSinglePQWarning = new Text(grpSelectSinglePandQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtSinglePQWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		((GridData) txtSinglePQWarning.getLayoutData()).horizontalIndent = 80;
+		txtSinglePQWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtSinglePQWarning.setForeground(guiHandler.getColorForegroundWarning());
+		guiHandler.setSizeControlWarning(txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
+		
+		// same as above
+		//guiHandler.setSizeControlTest(txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
+		guiHandler.hideControl(txtSinglePQWarning);
+		
+		
+		
+		
+
+		//compSelectMultiPandQ = new Composite(paramMainComp, SWT.NONE);
+		compSelectMultiPandQ = new Composite(compHoldSelectionPrimesAndLimits, SWT.NONE);
+		compSelectMultiPandQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compSelectMultiPandQ.setLayout(new GridLayout(2, false));
+		guiHandler.setControlMargin(compSelectMultiPandQ, 0, 0);
+		guiHandler.hideControl(compSelectMultiPandQ);
+		
+		
+		
+		
+		// create composite for entering lower and upper limit for 
+		// prime p
+		//genPComp = new Composite(paramMainComp, SWT.NONE);
+		genPComp = new Group(compSelectMultiPandQ, SWT.NONE);
+		genPComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//genPComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		genPComp.setLayout(new GridLayout(2, false));
+		genPComp.setText(Messages.RabinFirstTabComposite_genPComp);
+		
+		// create composite for entering lower and upper limit for 
+		// prime q
+		//genQComp = new Composite(paramMainComp, SWT.NONE);
+		genQComp = new Group(compSelectMultiPandQ, SWT.NONE);
+		genQComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//genQComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		genQComp.setLayout(new GridLayout(2, false));
+		genQComp.setText(Messages.RabinFirstTabComposite_genQComp);
+		
+		
+		txtcompGenPandQWarning = new Text(compSelectMultiPandQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtcompGenPandQWarningData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		txtcompGenPandQWarning.setLayoutData(txtcompGenPandQWarningData);
+		guiHandler.setSizeControlWarning(txtcompGenPandQWarning, SWT.DEFAULT, SWT.DEFAULT);
+		txtcompGenPandQWarning.setBackground(guiHandler.getColorBackgroundWarning());
+		txtcompGenPandQWarning.setForeground(guiHandler.getColorForegroundWarning());
+		guiHandler.hideControl(txtcompGenPandQWarning);
+		
+		//guiHandler.setSizeControl(npqComp, compHoldSelectionPrimesAndLimits.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, SWT.DEFAULT);
+		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, npqComp.getSize().x, SWT.DEFAULT);
+
+		
+		
+		
+		
+		
+		compHoldSepAndInfoForParam = new Composite(parent, SWT.NONE);
+		compHoldSepAndInfoForParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldSepAndInfoForParam.setLayout(new GridLayout(2, false));
+		((GridData) compHoldSepAndInfoForParam.getLayoutData()).widthHint = 400;
+		guiHandler.setControlMargin(compHoldSepAndInfoForParam, 5, 0);
+		
+		
+		
+		//lblSepInfoSetParam = new Label(grpParam, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSepInfoSetParam = new Label(compHoldSepAndInfoForParam, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSepInfoSetParam.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
 		
 		/*Group grpTest = new Group(grpParam, SWT.NONE);
 		grpTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -1371,7 +1621,8 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		txtInfoSetParam = new Text(grpParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		//txtInfoSetParam = new Text(grpParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoSetParam = new Text(compHoldSepAndInfoForParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		GridData txtInfoSetParamData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoSetParam.setLayoutData(txtInfoSetParamData);
 		guiHandler.setSizeControl(txtInfoSetParam, SWT.DEFAULT, SWT.DEFAULT);
@@ -1386,6 +1637,7 @@ public class RabinFirstTabComposite extends Composite {
 			}
 		});
 		
+		//guiHandler.setSizeControl(compTestFirst, 800, SWT.DEFAULT);
 		
 		
 		/*txtInfoSetParam = new Text(grpTest, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
@@ -1458,8 +1710,11 @@ public class RabinFirstTabComposite extends Composite {
 		
 		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, SWT.DEFAULT + 400, SWT.DEFAULT);
 		//guiHandler.setSizeControl(compHoldSelectionPrimesAndLimits, 500, SWT.DEFAULT);
-		//guiHandler.setSizeControl(paramMainComp, 30, SWT.DEFAULT);
-		guiHandler.setSizeControlWarning(paramMainComp, SWT.DEFAULT, SWT.DEFAULT);
+		//guiHandler.setSizeControlWarning(grpParam, SWT.DEFAULT, SWT.DEFAULT);
+		//guiHandler.setSizeControlWarning(paramMainComp, 450, SWT.DEFAULT);
+		guiHandler.setSizeControlWarning(grpParam, 840, SWT.DEFAULT);
+		//((GridData) grpParam.getLayoutData()).widthHint = 300;
+		//guiHandler.setSizeControlWarning(grpParam, SWT.DEFAULT, SWT.DEFAULT);
 
 	}
 	
@@ -1471,10 +1726,11 @@ public class RabinFirstTabComposite extends Composite {
 	private void createSelectionCryptosystemContent(Composite parent) {
 		
 		compSelectionCryptosystem = new Composite(parent, SWT.NONE);
-		compSelectionCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		compSelectionCryptosystem.setLayout(new GridLayout(2, false));
-		((GridLayout) compSelectionCryptosystem.getLayout()).marginHeight = 40;
-		
+		compSelectionCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//compSelectionCryptosystem.setLayout(new GridLayout(2, false));
+		compSelectionCryptosystem.setLayout(new GridLayout(1, false));
+		//((GridLayout) compSelectionCryptosystem.getLayout()).marginHeight = 20;
+		//guiHandler.setSizeControl(compSelectionCryptosystem, SWT.DEFAULT, 100);
 		//Label lblSeparateInfoTop = new Label(compSelectionCryptosystem, SWT.SEPARATOR | SWT.HORIZONTAL);
 		//lblSeparateInfoTop.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		
@@ -1482,7 +1738,7 @@ public class RabinFirstTabComposite extends Composite {
 		compSelection = new Composite(compSelectionCryptosystem, SWT.NONE);
 		compSelection.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
 		compSelection.setLayout(new GridLayout(2, false));
-		guiHandler.setControlMargin(compSelection, SWT.DEFAULT, SWT.DEFAULT);
+		//guiHandler.setControlMargin(compSelection, SWT.DEFAULT, SWT.DEFAULT);
 		//int indent = (parent.getSize().x / 2) - (compSelection.getSize().x / 2);
 		//((GridData) compSelection.getLayoutData()).horizontalIndent = 415;
 		//System.out.println("indent = " + indent);
@@ -1511,10 +1767,16 @@ public class RabinFirstTabComposite extends Composite {
 		btnSelectCryptotb.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				guiHandler.hideControl(rstc);
-				guiHandler.showControl(cstb);
+				//guiHandler.hideControl(rstc);
+				//guiHandler.showControl(cstb);
+				
+				guiHandler.hideStepByStepPart(rstc);
+				guiHandler.showTextbookPart(cstb);
+	
+				
 				txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook"));
 				guiHandler.showControl(txtInfoSelection);
+				
 			}
 		});
 		
@@ -1524,14 +1786,60 @@ public class RabinFirstTabComposite extends Composite {
 		btnSelectCryptoSteps.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				guiHandler.hideControl(cstb);
-				guiHandler.showControl(rstc);
+				//guiHandler.hideControl(cstb);
+				//guiHandler.showControl(rstc);
+				
+				
+				
+				guiHandler.hideTextbookPart(cstb);
+				guiHandler.showStepByStepPart(rstc);
+		
+				
+				//guiHandler.showControl(rstc);
+				
+				//guiHandler.setSizeControl(grpParam, SWT.DEFAULT, SWT.DEFAULT);
+				
+				//requestLayout();
+				
 				txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_steps"));
 				guiHandler.showControl(txtInfoSelection);
+				
 			}
 		});
 		
 		
+		
+		compHoldSepAndInfoForCryptoSelection = new Composite(parent, SWT.NONE);
+		compHoldSepAndInfoForCryptoSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldSepAndInfoForCryptoSelection.setLayout(new GridLayout(2, false));
+		//guiHandler.setSizeControl(compTestSecond, SWT.DEFAULT, 100);
+		//((GridData) compTestSecond.getLayoutData()).heightHint = 80;
+		//guiHandler.setSizeControlHeight(compTestSecond, SWT.DEFAULT, 80);
+		
+		lblSepInfoForCryptoSelection = new Label(compHoldSepAndInfoForCryptoSelection, SWT.SEPARATOR | SWT.VERTICAL);
+		lblSepInfoForCryptoSelection.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		
+		
+		
+		txtInfoSelection = new Text(compHoldSepAndInfoForCryptoSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//guiHandler.setSizeControlWarning(txtInfoSelection, SWT.DEFAULT + 400, SWT.DEFAULT);
+		//guiHandler.setSizeControlHeight(txtInfoSelection, SWT.DEFAULT, 100);
+		guiHandler.setSizeControl(txtInfoSelection, SWT.DEFAULT, SWT.DEFAULT);
+		//txtInfoSelection.setSize(txtInfoSelection.computeSize(SWT.DEFAULT, ));
+		txtInfoSelection.setBackground(guiHandler.getColorBGinfo());
+		txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook"));
+		txtInfoSelection.addMouseTrackListener(new MouseTrackAdapter() {
+			
+			@Override
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				guiHandler.setCursorControl(txtInfoSelection, SWT.CURSOR_ARROW);
+			}
+		});
+		
+		
+		//guiHandler.setSizeControl(compTestSecond, SWT.DEFAULT, SWT.DEFAULT);
 		
 				
 	}
@@ -2095,6 +2403,12 @@ public class RabinFirstTabComposite extends Composite {
 	private void createContent(ScrolledComposite sc, Composite rootComposite) {
 		setLayout(new GridLayout(1, false));
 		
+		compHoldLayoutContent = new Composite(this, SWT.BORDER);
+		compHoldLayoutContent.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
+		compHoldLayoutContent.setLayout(new GridLayout(2, false));
+		
+		
+		
 		//sc = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		/*sc = new ScrolledComposite(this, SWT.NONE);
 		sc.setLayout(new GridLayout(1, false));
@@ -2120,23 +2434,46 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		// create setting parameters group
-		createSetParamContent(this);
+		//createSetParamContent(this);
+		createSetParamContent(compHoldLayoutContent);
 		
-		createSelectionCryptosystemContent(this);
 		
-		createInfoForSelectionContent(this);
+		lblSepParamContentBottom = new Label(compHoldLayoutContent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		lblSepParamContentBottom.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		
+		
+		//createSelectionCryptosystemContent(this);
+		createSelectionCryptosystemContent(compHoldLayoutContent);
+		
+		//createInfoForSelectionContent(this);
+		//createInfoForSelectionContent(compTryTest);
 		
 		//createEncryptionDecryptionContent(this);
 		
-		cstb = new CryptosystemTextbookComposite(this, SWT.NONE, this);
+		lblSepSelectionCryptoBottom = new Label(compHoldLayoutContent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		lblSepSelectionCryptoBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		
+		
+		//cstb = new CryptosystemTextbookComposite(this, SWT.NONE, this);
+		cstb = new CryptosystemTextbookComposite(compHoldLayoutContent, SWT.NONE, this);
 		cstb.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		cstb.setLayout(new GridLayout(1, false));
-		//guiHandler.hideControl(cstb);
+		guiHandler.hideControl(cstb);
 		
-		rstc = new RabinSecondTabComposite(this, SWT.NONE, guiHandler.getRabinFirst(), guiHandler.getRabinSecond(), sc, rootComposite);
+		
+		
+		
+		
+		//rstc = new RabinSecondTabComposite(this, SWT.NONE, guiHandler.getRabinFirst(), guiHandler.getRabinSecond(), sc, rootComposite);
+		rstc = new RabinSecondTabComposite(compHoldLayoutContent, SWT.NONE, guiHandler.getRabinFirst(), guiHandler.getRabinSecond(), sc, rootComposite);
 		rstc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		rstc.setLayout(new GridLayout(1, false));
 		guiHandler.hideControl(rstc);
+		
+		guiHandler.hideStepByStepPart(rstc);
+		
+		
+		//guiHandler.setSizeControl(compHoldLayoutContent, SWT.DEFAULT, SWT.DEFAULT);
 		
 		//guiHandler.setControlMargin(this, 0, 0);
 		

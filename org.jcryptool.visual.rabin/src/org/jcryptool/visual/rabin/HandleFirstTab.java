@@ -689,6 +689,7 @@ public class HandleFirstTab extends GUIHandler {
 		
 		if(src.getSelection()) {
 			hideControl(rftc.getCompHoldSelectionPrimesAndLimits());
+			hideControl(rftc.getCompSelectPrimeGen());
 			String info = this.getMessageByControl("btnGenKeysMan_selection");
 			rftc.getTxtInfoSetParam().setText(info);
 			//this.updateTextfields(rftc.getCmbP(), rftc.getCmbQ(), rftc.getBtnGenKeysMan(), rftc.getBtnStartGenKeys(), rftc.getTxtWarningNpq());
@@ -711,6 +712,8 @@ public class HandleFirstTab extends GUIHandler {
 		if(src.getSelection()) {
 			
 			this.showControl(rftc.getCompHoldSelectionPrimesAndLimits());
+			showControl(rftc.getCompSelectPrimeGen());
+			
 			String info = this.getMessageByControl("btnGenKeys_selection");
 			rftc.getTxtInfoSetParam().setText(info);
 		

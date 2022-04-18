@@ -686,14 +686,38 @@ public class Rabin {
 	}
 	
 	
-	public ArrayList<ArrayList<String>> getAllPlaintextsFromListOfCiphertextblocks(ArrayList<String> ciphertextblocks, int radix){
+	/*public ArrayList<ArrayList<String>> getAllPlaintextsFromListOfCiphertextblocks(ArrayList<String> ciphertextblocks, int radix){
 		ArrayList<ArrayList<String>> allPlaintexts = new ArrayList<ArrayList<String>>();
+		
 		
 		for(String ciphertextblock : ciphertextblocks) {
 			BigInteger biCiphertextblock = new BigInteger(ciphertextblock, radix);
 			ArrayList<String> possiblePlaintexts = getPossiblePlaintextsEncoded(biCiphertextblock);
 			allPlaintexts.add(possiblePlaintexts);
 		}
+		
+		return allPlaintexts;
+	}*/
+	
+	
+	public ArrayList<ArrayList<String>> getAllPlaintextsFromListOfCiphertextblocks(ArrayList<String> ciphertextblocks, int radix) {
+		ArrayList<ArrayList<String>> allPlaintexts = new ArrayList<ArrayList<String>>();
+		//long sum = 0;
+		
+		for (int i = 0; i < ciphertextblocks.size(); i++) {
+			
+			//long start = System.nanoTime();
+			String ciphertextblock = ciphertextblocks.get(i);
+			BigInteger biCiphertextblock = new BigInteger(ciphertextblock, radix);
+			ArrayList<String> possiblePlaintexts = getPossiblePlaintextsEncoded(biCiphertextblock);
+			allPlaintexts.add(possiblePlaintexts);
+			//long end = System.nanoTime();
+			//sum += (end - start);
+			//System.out.println("time = " + (end - start));
+		}
+		
+		//long average = sum / ciphertextblocks.size();
+		//System.out.println("average time = " + average);
 		
 		return allPlaintexts;
 	}
