@@ -33,6 +33,7 @@ import org.jcryptool.core.operations.editors.AbstractEditorService;
 import org.jcryptool.core.operations.editors.EditorsManager;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
+import org.jcryptool.visual.rabin.ui.CryptosystemTextbookComposite;
 import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
 import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
 
@@ -58,7 +59,7 @@ public class GUIHandler {
 	private int radix = 16;
 	private String separator = "||"; //$NON-NLS-1$
 	private boolean stopComputation = false;
-	private static boolean darkmode = true;
+	private static boolean darkmode = false;
 	
 	
 	// colors for p and q in Cryptosystem and Algorithm tab
@@ -75,14 +76,14 @@ public class GUIHandler {
 	private static Color colorFGinfo = ColorService.BLACK;
 	
 	// colors for selecting controls
-	private Color colorSelectControlBG = ColorService.LIGHT_AREA_BLUE;
-	private Color colorDeselectControlBG = ColorService.GRAY;
-	private Color colorSelectControlFG = ColorService.BLACK;
-	private Color colorDeselectControlFG = ColorService.WHITE;
+	public static Color colorSelectControlBG = ColorService.LIGHT_AREA_BLUE;
+	public static Color colorDeselectControlBG = ColorService.LIGHTGRAY;
+	public static Color colorSelectControlFG = ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
+	public static Color colorDeselectControlFG = ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
 	
 	// colors for buttons
-	private Color colorButtonsBG = ColorService.LIGHT_AREA_BLUE;
-	private Color colorButtonsFG = ColorService.BLACK;
+	public static Color colorButtonsBG = ColorService.LIGHT_AREA_BLUE;
+	public static Color colorButtonsFG = ColorService.BLACK;
 	
 	// colors for composites
 	private Color colorCompositeBG = ColorService.GRAY;
@@ -94,9 +95,9 @@ public class GUIHandler {
 	
 	// colors dark mode
 	
-	private Color colorDarkModeBG = ColorService.GRAY;
-	private Color colorDarkModeFG = ColorService.WHITE;
-	private Color colorDarkModeWarningFG = ColorService.LIGHT_AREA_RED;//new Color(255, 91, 91);
+	public static Color colorDarkModeBG = ColorService.GRAY;
+	public static Color colorDarkModeFG = ColorService.WHITE;
+	public static Color colorDarkModeWarningFG = ColorService.LIGHT_AREA_RED;//new Color(255, 91, 91);
 	
 	
 	// colors for second tab selection of styledText
@@ -105,7 +106,11 @@ public class GUIHandler {
 	
 	
 	// colors for reset final plaintext in 2nd tab
-	private Color colorResetFinalPlaintextBG = ColorService.GRAY;
+	public static Color colorResetFinalPlaintextBG = ColorService.LIGHTGRAY;
+	public static Color colorResetFinalPlaintextFG = null;
+	
+	public static Color colorTxtWhichYouCanEnterBG = ColorService.WHITE;
+	public static Color colorTxtWhichYouCanEnterFG = ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
 	
 	
 	public void setColorBGinfo(Color color) {
@@ -607,6 +612,14 @@ public class GUIHandler {
 	}
 	
 	
+	public void setSizeControlHeight(Control c, int minWidth, int minHeight) {
+		GridData gd = (GridData) c.getLayoutData();
+		gd.minimumWidth = minWidth;
+		gd.minimumHeight = minHeight;
+		gd.heightHint = c.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+	}
+	
+	
 	
 	
 	/**
@@ -799,7 +812,7 @@ public class GUIHandler {
 						+ "shown in the according fields on the left side.\n"
 						+ "Most of the times three of the four plaintexts consist of random characters, so "
 						+ "they do not make any sense at all.\n\n"
-						+ "3) you can click on each plaintext to mark it as \"selected\" and add it to the "
+						+ "3) you can click on one plaintext out of the four available to mark it as \"selected\" and add it to the "
 						+ "list of chosen plaintexts, which are shown in the field \"Chosen plaintexts (preview)\".\n"
 						+ "The first click will add the plaintext to the list and a second click will remove "
 						+ "it again.\n"
@@ -823,7 +836,7 @@ public class GUIHandler {
 						+ "you want to encrypt at once. The \"textbook\" mode always uses the maximum number "
 						+ "of bytes.\n\n"
 						+ "2) enter a plaintext in the field \"Plaintext\". Only characters in the UTF-8 format are allowed.\n\n"
-						+ "3) click on \"Encrypt\" to encrypt the plaintext";
+						+ "3) click on \"Encrypt\" to encrypt the plaintext.";
 				break;
 				
 			case "txtInfoEnc_Decimal":
@@ -845,7 +858,7 @@ public class GUIHandler {
 						+ "1) enter a ciphertext in the field \"Ciphertext in base 16 format\" as hexstring, which "
 						+ "means only hexadecimal numbers (0-f) are allowed. "
 						+ "Make sure that the length of the ciphertext is a multiple of the blocklength of N.\n\n"
-						+ "2) click on \"Apply\" to get the ciphertext separated into blocks";
+						+ "2) click on \"Apply\" to get the ciphertext separated into blocks.";
 				break;
 				
 			case "txtInfoSquareRoots_decryption_hex_and_decimal":
@@ -951,7 +964,54 @@ public class GUIHandler {
 	
 	
 	
+	public void hideStepByStepPart(RabinSecondTabComposite rstc) {
+		this.hideControl(rstc.getCompSelectEncDec());
+		this.hideControl(rstc.compHoldSepAndInfoEncDecSelection);
+		this.hideControl(rstc.lblSepEncDecBottom);
+		this.hideControl(rstc.getGrpPlaintext());
+		this.hideControl(rstc.compHoldSepAndInfoForEncryption);
+		this.hideControl(rstc.lblSepEncryptionBottom);
+		this.hideControl(rstc.getGrpDec());
+		this.hideControl(rstc.compHoldSepAndInfoForDecryption);
 	
+	}
+	
+	public void showStepByStepPart(RabinSecondTabComposite rstc) {
+		this.showControl(rstc.getCompSelectEncDec());
+		this.showControl(rstc.compHoldSepAndInfoEncDecSelection);
+		this.showControl(rstc.lblSepEncDecBottom);
+		this.showControl(rstc.getGrpPlaintext());
+		this.showControl(rstc.compHoldSepAndInfoForEncryption);
+		this.showControl(rstc.lblSepEncryptionBottom);
+		this.showControl(rstc.getGrpDec());
+		this.showControl(rstc.compHoldSepAndInfoForDecryption);
+	
+	}
+	
+	
+	
+	public void hideTextbookPart(CryptosystemTextbookComposite cstb) {
+		this.hideControl(cstb.getGrpLoadText());
+		this.hideControl(cstb.getCompHoldSepAndInfoForSelector());
+		this.hideControl(cstb.lblSeparateEncDecWithLoadTextTop);
+		this.hideControl(cstb.getCompHoldEncryptDecryptRadio());
+		this.hideControl(cstb.compHoldInfoForEncDec);
+		this.hideControl(cstb.lblSeparateEncDecWithLoadTextBottom);
+		this.hideControl(cstb.getGrpEncryptDecrypt());
+		this.hideControl(cstb.compHoldSepAndInfoEncDec);
+	}
+	
+	
+	public void showTextbookPart(CryptosystemTextbookComposite cstb) {
+		this.showControl(cstb.getGrpLoadText());
+		this.showControl(cstb.getCompHoldSepAndInfoForSelector());
+		this.showControl(cstb.lblSeparateEncDecWithLoadTextTop);
+		this.showControl(cstb.getCompHoldEncryptDecryptRadio());
+		this.showControl(cstb.compHoldInfoForEncDec);
+		this.showControl(cstb.lblSeparateEncDecWithLoadTextBottom);
+		this.showControl(cstb.getGrpEncryptDecrypt());
+		this.showControl(cstb.compHoldSepAndInfoEncDec);
+	}
 	
 	
 	

@@ -696,9 +696,13 @@ public class HandleSecondTab extends GUIHandler {
 	 */
 	private void resetFinalPlaintextColor(RabinSecondTabComposite rstc) {
 		rstc.getTxtm1().setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.getTxtm1().setForeground(this.colorResetFinalPlaintextFG);
 		rstc.getTxtm2().setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.getTxtm2().setForeground(this.colorResetFinalPlaintextFG);
 		rstc.getTxtm3().setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.getTxtm3().setForeground(this.colorResetFinalPlaintextFG);
 		rstc.getTxtm4().setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.getTxtm4().setForeground(this.colorResetFinalPlaintextFG);
 	}
 	
 	
@@ -809,10 +813,23 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void setInfoEncTextMode(RabinSecondTabComposite rstc) {
-		rstc.getTxtInfoEnc().setText(this.getMessageByControl("txtInfoEnc_Text"));
+		/*rstc.getTxtInfoEnc().setText(this.getMessageByControl("txtInfoEnc_Text"));
 		rstc.getTxtInfoSquareRoots().setText(this.getMessageByControl("txtInfoSquareRoots_encryption_text"));
 		rstc.getTxtInfoLC().setText(this.getMessageByControl("txtInfoLC_encryption_text"));
 		rstc.getTxtInfoPlaintexts().setText(this.getMessageByControl("txtInfoPlaintexts_encryption_text"));
+		*/
+		
+		StringBuffer sb = new StringBuffer();
+		//sb.append(this.getMessageByControl("txtInfoEnc_Text"));
+		sb.append(this.getMessageByControl("txtInfoSquareRoots_encryption_text"));
+		sb.append("\n\n\n\n\n\n\n");
+		sb.append(this.getMessageByControl("txtInfoLC_encryption_text"));
+		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		sb.append(this.getMessageByControl("txtInfoPlaintexts_encryption_text"));
+		
+		rstc.txtInfoDecryption.setText(sb.toString());
+		rstc.getTxtInfoEnc().setText(this.getMessageByControl("txtInfoEnc_Text"));
+		
 	}
 	
 	/**
@@ -821,9 +838,18 @@ public class HandleSecondTab extends GUIHandler {
 	 */
 	private void setInfoEncDecimalMode(RabinSecondTabComposite rstc) {
 		rstc.getTxtInfoEnc().setText(this.getMessageByControl("txtInfoEnc_Decimal"));
-		rstc.getTxtInfoSquareRoots().setText(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
-		rstc.getTxtInfoLC().setText(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
-		rstc.getTxtInfoPlaintexts().setText(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		//rstc.getTxtInfoSquareRoots().setText(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
+		//rstc.getTxtInfoLC().setText(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
+		//rstc.getTxtInfoPlaintexts().setText(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
+		sb.append("\n\n\n\n\n\n\n");
+		sb.append(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
+		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		sb.append(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		rstc.txtInfoDecryption.setText(sb.toString());
+		
 	}
 	
 	/**
@@ -831,10 +857,21 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void setInfoDecHexMode(RabinSecondTabComposite rstc) {
-		rstc.getTxtInfoDecimalAndHex().setText(this.getMessageByControl("txtInfoDecimalAndHex_decryption_hex"));
-		rstc.getTxtInfoSquareRoots().setText(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
-		rstc.getTxtInfoLC().setText(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
-		rstc.getTxtInfoPlaintexts().setText(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		//rstc.getTxtInfoDecimalAndHex().setText(this.getMessageByControl("txtInfoDecimalAndHex_decryption_hex"));
+		//rstc.getTxtInfoSquareRoots().setText(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
+		//rstc.getTxtInfoLC().setText(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
+		//rstc.getTxtInfoPlaintexts().setText(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(this.getMessageByControl("txtInfoDecimalAndHex_decryption_hex"));
+		sb.append("\n\n");
+		sb.append(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
+		sb.append("\n\n");
+		sb.append(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
+		sb.append("\n\n");
+		sb.append(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		rstc.txtInfoDecryption.setText(sb.toString());
+	
 		
 		//String strInfoDecHexMode = Messages.HandleSecondTab_strInfoDecHexMode;
 		//rstc.getTxtInfoDec().setText(strInfoDecHexMode);
@@ -846,12 +883,21 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void setInfoDecDecimalMode(RabinSecondTabComposite rstc) {
-		rstc.getTxtInfoDecimalAndHex().setText(this.getMessageByControl("txtInfoDecimalAndHex_decryption_decimal"));
-		rstc.getTxtInfoSquareRoots().setText(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
-		rstc.getTxtInfoLC().setText(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
-		rstc.getTxtInfoPlaintexts().setText(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		//rstc.getTxtInfoDecimalAndHex().setText(this.getMessageByControl("txtInfoDecimalAndHex_decryption_decimal"));
+		//rstc.getTxtInfoSquareRoots().setText(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
+		//rstc.getTxtInfoLC().setText(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
+		//rstc.getTxtInfoPlaintexts().setText(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
 		
-		
+		StringBuffer sb = new StringBuffer();
+		sb.append(this.getMessageByControl("txtInfoDecimalAndHex_decryption_decimal"));
+		sb.append("\n\n");
+		sb.append(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
+		sb.append("\n\n");
+		sb.append(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
+		sb.append("\n\n");
+		sb.append(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		rstc.txtInfoDecryption.setText(sb.toString());
+	
 		
 		//String strInfoDecDecimalMode = Messages.HandleSecondTab_strInfoDecDecimalMode;
 		//rstc.getTxtInfoDec().setText(strInfoDecDecimalMode);
@@ -1559,6 +1605,7 @@ public class HandleSecondTab extends GUIHandler {
 		rstc.getTxtm3().setText(m3);
 		rstc.getTxtm4().setText(m4);
 		
+		
 		if(rstc.getBtnSelectionEnc().getSelection())
 			setFinalPlaintextColor(rstc);
 
@@ -1584,8 +1631,10 @@ public class HandleSecondTab extends GUIHandler {
 			rstc.getCompEnterCiphertext().setVisible(false);
 			rstc.getCompHoldAllSteps().requestLayout();*/
 			
-			this.showControl(rstc.getGrpPlaintext());
 			this.hideControl(rstc.getCompEnterCiphertext());
+			this.showControl(rstc.getGrpPlaintext());
+			this.showControl(rstc.compHoldSepAndInfoForEncryption);
+			this.showControl(rstc.lblSepEncryptionBottom);
 			
 			if(rstc.getBtnRadHex().getSelection()) {
 				//saveDecHexState();
@@ -1640,6 +1689,8 @@ public class HandleSecondTab extends GUIHandler {
 			rstc.getCompHoldAllSteps().requestLayout();*/
 			
 			this.hideControl(rstc.getGrpPlaintext());
+			this.hideControl(rstc.compHoldSepAndInfoForEncryption);
+			this.hideControl(rstc.lblSepEncryptionBottom);
 			this.showControl(rstc.getCompEnterCiphertext());
 			//rstc.getSC().setMinSize(rstc.getRootComposite().computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			//rstc.getCurrentInstance().requestLayout();
