@@ -2403,7 +2403,7 @@ public class RabinFirstTabComposite extends Composite {
 	private void createContent(ScrolledComposite sc, Composite rootComposite) {
 		setLayout(new GridLayout(1, false));
 		
-		compHoldLayoutContent = new Composite(this, SWT.BORDER);
+		compHoldLayoutContent = new Composite(this, SWT.NONE);
 		compHoldLayoutContent.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
 		compHoldLayoutContent.setLayout(new GridLayout(2, false));
 		
