@@ -709,13 +709,13 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		
 		Composite settingsComposite = new Composite(composite, SWT.NONE);
 		settingsComposite.setLayout(new GridLayout(1, true));
-		GridData gd_settingsComposite = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
+		GridData gd_settingsComposite = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
 		gd_settingsComposite.verticalIndent = 30;
 		settingsComposite.setLayoutData(gd_settingsComposite);
 		
 		Composite innerSettingsCompositeLeft = new Composite(settingsComposite, SWT.NONE);
 		innerSettingsCompositeLeft.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		innerSettingsCompositeLeft.setLayout(new GridLayout(5, false));
+		innerSettingsCompositeLeft.setLayout(new GridLayout(3, false));
 
 //		Composite innerSettingsCompositeRight = new Composite(settingsComposite, SWT.NONE);
 //		innerSettingsCompositeRight.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
@@ -770,13 +770,16 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 //		btnForward.setText(Messages.CrtVerViewComposite_signatureVerification);
 //		new Label(settingsComposite, SWT.NONE).setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
-		var space1 = new Label(innerSettingsCompositeLeft, SWT.NONE);
-		var gd1 = new GridData();
-		gd1.widthHint = 100;
-		space1.setLayoutData(gd1);
+//		var space1 = new Label(innerSettingsCompositeLeft, SWT.BORDER);
+//		var gd1 = new GridData();
+//		gd1.widthHint = 100;
+//		space1.setLayoutData(gd1);
 		
-		btnShellModel = new Button(innerSettingsCompositeLeft, SWT.RADIO);
-		btnShellModel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		var centeringComp = new Composite(innerSettingsCompositeLeft, SWT.NONE);
+		centeringComp.setLayout(new GridLayout(3, false));
+		centeringComp.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 3, 1));
+		btnShellModel = new Button(centeringComp, SWT.RADIO);
+		btnShellModel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
 		btnShellModel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -787,7 +790,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		btnShellModel.setSelection(true);
 		btnShellModel.setText(Messages.CrtVerViewComposite_shellModel);
 
-		btnShellModelModified = new Button(innerSettingsCompositeLeft, SWT.RADIO);
+		btnShellModelModified = new Button(centeringComp, SWT.RADIO);
 		btnShellModelModified.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		btnShellModelModified.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -798,7 +801,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		});
 		btnShellModelModified.setText(Messages.CrtVerViewComposite_modifiedshellModel);
 
-		btnChainModel = new Button(innerSettingsCompositeLeft, SWT.RADIO);
+		btnChainModel = new Button(centeringComp, SWT.RADIO);
 		btnChainModel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		btnChainModel.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -809,12 +812,12 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		});
 		btnChainModel.setText(Messages.CrtVerViewComposite_chainModel);
 		
-		new Label(innerSettingsCompositeLeft, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+// 		new Label(innerSettingsCompositeLeft, SWT.NONE).setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, false, false));
 
-		var space2 = new Label(innerSettingsCompositeLeft, SWT.NONE);
-		var gd2 = new GridData();
-		gd2.widthHint = 100;
-		space2.setLayoutData(gd2);
+//		var space2 = new Label(innerSettingsCompositeLeft, SWT.BORDER);
+//		var gd2 = new GridData();
+//		gd2.widthHint = 100;
+//		space2.setLayoutData(gd2);
 
 		
 		btnValidate = new Button(innerSettingsCompositeLeft, SWT.PUSH);
