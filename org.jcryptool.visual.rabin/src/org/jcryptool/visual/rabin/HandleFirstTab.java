@@ -93,7 +93,7 @@ public class HandleFirstTab extends GUIHandler {
 	
 	
 	/**
-	 * method as a thread, can be used
+	 * method as a thread, not used
 	 * @param rftc
 	 * @param rstc
 	 * @param strLow
@@ -401,16 +401,11 @@ public class HandleFirstTab extends GUIHandler {
 		
 		
 		
-		//txtP.removeVerifyListener(vlNumbers);
-		//txtQ.removeVerifyListener(vlNumbers);
 		
 		rftc.getCmbP().setText(strPrimeP);
 		rftc.getCmbQ().setText(strPrimeQ);
 		
-		
-		//txtP.addVerifyListener(vlNumbers);
-		//txtQ.addVerifyListener(vlNumbers);
-		
+			
 		
 		rftc.getTxtModN().setText(n.toString());
 		
@@ -419,130 +414,6 @@ public class HandleFirstTab extends GUIHandler {
 		
 
 	}
-	
-	
-	
-	
-	/*private Thread generateKeysWithLimitSingle(RabinFirstTabComposite rftc, String strLow, String strUp, int iterations) {
-		
-		//boolean success = false;
-		Thread t = new Thread(new Runnable() {
-			int iteration = iterations;
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				Display.getDefault().asyncExec(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						BigInteger low = null; 
-						BigInteger up = null; 
-
-						low = getNumFromLimit(strLow);
-						up = getNumFromLimit(strUp);
-						
-						
-						BigInteger maxMin = up.subtract(low);
-						
-						Random rand = new SecureRandom();
-						
-						BigInteger primeP = null;
-						BigInteger primeQ = null;
-						BigInteger resP = null;
-						BigInteger resQ = null;
-						setStopComputation(false);
-						
-						do {
-							resP = new BigInteger(up.bitLength(), rand);
-							resQ = new BigInteger(up.bitLength(), rand);
-							
-							if(resP.compareTo(low) < 0) {
-								resP = resP.add(low);
-							}
-							
-							if(resQ.compareTo(low) < 0) {
-								resQ = resQ.add(low);
-							}
-							
-							if(resP.compareTo(up) >= 0) {
-								resP = resP.mod(maxMin).add(low);
-							}
-							
-							if(resQ.compareTo(up) >= 0) {
-								resQ = resQ.mod(maxMin).add(low);
-							}
-							
-							primeP = resP.nextProbablePrime();
-							primeQ = resQ.nextProbablePrime();
-							
-							iteration--;
-							
-							// delete the stopComputation is the while loop if you want to remove the
-							// stop button
-						}while(!(getRabinFirst().isAppropriatePrime(primeP, low, up)
-									&& getRabinFirst().isAppropriatePrime(primeQ, low, up)
-									&& !primeP.equals(primeQ)
-									&& getRabinFirst().isCompositeSuitable(primeP, primeQ)
-									) && iterations > 0 && !getStopComputation());
-						
-						if(getStopComputation()) {
-							//success = false;
-							return;
-						}
-						
-						
-						if(iterations == 0) {
-							rftc.getTxtSinglePQWarning().setText(strAppropriatePrimesWarning);
-							showControl(rftc.getTxtSinglePQWarning());
-							//success = false;
-							return;
-						}
-						
-							
-						hideControl(rftc.getTxtSinglePQWarning());
-						
-						String strPrimeP = primeP.toString();
-						String strPrimeQ = primeQ.toString();
-					
-						BigInteger p = new BigInteger(strPrimeP);
-						BigInteger q = new BigInteger(strPrimeQ);
-						BigInteger n = p.multiply(q);
-						getRabinFirst().setP(p);
-						getRabinFirst().setQ(q);
-						getRabinFirst().setN(n);
-						
-						
-						
-						//txtP.removeVerifyListener(vlNumbers);
-						//txtQ.removeVerifyListener(vlNumbers);
-						
-						rftc.getCmbP().setText(strPrimeP);
-						rftc.getCmbQ().setText(strPrimeQ);
-						
-						
-						//txtP.addVerifyListener(vlNumbers);
-						//txtQ.addVerifyListener(vlNumbers);
-						
-						
-						rftc.getTxtModN().setText(n.toString());
-						
-						//success = true;
-					}
-				});
-					
-			}
-		});
-		
-		
-		//return success;
-		
-		return t;
-		
-
-	}*/
-	
-	
 	
 	
 	
@@ -623,34 +494,17 @@ public class HandleFirstTab extends GUIHandler {
 		
 		String strPrimeP = primeP.toString();
 		String strPrimeQ = primeQ.toString();
-		//System.out.println("p = " + strPrimeP);
-		//System.out.println("q = " + strPrimeQ);
 		BigInteger p = new BigInteger(strPrimeP);
 		BigInteger q = new BigInteger(strPrimeQ);
 		BigInteger n = p.multiply(q);
 		getRabinFirst().setP(p);
 		getRabinFirst().setQ(q);
-		getRabinFirst().setN(n);
-		//System.out.println("N = " + n.toString());
-		
-		
-		//txtP.removeVerifyListener(vlNumbers);
-		//txtQ.removeVerifyListener(vlNumbers);
-		
+		getRabinFirst().setN(n);		
 		rftc.getCmbP().setText(strPrimeP);
 		rftc.getCmbQ().setText(strPrimeQ);
-		
-		
-		//txtP.addVerifyListener(vlNumbers);
-		//txtQ.addVerifyListener(vlNumbers);
-		
-		
 		rftc.getTxtModN().setText(n.toString());
 		
 		return true;
-			
-		
-
 	}
 	
 	
