@@ -98,4 +98,15 @@
 	<module>org.jcryptool.visual.rainbow</module>
 	<module>org.jcryptool.visual.errorCorrectingCodes</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-source-plugin</artifactId>
+        <version>${tycho.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
