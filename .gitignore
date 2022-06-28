@@ -8,3 +8,4 @@ build.xml
 javaCompiler...args
 Thumbs.db
 .metals
+**/.tycho-consumer-pom.xml
