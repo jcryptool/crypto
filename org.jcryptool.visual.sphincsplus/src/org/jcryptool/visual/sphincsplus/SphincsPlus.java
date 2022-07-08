@@ -29,6 +29,8 @@ import org.jcryptool.visual.sphincsplus.interfaces.ISphincsPlus;
 
 public class SphincsPlus implements ISphincsPlus {
 
+    private int change = "1";
+
     private Key key;
     private HashFunction f;
     private byte[] tempmessage = {};
