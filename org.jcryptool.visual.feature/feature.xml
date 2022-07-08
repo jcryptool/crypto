@@ -212,6 +212,9 @@ Each party waives its rights to a jury trial in any resulting
 litigation.
    </license>
 
+   <url>
+     <update label="JCrypTool.org" url="file:///home/snuc/jct_update_site/"/>
+   </url>
    <!-- <url> -->
    <!--    <update label="JCrypTool.org" url="https://www.cryptool.org/jct/update"/> -->
    <!-- </url> -->
