@@ -9,3 +9,5 @@ javaCompiler...args
 Thumbs.db
 .metals
 **/.tycho-consumer-pom.xml
+/FETCH_HEAD
+/HEAD
