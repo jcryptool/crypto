@@ -1,5 +1,5 @@
 <feature 
-id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.8.1-20220711" provider-name="jcryptool.org" plugin="org.jcryptool.visual">
+id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.8.1-20220718" provider-name="jcryptool.org" plugin="org.jcryptool.visual">
     <description url="https://github.com/jcryptool/crypto">
         <!-- keep this in one line -->
         <!-- version:this -->
@@ -256,7 +256,7 @@ litigation.
     <plugin id="org.jcryptool.visual.merkletree" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
     <plugin id="org.jcryptool.visual.sphincs" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
     <plugin 
-    id="org.jcryptool.visual.sphincsplus" download-size="0" install-size="0" version="1.0.8.1-20220711" unpack="false">
+    id="org.jcryptool.visual.sphincsplus" download-size="0" install-size="0" version="1.0.8.1-20220718" unpack="false">
 </plugin>
     <plugin id="org.jcryptool.visual.rainbow" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
     <plugin id="org.jcryptool.visual.rss" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
