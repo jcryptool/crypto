@@ -187,7 +187,7 @@ public class CrtVerViewController {
         if(Locale.getDefault().getLanguage().toLowerCase().contains("de") && format.equals(dateformat1)) {
         	// (marker-1)
         	var monthnames = new String[] {"Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"};       	
-        	return String.format("/ %s / %s  ", monthnames[calendar.getTime().getMonth()], calendar.get(Calendar.YEAR));
+        	return String.format("/ %s / %s  ", monthnames[calendar.getTime().getMonth()], calendar.getTime().getYear());
         } else {
 			return String.valueOf(dt1.format(calendar.getTime()));
         }
