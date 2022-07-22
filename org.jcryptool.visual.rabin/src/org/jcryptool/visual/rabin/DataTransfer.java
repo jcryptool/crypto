@@ -67,12 +67,12 @@ public class DataTransfer {
 	 * @return statesText the state of the decryption content
 	 */
 	private String[] getDecState(RabinSecondTabComposite rstc) {
-		String[] statesText = {rstc.getTxtCipherFirst().getText(),
-				rstc.getTxtmp().getText(), rstc.getTxtmq().getText(), 
-				rstc.getTxtyp().getText(),rstc.getTxtyq().getText(), 
-				rstc.getTxtV().getText(), rstc.getTxtW().getText(), 
-				rstc.getTxtm1().getText(), rstc.getTxtm2().getText(), 
-				rstc.getTxtm3().getText(), rstc.getTxtm4().getText() }; 
+		String[] statesText = {rstc.txtCipherFirst.getText(),
+				rstc.txtmp.getText(), rstc.txtmq.getText(), 
+				rstc.txtyp.getText(),rstc.txtyq.getText(), 
+				rstc.txtV.getText(), rstc.txtW.getText(), 
+				rstc.txtm1.getText(), rstc.txtm2.getText(), 
+				rstc.txtm3.getText(), rstc.txtm4.getText() }; 
 		
 		return statesText;
 	}
@@ -108,17 +108,17 @@ public class DataTransfer {
 	 * @param rstc
 	 */
 	private void setState(ArrayList<String> state, RabinSecondTabComposite rstc) {
-		rstc.getTxtCipherFirst().setText(state.get(0));
-		rstc.getTxtmp().setText(state.get(1));
-		rstc.getTxtmq().setText(state.get(2));
-		rstc.getTxtyp().setText(state.get(3));
-		rstc.getTxtyq().setText(state.get(4));
-		rstc.getTxtV().setText(state.get(5));
-		rstc.getTxtW().setText(state.get(6));
-		rstc.getTxtm1().setText(state.get(7));
-		rstc.getTxtm2().setText(state.get(8));
-		rstc.getTxtm3().setText(state.get(9));
-		rstc.getTxtm4().setText(state.get(10));
+		rstc.txtCipherFirst.setText(state.get(0));
+		rstc.txtmp.setText(state.get(1));
+		rstc.txtmq.setText(state.get(2));
+		rstc.txtyp.setText(state.get(3));
+		rstc.txtyq.setText(state.get(4));
+		rstc.txtV.setText(state.get(5));
+		rstc.txtW.setText(state.get(6));
+		rstc.txtm1.setText(state.get(7));
+		rstc.txtm2.setText(state.get(8));
+		rstc.txtm3.setText(state.get(9));
+		rstc.txtm4.setText(state.get(10));
 		
 	}
 	
@@ -130,7 +130,7 @@ public class DataTransfer {
 	 * @param rstc
 	 */
 	private void saveChooseCipherIdxTextMode(RabinSecondTabComposite rstc) {
-		cmbChooseCipherIdxTextMode = rstc.getCmbChooseCipher().getSelectionIndex();
+		cmbChooseCipherIdxTextMode = rstc.cmbChooseCipher.getSelectionIndex();
 	}
 	
 	/**
@@ -138,7 +138,7 @@ public class DataTransfer {
 	 * @param rstc
 	 */
 	private void saveChooseCipherIdxNumMode(RabinSecondTabComposite rstc) {
-		cmbChooseCipherIdxNumMode = rstc.getCmbChooseCipher().getSelectionIndex();
+		cmbChooseCipherIdxNumMode = rstc.cmbChooseCipher.getSelectionIndex();
 	}
 	
 	/**
@@ -146,7 +146,7 @@ public class DataTransfer {
 	 * @param rstc
 	 */
 	private void saveChooseCipherIdxDecHexMode(RabinSecondTabComposite rstc) {
-		cmbChooseCipherIdxDecHexMode = rstc.getCmbChooseCipher().getSelectionIndex();
+		cmbChooseCipherIdxDecHexMode = rstc.cmbChooseCipher.getSelectionIndex();
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class DataTransfer {
 	 * @param rstc
 	 */
 	private void saveChooseCipherIdxDecDecimalMode(RabinSecondTabComposite rstc) {
-		cmbChooseCipherIdxDecDecimalMode = rstc.getCmbChooseCipher().getSelectionIndex();
+		cmbChooseCipherIdxDecDecimalMode = rstc.cmbChooseCipher.getSelectionIndex();
 	}
 	
 	/**
@@ -163,7 +163,7 @@ public class DataTransfer {
 	 */
 	private void setChooseCipherIdxNumMode(RabinSecondTabComposite rstc) {
 		if(cmbChooseCipherIdxNumMode != -1) 
-			rstc.getCmbChooseCipher().select(cmbChooseCipherIdxNumMode);
+			rstc.cmbChooseCipher.select(cmbChooseCipherIdxNumMode);
 	}
 	
 	/**
@@ -172,7 +172,7 @@ public class DataTransfer {
 	 */
 	private void setChooseCipherIdxTextMode(RabinSecondTabComposite rstc) {
 		if(cmbChooseCipherIdxTextMode != -1) 
-			rstc.getCmbChooseCipher().select(cmbChooseCipherIdxTextMode);
+			rstc.cmbChooseCipher.select(cmbChooseCipherIdxTextMode);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class DataTransfer {
 	 */
 	private void setChooseCipherIdxDecHexMode(RabinSecondTabComposite rstc) {
 		if(cmbChooseCipherIdxDecHexMode != -1) 
-			rstc.getCmbChooseCipher().select(cmbChooseCipherIdxDecHexMode);
+			rstc.cmbChooseCipher.select(cmbChooseCipherIdxDecHexMode);
 	}
 	
 	/**
@@ -190,7 +190,7 @@ public class DataTransfer {
 	 */
 	private void setChooseCipherIdxDecDecimalMode(RabinSecondTabComposite rstc) {
 		if(cmbChooseCipherIdxDecDecimalMode != -1) 
-			rstc.getCmbChooseCipher().select(cmbChooseCipherIdxDecDecimalMode);
+			rstc.cmbChooseCipher.select(cmbChooseCipherIdxDecDecimalMode);
 	}
 	
 	
@@ -209,10 +209,10 @@ public class DataTransfer {
 	 * @param rstc
 	 */
 	public void setChooseCipher(ArrayList<String> a, RabinSecondTabComposite rstc) {
-		rstc.getCmbChooseCipher().removeAll();
+		rstc.cmbChooseCipher.removeAll();
 		if(a != null) {
 			for(int i = 1; i <= a.size(); i++) {
-				rstc.getCmbChooseCipher().add(String.valueOf(i));
+				rstc.cmbChooseCipher.add(String.valueOf(i));
 			}
 		}
 	}

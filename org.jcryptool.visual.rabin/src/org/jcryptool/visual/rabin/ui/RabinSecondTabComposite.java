@@ -42,163 +42,174 @@ import org.jcryptool.visual.rabin.Rabin;
  */
 public class RabinSecondTabComposite extends Composite {
 	
-	private Group grpParam;
-	private Group grpPlaintext;
-	private Group grpDec;
-	private Group grpSqrRoot;
-	private Group grpLinCon;
-	private Composite npqComp;
-	private Text txtModN;
-	private Text txtPlain;
-	private Button btnEnc;
+	public Group grpParam;
+	public Group grpPlaintext;
+	public Group grpDec;
+	public Group grpSqrRoot;
+	public Group grpLinCon;
+	public Composite npqComp;
+	public Text txtModN;
+	public Text txtPlain;
+	public Button btnEnc;
 	
-	private Text txtCipherFirst;
+	public Text txtCipherFirst;
 	
-	private Composite compMp;
-	private Text txtmp;
-	private Composite compMq;
-	private Text txtmq;
-	private Button btnSqrRoot;
+	public Composite compMp;
+	public Text txtmp;
+	public Composite compMq;
+	public Text txtmq;
+	public Button btnSqrRoot;
 	
-	private Composite compMerge;
-	private Text txtyp;
-	private Text txtyq;
-	private Group grpPosPlain;
-	private Text txtm1;
-	private Text txtm2;
-	private Text txtm3;
-	private Text txtm4;
-	private Composite compAllPt;
-	private Button btnComputePt;
-	private Button btnNextC;
-	private Button btnGenKeysMan;
-	private Button btnStartGenKeys;
-	private Combo cmbP;
-	private Combo cmbQ;
-	private CCombo cmbBlockN;
-	private Button btnText;
-	private Button btnNum;
-	private Text txtMessage;
-	private StyledText txtMessageSep;
-	private StyledText txtMessageBase;
+	public Composite compMerge;
+	public Text txtyp;
+	public Text txtyq;
+	public Group grpPosPlain;
+	public Text txtm1;
+	public Text txtm2;
+	public Text txtm3;
+	public Text txtm4;
+	public Composite compAllPt;
+	public Button btnComputePt;
+	public Button btnNextC;
+	public Button btnGenKeysMan;
+	public Button btnStartGenKeys;
+	public Combo cmbP;
+	public Combo cmbQ;
+	public CCombo cmbBlockN;
+	public Button btnText;
+	public Button btnNum;
+	public Text txtMessage;
+	public StyledText txtMessageSep;
+	public StyledText txtMessageBase;
 
-	private StyledText txtCipher;
-	private GridData grpPlaintextData;
-	private GridData compEnterCiphertextData;
-	private Composite compEnterCiphertext;
-	private Composite compHoldAllSteps;
-	private Label lblMessage;
-	private Label lblMessageSep;
+	public StyledText txtCipher;
+	public GridData grpPlaintextData;
+	public GridData compEnterCiphertextData;
+	public Composite compEnterCiphertext;
+	public Composite compHoldAllSteps;
+	public Label lblMessage;
+	public Label lblMessageSep;
 
-	private GridData lblMessageData;
-	private GridData txtMessageData;
-	private GridData txtMessageSepData;
+	public GridData lblMessageData;
+	public GridData txtMessageData;
+	public GridData txtMessageSepData;
 
-	private Composite encPartSteps;
-	private Button btnSelectionEnc;
-	private Button btnSelectionDec;
-	private Button btnApplyCiphertext;
-	private Composite rootComposite;
-	private CCombo cmbChooseCipher;
+	public Composite encPartSteps;
+	public Button btnSelectionEnc;
+	public Button btnSelectionDec;
+	public Button btnApplyCiphertext;
+	public Composite rootComposite;
+	public CCombo cmbChooseCipher;
 
-	private Button btnComputeYpYq;
-	private Button btnComputevw;
-	private Text txtV;
-	private Text txtW;
+	public Button btnComputeYpYq;
+	public Button btnComputevw;
+	public Text txtV;
+	public Text txtW;
 	
-	private Composite compEncStepsNum;
-	private GridData compEncStepsNumData;
-	private Composite compEncSteps;
-	private GridData compEncStepsData;
+	public Composite compEncStepsNum;
+	public GridData compEncStepsNumData;
+	public Composite compEncSteps;
+	public GridData compEncStepsData;
 	
-	private Text txtMessageSepNum;
-	private StyledText txtMessageBaseNum;
-	private StyledText txtCipherNum;
-	private Composite compEnterCiphertextPart1;
-	private Composite compHoldDecimal;
-	private Button btnRadHex;
-	private Button btnRadDecimal;
-	private GridData compEnterCiphertextPart1Data;
-	private GridData compHoldDecimalData;
-	private Composite compEnterCiphertextSteps;
-	private Text txtEnterCiphertextDecimal;
-	private StyledText txtCiphertextSegmentsDecimal;
-	private Text txtEnterCiphertext;
-	private StyledText txtCiphertextSegments;
-	private Text txtWarningNpq;
-	private GridData txtWarningNpqData;
-	private Composite compBlockN;
-	private Text txtMessageSepNumWarning;
-	private GridData txtMessageSepNumWarningData;
-	private Text txtEnterCiphertextWarning;
-	private GridData txtEnterCiphertextWarningData;
-	private Text txtEnterCiphertextDecimalWarning;
-	private GridData txtEnterCiphertextDecimalWarningData;
-	private Text txtMessageWarning;
-	private GridData txtMessageWarningData;
-	private Button btnPrevElem;
-	private Button btnNextElem;
-	private Text txtInfoEnc;
-	//private Text txtInfoDec;
-	private ScrolledComposite sc;
-	private Button btnGenKeysAlgo;
-	private GridData compBlockNData;
+	public Text txtMessageSepNum;
+	public StyledText txtMessageBaseNum;
+	public StyledText txtCipherNum;
+	public Composite compEnterCiphertextPart1;
+	public Composite compHoldDecimal;
+	public Button btnRadHex;
+	public Button btnRadDecimal;
+	public GridData compEnterCiphertextPart1Data;
+	public GridData compHoldDecimalData;
+	public Composite compEnterCiphertextSteps;
+	public Text txtEnterCiphertextDecimal;
+	public StyledText txtCiphertextSegmentsDecimal;
+	public Text txtEnterCiphertext;
+	public StyledText txtCiphertextSegments;
+	public Text txtWarningNpq;
+	public GridData txtWarningNpqData;
+	public Composite compBlockN;
+	public Text txtMessageSepNumWarning;
+	public GridData txtMessageSepNumWarningData;
+	public Text txtEnterCiphertextWarning;
+	public GridData txtEnterCiphertextWarningData;
+	public Text txtEnterCiphertextDecimalWarning;
+	public GridData txtEnterCiphertextDecimalWarningData;
+	public Text txtMessageWarning;
+	public GridData txtMessageWarningData;
+	public Button btnPrevElem;
+	public Button btnNextElem;
+	public Text txtInfoEnc;
+	//public Text txtInfoDec;
+	public ScrolledComposite sc;
+	public Button btnGenKeysAlgo;
+	public GridData compBlockNData;
 	
-	private Text nWarning;
-	private Text qWarning;
-	private Text pWarning;
+	public Text nWarning;
+	public Text qWarning;
+	public Text pWarning;
 	
-	private Text txtInfoDecimalAndHex;
-	private Text txtInfoSquareRoots;
-	private Text txtInfoLC;
-	private Text txtInfoPlaintexts;
-	private Text txtMessageWithPadding;
-	private Label lblBlockN;
-	private Label lblMessageSepNum;
-	private Label lblMessageBaseNum;
-	private Label lblCipherNum;
-	private Label lblMessageWithPadding;
-	private Label lblMessageBase;
-	private Label lblCipher;
-	private Label lblSepInfoEnc;
-	private Composite compHoldRadHexDec;
-	private Label lblInfoDecimalAndHex;
-	private Label lblEnterCiphertextDecimal;
-	private Label lblCiphertextSegmentsDecimal;
-	private Label lblEnterCiphertext;
-	private Label lblCiphertextSegments;
-	private Composite compInfoDec;
-	private Composite compHoldTestAndSQR;
-	private Composite compTest;
-	private Composite compChooseCipher;
-	private Label lblChoosCipher;
-	private Label lblCipherFirst;
-	private Composite compNavElem;
-	private Label lblSepNavElem;
-	private Label lblSeparateInfoSquareRoots;
-	private Label lblMp;
-	private Label lblMq;
-	private Composite compHoldLCandInverse;
-	private Label lblyp;
-	private Label lblyq;
-	private Label lblSeparateInfoLC;
-	private Group grpComputeIs;
-	private Composite compHoldvw;
-	private Label lblV;
-	private Label lblW;
-	private Composite compHoldPlaintextsAndInfo;
-	private Label lblm1;
-	private Label lblm2;
-	private Label lblm3;
-	private Label lblm4;
-	private Label lblSeparateInfoPlaintexts;
-	private Composite compSelectEncDec;
+	public Text txtInfoDecimalAndHex;
+	public Text txtInfoSquareRoots;
+	public Text txtInfoLC;
+	public Text txtInfoPlaintexts;
+	public Text txtMessageWithPadding;
+	public Label lblBlockN;
+	public Label lblMessageSepNum;
+	public Label lblMessageBaseNum;
+	public Label lblCipherNum;
+	public Label lblMessageWithPadding;
+	public Label lblMessageBase;
+	public Label lblCipher;
+	public Label lblSepInfoEnc;
+	public Composite compHoldRadHexDec;
+	public Label lblInfoDecimalAndHex;
+	public Label lblEnterCiphertextDecimal;
+	public Label lblCiphertextSegmentsDecimal;
+	public Label lblEnterCiphertext;
+	public Label lblCiphertextSegments;
+	public Composite compInfoDec;
+	public Composite compHoldTestAndSQR;
+	public Composite compTest;
+	public Composite compChooseCipher;
+	public Label lblChoosCipher;
+	public Label lblCipherFirst;
+	public Composite compNavElem;
+	public Label lblSepNavElem;
+	public Label lblSeparateInfoSquareRoots;
+	public Label lblMp;
+	public Label lblMq;
+	public Composite compHoldLCandInverse;
+	public Label lblyp;
+	public Label lblyq;
+	public Label lblSeparateInfoLC;
+	public Group grpComputeIs;
+	public Composite compHoldvw;
+	public Label lblV;
+	public Label lblW;
+	public Composite compHoldPlaintextsAndInfo;
+	public Label lblm1;
+	public Label lblm2;
+	public Label lblm3;
+	public Label lblm4;
+	public Label lblSeparateInfoPlaintexts;
+	public Composite compSelectEncDec;
 	
-	private Composite compSelNumTxt;
-	private Composite compHoldNextC;
+	public Composite compSelNumTxt;
+	public Composite compHoldNextC;
 	
-	private Composite compHoldRadioHexAndDecAndSteps;
-	private Composite compHoldRadHexDec2;
+	public Composite compHoldRadioHexAndDecAndSteps;
+	public Composite compHoldRadHexDec2;
+	
+	
+	public Label lblSepEncryptionBottom;
+	public Composite compHoldSepAndInfoForEncryption;
+	public Composite compHoldSepAndInfoForDecryption;
+	public Label lblSepInfoForDecryption;
+	public Text txtInfoDecryption;
+	public Composite compHoldSepAndInfoEncDecSelection;
+	public Label lblSepForInfoEncDecSelection;
+	public Text txtInfoForEncDecSelection;
+	public Label lblSepEncDecBottom;
 
 
 	
@@ -207,687 +218,15 @@ public class RabinSecondTabComposite extends Composite {
 	private String strPlainInBase16 = Messages.RabinSecondTabComposite_strPlainInBase16;
 	
 	
-	private HandleSecondTab guiHandler;
+	public HandleSecondTab guiHandler;
 	
-	
-	
-	public Composite getCompSelectEncDec() {
-		return compSelectEncDec;
-	}
-	
-	
-	public Group getGrpDec() {
-		return grpDec;
-	}
-	
-	
-	public Text getTxtMessageWithPadding() {
-		return txtMessageWithPadding;
-	}
-	
-	
-	
-	/**
-	 * @return the txtInfoDecimalAndHex
-	 */
-	public Text getTxtInfoDecimalAndHex() {
-		return txtInfoDecimalAndHex;
-	}
-
-
-	/**
-	 * @return the txtInfoSquareRoots
-	 */
-	public Text getTxtInfoSquareRoots() {
-		return txtInfoSquareRoots;
-	}
-
-
-	/**
-	 * @return the txtInfoLC
-	 */
-	public Text getTxtInfoLC() {
-		return txtInfoLC;
-	}
-
-
-	/**
-	 * @return the txtInfoPlaintexts
-	 */
-	public Text getTxtInfoPlaintexts() {
-		return txtInfoPlaintexts;
-	}
-
-
-	/**
-	 * @return nWarning
-	 */
-	public Text getNWarning() {
-		return nWarning;
-	}
-	
-	
-	/**
-	 * @return pWarning
-	 */
-	public Text getPWarning() {
-		return pWarning;
-	}
-	
-	
-	
-	/**
-	 * @return qWarning
-	 */
-	public Text getQWarning() {
-		return qWarning;
-	}
-	
-	
-	/**
-	 * @return current instance of this class
-	 */
 	public RabinSecondTabComposite getCurrentInstance() {
 		return this;
 	}
 	
 	
 	
-	
-	
-	/**
-	 * @return the guiHandler
-	 */
-	public HandleSecondTab getGuiHandler() {
-		return guiHandler;
-	}
-
-
-
-
-
-	/**
-	 * @return the compBlockNData
-	 */
-	public GridData getCompBlockNData() {
-		return compBlockNData;
-	}
-
-
-
-
-	/**
-	 * @return the txtCipherFirst
-	 */
-	public Text getTxtCipherFirst() {
-		return txtCipherFirst;
-	}
-
-
-	/**
-	 * @return the sc
-	 */
-	public ScrolledComposite getSC() {
-		return sc;
-	}
-
-
-	
-
-	
-
-	/**
-	 * @return the txtModN
-	 */
-	public Text getTxtModN() {
-		return txtModN;
-	}
-
-	/**
-	 * @return the grpPlaintext
-	 */
-	public Group getGrpPlaintext() {
-		return grpPlaintext;
-	}
-
-	/**
-	 * @return the txtPlain
-	 */
-	public Text getTxtPlain() {
-		return txtPlain;
-	}
-
-	/**
-	 * @return the btnEnc
-	 */
-	public Button getBtnEnc() {
-		return btnEnc;
-	}
-
-	
-
-
-
-	/**
-	 * @return the btnSqrRoot
-	 */
-	public Button getBtnSqrRoot() {
-		return btnSqrRoot;
-	}
-
-
-
-
-
-	
-
-	
-
-	/**
-	 * @return the btnComputePt
-	 */
-	public Button getBtnComputePt() {
-		return btnComputePt;
-	}
-
-	
-
-	/**
-	 * @return the btnNextC
-	 */
-	public Button getBtnNextC() {
-		return btnNextC;
-	}
-
-	/**
-	 * @return the btnGenKeysMan
-	 */
-	public Button getBtnGenKeysMan() {
-		return btnGenKeysMan;
-	}
-
-	/**
-	 * @return the btnStartGenKeys
-	 */
-	public Button getBtnStartGenKeys() {
-		return btnStartGenKeys;
-	}
-
-	/**
-	 * @return the cmbP
-	 */
-	public Combo getCmbP() {
-		return cmbP;
-	}
-
-	/**
-	 * @return the cmbQ
-	 */
-	public Combo getCmbQ() {
-		return cmbQ;
-	}
-
-	/**
-	 * @return the cmbBlockN
-	 */
-	public CCombo getCmbBlockN() {
-		return cmbBlockN;
-	}
-
-	/**
-	 * @return the btnText
-	 */
-	public Button getBtnText() {
-		return btnText;
-	}
-
-	/**
-	 * @return the btnNum
-	 */
-	public Button getBtnNum() {
-		return btnNum;
-	}
-
-	
-	public Composite getCompEnterCiphertextSteps() {
-		return compEnterCiphertextSteps;
-	}
-	
-
-	/**
-	 * @return the txtMessage
-	 */
-	public Text getTxtMessage() {
-		return txtMessage;
-	}
-
-	/**
-	 * @return the txtMessageSep
-	 */
-	public StyledText getTxtMessageSep() {
-		return txtMessageSep;
-	}
-
-	/**
-	 * @return the txtMessageBase
-	 */
-	public StyledText getTxtMessageBase() {
-		return txtMessageBase;
-	}
-
-	/**
-	 * @return the txtCipher
-	 */
-	public StyledText getTxtCipher() {
-		return txtCipher;
-	}
-
-	
-
-	/**
-	 * @return the grpPlaintextData
-	 */
-	public GridData getGrpPlaintextData() {
-		return grpPlaintextData;
-	}
-
-	/**
-	 * @return the compEnterCiphertextData
-	 */
-	public GridData getCompEnterCiphertextData() {
-		return compEnterCiphertextData;
-	}
-
-	/**
-	 * @return the compEnterCiphertext
-	 */
-	public Composite getCompEnterCiphertext() {
-		return compEnterCiphertext;
-	}
-
-	/**
-	 * @return the compHoldAllSteps
-	 */
-	public Composite getCompHoldAllSteps() {
-		return compHoldAllSteps;
-	}
-
-
-	/**
-	 * @return the encPartSteps
-	 */
-	public Composite getEncPartSteps() {
-		return encPartSteps;
-	}
-
-	/**
-	 * @return the btnSelectionEnc
-	 */
-	public Button getBtnSelectionEnc() {
-		return btnSelectionEnc;
-	}
-
-	/**
-	 * @return the btnSelectionDec
-	 */
-	public Button getBtnSelectionDec() {
-		return btnSelectionDec;
-	}
-
-	/**
-	 * @return the btnApplyCiphertext
-	 */
-	public Button getBtnApplyCiphertext() {
-		return btnApplyCiphertext;
-	}
-
-	/**
-	 * @return the rootComposite
-	 */
-	public Composite getRootComposite() {
-		return rootComposite;
-	}
-
-	
-
-	/**
-	 * @return the btnComputeYpYq
-	 */
-	public Button getBtnComputeYpYq() {
-		return btnComputeYpYq;
-	}
-
-	/**
-	 * @return the btnComputevw
-	 */
-	public Button getBtnComputevw() {
-		return btnComputevw;
-	}
-
-	
-
-	/**
-	 * @return the compEncStepsNum
-	 */
-	public Composite getCompEncStepsNum() {
-		return compEncStepsNum;
-	}
-
-	/**
-	 * @return the compEncStepsNumData
-	 */
-	public GridData getCompEncStepsNumData() {
-		return compEncStepsNumData;
-	}
-
-	/**
-	 * @return the compEncSteps
-	 */
-	public Composite getCompEncSteps() {
-		return compEncSteps;
-	}
-
-	/**
-	 * @return the compEncStepsData
-	 */
-	public GridData getCompEncStepsData() {
-		return compEncStepsData;
-	}
-
-	
-
-	
-
-	
-	
-	/**
-	 * @return the txtMessageSepNum
-	 */
-	public Text getTxtMessageSepNum() {
-		return txtMessageSepNum;
-	}
-
-	/**
-	 * @return the txtMessageBaseNum
-	 */
-	public StyledText getTxtMessageBaseNum() {
-		return txtMessageBaseNum;
-	}
-
-	/**
-	 * @return the txtCipherNum
-	 */
-	public StyledText getTxtCipherNum() {
-		return txtCipherNum;
-	}
-
-	/**
-	 * @return the compEnterCiphertextPart1
-	 */
-	public Composite getCompEnterCiphertextPart1() {
-		return compEnterCiphertextPart1;
-	}
-
-	/**
-	 * @return the compHoldDecimal
-	 */
-	public Composite getCompHoldDecimal() {
-		return compHoldDecimal;
-	}
-
-	/**
-	 * @return the btnRadHex
-	 */
-	public Button getBtnRadHex() {
-		return btnRadHex;
-	}
-
-	/**
-	 * @return the btnRadDecimal
-	 */
-	public Button getBtnRadDecimal() {
-		return btnRadDecimal;
-	}
-
-	/**
-	 * @return the compEnterCiphertextPart1Data
-	 */
-	public GridData getCompEnterCiphertextPart1Data() {
-		return compEnterCiphertextPart1Data;
-	}
-
-	/**
-	 * @return the compHoldDecimalData
-	 */
-	public GridData getCompHoldDecimalData() {
-		return compHoldDecimalData;
-	}
-
-	
-
-	/**
-	 * @return the txtEnterCiphertextDecimal
-	 */
-	public Text getTxtEnterCiphertextDecimal() {
-		return txtEnterCiphertextDecimal;
-	}
-
-	/**
-	 * @return the txtCiphertextSegmentsDecimal
-	 */
-	public StyledText getTxtCiphertextSegmentsDecimal() {
-		return txtCiphertextSegmentsDecimal;
-	}
-
-	/**
-	 * @return the txtEnterCiphertext
-	 */
-	public Text getTxtEnterCiphertext() {
-		return txtEnterCiphertext;
-	}
-
-	/**
-	 * @return the txtCiphertextSegments
-	 */
-	public StyledText getTxtCiphertextSegments() {
-		return txtCiphertextSegments;
-	}
-
-	/**
-	 * @return the txtWarningNpq
-	 */
-	public Text getTxtWarningNpq() {
-		return txtWarningNpq;
-	}
-
-	
-
-	/**
-	 * @return the compBlockN
-	 */
-	public Composite getCompBlockN() {
-		return compBlockN;
-	}
-
-	/**
-	 * @return the txtMessageSepNumWarning
-	 */
-	public Text getTxtMessageSepNumWarning() {
-		return txtMessageSepNumWarning;
-	}
-
-	
-
-	/**
-	 * @return the txtEnterCiphertextWarning
-	 */
-	public Text getTxtEnterCiphertextWarning() {
-		return txtEnterCiphertextWarning;
-	}
-
-	
-
-	/**
-	 * @return the txtEnterCiphertextDecimalWarning
-	 */
-	public Text getTxtEnterCiphertextDecimalWarning() {
-		return txtEnterCiphertextDecimalWarning;
-	}
-
-	
-
-	/**
-	 * @return the txtMessageWarning
-	 */
-	public Text getTxtMessageWarning() {
-		return txtMessageWarning;
-	}
-
-	
-
-	/**
-	 * @return the btnPrevElem
-	 */
-	public Button getBtnPrevElem() {
-		return btnPrevElem;
-	}
-
-	/**
-	 * @return the btnNextElem
-	 */
-	public Button getBtnNextElem() {
-		return btnNextElem;
-	}
-
-	
-
-	/**
-	 * @return the vlNumbers
-	 */
-	public VerifyListener getVlNumbers() {
-		return vlNumbers;
-	}
-
-	/**
-	 * @return the txtInfoEnc
-	 */
-	public Text getTxtInfoEnc() {
-		return txtInfoEnc;
-	}
-
-	/**
-	 * @return the txtInfoDec
-	 */
-	/*public Text getTxtInfoDec() {
-		return txtInfoDec;
-	}*/
-
-
-	/**
-	 * @return the btnGenKeysAlgo
-	 */
-	public Button getBtnGenKeysAlgo() {
-		return btnGenKeysAlgo;
-	}
-
-	
-	/**
-	 * @return the txtmp
-	 */
-	public Text getTxtmp() {
-		return txtmp;
-	}
-
-	/**
-	 * @return the txtmq
-	 */
-	public Text getTxtmq() {
-		return txtmq;
-	}
-
-
-	/**
-	 * @return the txtyp
-	 */
-	public Text getTxtyp() {
-		return txtyp;
-	}
-
-	
-	/**
-	 * @return the txtyq
-	 */
-	public Text getTxtyq() {
-		return txtyq;
-	}
-
-	
-	/**
-	 * @return the txtm1
-	 */
-	public Text getTxtm1() {
-		return txtm1;
-	}
-
-
-	/**
-	 * @return the txtm2
-	 */
-	public Text getTxtm2() {
-		return txtm2;
-	}
-
-
-	
-	
-	/**
-	 * @return the txtm3
-	 */
-	public Text getTxtm3() {
-		return txtm3;
-	}
-
-
-	
-	/**
-	 * @return the txtm4
-	 */
-	public Text getTxtm4() {
-		return txtm4;
-	}
-
-
-	/**
-	 * @return the txtV
-	 */
-	public Text getTxtV() {
-		return txtV;
-	}
-
-
-	
-	/**
-	 * @return the txtW
-	 */
-	public Text getTxtW() {
-		return txtW;
-	}
-
-	
 		
-	
-	/**
-	 * @return the cmbChooseCipher
-	 */
-	public CCombo getCmbChooseCipher() {
-		return cmbChooseCipher;
-	}
-
-	
-	
-	
-		
-	
 	
 	/**
 	 * is not used here but it can still be used in the future
@@ -900,212 +239,15 @@ public class RabinSecondTabComposite extends Composite {
 			guiHandler.verifyControlFields(e);			
 		}
 	};
-	public Label lblSepEncryptionBottom;
-	public Composite compHoldSepAndInfoForEncryption;
-	public Composite compHoldSepAndInfoForDecryption;
-	public Label lblSepInfoForDecryption;
-	public Text txtInfoDecryption;
-	public Composite compHoldSepAndInfoEncDecSelection;
-	public Label lblSepForInfoEncDecSelection;
-	public Text txtInfoForEncDecSelection;
-	public Label lblSepEncDecBottom;
 	
-		
 	
-
-
-		
-	/**
-	 * create group "Setting parameters" and its content
-	 * @param parent
-	 */
-	/*private void createSetParamContent(Composite parent) {
-		
-		
-		// create main group for setting primes and modulus N
-		grpParam = new Group(parent, SWT.NONE);
-		grpParam.setLayout(new GridLayout(5, false));
-		grpParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		grpParam.setText(Messages.RabinSecondTabComposite_grpParam);
-		
-		// create composite for entering primes p,q manually
-		npqComp = new Composite(grpParam, SWT.NONE);
-		npqComp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		npqComp.setLayout(new GridLayout(2, false));
-		
-		// create label and combo for prime p in npq composite
-		Label lblPrimeP = new Label(npqComp, SWT.NONE);
-		lblPrimeP.setText("p ="); //$NON-NLS-1$
-		cmbP = new Combo(npqComp, SWT.FLAT);
-		cmbP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		guiHandler.setSizeControl(cmbP, SWT.DEFAULT, SWT.DEFAULT);
-		cmbP.setVisibleItemCount(10);
-		
-		cmbP.addModifyListener(new ModifyListener() {
 			
-			@Override
-			public void modifyText(ModifyEvent e) {
-				//guiHandler.updateTextfields(cmbP, cmbQ, btnGenKeysMan, btnStartGenKeys, txtWarningNpq);
-				guiHandler.updateTextfields(getCurrentInstance());
-			}
-		});
-		
-		cmbP.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				guiHandler.cmbPSelectionAction(cmbP);
-			}
-			
-		});
-		
-		pWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		pWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		((GridData) pWarning.getLayoutData()).horizontalIndent = 28;
-		pWarning.setText(Messages.RabinSecondTabComposite_pWarning);
-		pWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		pWarning.setForeground(guiHandler.getColorForegroundWarning());
-		guiHandler.setSizeControlWarning(pWarning, SWT.DEFAULT, SWT.DEFAULT);
-		guiHandler.hideControl(pWarning);
-		
-		// create label and combo for prime q in npq composite
-		Label lblPrimeQ = new Label(npqComp, SWT.NONE);
-		lblPrimeQ.setText("q ="); //$NON-NLS-1$
-		cmbQ = new Combo(npqComp, SWT.FLAT);
-		cmbQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		guiHandler.setSizeControl(cmbQ, SWT.DEFAULT, SWT.DEFAULT);
-		cmbQ.setVisibleItemCount(10);
-		
-		cmbQ.addModifyListener(new ModifyListener() {
-			
-			@Override
-			public void modifyText(ModifyEvent e) {
-				guiHandler.updateTextfields(getCurrentInstance());
-			}
-		});
-		
-		
-		cmbQ.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				guiHandler.cmbQSelectionAction(cmbQ, vlNumbers);
-			}
-			
-		});
-		
-		
-		qWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		qWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		((GridData) qWarning.getLayoutData()).horizontalIndent = 28;
-		qWarning.setText(Messages.RabinSecondTabComposite_qWarning);
-		qWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		qWarning.setForeground(guiHandler.getColorForegroundWarning());
-		guiHandler.setSizeControlWarning(qWarning, SWT.DEFAULT, SWT.DEFAULT);
-		guiHandler.hideControl(qWarning);
-		
-		
-		
-		// create label for N in npq composite
-		Label lblModN = new Label(npqComp, SWT.NONE);
-		lblModN.setText("N ="); //$NON-NLS-1$
-		txtModN = new Text(npqComp, SWT.BORDER | SWT.READ_ONLY);
-		txtModN.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		guiHandler.setSizeControl(txtModN, SWT.DEFAULT, SWT.DEFAULT);
-		
-
-		//txtWarningNpq = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		//txtWarningNpqData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
-		//txtWarningNpq.setLayoutData(txtWarningNpqData);
-		//guiHandler.setSizeControlWarning(txtWarningNpq, SWT.DEFAULT, SWT.DEFAULT);
-		//txtWarningNpq.setBackground(ColorService.LIGHTGRAY);
-		//txtWarningNpq.setForeground(ColorService.RED);
-		//guiHandler.hideControl(txtWarningNpq);
-		
-		
-		
-		nWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		nWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		((GridData) nWarning.getLayoutData()).horizontalIndent = 28;
-		nWarning.setText(Messages.RabinSecondTabComposite_nWarning);
-		nWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		nWarning.setForeground(guiHandler.getColorForegroundWarning());
-		guiHandler.setSizeControlWarning(nWarning, SWT.DEFAULT, SWT.DEFAULT);
-		guiHandler.hideControl(nWarning);
-		
-		
-		
-		 	
-		Composite compGenKeys = new Composite(grpParam, SWT.NONE);
-		compGenKeys.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
-		compGenKeys.setLayout(new GridLayout(1, false));
-		
-		// label separating group for gen keys and info
-		Label lblSepKeysInfo = new Label(grpParam, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSepKeysInfo.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
-		
-		// textInfo
-		Text txtInfoGenKeys = new Text(grpParam, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
-		GridData txtInfoKeysData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		txtInfoGenKeys.setLayoutData(txtInfoKeysData);
-		guiHandler.setSizeControl(txtInfoGenKeys, SWT.DEFAULT, SWT.DEFAULT);
-		String txtInfoGenKeysInfo = Messages.RabinSecondTabComposite_txtInfoGenKeysInfo;
-		txtInfoGenKeys.setText(txtInfoGenKeysInfo);
-		txtInfoGenKeys.setBackground(ColorService.LIGHTGRAY);
-		
-		
-		btnGenKeysMan = new Button(compGenKeys, SWT.RADIO);
-		btnGenKeysMan.setText(Messages.RabinSecondTabComposite_btnGenKeysMan);
-		btnGenKeysMan.setSelection(true);
-		btnGenKeysMan.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				
-				//guiHandler.btnGenKeysManAction(getCurrentInstance(), e);
-				guiHandler.updateTextfields(getCurrentInstance());
-			}
-			
-		});
-	
-		btnGenKeysAlgo = new Button(compGenKeys, SWT.RADIO);
-		btnGenKeysAlgo.setText(Messages.RabinSecondTabComposite_btnGenKeysAlgo);
-		btnGenKeysAlgo.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				
-				guiHandler.btnGenKeysAlgoAction(getCurrentInstance(), e);
-			}
-		});
-		
-		btnStartGenKeys = new Button(compGenKeys, SWT.PUSH);
-		GridData btnStartGenData = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
-		btnStartGenData.horizontalIndent = 5;
-		btnStartGenKeys.setLayoutData(btnStartGenData);
-		btnStartGenKeys.setText(Messages.RabinSecondTabComposite_btnStartGenKeys);		
-		
-		btnStartGenKeys.addSelectionListener(new SelectionAdapter() {
-		
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				guiHandler.btnStartGenKeysAction(getCurrentInstance());	
-			}
-			
-			
-		});
-			
-	}*/
-	
 	
 	
 	public void setColors() {
 		
 		Color colorBG = guiHandler.getColorDarkModeBG();
 		Color colorFG = guiHandler.getColorDarkModeFG();
-		//Color colorFG = ColorService.YELLOW;
 		Color colorTxtWarningFG = guiHandler.getColorDarkModeWarningFG();
 		Color colorButtonBG = guiHandler.getColorButtonsBG();
 		Color colorButtonFG = guiHandler.getColorButtonsFG();
@@ -1217,8 +359,6 @@ public class RabinSecondTabComposite extends Composite {
 		txtMessageBaseNum.setForeground(colorFG);
 		txtCipherNum.setBackground(colorBG);
 		txtCipherNum.setForeground(colorFG);
-		//compEnterCiphertextPart1.setBackground(colorBG);
-		//compEnterCiphertextPart1.setForeground(colorFG);
 		compHoldDecimal.setBackground(colorBG);
 		compHoldDecimal.setForeground(colorFG);
 		btnRadHex.setBackground(colorBG);
@@ -1251,14 +391,6 @@ public class RabinSecondTabComposite extends Composite {
 		btnNextElem.setForeground(colorButtonFG);
 		txtInfoEnc.setBackground(colorBG);
 		txtInfoEnc.setForeground(colorFG);
-		//txtInfoDecimalAndHex.setBackground(colorBG);
-		//txtInfoDecimalAndHex.setForeground(colorFG);
-		//txtInfoSquareRoots.setBackground(colorBG);
-		//txtInfoSquareRoots.setForeground(colorFG);
-		//txtInfoLC.setBackground(colorBG);
-		//txtInfoLC.setForeground(colorFG);
-		//txtInfoPlaintexts.setBackground(colorBG);
-		//txtInfoPlaintexts.setForeground(colorFG);
 		txtMessageWithPadding.setBackground(colorBG);
 		txtMessageWithPadding.setForeground(colorFG);
 		lblBlockN.setBackground(colorBG);
@@ -1277,10 +409,6 @@ public class RabinSecondTabComposite extends Composite {
 		lblCipher.setForeground(colorFG);
 		lblSepInfoEnc.setBackground(colorBG);
 		lblSepInfoEnc.setForeground(colorFG);
-		//compHoldRadHexDec.setBackground(colorBG);
-		//compHoldRadHexDec.setForeground(colorFG);
-		//lblInfoDecimalAndHex.setBackground(colorBG);
-		//lblInfoDecimalAndHex.setForeground(colorFG);
 		lblEnterCiphertextDecimal.setBackground(colorBG);
 		lblEnterCiphertextDecimal.setForeground(colorFG);
 		lblCiphertextSegmentsDecimal.setBackground(colorBG);
@@ -1289,8 +417,6 @@ public class RabinSecondTabComposite extends Composite {
 		lblEnterCiphertext.setForeground(colorFG);
 		lblCiphertextSegments.setBackground(colorBG);
 		lblCiphertextSegments.setForeground(colorFG);
-		//compInfoDec.setBackground(colorBG);
-		//compInfoDec.setForeground(colorFG);
 		compHoldTestAndSQR.setBackground(colorBG);
 		compHoldTestAndSQR.setForeground(colorFG);
 		compTest.setBackground(colorBG);
@@ -1305,8 +431,6 @@ public class RabinSecondTabComposite extends Composite {
 		compNavElem.setForeground(colorFG);
 		lblSepNavElem.setBackground(colorBG);
 		lblSepNavElem.setForeground(colorFG);
-		//lblSeparateInfoSquareRoots.setBackground(colorBG);
-		//lblSeparateInfoSquareRoots.setForeground(colorFG);
 		lblMp.setBackground(colorBG);
 		lblMp.setForeground(colorFG);
 		lblMq.setBackground(colorBG);
@@ -1317,8 +441,6 @@ public class RabinSecondTabComposite extends Composite {
 		lblyp.setForeground(colorFG);
 		lblyq.setBackground(colorBG);
 		lblyq.setForeground(colorFG);
-		//lblSeparateInfoLC.setBackground(colorBG);
-		//lblSeparateInfoLC.setForeground(colorFG);
 		grpComputeIs.setBackground(colorBG);
 		grpComputeIs.setForeground(colorFG);
 		compHoldvw.setBackground(colorBG);
@@ -1337,8 +459,6 @@ public class RabinSecondTabComposite extends Composite {
 		lblm3.setForeground(colorFG);
 		lblm4.setBackground(colorBG);
 		lblm4.setForeground(colorFG);
-		//lblSeparateInfoPlaintexts.setBackground(colorBG);
-		//lblSeparateInfoPlaintexts.setForeground(colorFG);
 		compSelectEncDec.setBackground(colorBG);
 		compSelectEncDec.setForeground(colorFG);
 
@@ -1450,11 +570,7 @@ public class RabinSecondTabComposite extends Composite {
 		compEncStepsNum.setLayout(new GridLayout(1, false));
 		guiHandler.hideControl(compEncStepsNum);
 		
-		
-		/*compEncStepsNumData.exclude = true;
-		compEncStepsNum.setVisible(false);
-		encPartSteps.requestLayout();*/
-		
+			
 		
 		lblMessageSepNum = new Label(compEncStepsNum, SWT.NONE);
 		lblMessageSepNum.setText(MessageFormat.format(strPlaintextSeparatedIntoSegments, guiHandler.getSeparator()));
@@ -1701,17 +817,14 @@ public class RabinSecondTabComposite extends Composite {
 		
 		
 		
-		//lblSepInfoEnc = new Label(grpPlaintext, SWT.SEPARATOR | SWT.VERTICAL);
 		lblSepInfoEnc = new Label(compHoldSepAndInfoForEncryption, SWT.SEPARATOR | SWT.VERTICAL);
 		GridData lblSepInfoEncData = new GridData(SWT.FILL, SWT.FILL, false, true);
 		lblSepInfoEnc.setLayoutData(lblSepInfoEncData);
 		
-		//txtInfoEnc = new Text(grpPlaintext, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
 		txtInfoEnc = new Text(compHoldSepAndInfoForEncryption, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
 		GridData txtInfoEncData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoEnc.setLayoutData(txtInfoEncData);
 		guiHandler.setSizeControl(txtInfoEnc, SWT.DEFAULT, SWT.DEFAULT);
-		//txtInfoEnc.setText(Messages.RabinSecondTabComposite_txtInfoEnc);
 		txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Text"));
 		txtInfoEnc.setBackground(ColorService.LIGHTGRAY);
 		txtInfoEnc.addMouseTrackListener(new MouseTrackAdapter() {
@@ -1740,74 +853,35 @@ public class RabinSecondTabComposite extends Composite {
 	 * @param parent
 	 */
 	private void createDecContent(Composite parent) {
-		guiHandler.initStates();
-		
-		
-		/*grpDec = new Group(parent, SWT.NONE);
-		//grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 50));
-		grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		grpDec.setLayout(new GridLayout(2, false));
-		grpDec.setText(Messages.RabinSecondTabComposite_grpDec);*/
-		
+		guiHandler.initStates();	
 		
 		grpDec = new Group(parent, SWT.NONE);
-		//grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 50));
 		grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpDec.setLayout(new GridLayout(1, false));
 		grpDec.setText(Messages.RabinSecondTabComposite_grpDec);
-		
-		
-		
+			
 		compHoldAllSteps = new Composite(grpDec, SWT.NONE);
 		compHoldAllSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compHoldAllSteps.setLayout(new GridLayout(1, false));
 		guiHandler.setControlMargin(compHoldAllSteps, 5, 0);
 		
-		
-		/*compEnterCiphertext = new Composite(compHoldAllSteps, SWT.NONE);
-		compEnterCiphertextData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		compEnterCiphertext.setLayoutData(compEnterCiphertextData);
-		compEnterCiphertext.setLayout(new GridLayout(2, false));*/
-		
-		
+			
 		compEnterCiphertext = new Composite(compHoldAllSteps, SWT.NONE);
 		compEnterCiphertextData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		compEnterCiphertext.setLayoutData(compEnterCiphertextData);
-		//compEnterCiphertext.setLayout(new GridLayout(4, false));
 		compEnterCiphertext.setLayout(new GridLayout(2, false));
-		//guiHandler.setControlMargin(compEnterCiphertext, SWT.DEFAULT, 0);
-		//((GridLayout) compEnterCiphertext.getLayout()).marginHeight = 0;
 		
 		guiHandler.hideControl(compEnterCiphertext);
-		
-		/*compEnterCiphertextData.exclude = true;
-		compEnterCiphertext.setVisible(false);
-		compHoldAllSteps.requestLayout();*/
-		
-		
+			
 		compHoldRadioHexAndDecAndSteps = new Composite(compEnterCiphertext, SWT.NONE);
 		compHoldRadioHexAndDecAndSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldRadioHexAndDecAndSteps.setLayout(new GridLayout(1, false));
 		guiHandler.setControlMargin(compHoldRadioHexAndDecAndSteps, SWT.DEFAULT, 0);
-		
-		
-		
-		
-		/*Composite compHoldRadHexDec = new Composite(compEnterCiphertext, SWT.NONE);
-		compHoldRadHexDec.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1));
-		compHoldRadHexDec.setLayout(new GridLayout(2, false));*/
-		
-		
+				
 		compHoldRadHexDec2 = new Composite(compHoldRadioHexAndDecAndSteps, SWT.NONE);
 		compHoldRadHexDec2.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 1, 1));
 		compHoldRadHexDec2.setLayout(new GridLayout(2, false));
-		
-		
-		/*compHoldRadHexDec = new Composite(compEnterCiphertext, SWT.NONE);
-		compHoldRadHexDec.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, false, 1, 1));
-		compHoldRadHexDec.setLayout(new GridLayout(2, false));*/
-		
-		
+			
 		btnRadHex = new Button(compHoldRadHexDec2, SWT.RADIO);
 		btnRadHex.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 		btnRadHex.setText(Messages.RabinSecondTabComposite_btnRadHex);
@@ -1836,11 +910,7 @@ public class RabinSecondTabComposite extends Composite {
 			}
 			
 		});
-		
-		/*compEnterCiphertextSteps = new Composite(compEnterCiphertext, SWT.NONE);
-		compEnterCiphertextSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		compEnterCiphertextSteps.setLayout(new GridLayout(1, false));*/
-		
+				
 		
 		btnApplyCiphertext = new Button(compEnterCiphertext, SWT.PUSH);
 		btnApplyCiphertext.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true));
@@ -1856,78 +926,18 @@ public class RabinSecondTabComposite extends Composite {
 			
 		});
 		
-		
-		//lblInfoDecimalAndHex = new Label(compEnterCiphertext, SWT.SEPARATOR | SWT.VERTICAL);
-		//lblInfoDecimalAndHex.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		//((GridData) lblInfoDecimalAndHex.getLayoutData()).horizontalIndent = 30;
-		
-		
-		/*txtInfoDecimalAndHex = new Text(compEnterCiphertext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
-		txtInfoDecimalAndHex.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		txtInfoDecimalAndHex.setBackground(guiHandler.getColorBGinfo());
-		guiHandler.setSizeControl(txtInfoDecimalAndHex, SWT.DEFAULT, SWT.DEFAULT);
-		//txtInfoDecimalAndHex.setText("test test test");
-		txtInfoDecimalAndHex.addMouseTrackListener(new MouseTrackAdapter() {
-			
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				// TODO Auto-generated method stub
-				guiHandler.setCursorControl(txtInfoDecimalAndHex, SWT.CURSOR_ARROW);
-			}
-		});*/
-	
-		
-		
-		
-		
+				
 		compEnterCiphertextSteps = new Composite(compHoldRadioHexAndDecAndSteps, SWT.NONE);
 		compEnterCiphertextSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compEnterCiphertextSteps.setLayout(new GridLayout(1, false));
 		
 		
-		/*compEnterCiphertextSteps = new Composite(compEnterCiphertext, SWT.BORDER);
-		compEnterCiphertextSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compEnterCiphertextSteps.setLayout(new GridLayout(1, false));*/
-		//guiHandler.setControlMargin(compEnterCiphertext, SWT.DEFAULT, 0);
-		
-		
-		
-		/*compEnterCiphertextPart1 = new Composite(compEnterCiphertextSteps, SWT.BORDER);
-		compEnterCiphertextPart1Data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		compEnterCiphertextPart1.setLayoutData(compEnterCiphertextPart1Data);
-		compEnterCiphertextPart1.setLayout(new GridLayout(1, false));*/
-		//guiHandler.setControlMargin(compEnterCiphertextPart1, SWT.DEFAULT, 0);
-		
-		/*btnApplyCiphertext = new Button(compEnterCiphertext, SWT.PUSH);
-		btnApplyCiphertext.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true));
-		btnApplyCiphertext.setText(Messages.RabinSecondTabComposite_btnApplyCiphertext);
-		btnApplyCiphertext.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				
-				guiHandler.btnApplyCiphertextAction(getCurrentInstance());
-				
-			}
-			
-		});*/
-		
-		
-		/*compHoldDecimal = new Composite(compEnterCiphertextSteps, SWT.BORDER);
-		compHoldDecimalData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		compHoldDecimal.setLayoutData(compHoldDecimalData);
-		compHoldDecimal.setLayout(new GridLayout(1, false));*/
 		
 		compHoldDecimal = new Composite(compHoldRadioHexAndDecAndSteps, SWT.NONE);
 		compHoldDecimalData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		compHoldDecimal.setLayoutData(compHoldDecimalData);
 		compHoldDecimal.setLayout(new GridLayout(1, false));
 		
-		//guiHandler.setControlMargin(compHoldDecimal, SWT.DEFAULT, 0);
-		
-		/*compHoldDecimalData.exclude = true;
-		compHoldDecimal.setVisible(false);
-		compEnterCiphertextSteps.requestLayout();*/
 		
 		guiHandler.hideControl(compHoldDecimal);
 		
@@ -2000,25 +1010,7 @@ public class RabinSecondTabComposite extends Composite {
 		});
 	
 		
-		
-		
-		
-		/*lblEnterCiphertext = new Label(compEnterCiphertextPart1, SWT.NONE);
-		lblEnterCiphertext.setText(Messages.RabinSecondTabComposite_lblEnterCiphertext);
-		
-		txtEnterCiphertext = new Text(compEnterCiphertextPart1, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		GridData txtEnterCiphertextData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		txtEnterCiphertext.setLayoutData(txtEnterCiphertextData);
-		guiHandler.setSizeControl(txtEnterCiphertext, SWT.DEFAULT, SWT.DEFAULT);
-		txtEnterCiphertext.addModifyListener(new ModifyListener() {
-			
-			@Override
-			public void modifyText(ModifyEvent e) {
-				guiHandler.handleHexNumDecMode(getCurrentInstance());
-			}
-		});*/
-		
-		
+				
 		lblEnterCiphertext = new Label(compEnterCiphertextSteps, SWT.NONE);
 		lblEnterCiphertext.setText(Messages.RabinSecondTabComposite_lblEnterCiphertext);
 		
@@ -2075,86 +1067,12 @@ public class RabinSecondTabComposite extends Composite {
 				guiHandler.setCursorControl(txtCiphertextSegments, SWT.CURSOR_ARROW);
 			}
 		});
-	
 		
-		
-		
-		/*txtEnterCiphertextWarning = new Text(compEnterCiphertextPart1, SWT.MULTI | SWT.WRAP);
-		txtEnterCiphertextWarningData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		txtEnterCiphertextWarning.setLayoutData(txtEnterCiphertextWarningData);
-		txtEnterCiphertextWarning.setForeground(guiHandler.getColorForegroundWarning());
-		txtEnterCiphertextWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		guiHandler.setSizeControlWarning(txtEnterCiphertextWarning, SWT.DEFAULT, SWT.DEFAULT);
-		guiHandler.hideControl(txtEnterCiphertextWarning);
-		
-		
-		lblCiphertextSegments = new Label(compEnterCiphertextPart1, SWT.NONE);
-		String strCipherIntoSegments = Messages.RabinSecondTabComposites_strCipherIntoSegments;
-		lblCiphertextSegments.setText(MessageFormat.format(strCipherIntoSegments, guiHandler.getSeparator()));
-		
-		txtCiphertextSegments = new StyledText(compEnterCiphertextPart1, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
-		GridData txtCiphertextSegmentsData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		txtCiphertextSegments.setLayoutData(txtCiphertextSegmentsData);
-		txtCiphertextSegments.setSelectionBackground(guiHandler.getColorSelectionStyledTextBG());
-		txtCiphertextSegments.setSelectionForeground(guiHandler.getColorSelectionStyledTextFG());
-		txtCiphertextSegments.setBackground(guiHandler.getColorBGinfo());
-		
-		guiHandler.setSizeControl(txtCiphertextSegments, SWT.DEFAULT, SWT.DEFAULT);
-		
-		
-		txtCiphertextSegments.addSelectionListener(new SelectionAdapter() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				guiHandler.fixSelection(guiHandler.getCurrentCiphertextList(), txtCiphertextSegments, getCurrentInstance());
-			}
-			
-		});*/
-		
-		
-		/*Label lblInfoDecimalAndHex = new Label(compEnterCiphertext, SWT.SEPARATOR | SWT.VERTICAL);
-		lblInfoDecimalAndHex.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		
-		
-		Text txtInfoDecimalAndHex = new Text(compEnterCiphertext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
-		txtInfoDecimalAndHex.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		txtInfoDecimalAndHex.setBackground(guiHandler.getColorBGinfo());
-		guiHandler.setSizeControl(txtInfoDecimalAndHex, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoDecimalAndHex.setText("test test test");*/
-		
-		
-		
-		/*compInfoDec = new Composite(grpDec, SWT.NONE);
-		GridData compInfoDecData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		compInfoDec.setLayoutData(compInfoDecData);
-		compInfoDec.setLayout(new GridLayout(2, false));*/
-		
-		
-		
-		/*Composite compHoldTestAndInfo = new Composite(compHoldAllSteps, SWT.NONE);
-		compHoldTestAndInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		compHoldTestAndInfo.setLayout(new GridLayout(3, false));*/
-		
-		
-		
-		/*Composite compHoldTestAndSQR = new Composite(compHoldTestAndInfo, SWT.NONE);
-		compHoldTestAndSQR.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compHoldTestAndSQR.setLayout(new GridLayout(1, false));*/
 		
 		compHoldTestAndSQR = new Composite(compHoldAllSteps, SWT.NONE);
 		compHoldTestAndSQR.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		//compHoldTestAndSQR.setLayout(new GridLayout(3, false));
 		compHoldTestAndSQR.setLayout(new GridLayout(1, false));
-		//guiHandler.setSizeControl(compHoldTestAndSQR, 300, 400);
-		
-		
-		
-		
-		
-		/*Composite compTest = new Composite(compHoldAllSteps, SWT.NONE);
-		compTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		compTest.setLayout(new GridLayout(4, false));*/
-		
+			
 		
 		compTest = new Composite(compHoldTestAndSQR, SWT.NONE);
 		compTest.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -2234,9 +1152,6 @@ public class RabinSecondTabComposite extends Composite {
 		
 		btnNextElem = new Button(compNavElem, SWT.PUSH);
 		btnNextElem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		//btnNextElem.pack(false);
-		//btnNextElem.setSize(btnPrevElem.getSize());
-		//((GridData) btnNextElem.getLayoutData()).
 		guiHandler.setSizeControl(btnNextElem, btnPrevElem.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, SWT.DEFAULT);
 		btnNextElem.setText("Next block"); //$NON-NLS-1$
 		btnNextElem.addSelectionListener(new SelectionAdapter() {
@@ -2268,51 +1183,10 @@ public class RabinSecondTabComposite extends Composite {
 			
 		});
 		
-		
-		// label for separating info txt
-		/*Label lblSepDecInfo = new Label(compInfoDec, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSepDecInfo.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, false, true));
-		
-		txtInfoDec = new Text(compInfoDec, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
-		GridData txtInfoDecData = new GridData(SWT.FILL, SWT.CENTER, true, true);
-		txtInfoDec.setLayoutData(txtInfoDecData);
-		guiHandler.setSizeControl(txtInfoDec, SWT.DEFAULT, 250);
-		txtInfoDec.setText(Messages.RabinSecondTabComposite_txtInfoDec);
-		txtInfoDec.setBackground(ColorService.LIGHTGRAY);*/
-		
-		
-		
-		//lblSeparateInfoSquareRoots = new Label(compHoldTestAndSQR, SWT.SEPARATOR | SWT.VERTICAL);
-		//lblSeparateInfoSquareRoots.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2));
-	
-		
-		/*txtInfoSquareRoots = new Text(compHoldTestAndSQR, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
-		txtInfoSquareRoots.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
-		txtInfoSquareRoots.setBackground(guiHandler.getColorBGinfo());
-		guiHandler.setSizeControl(txtInfoSquareRoots, SWT.DEFAULT, SWT.DEFAULT);
-		//txtInfoSquareRoots.setText("test test test");
-		txtInfoSquareRoots.addMouseTrackListener(new MouseTrackAdapter() {
 			
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				// TODO Auto-generated method stub
-				guiHandler.setCursorControl(txtInfoSquareRoots, SWT.CURSOR_ARROW);
-			}
-		});*/
-	
-		
-		
-		
-		// create group for computing square roots
-		/*grpSqrRoot = new Group(compHoldAllSteps, SWT.NONE);
-		grpSqrRoot.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		grpSqrRoot.setLayout(new GridLayout(2, false));
-		grpSqrRoot.setText(Messages.RabinSecondTabComposite_grpSqrRoot);*/
-		
 		grpSqrRoot = new Group(compHoldTestAndSQR, SWT.NONE);
 		grpSqrRoot.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		grpSqrRoot.setLayout(new GridLayout(2, false));
-		//guiHandler.setSizeControl(grpSqrRoot, 700, 150);
 		grpSqrRoot.setText(Messages.RabinSecondTabComposite_grpSqrRoot);
 		
 
@@ -2387,44 +1261,12 @@ public class RabinSecondTabComposite extends Composite {
 			}
 		});
 	
-		
-		
-		/*Label lblSeparateInfoSquareRoots = new Label(compHoldTestAndInfo, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSeparateInfoSquareRoots.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-	
-		
-		Text txtInfoSquareRoots = new Text(compHoldTestAndInfo, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
-		txtInfoSquareRoots.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		txtInfoSquareRoots.setBackground(guiHandler.getColorBGinfo());
-		guiHandler.setSizeControl(txtInfoSquareRoots, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoSquareRoots.setText("test test test");*/
-		
-		
-		/*Composite compHoldLinearCongruencesAndInverseAndInfo = new Composite(compHoldAllSteps, SWT.NONE);
-		compHoldLinearCongruencesAndInverseAndInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		compHoldLinearCongruencesAndInverseAndInfo.setLayout(new GridLayout(3, false));*/
-		
-		
-		/*Composite compHoldLCandInverse = new Composite(compHoldLinearCongruencesAndInverseAndInfo, SWT.NONE);
-		compHoldLCandInverse.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compHoldLCandInverse.setLayout(new GridLayout(1, false));*/
-		
+			
 		compHoldLCandInverse = new Composite(compHoldAllSteps, SWT.NONE);
 		compHoldLCandInverse.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		//compHoldLCandInverse.setLayout(new GridLayout(3, false));
-		compHoldLCandInverse.setLayout(new GridLayout(1, false));
-		//guiHandler.setSizeControl(compHoldLCandInverse, SWT.DEFAULT + 20, SWT.DEFAULT);
-		//guiHandler.setControlMargin(compHoldLCandInverse, SWT.DEFAULT, 0);
+		compHoldLCandInverse.setLayout(new GridLayout(1, false));	
 		
-		
-		
-		
-		// create group for linear congruences
-		/*grpLinCon = new Group(compHoldAllSteps, SWT.NONE);
-		grpLinCon.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		grpLinCon.setLayout(new GridLayout(2, false));
-		grpLinCon.setText(Messages.RabinSecondTabComposite_grpLinCon);*/
-		
+					
 		grpLinCon = new Group(compHoldLCandInverse, SWT.NONE);
 		grpLinCon.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpLinCon.setLayout(new GridLayout(2, false));
@@ -2435,12 +1277,7 @@ public class RabinSecondTabComposite extends Composite {
 		compMerge = new Composite(grpLinCon, SWT.NONE);
 		compMerge.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compMerge.setLayout(new GridLayout(2, false));
-		
-		
-		// create linear congruence
-		// m1 = mp mod p
-		// m1 = mq mod q
-		
+				
 		
 		lblyp = new Label(compMerge, SWT.NONE);
 		lblyp.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -2514,35 +1351,8 @@ public class RabinSecondTabComposite extends Composite {
 			}
 			
 		});
-		
-		/*lblSeparateInfoLC = new Label(compHoldLCandInverse, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSeparateInfoLC.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2));
-		
-		txtInfoLC = new Text(compHoldLCandInverse, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
-		txtInfoLC.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, true, 1, 2));
-		txtInfoLC.setBackground(guiHandler.getColorBGinfo());
-		guiHandler.setSizeControl(txtInfoLC, SWT.DEFAULT, 289);
-		txtInfoLC.setText("test test test");
-		txtInfoLC.addMouseTrackListener(new MouseTrackAdapter() {
 			
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				// TODO Auto-generated method stub
-				guiHandler.setCursorControl(txtInfoLC, SWT.CURSOR_ARROW);
-			}
-		});*/
-	
-		
-		
-		
-		
-		// create group for computing v = y_p * p * m_q
-		// and w = y_q * q * m_p
-		/*Group grpComputeIs = new Group(compHoldAllSteps, SWT.NONE);
-		grpComputeIs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		grpComputeIs.setLayout(new GridLayout(2, false));
-		grpComputeIs.setText(Messages.RabinSecondTabComposite_grpComputeIs);*/
-		
+			
 		grpComputeIs = new Group(compHoldLCandInverse, SWT.NONE);
 		grpComputeIs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpComputeIs.setLayout(new GridLayout(2, false));
@@ -2620,31 +1430,13 @@ public class RabinSecondTabComposite extends Composite {
 			}
 		});
 	
-		
-		
-		/*Label lblSeparateInfoLC = new Label(compHoldLinearCongruencesAndInverseAndInfo, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSeparateInfoLC.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		
-		Text txtInfoLC = new Text(compHoldLinearCongruencesAndInverseAndInfo, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
-		txtInfoLC.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		txtInfoLC.setBackground(guiHandler.getColorBGinfo());
-		guiHandler.setSizeControl(txtInfoLC, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoLC.setText("test test test");*/
-		
+			
 		compHoldPlaintextsAndInfo = new Composite(compHoldAllSteps, SWT.NONE);
 		compHoldPlaintextsAndInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		//compHoldPlaintextsAndInfo.setLayout(new GridLayout(3, false));
 		compHoldPlaintextsAndInfo.setLayout(new GridLayout(1, false));
 		guiHandler.setControlMargin(compHoldPlaintextsAndInfo, 5, 0);
 		
-		
-		// create group for computing plaintexts
-		/*grpPosPlain = new Group(compHoldAllSteps, SWT.NONE);
-		grpPosPlain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		grpPosPlain.setLayout(new GridLayout(2, false));
-		grpPosPlain.setText(Messages.RabinSecondTabComposite_grpPosPlain);*/
-		
-		
+			
 		grpPosPlain = new Group(compHoldPlaintextsAndInfo, SWT.NONE);
 		grpPosPlain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpPosPlain.setLayout(new GridLayout(2, false));
@@ -2753,28 +1545,7 @@ public class RabinSecondTabComposite extends Composite {
 							
 			}
 		});
-		
-		
-		/*lblSeparateInfoPlaintexts = new Label(compHoldPlaintextsAndInfo, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSeparateInfoPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		
-		
-		txtInfoPlaintexts = new Text(compHoldPlaintextsAndInfo, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
-		txtInfoPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, true));
-		//((GridData) txtInfoPlaintexts.getLayoutData()).heightHint = 20;
-		txtInfoPlaintexts.setBackground(guiHandler.getColorBGinfo());
-		//guiHandler.setSizeControl(txtInfoPlaintexts, 100, 10);
-		guiHandler.setSizeControl(txtInfoPlaintexts, SWT.DEFAULT, grpPosPlain.computeSize(SWT.DEFAULT, SWT.DEFAULT).y + 10);
-		//txtInfoPlaintexts.setText("test test test");
-		txtInfoPlaintexts.addMouseTrackListener(new MouseTrackAdapter() {
 			
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				// TODO Auto-generated method stub
-				guiHandler.setCursorControl(txtInfoPlaintexts, SWT.CURSOR_ARROW);
-			}
-		});*/
-		
 		
 		compHoldSepAndInfoForDecryption = new Composite(parent, SWT.NONE);
 		compHoldSepAndInfoForDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -2787,12 +1558,8 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtInfoDecryption = new Text(compHoldSepAndInfoForDecryption, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		//((GridData) txtInfoDecryption.getLayoutData()).heightHint = 20;
 		txtInfoDecryption.setBackground(guiHandler.getColorBGinfo());
-		//guiHandler.setSizeControl(txtInfoDecryption, 100, 10);
-		//((GridData) txtInfoDecryption.getLayoutData()).heightHint = 100;
 		guiHandler.setSizeControl(txtInfoDecryption, SWT.DEFAULT, SWT.DEFAULT);
-		//txtInfoDecryption.setText("test test test");
 		txtInfoDecryption.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
@@ -2804,13 +1571,6 @@ public class RabinSecondTabComposite extends Composite {
 		
 	
 		
-		
-		//guiHandler.setSizeControl(grpPosPlain, SWT.DEFAULT + 300, SWT.DEFAULT);
-//		guiHandler.setSizeControl(grpPosPlain, SWT.DEFAULT + 536, SWT.DEFAULT);
-//		guiHandler.setSizeControl(compTest, SWT.DEFAULT + 535, SWT.DEFAULT);
-//		guiHandler.setSizeControl(compHoldTestAndSQR, SWT.DEFAULT + 400, SWT.DEFAULT);
-//		//guiHandler.setSizeControl(compEnterCiphertextSteps, SWT.DEFAULT + 478, SWT.DEFAULT);	
-//		guiHandler.setSizeControl(txtEnterCiphertext, 464, SWT.DEFAULT);
 	}
 	
 	
@@ -2826,8 +1586,6 @@ public class RabinSecondTabComposite extends Composite {
 		compSelectEncDec = new Composite(parent, SWT.NONE);
 		compSelectEncDec.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 		compSelectEncDec.setLayout(new GridLayout(2, false));
-		//((GridData) compSelectEncDec.getLayoutData()).verticalIndent = 40;
-		//((GridLayout) compSelectEncDec.getLayout()).marginBottom = 15;	
 		
 		btnSelectionEnc = new Button(compSelectEncDec, SWT.RADIO);
 		btnSelectionEnc.setText(Messages.RabinSecondTabComposite_btnSelectionEnc);
@@ -2867,9 +1625,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtInfoForEncDecSelection = new Text(compHoldSepAndInfoEncDecSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoForEncDecSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		//((GridData) txtInfoForEncDecSelection.getLayoutData()).heightHint = 20;
 		txtInfoForEncDecSelection.setBackground(guiHandler.getColorBGinfo());
-		//guiHandler.setSizeControl(txtInfoForEncDecSelection, 100, 10);
 		guiHandler.setSizeControl(txtInfoForEncDecSelection, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoForEncDecSelection.setText("Select \"Encryption then decryption\" if you want to encrypt a plaintext and then decrypt it again.\n"
 				+ "Select \"Only decryption\" if you only want to decrypt a ciphertext.");
@@ -2900,43 +1656,16 @@ public class RabinSecondTabComposite extends Composite {
 	private void createContent(Composite parent) {
 		this.setLayout(new GridLayout(1, false));
 		
-		//sc = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
-		/*sc = new ScrolledComposite(this, SWT.NONE);
-		sc.setLayout(new GridLayout(1, false));
-		sc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		rootComposite = new Composite(sc, SWT.BORDER);
-		rootComposite.setLayout(new GridLayout(1, false));
-		rootComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		sc.setContent(rootComposite);
-		sc.setExpandHorizontal(true);
-		sc.setExpandVertical(true);*/
-		//createSetParamContent(rootComposite);
-		//createSetParamContent(this);
-		
-		//guiHandler.initializePrimes(100, getCurrentInstance());
-		
-		/*createSelectEncDecContent(rootComposite);
-		
-		createEncContent(rootComposite);
-		createDecContent(rootComposite);*/
-		
-		//createSelectEncDecContent(this);
 		createSelectEncDecContent(parent);
-		
-		//createEncContent(this);
 		createEncContent(parent);
-		//createDecContent(this);
 		createDecContent(parent);
 		
 		
 		if(guiHandler.getDarkmode())
 			setColors();
 		
-		guiHandler.initializeComponents(getCurrentInstance());
+		guiHandler.initializeComponents(getCurrentInstance());		
 		
-		
-		
-		//sc.setMinSize(rootComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	

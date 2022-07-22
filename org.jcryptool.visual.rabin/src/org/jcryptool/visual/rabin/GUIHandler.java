@@ -965,25 +965,25 @@ public class GUIHandler {
 	
 	
 	public void hideStepByStepPart(RabinSecondTabComposite rstc) {
-		this.hideControl(rstc.getCompSelectEncDec());
+		this.hideControl(rstc.compSelectEncDec);
 		this.hideControl(rstc.compHoldSepAndInfoEncDecSelection);
 		this.hideControl(rstc.lblSepEncDecBottom);
-		this.hideControl(rstc.getGrpPlaintext());
+		this.hideControl(rstc.grpPlaintext);
 		this.hideControl(rstc.compHoldSepAndInfoForEncryption);
 		this.hideControl(rstc.lblSepEncryptionBottom);
-		this.hideControl(rstc.getGrpDec());
+		this.hideControl(rstc.grpDec);
 		this.hideControl(rstc.compHoldSepAndInfoForDecryption);
 	
 	}
 	
 	public void showStepByStepPart(RabinSecondTabComposite rstc) {
-		this.showControl(rstc.getCompSelectEncDec());
+		this.showControl(rstc.compSelectEncDec);
 		this.showControl(rstc.compHoldSepAndInfoEncDecSelection);
 		this.showControl(rstc.lblSepEncDecBottom);
-		this.showControl(rstc.getGrpPlaintext());
+		this.showControl(rstc.grpPlaintext);
 		this.showControl(rstc.compHoldSepAndInfoForEncryption);
 		this.showControl(rstc.lblSepEncryptionBottom);
-		this.showControl(rstc.getGrpDec());
+		this.showControl(rstc.grpDec);
 		this.showControl(rstc.compHoldSepAndInfoForDecryption);
 	
 	}

@@ -315,21 +315,21 @@ public class HandleSecondTab extends GUIHandler {
 		int startIdxPlain = getStartIdx(elem, currentPlaintextList);
 		int endIdxPlain = getEndIdx(startIdxPlain, elem, currentPlaintextList);
 		
-		if(rstc.getBtnText().getSelection()) {
+		if(rstc.btnText.getSelection()) {
 		
 			
-			rstc.getTxtCipher().setSelection(startIdxCipher, endIdxCipher);
-			rstc.getTxtMessageBase().setSelection(startIdxPlain, endIdxPlain);
+			rstc.txtCipher.setSelection(startIdxCipher, endIdxCipher);
+			rstc.txtMessageBase.setSelection(startIdxPlain, endIdxPlain);
 			
 			
 			int startIdxPlainEncoded = getStartIdx(elem, plaintextEncodedList);
 			int endIdxPlainEncoded = getEndIdx(startIdxPlainEncoded, elem, plaintextEncodedList);
-			rstc.getTxtMessageSep().setSelection(startIdxPlainEncoded, endIdxPlainEncoded);
+			rstc.txtMessageSep.setSelection(startIdxPlainEncoded, endIdxPlainEncoded);
 		}
 		
-		if(rstc.getBtnNum().getSelection()) {
-			rstc.getTxtMessageBaseNum().setSelection(startIdxPlain, endIdxPlain);
-			rstc.getTxtCipherNum().setSelection(startIdxCipher, endIdxCipher);
+		if(rstc.btnNum.getSelection()) {
+			rstc.txtMessageBaseNum.setSelection(startIdxPlain, endIdxPlain);
+			rstc.txtCipherNum.setSelection(startIdxCipher, endIdxCipher);
 		}
 	}
 	
@@ -349,11 +349,11 @@ public class HandleSecondTab extends GUIHandler {
 		int endIdxCipher = getEndIdx(startIdxCipher, elem, currentCiphertextList);
 		
 		
-		if(rstc.getBtnRadHex().getSelection()) {
-			rstc.getTxtCiphertextSegments().setSelection(startIdxCipher, endIdxCipher);
+		if(rstc.btnRadHex.getSelection()) {
+			rstc.txtCiphertextSegments.setSelection(startIdxCipher, endIdxCipher);
 		}
-		if(rstc.getBtnRadDecimal().getSelection()) {
-			rstc.getTxtCiphertextSegmentsDecimal().setSelection(startIdxCipher, endIdxCipher);
+		if(rstc.btnRadDecimal.getSelection()) {
+			rstc.txtCiphertextSegmentsDecimal.setSelection(startIdxCipher, endIdxCipher);
 		}
 	}
 	
@@ -370,15 +370,15 @@ public class HandleSecondTab extends GUIHandler {
 	public void nextElementTextNumMode(RabinSecondTabComposite rstc) {
 		
 		//int nextIdx = BigInteger.valueOf(currentIdx-1).mod(BigInteger.valueOf(currentCiphertextList.size())).intValue();
-		int nextIdx = (rstc.getCmbChooseCipher().getSelectionIndex() + 1)
+		int nextIdx = (rstc.cmbChooseCipher.getSelectionIndex() + 1)
 				% currentCiphertextList.size();
 		int elem = nextIdx + 1;
 		String nextElem = currentCiphertextList.get(nextIdx);
-		rstc.getTxtCipherFirst().setText(nextElem);
+		rstc.txtCipherFirst.setText(nextElem);
 		
 		this.selectionTextNumMode(elem, rstc);
 		
-		rstc.getCmbChooseCipher().select(nextIdx);
+		rstc.cmbChooseCipher.select(nextIdx);
 	}
 	
 	
@@ -392,16 +392,16 @@ public class HandleSecondTab extends GUIHandler {
 	 */
 	public void prevElementTextNumMode(RabinSecondTabComposite rstc) {
 		int nextIdx = BigInteger.valueOf(
-				rstc.getCmbChooseCipher().getSelectionIndex()-1).mod(
+				rstc.cmbChooseCipher.getSelectionIndex()-1).mod(
 						BigInteger.valueOf(
 								currentCiphertextList.size())).intValue();
 		int elem = nextIdx + 1;
 		String nextElem = currentCiphertextList.get(nextIdx);
-		rstc.getTxtCipherFirst().setText(nextElem);
+		rstc.txtCipherFirst.setText(nextElem);
 		
 		this.selectionTextNumMode(elem, rstc);
 		
-		rstc.getCmbChooseCipher().select(nextIdx);
+		rstc.cmbChooseCipher.select(nextIdx);
 	}
 	
 	
@@ -412,15 +412,15 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void nextElementHexDecMode(RabinSecondTabComposite rstc) {
-		int nextIdx = (rstc.getCmbChooseCipher().getSelectionIndex() + 1)
+		int nextIdx = (rstc.cmbChooseCipher.getSelectionIndex() + 1)
 				% currentCiphertextList.size();
 		int elem = nextIdx + 1;
 		String nextElem = currentCiphertextList.get(nextIdx);
-		rstc.getTxtCipherFirst().setText(nextElem);
+		rstc.txtCipherFirst.setText(nextElem);
 		
 		this.selectionHexDecMode(elem, rstc);
 		
-		rstc.getCmbChooseCipher().select(nextIdx);
+		rstc.cmbChooseCipher.select(nextIdx);
 	}
 	
 	/**
@@ -429,16 +429,16 @@ public class HandleSecondTab extends GUIHandler {
 	 */
 	public void prevElementHexDecMode(RabinSecondTabComposite rstc) {
 		int nextIdx = BigInteger.valueOf(
-				rstc.getCmbChooseCipher().getSelectionIndex()-1).mod(
+				rstc.cmbChooseCipher.getSelectionIndex()-1).mod(
 						BigInteger.valueOf(
 								currentCiphertextList.size())).intValue();
 		int elem = nextIdx + 1;
 		String nextElem = currentCiphertextList.get(nextIdx);
-		rstc.getTxtCipherFirst().setText(nextElem);
+		rstc.txtCipherFirst.setText(nextElem);
 		
 		this.selectionHexDecMode(elem, rstc);
 		
-		rstc.getCmbChooseCipher().select(nextIdx);
+		rstc.cmbChooseCipher.select(nextIdx);
 	}
 	
 	
@@ -448,22 +448,22 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void handleDecimalNumbersEncDecMode(RabinSecondTabComposite rstc) {
-		String plaintext = rstc.getTxtMessageSepNum().getText();
+		String plaintext = rstc.txtMessageSepNum.getText();
 		
 		if(plaintext.isEmpty()) {
-			rstc.getTxtMessageSepNum().setBackground(this.getColorBackgroundNeutral());
-			hideControl(rstc.getTxtMessageSepNumWarning());
-			rstc.getBtnEnc().setEnabled(false);
+			rstc.txtMessageSepNum.setBackground(this.getColorBackgroundNeutral());
+			hideControl(rstc.txtMessageSepNumWarning);
+			rstc.btnEnc.setEnabled(false);
 			return;
 		}
 		
 		BigInteger n = this.getRabinFirst().getN();
 		
 		if(n == null) {
-			rstc.getTxtMessageSepNum().setBackground(this.getColorBackgroundWrong());
-			rstc.getTxtMessageSepNumWarning().setText(strGenKeyPairST);
-			showControl(rstc.getTxtMessageSepNumWarning());
-			rstc.getBtnEnc().setEnabled(false);
+			rstc.txtMessageSepNum.setBackground(this.getColorBackgroundWrong());
+			rstc.txtMessageSepNumWarning.setText(strGenKeyPairST);
+			showControl(rstc.txtMessageSepNumWarning);
+			rstc.btnEnc.setEnabled(false);
 			return;
 		}
 		
@@ -475,22 +475,22 @@ public class HandleSecondTab extends GUIHandler {
 			plaintextList = getRabinFirst().getParsedPlaintextInBase10(plaintext);
 			boolean isPlaintextValidN = getRabinFirst().isValidPlaintext(plaintextList, 10);
 			if(!isPlaintextValidN) {
-				rstc.getTxtMessageSepNum().setBackground(this.getColorBackgroundWrong());
-				rstc.getTxtMessageSepNumWarning().setText(strPlessN);
-				showControl(rstc.getTxtMessageSepNumWarning());
-				rstc.getBtnEnc().setEnabled(false);
+				rstc.txtMessageSepNum.setBackground(this.getColorBackgroundWrong());
+				rstc.txtMessageSepNumWarning.setText(strPlessN);
+				showControl(rstc.txtMessageSepNumWarning);
+				rstc.btnEnc.setEnabled(false);
 			}
 			else {
-				rstc.getTxtMessageSepNum().setBackground(this.getColorBackgroundCorrect());
-				hideControl(rstc.getTxtMessageSepNumWarning());
-				rstc.getBtnEnc().setEnabled(true);
+				rstc.txtMessageSepNum.setBackground(this.getColorBackgroundCorrect());
+				hideControl(rstc.txtMessageSepNumWarning);
+				rstc.btnEnc.setEnabled(true);
 			}
 		}
 		else {
-			rstc.getTxtMessageSepNum().setBackground(this.getColorBackgroundWrong());
-			rstc.getTxtMessageSepNumWarning().setText(strNotValidPlaintext);
-			showControl(rstc.getTxtMessageSepNumWarning());
-			rstc.getBtnEnc().setEnabled(false);
+			rstc.txtMessageSepNum.setBackground(this.getColorBackgroundWrong());
+			rstc.txtMessageSepNumWarning.setText(strNotValidPlaintext);
+			showControl(rstc.txtMessageSepNumWarning);
+			rstc.btnEnc.setEnabled(false);
 		}
 	}	
 	
@@ -502,44 +502,44 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void handleHexNumDecMode(RabinSecondTabComposite rstc) {
-		String ciphertextParsed = rstc.getTxtEnterCiphertext().getText();
+		String ciphertextParsed = rstc.txtEnterCiphertext.getText();
 		String ciphertext = ciphertextParsed.replaceAll("\\s+", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		
 		if(ciphertext.isEmpty()) {
-			rstc.getTxtEnterCiphertext().setBackground(this.getColorBackgroundNeutral());
-			hideControl(rstc.getTxtEnterCiphertextWarning());
-			rstc.getBtnApplyCiphertext().setEnabled(false);
+			rstc.txtEnterCiphertext.setBackground(this.getColorBackgroundNeutral());
+			hideControl(rstc.txtEnterCiphertextWarning);
+			rstc.btnApplyCiphertext.setEnabled(false);
 			return;
 		}
 		
 		BigInteger n = this.getRabinFirst().getN();
 		
 		if(n == null) {
-			rstc.getTxtEnterCiphertext().setBackground(this.getColorBackgroundWrong());
-			rstc.getTxtEnterCiphertextWarning().setText(strGenKeyPairST);
-			showControl(rstc.getTxtEnterCiphertextWarning());
-			rstc.getBtnApplyCiphertext().setEnabled(false);
+			rstc.txtEnterCiphertext.setBackground(this.getColorBackgroundWrong());
+			rstc.txtEnterCiphertextWarning.setText(strGenKeyPairST);
+			showControl(rstc.txtEnterCiphertextWarning);
+			rstc.btnApplyCiphertext.setEnabled(false);
 			return;
 		}
 		
 		boolean matchRegex = ciphertext.matches("[0-9a-fA-F]+"); //$NON-NLS-1$
 		if(!matchRegex) {
-			rstc.getTxtEnterCiphertext().setBackground(this.getColorBackgroundWrong());
+			rstc.txtEnterCiphertext.setBackground(this.getColorBackgroundWrong());
 			String strOnlyHexNumbers = Messages.HandleSecondTab_strOnlyHexNumbers;
-			rstc.getTxtEnterCiphertextWarning().setText(strOnlyHexNumbers);
-			showControl(rstc.getTxtEnterCiphertextWarning());
-			rstc.getBtnApplyCiphertext().setEnabled(false);
+			rstc.txtEnterCiphertextWarning.setText(strOnlyHexNumbers);
+			showControl(rstc.txtEnterCiphertextWarning);
+			rstc.btnApplyCiphertext.setEnabled(false);
 			return;
 		}
 		
 		if(ciphertext.length() % getBlocklength() != 0) {
-			rstc.getTxtEnterCiphertext().setBackground(this.getColorBackgroundWrong());
+			rstc.txtEnterCiphertext.setBackground(this.getColorBackgroundWrong());
 			String strCipherMultipleBlocklength = Messages.HandleSecondTab_strCipherMultipleBlocklength;
-			rstc.getTxtEnterCiphertextWarning().setText(MessageFormat.format(
+			rstc.txtEnterCiphertextWarning.setText(MessageFormat.format(
 					strCipherMultipleBlocklength,
 					(getBlocklength() / 2)));
-			showControl(rstc.getTxtEnterCiphertextWarning());
-			rstc.getBtnApplyCiphertext().setEnabled(false);
+			showControl(rstc.txtEnterCiphertextWarning);
+			rstc.btnApplyCiphertext.setEnabled(false);
 			return;
 		}
 		
@@ -547,17 +547,17 @@ public class HandleSecondTab extends GUIHandler {
 		boolean isValidCiphertext = getRabinFirst().isValidPlaintext(ciphertextList, getRadix());
 		
 		if(!isValidCiphertext) {
-			rstc.getTxtEnterCiphertext().setBackground(this.getColorBackgroundWrong());
-			rstc.getTxtEnterCiphertextWarning().setText(strCipherLessN);
+			rstc.txtEnterCiphertext.setBackground(this.getColorBackgroundWrong());
+			rstc.txtEnterCiphertextWarning.setText(strCipherLessN);
 			
-			showControl(rstc.getTxtEnterCiphertextWarning());
-			rstc.getBtnApplyCiphertext().setEnabled(false);
+			showControl(rstc.txtEnterCiphertextWarning);
+			rstc.btnApplyCiphertext.setEnabled(false);
 			return;
 		}
 		
-		rstc.getTxtEnterCiphertext().setBackground(this.getColorBackgroundCorrect());
-		hideControl(rstc.getTxtEnterCiphertextWarning());
-		rstc.getBtnApplyCiphertext().setEnabled(true);
+		rstc.txtEnterCiphertext.setBackground(this.getColorBackgroundCorrect());
+		hideControl(rstc.txtEnterCiphertextWarning);
+		rstc.btnApplyCiphertext.setEnabled(true);
 	}
 	
 	
@@ -568,22 +568,22 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void handleDecimalNumbersDecMode(RabinSecondTabComposite rstc) {
-		String plaintext = rstc.getTxtEnterCiphertextDecimal().getText();
+		String plaintext = rstc.txtEnterCiphertextDecimal.getText();
 		
 		if(plaintext.isEmpty()) {
-			rstc.getTxtEnterCiphertextDecimal().setBackground(this.getColorBackgroundNeutral());
-			hideControl(rstc.getTxtEnterCiphertextDecimalWarning());
-			rstc.getBtnApplyCiphertext().setEnabled(false);
+			rstc.txtEnterCiphertextDecimal.setBackground(this.getColorBackgroundNeutral());
+			hideControl(rstc.txtEnterCiphertextDecimalWarning);
+			rstc.btnApplyCiphertext.setEnabled(false);
 			return;
 		}
 		
 		BigInteger n = this.getRabinFirst().getN();
 		
 		if(n == null) {
-			rstc.getTxtEnterCiphertextDecimal().setBackground(this.getColorBackgroundWrong());
-			rstc.getTxtEnterCiphertextDecimalWarning().setText(strGenKeyPairST);
-			showControl(rstc.getTxtEnterCiphertextDecimalWarning());
-			rstc.getBtnApplyCiphertext().setEnabled(false);
+			rstc.txtEnterCiphertextDecimal.setBackground(this.getColorBackgroundWrong());
+			rstc.txtEnterCiphertextDecimalWarning.setText(strGenKeyPairST);
+			showControl(rstc.txtEnterCiphertextDecimalWarning);
+			rstc.btnApplyCiphertext.setEnabled(false);
 			return;
 		}
 		
@@ -593,22 +593,22 @@ public class HandleSecondTab extends GUIHandler {
 			plaintextList = getRabinFirst().getParsedPlaintextInBase10(plaintext);
 			boolean isPlaintextValidN = getRabinFirst().isValidPlaintext(plaintextList, 10);
 			if(!isPlaintextValidN) {
-				rstc.getTxtEnterCiphertextDecimal().setBackground(this.getColorBackgroundWrong());
-				rstc.getTxtEnterCiphertextDecimalWarning().setText(strPlessN);
-				showControl(rstc.getTxtEnterCiphertextDecimalWarning());
-				rstc.getBtnApplyCiphertext().setEnabled(false);
+				rstc.txtEnterCiphertextDecimal.setBackground(this.getColorBackgroundWrong());
+				rstc.txtEnterCiphertextDecimalWarning.setText(strPlessN);
+				showControl(rstc.txtEnterCiphertextDecimalWarning);
+				rstc.btnApplyCiphertext.setEnabled(false);
 			}
 			else {
-				rstc.getTxtEnterCiphertextDecimal().setBackground(this.getColorBackgroundCorrect());
-				hideControl(rstc.getTxtEnterCiphertextDecimalWarning());
-				rstc.getBtnApplyCiphertext().setEnabled(true);
+				rstc.txtEnterCiphertextDecimal.setBackground(this.getColorBackgroundCorrect());
+				hideControl(rstc.txtEnterCiphertextDecimalWarning);
+				rstc.btnApplyCiphertext.setEnabled(true);
 			}
 		}
 		else {
-			rstc.getTxtEnterCiphertextDecimal().setBackground(this.getColorBackgroundWrong());
-			rstc.getTxtEnterCiphertextDecimalWarning().setText(strNotValidPlaintext);
-			showControl(rstc.getTxtEnterCiphertextDecimalWarning());
-			rstc.getBtnApplyCiphertext().setEnabled(false);
+			rstc.txtEnterCiphertextDecimal.setBackground(this.getColorBackgroundWrong());
+			rstc.txtEnterCiphertextDecimalWarning.setText(strNotValidPlaintext);
+			showControl(rstc.txtEnterCiphertextDecimalWarning);
+			rstc.btnApplyCiphertext.setEnabled(false);
 		}
 	}
 	
@@ -622,19 +622,19 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void chooseCipherAction(RabinSecondTabComposite rstc) {
-		int idx = rstc.getCmbChooseCipher().getSelectionIndex();
-		String item = rstc.getCmbChooseCipher().getItem(idx);
+		int idx = rstc.cmbChooseCipher.getSelectionIndex();
+		String item = rstc.cmbChooseCipher.getItem(idx);
 		int i = Integer.parseInt(item);
 		int chosenIdx = i - 1;
 		int elem = chosenIdx + 1;
 		String ciphertext = currentCiphertextList.get(chosenIdx);
-		rstc.getTxtCipherFirst().setText(ciphertext);
+		rstc.txtCipherFirst.setText(ciphertext);
 		
 		
-		if(rstc.getBtnSelectionEnc().getSelection()) {
+		if(rstc.btnSelectionEnc.getSelection()) {
 			selectionTextNumMode(elem, rstc);
 		}
-		if(rstc.getBtnSelectionDec().getSelection()) {
+		if(rstc.btnSelectionDec.getSelection()) {
 			selectionHexDecMode(elem, rstc);
 		}
 	}
@@ -646,7 +646,7 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void fixSelection(ArrayList<String> a, StyledText stxt, RabinSecondTabComposite rstc) {
-		int idx = rstc.getCmbChooseCipher().getSelectionIndex();
+		int idx = rstc.cmbChooseCipher.getSelectionIndex();
 		if(idx == -1)
 			return;
 		
@@ -661,32 +661,32 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void setFinalPlaintextColor(RabinSecondTabComposite rstc) {
-		int idx = rstc.getCmbChooseCipher().getSelectionIndex();
+		int idx = rstc.cmbChooseCipher.getSelectionIndex();
 		if(idx == -1)
 			return;
 		
 		String currentPlaintext = currentPlaintextList.get(idx);
 		
-		String m1 = rstc.getTxtm1().getText();
-		String m2 = rstc.getTxtm2().getText();
-		String m3 = rstc.getTxtm3().getText();
-		String m4 = rstc.getTxtm4().getText();
+		String m1 = rstc.txtm1.getText();
+		String m2 = rstc.txtm2.getText();
+		String m3 = rstc.txtm3.getText();
+		String m4 = rstc.txtm4.getText();
 		
 		if(m1.equals(currentPlaintext)) {
-			rstc.getTxtm1().setBackground(this.getColorBackgroundCorrect());
-			rstc.getTxtm1().setForeground(this.getColorSelectControlFG());
+			rstc.txtm1.setBackground(this.getColorBackgroundCorrect());
+			rstc.txtm1.setForeground(this.getColorSelectControlFG());
 		}
 		if(m2.equals(currentPlaintext)) {
-			rstc.getTxtm2().setBackground(this.getColorBackgroundCorrect());
-			rstc.getTxtm2().setForeground(this.getColorSelectControlFG());
+			rstc.txtm2.setBackground(this.getColorBackgroundCorrect());
+			rstc.txtm2.setForeground(this.getColorSelectControlFG());
 		}
 		if(m3.equals(currentPlaintext)) {
-			rstc.getTxtm3().setBackground(this.getColorBackgroundCorrect());
-			rstc.getTxtm3().setForeground(this.getColorSelectControlFG());
+			rstc.txtm3.setBackground(this.getColorBackgroundCorrect());
+			rstc.txtm3.setForeground(this.getColorSelectControlFG());
 		}
 		if(m4.equals(currentPlaintext)) {
-			rstc.getTxtm4().setBackground(this.getColorBackgroundCorrect());
-			rstc.getTxtm4().setForeground(this.getColorSelectControlFG());
+			rstc.txtm4.setBackground(this.getColorBackgroundCorrect());
+			rstc.txtm4.setForeground(this.getColorSelectControlFG());
 		}
 	}
 	
@@ -695,14 +695,14 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void resetFinalPlaintextColor(RabinSecondTabComposite rstc) {
-		rstc.getTxtm1().setBackground(this.getColorResetFinalPlaintextBG());
-		rstc.getTxtm1().setForeground(this.colorResetFinalPlaintextFG);
-		rstc.getTxtm2().setBackground(this.getColorResetFinalPlaintextBG());
-		rstc.getTxtm2().setForeground(this.colorResetFinalPlaintextFG);
-		rstc.getTxtm3().setBackground(this.getColorResetFinalPlaintextBG());
-		rstc.getTxtm3().setForeground(this.colorResetFinalPlaintextFG);
-		rstc.getTxtm4().setBackground(this.getColorResetFinalPlaintextBG());
-		rstc.getTxtm4().setForeground(this.colorResetFinalPlaintextFG);
+		rstc.txtm1.setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.txtm1.setForeground(this.colorResetFinalPlaintextFG);
+		rstc.txtm2.setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.txtm2.setForeground(this.colorResetFinalPlaintextFG);
+		rstc.txtm3.setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.txtm3.setForeground(this.colorResetFinalPlaintextFG);
+		rstc.txtm4.setBackground(this.getColorResetFinalPlaintextBG());
+		rstc.txtm4.setForeground(this.colorResetFinalPlaintextFG);
 	}
 	
 	
@@ -711,38 +711,38 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void handlePlaintextTextMode(RabinSecondTabComposite rstc) {
-		Text txtWarning = rstc.getTxtMessageWarning();
-		if(rstc.getTxtMessage().getText().isEmpty()) {
+		Text txtWarning = rstc.txtMessageWarning;
+		if(rstc.txtMessage.getText().isEmpty()) {
 			hideControl(txtWarning);
-			rstc.getTxtMessage().setBackground(this.getColorBackgroundNeutral());
-			rstc.getBtnEnc().setEnabled(false);
+			rstc.txtMessage.setBackground(this.getColorBackgroundNeutral());
+			rstc.btnEnc.setEnabled(false);
 			return;
 		}
 		
 		BigInteger n =this.getRabinFirst().getN();
 		
 		if(n == null) {
-			rstc.getTxtMessage().setBackground(this.getColorBackgroundWrong());
-			rstc.getTxtMessageWarning().setText(Messages.HandleSecondTab_rstc_getTxtMessageWarning);
+			rstc.txtMessage.setBackground(this.getColorBackgroundWrong());
+			rstc.txtMessageWarning.setText(Messages.HandleSecondTab_rstc_getTxtMessageWarning);
 			showControl(txtWarning);
-			rstc.getBtnEnc().setEnabled(false);
+			rstc.btnEnc.setEnabled(false);
 			return;
 		}
 		
 		
-		if(rstc.getCmbBlockN().getSelectionIndex() == -1) {
-			rstc.getTxtMessage().setBackground(this.getColorBackgroundWrong());
+		if(rstc.cmbBlockN.getSelectionIndex() == -1) {
+			rstc.txtMessage.setBackground(this.getColorBackgroundWrong());
 			String strSelectBytesPerBlock = Messages.HandleSecondTab_strSelectBytesPerBlock;
-			rstc.getTxtMessageWarning().setText(strSelectBytesPerBlock);
+			rstc.txtMessageWarning.setText(strSelectBytesPerBlock);
 			showControl(txtWarning);
-			rstc.getBtnEnc().setEnabled(false);
+			rstc.btnEnc.setEnabled(false);
 			return;
 			
 		}
 		
-		rstc.getTxtMessage().setBackground(this.getColorBackgroundNeutral());
+		rstc.txtMessage.setBackground(this.getColorBackgroundNeutral());
 		hideControl(txtWarning);
-		rstc.getBtnEnc().setEnabled(true);
+		rstc.btnEnc.setEnabled(true);
 	}
 	
 	
@@ -751,16 +751,16 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void resetDecComponents(RabinSecondTabComposite rstc) {
-		rstc.getTxtmp().setText(""); //$NON-NLS-1$
-		rstc.getTxtmq().setText(""); //$NON-NLS-1$
-		rstc.getTxtyp().setText(""); //$NON-NLS-1$
-		rstc.getTxtyq().setText(""); //$NON-NLS-1$
-		rstc.getTxtV().setText(""); //$NON-NLS-1$
-		rstc.getTxtW().setText(""); //$NON-NLS-1$
-		rstc.getTxtm1().setText(""); //$NON-NLS-1$
-		rstc.getTxtm2().setText(""); //$NON-NLS-1$
-		rstc.getTxtm3().setText(""); //$NON-NLS-1$
-		rstc.getTxtm4().setText(""); //$NON-NLS-1$
+		rstc.txtmp.setText(""); //$NON-NLS-1$
+		rstc.txtmq.setText(""); //$NON-NLS-1$
+		rstc.txtyp.setText(""); //$NON-NLS-1$
+		rstc.txtyq.setText(""); //$NON-NLS-1$
+		rstc.txtV.setText(""); //$NON-NLS-1$
+		rstc.txtW.setText(""); //$NON-NLS-1$
+		rstc.txtm1.setText(""); //$NON-NLS-1$
+		rstc.txtm2.setText(""); //$NON-NLS-1$
+		rstc.txtm3.setText(""); //$NON-NLS-1$
+		rstc.txtm4.setText(""); //$NON-NLS-1$
 	}
 	
 	/**
@@ -773,8 +773,8 @@ public class HandleSecondTab extends GUIHandler {
 		for(int i = 0, count = 0; count < numOfPrimes; i++) {
 			BigInteger possiblePrime = BigInteger.valueOf(i);
 			if(this.getRabinFirst().isSuitablePrime(possiblePrime)) {
-				rstc.getCmbP().add(possiblePrime.toString());
-				rstc.getCmbQ().add(possiblePrime.toString());
+				rstc.cmbP.add(possiblePrime.toString());
+				rstc.cmbQ.add(possiblePrime.toString());
 				count++;
 			}
 		}
@@ -786,23 +786,23 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void initializeComponents(RabinSecondTabComposite rstc) {
-		//rstc.getCmbP().setText("23"); //$NON-NLS-1$
-		//rstc.getCmbQ().setText("31"); //$NON-NLS-1$
-		//rstc.getBtnGenKeysMan().setSelection(true);
-		//rstc.getBtnStartGenKeys().setEnabled(false);
-		rstc.getBtnSelectionEnc().setSelection(true);
-		rstc.getBtnText().setSelection(true);
-		rstc.getBtnRadHex().setSelection(true);
+		//rstc.cmbP.setText("23"); //$NON-NLS-1$
+		//rstc.cmbQ.setText("31"); //$NON-NLS-1$
+		//rstc.btnGenKeysMan.setSelection(true);
+		//rstc.btnStartGenKeys.setEnabled(false);
+		rstc.btnSelectionEnc.setSelection(true);
+		rstc.btnText.setSelection(true);
+		rstc.btnRadHex.setSelection(true);
 		//cmbBlockN.setEnabled(false);
-		rstc.getBtnEnc().setEnabled(false);
+		rstc.btnEnc.setEnabled(false);
 		//cmbChooseCipher.setEnabled(false);
-		rstc.getBtnPrevElem().setEnabled(false);
-		rstc.getBtnNextElem().setEnabled(false);
-		rstc.getBtnSqrRoot().setEnabled(false);
-		rstc.getBtnComputeYpYq().setEnabled(false);
-		rstc.getBtnComputevw().setEnabled(false);
-		rstc.getBtnComputePt().setEnabled(false);
-		rstc.getBtnApplyCiphertext().setEnabled(false);
+		rstc.btnPrevElem.setEnabled(false);
+		rstc.btnNextElem.setEnabled(false);
+		rstc.btnSqrRoot.setEnabled(false);
+		rstc.btnComputeYpYq.setEnabled(false);
+		rstc.btnComputevw.setEnabled(false);
+		rstc.btnComputePt.setEnabled(false);
+		rstc.btnApplyCiphertext.setEnabled(false);
 		setInfoEncTextMode(rstc);
 	}
 	
@@ -813,7 +813,7 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void setInfoEncTextMode(RabinSecondTabComposite rstc) {
-		/*rstc.getTxtInfoEnc().setText(this.getMessageByControl("txtInfoEnc_Text"));
+		/*rstc.txtInfoEnc.setText(this.getMessageByControl("txtInfoEnc_Text"));
 		rstc.getTxtInfoSquareRoots().setText(this.getMessageByControl("txtInfoSquareRoots_encryption_text"));
 		rstc.getTxtInfoLC().setText(this.getMessageByControl("txtInfoLC_encryption_text"));
 		rstc.getTxtInfoPlaintexts().setText(this.getMessageByControl("txtInfoPlaintexts_encryption_text"));
@@ -828,7 +828,7 @@ public class HandleSecondTab extends GUIHandler {
 		sb.append(this.getMessageByControl("txtInfoPlaintexts_encryption_text"));
 		
 		rstc.txtInfoDecryption.setText(sb.toString());
-		rstc.getTxtInfoEnc().setText(this.getMessageByControl("txtInfoEnc_Text"));
+		rstc.txtInfoEnc.setText(this.getMessageByControl("txtInfoEnc_Text"));
 		
 	}
 	
@@ -837,7 +837,7 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	private void setInfoEncDecimalMode(RabinSecondTabComposite rstc) {
-		rstc.getTxtInfoEnc().setText(this.getMessageByControl("txtInfoEnc_Decimal"));
+		rstc.txtInfoEnc.setText(this.getMessageByControl("txtInfoEnc_Decimal"));
 		//rstc.getTxtInfoSquareRoots().setText(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
 		//rstc.getTxtInfoLC().setText(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
 		//rstc.getTxtInfoPlaintexts().setText(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
@@ -946,7 +946,7 @@ public class HandleSecondTab extends GUIHandler {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
-			this.updateTextfields(rstc.getCmbP(), rstc.getCmbQ(), rstc.getBtnGenKeysMan(), rstc.getBtnStartGenKeys(), rstc.getTxtWarningNpq());
+			this.updateTextfields(rstc.cmbP, rstc.cmbQ, rstc.btnGenKeysMan, rstc.btnStartGenKeys, rstc.txtWarningNpq);
 		}
 	}
 	
@@ -961,7 +961,7 @@ public class HandleSecondTab extends GUIHandler {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection())
-			rstc.getBtnStartGenKeys().setEnabled(true);
+			rstc.btnStartGenKeys.setEnabled(true);
 	}
 	
 	
@@ -972,18 +972,18 @@ public class HandleSecondTab extends GUIHandler {
 	 */
 	public void btnStartGenKeysAction(RabinSecondTabComposite rstc) {
 		
-		if(rstc.getBtnGenKeysMan().getSelection()) {
-			this.btnGenKeysManAction(rstc.getCmbP(), rstc.getCmbQ(), rstc.getTxtModN());
+		if(rstc.btnGenKeysMan.getSelection()) {
+			this.btnGenKeysManAction(rstc.cmbP, rstc.cmbQ, rstc.txtModN);
 		}
 		
-		if(rstc.getBtnGenKeysAlgo().getSelection()) {
+		if(rstc.btnGenKeysAlgo.getSelection()) {
 			BigInteger n = getRabinSecond().getN();
 			if(n == null) {
 				String strGenKeyPairInCryptosystemWarning = Messages.HandleSecondTab_strGenKeyPairInCryptosystemWarning;
-				//rstc.getTxtWarningNpq().setText(strGenKeyPairInCryptosystemWarning);
-				rstc.getNWarning().setText(strGenKeyPairInCryptosystemWarning);
-				//showControl(rstc.getTxtWarningNpq());
-				showControl(rstc.getNWarning());
+				//rstc.txtWarningNpq.setText(strGenKeyPairInCryptosystemWarning);
+				rstc.nWarning.setText(strGenKeyPairInCryptosystemWarning);
+				//showControl(rstc.txtWarningNpq);
+				showControl(rstc.nWarning);
 				return;
 				
 			}
@@ -993,13 +993,13 @@ public class HandleSecondTab extends GUIHandler {
 			getRabinFirst().setQ(q);
 			getRabinFirst().setN(n);
 			
-			rstc.getCmbP().setText(p.toString());
-			rstc.getCmbQ().setText(q.toString());
-			rstc.getTxtModN().setText(n.toString());
+			rstc.cmbP.setText(p.toString());
+			rstc.cmbQ.setText(q.toString());
+			rstc.txtModN.setText(n.toString());
 			
 			// uncomment this for alternative solution
-			//hideControl(rstc.getTxtWarningNpq());
-			hideControl(rstc.getNWarning());
+			//hideControl(rstc.txtWarningNpq);
+			hideControl(rstc.nWarning);
 			
 
 		}
@@ -1013,13 +1013,13 @@ public class HandleSecondTab extends GUIHandler {
 		this.setBytesPerBlock(2);
 		//String blockItems = "";
 		
-		rstc.getCmbBlockN().removeAll();
+		rstc.cmbBlockN.removeAll();
 		
 		for(int i = 1; i <= maxbytesPerBlock; i++) {
-			rstc.getCmbBlockN().add(String.valueOf(i));
+			rstc.cmbBlockN.add(String.valueOf(i));
 		}
 		
-		rstc.getCmbBlockN().select(0);
+		rstc.cmbBlockN.select(0);
 		
 		// to eliminate warnings
 		handlePlaintextTextMode(rstc);
@@ -1028,20 +1028,20 @@ public class HandleSecondTab extends GUIHandler {
 		handleDecimalNumbersDecMode(rstc);
 		
 		// for current mode
-		if(rstc.getBtnSelectionEnc().getSelection()) {
-			if(rstc.getBtnText().getSelection()) {
+		if(rstc.btnSelectionEnc.getSelection()) {
+			if(rstc.btnText.getSelection()) {
 				handlePlaintextTextMode(rstc);
 			}
-			if(rstc.getBtnNum().getSelection()) {
+			if(rstc.btnNum.getSelection()) {
 				handleDecimalNumbersEncDecMode(rstc);
 			}
 		}
 		
-		if(rstc.getBtnSelectionDec().getSelection()) {
-			if(rstc.getBtnRadHex().getSelection()) {
+		if(rstc.btnSelectionDec.getSelection()) {
+			if(rstc.btnRadHex.getSelection()) {
 				handleHexNumDecMode(rstc);
 			}
-			if(rstc.getBtnRadDecimal().getSelection()) {
+			if(rstc.btnRadDecimal.getSelection()) {
 				handleDecimalNumbersDecMode(rstc);
 			}
 		}
@@ -1054,8 +1054,8 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void cmbBlockNAction(RabinSecondTabComposite rstc) {
-		int idx = rstc.getCmbBlockN().getSelectionIndex();
-		String item = rstc.getCmbBlockN().getItem(idx);
+		int idx = rstc.cmbBlockN.getSelectionIndex();
+		String item = rstc.cmbBlockN.getItem(idx);
 		//bytesPerBlock = Integer.parseInt(item) * 2;
 		this.setBytesPerBlock(Integer.parseInt(item) * 2);
 		
@@ -1072,19 +1072,19 @@ public class HandleSecondTab extends GUIHandler {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
-			/*rstc.getCompEncStepsData().exclude = true;
-			rstc.getCompEncSteps().setVisible(false);
-			rstc.getCompEncStepsNumData().exclude = false;
-			rstc.getCompEncStepsNum().setVisible(true);
-			rstc.getCompBlockNData().exclude = true;
-			rstc.getCompBlockN().setVisible(false);
+			/*rstc.compEncStepsData.exclude = true;
+			rstc.compEncSteps.setVisible(false);
+			rstc.compEncStepsNumData.exclude = false;
+			rstc.compEncStepsNum.setVisible(true);
+			rstc.compBlockNData.exclude = true;
+			rstc.compBlockN.setVisible(false);
 			
 			
-			rstc.getEncPartSteps().requestLayout();*/
+			rstc.encPartSteps.requestLayout();*/
 			
-			this.hideControl(rstc.getCompEncSteps());
-			this.showControl(rstc.getCompEncStepsNum());
-			this.hideControl(rstc.getCompBlockN());
+			this.hideControl(rstc.compEncSteps);
+			this.showControl(rstc.compEncStepsNum);
+			this.hideControl(rstc.compBlockN);
 			
 			
 			// save and restore states
@@ -1119,14 +1119,14 @@ public class HandleSecondTab extends GUIHandler {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
-			rstc.getCompEncStepsNumData().exclude = true;
-			rstc.getCompEncStepsNum().setVisible(false);
-			rstc.getCompEncStepsData().exclude = false;
-			rstc.getCompEncSteps().setVisible(true);
-			rstc.getCompBlockNData().exclude = false;
-			rstc.getCompBlockN().setVisible(true);
+			rstc.compEncStepsNumData.exclude = true;
+			rstc.compEncStepsNum.setVisible(false);
+			rstc.compEncStepsData.exclude = false;
+			rstc.compEncSteps.setVisible(true);
+			rstc.compBlockNData.exclude = false;
+			rstc.compBlockN.setVisible(true);
 			
-			rstc.getEncPartSteps().requestLayout();
+			rstc.encPartSteps.requestLayout();
 			
 			// save and set state
 			//saveNumState();
@@ -1156,9 +1156,9 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void btnEncAction(RabinSecondTabComposite rstc) {
-		if(rstc.getBtnText().getSelection()) {
+		if(rstc.btnText.getSelection()) {
 			
-			String plaintext = rstc.getTxtMessage().getText();
+			String plaintext = rstc.txtMessage.getText();
 			String plaintextHex = getRabinFirst().bytesToString(plaintext.getBytes());
 			String paddedPlaintextHex = getRabinFirst().getPaddedPlaintext(plaintextHex, getBytesPerBlock());
 			ArrayList<String> plaintextsHex = getRabinFirst().parseString(paddedPlaintextHex, getBytesPerBlock());
@@ -1175,10 +1175,10 @@ public class HandleSecondTab extends GUIHandler {
 			String ciphertextInHex = getRabinFirst().getStringWithSepForm(paddedCiphertextsHex, separator);
 			
 			
-			rstc.getTxtMessageWithPadding().setText(paddedPlaintextHex);
-			rstc.getTxtMessageSep().setText(plaintextEncodedWithSep);
-			rstc.getTxtMessageBase().setText(plaintextInHex);
-			rstc.getTxtCipher().setText(ciphertextInHex);
+			rstc.txtMessageWithPadding.setText(paddedPlaintextHex);
+			rstc.txtMessageSep.setText(plaintextEncodedWithSep);
+			rstc.txtMessageBase.setText(plaintextInHex);
+			rstc.txtCipher.setText(ciphertextInHex);
 			
 			
 			plaintextsTextMode = plaintextsHex;
@@ -1189,7 +1189,7 @@ public class HandleSecondTab extends GUIHandler {
 			//setChooseCipher(currentCiphertextList);
 			dataTransfer.setChooseCipher(currentCiphertextList, rstc);
 			
-			rstc.getCmbChooseCipher().select(0);
+			rstc.cmbChooseCipher.select(0);
 			
 			//chooseCipherAction();
 			this.chooseCipherAction(rstc);
@@ -1197,8 +1197,8 @@ public class HandleSecondTab extends GUIHandler {
 			
 		}
 		
-		if(rstc.getBtnNum().getSelection()) {
-			String plaintext = rstc.getTxtMessageSepNum().getText();
+		if(rstc.btnNum.getSelection()) {
+			String plaintext = rstc.txtMessageSepNum.getText();
 			ArrayList<String> plaintexts = getRabinFirst().getParsedPlaintextInBase10(plaintext);
 			ArrayList<String> plaintextListBase16 = getRabinFirst().getListasRadix(plaintexts, getRadix());
 			String plaintextBase16 = getRabinFirst().getStringWithSepRadixForm(plaintexts, separator, getRadix());
@@ -1206,8 +1206,8 @@ public class HandleSecondTab extends GUIHandler {
 			String ciphertextsWithSep = getRabinFirst().getStringWithSepRadixForm(ciphertexts, separator, getRadix());
 			ArrayList<String> ciphertextListBase16 = getRabinFirst().getListasRadix(ciphertexts, getRadix());
 			
-			rstc.getTxtMessageBaseNum().setText(plaintextBase16);
-			rstc.getTxtCipherNum().setText(ciphertextsWithSep);
+			rstc.txtMessageBaseNum.setText(plaintextBase16);
+			rstc.txtCipherNum.setText(ciphertextsWithSep);
 			
 			plaintextsNumMode = plaintextListBase16;
 			ciphertextsNumMode = ciphertextListBase16;
@@ -1216,7 +1216,7 @@ public class HandleSecondTab extends GUIHandler {
 			
 			dataTransfer.setChooseCipher(currentCiphertextList, rstc);
 			
-			rstc.getCmbChooseCipher().select(0);
+			rstc.cmbChooseCipher.select(0);
 			
 			this.chooseCipherAction(rstc);
 			
@@ -1246,15 +1246,15 @@ public class HandleSecondTab extends GUIHandler {
 		
 		if(src.getSelection()) {
 			//rstc.getCompHoldDecimalData().exclude = true;
-			//rstc.getCompHoldDecimal().setVisible(false);
+			//rstc.compHoldDecimal.setVisible(false);
 			//compEnterCiphertext.requestLayout();
 			
 			//rstc.getCompEnterCiphertextPart1Data().exclude = false;
 			//rstc.getCompEnterCiphertextPart1().setVisible(true);
-			//rstc.getCompEnterCiphertext().requestLayout();
+			//rstc.compEnterCiphertext.requestLayout();
 			
-			this.hideControl(rstc.getCompHoldDecimal());
-			this.showControl(rstc.getCompEnterCiphertextSteps());
+			this.hideControl(rstc.compHoldDecimal);
+			this.showControl(rstc.compEnterCiphertextSteps);
 			
 			//saveDecDecimalState();
 			this.saveState(State.DECDECIMAL, rstc);
@@ -1285,11 +1285,11 @@ public class HandleSecondTab extends GUIHandler {
 			//compEnterCiphertext.requestLayout();
 			
 			//rstc.getCompHoldDecimalData().exclude = false;
-			//rstc.getCompHoldDecimal().setVisible(true);
-			//rstc.getCompEnterCiphertext().requestLayout();
+			//rstc.compHoldDecimal.setVisible(true);
+			//rstc.compEnterCiphertext.requestLayout();
 			
-			this.hideControl(rstc.getCompEnterCiphertextSteps());
-			this.showControl(rstc.getCompHoldDecimal());
+			this.hideControl(rstc.compEnterCiphertextSteps);
+			this.showControl(rstc.compHoldDecimal);
 			
 			//saveDecHexState();
 			this.saveState(State.DECHEX, rstc);
@@ -1310,12 +1310,12 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void btnApplyCiphertextAction(RabinSecondTabComposite rstc) {
-		if(rstc.getBtnRadHex().getSelection()) {
-			String ciphertextHexstring = rstc.getTxtEnterCiphertext().getText();
+		if(rstc.btnRadHex.getSelection()) {
+			String ciphertextHexstring = rstc.txtEnterCiphertext.getText();
 			ciphertextHexstring = ciphertextHexstring.replaceAll("\\s+", ""); //$NON-NLS-1$ //$NON-NLS-2$
 			ArrayList<String> ciphertextList = getRabinFirst().parseString(ciphertextHexstring, getBlocklength());
 			String ciphertextHexstringWithSep = getRabinFirst().getStringWithSepForm(ciphertextList, separator);
-			rstc.getTxtCiphertextSegments().setText(ciphertextHexstringWithSep);
+			rstc.txtCiphertextSegments.setText(ciphertextHexstringWithSep);
 			
 			// add global list
 			
@@ -1325,7 +1325,7 @@ public class HandleSecondTab extends GUIHandler {
 			//setChooseCipher(currentCiphertextList);
 			dataTransfer.setChooseCipher(currentCiphertextList, rstc);
 			
-			rstc.getCmbChooseCipher().select(0);
+			rstc.cmbChooseCipher.select(0);
 			
 			//chooseCipherAction();
 			this.chooseCipherAction(rstc);
@@ -1333,12 +1333,12 @@ public class HandleSecondTab extends GUIHandler {
 			
 		}
 		
-		if(rstc.getBtnRadDecimal().getSelection()) {
-			String ciphertextDecimal = rstc.getTxtEnterCiphertextDecimal().getText();
+		if(rstc.btnRadDecimal.getSelection()) {
+			String ciphertextDecimal = rstc.txtEnterCiphertextDecimal.getText();
 			ArrayList<String> ciphertextList = getRabinFirst().getParsedPlaintextInBase10(ciphertextDecimal);
 			String ciphertextBase16 = getRabinFirst().getStringWithSepRadixForm(ciphertextList, separator, getRadix());
 			ArrayList<String> ciphertextHexList = getRabinFirst().getListasRadix(ciphertextList, getRadix());
-			rstc.getTxtCiphertextSegmentsDecimal().setText(ciphertextBase16);
+			rstc.txtCiphertextSegmentsDecimal.setText(ciphertextBase16);
 			
 			
 			ciphertextsDecDecimalMode = ciphertextHexList;
@@ -1348,7 +1348,7 @@ public class HandleSecondTab extends GUIHandler {
 			//setChooseCipher(ciphertextHexList);
 			dataTransfer.setChooseCipher(ciphertextHexList, rstc);
 			
-			rstc.getCmbChooseCipher().select(0);
+			rstc.cmbChooseCipher.select(0);
 			
 			chooseCipherAction(rstc);
 			
@@ -1369,19 +1369,19 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void cmbChooseCipherAction(RabinSecondTabComposite rstc) {
-		int idx = rstc.getCmbChooseCipher().getSelectionIndex();
-		String item = rstc.getCmbChooseCipher().getItem(idx);
+		int idx = rstc.cmbChooseCipher.getSelectionIndex();
+		String item = rstc.cmbChooseCipher.getItem(idx);
 		int i = Integer.parseInt(item);
 		int chosenIdx = i - 1;
 		int elem = chosenIdx + 1;
 		String ciphertext = currentCiphertextList.get(chosenIdx);
-		rstc.getTxtCipherFirst().setText(ciphertext);
+		rstc.txtCipherFirst.setText(ciphertext);
 		
 		
-		if(rstc.getBtnSelectionEnc().getSelection()) {
+		if(rstc.btnSelectionEnc.getSelection()) {
 			selectionTextNumMode(elem, rstc);
 		}
-		if(rstc.getBtnSelectionDec().getSelection()) {
+		if(rstc.btnSelectionDec.getSelection()) {
 			selectionHexDecMode(elem, rstc);
 		}
 
@@ -1394,17 +1394,17 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void txtCipherFirstModifyAction(RabinSecondTabComposite rstc) {
-		String chooseCipher = rstc.getTxtCipherFirst().getText();
+		String chooseCipher = rstc.txtCipherFirst.getText();
 		if(chooseCipher.isEmpty()) {
-			rstc.getBtnPrevElem().setEnabled(false);
-			rstc.getBtnNextElem().setEnabled(false);
-			rstc.getBtnSqrRoot().setEnabled(false);
+			rstc.btnPrevElem.setEnabled(false);
+			rstc.btnNextElem.setEnabled(false);
+			rstc.btnSqrRoot.setEnabled(false);
 			return;
 		}
 		
-		rstc.getBtnPrevElem().setEnabled(true);
-		rstc.getBtnNextElem().setEnabled(true);
-		rstc.getBtnSqrRoot().setEnabled(true);
+		rstc.btnPrevElem.setEnabled(true);
+		rstc.btnNextElem.setEnabled(true);
+		rstc.btnSqrRoot.setEnabled(true);
 	}
 	
 	
@@ -1418,12 +1418,12 @@ public class HandleSecondTab extends GUIHandler {
 		if(currentCiphertextList.size() > 1)
 			resetDecComponents(rstc);
 		
-		if(rstc.getBtnSelectionEnc().getSelection()) {
+		if(rstc.btnSelectionEnc.getSelection()) {
 			if(currentCiphertextList.size() > 1)
 				resetFinalPlaintextColor(rstc);
 			prevElementTextNumMode(rstc);
 		}
-		if(rstc.getBtnSelectionDec().getSelection()) {
+		if(rstc.btnSelectionDec.getSelection()) {
 			prevElementHexDecMode(rstc);
 		}
 	}
@@ -1439,12 +1439,12 @@ public class HandleSecondTab extends GUIHandler {
 		if(currentCiphertextList.size() > 1)
 			resetDecComponents(rstc);
 		
-		if(rstc.getBtnSelectionEnc().getSelection()) {
+		if(rstc.btnSelectionEnc.getSelection()) {
 			if(currentCiphertextList.size() > 1)
 				resetFinalPlaintextColor(rstc);
 			nextElementTextNumMode(rstc);
 		}
-		if(rstc.getBtnSelectionDec().getSelection()) {
+		if(rstc.btnSelectionDec.getSelection()) {
 			nextElementHexDecMode(rstc);
 		}
 	}
@@ -1457,14 +1457,14 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void btnSquareRootAction(RabinSecondTabComposite rstc) {
-		String currentCiphertext = rstc.getTxtCipherFirst().getText();
+		String currentCiphertext = rstc.txtCipherFirst.getText();
 		BigInteger c = new BigInteger(currentCiphertext, getRadix());
 		BigInteger mp = getRabinFirst().getSquarerootP(c);
 		BigInteger mq = getRabinFirst().getSquarerootQ(c);
 		String mpStr = mp.toString(getRadix());
 		String mqStr = mq.toString(getRadix());
-		rstc.getTxtmp().setText(mpStr);
-		rstc.getTxtmq().setText(mqStr);
+		rstc.txtmp.setText(mpStr);
+		rstc.txtmq.setText(mqStr);
 	}
 	
 	
@@ -1474,12 +1474,12 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void txtMpAction(RabinSecondTabComposite rstc) {
-		String mp = rstc.getTxtmp().getText();
+		String mp = rstc.txtmp.getText();
 		if(mp.isEmpty()) {
-			rstc.getBtnComputeYpYq().setEnabled(false);
+			rstc.btnComputeYpYq.setEnabled(false);
 			return;
 		}
-		rstc.getBtnComputeYpYq().setEnabled(true);
+		rstc.btnComputeYpYq.setEnabled(true);
 	}
 	
 	
@@ -1489,12 +1489,12 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void txtMqAction(RabinSecondTabComposite rstc) {
-		String mq = rstc.getTxtmq().getText();
+		String mq = rstc.txtmq.getText();
 		if(mq.isEmpty()) {
-			rstc.getBtnComputeYpYq().setEnabled(false);
+			rstc.btnComputeYpYq.setEnabled(false);
 			return;
 		}
-		rstc.getBtnComputeYpYq().setEnabled(true);
+		rstc.btnComputeYpYq.setEnabled(true);
 	}
 	
 	
@@ -1503,12 +1503,12 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void txtYpAction(RabinSecondTabComposite rstc) {
-		String yp = rstc.getTxtyp().getText();
+		String yp = rstc.txtyp.getText();
 		if(yp.isEmpty()) {
-			rstc.getBtnComputevw().setEnabled(false);
+			rstc.btnComputevw.setEnabled(false);
 			return;
 		}
-		rstc.getBtnComputevw().setEnabled(true);
+		rstc.btnComputevw.setEnabled(true);
 	}
 	
 	
@@ -1518,12 +1518,12 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void txtYqAction(RabinSecondTabComposite rstc) {
-		String yq = rstc.getTxtyq().getText();
+		String yq = rstc.txtyq.getText();
 		if(yq.isEmpty()) {
-			rstc.getBtnComputevw().setEnabled(false);
+			rstc.btnComputevw.setEnabled(false);
 			return;
 		}
-		rstc.getBtnComputevw().setEnabled(true);
+		rstc.btnComputevw.setEnabled(true);
 	}
 	
 	
@@ -1535,8 +1535,8 @@ public class HandleSecondTab extends GUIHandler {
 		BigInteger[] yp_yq = getRabinFirst().getInverseElements();
 		String yp = yp_yq[0].toString(getRadix());
 		String yq = yp_yq[1].toString(getRadix());
-		rstc.getTxtyp().setText(yp);
-		rstc.getTxtyq().setText(yq);
+		rstc.txtyp.setText(yp);
+		rstc.txtyq.setText(yq);
 	}
 	
 	
@@ -1546,14 +1546,14 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void btnComputevwAction(RabinSecondTabComposite rstc) {
-		BigInteger yp = new BigInteger(rstc.getTxtyp().getText(), getRadix());
-		BigInteger yq = new BigInteger(rstc.getTxtyq().getText(), getRadix());
-		BigInteger mp = new BigInteger(rstc.getTxtmp().getText(), getRadix());
-		BigInteger mq = new BigInteger(rstc.getTxtmq().getText(), getRadix());
+		BigInteger yp = new BigInteger(rstc.txtyp.getText(), getRadix());
+		BigInteger yq = new BigInteger(rstc.txtyq.getText(), getRadix());
+		BigInteger mp = new BigInteger(rstc.txtmp.getText(), getRadix());
+		BigInteger mq = new BigInteger(rstc.txtmq.getText(), getRadix());
 		BigInteger v = getRabinFirst().getV(yp, mq);
 		BigInteger w = getRabinFirst().getW(yq, mp);
-		rstc.getTxtV().setText(v.toString(getRadix()));
-		rstc.getTxtW().setText(w.toString(getRadix()));
+		rstc.txtV.setText(v.toString(getRadix()));
+		rstc.txtW.setText(w.toString(getRadix()));
 	}
 	
 	
@@ -1562,12 +1562,12 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void txtVAction(RabinSecondTabComposite rstc) {
-		String v = rstc.getTxtV().getText();
+		String v = rstc.txtV.getText();
 		if(v.isEmpty()) {
-			rstc.getBtnComputePt().setEnabled(false);
+			rstc.btnComputePt.setEnabled(false);
 			return;
 		}
-		rstc.getBtnComputePt().setEnabled(true);
+		rstc.btnComputePt.setEnabled(true);
 	}
 	
 	
@@ -1577,12 +1577,12 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void txtWAction(RabinSecondTabComposite rstc) {
-		String w = rstc.getTxtW().getText();
+		String w = rstc.txtW.getText();
 		if(w.isEmpty()) {
-			rstc.getBtnComputePt().setEnabled(false);
+			rstc.btnComputePt.setEnabled(false);
 			return;
 		}
-		rstc.getBtnComputePt().setEnabled(true);
+		rstc.btnComputePt.setEnabled(true);
 	}
 	
 	
@@ -1593,20 +1593,20 @@ public class HandleSecondTab extends GUIHandler {
 	 * @param rstc
 	 */
 	public void btnComputePtAction(RabinSecondTabComposite rstc) {
-		BigInteger v = new BigInteger(rstc.getTxtV().getText(), getRadix());
-		BigInteger w = new BigInteger(rstc.getTxtW().getText(), getRadix());
+		BigInteger v = new BigInteger(rstc.txtV.getText(), getRadix());
+		BigInteger w = new BigInteger(rstc.txtW.getText(), getRadix());
 		BigInteger[] possibleMessages = getRabinFirst().getPlaintexts(v, w);
 		String m1 = possibleMessages[0].toString(getRadix());
 		String m2 = possibleMessages[1].toString(getRadix());
 		String m3 = possibleMessages[2].toString(getRadix());
 		String m4 = possibleMessages[3].toString(getRadix());
-		rstc.getTxtm1().setText(m1);
-		rstc.getTxtm2().setText(m2);
-		rstc.getTxtm3().setText(m3);
-		rstc.getTxtm4().setText(m4);
+		rstc.txtm1.setText(m1);
+		rstc.txtm2.setText(m2);
+		rstc.txtm3.setText(m3);
+		rstc.txtm4.setText(m4);
 		
 		
-		if(rstc.getBtnSelectionEnc().getSelection())
+		if(rstc.btnSelectionEnc.getSelection())
 			setFinalPlaintextColor(rstc);
 
 	}
@@ -1624,34 +1624,34 @@ public class HandleSecondTab extends GUIHandler {
 		if(src.getSelection()) {
 		
 			/*rstc.getGrpPlaintextData().exclude = false;
-			rstc.getGrpPlaintext().setVisible(true);
+			rstc.grpPlaintext.setVisible(true);
 			rstc.getRootComposite().requestLayout();
 			
 			rstc.getCompEnterCiphertextData().exclude = true;
-			rstc.getCompEnterCiphertext().setVisible(false);
+			rstc.compEnterCiphertext.setVisible(false);
 			rstc.getCompHoldAllSteps().requestLayout();*/
 			
-			this.hideControl(rstc.getCompEnterCiphertext());
-			this.showControl(rstc.getGrpPlaintext());
+			this.hideControl(rstc.compEnterCiphertext);
+			this.showControl(rstc.grpPlaintext);
 			this.showControl(rstc.compHoldSepAndInfoForEncryption);
 			this.showControl(rstc.lblSepEncryptionBottom);
 			
-			if(rstc.getBtnRadHex().getSelection()) {
+			if(rstc.btnRadHex.getSelection()) {
 				//saveDecHexState();
 				//setInfoDecHexMode(rstc);
 				this.saveState(State.DECHEX, rstc);
 			}
-			if(rstc.getBtnRadDecimal().getSelection()) {
+			if(rstc.btnRadDecimal.getSelection()) {
 				//saveDecDecimalState();
 				this.saveState(State.DECDECIMAL, rstc);
 			}
 			
-			if(rstc.getBtnText().getSelection()) {
+			if(rstc.btnText.getSelection()) {
 				//setTextState();
 				setInfoEncTextMode(rstc);
 				this.setState(State.TEXT, rstc);
 			}
-			if(rstc.getBtnNum().getSelection()) {
+			if(rstc.btnNum.getSelection()) {
 				//setNumState();
 				setInfoEncDecimalMode(rstc);
 				this.setState(State.NUM, rstc);
@@ -1681,35 +1681,35 @@ public class HandleSecondTab extends GUIHandler {
 		
 		
 			/*rstc.getGrpPlaintextData().exclude = true;
-			rstc.getGrpPlaintext().setVisible(false);
+			rstc.grpPlaintext.setVisible(false);
 			rstc.getRootComposite().requestLayout();
 			
 			rstc.getCompEnterCiphertextData().exclude = false;
-			rstc.getCompEnterCiphertext().setVisible(true);
+			rstc.compEnterCiphertext.setVisible(true);
 			rstc.getCompHoldAllSteps().requestLayout();*/
 			
-			this.hideControl(rstc.getGrpPlaintext());
+			this.hideControl(rstc.grpPlaintext);
 			this.hideControl(rstc.compHoldSepAndInfoForEncryption);
 			this.hideControl(rstc.lblSepEncryptionBottom);
-			this.showControl(rstc.getCompEnterCiphertext());
+			this.showControl(rstc.compEnterCiphertext);
 			//rstc.getSC().setMinSize(rstc.getRootComposite().computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			//rstc.getCurrentInstance().requestLayout();
 			
-			if(rstc.getBtnText().getSelection()) {
+			if(rstc.btnText.getSelection()) {
 				//saveTextState();
 				this.saveState(State.TEXT, rstc);
 			}
-			if(rstc.getBtnNum().getSelection()) {
+			if(rstc.btnNum.getSelection()) {
 				//saveNumState();
 				this.saveState(State.NUM, rstc);
 			}
 			
-			if(rstc.getBtnRadHex().getSelection()) {
+			if(rstc.btnRadHex.getSelection()) {
 				//setDecHexState();
 				setInfoDecHexMode(rstc);
 				this.setState(State.DECHEX, rstc);
 			}
-			if(rstc.getBtnRadDecimal().getSelection()) {
+			if(rstc.btnRadDecimal.getSelection()) {
 				//setDecDecimalState();
 				setInfoDecDecimalMode(rstc);
 				this.setState(State.DECDECIMAL, rstc);
@@ -1717,10 +1717,10 @@ public class HandleSecondTab extends GUIHandler {
 			
 			resetFinalPlaintextColor(rstc);
 			
-			/*if(rstc.getBtnRadHex().getSelection()) {
+			/*if(rstc.btnRadHex.getSelection()) {
 				setInfoDecHexMode(rstc);
 			}
-			if(rstc.getBtnRadDecimal().getSelection()) {
+			if(rstc.btnRadDecimal.getSelection()) {
 				setInfoDecDecimalMode(rstc);
 			}*/
 			
