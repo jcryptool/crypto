@@ -1522,8 +1522,8 @@ public class GUIHandler {
 		if(tabComposite instanceof RabinSecondTabComposite) {
 			rstc = (RabinSecondTabComposite) tabComposite;
 			
-			if(rstc.getBtnGenKeysMan().getSelection())
-				rstc.getBtnStartGenKeys().setEnabled(false);
+			if(rstc.btnGenKeysMan.getSelection())
+				rstc.btnStartGenKeys.setEnabled(false);
 			
 			Combo cmbP = rstc.getCmbP();
 			Combo cmbQ = rstc.getCmbQ();
@@ -1701,8 +1701,8 @@ public class GUIHandler {
 							hideControl(pWarning);
 							hideControl(qWarning);
 							hideControl(nWarning);
-							if(rstc.getBtnGenKeysMan().getSelection()) {
-								rstc.getBtnStartGenKeys().setEnabled(true);
+							if(rstc.btnGenKeysMan.getSelection()) {
+								rstc.btnStartGenKeys.setEnabled(true);
 							}
 						}
 						else {
@@ -1748,8 +1748,8 @@ public class GUIHandler {
 		else {
 			rftc = (RabinFirstTabComposite) tabComposite;
 			
-			if(rftc.getBtnGenKeysMan().getSelection())
-				rftc.getBtnStartGenKeys().setEnabled(false);
+			if(rftc.btnGenKeysMan.getSelection())
+				rftc.btnStartGenKeys.setEnabled(false);
 			
 			Text txtP = rftc.getTxtP();
 			Text txtQ = rftc.getTxtQ();
@@ -1927,8 +1927,8 @@ public class GUIHandler {
 							hideControl(pWarning);
 							hideControl(qWarning);
 							hideControl(nWarning);
-							if(rftc.getBtnGenKeysMan().getSelection()) {
-								rftc.getBtnStartGenKeys().setEnabled(true);
+							if(rftc.btnGenKeysMan.getSelection()) {
+								rftc.btnStartGenKeys.setEnabled(true);
 							}
 						}
 						else {
@@ -1996,14 +1996,14 @@ public class GUIHandler {
 		String strNotSuitableN = Messages.GUIHandler_strNotSuitableN;
 		
 		
-		if(rftc.getBtnGenKeysMan().getSelection())
-			rftc.getBtnStartGenKeys().setEnabled(false);
+		if(rftc.btnGenKeysMan.getSelection())
+			rftc.btnStartGenKeys.setEnabled(false);
 		
-		Combo cmbP = rftc.getCmbP();
-		Combo cmbQ = rftc.getCmbQ();
-		Text pWarning = rftc.getPWarning();
-		Text qWarning = rftc.getQWarning();
-		Text nWarning = rftc.getNWarning();
+		Combo cmbP = rftc.cmbP;
+		Combo cmbQ = rftc.cmbQ;
+		Text pWarning = rftc.pWarning;
+		Text qWarning = rftc.qWarning;
+		Text nWarning = rftc.nWarning;
 		
 		
 		String pAsStr = cmbP.getText();
@@ -2175,8 +2175,8 @@ public class GUIHandler {
 						hideControl(pWarning);
 						hideControl(qWarning);
 						hideControl(nWarning);
-						if(rftc.getBtnGenKeysMan().getSelection()) {
-							rftc.getBtnStartGenKeys().setEnabled(true);
+						if(rftc.btnGenKeysMan.getSelection()) {
+							rftc.btnStartGenKeys.setEnabled(true);
 						}
 					}
 					else {
@@ -2222,8 +2222,8 @@ public class GUIHandler {
 		/*else {
 			rftc = (RabinFirstTabComposite) tabComposite;
 			
-			if(rftc.getBtnGenKeysMan().getSelection())
-				rftc.getBtnStartGenKeys().setEnabled(false);
+			if(rftc.btnGenKeysMan.getSelection())
+				rftc.btnStartGenKeys.setEnabled(false);
 			
 			Text txtP = rftc.getCmbP();
 			Text txtQ = rftc.getCmbQ();
@@ -2401,8 +2401,8 @@ public class GUIHandler {
 							hideControl(pWarning);
 							hideControl(qWarning);
 							hideControl(nWarning);
-							if(rftc.getBtnGenKeysMan().getSelection()) {
-								rftc.getBtnStartGenKeys().setEnabled(true);
+							if(rftc.btnGenKeysMan.getSelection()) {
+								rftc.btnStartGenKeys.setEnabled(true);
 							}
 						}
 						else {

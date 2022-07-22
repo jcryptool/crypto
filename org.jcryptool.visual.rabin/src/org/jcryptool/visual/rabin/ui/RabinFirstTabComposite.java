@@ -80,536 +80,132 @@ import org.jcryptool.core.util.ui.auto.SmoothScroller;
 // }
 
 public class RabinFirstTabComposite extends Composite {
-	private Text txtEnterText;
-	private Combo cmbP;
-	private Combo cmbQ;
-	private Text txtModN;
-	private Text txtLowLimP;
-	private Text txtUpperLimP;
-	private Text txtLowLimQ;
-	private Text txtUpperLimQ;
-	private Text txtChosenPlain;
-	private Text txtEncDecStartWarning;
-	private Text[][] plaintexts;
-	private Text txtWarningNpq;
-	private Text txtcompGenPandQWarning;
-	private Text txtEnc;
-	private Text txtChosenPlainInfo;
+	public Text txtEnterText;
+	public Combo cmbP;
+	public Combo cmbQ;
+	public Text txtModN;
+	public Text txtLowLimP;
+	public Text txtUpperLimP;
+	public Text txtLowLimQ;
+	public Text txtUpperLimQ;
+	public Text txtChosenPlain;
+	public Text txtEncDecStartWarning;
+	public Text[][] plaintexts;
+	public Text txtWarningNpq;
+	public Text txtcompGenPandQWarning;
+	public Text txtEnc;
+	public Text txtChosenPlainInfo;
 	
-	private Group grpPlaintext;
-	private Group grpParam;
-	private Group grpEncDec;
-	private Group grpMessages;
+	public Group grpPlaintext;
+	public Group grpParam;
+	public Group grpEncDec;
+	public Group grpMessages;
 	
-	private TextLoadController textSelector;
+	public TextLoadController textSelector;
 	
-	private Label lblPrimeP;
-	private Label lblPrimeQ;
-	private Label lblModN;
+	public Label lblPrimeP;
+	public Label lblPrimeQ;
+	public Label lblModN;
 	
-	private Composite npqComp;
-	private Group genPComp;
-	private Group genQComp;
-	private Composite paramMainComp;
-	private Composite compGenKeys;
-	private Composite compHoldEncDec;
-	private Composite compPlaintexts;
-	private Composite compHoldPlainAndText;
-	private Composite rootComposite;
+	public Composite npqComp;
+	public Group genPComp;
+	public Group genQComp;
+	public Composite paramMainComp;
+	public Composite compGenKeys;
+	public Composite compHoldEncDec;
+	public Composite compPlaintexts;
+	public Composite compHoldPlainAndText;
+	public Composite rootComposite;
 
 	
-	private Button btnGenPrimes;
-	private Button btnRadEnc;
-	private Button btnRadDec;
-	private Button btnEncDec;
-	private Button btnGenKeysMan;
-	private Button btnGenKeysAlgo;
-	private Button btnEncDecStart;
-	private Button btnStartGenKeys;
-	private Button btnGenKeys;
-	private Button btnUseKeysAlgo;
+	public Button btnGenPrimes;
+	public Button btnRadEnc;
+	public Button btnRadDec;
+	public Button btnEncDec;
+	public Button btnGenKeysMan;
+	public Button btnGenKeysAlgo;
+	public Button btnEncDecStart;
+	public Button btnStartGenKeys;
+	public Button btnGenKeys;
+	public Button btnUseKeysAlgo;
 	
-	private GridData grpMessagesData;
-	
-	
+	public GridData grpMessagesData;
 	
 	
 	
 	
 	
-	private GridData txtWarningNpqData;
 	
-	private GridData txtcompGenPandQWarningData;
-	private ScrolledComposite sc;
+	
+	public GridData txtWarningNpqData;
+	
+	public GridData txtcompGenPandQWarningData;
+	public ScrolledComposite sc;
 
-	private GridData txtChosenPlainData;
+	public GridData txtChosenPlainData;
 	
-	private Text pWarning;
-	private Text qWarning;
-	private Text nWarning;
-	
-	
-	private Text txtLowLimPQSingle;
-	private Text txtUpperLimPQSingle;
-	private Composite compSelectMultiPandQ;
-	private Group grpSelectSinglePandQ;
-	private Text txtSinglePQWarning;
-	private Button btnSelectSingleLimit;
-	private Button btnSelectMultiPandQ;
+	public Text pWarning;
+	public Text qWarning;
+	public Text nWarning;
 	
 	
-	private CryptosystemTextbookComposite cstb;
-	private RabinSecondTabComposite rstc;
-	private Button btnSelectCryptotb;
-	private Button btnSelectCryptoSteps;
-	
-	private Text txtInfoSetParam;
-	
-	private Composite compHoldSelectionPrimesAndLimits;
-	private Text txtInfoSelection;
-	private Composite compSelectPrimeGen;
-	private Label lblLowLimPQSingle;
-	private Label lblUpperLimPQSingle;
-	private Label lblSepInfoSetParam;
-	private Label lblLowLimP;
-	private Label lblUpperLim;
-	private Label lblLowLimQ;
-	private Label lblUpperLimQ;
-	private Composite compSelectionCryptosystem;
-	private Composite compSelection;
-	private Label lblSeparateInfoTop;
-	private Group grpInfoSelection;
-	private Label lblSeparateInfoBottom;
+	public Text txtLowLimPQSingle;
+	public Text txtUpperLimPQSingle;
+	public Composite compSelectMultiPandQ;
+	public Group grpSelectSinglePandQ;
+	public Text txtSinglePQWarning;
+	public Button btnSelectSingleLimit;
+	public Button btnSelectMultiPandQ;
 	
 	
+	public CryptosystemTextbookComposite cstb;
+	public RabinSecondTabComposite rstc;
+	public Button btnSelectCryptotb;
+	public Button btnSelectCryptoSteps;
+	
+	public Text txtInfoSetParam;
+	
+	public Composite compHoldSelectionPrimesAndLimits;
+	public Text txtInfoSelection;
+	public Composite compSelectPrimeGen;
+	public Label lblLowLimPQSingle;
+	public Label lblUpperLimPQSingle;
+	public Label lblSepInfoSetParam;
+	public Label lblLowLimP;
+	public Label lblUpperLim;
+	public Label lblLowLimQ;
+	public Label lblUpperLimQ;
+	public Composite compSelectionCryptosystem;
+	public Composite compSelection;
+	public Label lblSeparateInfoTop;
+	public Group grpInfoSelection;
+	public Label lblSeparateInfoBottom;
 	
 	
-
-	
-	private HandleFirstTab guiHandler;
-	
-	
-	
-	
-	
-	public Composite getCompSelectPrimeGen() {
-		return compSelectPrimeGen;
-	}
-	
-	
-	
-	
-	public RabinSecondTabComposite getRabinSecondTabComposite() {
-		return rstc;
-	}
-	
-	
-	public CryptosystemTextbookComposite getCryptosystemTextbookComposite() {
-		return cstb;
-	}
-	
-	
-	public HandleFirstTab getGUIHandler() {
-		return guiHandler;
-	}
-	
-	
-	
-	public Composite getCompHoldSelectionPrimesAndLimits() {
-		return compHoldSelectionPrimesAndLimits;
-	}
-	
-	
-	
-	
-	public Text getTxtInfoSetParam() {
-		return txtInfoSetParam;
-	}
-	
-	
-	
-	
-	
-	/**
-	 * @return the txtLowLimPQSingle
-	 */
-	public Text getTxtLowLimPQSingle() {
-		return txtLowLimPQSingle;
-	}
-	
-	
-	
-	
-	/**
-	 * @return the txtUpperLimPQSingle
-	 */
-	public Text getTxtUpperLimPQSingle() {
-		return txtUpperLimPQSingle;
-	}
-	
-	
-	/**
-	 * @return txtSinglePQWarning
-	 */
-	public Text getTxtSinglePQWarning() {
-		return txtSinglePQWarning;
-	}
-	
-	
-	/**
-	 * @return btnSelectSingleLimit
-	 */
-	public Button getBtnSelectSingleLimit() {
-		return btnSelectSingleLimit;
-	}
-	
-	
-	
-	/**
-	 * @return btnSelectMultiPandQ
-	 */
-	public Button getBtnSelectMultiPandQ() {
-		return btnSelectMultiPandQ;
-	}
+	public Composite compTest;
+	public StyledText txtInstructions;
+	public Composite compHoldLayoutContent;
+	public Label lblSepParamContentBottom;
+	public Label lblSepSelectionCryptoBottom;
+	public Composite compHoldSepAndInfoForCryptoSelection;
+	public Label lblSepInfoForCryptoSelection;
+	public Composite compHoldSepAndInfoForParam;
 
 	
 	
-	/**
-	 * @return the compSelectMultiPandQ
-	 */
-	public Composite getCompSelectMultiPandQ() {
-		return compSelectMultiPandQ;
-	}
+	
+	
 
-
-	/**
-	 * @return the grpSelectSinglePandQ
-	 */
-	public Group getGrpSelectSinglePandQ() {
-		return grpSelectSinglePandQ;
-	}
-
-
-	/**
-	 * @return the pWarning
-	 */
-	public Text getPWarning() {
-		return pWarning;
-	}
-
-
-	/**
-	 * @return the qWarning
-	 */
-	public Text getQWarning() {
-		return qWarning;
-	}
-
-
-	/**
-	 * @return the nWarning
-	 */
-	public Text getNWarning() {
-		return nWarning;
-	}
-
-
-	/**
-	 * @return current instance of this class
-	 */
+	
+	public HandleFirstTab guiHandler;
+	
+	
+	
 	public RabinFirstTabComposite getCurrentInstance() {
 		return this;
 	}
 	
 	
-	/**
-	 * @return the txtEnterText
-	 */
-	public Text getTxtEnterText() {
-		return txtEnterText;
-	}
-
-
-
-
-
-
-	/**
-	 * @return the textSelector
-	 */
-	public TextLoadController getTextSelector() {
-		return textSelector;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * @return the txtP
-	 */
-	public Combo getCmbP() {
-		return cmbP;
-	}
-
-
-
-	/**
-	 * @return the txtQ
-	 */
-	public Combo getCmbQ() {
-		return cmbQ;
-	}
-
-
-
-	/**
-	 * @return the txtModN
-	 */
-	public Text getTxtModN() {
-		return txtModN;
-	}
-
-
-
-
-
-
-
-
-
-	/**
-	 * @return the btnGenPrimes
-	 */
-	public Button getBtnGenPrimes() {
-		return btnGenPrimes;
-	}
-
-
-
-
-
-
-	/**
-	 * @return the txtLowLimP
-	 */
-	public Text getTxtLowLimP() {
-		return txtLowLimP;
-	}
-
-
-
-	/**
-	 * @return the txtUpperLimP
-	 */
-	public Text getTxtUpperLimP() {
-		return txtUpperLimP;
-	}
-
-
-
-	/**
-	 * @return the txtLowLimQ
-	 */
-	public Text getTxtLowLimQ() {
-		return txtLowLimQ;
-	}
-
-
-
-	/**
-	 * @return the txtUpperLimQ
-	 */
-	public Text getTxtUpperLimQ() {
-		return txtUpperLimQ;
-	}
-
-
-
-	/**
-	 * @return the btnRadEnc
-	 */
-	public Button getBtnRadEnc() {
-		return btnRadEnc;
-	}
-
-
-
-	/**
-	 * @return the btnRadDec
-	 */
-	public Button getBtnRadDec() {
-		return btnRadDec;
-	}
-
-
-
-	/**
-	 * @return the btnEncDec
-	 */
-	public Button getBtnEncDec() {
-		return btnEncDec;
-	}
-
-
-
-
-
-
-
-
-
-	/**
-	 * @return the btnGenKeysMan
-	 */
-	public Button getBtnGenKeysMan() {
-		return btnGenKeysMan;
-	}
-
-
-
-	/**
-	 * @return the btnGenKeysAlgo
-	 */
-	public Button getBtnGenKeysAlgo() {
-		return btnGenKeysAlgo;
-	}
-
-
-
-
-
-
-	/**
-	 * @return the btnEncDecStart
-	 */
-	public Button getBtnEncDecStart() {
-		return btnEncDecStart;
-	}
-
-
-
-
-
-
-
-	/**
-	 * @return the btnStartGenKeys
-	 */
-	public Button getBtnStartGenKeys() {
-		return btnStartGenKeys;
-	}
-
-
-
-	/**
-	 * @return the btnGenKeys
-	 */
-	public Button getBtnGenKeys() {
-		return btnGenKeys;
-	}
-
-
-
-	/**
-	 * @return the btnUseKeysAlgo
-	 */
-	public Button getBtnUseKeysAlgo() {
-		return btnUseKeysAlgo;
-	}
-
-
-
-	/**
-	 * @return the txtChosenPlain
-	 */
-	public Text getTxtChosenPlain() {
-		return txtChosenPlain;
-	}
-
-
-
-	/**
-	 * @return the txtEncDecStartWarning
-	 */
-	public Text getTxtEncDecStartWarning() {
-		return txtEncDecStartWarning;
-	}
-
-
-
-	/**
-	 * @return the plaintexts
-	 */
-	public Text[][] getPlaintexts() {
-		return plaintexts;
-	}
-
-
-
-	/**
-	 * @return the guiHandler
-	 */
-	public GUIHandler getGuiHandler() {
-		return guiHandler;
-	}
-
-
-
-
-
-
-
-	/**
-	 * @return the txtWarningNpq
-	 */
-	public Text getTxtWarningNpq() {
-		return txtWarningNpq;
-	}
-
-
-
-
-
-
-	/**
-	 * @return the txtcompGenPandQWarning
-	 */
-	public Text getTxtcompGenPandQWarning() {
-		return txtcompGenPandQWarning;
-	}
-
-
-
-
-
-
-
-	/**
-	 * @return the txtEnc
-	 */
-	public Text getTxtEnc() {
-		return txtEnc;
-	}
-
-
-
-	/**
-	 * @return the txtChosenPlainInfo
-	 */
-	public Text getTxtChosenPlainInfo() {
-		return txtChosenPlainInfo;
-	}
 
 
 	private VerifyListener vlNumbers = new VerifyListener() {
@@ -677,14 +273,6 @@ public class RabinFirstTabComposite extends Composite {
 			guiHandler.btnStartGenKeysAction(getCurrentInstance(), rstc, 1000);
 		}
 	});
-	public Composite compTest;
-	public StyledText txtInstructions;
-	public Composite compHoldLayoutContent;
-	public Label lblSepParamContentBottom;
-	public Label lblSepSelectionCryptoBottom;
-	public Composite compHoldSepAndInfoForCryptoSelection;
-	public Label lblSepInfoForCryptoSelection;
-	public Composite compHoldSepAndInfoForParam;
 	
 	
 	
@@ -830,8 +418,8 @@ public class RabinFirstTabComposite extends Composite {
 		btnGenKeysMan.setSelection(true);
 		guiHandler.initializePrimes(20, getCurrentInstance());
 		btnSelectCryptotb.setSelection(true);
-		guiHandler.hideControl(getCompHoldSelectionPrimesAndLimits());
-		guiHandler.hideControl(getCompSelectPrimeGen());
+		guiHandler.hideControl(compHoldSelectionPrimesAndLimits);
+		guiHandler.hideControl(compSelectPrimeGen);
 	}
 	
 	

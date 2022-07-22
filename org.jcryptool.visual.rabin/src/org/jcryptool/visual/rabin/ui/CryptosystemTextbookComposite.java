@@ -129,7 +129,7 @@ public class CryptosystemTextbookComposite extends Composite {
 	public CryptosystemTextbookComposite(Composite parent, int style, RabinFirstTabComposite rftc) {
 		super(parent, style);
 		this.hcstb = new HandleCryptosystemTextbook(rftc);
-		this.guiHandler = rftc.getGUIHandler();
+		this.guiHandler = rftc.guiHandler;
 		createLoadTextContent(parent);
 		createEncryptionDecryptionRadioBtns(parent);
 		createEncryptionDecryptionContent(parent);

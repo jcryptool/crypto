@@ -171,8 +171,8 @@ public class HandleFirstTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							rftc.getTxtSinglePQWarning().setText(strAppropriatePrimesWarning);
-							showControl(rftc.getTxtSinglePQWarning());
+							rftc.txtSinglePQWarning.setText(strAppropriatePrimesWarning);
+							showControl(rftc.txtSinglePQWarning);
 							
 						}
 					};
@@ -188,7 +188,7 @@ public class HandleFirstTab extends GUIHandler {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						hideControl(rftc.getTxtSinglePQWarning());
+						hideControl(rftc.txtSinglePQWarning);
 						
 					}
 				};
@@ -215,15 +215,15 @@ public class HandleFirstTab extends GUIHandler {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						rftc.getCmbP().setText(strPrimeP);
-						rftc.getCmbQ().setText(strPrimeQ);
+						rftc.cmbP.setText(strPrimeP);
+						rftc.cmbQ.setText(strPrimeQ);
 						
 						
 						//txtP.addVerifyListener(vlNumbers);
 						//txtQ.addVerifyListener(vlNumbers);
 						
 						
-						rftc.getTxtModN().setText(n.toString());
+						rftc.txtModN.setText(n.toString());
 					}
 				};				
 				
@@ -280,12 +280,12 @@ public class HandleFirstTab extends GUIHandler {
 						}
 						
 						
-						rftc.getTxtLowLimP().setBackground(ColorService.WHITE);
-						rftc.getTxtLowLimQ().setBackground(ColorService.WHITE);
-						rftc.getTxtUpperLimP().setBackground(ColorService.WHITE);
-						rftc.getTxtUpperLimQ().setBackground(ColorService.WHITE);
+						rftc.txtLowLimP.setBackground(ColorService.WHITE);
+						rftc.txtLowLimQ.setBackground(ColorService.WHITE);
+						rftc.txtUpperLimP.setBackground(ColorService.WHITE);
+						rftc.txtUpperLimQ.setBackground(ColorService.WHITE);
 						
-						hideControl(rftc.getTxtcompGenPandQWarning());
+						hideControl(rftc.txtcompGenPandQWarning);
 				
 					}
 				};
@@ -381,13 +381,13 @@ public class HandleFirstTab extends GUIHandler {
 		
 		
 		if(iterations == 0) {
-			rftc.getTxtSinglePQWarning().setText(strAppropriatePrimesWarning);
-			showControl(rftc.getTxtSinglePQWarning());
+			rftc.txtSinglePQWarning.setText(strAppropriatePrimesWarning);
+			showControl(rftc.txtSinglePQWarning);
 			return false;
 		}
 		
 			
-		hideControl(rftc.getTxtSinglePQWarning());
+		hideControl(rftc.txtSinglePQWarning);
 		
 		String strPrimeP = primeP.toString();
 		String strPrimeQ = primeQ.toString();
@@ -402,12 +402,12 @@ public class HandleFirstTab extends GUIHandler {
 		
 		
 		
-		rftc.getCmbP().setText(strPrimeP);
-		rftc.getCmbQ().setText(strPrimeQ);
+		rftc.cmbP.setText(strPrimeP);
+		rftc.cmbQ.setText(strPrimeQ);
 		
 			
 		
-		rftc.getTxtModN().setText(n.toString());
+		rftc.txtModN.setText(n.toString());
 		
 		return true;
 			
@@ -484,13 +484,13 @@ public class HandleFirstTab extends GUIHandler {
 		
 		
 		if(iterations == 0) {
-			rftc.getTxtcompGenPandQWarning().setText(strAppropriatePrimesWarning);
-			showControl(rftc.getTxtcompGenPandQWarning());
+			rftc.txtcompGenPandQWarning.setText(strAppropriatePrimesWarning);
+			showControl(rftc.txtcompGenPandQWarning);
 			return false;
 		}
 		
 			
-		hideControl(rftc.getTxtcompGenPandQWarning());
+		hideControl(rftc.txtcompGenPandQWarning);
 		
 		String strPrimeP = primeP.toString();
 		String strPrimeQ = primeQ.toString();
@@ -500,9 +500,9 @@ public class HandleFirstTab extends GUIHandler {
 		getRabinFirst().setP(p);
 		getRabinFirst().setQ(q);
 		getRabinFirst().setN(n);		
-		rftc.getCmbP().setText(strPrimeP);
-		rftc.getCmbQ().setText(strPrimeQ);
-		rftc.getTxtModN().setText(n.toString());
+		rftc.cmbP.setText(strPrimeP);
+		rftc.cmbQ.setText(strPrimeQ);
+		rftc.txtModN.setText(n.toString());
 		
 		return true;
 	}
@@ -542,11 +542,11 @@ public class HandleFirstTab extends GUIHandler {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
-			hideControl(rftc.getCompHoldSelectionPrimesAndLimits());
-			hideControl(rftc.getCompSelectPrimeGen());
+			hideControl(rftc.compHoldSelectionPrimesAndLimits);
+			hideControl(rftc.compSelectPrimeGen);
 			String info = this.getMessageByControl("btnGenKeysMan_selection");
-			rftc.getTxtInfoSetParam().setText(info);
-			//this.updateTextfields(rftc.getCmbP(), rftc.getCmbQ(), rftc.getBtnGenKeysMan(), rftc.getBtnStartGenKeys(), rftc.getTxtWarningNpq());
+			rftc.txtInfoSetParam.setText(info);
+			//this.updateTextfields(rftc.cmbP, rftc.cmbQ, rftc.btnGenKeysMan, rftc.btnStartGenKeys, rftc.getTxtWarningNpq());
 			this.updateTextfields(rftc);
 		}
 	}
@@ -565,19 +565,19 @@ public class HandleFirstTab extends GUIHandler {
 		
 		if(src.getSelection()) {
 			
-			this.showControl(rftc.getCompHoldSelectionPrimesAndLimits());
-			showControl(rftc.getCompSelectPrimeGen());
+			this.showControl(rftc.compHoldSelectionPrimesAndLimits);
+			showControl(rftc.compSelectPrimeGen);
 			
 			String info = this.getMessageByControl("btnGenKeys_selection");
-			rftc.getTxtInfoSetParam().setText(info);
+			rftc.txtInfoSetParam.setText(info);
 		
 			
-			if(rftc.getBtnSelectSingleLimit().getSelection()) {
+			if(rftc.btnSelectSingleLimit.getSelection()) {
 				this.updateLimitFieldsSingle(rftc);
 			}
 			
-			if(rftc.getBtnSelectMultiPandQ().getSelection()) {
-				this.updateLimitFields(rftc.getTxtLowLimP(), rftc.getTxtUpperLimP(), rftc.getTxtLowLimQ(), rftc.getTxtUpperLimQ(), rftc.getTxtcompGenPandQWarning(), rftc.getBtnGenKeys(), rftc.getBtnStartGenKeys());
+			if(rftc.btnSelectMultiPandQ.getSelection()) {
+				this.updateLimitFields(rftc.txtLowLimP, rftc.txtUpperLimP, rftc.txtLowLimQ, rftc.txtUpperLimQ, rftc.txtcompGenPandQWarning, rftc.btnGenKeys, rftc.btnStartGenKeys);
 				
 			}	
 		}
@@ -595,7 +595,7 @@ public class HandleFirstTab extends GUIHandler {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
-			rftc.getBtnStartGenKeys().setEnabled(true);
+			rftc.btnStartGenKeys.setEnabled(true);
 		}
 	}
 	
@@ -609,26 +609,26 @@ public class HandleFirstTab extends GUIHandler {
 	 * @param iterations
 	 */
 	/*public void btnStartGenKeysAction(RabinFirstTabComposite rftc, int iterations) {
-		if(rftc.getBtnGenKeysMan().getSelection()) {
-			this.btnGenKeysManAction(rftc.getTxtP(), rftc.getTxtQ(), rftc.getTxtModN());
+		if(rftc.btnGenKeysMan.getSelection()) {
+			this.btnGenKeysManAction(rftc.getTxtP(), rftc.getTxtQ(), rftc.txtModN);
 		}
 		
-		if(rftc.getBtnGenKeys().getSelection()) {
+		if(rftc.btnGenKeys.getSelection()) {
 			
-			if(rftc.getBtnSelectSingleLimit().getSelection()) {
-				String strLow = rftc.getTxtLowLimPQSingle().getText();
-				String strUp = rftc.getTxtUpperLimPQSingle().getText();
+			if(rftc.btnSelectSingleLimit.getSelection()) {
+				String strLow = rftc.txtLowLimPQSingle.getText();
+				String strUp = rftc.txtUpperLimPQSingle.getText();
 				
 				boolean success = this.generateKeysWithLimitSingle(rftc, strLow, strUp, iterations);
 				if(!success)
 					return;
 			}
 			
-			if(rftc.getBtnSelectMultiPandQ().getSelection()) {
-				String strLowP = rftc.getTxtLowLimP().getText();
-				String strUpP = rftc.getTxtUpperLimP().getText();
-				String strLowQ = rftc.getTxtLowLimQ().getText();
-				String strUpQ = rftc.getTxtUpperLimQ().getText();
+			if(rftc.btnSelectMultiPandQ.getSelection()) {
+				String strLowP = rftc.txtLowLimP.getText();
+				String strUpP = rftc.txtUpperLimP.getText();
+				String strLowQ = rftc.txtLowLimQ.getText();
+				String strUpQ = rftc.txtUpperLimQ.getText();
 				
 				boolean success = this.generateKeysWithLimit(rftc, strLowP, strUpP, strLowQ, strUpQ, iterations);
 				if(!success)
@@ -646,12 +646,12 @@ public class HandleFirstTab extends GUIHandler {
 		this.setBytesPerBlock(bytesPerBlock);
 		this.setBlocklength(blocklength);
 		
-		rftc.getTxtLowLimP().setBackground(ColorService.WHITE);
-		rftc.getTxtLowLimQ().setBackground(ColorService.WHITE);
-		rftc.getTxtUpperLimP().setBackground(ColorService.WHITE);
-		rftc.getTxtUpperLimQ().setBackground(ColorService.WHITE);
+		rftc.txtLowLimP.setBackground(ColorService.WHITE);
+		rftc.txtLowLimQ.setBackground(ColorService.WHITE);
+		rftc.txtUpperLimP.setBackground(ColorService.WHITE);
+		rftc.txtUpperLimQ.setBackground(ColorService.WHITE);
 		
-		hideControl(rftc.getTxtcompGenPandQWarning());
+		hideControl(rftc.txtcompGenPandQWarning);
 	}*/
 	
 	
@@ -661,8 +661,8 @@ public class HandleFirstTab extends GUIHandler {
 		for(int i = 0, count = 0; count < numOfPrimes; i++) {
 			BigInteger possiblePrime = BigInteger.valueOf(i);
 			if(this.getRabinFirst().isSuitablePrime(possiblePrime)) {
-				rftc.getCmbP().add(possiblePrime.toString());
-				rftc.getCmbQ().add(possiblePrime.toString());
+				rftc.cmbP.add(possiblePrime.toString());
+				rftc.cmbQ.add(possiblePrime.toString());
 				count++;
 			}
 		}
@@ -698,16 +698,16 @@ public class HandleFirstTab extends GUIHandler {
 	public void btnStartGenKeysAction(RabinFirstTabComposite rftc, RabinSecondTabComposite rstc, int iterations) {
 		//Thread t = null;
 		
-		if(rftc.getBtnGenKeysMan().getSelection()) {
-			this.btnGenKeysManAction(rftc.getCmbP(), rftc.getCmbQ(), rftc.getTxtModN());
+		if(rftc.btnGenKeysMan.getSelection()) {
+			this.btnGenKeysManAction(rftc.cmbP, rftc.cmbQ, rftc.txtModN);
 		}
 		
-		if(rftc.getBtnGenKeys().getSelection()) {
+		if(rftc.btnGenKeys.getSelection()) {
 			
-			if(rftc.getBtnSelectSingleLimit().getSelection()) {
+			if(rftc.btnSelectSingleLimit.getSelection()) {
 				
-				String strLow = rftc.getTxtLowLimPQSingle().getText();
-				String strUp = rftc.getTxtUpperLimPQSingle().getText();
+				String strLow = rftc.txtLowLimPQSingle.getText();
+				String strUp = rftc.txtUpperLimPQSingle.getText();
 			
 				//generateKeysWithLimitSingle(rftc, strLow, strUp, iterations).start();
 				//return;
@@ -719,11 +719,11 @@ public class HandleFirstTab extends GUIHandler {
 				
 			}
 			
-			if(rftc.getBtnSelectMultiPandQ().getSelection()) {
-				String strLowP = rftc.getTxtLowLimP().getText();
-				String strUpP = rftc.getTxtUpperLimP().getText();
-				String strLowQ = rftc.getTxtLowLimQ().getText();
-				String strUpQ = rftc.getTxtUpperLimQ().getText();
+			if(rftc.btnSelectMultiPandQ.getSelection()) {
+				String strLowP = rftc.txtLowLimP.getText();
+				String strUpP = rftc.txtUpperLimP.getText();
+				String strLowQ = rftc.txtLowLimQ.getText();
+				String strUpQ = rftc.txtUpperLimQ.getText();
 				
 				boolean success = this.generateKeysWithLimit(rftc, strLowP, strUpP, strLowQ, strUpQ, iterations);
 				if(!success)
@@ -736,13 +736,13 @@ public class HandleFirstTab extends GUIHandler {
 			BigInteger n = getRabinSecond().getN();
 			if(n == null) {
 				String strGenKeyPairFT = Messages.HandleFirstTab_strGenKeyPairFT;
-				//rftc.getTxtcompGenPandQWarning().setText(strGenKeyPairFT);
-				//showControl(rftc.getTxtcompGenPandQWarning());
+				//rftc.txtcompGenPandQWarning.setText(strGenKeyPairFT);
+				//showControl(rftc.txtcompGenPandQWarning);
 				rftc.getNWarning().setText(strGenKeyPairFT);
 				showControl(rftc.getNWarning());
 				return;
 			}
-			//hideControl(rftc.getTxtcompGenPandQWarning());
+			//hideControl(rftc.txtcompGenPandQWarning);
 			hideControl(rftc.getNWarning());
 			
 			
@@ -756,7 +756,7 @@ public class HandleFirstTab extends GUIHandler {
 			rftc.getTxtQ().setText(getRabinFirst().getQ().toString());
 			//rftc.getTxtP().addVerifyListener(vlNumbers);
 			//rftc.getTxtQ().addVerifyListener(vlNumbers);
-			rftc.getTxtModN().setText(getRabinFirst().getN().toString());
+			rftc.txtModN.setText(getRabinFirst().getN().toString());
 			
 			//guiHandler.btnUseKeysAlgoAction(txtP, txtQ, txtModN, vlNumbers, txtcompGenPandQWarning);
 		}*/
@@ -812,12 +812,12 @@ public class HandleFirstTab extends GUIHandler {
 		}
 		
 		
-		rftc.getTxtLowLimP().setBackground(ColorService.WHITE);
-		rftc.getTxtLowLimQ().setBackground(ColorService.WHITE);
-		rftc.getTxtUpperLimP().setBackground(ColorService.WHITE);
-		rftc.getTxtUpperLimQ().setBackground(ColorService.WHITE);
+		rftc.txtLowLimP.setBackground(ColorService.WHITE);
+		rftc.txtLowLimQ.setBackground(ColorService.WHITE);
+		rftc.txtUpperLimP.setBackground(ColorService.WHITE);
+		rftc.txtUpperLimQ.setBackground(ColorService.WHITE);
 		
-		hideControl(rftc.getTxtcompGenPandQWarning());
+		hideControl(rftc.txtcompGenPandQWarning);
 	}
 	
 	
@@ -1005,64 +1005,64 @@ public class HandleFirstTab extends GUIHandler {
 	
 	
 	/*public void updateLimitFieldsSingle(RabinFirstTabComposite rftc) {
-		String strLowLim = rftc.getTxtLowLimPQSingle().getText();
-		String strUpperLim = rftc.getTxtUpperLimPQSingle().getText();
+		String strLowLim = rftc.txtLowLimPQSingle.getText();
+		String strUpperLim = rftc.txtUpperLimPQSingle.getText();
 		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
 		
 		Color white = this.getColorBackgroundNeutral();
 		Color wrong = this.getColorBackgroundWrong();
 		
-		if(rftc.getBtnGenKeys().getSelection()) 
-			rftc.getBtnStartGenKeys().setEnabled(false);
+		if(rftc.btnGenKeys.getSelection()) 
+			rftc.btnStartGenKeys.setEnabled(false);
 		
 		BigInteger lowPQ = null;
 		BigInteger upPQ = null;
 		
 		if(strLowLim.isEmpty() && strUpperLim.isEmpty()) {
-			this.hideControl(rftc.getTxtSinglePQWarning());
-			rftc.getTxtLowLimPQSingle().setBackground(ColorService.WHITE);
-			rftc.getTxtUpperLimPQSingle().setBackground(ColorService.WHITE);
+			this.hideControl(rftc.txtSinglePQWarning);
+			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
+			rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
 			return;
 		}
 		
 		if(strLowLim.isEmpty() && !strUpperLim.isEmpty()) {
 			if(!strUpperLim.matches(pattern)) {
-				rftc.getTxtSinglePQWarning().setText(strOnlyDecAllowed);
-				this.showControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(ColorService.RED);
+				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
+				this.showControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
 				return;
 			}
 			
-			hideControl(rftc.getTxtSinglePQWarning());
-			rftc.getTxtUpperLimPQSingle().setBackground(ColorService.WHITE);
-			rftc.getTxtLowLimPQSingle().setBackground(ColorService.WHITE);
+			hideControl(rftc.txtSinglePQWarning);
+			rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
+			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
 			
 			upPQ = getNumFromLimit(strUpperLim);
 			if(upPQ.compareTo(getLimitUp()) > 0) {
-				rftc.getTxtSinglePQWarning().setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-				showControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(ColorService.RED);
+				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				showControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
 			}
 			else {
-				hideControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(ColorService.WHITE);
+				hideControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
 			}
-			rftc.getTxtLowLimPQSingle().setBackground(ColorService.WHITE);
+			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
 			return;
 		}
 		
 		
 		if(!strLowLim.isEmpty() && strUpperLim.isEmpty()) {
 			if(!strLowLim.matches(pattern)) {
-				rftc.getTxtSinglePQWarning().setText(strOnlyDecAllowed);
-				this.showControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtLowLimPQSingle().setBackground(ColorService.RED);
+				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
+				this.showControl(rftc.txtSinglePQWarning);
+				rftc.txtLowLimPQSingle.setBackground(ColorService.RED);
 				return;
 			}
 			
-			hideControl(rftc.getTxtSinglePQWarning());
-			rftc.getTxtLowLimPQSingle().setBackground(ColorService.WHITE);
-			rftc.getTxtUpperLimPQSingle().setBackground(ColorService.WHITE);
+			hideControl(rftc.txtSinglePQWarning);
+			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
+			rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
 			
 			
 			return;
@@ -1073,55 +1073,55 @@ public class HandleFirstTab extends GUIHandler {
 			boolean checkPattern = strLowLim.matches(pattern) && strUpperLim.matches(pattern);
 			
 			if(!checkPattern) {
-				rftc.getTxtSinglePQWarning().setText(strOnlyDecAllowed);
-				this.showControl(rftc.getTxtSinglePQWarning());
+				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
+				this.showControl(rftc.txtSinglePQWarning);
 					
 				if(strLowLim.matches(pattern) && !strUpperLim.matches(pattern)) {
-					rftc.getTxtLowLimPQSingle().setBackground(ColorService.WHITE);
-					rftc.getTxtUpperLimPQSingle().setBackground(ColorService.RED);
+					rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
+					rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
 				}
 				
 				if(!strLowLim.matches(pattern) && strUpperLim.matches(pattern)) {
-					rftc.getTxtLowLimPQSingle().setBackground(ColorService.RED);
-					rftc.getTxtUpperLimPQSingle().setBackground(ColorService.WHITE);
+					rftc.txtLowLimPQSingle.setBackground(ColorService.RED);
+					rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
 				}
 				
 				if(!strLowLim.matches(pattern) && !strUpperLim.matches(pattern)) {
-					rftc.getTxtLowLimPQSingle().setBackground(ColorService.RED);
-					rftc.getTxtUpperLimPQSingle().setBackground(ColorService.RED);
+					rftc.txtLowLimPQSingle.setBackground(ColorService.RED);
+					rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
 				}
 				return;
 			}
 			
-			this.hideControl(rftc.getTxtSinglePQWarning());
-			rftc.getTxtLowLimPQSingle().setBackground(ColorService.WHITE);
+			this.hideControl(rftc.txtSinglePQWarning);
+			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
 			
 			
 			upPQ = getNumFromLimit(strUpperLim);
 			lowPQ = getNumFromLimit(strLowLim);
 			
 			if(upPQ.compareTo(getLimitUp()) > 0) {
-				rftc.getTxtSinglePQWarning().setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-				showControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(ColorService.RED);
+				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				showControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
 			}
 			else {
-				hideControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(ColorService.WHITE);
+				hideControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
 				
 				if(lowPQ.compareTo(upPQ) >= 0) {
-					rftc.getTxtSinglePQWarning().setText(strLowerLimitLessUpperLimit);
-					showControl(rftc.getTxtSinglePQWarning());
-					rftc.getTxtLowLimPQSingle().setBackground(ColorService.RED);
-					rftc.getTxtUpperLimPQSingle().setBackground(ColorService.RED);
+					rftc.txtSinglePQWarning.setText(strLowerLimitLessUpperLimit);
+					showControl(rftc.txtSinglePQWarning);
+					rftc.txtLowLimPQSingle.setBackground(ColorService.RED);
+					rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
 				}
 				else {
-					hideControl(rftc.getTxtSinglePQWarning());
-					rftc.getTxtLowLimPQSingle().setBackground(ColorService.WHITE);
-					rftc.getTxtUpperLimPQSingle().setBackground(ColorService.WHITE);
+					hideControl(rftc.txtSinglePQWarning);
+					rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
+					rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
 					
-					if(rftc.getBtnGenKeys().getSelection()) 
-						rftc.getBtnStartGenKeys().setEnabled(true);
+					if(rftc.btnGenKeys.getSelection()) 
+						rftc.btnStartGenKeys.setEnabled(true);
 				}
 				
 				
@@ -1138,72 +1138,72 @@ public class HandleFirstTab extends GUIHandler {
 	 * @param rftc
 	 */
 	public void updateLimitFieldsSingle(RabinFirstTabComposite rftc) {
-		String strLowLim = rftc.getTxtLowLimPQSingle().getText();
-		String strUpperLim = rftc.getTxtUpperLimPQSingle().getText();
+		String strLowLim = rftc.txtLowLimPQSingle.getText();
+		String strUpperLim = rftc.txtUpperLimPQSingle.getText();
 		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
 		
 		Color white = this.getColorBackgroundNeutral();
 		Color wrong = this.getColorBackgroundWrong();
 		
-		if(rftc.getBtnGenKeys().getSelection()) 
-			rftc.getBtnStartGenKeys().setEnabled(false);
+		if(rftc.btnGenKeys.getSelection()) 
+			rftc.btnStartGenKeys.setEnabled(false);
 		
 		BigInteger lowPQ = null;
 		BigInteger upPQ = null;
 		
 		if(strLowLim.isEmpty() && strUpperLim.isEmpty()) {
-			this.hideControl(rftc.getTxtSinglePQWarning());
-			rftc.getTxtLowLimPQSingle().setBackground(white);
-			rftc.getTxtUpperLimPQSingle().setBackground(white);
+			this.hideControl(rftc.txtSinglePQWarning);
+			rftc.txtLowLimPQSingle.setBackground(white);
+			rftc.txtUpperLimPQSingle.setBackground(white);
 			return;
 		}
 		
 		if(strLowLim.isEmpty() && !strUpperLim.isEmpty()) {
 			if(!strUpperLim.matches(pattern)) {
 				// testing and debugging, remove this line when done
-				//this.setSizeControlTest(rftc.getTxtSinglePQWarning(), SWT.DEFAULT, SWT.DEFAULT);
+				//this.setSizeControlTest(rftc.txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
 				
 				
-				rftc.getTxtSinglePQWarning().setText(strOnlyDecAllowed);
+				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
 				
 				
 				
 				
-				this.showControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+				this.showControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(wrong);
 				return;
 			}
 			
-			hideControl(rftc.getTxtSinglePQWarning());
-			rftc.getTxtUpperLimPQSingle().setBackground(white);
-			rftc.getTxtLowLimPQSingle().setBackground(white);
+			hideControl(rftc.txtSinglePQWarning);
+			rftc.txtUpperLimPQSingle.setBackground(white);
+			rftc.txtLowLimPQSingle.setBackground(white);
 			
 			upPQ = getNumFromLimit(strUpperLim);
 			if(upPQ.compareTo(getLimitUp()) > 0) {
-				rftc.getTxtSinglePQWarning().setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-				showControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				showControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(wrong);
 			}
 			else {
-				hideControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(white);
+				hideControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(white);
 			}
-			rftc.getTxtLowLimPQSingle().setBackground(white);
+			rftc.txtLowLimPQSingle.setBackground(white);
 			return;
 		}
 		
 		
 		if(!strLowLim.isEmpty() && strUpperLim.isEmpty()) {
 			if(!strLowLim.matches(pattern)) {
-				rftc.getTxtSinglePQWarning().setText(strOnlyDecAllowed);
-				this.showControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtLowLimPQSingle().setBackground(wrong);
+				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
+				this.showControl(rftc.txtSinglePQWarning);
+				rftc.txtLowLimPQSingle.setBackground(wrong);
 				return;
 			}
 			
-			hideControl(rftc.getTxtSinglePQWarning());
-			rftc.getTxtLowLimPQSingle().setBackground(white);
-			rftc.getTxtUpperLimPQSingle().setBackground(white);
+			hideControl(rftc.txtSinglePQWarning);
+			rftc.txtLowLimPQSingle.setBackground(white);
+			rftc.txtUpperLimPQSingle.setBackground(white);
 			
 			
 			return;
@@ -1214,55 +1214,55 @@ public class HandleFirstTab extends GUIHandler {
 			boolean checkPattern = strLowLim.matches(pattern) && strUpperLim.matches(pattern);
 			
 			if(!checkPattern) {
-				rftc.getTxtSinglePQWarning().setText(strOnlyDecAllowed);
-				this.showControl(rftc.getTxtSinglePQWarning());
+				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
+				this.showControl(rftc.txtSinglePQWarning);
 					
 				if(strLowLim.matches(pattern) && !strUpperLim.matches(pattern)) {
-					rftc.getTxtLowLimPQSingle().setBackground(white);
-					rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+					rftc.txtLowLimPQSingle.setBackground(white);
+					rftc.txtUpperLimPQSingle.setBackground(wrong);
 				}
 				
 				if(!strLowLim.matches(pattern) && strUpperLim.matches(pattern)) {
-					rftc.getTxtLowLimPQSingle().setBackground(wrong);
-					rftc.getTxtUpperLimPQSingle().setBackground(white);
+					rftc.txtLowLimPQSingle.setBackground(wrong);
+					rftc.txtUpperLimPQSingle.setBackground(white);
 				}
 				
 				if(!strLowLim.matches(pattern) && !strUpperLim.matches(pattern)) {
-					rftc.getTxtLowLimPQSingle().setBackground(wrong);
-					rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+					rftc.txtLowLimPQSingle.setBackground(wrong);
+					rftc.txtUpperLimPQSingle.setBackground(wrong);
 				}
 				return;
 			}
 			
-			this.hideControl(rftc.getTxtSinglePQWarning());
-			rftc.getTxtLowLimPQSingle().setBackground(white);
+			this.hideControl(rftc.txtSinglePQWarning);
+			rftc.txtLowLimPQSingle.setBackground(white);
 			
 			
 			upPQ = getNumFromLimit(strUpperLim);
 			lowPQ = getNumFromLimit(strLowLim);
 			
 			if(upPQ.compareTo(getLimitUp()) > 0) {
-				rftc.getTxtSinglePQWarning().setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-				showControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				showControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(wrong);
 			}
 			else {
-				hideControl(rftc.getTxtSinglePQWarning());
-				rftc.getTxtUpperLimPQSingle().setBackground(white);
+				hideControl(rftc.txtSinglePQWarning);
+				rftc.txtUpperLimPQSingle.setBackground(white);
 				
 				if(lowPQ.compareTo(upPQ) >= 0) {
-					rftc.getTxtSinglePQWarning().setText(strLowerLimitLessUpperLimit);
-					showControl(rftc.getTxtSinglePQWarning());
-					rftc.getTxtLowLimPQSingle().setBackground(wrong);
-					rftc.getTxtUpperLimPQSingle().setBackground(wrong);
+					rftc.txtSinglePQWarning.setText(strLowerLimitLessUpperLimit);
+					showControl(rftc.txtSinglePQWarning);
+					rftc.txtLowLimPQSingle.setBackground(wrong);
+					rftc.txtUpperLimPQSingle.setBackground(wrong);
 				}
 				else {
-					hideControl(rftc.getTxtSinglePQWarning());
-					rftc.getTxtLowLimPQSingle().setBackground(white);
-					rftc.getTxtUpperLimPQSingle().setBackground(white);
+					hideControl(rftc.txtSinglePQWarning);
+					rftc.txtLowLimPQSingle.setBackground(white);
+					rftc.txtUpperLimPQSingle.setBackground(white);
 					
-					if(rftc.getBtnGenKeys().getSelection()) 
-						rftc.getBtnStartGenKeys().setEnabled(true);
+					if(rftc.btnGenKeys.getSelection()) 
+						rftc.btnStartGenKeys.setEnabled(true);
 				}
 		
 			}

@@ -57,7 +57,7 @@ public class HandleCryptosystemTextbook {
 	
 	public HandleCryptosystemTextbook(RabinFirstTabComposite rftc) {
 		this.rftc = rftc;
-		this.guiHandler = rftc.getGUIHandler();
+		this.guiHandler = rftc.guiHandler;
 		countClicksForPlaintexts = new int[] {0, 0, 0, 0};
 		currentSelectedPlaintexts = new LinkedHashMap<String, String>();
 	}

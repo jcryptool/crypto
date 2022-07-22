@@ -53,14 +53,14 @@ public class Settings extends Composite {
 		super(parent, style);
 		this.rmv = rmv;
 		this.rftc = rftc;
-		this.cstb = rftc.getCryptosystemTextbookComposite();
-		this.rstc = rftc.getRabinSecondTabComposite();
+		this.cstb = rftc.cstb;
+		this.rstc = rftc.rstc;
 		this.rttc = rttc;
 		guiHandler = new GUIHandler();
 		createContent(this);
 		
-		colorButtonBG = rftc.getBtnStartGenKeys().getBackground();
-		colorButtonFG = rftc.getBtnStartGenKeys().getForeground();
+		colorButtonBG = rftc.btnStartGenKeys.getBackground();
+		colorButtonFG = rftc.btnStartGenKeys.getForeground();
 		
 		if(guiHandler.getDarkmode())
 			setColors();
