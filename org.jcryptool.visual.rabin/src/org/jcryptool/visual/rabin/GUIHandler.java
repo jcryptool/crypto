@@ -991,25 +991,25 @@ public class GUIHandler {
 	
 	
 	public void hideTextbookPart(CryptosystemTextbookComposite cstb) {
-		this.hideControl(cstb.getGrpLoadText());
-		this.hideControl(cstb.getCompHoldSepAndInfoForSelector());
+		this.hideControl(cstb.grpLoadText);
+		this.hideControl(cstb.compHoldSepAndInfoForSelector);
 		this.hideControl(cstb.lblSeparateEncDecWithLoadTextTop);
-		this.hideControl(cstb.getCompHoldEncryptDecryptRadio());
+		this.hideControl(cstb.compHoldEncryptDecryptRadio);
 		this.hideControl(cstb.compHoldInfoForEncDec);
 		this.hideControl(cstb.lblSeparateEncDecWithLoadTextBottom);
-		this.hideControl(cstb.getGrpEncryptDecrypt());
+		this.hideControl(cstb.grpEncryptDecrypt);
 		this.hideControl(cstb.compHoldSepAndInfoEncDec);
 	}
 	
 	
 	public void showTextbookPart(CryptosystemTextbookComposite cstb) {
-		this.showControl(cstb.getGrpLoadText());
-		this.showControl(cstb.getCompHoldSepAndInfoForSelector());
+		this.showControl(cstb.grpLoadText);
+		this.showControl(cstb.compHoldSepAndInfoForSelector);
 		this.showControl(cstb.lblSeparateEncDecWithLoadTextTop);
-		this.showControl(cstb.getCompHoldEncryptDecryptRadio());
+		this.showControl(cstb.compHoldEncryptDecryptRadio);
 		this.showControl(cstb.compHoldInfoForEncDec);
 		this.showControl(cstb.lblSeparateEncDecWithLoadTextBottom);
-		this.showControl(cstb.getGrpEncryptDecrypt());
+		this.showControl(cstb.grpEncryptDecrypt);
 		this.showControl(cstb.compHoldSepAndInfoEncDec);
 	}
 	
