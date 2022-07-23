@@ -65,25 +65,25 @@ public class HandleThirdTab extends GUIHandler {
 	 * @param rttc
 	 */
 	public void updateTextfieldN(TypedEvent e, RabinThirdTabComposite rttc) {
-		String n = rttc.getCmbN().getText();
+		String n = rttc.cmbN.getText();
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
 		
 		Color neutral = this.getColorBackgroundNeutral();
 		Color wrong = this.getColorBackgroundWrong();
 		
-		rttc.getBtnFactorize().setEnabled(false);
+		rttc.btnFactorize.setEnabled(false);
 		
 		if(n.isEmpty()) {
-			rttc.getCmbN().setBackground(neutral);
-			hideControl(rttc.getTxtNWarning());
+			rttc.cmbN.setBackground(neutral);
+			hideControl(rttc.txtNWarning);
 			return;
 		}
 		
 		if(!n.matches(pattern)) {
-			rttc.getCmbN().setBackground(wrong);
+			rttc.cmbN.setBackground(wrong);
 			String strOnlyNumbersGreaterZero = Messages.HandleThirdTab_strOnlyNumbersGreaterZero;
-			rttc.getTxtNWarning().setText(strOnlyNumbersGreaterZero);
-			showControl(rttc.getTxtNWarning());
+			rttc.txtNWarning.setText(strOnlyNumbersGreaterZero);
+			showControl(rttc.txtNWarning);
 			return;
 		}
 		
@@ -91,9 +91,9 @@ public class HandleThirdTab extends GUIHandler {
 		
 		/*if(nAsNum.bitLength() > maxBitLimit) {
 			String strMaxBitlengthOfN = Messages.HandleThirdTab_strMaxBitlengthOfN;
-			rttc.getTxtNWarning().setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
-			showControl(rttc.getTxtNWarning());
-			rttc.getCmbN().setBackground(wrong);
+			rttc.txtNWarning.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
+			showControl(rttc.txtNWarning);
+			rttc.cmbN.setBackground(wrong);
 			return;
 		}*/
 		
@@ -101,9 +101,9 @@ public class HandleThirdTab extends GUIHandler {
 		if(nAsNum.compareTo(getLimitUpAttacks()) > 0) {
 			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + getLimitExpAttacks() + " is allowed";
 			//txtWarning.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
-			rttc.getTxtNWarning().setText(strMaxBitlengthOfN);
-			showControl(rttc.getTxtNWarning());
-			rttc.getCmbN().setBackground(wrong);
+			rttc.txtNWarning.setText(strMaxBitlengthOfN);
+			showControl(rttc.txtNWarning);
+			rttc.cmbN.setBackground(wrong);
 			return;
 		}
 		
@@ -111,24 +111,24 @@ public class HandleThirdTab extends GUIHandler {
 		
 		if(nAsNum.mod(BigInteger.TWO).compareTo(BigInteger.ZERO) == 0) {
 			String strNmustBeOdd = Messages.HandleThirdTab_strNmustBeOdd;
-			rttc.getTxtNWarning().setText(strNmustBeOdd);
-			showControl(rttc.getTxtNWarning());
-			rttc.getCmbN().setBackground(wrong);
+			rttc.txtNWarning.setText(strNmustBeOdd);
+			showControl(rttc.txtNWarning);
+			rttc.cmbN.setBackground(wrong);
 			return;
 		}
 		
 		if(nAsNum.isProbablePrime(1000)) {
 			String strNmustBeComposite = Messages.HandleThirdTab_strNmustBeComposite;
-			rttc.getTxtNWarning().setText(strNmustBeComposite);
-			showControl(rttc.getTxtNWarning());
-			rttc.getCmbN().setBackground(wrong);
+			rttc.txtNWarning.setText(strNmustBeComposite);
+			showControl(rttc.txtNWarning);
+			rttc.cmbN.setBackground(wrong);
 			return;
 		}
 		
-		hideControl(rttc.getTxtNWarning());
-		rttc.getCmbN().setBackground(neutral);
+		hideControl(rttc.txtNWarning);
+		rttc.cmbN.setBackground(neutral);
 		//rttc.getBtnStartGen().setEnabled(true);
-		rttc.getBtnFactorize().setEnabled(true);
+		rttc.btnFactorize.setEnabled(true);
 
 	}
 	
@@ -317,9 +317,9 @@ public class HandleThirdTab extends GUIHandler {
 		checkResult &= this.updateTextfieldxyc(e, rttc, cmbN, txtgx, txtgxWarning, txtNWarning);
 		
 		if(checkResult)
-			rttc.getBtnFactorizePollard().setEnabled(true);
+			rttc.btnFactorizePollard.setEnabled(true);
 		else
-			rttc.getBtnFactorizePollard().setEnabled(false);
+			rttc.btnFactorizePollard.setEnabled(false);
 	}
 
 	
@@ -348,16 +348,16 @@ public class HandleThirdTab extends GUIHandler {
 	 * @param rttc
 	 */
 	private void resetTabContent(RabinThirdTabComposite rttc) {
-		rttc.getFactorTable().removeAll();
+		rttc.factorTable.removeAll();
 		
-		rttc.getTxtP1().setText(""); //$NON-NLS-1$
-		rttc.getTxtP2().setText(""); //$NON-NLS-1$
-		rttc.getTxtResultP().setText(""); //$NON-NLS-1$
-		rttc.getTxtQ1().setText(""); //$NON-NLS-1$
-		rttc.getTxtQ2().setText(""); //$NON-NLS-1$
-		rttc.getTxtResultQ().setText(""); //$NON-NLS-1$
-		rttc.getTxtResultP().setBackground(this.getColorBackgroundNeutral());
-		rttc.getTxtResultQ().setBackground(this.getColorBackgroundNeutral());
+		rttc.txtP1.setText(""); //$NON-NLS-1$
+		rttc.txtP2.setText(""); //$NON-NLS-1$
+		rttc.txtResultP.setText(""); //$NON-NLS-1$
+		rttc.txtQ1.setText(""); //$NON-NLS-1$
+		rttc.txtQ2.setText(""); //$NON-NLS-1$
+		rttc.txtResultQ.setText(""); //$NON-NLS-1$
+		rttc.txtResultP.setBackground(this.getColorBackgroundNeutral());
+		rttc.txtResultQ.setBackground(this.getColorBackgroundNeutral());
 	}
 	
 	
@@ -409,41 +409,41 @@ public class HandleThirdTab extends GUIHandler {
 	 * @param rttc
 	 */
 	public void btnStartGenAction(RabinThirdTabComposite rttc) {
-		if(rttc.getBtnGenKeysMan().getSelection()) {
-			String nStr = rttc.getCmbN().getText();
+		if(rttc.btnGenKeysMan.getSelection()) {
+			String nStr = rttc.cmbN.getText();
 			BigInteger n = new BigInteger(nStr);
 			getRabinFirst().setN(n);
 		}
 		
-		if(rttc.getBtnGenKeysAlgo().getSelection()) {
+		if(rttc.btnGenKeysAlgo.getSelection()) {
 			BigInteger n = getRabinSecond().getN();
 			
 			if(n == null) {
 				String strGenKeyPairTT = Messages.HandleThirdTab_strGenKeyPairTT;
-				rttc.getTxtNWarning().setText(strGenKeyPairTT);
-				showControl(rttc.getTxtNWarning());
+				rttc.txtNWarning.setText(strGenKeyPairTT);
+				showControl(rttc.txtNWarning);
 				return;
 			}
 			
 			
 			/*if(n.bitLength() > maxBitLimit) {
-				rttc.getTxtNWarning().setText("\tAttention: bitlength of N must be <= " + maxBitLimit +  " bits");
-				showControl(rttc.getTxtNWarning());
-				rttc.getCmbN().setBackground(ColorService.RED);
+				rttc.txtNWarning.setText("\tAttention: bitlength of N must be <= " + maxBitLimit +  " bits");
+				showControl(rttc.txtNWarning);
+				rttc.cmbN.setBackground(ColorService.RED);
 				return;
 			}*/
 			
 			
-			hideControl(rttc.getTxtNWarning());
+			hideControl(rttc.txtNWarning);
 			getRabinFirst().setN(n);
-			rttc.getCmbN().setText(n.toString());
+			rttc.cmbN.setText(n.toString());
 			
 		}
 		
 		this.resetTabContent(rttc);
 		
 		
-		rttc.getBtnFactorize().setEnabled(true);
+		rttc.btnFactorize.setEnabled(true);
 	}
 	
 	
@@ -490,7 +490,7 @@ public class HandleThirdTab extends GUIHandler {
 		
 		BigInteger cnt = BigInteger.ONE;
 		
-		rttc.getPollardFactorTable().removeAll();
+		rttc.pollardFactorTable.removeAll();
 		txtpPollard.setText("");
 		txtqPollard.setText("");
 		txtpPollard.setBackground(neutral);
@@ -504,7 +504,7 @@ public class HandleThirdTab extends GUIHandler {
 			BigInteger[] gcdRes = this.getRabinFirst().Gcd(temp, n);
 			d = gcdRes[0];
 			String[] itemContent = new String[] {cnt.toString(), x.toString(), y.toString(), d.toString()};
-			TableItem tableItem= new TableItem(rttc.getPollardFactorTable(), SWT.NONE);
+			TableItem tableItem= new TableItem(rttc.pollardFactorTable, SWT.NONE);
 			tableItem.setText(itemContent);
 			cnt = cnt.add(BigInteger.ONE);
 		}
@@ -578,7 +578,7 @@ public class HandleThirdTab extends GUIHandler {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						rttc.getPollardFactorTable().removeAll();
+						rttc.pollardFactorTable.removeAll();
 						txtpPollard.setText("");
 						txtqPollard.setText("");
 						
@@ -610,7 +610,7 @@ public class HandleThirdTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							TableItem tableItem = new TableItem(rttc.getPollardFactorTable(), SWT.NONE);
+							TableItem tableItem = new TableItem(rttc.pollardFactorTable, SWT.NONE);
 							tableItem.setText(itemContent);
 						}
 					};
@@ -627,8 +627,8 @@ public class HandleThirdTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							showControl(rttc.getTxtInfoStopComputationPollard());
-							rttc.getPollardFactorTable().removeAll();
+							showControl(rttc.txtInfoStopComputationPollard);
+							rttc.pollardFactorTable.removeAll();
 						}
 					};
 					
@@ -697,14 +697,14 @@ public class HandleThirdTab extends GUIHandler {
 	
 	public void btnFactorizePollardAction(RabinThirdTabComposite rttc, Combo cmbNPollard, Text txtxPollard, Text txtyPollard, Text txtcPollard, Text txtWarningNPollard, 
 			Text txtpPollard, Text txtqPollard) {
-		this.hideControl(rttc.getTxtInfoStopComputationPollard());
+		this.hideControl(rttc.txtInfoStopComputationPollard);
 		stopComputationPollard = false;
 		
 		//stopComputation = false;
-		//rttc.getBtnStopComputation().setEnabled(false);
+		//rttc.btnStopComputation.setEnabled(false);
 		
 		//endFermatFactorize = false;
-		//rttc.getBtnStopComputation().setEnabled(false);
+		//rttc.btnStopComputation.setEnabled(false);
 		
 		if(threadPollardFactorize == null) {
 			threadPollardFactorize = btnFactorizePollard(rttc, cmbNPollard, txtxPollard, txtyPollard, txtcPollard, txtWarningNPollard, txtpPollard, txtqPollard);
@@ -730,7 +730,7 @@ public class HandleThirdTab extends GUIHandler {
 	
 	public Thread btnFactorizeAction(RabinThirdTabComposite rttc) {
 		endFermatFactorize = false;
-		hideControl(rttc.getTxtNWarning());
+		hideControl(rttc.txtNWarning);
 		
 		Thread t = new Thread(new Runnable() {
 			
@@ -751,25 +751,25 @@ public class HandleThirdTab extends GUIHandler {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						rttc.getTxtP1().setText("");
-						rttc.getTxtP2().setText("");
-						rttc.getTxtResultP().setText("");
-						//rttc.getTxtP1().setBackground(getColorBGinfo());
-						//rttc.getTxtP1().setBackground(getColorBGinfo());
+						rttc.txtP1.setText("");
+						rttc.txtP2.setText("");
+						rttc.txtResultP.setText("");
+						//rttc.txtP1.setBackground(getColorBGinfo());
+						//rttc.txtP1.setBackground(getColorBGinfo());
 						if(getDarkmode())
-							rttc.getTxtResultP().setBackground(getColorDarkModeBG());
+							rttc.txtResultP.setBackground(getColorDarkModeBG());
 						else
-							rttc.getTxtResultP().setBackground(getColorBGinfo());
-						rttc.getTxtQ1().setText("");
-						rttc.getTxtQ2().setText("");
-						rttc.getTxtResultQ().setText("");
+							rttc.txtResultP.setBackground(getColorBGinfo());
+						rttc.txtQ1.setText("");
+						rttc.txtQ2.setText("");
+						rttc.txtResultQ.setText("");
 						
 						if(getDarkmode())
-							rttc.getTxtResultQ().setBackground(getColorDarkModeBG());
+							rttc.txtResultQ.setBackground(getColorDarkModeBG());
 						else
-							rttc.getTxtResultQ().setBackground(getColorBGinfo());
+							rttc.txtResultQ.setBackground(getColorBGinfo());
 					
-						nAsStr = rttc.getCmbN().getText();
+						nAsStr = rttc.cmbN.getText();
 							
 					}
 				};
@@ -787,10 +787,10 @@ public class HandleThirdTab extends GUIHandler {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						hideControl(rttc.getTxtNWarning());
-						rttc.getCmbN().setBackground(neutral);
+						hideControl(rttc.txtNWarning);
+						rttc.cmbN.setBackground(neutral);
 						
-						rttc.getFactorTable().removeAll();
+						rttc.factorTable.removeAll();
 						
 					}
 				};
@@ -813,7 +813,7 @@ public class HandleThirdTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							TableItem tableItem = new TableItem(rttc.getFactorTable(), SWT.NONE);
+							TableItem tableItem = new TableItem(rttc.factorTable, SWT.NONE);
 							tableItem.setText(tableComponents);
 						}
 					};
@@ -830,9 +830,9 @@ public class HandleThirdTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							//rttc.getTxtNWarning().setText("stopped computation successfully");
-							showControl(rttc.getTxtInfoStopComputation());
-							rttc.getFactorTable().removeAll();
+							//rttc.txtNWarning.setText("stopped computation successfully");
+							showControl(rttc.txtInfoStopComputation);
+							rttc.factorTable.removeAll();
 						}
 					};
 					
@@ -855,14 +855,14 @@ public class HandleThirdTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							rttc.getTxtP1().setText(y.toString());
-							rttc.getTxtP2().setText(y_2_nSquare.toString());
-							rttc.getTxtResultP().setText(p.toString());
-							rttc.getTxtQ1().setText(y.toString());
-							rttc.getTxtQ2().setText(y_2_nSquare.toString());
-							rttc.getTxtResultQ().setText(q.toString());
-							rttc.getTxtResultP().setBackground(correct);
-							rttc.getTxtResultQ().setBackground(correct);
+							rttc.txtP1.setText(y.toString());
+							rttc.txtP2.setText(y_2_nSquare.toString());
+							rttc.txtResultP.setText(p.toString());
+							rttc.txtQ1.setText(y.toString());
+							rttc.txtQ2.setText(y_2_nSquare.toString());
+							rttc.txtResultQ.setText(q.toString());
+							rttc.txtResultP.setBackground(correct);
+							rttc.txtResultQ.setBackground(correct);
 					
 						}
 					};
@@ -878,8 +878,8 @@ public class HandleThirdTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							rttc.getTxtNWarning().setText(strCouldNotFindPandQ);
-							showControl(rttc.getTxtNWarning());
+							rttc.txtNWarning.setText(strCouldNotFindPandQ);
+							showControl(rttc.txtNWarning);
 						}
 					};
 					
@@ -899,14 +899,14 @@ public class HandleThirdTab extends GUIHandler {
 	
 	
 	public void btnFactorizeFermatAction(RabinThirdTabComposite rttc) {
-		this.hideControl(rttc.getTxtInfoStopComputation());
+		this.hideControl(rttc.txtInfoStopComputation);
 		stopComputation = false;
 		
 		//stopComputation = false;
-		//rttc.getBtnStopComputation().setEnabled(false);
+		//rttc.btnStopComputation.setEnabled(false);
 		
 		//endFermatFactorize = false;
-		//rttc.getBtnStopComputation().setEnabled(false);
+		//rttc.btnStopComputation.setEnabled(false);
 		
 		if(fermatFactorizeThread == null) {
 			fermatFactorizeThread = btnFactorizeAction(rttc);
@@ -915,7 +915,7 @@ public class HandleThirdTab extends GUIHandler {
 		/*else {
 			this.setStopComputation(true);
 			fermatFactorizeThread = null;
-			//rttc.getFactorTable().removeAll();
+			//rttc.factorTable.removeAll();
 			fermatFactorizeThread = btnFactorizeAction(rttc);
 			fermatFactorizeThread.start();
 		}*/
@@ -931,11 +931,11 @@ public class HandleThirdTab extends GUIHandler {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				String resultP = rttc.getTxtResultP().getText();
-				String resultQ = rttc.getTxtResultQ().getText();
+				String resultP = rttc.txtResultP.getText();
+				String resultQ = rttc.txtResultQ.getText();
 				
 				if(resultP.isEmpty() && resultQ.isEmpty()) {
-					rttc.getBtnStopComputation().setEnabled(true);
+					rttc.btnStopComputation.setEnabled(true);
 					
 				}
 			}
@@ -944,12 +944,12 @@ public class HandleThirdTab extends GUIHandler {
 		Display.getDefault().timerExec(3000, r);*/
 		
 		
-		/*String resultP = rttc.getTxtResultP().getText();
-		String resultQ = rttc.getTxtResultQ().getText();
+		/*String resultP = rttc.txtResultP.getText();
+		String resultQ = rttc.txtResultQ.getText();
 		
 		
 		if(resultP.isEmpty() && resultQ.isEmpty())
-			rttc.getBtnStopComputation().setEnabled(true);*/
+			rttc.btnStopComputation.setEnabled(true);*/
 
 	}
 	
@@ -958,19 +958,19 @@ public class HandleThirdTab extends GUIHandler {
 	public void btnStopComputation(RabinThirdTabComposite rttc) {
 		this.setStopComputation(true);
 		fermatFactorizeThread = null;
-		//rttc.getBtnStopComputation().setEnabled(false);
+		//rttc.btnStopComputation.setEnabled(false);
 	}
 	
 	
 	
 	public void txtResultPQAction(RabinThirdTabComposite rttc) {
-		String strResultP = rttc.getTxtResultP().getText();
-		String strResultQ = rttc.getTxtResultQ().getText();
+		String strResultP = rttc.txtResultP.getText();
+		String strResultQ = rttc.txtResultQ.getText();
 		
 		if(strResultP.isEmpty() && strResultQ.isEmpty())
 			return;
 		
-		rttc.getBtnStopComputation().setEnabled(false);
+		rttc.btnStopComputation.setEnabled(false);
 	}
 	
 	
@@ -992,10 +992,10 @@ public class HandleThirdTab extends GUIHandler {
 //		
 //		
 //		
-//		hideControl(rttc.getTxtNWarning());
+//		hideControl(rttc.txtNWarning);
 //		rttc.getTxtN().setBackground(neutral);
 //		
-//		rttc.getFactorTable().removeAll();
+//		rttc.factorTable.removeAll();
 //		
 //		
 //		BigInteger y = n.sqrt();
@@ -1011,7 +1011,7 @@ public class HandleThirdTab extends GUIHandler {
 //			y_2_nSquare = y_2_nAsBigDecimal.sqrt(new MathContext(y_2_nAsBigDecimal.precision() + 5, RoundingMode.FLOOR));
 //
 //			String[] tableComponents = new String[] {y.toString(), y_2.toString(), y_2_n.toString(), y_2_nSquare.toString()};
-//			TableItem tableItem= new TableItem(rttc.getFactorTable(), SWT.NONE);
+//			TableItem tableItem= new TableItem(rttc.factorTable, SWT.NONE);
 //			tableItem.setText(tableComponents);
 //			
 //		}while(!getRabinFirst().isInteger(y_2_nSquare)); 
@@ -1022,19 +1022,19 @@ public class HandleThirdTab extends GUIHandler {
 //		boolean isValidPrime = p.isProbablePrime(1000) && q.isProbablePrime(1000);
 //		
 //		if(isValidPrime) {
-//			rttc.getTxtP1().setText(y.toString());
-//			rttc.getTxtP2().setText(y_2_nSquare.toString());
-//			rttc.getTxtResultP().setText(p.toString());
-//			rttc.getTxtQ1().setText(y.toString());
-//			rttc.getTxtQ2().setText(y_2_nSquare.toString());
-//			rttc.getTxtResultQ().setText(q.toString());
-//			rttc.getTxtResultP().setBackground(correct);
-//			rttc.getTxtResultQ().setBackground(correct);
+//			rttc.txtP1.setText(y.toString());
+//			rttc.txtP2.setText(y_2_nSquare.toString());
+//			rttc.txtResultP.setText(p.toString());
+//			rttc.txtQ1.setText(y.toString());
+//			rttc.txtQ2.setText(y_2_nSquare.toString());
+//			rttc.txtResultQ.setText(q.toString());
+//			rttc.txtResultP.setBackground(correct);
+//			rttc.txtResultQ.setBackground(correct);
 //		}
 //		else {
 //			String strCouldNotFindPandQ = Messages.HandleThirdTab_strCouldNotFindPandQ;
-//			rttc.getTxtNWarning().setText(strCouldNotFindPandQ);
-//			showControl(rttc.getTxtNWarning());
+//			rttc.txtNWarning.setText(strCouldNotFindPandQ);
+//			showControl(rttc.txtNWarning);
 //		}
 //
 //	}
