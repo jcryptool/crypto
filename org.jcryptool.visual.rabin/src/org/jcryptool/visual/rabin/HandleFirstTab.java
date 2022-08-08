@@ -33,16 +33,26 @@ public class HandleFirstTab extends GUIHandler {
 	private String strUpperLimitRestriction = Messages.HandleFirstTab_strUpperLimitRestriction;
 	private String strLowerLimitLessUpperLimit = Messages.HandleFirstTab_strLowerLimitLessUpperLimit;
 	private String strAppropriatePrimesWarning = Messages.HandleFirstTab_strAppropriatePrimesWarning;
-	
+	public boolean stopComputation = false;
 
+//	/**
+//	 * @param scMain
+//	 * @param compMain
+//	 * @param rabinFirst
+//	 * @param rabinSecond
+//	 */
+//	public HandleFirstTab(ScrolledComposite scMain, Composite compMain, Rabin rabinFirst, Rabin rabinSecond) {
+//		super(scMain, compMain, rabinFirst, rabinSecond);
+//	}
+	
 	/**
 	 * @param scMain
 	 * @param compMain
 	 * @param rabinFirst
 	 * @param rabinSecond
 	 */
-	public HandleFirstTab(ScrolledComposite scMain, Composite compMain, Rabin rabinFirst, Rabin rabinSecond) {
-		super(scMain, compMain, rabinFirst, rabinSecond);
+	public HandleFirstTab(ScrolledComposite scMain, Composite compMain, Rabin rabin) {
+		super(scMain, compMain, rabin);
 	}
 	
 	
@@ -124,7 +134,7 @@ public class HandleFirstTab extends GUIHandler {
 				BigInteger primeQ = null;
 				BigInteger resP = null;
 				BigInteger resQ = null;
-				setStopComputation(false);
+				stopComputation = false;
 				
 				do {
 					resP = new BigInteger(up.bitLength(), rand);
@@ -153,13 +163,13 @@ public class HandleFirstTab extends GUIHandler {
 					
 					// delete the stopComputation is the while loop if you want to remove the
 					// stop button
-				}while(!(getRabinFirst().isAppropriatePrime(primeP, low, up)
-							&& getRabinFirst().isAppropriatePrime(primeQ, low, up)
+				}while(!(rabinFirst.isAppropriatePrime(primeP, low, up)
+							&& rabinFirst.isAppropriatePrime(primeQ, low, up)
 							&& !primeP.equals(primeQ)
-							&& getRabinFirst().isCompositeSuitable(primeP, primeQ)
-							) && iterations > 0 && !getStopComputation());
+							&& rabinFirst.isCompositeSuitable(primeP, primeQ)
+							) && iterations > 0 && !stopComputation);
 				
-				if(getStopComputation()) {
+				if(stopComputation) {
 					return;
 				}
 				
@@ -201,15 +211,11 @@ public class HandleFirstTab extends GUIHandler {
 				BigInteger p = new BigInteger(strPrimeP);
 				BigInteger q = new BigInteger(strPrimeQ);
 				BigInteger n = p.multiply(q);
-				getRabinFirst().setP(p);
-				getRabinFirst().setQ(q);
-				getRabinFirst().setN(n);
+				rabinFirst.setP(p);
+				rabinFirst.setQ(q);
+				rabinFirst.setN(n);
 				
-				
-				
-				//txtP.removeVerifyListener(vlNumbers);
-				//txtQ.removeVerifyListener(vlNumbers);
-				
+					
 				Runnable r3 = new Runnable() {
 					
 					@Override
@@ -217,12 +223,6 @@ public class HandleFirstTab extends GUIHandler {
 						// TODO Auto-generated method stub
 						rftc.cmbP.setText(strPrimeP);
 						rftc.cmbQ.setText(strPrimeQ);
-						
-						
-						//txtP.addVerifyListener(vlNumbers);
-						//txtQ.addVerifyListener(vlNumbers);
-						
-						
 						rftc.txtModN.setText(n.toString());
 					}
 				};				
@@ -230,16 +230,16 @@ public class HandleFirstTab extends GUIHandler {
 				Display.getDefault().asyncExec(r3);
 				
 				
-				int bitlength = getRabinFirst().getN().bitLength();
+				int bitlength = rabinFirst.getN().bitLength();
 				int maxBytesPerBlock = bitlength / 8;
 						
-				int bytesPerBlock = (bitlength / 8) * 2;
+				int ibytesPerBlock = (bitlength / 8) * 2;
 				int blocklength = ((bitlength / 8) + 1) * 2;
-				setBytesPerBlock(bytesPerBlock);
-				setBlocklength(blocklength);
+				bytesPerBlock = ibytesPerBlock;
+				blocklength = blocklength;
 				
-				rstc.guiHandler.setBlocklength(blocklength);
-				rstc.guiHandler.setBytesPerBlock(2);
+				rstc.guiHandler.blocklength = blocklength;
+				rstc.guiHandler.bytesPerBlock = 2;
 				
 				Runnable r4 = new Runnable() {
 					
@@ -290,13 +290,7 @@ public class HandleFirstTab extends GUIHandler {
 					}
 				};
 				
-				
-				
 				Display.getDefault().asyncExec(r4);
-				
-				
-				//return;
-
 			}
 		});
 		
@@ -340,7 +334,7 @@ public class HandleFirstTab extends GUIHandler {
 		BigInteger primeQ = null;
 		BigInteger resP = null;
 		BigInteger resQ = null;
-		this.setStopComputation(false);
+		this.stopComputation = false;
 		
 		do {
 			resP = new BigInteger(up.bitLength(), rand);
@@ -369,13 +363,13 @@ public class HandleFirstTab extends GUIHandler {
 			
 			// delete the stopComputation is the while loop if you want to remove the
 			// stop button
-		}while(!(getRabinFirst().isAppropriatePrime(primeP, low, up)
-					&& getRabinFirst().isAppropriatePrime(primeQ, low, up)
+		}while(!(rabinFirst.isAppropriatePrime(primeP, low, up)
+					&& rabinFirst.isAppropriatePrime(primeQ, low, up)
 					&& !primeP.equals(primeQ)
-					&& getRabinFirst().isCompositeSuitable(primeP, primeQ)
-					) && iterations > 0 && !this.getStopComputation());
+					&& rabinFirst.isCompositeSuitable(primeP, primeQ)
+					) && iterations > 0 && !this.stopComputation);
 		
-		if(this.getStopComputation()) {
+		if(this.stopComputation) {
 			return false;
 		}
 		
@@ -395,9 +389,9 @@ public class HandleFirstTab extends GUIHandler {
 		BigInteger p = new BigInteger(strPrimeP);
 		BigInteger q = new BigInteger(strPrimeQ);
 		BigInteger n = p.multiply(q);
-		getRabinFirst().setP(p);
-		getRabinFirst().setQ(q);
-		getRabinFirst().setN(n);
+		rabinFirst.setP(p);
+		rabinFirst.setQ(q);
+		rabinFirst.setN(n);
 		
 		
 		
@@ -476,10 +470,10 @@ public class HandleFirstTab extends GUIHandler {
 			
 			iterations--;
 			
-		}while(!(getRabinFirst().isAppropriatePrime(primeP, lowP, upP)
-					&& getRabinFirst().isAppropriatePrime(primeQ, lowQ, upQ)
+		}while(!(rabinFirst.isAppropriatePrime(primeP, lowP, upP)
+					&& rabinFirst.isAppropriatePrime(primeQ, lowQ, upQ)
 					&& !primeP.equals(primeQ)
-					&& getRabinFirst().isCompositeSuitable(primeP, primeQ)
+					&& rabinFirst.isCompositeSuitable(primeP, primeQ)
 					) && iterations > 0);
 		
 		
@@ -497,38 +491,14 @@ public class HandleFirstTab extends GUIHandler {
 		BigInteger p = new BigInteger(strPrimeP);
 		BigInteger q = new BigInteger(strPrimeQ);
 		BigInteger n = p.multiply(q);
-		getRabinFirst().setP(p);
-		getRabinFirst().setQ(q);
-		getRabinFirst().setN(n);		
+		rabinFirst.setP(p);
+		rabinFirst.setQ(q);
+		rabinFirst.setN(n);		
 		rftc.cmbP.setText(strPrimeP);
 		rftc.cmbQ.setText(strPrimeQ);
 		rftc.txtModN.setText(n.toString());
 		
 		return true;
-	}
-	
-	
-	
-	
-	/**
-	 * action for txtModN
-	 * @param txtModN
-	 * @param btnEncDecStart
-	 */
-	public void updateEncryptButton(Text txtModN, Button btnEncrypt, TextLoadController textSelector) {
-		
-		String n = txtModN.getText();
-		String plaintextToEncrypt = textSelector.getText().getText();
-		
-		boolean check = n.isEmpty() || plaintextToEncrypt.isEmpty();
-		
-		if(check) {
-			btnEncrypt.setEnabled(false);
-			return;
-		}
-		
-		btnEncrypt.setEnabled(true);
-		
 	}
 	
 	
@@ -546,7 +516,6 @@ public class HandleFirstTab extends GUIHandler {
 			hideControl(rftc.compSelectPrimeGen);
 			String info = this.getMessageByControl("btnGenKeysMan_selection");
 			rftc.txtInfoSetParam.setText(info);
-			//this.updateTextfields(rftc.cmbP, rftc.cmbQ, rftc.btnGenKeysMan, rftc.btnStartGenKeys, rftc.getTxtWarningNpq());
 			this.updateTextfields(rftc);
 		}
 	}
@@ -583,84 +552,14 @@ public class HandleFirstTab extends GUIHandler {
 		}
 	}
 	
-	
-	
-	
-	/**
-	 * action for btnUseKeysAlgo
-	 * @param rftc
-	 * @param e
-	 */
-	public void btnUseKeysAlgoAction(RabinFirstTabComposite rftc, SelectionEvent e) {
-		Button src = (Button) e.getSource();
-		
-		if(src.getSelection()) {
-			rftc.btnStartGenKeys.setEnabled(true);
-		}
-	}
-	
-	
-	
 
-	
-	/**
-	 * action for btnStartGenKeys
-	 * @param rftc
-	 * @param iterations
-	 */
-	/*public void btnStartGenKeysAction(RabinFirstTabComposite rftc, int iterations) {
-		if(rftc.btnGenKeysMan.getSelection()) {
-			this.btnGenKeysManAction(rftc.getTxtP(), rftc.getTxtQ(), rftc.txtModN);
-		}
-		
-		if(rftc.btnGenKeys.getSelection()) {
-			
-			if(rftc.btnSelectSingleLimit.getSelection()) {
-				String strLow = rftc.txtLowLimPQSingle.getText();
-				String strUp = rftc.txtUpperLimPQSingle.getText();
-				
-				boolean success = this.generateKeysWithLimitSingle(rftc, strLow, strUp, iterations);
-				if(!success)
-					return;
-			}
-			
-			if(rftc.btnSelectMultiPandQ.getSelection()) {
-				String strLowP = rftc.txtLowLimP.getText();
-				String strUpP = rftc.txtUpperLimP.getText();
-				String strLowQ = rftc.txtLowLimQ.getText();
-				String strUpQ = rftc.txtUpperLimQ.getText();
-				
-				boolean success = this.generateKeysWithLimit(rftc, strLowP, strUpP, strLowQ, strUpQ, iterations);
-				if(!success)
-					return;
-			}
-			
-		}
-		
-	
-		
-		//guiHandler.btnStartGenKeysAction(txtLowLimP, txtLowLimQ, txtUpperLimP, txtUpperLimQ, txtcompGenPandQWarning);
-		
-		int bytesPerBlock = (getRabinFirst().getN().bitLength() / 8) * 2;
-		int blocklength = ((getRabinFirst().getN().bitLength() / 8) + 1) * 2;
-		this.setBytesPerBlock(bytesPerBlock);
-		this.setBlocklength(blocklength);
-		
-		rftc.txtLowLimP.setBackground(ColorService.WHITE);
-		rftc.txtLowLimQ.setBackground(ColorService.WHITE);
-		rftc.txtUpperLimP.setBackground(ColorService.WHITE);
-		rftc.txtUpperLimQ.setBackground(ColorService.WHITE);
-		
-		hideControl(rftc.txtcompGenPandQWarning);
-	}*/
-	
 	
 	
 	public void initializePrimes(int numOfPrimes, RabinFirstTabComposite rftc) {
 		
 		for(int i = 0, count = 0; count < numOfPrimes; i++) {
 			BigInteger possiblePrime = BigInteger.valueOf(i);
-			if(this.getRabinFirst().isSuitablePrime(possiblePrime)) {
+			if(this.rabinFirst.isSuitablePrime(possiblePrime)) {
 				rftc.cmbP.add(possiblePrime.toString());
 				rftc.cmbQ.add(possiblePrime.toString());
 				count++;
@@ -676,27 +575,14 @@ public class HandleFirstTab extends GUIHandler {
 		int idx = cmbP.getSelectionIndex();
 		String item = cmbP.getItem(idx);
 		
-		//cmbP.removeVerifyListener(vlNumbers);
 		cmbP.setText(item);
-		//cmbP.addVerifyListener(vlNumbers);
 	}
-	
-	
-	
-	public void cmbQSelectionAction(Combo cmbQ) {
-		int idx = cmbQ.getSelectionIndex();
-		String item = cmbQ.getItem(idx);
-		
-		cmbQ.setText(item);
-	}
-	
 	
 	
 	
 	
 	
 	public void btnStartGenKeysAction(RabinFirstTabComposite rftc, RabinSecondTabComposite rstc, int iterations) {
-		//Thread t = null;
 		
 		if(rftc.btnGenKeysMan.getSelection()) {
 			this.btnGenKeysManAction(rftc.cmbP, rftc.cmbQ, rftc.txtModN);
@@ -708,10 +594,7 @@ public class HandleFirstTab extends GUIHandler {
 				
 				String strLow = rftc.txtLowLimPQSingle.getText();
 				String strUp = rftc.txtUpperLimPQSingle.getText();
-			
-				//generateKeysWithLimitSingle(rftc, strLow, strUp, iterations).start();
-				//return;
-				
+					
 				boolean success = generateKeysWithLimitSingle(rftc, strLow, strUp, iterations);
 				
 				if(!success)
@@ -732,50 +615,17 @@ public class HandleFirstTab extends GUIHandler {
 			
 		}
 		
-		/*if(rftc.getBtnUseKeysAlgo().getSelection()) {
-			BigInteger n = getRabinSecond().getN();
-			if(n == null) {
-				String strGenKeyPairFT = Messages.HandleFirstTab_strGenKeyPairFT;
-				//rftc.txtcompGenPandQWarning.setText(strGenKeyPairFT);
-				//showControl(rftc.txtcompGenPandQWarning);
-				rftc.getNWarning().setText(strGenKeyPairFT);
-				showControl(rftc.getNWarning());
-				return;
-			}
-			//hideControl(rftc.txtcompGenPandQWarning);
-			hideControl(rftc.getNWarning());
-			
-			
-			getRabinFirst().setP(getRabinSecond().getP());
-			getRabinFirst().setQ(getRabinSecond().getQ());
-			getRabinFirst().setN(getRabinSecond().getN());
-			
-			//rftc.getTxtP().removeVerifyListener(vlNumbers);
-			//rftc.getTxtQ().removeVerifyListener(vlNumbers);
-			rftc.getTxtP().setText(getRabinFirst().getP().toString());
-			rftc.getTxtQ().setText(getRabinFirst().getQ().toString());
-			//rftc.getTxtP().addVerifyListener(vlNumbers);
-			//rftc.getTxtQ().addVerifyListener(vlNumbers);
-			rftc.txtModN.setText(getRabinFirst().getN().toString());
-			
-			//guiHandler.btnUseKeysAlgoAction(txtP, txtQ, txtModN, vlNumbers, txtcompGenPandQWarning);
-		}*/
 		
-		//guiHandler.btnStartGenKeysAction(txtLowLimP, txtLowLimQ, txtUpperLimP, txtUpperLimQ, txtcompGenPandQWarning);
-		
-		
-	
-		
-		int bitlength = getRabinFirst().getN().bitLength();
+		int bitlength = rabinFirst.getN().bitLength();
 		int maxBytesPerBlock = bitlength / 8;
 				
-		int bytesPerBlock = (bitlength / 8) * 2;
+		int ibytesPerBlock = (bitlength / 8) * 2;
 		int blocklength = ((bitlength / 8) + 1) * 2;
-		this.setBytesPerBlock(bytesPerBlock);
-		this.setBlocklength(blocklength);
+		bytesPerBlock = ibytesPerBlock;
+		this.blocklength = blocklength;
 		
-		rstc.guiHandler.setBlocklength(blocklength);
-		rstc.guiHandler.setBytesPerBlock(2);
+		rstc.guiHandler.blocklength = blocklength;
+		rstc.guiHandler.bytesPerBlock = 2;
 		
 		
 		rstc.cmbBlockN.removeAll();
@@ -821,318 +671,6 @@ public class HandleFirstTab extends GUIHandler {
 	}
 	
 	
-	
-	
-	
-	
-	/**
-	 * action for btnEncDecStart
-	 * @param textSelector
-	 * @param txtEnc
-	 * @param txtEncDecStartWarning
-	 * @param txtChosenPlain
-	 * @param plaintexts
-	 * @param btnRadEnc
-	 * @param btnRadDec
-	 */
-	public void btnEncDecStartAction(TextLoadController textSelector, Text txtEnc, Text txtEncDecStartWarning, Text txtChosenPlain, Text[][] plaintexts, Button btnRadEnc, Button btnRadDec) {
-		if(textSelector.getText() == null || textSelector.getText().getText().isEmpty()) {
-			String strLoadTextWarning = Messages.HandleFirstTab_strLoadTextWarning;
-			txtEncDecStartWarning.setText(strLoadTextWarning);
-			showControl(txtEncDecStartWarning);
-			return;
-		}
-
-		hideControl(txtEncDecStartWarning);
-		
-		if(btnRadEnc.getSelection()) {
-		
-		
-			String plaintext = textSelector.getText().getText();
-			String ciphertext = getRabinFirst().encryptPlaintext(plaintext, getBytesPerBlock(), getBlocklength(), getRadix());
-			
-			
-			txtEnc.setText(ciphertext);
-			
-		}
-		
-		if(btnRadDec.getSelection()) {
-			
-			//int x = 4;
-			//int y = 5;
-			String pattern = "[0-9a-fA-F]+"; //$NON-NLS-1$
-			String ciphertext = textSelector.getText().getText();
-			ciphertext = ciphertext.replaceAll("\\s+", ""); //$NON-NLS-1$ //$NON-NLS-2$
-			
-			if(!ciphertext.matches(pattern)) {
-				String strOnlyHexAllowed = Messages.HandleFirstTab_strOnlyHexAllowed;
-				txtEncDecStartWarning.setText(strOnlyHexAllowed);
-				showControl(txtEncDecStartWarning);
-				return;
-			}
-			
-			boolean checkLength = ciphertext.length() % getBlocklength() == 0;
-			
-			if(!checkLength) {
-				String strLengthCipher = Messages.HandleFirstTab_strLengthCipher;
-				txtEncDecStartWarning.setText(MessageFormat.format(
-						strLengthCipher,
-						(getBlocklength() / 2)));
-				showControl(txtEncDecStartWarning);
-				return;
-			}
-			
-			hideControl(txtEncDecStartWarning);
-			txtChosenPlain.setText(""); //$NON-NLS-1$
-			
-			for(int i = 0; i < plaintexts.length; i++) {
-				for(int j = 0; j < plaintexts[i].length; j++) {
-					plaintexts[i][j].setText(""); //$NON-NLS-1$
-				}
-			}
-			
-			ArrayList<String> ciphertextList = getRabinFirst().parseString(ciphertext, getBlocklength());
-			
-			int lengthToWork = 0;
-			
-			if(ciphertextList.size() > 5) {
-				lengthToWork = 5;
-			}
-			else
-				lengthToWork = ciphertextList.size();
-			
-			
-			for(int i = 0; i < lengthToWork; i++) {
-				String currentCiphertext = ciphertextList.get(i);
-				BigInteger currCiphertextAsNum = new BigInteger(currentCiphertext, getRadix());
-				ArrayList<String> possiblePlaintexts = getRabinFirst().getPossiblePlaintextsEncoded(currCiphertextAsNum);
-				for(int j = 0; j < plaintexts.length; j++) {
-					plaintexts[j][i].setText(possiblePlaintexts.get(j));
-				}
-			}
-		}
-	}
-	
-	
-	
-	
-	/**
-	 * action for tableMouseDown
-	 * @param e
-	 * @param txtChosenPlain
-	 * @param txtChosenPlainInfo
-	 * @param plaintexts
-	 */
-	public void tableMouseDownAction(MouseEvent e, Text txtChosenPlain, Text txtChosenPlainInfo, Text[][] plaintexts) {
-		Text src = (Text) e.getSource();
-		
-		src.setBackground(ColorService.LIGHT_AREA_BLUE);
-		
-		String plaintext = src.getText();
-		txtChosenPlain.setText(plaintext);
-		
-		for(int i = 0; i < plaintexts.length; i++) {
-			for(int j = 0; j < plaintexts[i].length; j++) {
-				if(!plaintexts[i][j].equals(src)) {
-					plaintexts[i][j].setBackground(ColorService.WHITE);
-				}
-				else
-					txtChosenPlainInfo.setText("c[" + (i+1) + "]" + "[" + (j+1) + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			}
-		}
-
-	}
-	
-	
-	
-	
-	/**
-	 * action for tableMouseEnter
-	 * @param e
-	 */
-	public void tableMouseEnterAction(MouseEvent e) {
-		Text src = (Text) e.getSource();
-		src.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_ARROW));
-	}
-	
-	
-	
-	
-	/**
-	 * action for btnWriteToEditor
-	 * @param btnRadEnc
-	 * @param btnRadDec
-	 * @param txtEnc
-	 * @param txtChosenPlain
-	 * @throws PartInitException
-	 */
-	public void btnWriteToEditorAction(Button btnRadEnc, Button btnRadDec, Text txtEnc, Text txtChosenPlain) throws PartInitException {
-		if(btnRadEnc.getSelection()) {
-			String ciphertext = txtEnc.getText();
-			int len = ciphertext.length();
-			String ciphertextForFile= ""; //$NON-NLS-1$
-			int limit = 100;
-			
-			if(len < 100) {
-				ciphertextForFile = ciphertext;
-			}
-			else {
-			
-				for(int i = 0; i < len; i++) {
-					ciphertextForFile += ciphertext.charAt(i);
-					if((i+1) % limit == 0)
-						ciphertextForFile += "\n"; //$NON-NLS-1$
-				}
-			}
-			
-			
-			IEditorInput customEditorInput = AbstractEditorService.createOutputFile(ciphertextForFile);
-			EditorsManager.getInstance().openNewTextEditor(customEditorInput);
-		
-		}
-		
-		if(btnRadDec.getSelection()) {
-			String plaintext = txtChosenPlain.getText();
-			IEditorInput customEditorInput = AbstractEditorService.createOutputFile(plaintext);
-			EditorsManager.getInstance().openNewTextEditor(customEditorInput);
-			
-		}
-	}
-	
-	
-	
-	
-	
-	
-	/*public void updateLimitFieldsSingle(RabinFirstTabComposite rftc) {
-		String strLowLim = rftc.txtLowLimPQSingle.getText();
-		String strUpperLim = rftc.txtUpperLimPQSingle.getText();
-		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
-		
-		Color white = this.getColorBackgroundNeutral();
-		Color wrong = this.getColorBackgroundWrong();
-		
-		if(rftc.btnGenKeys.getSelection()) 
-			rftc.btnStartGenKeys.setEnabled(false);
-		
-		BigInteger lowPQ = null;
-		BigInteger upPQ = null;
-		
-		if(strLowLim.isEmpty() && strUpperLim.isEmpty()) {
-			this.hideControl(rftc.txtSinglePQWarning);
-			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
-			rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
-			return;
-		}
-		
-		if(strLowLim.isEmpty() && !strUpperLim.isEmpty()) {
-			if(!strUpperLim.matches(pattern)) {
-				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
-				this.showControl(rftc.txtSinglePQWarning);
-				rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
-				return;
-			}
-			
-			hideControl(rftc.txtSinglePQWarning);
-			rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
-			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
-			
-			upPQ = getNumFromLimit(strUpperLim);
-			if(upPQ.compareTo(getLimitUp()) > 0) {
-				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-				showControl(rftc.txtSinglePQWarning);
-				rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
-			}
-			else {
-				hideControl(rftc.txtSinglePQWarning);
-				rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
-			}
-			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
-			return;
-		}
-		
-		
-		if(!strLowLim.isEmpty() && strUpperLim.isEmpty()) {
-			if(!strLowLim.matches(pattern)) {
-				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
-				this.showControl(rftc.txtSinglePQWarning);
-				rftc.txtLowLimPQSingle.setBackground(ColorService.RED);
-				return;
-			}
-			
-			hideControl(rftc.txtSinglePQWarning);
-			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
-			rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
-			
-			
-			return;
-		}
-		
-		
-		if(!strLowLim.isEmpty() && !strUpperLim.isEmpty()) {
-			boolean checkPattern = strLowLim.matches(pattern) && strUpperLim.matches(pattern);
-			
-			if(!checkPattern) {
-				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
-				this.showControl(rftc.txtSinglePQWarning);
-					
-				if(strLowLim.matches(pattern) && !strUpperLim.matches(pattern)) {
-					rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
-					rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
-				}
-				
-				if(!strLowLim.matches(pattern) && strUpperLim.matches(pattern)) {
-					rftc.txtLowLimPQSingle.setBackground(ColorService.RED);
-					rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
-				}
-				
-				if(!strLowLim.matches(pattern) && !strUpperLim.matches(pattern)) {
-					rftc.txtLowLimPQSingle.setBackground(ColorService.RED);
-					rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
-				}
-				return;
-			}
-			
-			this.hideControl(rftc.txtSinglePQWarning);
-			rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
-			
-			
-			upPQ = getNumFromLimit(strUpperLim);
-			lowPQ = getNumFromLimit(strLowLim);
-			
-			if(upPQ.compareTo(getLimitUp()) > 0) {
-				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-				showControl(rftc.txtSinglePQWarning);
-				rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
-			}
-			else {
-				hideControl(rftc.txtSinglePQWarning);
-				rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
-				
-				if(lowPQ.compareTo(upPQ) >= 0) {
-					rftc.txtSinglePQWarning.setText(strLowerLimitLessUpperLimit);
-					showControl(rftc.txtSinglePQWarning);
-					rftc.txtLowLimPQSingle.setBackground(ColorService.RED);
-					rftc.txtUpperLimPQSingle.setBackground(ColorService.RED);
-				}
-				else {
-					hideControl(rftc.txtSinglePQWarning);
-					rftc.txtLowLimPQSingle.setBackground(ColorService.WHITE);
-					rftc.txtUpperLimPQSingle.setBackground(ColorService.WHITE);
-					
-					if(rftc.btnGenKeys.getSelection()) 
-						rftc.btnStartGenKeys.setEnabled(true);
-				}
-				
-				
-			}
-		
-		}
-		
-	}*/
-	
-	
-	
 	/**
 	 * update limit fields (single mode) each time you enter a char
 	 * @param rftc
@@ -1142,8 +680,8 @@ public class HandleFirstTab extends GUIHandler {
 		String strUpperLim = rftc.txtUpperLimPQSingle.getText();
 		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
 		
-		Color white = this.getColorBackgroundNeutral();
-		Color wrong = this.getColorBackgroundWrong();
+		Color white = this.colorBackgroundNeutral;
+		Color wrong = this.colorBackgroundWrong;
 		
 		if(rftc.btnGenKeys.getSelection()) 
 			rftc.btnStartGenKeys.setEnabled(false);
@@ -1159,15 +697,9 @@ public class HandleFirstTab extends GUIHandler {
 		}
 		
 		if(strLowLim.isEmpty() && !strUpperLim.isEmpty()) {
-			if(!strUpperLim.matches(pattern)) {
-				// testing and debugging, remove this line when done
-				//this.setSizeControlTest(rftc.txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
+			if(!strUpperLim.matches(pattern)) {	
 				
-				
-				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);
-				
-				
-				
+				rftc.txtSinglePQWarning.setText(strOnlyDecAllowed);	
 				
 				this.showControl(rftc.txtSinglePQWarning);
 				rftc.txtUpperLimPQSingle.setBackground(wrong);
@@ -1179,8 +711,8 @@ public class HandleFirstTab extends GUIHandler {
 			rftc.txtLowLimPQSingle.setBackground(white);
 			
 			upPQ = getNumFromLimit(strUpperLim);
-			if(upPQ.compareTo(getLimitUp()) > 0) {
-				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+			if(upPQ.compareTo(limitUp) > 0) {
+				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 				showControl(rftc.txtSinglePQWarning);
 				rftc.txtUpperLimPQSingle.setBackground(wrong);
 			}
@@ -1241,8 +773,8 @@ public class HandleFirstTab extends GUIHandler {
 			upPQ = getNumFromLimit(strUpperLim);
 			lowPQ = getNumFromLimit(strLowLim);
 			
-			if(upPQ.compareTo(getLimitUp()) > 0) {
-				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+			if(upPQ.compareTo(limitUp) > 0) {
+				rftc.txtSinglePQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 				showControl(rftc.txtSinglePQWarning);
 				rftc.txtUpperLimPQSingle.setBackground(wrong);
 			}
@@ -1269,1932 +801,7 @@ public class HandleFirstTab extends GUIHandler {
 		}
 		
 	}
-	
-	
-	
-	
-//	public void updateLimitFields(Text txtLowLimP, Text txtUpperLimP, Text txtLowLimQ, Text txtUpperLimQ, Text txtcompGenPandQWarning, Button btnGenKeys, Button btnStartGenKeys) {
-//		String txtLowP = txtLowLimP.getText();
-//		String txtUpP = txtUpperLimP.getText();
-//		String txtLowQ = txtLowLimQ.getText();
-//		String txtUpQ = txtUpperLimQ.getText();
-//		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
-//		
-//		Color white = this.getColorBackgroundNeutral();
-//		Color wrong = this.getColorBackgroundWrong();
-//		
-//		if(btnGenKeys.getSelection()) 
-//			btnStartGenKeys.setEnabled(false);
-//		
-//		BigInteger lowP = null;
-//		BigInteger upP = null;
-//		BigInteger lowQ = null;
-//		BigInteger upQ = null;
-//		
-//		if(txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			hideControl(txtcompGenPandQWarning);
-//			txtLowLimP.setBackground(white);
-//			txtUpperLimP.setBackground(white);
-//			txtLowLimQ.setBackground(white);
-//			txtUpperLimQ.setBackground(white);
-//			return;
-//		}
-//		
-//		if(txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			if(!txtUpQ.matches(pattern)) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				txtUpperLimQ.setBackground(wrong);
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimQ.setBackground(white);
-//			}
-//			
-//			txtUpperLimP.setBackground(white);
-//			txtLowLimP.setBackground(white);
-//			txtLowLimQ.setBackground(white);
-//			return;
-//		}
-//		
-//		if(txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			if(!txtLowQ.matches(pattern)) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				txtLowLimQ.setBackground(wrong);
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimQ.setBackground(white);
-//			}
-//			
-//			txtUpperLimP.setBackground(white);
-//			txtLowLimP.setBackground(white);
-//			txtUpperLimQ.setBackground(white);
-//			
-//			return;
-//		}
-//		
-//		if(txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtLowQ.matches(pattern) && txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtLowLimQ.setBackground(white);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//			}
-//			else {
-//				
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimQ.setBackground(white);
-//				txtUpperLimQ.setBackground(white);
-//				
-//				lowQ = getNumFromLimit(txtLowQ);
-//				upQ = getNumFromLimit(txtUpQ);
-//				
-//					
-//				if(lowQ.compareTo(upQ) >= 0) {
-//					txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//					showControl(txtcompGenPandQWarning);
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtLowLimQ.setBackground(white);
-//					txtUpperLimQ.setBackground(white);
-//				}
-//				
-//				
-//				
-//			}
-//			txtLowLimP.setBackground(white);
-//			txtUpperLimP.setBackground(white);
-//			
-//			return;
-//		}
-//		
-//		
-//		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			if(!txtUpP.matches(pattern)) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(wrong);
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(white);
-//			}
-//			
-//			txtLowLimP.setBackground(white);
-//			txtLowLimQ.setBackground(white);
-//			txtUpperLimQ.setBackground(white);
-//			
-//			return;
-//			
-//		}
-//		
-//		
-//		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtUpP.matches(pattern) && txtUpQ.matches(pattern);
-//
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(white);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimQ.setBackground(white);
-//				txtUpperLimP.setBackground(white);
-//			}
-//			txtLowLimP.setBackground(white);
-//			txtLowLimQ.setBackground(white);
-//			
-//			return;
-//		}
-//		
-//		
-//		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			boolean valid = txtUpP.matches(pattern) && txtLowQ.matches(pattern);
-//
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(white);
-//					txtLowLimQ.setBackground(wrong);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimQ.setBackground(white);
-//				txtUpperLimP.setBackground(white);
-//			}
-//			txtLowLimP.setBackground(white);
-//			txtUpperLimQ.setBackground(white);
-//			
-//			return;
-//		}
-//		
-//		
-//		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			
-//			boolean valid = txtUpP.matches(pattern) && txtLowQ.matches(pattern)
-//					&& txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(white);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(white);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(white);
-//					txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(white);
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(white);
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(white);
-//					txtLowLimQ.setBackground(white);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(white);
-//				txtLowLimQ.setBackground(white);
-//				txtUpperLimQ.setBackground(white);
-//				
-//				
-//				lowQ = getNumFromLimit(txtLowQ);
-//				upQ = getNumFromLimit(txtUpQ);
-//						
-//				if(lowQ.compareTo(upQ) >= 0) {
-//					txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//					showControl(txtcompGenPandQWarning);
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//					txtUpperLimP.setBackground(white);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtLowLimQ.setBackground(white);
-//					txtUpperLimQ.setBackground(white);
-//					txtUpperLimP.setBackground(white);
-//				}
-//				
-//			}
-//			txtLowLimP.setBackground(white);
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			if(!txtLowP.matches(pattern)) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(wrong);
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(white);
-//			}
-//			
-//			txtUpperLimP.setBackground(white);
-//			txtLowLimQ.setBackground(white);
-//			txtUpperLimQ.setBackground(white);
-//			
-//			return;
-//
-//		}
-//		
-//		
-//		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtLowP.matches(pattern) && txtUpQ.matches(pattern);
-//
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowP.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtLowLimP.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtLowP.matches(pattern) && txtUpQ.matches(pattern)) {
-//					txtLowLimP.setBackground(wrong);
-//					txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtLowP.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtLowLimP.setBackground(white);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(white);
-//				txtUpperLimQ.setBackground(white);
-//				
-//			}
-//			txtUpperLimP.setBackground(white);
-//			txtLowLimQ.setBackground(white);
-//			
-//			return;
-//
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			boolean valid = txtLowP.matches(pattern) && txtLowQ.matches(pattern);
-//
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowP.matches(pattern) && !txtLowQ.matches(pattern)) {
-//					txtLowLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(wrong);
-//				}
-//				if(!txtLowP.matches(pattern) && txtLowQ.matches(pattern)) {
-//					txtLowLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(white);
-//				}
-//				if(txtLowP.matches(pattern) && !txtLowQ.matches(pattern)) {
-//					txtLowLimP.setBackground(white);
-//					txtLowLimQ.setBackground(wrong);
-//				}
-//				
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(white);
-//				txtLowLimQ.setBackground(white);
-//			}
-//			txtUpperLimP.setBackground(white);
-//			txtUpperLimQ.setBackground(white);
-//			
-//			return;
-//
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtLowP.matches(pattern) && txtLowQ.matches(pattern)
-//					&& txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
-//					&& !txtUpQ.matches(pattern)) {
-//					txtLowLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(!txtLowP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtLowP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtLowP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(white);
-//				txtLowLimQ.setBackground(white);
-//				txtUpperLimQ.setBackground(white);
-//
-//				
-//				lowQ = getNumFromLimit(txtLowQ);
-//				upQ = getNumFromLimit(txtUpQ);
-//				
-//				
-//					
-//				if(lowQ.compareTo(upQ) >= 0) {
-//					txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//					showControl(txtcompGenPandQWarning);
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//					txtLowLimP.setBackground(white);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtLowLimQ.setBackground(white);
-//					txtUpperLimQ.setBackground(white);
-//					txtLowLimP.setBackground(white);
-//				}
-//				
-//			}
-//			txtUpperLimP.setBackground(white);
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			boolean valid = txtLowP.matches(pattern) && txtUpP.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowP.matches(pattern) && !txtUpP.matches(pattern)) {
-//					txtLowLimP.setBackground(wrong);
-//					txtUpperLimP.setBackground(wrong);
-//				}
-//				if(!txtLowP.matches(pattern) && txtUpP.matches(pattern)) {
-//					txtLowLimP.setBackground(wrong);
-//					txtUpperLimP.setBackground(white);
-//				}
-//				if(txtLowP.matches(pattern) && !txtUpP.matches(pattern)) {
-//					txtLowLimP.setBackground(white);
-//					txtUpperLimP.setBackground(wrong);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(white);
-//				txtUpperLimP.setBackground(white);
-//	
-//				
-//				lowP = getNumFromLimit(txtLowP);
-//				upP = getNumFromLimit(txtUpP);
-//				
-//				if(lowP.compareTo(upP) >= 0) {
-//					txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//					showControl(txtcompGenPandQWarning);
-//					txtLowLimP.setBackground(wrong);
-//					txtUpperLimP.setBackground(wrong);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtLowLimP.setBackground(white);
-//					txtUpperLimP.setBackground(white);
-//				}
-//			}
-//			txtLowLimQ.setBackground(white);
-//			txtUpperLimQ.setBackground(white);
-//			
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//					&& txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//					&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimP.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(wrong);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(white);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(white);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(wrong);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(wrong);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(white);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(white);
-//				txtLowLimP.setBackground(white);
-//				txtUpperLimQ.setBackground(white);
-//
-//				
-//				lowP = getNumFromLimit(txtLowP);
-//				upP = getNumFromLimit(txtUpP);
-//				
-//				if(lowP.compareTo(upP) >= 0) {
-//					txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//					showControl(txtcompGenPandQWarning);
-//					txtLowLimP.setBackground(wrong);
-//					txtUpperLimP.setBackground(wrong);
-//					txtUpperLimQ.setBackground(white);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtLowLimP.setBackground(white);
-//					txtUpperLimP.setBackground(white);
-//					txtUpperLimQ.setBackground(white);
-//				}
-//			
-//			}
-//			txtLowLimQ.setBackground(white);
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			boolean valid = txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//					&& txtLowQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//					&& !txtLowQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(white);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(wrong);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(wrong);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(white);
-//				txtLowLimP.setBackground(white);
-//				txtLowLimQ.setBackground(white);
-//
-//				
-//				lowP = getNumFromLimit(txtLowP);
-//				upP = getNumFromLimit(txtUpP);
-//				
-//				if(lowP.compareTo(upP) >= 0) {
-//					txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//					showControl(txtcompGenPandQWarning);
-//					txtLowLimP.setBackground(wrong);
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(white);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtLowLimP.setBackground(white);
-//					txtUpperLimP.setBackground(white);
-//					txtLowLimQ.setBackground(white);
-//				}
-//				
-//			}
-//			txtUpperLimQ.setBackground(white);
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			
-//			boolean valid = txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//					&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//					&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(wrong);
-//					txtLowLimP.setBackground(wrong);
-//					txtLowLimQ.setBackground(wrong);
-//					txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(white);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimP.setBackground(white);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(wrong);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(white);
-//				txtLowLimP.setBackground(white);
-//				txtLowLimQ.setBackground(white);
-//				txtUpperLimQ.setBackground(white);
-//
-//				
-//				lowP = getNumFromLimit(txtLowP);
-//				upP = getNumFromLimit(txtUpP);
-//				lowQ = getNumFromLimit(txtLowQ);
-//				upQ = getNumFromLimit(txtUpQ);
-//				
-//				
-//				boolean validCondAll = lowP.compareTo(upP) < 0 && lowQ.compareTo(upQ) < 0;
-//				
-//				if(!validCondAll) {
-//					txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//					showControl(txtcompGenPandQWarning);
-//				
-//					
-//					if(!(lowP.compareTo(upP) < 0) && !(lowQ.compareTo(upQ) < 0)) {
-//						txtLowLimP.setBackground(wrong);
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(wrong);
-//					}
-//					if(!(lowP.compareTo(upP) < 0) && (lowQ.compareTo(upQ) < 0)) {
-//						txtLowLimP.setBackground(wrong);
-//						txtUpperLimP.setBackground(wrong);
-//						txtLowLimQ.setBackground(white);
-//						txtUpperLimQ.setBackground(white);
-//					}
-//					if((lowP.compareTo(upP) < 0) && !(lowQ.compareTo(upQ) < 0)) {
-//						txtLowLimP.setBackground(white);
-//						txtUpperLimP.setBackground(white);
-//						txtLowLimQ.setBackground(wrong);
-//						txtUpperLimQ.setBackground(wrong);
-//					}
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(white);
-//					txtLowLimP.setBackground(white);
-//					txtLowLimQ.setBackground(white);
-//					txtUpperLimQ.setBackground(white);
-//
-//					
-//					if(btnGenKeys.getSelection()) {
-//						btnStartGenKeys.setEnabled(true);
-//					}
-//				}
-//
-//			}
-//			
-//		}
-//	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-//	public void updateLimitFields(Text txtLowLimP, Text txtUpperLimP, Text txtLowLimQ, Text txtUpperLimQ, Text txtcompGenPandQWarning, Button btnGenKeys, Button btnStartGenKeys) {
-//		String txtLowP = txtLowLimP.getText();
-//		String txtUpP = txtUpperLimP.getText();
-//		String txtLowQ = txtLowLimQ.getText();
-//		String txtUpQ = txtUpperLimQ.getText();
-//		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
-//		
-//		Color white = this.getColorBackgroundNeutral();
-//		Color wrong = this.getColorBackgroundWrong();
-//		
-//		if(btnGenKeys.getSelection()) 
-//			btnStartGenKeys.setEnabled(false);
-//		
-//		BigInteger lowP = null;
-//		BigInteger upP = null;
-//		BigInteger lowQ = null;
-//		BigInteger upQ = null;
-//		
-//		if(txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			hideControl(txtcompGenPandQWarning);
-//			txtLowLimP.setBackground(ColorService.WHITE);
-//			txtUpperLimP.setBackground(ColorService.WHITE);
-//			txtLowLimQ.setBackground(ColorService.WHITE);
-//			txtUpperLimQ.setBackground(ColorService.WHITE);
-//			return;
-//		}
-//		
-//		if(txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			if(!txtUpQ.matches(pattern)) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				txtUpperLimQ.setBackground(ColorService.RED);
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimQ.setBackground(ColorService.WHITE);
-//				
-//				upQ = getNumFromLimit(txtUpQ);
-//				if(upQ.compareTo(getLimitUp()) > 0) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//			}
-//			
-//			txtUpperLimP.setBackground(ColorService.WHITE);
-//			txtLowLimP.setBackground(ColorService.WHITE);
-//			txtLowLimQ.setBackground(ColorService.WHITE);
-//			return;
-//		}
-//		
-//		if(txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			if(!txtLowQ.matches(pattern)) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				txtLowLimQ.setBackground(ColorService.RED);
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimQ.setBackground(ColorService.WHITE);
-//			}
-//			
-//			txtUpperLimP.setBackground(ColorService.WHITE);
-//			txtLowLimP.setBackground(ColorService.WHITE);
-//			txtUpperLimQ.setBackground(ColorService.WHITE);
-//			
-//			return;
-//		}
-//		
-//		if(txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtLowQ.matches(pattern) && txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtLowLimQ.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//					txtLowLimQ.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtLowLimQ.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//			}
-//			else {
-//				
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimQ.setBackground(ColorService.WHITE);
-//				txtUpperLimQ.setBackground(ColorService.WHITE);
-//				
-//				lowQ = getNumFromLimit(txtLowQ);
-//				upQ = getNumFromLimit(txtUpQ);
-//				
-//				
-//				if(upQ.compareTo(getLimitUp()) > 0) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//					
-//					if(lowQ.compareTo(upQ) >= 0) {
-//						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//						showControl(txtcompGenPandQWarning);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//					}
-//					else {
-//						hideControl(txtcompGenPandQWarning);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//					}
-//				}
-//				
-//				
-//			}
-//			txtLowLimP.setBackground(ColorService.WHITE);
-//			txtUpperLimP.setBackground(ColorService.WHITE);
-//			
-//			return;
-//		}
-//		
-//		
-//		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			if(!txtUpP.matches(pattern)) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(ColorService.RED);
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(ColorService.WHITE);
-//				
-//				upP = getNumFromLimit(txtUpP);
-//				if(upP.compareTo(getLimitUp()) > 0) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.RED);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//				}
-//			}
-//			
-//			txtLowLimP.setBackground(ColorService.WHITE);
-//			txtLowLimQ.setBackground(ColorService.WHITE);
-//			txtUpperLimQ.setBackground(ColorService.WHITE);
-//			
-//			return;
-//			
-//		}
-//		
-//		
-//		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtUpP.matches(pattern) && txtUpQ.matches(pattern);
-//
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimQ.setBackground(ColorService.WHITE);
-//				txtUpperLimP.setBackground(ColorService.WHITE);
-//				
-//				upP = getNumFromLimit(txtUpP);
-//				upQ = getNumFromLimit(txtUpQ);
-//				
-//				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
-//				
-//				if(!checkLimit) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//
-//					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//					}
-//					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//					}
-//					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//					}
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//			}
-//			txtLowLimP.setBackground(ColorService.WHITE);
-//			txtLowLimQ.setBackground(ColorService.WHITE);
-//			
-//			return;
-//		}
-//		
-//		
-//		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			boolean valid = txtUpP.matches(pattern) && txtLowQ.matches(pattern);
-//
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimQ.setBackground(ColorService.WHITE);
-//				txtUpperLimP.setBackground(ColorService.WHITE);
-//				
-//				upP = getNumFromLimit(txtUpP);
-//				if(upP.compareTo(getLimitUp()) > 0) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.RED);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.WHITE);	
-//				}
-//			}
-//			txtLowLimP.setBackground(ColorService.WHITE);
-//			txtUpperLimQ.setBackground(ColorService.WHITE);
-//			
-//			return;
-//		}
-//		
-//		
-//		if(txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			
-//			boolean valid = txtUpP.matches(pattern) && txtLowQ.matches(pattern)
-//					&& txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					txtLowLimQ.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(ColorService.WHITE);
-//				txtLowLimQ.setBackground(ColorService.WHITE);
-//				txtUpperLimQ.setBackground(ColorService.WHITE);
-//				
-//				
-//				lowQ = getNumFromLimit(txtLowQ);
-//				upQ = getNumFromLimit(txtUpQ);
-//				upP =getNumFromLimit(txtUpP);
-//				
-//				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
-//				
-//				if(!checkLimit) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//
-//					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//					}
-//					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//					}
-//					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//					}
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//					
-//					if(lowQ.compareTo(upQ) >= 0) {
-//						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//						showControl(txtcompGenPandQWarning);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//					}
-//					else {
-//						hideControl(txtcompGenPandQWarning);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//					}
-//				}	
-//			}
-//			txtLowLimP.setBackground(ColorService.WHITE);
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			if(!txtLowP.matches(pattern)) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(ColorService.RED);
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(ColorService.WHITE);
-//			}
-//			
-//			txtUpperLimP.setBackground(ColorService.WHITE);
-//			txtLowLimQ.setBackground(ColorService.WHITE);
-//			txtUpperLimQ.setBackground(ColorService.WHITE);
-//			
-//			return;
-//
-//		}
-//		
-//		
-//		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtLowP.matches(pattern) && txtUpQ.matches(pattern);
-//
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowP.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtLowP.matches(pattern) && txtUpQ.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtLowP.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(ColorService.WHITE);
-//				txtUpperLimQ.setBackground(ColorService.WHITE);
-//				
-//				upQ = getNumFromLimit(txtUpQ);
-//				
-//				if(upQ.compareTo(getLimitUp()) > 0) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				else {
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//					hideControl(txtcompGenPandQWarning);
-//				}
-//			}
-//			txtUpperLimP.setBackground(ColorService.WHITE);
-//			txtLowLimQ.setBackground(ColorService.WHITE);
-//			
-//			return;
-//
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			boolean valid = txtLowP.matches(pattern) && txtLowQ.matches(pattern);
-//
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowP.matches(pattern) && !txtLowQ.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtLowP.matches(pattern) && txtLowQ.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtLowP.matches(pattern) && !txtLowQ.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.WHITE);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//				}
-//				
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(ColorService.WHITE);
-//				txtLowLimQ.setBackground(ColorService.WHITE);
-//			}
-//			txtUpperLimP.setBackground(ColorService.WHITE);
-//			txtUpperLimQ.setBackground(ColorService.WHITE);
-//			
-//			return;
-//
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtLowP.matches(pattern) && txtLowQ.matches(pattern)
-//					&& txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
-//					&& !txtUpQ.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(!txtLowP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtLowP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(txtLowP.matches(pattern) && !txtLowQ.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtLowP.matches(pattern) && txtLowQ.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(ColorService.WHITE);
-//				txtLowLimQ.setBackground(ColorService.WHITE);
-//				txtUpperLimQ.setBackground(ColorService.WHITE);
-//
-//				
-//				lowQ = getNumFromLimit(txtLowQ);
-//				upQ = getNumFromLimit(txtUpQ);
-//				
-//				
-//				if(upQ.compareTo(getLimitUp()) > 0) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				else {
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//					hideControl(txtcompGenPandQWarning);
-//					
-//					if(lowQ.compareTo(upQ) >= 0) {
-//						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//						showControl(txtcompGenPandQWarning);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//					}
-//					else {
-//						hideControl(txtcompGenPandQWarning);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//					}
-//				}
-//				
-//				
-//			}
-//			txtUpperLimP.setBackground(ColorService.WHITE);
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			boolean valid = txtLowP.matches(pattern) && txtUpP.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtLowP.matches(pattern) && !txtUpP.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtUpperLimP.setBackground(ColorService.RED);
-//				}
-//				if(!txtLowP.matches(pattern) && txtUpP.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//				}
-//				if(txtLowP.matches(pattern) && !txtUpP.matches(pattern)) {
-//					txtLowLimP.setBackground(ColorService.WHITE);
-//					txtUpperLimP.setBackground(ColorService.RED);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtLowLimP.setBackground(ColorService.WHITE);
-//				txtUpperLimP.setBackground(ColorService.WHITE);
-//	
-//				
-//				lowP = getNumFromLimit(txtLowP);
-//				upP = getNumFromLimit(txtUpP);
-//				
-//				if(upP.compareTo(getLimitUp()) > 0) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.RED);
-//				}
-//				else {
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					hideControl(txtcompGenPandQWarning);
-//					
-//					if(lowP.compareTo(upP) >= 0) {
-//						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//						showControl(txtcompGenPandQWarning);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtUpperLimP.setBackground(ColorService.RED);
-//					}
-//					else {
-//						hideControl(txtcompGenPandQWarning);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//					}
-//				}
-//				
-//				
-//			}
-//			txtLowLimQ.setBackground(ColorService.WHITE);
-//			txtUpperLimQ.setBackground(ColorService.WHITE);
-//			
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			boolean valid = txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//					&& txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//					&& !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(ColorService.WHITE);
-//				txtLowLimP.setBackground(ColorService.WHITE);
-//				txtUpperLimQ.setBackground(ColorService.WHITE);
-//
-//				
-//				lowP = getNumFromLimit(txtLowP);
-//				upP = getNumFromLimit(txtUpP);
-//				upQ = getNumFromLimit(txtUpQ);
-//				
-//				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
-//				
-//				if(!checkLimit) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//
-//					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//					}
-//					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//					}
-//					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//					}
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//					
-//					if(lowP.compareTo(upP) >= 0) {
-//						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//						showControl(txtcompGenPandQWarning);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//					}
-//					else {
-//						hideControl(txtcompGenPandQWarning);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//					}
-//				}
-//			}
-//			txtLowLimQ.setBackground(ColorService.WHITE);
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && txtUpQ.isEmpty()) {
-//			boolean valid = txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//					&& txtLowQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//					&& !txtLowQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(ColorService.WHITE);
-//				txtLowLimP.setBackground(ColorService.WHITE);
-//				txtLowLimQ.setBackground(ColorService.WHITE);
-//
-//				
-//				lowP = getNumFromLimit(txtLowP);
-//				upP = getNumFromLimit(txtUpP);
-//				
-//				if(upP.compareTo(getLimitUp()) > 0) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.RED);
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//	
-//					
-//					if(lowP.compareTo(upP) >= 0) {
-//						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//						showControl(txtcompGenPandQWarning);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//					}
-//					else {
-//						hideControl(txtcompGenPandQWarning);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//					}
-//				}
-//				
-//				
-//			}
-//			txtUpperLimQ.setBackground(ColorService.WHITE);
-//			return;
-//		}
-//		
-//		
-//		
-//		if(!txtLowP.isEmpty() && !txtUpP.isEmpty()
-//				&& !txtLowQ.isEmpty() && !txtUpQ.isEmpty()) {
-//			
-//			boolean valid = txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//					&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern);
-//			
-//			if(!valid) {
-//				txtcompGenPandQWarning.setText(strOnlyDecAllowed);
-//				showControl(txtcompGenPandQWarning);
-//				
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//					&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//					txtUpperLimP.setBackground(ColorService.RED);
-//					txtLowLimP.setBackground(ColorService.RED);
-//					txtLowLimQ.setBackground(ColorService.RED);
-//					txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(!txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(txtUpP.matches(pattern) && !txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.RED);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& !txtLowQ.matches(pattern) && txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//				}
-//				if(txtUpP.matches(pattern) && txtLowP.matches(pattern)
-//						&& txtLowQ.matches(pattern) && !txtUpQ.matches(pattern)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//				}
-//			}
-//			else {
-//				hideControl(txtcompGenPandQWarning);
-//				txtUpperLimP.setBackground(ColorService.WHITE);
-//				txtLowLimP.setBackground(ColorService.WHITE);
-//				txtLowLimQ.setBackground(ColorService.WHITE);
-//				txtUpperLimQ.setBackground(ColorService.WHITE);
-//
-//				
-//				lowP = getNumFromLimit(txtLowP);
-//				upP = getNumFromLimit(txtUpP);
-//				lowQ = getNumFromLimit(txtLowQ);
-//				upQ = getNumFromLimit(txtUpQ);
-//				
-//				
-//				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
-//				
-//				if(!checkLimit) {
-//					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
-//					showControl(txtcompGenPandQWarning);
-//
-//					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//					}
-//					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.RED);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//					}
-//					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.RED);
-//					}
-//				}
-//				else {
-//					hideControl(txtcompGenPandQWarning);
-//					txtUpperLimP.setBackground(ColorService.WHITE);
-//					txtUpperLimQ.setBackground(ColorService.WHITE);
-//					
-//					
-//					boolean validCondAll = lowP.compareTo(upP) < 0 && lowQ.compareTo(upQ) < 0;
-//					
-//					if(!validCondAll) {
-//						txtcompGenPandQWarning.setText(strLowerLimitLessUpperLimit);
-//						showControl(txtcompGenPandQWarning);
-//					
-//						
-//						if(!(lowP.compareTo(upP) < 0) && !(lowQ.compareTo(upQ) < 0)) {
-//							txtLowLimP.setBackground(ColorService.RED);
-//							txtUpperLimP.setBackground(ColorService.RED);
-//							txtLowLimQ.setBackground(ColorService.RED);
-//							txtUpperLimQ.setBackground(ColorService.RED);
-//						}
-//						if(!(lowP.compareTo(upP) < 0) && (lowQ.compareTo(upQ) < 0)) {
-//							txtLowLimP.setBackground(ColorService.RED);
-//							txtUpperLimP.setBackground(ColorService.RED);
-//							txtLowLimQ.setBackground(ColorService.WHITE);
-//							txtUpperLimQ.setBackground(ColorService.WHITE);
-//						}
-//						if((lowP.compareTo(upP) < 0) && !(lowQ.compareTo(upQ) < 0)) {
-//							txtLowLimP.setBackground(ColorService.WHITE);
-//							txtUpperLimP.setBackground(ColorService.WHITE);
-//							txtLowLimQ.setBackground(ColorService.RED);
-//							txtUpperLimQ.setBackground(ColorService.RED);
-//						}
-//					}
-//					else {
-//						hideControl(txtcompGenPandQWarning);
-//						txtUpperLimP.setBackground(ColorService.WHITE);
-//						txtLowLimP.setBackground(ColorService.WHITE);
-//						txtLowLimQ.setBackground(ColorService.WHITE);
-//						txtUpperLimQ.setBackground(ColorService.WHITE);
-//
-//						
-//						if(btnGenKeys.getSelection()) {
-//							btnStartGenKeys.setEnabled(true);
-//						}
-//					}
-//
-//				}
-//	
-//				
-//			}
-//			
-//		}
-//	}
-	
-	
-	
-	
+		
 	
 	
 	/**
@@ -3214,8 +821,8 @@ public class HandleFirstTab extends GUIHandler {
 		String txtUpQ = txtUpperLimQ.getText();
 		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
 		
-		Color white = this.getColorBackgroundNeutral();
-		Color wrong = this.getColorBackgroundWrong();
+		Color white = this.colorBackgroundNeutral;
+		Color wrong = this.colorBackgroundWrong;
 		
 		if(btnGenKeys.getSelection()) 
 			btnStartGenKeys.setEnabled(false);
@@ -3247,8 +854,8 @@ public class HandleFirstTab extends GUIHandler {
 				txtUpperLimQ.setBackground(white);
 				
 				upQ = getNumFromLimit(txtUpQ);
-				if(upQ.compareTo(getLimitUp()) > 0) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				if(upQ.compareTo(limitUp) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 					txtUpperLimQ.setBackground(wrong);
 				}
@@ -3314,8 +921,8 @@ public class HandleFirstTab extends GUIHandler {
 				upQ = getNumFromLimit(txtUpQ);
 				
 				
-				if(upQ.compareTo(getLimitUp()) > 0) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				if(upQ.compareTo(limitUp) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 					txtUpperLimQ.setBackground(wrong);
 				}
@@ -3357,8 +964,8 @@ public class HandleFirstTab extends GUIHandler {
 				txtUpperLimP.setBackground(white);
 				
 				upP = getNumFromLimit(txtUpP);
-				if(upP.compareTo(getLimitUp()) > 0) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				if(upP.compareTo(limitUp) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 					txtUpperLimP.setBackground(wrong);
 				}
@@ -3407,21 +1014,21 @@ public class HandleFirstTab extends GUIHandler {
 				upP = getNumFromLimit(txtUpP);
 				upQ = getNumFromLimit(txtUpQ);
 				
-				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
+				boolean checkLimit = upP.compareTo(limitUp) <= 0 && upQ.compareTo(limitUp) <= 0;
 				
 				if(!checkLimit) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 
-					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+					if(!(upP.compareTo(limitUp) <= 0) && !(upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(wrong);
 						txtUpperLimQ.setBackground(wrong);
 					}
-					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
+					if(!(upP.compareTo(limitUp) <= 0) && (upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(wrong);
 						txtUpperLimQ.setBackground(white);
 					}
-					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+					if((upP.compareTo(limitUp) <= 0) && !(upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(white);
 						txtUpperLimQ.setBackground(wrong);
 					}
@@ -3466,8 +1073,8 @@ public class HandleFirstTab extends GUIHandler {
 				txtUpperLimP.setBackground(white);
 				
 				upP = getNumFromLimit(txtUpP);
-				if(upP.compareTo(getLimitUp()) > 0) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				if(upP.compareTo(limitUp) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 					txtUpperLimP.setBackground(wrong);
 				}
@@ -3548,21 +1155,21 @@ public class HandleFirstTab extends GUIHandler {
 				upQ = getNumFromLimit(txtUpQ);
 				upP =getNumFromLimit(txtUpP);
 				
-				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
+				boolean checkLimit = upP.compareTo(limitUp) <= 0 && upQ.compareTo(limitUp) <= 0;
 				
 				if(!checkLimit) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 
-					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+					if(!(upP.compareTo(limitUp) <= 0) && !(upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(wrong);
 						txtUpperLimQ.setBackground(wrong);
 					}
-					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
+					if(!(upP.compareTo(limitUp) <= 0) && (upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(wrong);
 						txtUpperLimQ.setBackground(white);
 					}
-					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+					if((upP.compareTo(limitUp) <= 0) && !(upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(white);
 						txtUpperLimQ.setBackground(wrong);
 					}
@@ -3642,8 +1249,8 @@ public class HandleFirstTab extends GUIHandler {
 				
 				upQ = getNumFromLimit(txtUpQ);
 				
-				if(upQ.compareTo(getLimitUp()) > 0) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				if(upQ.compareTo(limitUp) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 					txtUpperLimQ.setBackground(wrong);
 				}
@@ -3760,8 +1367,8 @@ public class HandleFirstTab extends GUIHandler {
 				upQ = getNumFromLimit(txtUpQ);
 				
 				
-				if(upQ.compareTo(getLimitUp()) > 0) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				if(upQ.compareTo(limitUp) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 					txtUpperLimQ.setBackground(wrong);
 				}
@@ -3822,8 +1429,8 @@ public class HandleFirstTab extends GUIHandler {
 				lowP = getNumFromLimit(txtLowP);
 				upP = getNumFromLimit(txtUpP);
 				
-				if(upP.compareTo(getLimitUp()) > 0) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				if(upP.compareTo(limitUp) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 					txtUpperLimP.setBackground(wrong);
 				}
@@ -3917,21 +1524,21 @@ public class HandleFirstTab extends GUIHandler {
 				upP = getNumFromLimit(txtUpP);
 				upQ = getNumFromLimit(txtUpQ);
 				
-				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
+				boolean checkLimit = upP.compareTo(limitUp) <= 0 && upQ.compareTo(limitUp) <= 0;
 				
 				if(!checkLimit) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 
-					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+					if(!(upP.compareTo(limitUp) <= 0) && !(upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(wrong);
 						txtUpperLimQ.setBackground(wrong);
 					}
-					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
+					if(!(upP.compareTo(limitUp) <= 0) && (upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(wrong);
 						txtUpperLimQ.setBackground(white);
 					}
-					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+					if((upP.compareTo(limitUp) <= 0) && !(upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(white);
 						txtUpperLimQ.setBackground(wrong);
 					}
@@ -4024,8 +1631,8 @@ public class HandleFirstTab extends GUIHandler {
 				lowP = getNumFromLimit(txtLowP);
 				upP = getNumFromLimit(txtUpP);
 				
-				if(upP.compareTo(getLimitUp()) > 0) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+				if(upP.compareTo(limitUp) > 0) {
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 					txtUpperLimP.setBackground(wrong);
 				}
@@ -4187,21 +1794,21 @@ public class HandleFirstTab extends GUIHandler {
 				upQ = getNumFromLimit(txtUpQ);
 				
 				
-				boolean checkLimit = upP.compareTo(getLimitUp()) <= 0 && upQ.compareTo(getLimitUp()) <= 0;
+				boolean checkLimit = upP.compareTo(limitUp) <= 0 && upQ.compareTo(limitUp) <= 0;
 				
 				if(!checkLimit) {
-					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, getLimitExp()));
+					txtcompGenPandQWarning.setText(MessageFormat.format(strUpperLimitRestriction, limitExp));
 					showControl(txtcompGenPandQWarning);
 
-					if(!(upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+					if(!(upP.compareTo(limitUp) <= 0) && !(upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(wrong);
 						txtUpperLimQ.setBackground(wrong);
 					}
-					if(!(upP.compareTo(getLimitUp()) <= 0) && (upQ.compareTo(getLimitUp()) <= 0)) {
+					if(!(upP.compareTo(limitUp) <= 0) && (upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(wrong);
 						txtUpperLimQ.setBackground(white);
 					}
-					if((upP.compareTo(getLimitUp()) <= 0) && !(upQ.compareTo(getLimitUp()) <= 0)) {
+					if((upP.compareTo(limitUp) <= 0) && !(upQ.compareTo(limitUp) <= 0)) {
 						txtUpperLimP.setBackground(white);
 						txtUpperLimQ.setBackground(wrong);
 					}

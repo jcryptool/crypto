@@ -18,16 +18,6 @@ public class DataTransfer {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-
-
-
 	/**
 	 * initialize states
 	 */
@@ -281,8 +271,6 @@ public class DataTransfer {
 		setChooseCipher(ciphertextsTextMode, rstc);
 		setChooseCipherIdxTextMode(rstc);
 		setState(stateText, rstc);
-		//currentPlaintextList = plaintextsTextMode;
-		//currentCiphertextList = ciphertextsTextMode;
 	}
 	
 	
@@ -295,8 +283,6 @@ public class DataTransfer {
 		setChooseCipher(ciphertextsNumMode, rstc);
 		setChooseCipherIdxNumMode(rstc);
 		setState(stateNum, rstc);
-		//currentPlaintextList = plaintextsNumMode;
-		//currentCiphertextList = ciphertextsNumMode;
 	}
 	
 	
@@ -310,7 +296,6 @@ public class DataTransfer {
 		setChooseCipher(ciphertextsDecHexMode, rstc);
 		setChooseCipherIdxDecHexMode(rstc);
 		setState(stateDecHex, rstc);
-		//currentCiphertextList = ciphertextsDecHexMode;
 	}
 	
 	
@@ -323,7 +308,6 @@ public class DataTransfer {
 		setChooseCipher(ciphertextsDecDecimalMode, rstc);
 		setChooseCipherIdxDecDecimalMode(rstc);
 		setState(stateDecDecimal, rstc);
-		//currentCiphertextList = ciphertextsDecHexMode;
 	}
 	
 	

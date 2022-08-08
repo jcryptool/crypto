@@ -20,8 +20,10 @@ public class Rabin {
 	private BigInteger q;
 	//private int blocklength;
 	//private int bytesPerBlock;
-	private String padding = "20";
-	private Charset charset = StandardCharsets.UTF_8;
+	//private String padding = "20";
+	private String padding;
+	//private Charset charset = StandardCharsets.UTF_8;
+	private Charset charset;
 	private Random rng = new SecureRandom();
 	private BigInteger TWO = BigInteger.valueOf(2);
 	private BigInteger THREE = BigInteger.valueOf(3);
@@ -398,7 +400,7 @@ public class Rabin {
 	/**
 	 * fix bytes array in case the first byte is the null byte
 	 * @param b
-	 * @return fixed byte array
+	 * @return fixed byte array (remove the null byte)
 	 */
 	public byte[] fixBigIntegerBytes(byte[] b) {
 		if(b[0] == 0) {
@@ -417,7 +419,7 @@ public class Rabin {
 	 */
 	private String byteToString(byte b) {
 		String hexString = Integer.toString(Byte.toUnsignedInt(b), 16);
-		return hexString.length() == 1 ? "0"+hexString : hexString;
+		return hexString.length() == 1 ? "0" + hexString : hexString;
 	}
 
 	

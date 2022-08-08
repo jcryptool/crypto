@@ -45,7 +45,6 @@ public class CryptosystemTextbookComposite extends Composite {
 
 	public GUIHandler guiHandler;
 	public HandleCryptosystemTextbook hcstb;
-	public RabinFirstTabComposite rftc;
 	
 	public Group grpEncryptDecrypt;
 	public Composite compHoldEncryptDecryptContent;
@@ -53,7 +52,6 @@ public class CryptosystemTextbookComposite extends Composite {
 	public Button btnRadioDecrypt;
 	public Composite compHoldEncryptionProcess;
 	public Composite compHoldDecryptionProcess;
-	public TextLoadController textSelectorEncryption;
 	public Composite compHoldCiphertext;
 	public Label lblCiphertextDescryption;
 	public Text txtCiphertext;
@@ -61,7 +59,6 @@ public class CryptosystemTextbookComposite extends Composite {
 	public Button btnEncrypt;
 	public Button btnDecryptInEncryptionMode;
 	public Button btnWriteToJCTeditor;
-	public TextLoadController textSelectorDecryption;
 	public Composite compHoldPlaintext;
 	public Composite compCiphertextSegmentsComponents;
 	public Composite compChooseBlockComponents;
@@ -71,14 +68,12 @@ public class CryptosystemTextbookComposite extends Composite {
 	public Button btnPrevBlock;
 	public Button btnNextBlock;
 	public Composite compPlaintexts;
-	public Text[] plaintexts;
 	public Composite compPreviewChosenPlaintexts;
 	public Text txtChosenPlaintexts;
 	public Composite compHoldBtnsForFeaturesDecryptionMode;
 	public Button btnDecryption;
 	public Button btnWriteToJCTeditorDecryptMode;
 	public Text txtInfoEncryptionDecryption;
-	public Text txtEncryptWarning;
 	public TextLoadController textSelector;
 	public Text txtEncryptionWarning;
 	public Text txtDecryptWarning;
@@ -131,7 +126,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		createEncryptionDecryptionRadioBtns(parent);
 		createEncryptionDecryptionContent(parent);
 	
-		if(guiHandler.getDarkmode())
+		if(GUIHandler.isDarkmode)
 			setColors();
 		
 		initializeContent();
@@ -147,12 +142,12 @@ public class CryptosystemTextbookComposite extends Composite {
 	
 	public void setColors() {
 		
-		Color colorBG = guiHandler.getColorDarkModeBG();
-		Color colorFG = guiHandler.getColorDarkModeFG();
+		Color colorBG = GUIHandler.colorDarkModeBG;
+		Color colorFG = GUIHandler.colorDarkModeFG;
 		//Color colorFG = ColorService.YELLOW;
-		Color colorTxtWarningFG = guiHandler.getColorDarkModeWarningFG();
-		Color colorButtonBG = guiHandler.getColorButtonsBG();
-		Color colorButtonFG = guiHandler.getColorButtonsFG();
+		Color colorTxtWarningFG = GUIHandler.colorDarkModeWarningFG;
+		Color colorButtonBG = GUIHandler.colorButtonsBG;
+		Color colorButtonFG = GUIHandler.colorButtonsFG;
 		
 		
 		this.setBackground(colorBG);
@@ -311,7 +306,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtInfoSelector = new Text(compHoldSepAndInfoForSelector, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoSelector.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		txtInfoSelector.setBackground(guiHandler.getColorBGinfo());
+		txtInfoSelector.setBackground(GUIHandler.colorBGinfo);
 		guiHandler.setSizeControl(txtInfoSelector, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector"));
 		txtInfoSelector.addMouseTrackListener(new MouseTrackAdapter() {
@@ -385,7 +380,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtInfoForEncDecRadio = new Text(compHoldInfoForEncDec, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoForEncDecRadio.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		txtInfoForEncDecRadio.setBackground(guiHandler.getColorBGinfo());
+		txtInfoForEncDecRadio.setBackground(GUIHandler.colorBGinfo);
 		guiHandler.setSizeControl(txtInfoForEncDecRadio, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoForEncDecRadio.setText("Select \"Encryption\" to switch to encryption mode.\n"
 				+ "Select \"Decryption\" to switch to decryption mode");
@@ -459,8 +454,8 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtEncryptionWarning = new Text(compHoldCiphertext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtEncryptionWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		txtEncryptionWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		txtEncryptionWarning.setForeground(guiHandler.getColorForegroundWarning());
+		txtEncryptionWarning.setBackground(guiHandler.colorBackgroundWarning);
+		txtEncryptionWarning.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.setSizeControlWarning(txtEncryptionWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(txtEncryptionWarning);
 		
@@ -611,8 +606,8 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtDecryptWarning = new Text(compHoldPlaintext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtDecryptWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		txtDecryptWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		txtDecryptWarning.setForeground(guiHandler.getColorForegroundWarning());
+		txtDecryptWarning.setBackground(guiHandler.colorBackgroundWarning);
+		txtDecryptWarning.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.setSizeControlWarning(txtDecryptWarning, SWT.DEFAULT, SWT.DEFAULT);
 		guiHandler.hideControl(txtDecryptWarning);
 		((GridData) txtDecryptWarning.getLayoutData()).horizontalIndent = 90;
@@ -650,7 +645,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtFirstPlaintext = new Text(compFirstPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
 		txtFirstPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
 		guiHandler.setSizeControl(txtFirstPlaintext, 100, 50);
-		txtFirstPlaintext.setBackground(guiHandler.getColorBGinfo());
+		txtFirstPlaintext.setBackground(GUIHandler.colorBGinfo);
 		txtFirstPlaintext.addMouseListener(new MouseAdapter() {
 		
 			@Override
@@ -687,7 +682,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtSecondPlaintext = new Text(compSecondPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
 		txtSecondPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
 		guiHandler.setSizeControl(txtSecondPlaintext, 100, 50);
-		txtSecondPlaintext.setBackground(guiHandler.getColorBGinfo());
+		txtSecondPlaintext.setBackground(GUIHandler.colorBGinfo);
 		txtSecondPlaintext.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -724,7 +719,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtThirdPlaintext = new Text(compThirdPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
 		txtThirdPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
 		guiHandler.setSizeControl(txtThirdPlaintext, 100, 50);
-		txtThirdPlaintext.setBackground(guiHandler.getColorBGinfo());
+		txtThirdPlaintext.setBackground(GUIHandler.colorBGinfo);
 		txtThirdPlaintext.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -762,7 +757,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtFourthPlaintext = new Text(compFourthPlaintext, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
 		txtFourthPlaintext.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true));
 		guiHandler.setSizeControl(txtFourthPlaintext, 100, 50);
-		txtFourthPlaintext.setBackground(guiHandler.getColorBGinfo());
+		txtFourthPlaintext.setBackground(GUIHandler.colorBGinfo);
 		txtFourthPlaintext.addMouseListener(new MouseAdapter() {
 			
 			@Override

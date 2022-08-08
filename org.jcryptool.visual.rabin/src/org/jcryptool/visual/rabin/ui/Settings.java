@@ -44,7 +44,7 @@ public class Settings extends Composite {
 		guiHandler = new GUIHandler();
 		createContent(this);
 		
-		if(guiHandler.getDarkmode())
+		if(guiHandler.isDarkmode)
 			setColors();
 		// TODO Auto-generated constructor stub
 	}
@@ -62,7 +62,7 @@ public class Settings extends Composite {
 		colorButtonBG = rftc.btnStartGenKeys.getBackground();
 		colorButtonFG = rftc.btnStartGenKeys.getForeground();
 		
-		if(guiHandler.getDarkmode())
+		if(guiHandler.isDarkmode)
 			setColors();
 	}
 	
@@ -70,15 +70,12 @@ public class Settings extends Composite {
 	
 	private void setColors() {
 		
-		Color colorBG = guiHandler.getColorDarkModeBG();
-		Color colorFG = guiHandler.getColorDarkModeFG();
+		Color colorBG = GUIHandler.colorDarkModeBG;
+		Color colorFG = GUIHandler.colorDarkModeFG;
 		//Color colorFG = ColorService.YELLOW;
-		Color colorTxtWarningFG = guiHandler.getColorDarkModeWarningFG();
-		Color colorButtonBG = guiHandler.getColorButtonsBG();
-		Color colorButtonFG = guiHandler.getColorButtonsFG();
-		Color colorTxtWhichYouCanEnterBG = ColorService.WHITE;
-		Color colorTxtWhichYouCanEnterFG = ColorService.BLACK;
-
+		Color colorButtonBG = GUIHandler.colorButtonsBG;
+		Color colorButtonFG = GUIHandler.colorButtonsFG;
+		
 		
 		this.setBackground(colorBG);
 		this.setForeground(colorFG);
@@ -120,89 +117,15 @@ public class Settings extends Composite {
 		btnRadioClassicMode = new Button(compSelectionMode, SWT.RADIO);
 		btnRadioClassicMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 		btnRadioClassicMode.setText("Classic mode");
-		btnRadioClassicMode.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				/*GUIHandler.colorDarkModeBG = ColorService.getColor(SWT.COLOR_WIDGET_BACKGROUND);
-				GUIHandler.colorDarkModeFG = null;//ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
-				GUIHandler.colorButtonsBG = colorButtonBG;
-				GUIHandler.colorButtonsFG = colorButtonFG; //ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
-				GUIHandler.colorDarkModeWarningFG = ColorService.RED;
-				GUIHandler.colorDeselectControlBG = ColorService.LIGHTGRAY;
-				GUIHandler.colorDeselectControlFG = null;//ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
-				GUIHandler.colorResetFinalPlaintextBG = ColorService.LIGHTGRAY;
-				GUIHandler.colorSelectControlBG = ColorService.LIGHT_AREA_BLUE;
-				GUIHandler.colorSelectControlFG = ColorService.BLACK;
-				GUIHandler.colorTxtWhichYouCanEnterBG = ColorService.WHITE;
-				GUIHandler.colorTxtWhichYouCanEnterFG = null;//ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
-				
-				
-				rmv.setColors();
-				rftc.setColors();
-				rstc.setColors();
-				cstb.setColors();
-				rttc.setColors();
-				
-				rftc.getCmbP().setText(rftc.getCmbP().getText());
-				rftc.getCmbQ().setText(rftc.getCmbQ().getText());
-				rftc.getTxtLowLimP().setText(rftc.getTxtLowLimP().getText());
-				rftc.getTxtLowLimQ().setText(rftc.getTxtLowLimQ().getText());
-				rftc.getTxtUpperLimP().setText(rftc.getTxtUpperLimP().getText());
-				rftc.getTxtUpperLimQ().setText(rftc.getTxtUpperLimQ().getText());
-				rftc.getTxtLowLimPQSingle().setText(rftc.getTxtLowLimPQSingle().getText());
-				rftc.getTxtUpperLimPQSingle().setText(rftc.getTxtUpperLimPQSingle().getText());*/
-				
-				
-			}
-			
-		});
+		
 		
 		
 		btnRadioDarkMode = new Button(compSelectionMode, SWT.RADIO);
 		btnRadioDarkMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 		btnRadioDarkMode.setText("Dark mode");
-		btnRadioDarkMode.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				
-				
-				/*GUIHandler.colorDarkModeBG = ColorService.GRAY;
-				GUIHandler.colorDarkModeFG = ColorService.WHITE;
-				GUIHandler.colorButtonsBG = ColorService.LIGHT_AREA_BLUE;
-				GUIHandler.colorButtonsFG =  ColorService.BLACK;
-				GUIHandler.colorDarkModeWarningFG = ColorService.LIGHT_AREA_RED;
-				GUIHandler.colorDeselectControlBG = ColorService.GRAY;
-				GUIHandler.colorDeselectControlFG = ColorService.WHITE;
-				GUIHandler.colorResetFinalPlaintextBG = ColorService.GRAY;
-				GUIHandler.colorSelectControlBG = ColorService.LIGHT_AREA_BLUE;
-				GUIHandler.colorSelectControlFG = ColorService.BLACK;
-				GUIHandler.colorTxtWhichYouCanEnterBG = ColorService.WHITE;
-				GUIHandler.colorTxtWhichYouCanEnterFG = ColorService.BLACK;
-		
-				
-				rmv.setColors();
-				rftc.setColors();
-				rstc.setColors();
-				cstb.setColors();
-				rttc.setColors();
-				
-				
-				rftc.getCmbP().setText(rftc.getCmbP().getText());
-				rftc.getCmbQ().setText(rftc.getCmbQ().getText());
-				rftc.getTxtLowLimP().setText(rftc.getTxtLowLimP().getText());
-				rftc.getTxtLowLimQ().setText(rftc.getTxtLowLimQ().getText());
-				rftc.getTxtUpperLimP().setText(rftc.getTxtUpperLimP().getText());
-				rftc.getTxtUpperLimQ().setText(rftc.getTxtUpperLimQ().getText());
-				rftc.getTxtLowLimPQSingle().setText(rftc.getTxtLowLimPQSingle().getText());
-				rftc.getTxtUpperLimPQSingle().setText(rftc.getTxtUpperLimPQSingle().getText());
-			
-				*/
-			
-			}
-		});
 		
 		
-		if(guiHandler.getDarkmode()) {
+		if(guiHandler.isDarkmode) {
 			btnRadioDarkMode.setSelection(true);
 			btnRadioClassicMode.setSelection(false);
 		}
@@ -221,10 +144,10 @@ public class Settings extends Composite {
 				
 				if(btnRadioClassicMode.getSelection()) {
 					
-					if(!guiHandler.getDarkmode())
+					if(!guiHandler.isDarkmode)
 						return;
 					
-					guiHandler.setDarkmode(false);
+					GUIHandler.isDarkmode = false;
 					//guiHandler.setColorBGinfo(ColorService.LIGHTGRAY);
 					//guiHandler.setColorFGinfo(ColorService.BLACK);
 					restartPlugin();
@@ -232,7 +155,7 @@ public class Settings extends Composite {
 				
 				else if(btnRadioDarkMode.getSelection()) {
 					
-					if(guiHandler.getDarkmode())
+					if(guiHandler.isDarkmode)
 						return;
 					
 					GUIHandler.colorDeselectControlBG = ColorService.GRAY;
@@ -245,7 +168,7 @@ public class Settings extends Composite {
 					GUIHandler.colorTxtWhichYouCanEnterFG = ColorService.BLACK;
 					
 					
-					guiHandler.setDarkmode(true);
+					GUIHandler.isDarkmode = true;
 					//guiHandler.setColorBGinfo(ColorService.GRAY);
 					//guiHandler.setColorFGinfo(ColorService.WHITE);
 					restartPlugin();
@@ -262,7 +185,7 @@ public class Settings extends Composite {
 		txtInfoMode = new Text(grpMode, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtInfoMode, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoMode.setBackground(guiHandler.getColorBGinfo());
+		txtInfoMode.setBackground(GUIHandler.colorBGinfo);
 		txtInfoMode.setText("Select \"Classic mode\" or \"Dark mode\" and click on \"Apply\" to "
 				+ "either activate the classic mode or the dark mode. Be aware that the plugin will restart "
 				+ "after clicking on \"Apply\"");

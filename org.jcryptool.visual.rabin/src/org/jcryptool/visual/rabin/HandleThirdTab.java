@@ -23,7 +23,6 @@ import org.jcryptool.visual.rabin.ui.RabinThirdTabComposite;
 public class HandleThirdTab extends GUIHandler {
 	
 	private int maxBitLimit = 200;
-	private Rabin savedRabin;
 	private boolean stopComputation = false;
 	private Thread fermatFactorizeThread = null;
 	private boolean endFermatFactorize = false;
@@ -32,31 +31,15 @@ public class HandleThirdTab extends GUIHandler {
 	private boolean stopComputationPollard = false;
 	
 
-	/**
-	 * @param scMain
-	 * @param compMain
-	 * @param rabinFirst
-	 * @param rabinSecond
-	 */
-	public HandleThirdTab(ScrolledComposite scMain, Composite compMain, Rabin rabinFirst, Rabin rabinSecond) {
-		super(scMain, compMain, rabinFirst, rabinSecond);
-		savedRabin = new Rabin();
+	
+	public HandleThirdTab(ScrolledComposite scMain, Composite compMain, Rabin rabin) {
+		super(scMain, compMain, rabin);
 	}
 	
 	
 	
-	public void setStopComputation(boolean state) {
-		stopComputation = state;
-	}
 	
 	
-	
-	/**
-	 * @return savedRabin
-	 */
-	public Rabin getSavedRabin() {
-		return savedRabin;
-	}
 	
 	
 	/**
@@ -68,8 +51,8 @@ public class HandleThirdTab extends GUIHandler {
 		String n = rttc.cmbN.getText();
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
 		
-		Color neutral = this.getColorBackgroundNeutral();
-		Color wrong = this.getColorBackgroundWrong();
+		Color neutral = this.colorBackgroundNeutral;
+		Color wrong = this.colorBackgroundWrong;
 		
 		rttc.btnFactorize.setEnabled(false);
 		
@@ -98,8 +81,8 @@ public class HandleThirdTab extends GUIHandler {
 		}*/
 		
 		
-		if(nAsNum.compareTo(getLimitUpAttacks()) > 0) {
-			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + getLimitExpAttacks() + " is allowed";
+		if(nAsNum.compareTo(limitUpAttacks) > 0) {
+			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + limitExpAttacks + " is allowed";
 			//txtWarning.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
 			rttc.txtNWarning.setText(strMaxBitlengthOfN);
 			showControl(rttc.txtNWarning);
@@ -127,7 +110,6 @@ public class HandleThirdTab extends GUIHandler {
 		
 		hideControl(rttc.txtNWarning);
 		rttc.cmbN.setBackground(neutral);
-		//rttc.getBtnStartGen().setEnabled(true);
 		rttc.btnFactorize.setEnabled(true);
 
 	}
@@ -139,9 +121,7 @@ public class HandleThirdTab extends GUIHandler {
 		int idx = cmbP.getSelectionIndex();
 		String item = cmbP.getItem(idx);
 		
-		//cmbP.removeVerifyListener(vlNumbers);
 		cmbP.setText(item);
-		//cmbP.addVerifyListener(vlNumbers);
 	}
 	
 	
@@ -159,8 +139,8 @@ public class HandleThirdTab extends GUIHandler {
 		String n = cmbN.getText();
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
 		
-		Color neutral = this.getColorBackgroundNeutral();
-		Color wrong = this.getColorBackgroundWrong();
+		Color neutral = this.colorBackgroundNeutral;
+		Color wrong = this.colorBackgroundWrong;
 		
 		if(n.isEmpty()) {
 			cmbN.setBackground(neutral);
@@ -178,8 +158,8 @@ public class HandleThirdTab extends GUIHandler {
 		
 		BigInteger nAsNum = new BigInteger(n);
 		
-		if(nAsNum.compareTo(getLimitUpAttacks()) > 0) {
-			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + getLimitExpAttacks() + " is allowed";
+		if(nAsNum.compareTo(limitUpAttacks) > 0) {
+			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + limitExpAttacks + " is allowed";
 			//txtWarning.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
 			txtWarning.setText(strMaxBitlengthOfN);
 			showControl(txtWarning);
@@ -226,8 +206,8 @@ public class HandleThirdTab extends GUIHandler {
 		String strTxt = txt.getText();
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
 		
-		Color neutral = this.getColorBackgroundNeutral();
-		Color wrong = this.getColorBackgroundWrong();
+		Color neutral = this.colorBackgroundNeutral;
+		Color wrong = this.colorBackgroundWrong;
 	
 		
 		if(strTxt.isEmpty()) {
@@ -269,8 +249,8 @@ public class HandleThirdTab extends GUIHandler {
 		}*/
 		
 		
-		if(nAsNum.compareTo(getLimitUpAttacks()) > 0) {
-			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + getLimitExpAttacks() + " is allowed";
+		if(nAsNum.compareTo(limitUpAttacks) > 0) {
+			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + limitExpAttacks + " is allowed";
 			txtWarningNPollard.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
 			showControl(txtWarningNPollard);
 			cmbN.setBackground(wrong);
@@ -324,24 +304,6 @@ public class HandleThirdTab extends GUIHandler {
 
 	
 	
-
-	
-	
-	
-	/**
-	 * action for btnGenKeysMan
-	 * @param e
-	 * @param rttc
-	 */
-	public void btnGenKeysManAction(SelectionEvent e, RabinThirdTabComposite rttc) {
-		Button src = (Button) e.getSource();
-		
-		if(src.getSelection())
-			updateTextfieldN(e, rttc);
-	}
-	
-	
-	
 	
 	/**
 	 * reset tab content, not used
@@ -356,8 +318,8 @@ public class HandleThirdTab extends GUIHandler {
 		rttc.txtQ1.setText(""); //$NON-NLS-1$
 		rttc.txtQ2.setText(""); //$NON-NLS-1$
 		rttc.txtResultQ.setText(""); //$NON-NLS-1$
-		rttc.txtResultP.setBackground(this.getColorBackgroundNeutral());
-		rttc.txtResultQ.setBackground(this.getColorBackgroundNeutral());
+		rttc.txtResultP.setBackground(this.colorBackgroundNeutral);
+		rttc.txtResultQ.setBackground(this.colorBackgroundNeutral);
 	}
 	
 	
@@ -377,6 +339,27 @@ public class HandleThirdTab extends GUIHandler {
 	
 	
 	
+//	/**
+//	 * action for btnGenKeysAlgoPollard
+//	 * @param rttc
+//	 * @param txtWarningNPollard
+//	 * @param txtNPollard
+//	 */
+//	public void btnGenKeysAlgoPollardAction(RabinThirdTabComposite rttc, Text txtWarningNPollard, Combo cmbNPollard) {
+//		BigInteger n = this.rabinSecond.getN();
+//		
+//		if(n == null) {
+//			txtWarningNPollard.setText(Messages.HandleThirdTab_strGenKeyPairTT);
+//			this.showControl(txtWarningNPollard);
+//			return;
+//		}
+//		
+//		this.hideControl(txtWarningNPollard);
+//		cmbNPollard.setText(n.toString());
+//		this.rabinFirst.setN(n);
+//	}
+	
+	
 	/**
 	 * action for btnGenKeysAlgoPollard
 	 * @param rttc
@@ -384,7 +367,7 @@ public class HandleThirdTab extends GUIHandler {
 	 * @param txtNPollard
 	 */
 	public void btnGenKeysAlgoPollardAction(RabinThirdTabComposite rttc, Text txtWarningNPollard, Combo cmbNPollard) {
-		BigInteger n = this.getRabinSecond().getN();
+		BigInteger n = this.rabinFirst.getN();
 		
 		if(n == null) {
 			txtWarningNPollard.setText(Messages.HandleThirdTab_strGenKeyPairTT);
@@ -394,58 +377,9 @@ public class HandleThirdTab extends GUIHandler {
 		
 		this.hideControl(txtWarningNPollard);
 		cmbNPollard.setText(n.toString());
-		this.getRabinFirst().setN(n);
 	}
 	
 
-	
-	
-	
-	
-	
-	
-	/**
-	 * action for btnStartGen
-	 * @param rttc
-	 */
-	public void btnStartGenAction(RabinThirdTabComposite rttc) {
-		if(rttc.btnGenKeysMan.getSelection()) {
-			String nStr = rttc.cmbN.getText();
-			BigInteger n = new BigInteger(nStr);
-			getRabinFirst().setN(n);
-		}
-		
-		if(rttc.btnGenKeysAlgo.getSelection()) {
-			BigInteger n = getRabinSecond().getN();
-			
-			if(n == null) {
-				String strGenKeyPairTT = Messages.HandleThirdTab_strGenKeyPairTT;
-				rttc.txtNWarning.setText(strGenKeyPairTT);
-				showControl(rttc.txtNWarning);
-				return;
-			}
-			
-			
-			/*if(n.bitLength() > maxBitLimit) {
-				rttc.txtNWarning.setText("\tAttention: bitlength of N must be <= " + maxBitLimit +  " bits");
-				showControl(rttc.txtNWarning);
-				rttc.cmbN.setBackground(ColorService.RED);
-				return;
-			}*/
-			
-			
-			hideControl(rttc.txtNWarning);
-			getRabinFirst().setN(n);
-			rttc.cmbN.setText(n.toString());
-			
-		}
-		
-		this.resetTabContent(rttc);
-		
-		
-		rttc.btnFactorize.setEnabled(true);
-	}
-	
 	
 	/**
 	 * pseudo random number function g(x) = x^2 + c
@@ -460,76 +394,10 @@ public class HandleThirdTab extends GUIHandler {
 	}
 	
 	
-	/**
-	 * action for btnFactorizePollard
-	 * @param rttc
-	 * @param txtNPollard
-	 * @param txtxPollard
-	 * @param txtyPollard
-	 * @param txtcPollard
-	 * @param txtWarningNPollard
-	 * @param txtpPollard
-	 * @param txtqPollard
-	 */
-	/*public void btnFactorizePollardAction(RabinThirdTabComposite rttc, Text txtNPollard, Text txtxPollard, Text txtyPollard, Text txtcPollard, Text txtWarningNPollard, 
-			Text txtpPollard, Text txtqPollard) {
-		String nAsStr = txtNPollard.getText();
-		String xAsStr = txtxPollard.getText();
-		String yAsStr = txtyPollard.getText();
-		String cAsStr = txtcPollard.getText();
-		
-		Color neutral = this.getColorBackgroundNeutral();
-		Color correct = this.getColorBackgroundCorrect();
-		
-		BigInteger n = new BigInteger(nAsStr);
-		BigInteger x = new BigInteger(xAsStr);
-		BigInteger y = new BigInteger(yAsStr);
-		BigInteger c = new BigInteger(cAsStr);
-		
-		BigInteger d = BigInteger.ONE;
-		
-		BigInteger cnt = BigInteger.ONE;
-		
-		rttc.pollardFactorTable.removeAll();
-		txtpPollard.setText("");
-		txtqPollard.setText("");
-		txtpPollard.setBackground(neutral);
-		txtqPollard.setBackground(neutral);
-		
-		while(d.compareTo(BigInteger.ONE) == 0) {
-			x = this.gRndFunction(x, c, n);
-			y = this.gRndFunction(y, c, n);
-			y = this.gRndFunction(y, c, n);
-			BigInteger temp = x.subtract(y).abs();
-			BigInteger[] gcdRes = this.getRabinFirst().Gcd(temp, n);
-			d = gcdRes[0];
-			String[] itemContent = new String[] {cnt.toString(), x.toString(), y.toString(), d.toString()};
-			TableItem tableItem= new TableItem(rttc.pollardFactorTable, SWT.NONE);
-			tableItem.setText(itemContent);
-			cnt = cnt.add(BigInteger.ONE);
-		}
-		
-		if(d.compareTo(n) == 0) {
-			txtWarningNPollard.setText("Attention: could not find primes p and q. Please try again or use other parameters");
-			this.showControl(txtWarningNPollard);
-			return;
-		}
-		
-		this.hideControl(txtWarningNPollard);
-		
-		BigInteger p = d;
-		BigInteger q = n.divide(p);
-		txtpPollard.setText(p.toString());
-		txtqPollard.setText(q.toString());
-		txtpPollard.setBackground(correct);
-		txtqPollard.setBackground(correct);
-	}*/
 	
 	
 	
-	
-	public Thread btnFactorizePollard(RabinThirdTabComposite rttc, Combo cmbNPollard, Text txtxPollard, Text txtyPollard, Text txtcPollard, Text txtWarningNPollard, 
-			Text txtpPollard, Text txtqPollard) {
+	public Thread btnFactorizePollard(RabinThirdTabComposite rttc) {
 		
 		//stopComputationPollard = false;
 		
@@ -551,18 +419,18 @@ public class HandleThirdTab extends GUIHandler {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						nAsStr = cmbNPollard.getText();
-						xAsStr = txtxPollard.getText();
-						yAsStr = txtyPollard.getText();
-						cAsStr = txtcPollard.getText();
+						nAsStr = rttc.cmbNPollard.getText();
+						xAsStr = rttc.txtxPollard.getText();
+						yAsStr = rttc.txtyPollard.getText();
+						cAsStr = rttc.txtgxPollard.getText();
 					}
 				};
 				
 				Display.getDefault().syncExec(r);
 				
 				
-				Color neutral = getColorBGinfo();
-				Color correct = getColorBackgroundCorrect();
+				Color neutral = colorBGinfo;
+				Color correct = colorBackgroundCorrect;
 				
 				BigInteger n = new BigInteger(nAsStr);
 				BigInteger x = new BigInteger(xAsStr);
@@ -579,16 +447,16 @@ public class HandleThirdTab extends GUIHandler {
 					public void run() {
 						// TODO Auto-generated method stub
 						rttc.pollardFactorTable.removeAll();
-						txtpPollard.setText("");
-						txtqPollard.setText("");
+						rttc.txtpPollard.setText("");
+						rttc.txtqPollard.setText("");
 						
-						if(getDarkmode()) {
-							txtpPollard.setBackground(getColorDarkModeBG());
-							txtqPollard.setBackground(getColorDarkModeBG());
+						if(GUIHandler.isDarkmode) {
+							rttc.txtpPollard.setBackground(GUIHandler.colorDarkModeBG);
+							rttc.txtqPollard.setBackground(GUIHandler.colorDarkModeBG);
 						}
 						else {
-							txtpPollard.setBackground(neutral);
-							txtqPollard.setBackground(neutral);
+							rttc.txtpPollard.setBackground(neutral);
+							rttc.txtqPollard.setBackground(neutral);
 						}
 					}
 				};
@@ -601,7 +469,7 @@ public class HandleThirdTab extends GUIHandler {
 					y = gRndFunction(y, c, n);
 					y = gRndFunction(y, c, n);
 					BigInteger temp = x.subtract(y).abs();
-					BigInteger[] gcdRes = getRabinFirst().Gcd(temp, n);
+					BigInteger[] gcdRes = rabinFirst.Gcd(temp, n);
 					d = gcdRes[0];
 					String[] itemContent = new String[] {cnt.toString(), x.toString(), y.toString(), d.toString()};
 					
@@ -645,8 +513,8 @@ public class HandleThirdTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							txtWarningNPollard.setText("Attention: could not find primes p and q. Please try again or use other parameters");
-							showControl(txtWarningNPollard);
+							rttc.txtWarningNPollard.setText("Attention: could not find primes p and q. Please try again or use other parameters");
+							showControl(rttc.txtWarningNPollard);
 						}
 					};
 					
@@ -660,7 +528,7 @@ public class HandleThirdTab extends GUIHandler {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						hideControl(txtWarningNPollard);
+						hideControl(rttc.txtWarningNPollard);
 					}
 				};
 				
@@ -674,10 +542,10 @@ public class HandleThirdTab extends GUIHandler {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						txtpPollard.setText(p.toString());
-						txtqPollard.setText(q.toString());
-						txtpPollard.setBackground(correct);
-						txtqPollard.setBackground(correct);
+						rttc.txtpPollard.setText(p.toString());
+						rttc.txtqPollard.setText(q.toString());
+						rttc.txtpPollard.setBackground(correct);
+						rttc.txtqPollard.setBackground(correct);
 					}
 				};
 				
@@ -695,8 +563,7 @@ public class HandleThirdTab extends GUIHandler {
 	
 	
 	
-	public void btnFactorizePollardAction(RabinThirdTabComposite rttc, Combo cmbNPollard, Text txtxPollard, Text txtyPollard, Text txtcPollard, Text txtWarningNPollard, 
-			Text txtpPollard, Text txtqPollard) {
+	public void btnFactorizePollardAction(RabinThirdTabComposite rttc) {
 		this.hideControl(rttc.txtInfoStopComputationPollard);
 		stopComputationPollard = false;
 		
@@ -707,13 +574,13 @@ public class HandleThirdTab extends GUIHandler {
 		//rttc.btnStopComputation.setEnabled(false);
 		
 		if(threadPollardFactorize == null) {
-			threadPollardFactorize = btnFactorizePollard(rttc, cmbNPollard, txtxPollard, txtyPollard, txtcPollard, txtWarningNPollard, txtpPollard, txtqPollard);
+			threadPollardFactorize = btnFactorizePollard(rttc);
 			threadPollardFactorize.start();
 		}
 		
 		if(endPollardFactorize) {
 			threadPollardFactorize = null;
-			threadPollardFactorize = btnFactorizePollard(rttc, cmbNPollard, txtxPollard, txtyPollard, txtcPollard, txtWarningNPollard, txtpPollard, txtqPollard);
+			threadPollardFactorize = btnFactorizePollard(rttc);
 			threadPollardFactorize.start();
 		}
 	}
@@ -754,20 +621,20 @@ public class HandleThirdTab extends GUIHandler {
 						rttc.txtP1.setText("");
 						rttc.txtP2.setText("");
 						rttc.txtResultP.setText("");
-						//rttc.txtP1.setBackground(getColorBGinfo());
-						//rttc.txtP1.setBackground(getColorBGinfo());
-						if(getDarkmode())
-							rttc.txtResultP.setBackground(getColorDarkModeBG());
+						//rttc.txtP1.setBackground(colorBGinfo);
+						//rttc.txtP1.setBackground(colorBGinfo);
+						if(GUIHandler.isDarkmode)
+							rttc.txtResultP.setBackground(GUIHandler.colorDarkModeBG);
 						else
-							rttc.txtResultP.setBackground(getColorBGinfo());
+							rttc.txtResultP.setBackground(colorBGinfo);
 						rttc.txtQ1.setText("");
 						rttc.txtQ2.setText("");
 						rttc.txtResultQ.setText("");
 						
-						if(getDarkmode())
-							rttc.txtResultQ.setBackground(getColorDarkModeBG());
+						if(GUIHandler.isDarkmode)
+							rttc.txtResultQ.setBackground(GUIHandler.colorDarkModeBG);
 						else
-							rttc.txtResultQ.setBackground(getColorBGinfo());
+							rttc.txtResultQ.setBackground(colorBGinfo);
 					
 						nAsStr = rttc.cmbN.getText();
 							
@@ -778,8 +645,8 @@ public class HandleThirdTab extends GUIHandler {
 				
 				BigInteger n = new BigInteger(nAsStr);
 				
-				Color neutral = getColorBackgroundNeutral();
-				Color correct = getColorBackgroundCorrect();
+				Color neutral = colorBackgroundNeutral;
+				Color correct = colorBackgroundCorrect;
 			
 			
 				r1 = new Runnable() {
@@ -821,7 +688,7 @@ public class HandleThirdTab extends GUIHandler {
 					Display.getDefault().syncExec(r1);
 					
 					
-				}while(!getRabinFirst().isInteger(y_2_nSquare) && !stopComputation);
+				}while(!rabinFirst.isInteger(y_2_nSquare) && !stopComputation);
 				
 				if(stopComputation) {
 					
@@ -890,7 +757,6 @@ public class HandleThirdTab extends GUIHandler {
 			
 			
 		});
-		//BigInteger n = getRabinFirst().getN();
 		
 		return t;
 
@@ -902,63 +768,24 @@ public class HandleThirdTab extends GUIHandler {
 		this.hideControl(rttc.txtInfoStopComputation);
 		stopComputation = false;
 		
-		//stopComputation = false;
-		//rttc.btnStopComputation.setEnabled(false);
-		
-		//endFermatFactorize = false;
-		//rttc.btnStopComputation.setEnabled(false);
 		
 		if(fermatFactorizeThread == null) {
 			fermatFactorizeThread = btnFactorizeAction(rttc);
 			fermatFactorizeThread.start();
 		}
-		/*else {
-			this.setStopComputation(true);
-			fermatFactorizeThread = null;
-			//rttc.factorTable.removeAll();
-			fermatFactorizeThread = btnFactorizeAction(rttc);
-			fermatFactorizeThread.start();
-		}*/
 		if(endFermatFactorize) {
 			fermatFactorizeThread = null;
 			fermatFactorizeThread = btnFactorizeAction(rttc);
 			fermatFactorizeThread.start();
 		}
 		
-		
-		/*Runnable r = new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				String resultP = rttc.txtResultP.getText();
-				String resultQ = rttc.txtResultQ.getText();
-				
-				if(resultP.isEmpty() && resultQ.isEmpty()) {
-					rttc.btnStopComputation.setEnabled(true);
-					
-				}
-			}
-		};
-		
-		Display.getDefault().timerExec(3000, r);*/
-		
-		
-		/*String resultP = rttc.txtResultP.getText();
-		String resultQ = rttc.txtResultQ.getText();
-		
-		
-		if(resultP.isEmpty() && resultQ.isEmpty())
-			rttc.btnStopComputation.setEnabled(true);*/
-
 	}
 	
 	
 	
 	public void btnStopComputation(RabinThirdTabComposite rttc) {
-		this.setStopComputation(true);
+		stopComputation = true;
 		fermatFactorizeThread = null;
-		//rttc.btnStopComputation.setEnabled(false);
 	}
 	
 	
@@ -972,71 +799,5 @@ public class HandleThirdTab extends GUIHandler {
 		
 		rttc.btnStopComputation.setEnabled(false);
 	}
-	
-	
-	
-	
-	
-	/**
-	 * action for btnFactorize
-	 * @param rttc
-	 */
-//	public void btnFactorizeAction(RabinThirdTabComposite rttc) {
-//		//BigInteger n = getRabinFirst().getN();
-//		String nAsStr = rttc.getTxtN().getText();
-//		BigInteger n = new BigInteger(nAsStr);
-//		
-//		Color neutral = this.getColorBackgroundNeutral();
-//		Color correct = this.getColorBackgroundCorrect();
-//	
-//		
-//		
-//		
-//		hideControl(rttc.txtNWarning);
-//		rttc.getTxtN().setBackground(neutral);
-//		
-//		rttc.factorTable.removeAll();
-//		
-//		
-//		BigInteger y = n.sqrt();
-//		BigInteger y_2_n = null;
-//		BigDecimal y_2_nAsBigDecimal = null;
-//		BigDecimal y_2_nSquare = null;
-//		BigInteger y_2 = null;
-//		do{
-//			y = y.add(BigInteger.ONE);
-//			y_2 = y.pow(2);
-//			y_2_n = y_2.subtract(n);
-//			y_2_nAsBigDecimal = new BigDecimal(y_2_n);
-//			y_2_nSquare = y_2_nAsBigDecimal.sqrt(new MathContext(y_2_nAsBigDecimal.precision() + 5, RoundingMode.FLOOR));
-//
-//			String[] tableComponents = new String[] {y.toString(), y_2.toString(), y_2_n.toString(), y_2_nSquare.toString()};
-//			TableItem tableItem= new TableItem(rttc.factorTable, SWT.NONE);
-//			tableItem.setText(tableComponents);
-//			
-//		}while(!getRabinFirst().isInteger(y_2_nSquare)); 
-//		
-//		BigInteger p = y.add(y_2_nSquare.toBigInteger());
-//		BigInteger q = y.subtract(y_2_nSquare.toBigInteger());
-//		
-//		boolean isValidPrime = p.isProbablePrime(1000) && q.isProbablePrime(1000);
-//		
-//		if(isValidPrime) {
-//			rttc.txtP1.setText(y.toString());
-//			rttc.txtP2.setText(y_2_nSquare.toString());
-//			rttc.txtResultP.setText(p.toString());
-//			rttc.txtQ1.setText(y.toString());
-//			rttc.txtQ2.setText(y_2_nSquare.toString());
-//			rttc.txtResultQ.setText(q.toString());
-//			rttc.txtResultP.setBackground(correct);
-//			rttc.txtResultQ.setBackground(correct);
-//		}
-//		else {
-//			String strCouldNotFindPandQ = Messages.HandleThirdTab_strCouldNotFindPandQ;
-//			rttc.txtNWarning.setText(strCouldNotFindPandQ);
-//			showControl(rttc.txtNWarning);
-//		}
-//
-//	}
-
 }
+	

@@ -80,7 +80,6 @@ import org.jcryptool.core.util.ui.auto.SmoothScroller;
 // }
 
 public class RabinFirstTabComposite extends Composite {
-	public Text txtEnterText;
 	public Combo cmbP;
 	public Combo cmbQ;
 	public Text txtModN;
@@ -88,20 +87,9 @@ public class RabinFirstTabComposite extends Composite {
 	public Text txtUpperLimP;
 	public Text txtLowLimQ;
 	public Text txtUpperLimQ;
-	public Text txtChosenPlain;
-	public Text txtEncDecStartWarning;
-	public Text[][] plaintexts;
-	public Text txtWarningNpq;
 	public Text txtcompGenPandQWarning;
-	public Text txtEnc;
-	public Text txtChosenPlainInfo;
 	
-	public Group grpPlaintext;
 	public Group grpParam;
-	public Group grpEncDec;
-	public Group grpMessages;
-	
-	public TextLoadController textSelector;
 	
 	public Label lblPrimeP;
 	public Label lblPrimeQ;
@@ -110,39 +98,19 @@ public class RabinFirstTabComposite extends Composite {
 	public Composite npqComp;
 	public Group genPComp;
 	public Group genQComp;
-	public Composite paramMainComp;
 	public Composite compGenKeys;
-	public Composite compHoldEncDec;
-	public Composite compPlaintexts;
-	public Composite compHoldPlainAndText;
 	public Composite rootComposite;
 
 	
-	public Button btnGenPrimes;
-	public Button btnRadEnc;
-	public Button btnRadDec;
-	public Button btnEncDec;
 	public Button btnGenKeysMan;
-	public Button btnGenKeysAlgo;
-	public Button btnEncDecStart;
 	public Button btnStartGenKeys;
 	public Button btnGenKeys;
-	public Button btnUseKeysAlgo;
-	
-	public GridData grpMessagesData;
 	
 	
-	
-	
-	
-	
-	
-	public GridData txtWarningNpqData;
 	
 	public GridData txtcompGenPandQWarningData;
 	public ScrolledComposite sc;
 
-	public GridData txtChosenPlainData;
 	
 	public Text pWarning;
 	public Text qWarning;
@@ -177,13 +145,8 @@ public class RabinFirstTabComposite extends Composite {
 	public Label lblUpperLimQ;
 	public Composite compSelectionCryptosystem;
 	public Composite compSelection;
-	public Label lblSeparateInfoTop;
-	public Group grpInfoSelection;
-	public Label lblSeparateInfoBottom;
-	
 	
 	public Composite compTest;
-	public StyledText txtInstructions;
 	public Composite compHoldLayoutContent;
 	public Label lblSepParamContentBottom;
 	public Label lblSepSelectionCryptoBottom;
@@ -265,34 +228,19 @@ public class RabinFirstTabComposite extends Composite {
 	
 	
 	
-	Thread t = new Thread(new Runnable() {
-		
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			guiHandler.btnStartGenKeysAction(getCurrentInstance(), rstc, 1000);
-		}
-	});
-	
-	
 	
 	
 	public void setColors() {
 		
+		Color colorBG = GUIHandler.colorDarkModeBG;
+		Color colorFG = GUIHandler.colorDarkModeFG;
 		
-		
-		Color colorBG = guiHandler.getColorDarkModeBG();
-		Color colorFG = guiHandler.getColorDarkModeFG();
-		//Color colorFG = new Color(255, 0, 255);
-		
-		Color colorTxtWarningFG = guiHandler.getColorDarkModeWarningFG();
-		Color colorButtonBG = guiHandler.getColorButtonsBG();
-		Color colorButtonFG = guiHandler.getColorButtonsFG();
+		Color colorTxtWarningFG = GUIHandler.colorDarkModeWarningFG;
+		Color colorButtonBG = GUIHandler.colorButtonsBG;
+		Color colorButtonFG = GUIHandler.colorButtonsFG;
 		Color colorTxtWhichYouCanEnterBG = ColorService.WHITE;
 		Color colorTxtWhichYouCanEnterFG = ColorService.BLACK;
 		
-		//txtEnterText.setBackground(colorBG);
-		//txtEnterText.setForeground(colorFG);
 		cmbP.setBackground(colorTxtWhichYouCanEnterBG);
 		cmbP.setForeground(colorTxtWhichYouCanEnterFG);
 		cmbQ.setBackground(colorTxtWhichYouCanEnterBG);
@@ -482,8 +430,8 @@ public class RabinFirstTabComposite extends Composite {
 		pWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) pWarning.getLayoutData()).horizontalIndent = 28;
 		pWarning.setText(Messages.RabinFirstTabComposite_pWarning);
-		pWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		pWarning.setForeground(guiHandler.getColorForegroundWarning());
+		pWarning.setBackground(guiHandler.colorBackgroundWarning);
+		pWarning.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.setSizeControlWarning(pWarning, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// test setSizeControl instead of setSizeControlWarning to check whether
@@ -515,8 +463,8 @@ public class RabinFirstTabComposite extends Composite {
 		qWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) qWarning.getLayoutData()).horizontalIndent = 28;
 		qWarning.setText(Messages.RabinFirstTabComposite_qWarning);
-		qWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		qWarning.setForeground(guiHandler.getColorForegroundWarning());
+		qWarning.setBackground(guiHandler.colorBackgroundWarning);
+		qWarning.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.setSizeControlWarning(qWarning, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// same as above with pWarning
@@ -548,8 +496,8 @@ public class RabinFirstTabComposite extends Composite {
 		nWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) nWarning.getLayoutData()).horizontalIndent = 28;
 		nWarning.setText(Messages.RabinFirstTabComposite_nWarning);
-		nWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		nWarning.setForeground(guiHandler.getColorForegroundWarning());
+		nWarning.setBackground(guiHandler.colorBackgroundWarning);
+		nWarning.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.setSizeControlWarning(nWarning, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// same as above
@@ -689,8 +637,8 @@ public class RabinFirstTabComposite extends Composite {
 		txtSinglePQWarning = new Text(grpSelectSinglePandQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtSinglePQWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) txtSinglePQWarning.getLayoutData()).horizontalIndent = 80;
-		txtSinglePQWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		txtSinglePQWarning.setForeground(guiHandler.getColorForegroundWarning());
+		txtSinglePQWarning.setBackground(guiHandler.colorBackgroundWarning);
+		txtSinglePQWarning.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.setSizeControlWarning(txtSinglePQWarning, SWT.DEFAULT, SWT.DEFAULT);
 		
 		// same as above
@@ -725,8 +673,8 @@ public class RabinFirstTabComposite extends Composite {
 		txtcompGenPandQWarningData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
 		txtcompGenPandQWarning.setLayoutData(txtcompGenPandQWarningData);
 		guiHandler.setSizeControlWarning(txtcompGenPandQWarning, SWT.DEFAULT, SWT.DEFAULT);
-		txtcompGenPandQWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		txtcompGenPandQWarning.setForeground(guiHandler.getColorForegroundWarning());
+		txtcompGenPandQWarning.setBackground(guiHandler.colorBackgroundWarning);
+		txtcompGenPandQWarning.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.hideControl(txtcompGenPandQWarning);
 		
 		
@@ -866,7 +814,7 @@ public class RabinFirstTabComposite extends Composite {
 		txtInfoSelection = new Text(compHoldSepAndInfoForCryptoSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtInfoSelection, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoSelection.setBackground(guiHandler.getColorBGinfo());
+		txtInfoSelection.setBackground(GUIHandler.colorBGinfo);
 		txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook"));
 		txtInfoSelection.addMouseTrackListener(new MouseTrackAdapter() {
 			
@@ -875,41 +823,6 @@ public class RabinFirstTabComposite extends Composite {
 				guiHandler.setCursorControl(txtInfoSelection, SWT.CURSOR_ARROW);
 			}
 		});			
-	}
-	
-	
-	
-	private void createInfoForSelectionContent(Composite parent) {
-		
-		lblSeparateInfoTop = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
-		lblSeparateInfoTop.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
-		
-		grpInfoSelection = new Group(parent, SWT.NONE);
-		grpInfoSelection.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, true));
-		grpInfoSelection.setLayout(new GridLayout(1, false));
-		grpInfoSelection.setText("Info");
-		
-		
-		
-		txtInfoSelection = new Text(grpInfoSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
-		txtInfoSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		guiHandler.setSizeControlWarning(txtInfoSelection, SWT.DEFAULT + 400, SWT.DEFAULT);
-		txtInfoSelection.setBackground(guiHandler.getColorBGinfo());
-		txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook"));
-		txtInfoSelection.addMouseTrackListener(new MouseTrackAdapter() {
-			
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				guiHandler.setCursorControl(txtInfoSelection, SWT.CURSOR_ARROW);
-			}
-		});
-		
-		
-		lblSeparateInfoBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
-		lblSeparateInfoBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
-		
 	}
 	
 
@@ -950,7 +863,8 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		rstc = new RabinSecondTabComposite(compHoldLayoutContent, SWT.NONE, guiHandler.getRabinFirst(), guiHandler.getRabinSecond(), sc, rootComposite);
+		//rstc = new RabinSecondTabComposite(compHoldLayoutContent, SWT.NONE, guiHandler.rabinFirst, guiHandler.rabinSecond, sc, rootComposite);
+		rstc = new RabinSecondTabComposite(compHoldLayoutContent, SWT.NONE, guiHandler.rabinFirst, sc, rootComposite);
 		rstc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		rstc.setLayout(new GridLayout(1, false));
 		guiHandler.hideControl(rstc);
@@ -959,13 +873,10 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		if(guiHandler.getDarkmode())
+		if(GUIHandler.isDarkmode)
 			setColors();
 		
 		initializeContent();
-		
-		
-		
 		
 	}
 	
@@ -989,9 +900,17 @@ public class RabinFirstTabComposite extends Composite {
 	 * @param rootScrolledComposite
 	 * @param rootComposite
 	 */
-	public RabinFirstTabComposite(Composite parent, int style, Rabin rabinFirst, Rabin rabinSecond, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
+//	public RabinFirstTabComposite(Composite parent, int style, Rabin rabinFirst, Rabin rabinSecond, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
+//		super(parent, style);
+//		HandleFirstTab guiHandler = new HandleFirstTab(rootScrolledComposite, rootComposite, rabinFirst, rabinSecond);
+//		this.guiHandler = guiHandler;
+//		createContent(rootScrolledComposite, rootComposite);
+//	}
+	
+	
+	public RabinFirstTabComposite(Composite parent, int style, Rabin rabin, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
 		super(parent, style);
-		HandleFirstTab guiHandler = new HandleFirstTab(rootScrolledComposite, rootComposite, rabinFirst, rabinSecond);
+		HandleFirstTab guiHandler = new HandleFirstTab(rootScrolledComposite, rootComposite, rabin);
 		this.guiHandler = guiHandler;
 		createContent(rootScrolledComposite, rootComposite);
 	}
@@ -1004,12 +923,12 @@ public class RabinFirstTabComposite extends Composite {
 	 * @param rabinFirst
 	 * @param rabinSecond
 	 */
-	public RabinFirstTabComposite(Composite parent, int style, Rabin rabinFirst, Rabin rabinSecond) {
-		super(parent, style);
-		HandleFirstTab guiHandler = new HandleFirstTab(sc, rootComposite, rabinFirst, rabinSecond);
-		this.guiHandler = guiHandler;
-		//createContent();
-	}
+//	public RabinFirstTabComposite(Composite parent, int style, Rabin rabinFirst, Rabin rabinSecond) {
+//		super(parent, style);
+//		HandleFirstTab guiHandler = new HandleFirstTab(sc, rootComposite, rabinFirst, rabinSecond);
+//		this.guiHandler = guiHandler;
+//		//createContent();
+//	}
 	
 	
 

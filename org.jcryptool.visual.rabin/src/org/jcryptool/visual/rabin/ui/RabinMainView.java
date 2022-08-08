@@ -72,19 +72,6 @@ public class RabinMainView extends ViewPart {
 	}
 	
 	
-	
-	
-	public void setBackgroundComponents(Composite parent, Color color) {
-		
-		Control[] children = parent.getChildren();
-		
-		for(Control c : children) {
-			if(!(c instanceof Combo) && !(c instanceof Button)) {
-				c.setBackground(color);
-			}
-		}
-	}
-	
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -128,8 +115,8 @@ public class RabinMainView extends ViewPart {
 				+ " and the public key N = p \u00B7 q, which is used as the modulus.");*/
 		
 		Rabin rabinCryptosystemTab = new Rabin();
-		Rabin rabinAlgorithmTab = new Rabin();
-		Rabin rabinAttacksTab = new Rabin();
+		//Rabin rabinAlgorithmTab = new Rabin();
+		//Rabin rabinAttacksTab = new Rabin();
 		
 		
 		tfRabin = new TabFolder(rootComposite, SWT.NONE);
@@ -195,7 +182,8 @@ public class RabinMainView extends ViewPart {
 		
 		
 		
-		compCryptosystem = new RabinFirstTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, rabinAlgorithmTab, scCryptosystem, compHoldCryptosystem);
+		//compCryptosystem = new RabinFirstTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, rabinAlgorithmTab, scCryptosystem, compHoldCryptosystem);
+		compCryptosystem = new RabinFirstTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, scCryptosystem, compHoldCryptosystem);
 		compCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compCryptosystem.setLayout(new GridLayout(1, false));
 		
@@ -272,7 +260,8 @@ public class RabinMainView extends ViewPart {
 		scAttacks.setContent(compHoldAttacks);
 		
 		
-		compAttacks = new RabinThirdTabComposite(compHoldAttacks, SWT.NONE, rabinAttacksTab, rabinCryptosystemTab, scAttacks, compHoldAttacks);
+		//compAttacks = new RabinThirdTabComposite(compHoldAttacks, SWT.NONE, rabinAttacksTab, rabinCryptosystemTab, scAttacks, compHoldAttacks);
+		compAttacks = new RabinThirdTabComposite(compHoldAttacks, SWT.NONE, rabinCryptosystemTab, scAttacks, compHoldAttacks);
 		compAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compAttacks.setLayout(new GridLayout(1, false));
 		
@@ -317,7 +306,7 @@ public class RabinMainView extends ViewPart {
 		tabFourthItem.setControl(scSettings);
 		
 		
-		if(guiHandler.getDarkmode())
+		if(GUIHandler.isDarkmode)
 			setColors();
 		
 		//setBackgroundComponents(compCryptosystem, ColorService.GRAY);

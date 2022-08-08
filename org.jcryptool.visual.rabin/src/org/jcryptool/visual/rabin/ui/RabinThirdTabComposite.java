@@ -50,7 +50,6 @@ public class RabinThirdTabComposite extends Composite {
 	public Text txtNWarning;
 	public Table factorTable;
 	
-	public Button btnStartGen;
 	public Button btnGenKeysMan;
 	public Text txtP1;
 	public Text txtP2;
@@ -66,9 +65,6 @@ public class RabinThirdTabComposite extends Composite {
 	public Composite rootComposite;
 	public Composite compFermatAttack;
 	public Composite compPollardRho;
-	public Button btnGenKeysManPollard;
-	public Button btnGenKeysAlgoPollard;
-	public Button btnStartGenPollard;
 	public Button btnFactorizePollard;
 	
 	public Text txtWarningNPollard;
@@ -214,16 +210,6 @@ public class RabinThirdTabComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				guiHandler.hideControl(compPollardRho);
 				guiHandler.showControl(compFermatAttack);
-				
-				// in case we need it at a later stage
-				
-				
-				BigInteger n1 = guiHandler.getSavedRabin().getN();
-				BigInteger n2 = guiHandler.getRabinFirst().getN();
-				
-				
-				guiHandler.getSavedRabin().setN(n2);
-				guiHandler.getRabinFirst().setN(n1);
 			}
 		});
 		
@@ -235,13 +221,6 @@ public class RabinThirdTabComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				guiHandler.hideControl(compFermatAttack);
 				guiHandler.showControl(compPollardRho);
-				
-				// in case we need it at a later stage
-				
-				BigInteger n1 = guiHandler.getSavedRabin().getN();
-				BigInteger n2 = guiHandler.getRabinFirst().getN();
-				guiHandler.getSavedRabin().setN(n2);
-				guiHandler.getRabinFirst().setN(n1);
 			}
 		});
 		
@@ -318,8 +297,8 @@ public class RabinThirdTabComposite extends Composite {
 		txtWarningNPollard.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		((GridData) txtWarningNPollard.getLayoutData()).horizontalIndent = 32;
 		guiHandler.setSizeControlWarning(txtWarningNPollard, SWT.DEFAULT, SWT.DEFAULT);
-		txtWarningNPollard.setBackground(guiHandler.getColorBackgroundWarning());
-		txtWarningNPollard.setForeground(guiHandler.getColorForegroundWarning());
+		txtWarningNPollard.setBackground(guiHandler.colorBackgroundWarning);
+		txtWarningNPollard.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.hideControl(txtWarningNPollard);
 		
 		
@@ -338,8 +317,8 @@ public class RabinThirdTabComposite extends Composite {
 		txtWarningxPollard.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		((GridData) txtWarningxPollard.getLayoutData()).horizontalIndent = 32;
 		guiHandler.setSizeControlWarning(txtWarningxPollard, SWT.DEFAULT, SWT.DEFAULT);
-		txtWarningxPollard.setBackground(guiHandler.getColorBackgroundWarning());
-		txtWarningxPollard.setForeground(guiHandler.getColorForegroundWarning());
+		txtWarningxPollard.setBackground(guiHandler.colorBackgroundWarning);
+		txtWarningxPollard.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.hideControl(txtWarningxPollard);
 		
 		
@@ -360,8 +339,8 @@ public class RabinThirdTabComposite extends Composite {
 		txtWarningyPollard.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		((GridData) txtWarningyPollard.getLayoutData()).horizontalIndent = 32;
 		guiHandler.setSizeControlWarning(txtWarningyPollard, SWT.DEFAULT, SWT.DEFAULT);
-		txtWarningyPollard.setBackground(guiHandler.getColorBackgroundWarning());
-		txtWarningyPollard.setForeground(guiHandler.getColorForegroundWarning());
+		txtWarningyPollard.setBackground(guiHandler.colorBackgroundWarning);
+		txtWarningyPollard.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.hideControl(txtWarningyPollard);
 		
 		
@@ -388,8 +367,8 @@ public class RabinThirdTabComposite extends Composite {
 		txtWarninggxPollard.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		((GridData) txtWarninggxPollard.getLayoutData()).horizontalIndent = 28;
 		guiHandler.setSizeControlWarning(txtWarninggxPollard, SWT.DEFAULT, SWT.DEFAULT);
-		txtWarninggxPollard.setBackground(guiHandler.getColorBackgroundWarning());
-		txtWarninggxPollard.setForeground(guiHandler.getColorForegroundWarning());
+		txtWarninggxPollard.setBackground(guiHandler.colorBackgroundWarning);
+		txtWarninggxPollard.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.hideControl(txtWarninggxPollard);
 		
 		
@@ -458,7 +437,7 @@ public class RabinThirdTabComposite extends Composite {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {			
-				guiHandler.btnFactorizePollardAction(getCurrentInstance(), cmbNPollard, txtxPollard, txtyPollard, txtgxPollard, txtWarningNPollard, txtpPollard, txtqPollard);
+				guiHandler.btnFactorizePollardAction(getCurrentInstance());
 			}
 		});
 		
@@ -638,8 +617,8 @@ public class RabinThirdTabComposite extends Composite {
 		txtNWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		((GridData) txtNWarning.getLayoutData()).horizontalIndent = 28;
 		guiHandler.setSizeControlWarning(txtNWarning, SWT.DEFAULT, SWT.DEFAULT);
-		txtNWarning.setBackground(guiHandler.getColorBackgroundWarning());
-		txtNWarning.setForeground(guiHandler.getColorForegroundWarning());
+		txtNWarning.setBackground(guiHandler.colorBackgroundWarning);
+		txtNWarning.setForeground(guiHandler.colorForegroundWarning);
 		guiHandler.hideControl(txtNWarning);
 		
 		
@@ -769,11 +748,11 @@ public class RabinThirdTabComposite extends Composite {
 	
 	public void setColors() {
 		
-		Color colorBG = guiHandler.getColorDarkModeBG();
-		Color colorFG = guiHandler.getColorDarkModeFG();
-		Color colorTxtWarningFG = guiHandler.getColorDarkModeWarningFG();
-		Color colorButtonBG = guiHandler.getColorButtonsBG();
-		Color colorButtonFG = guiHandler.getColorButtonsFG();
+		Color colorBG = GUIHandler.colorDarkModeBG;
+		Color colorFG = GUIHandler.colorDarkModeFG;
+		Color colorTxtWarningFG = GUIHandler.colorDarkModeWarningFG;
+		Color colorButtonBG = GUIHandler.colorButtonsBG;
+		Color colorButtonFG = GUIHandler.colorButtonsFG;
 		Color colorTxtWhichYouCanEnterBG = GUIHandler.colorTxtWhichYouCanEnterBG;
 		Color colorTxtWhichYouCanEnterFG = GUIHandler.colorTxtWhichYouCanEnterFG;
 
@@ -905,32 +884,6 @@ public class RabinThirdTabComposite extends Composite {
 	
 	
 	
-	
-	private void setColorsGroup(Group grp) {
-		grp.setBackground(guiHandler.getColorGroupBG());
-		grp.setForeground(guiHandler.getColorGroupFG());
-		
-		Control[] controls = grp.getChildren();
-		
-		for(Control c : controls) {
-			
-			if(c instanceof Composite) {
-				c.setBackground(guiHandler.getColorCompositeBG());
-			}
-			
-			if(c instanceof Text) {
-				c.setBackground(ColorService.GRAY);
-				c.setForeground(guiHandler.getColorBackgroundNeutral());
-			}
-			
-			if(c instanceof Label) {
-				c.setForeground(guiHandler.getColorBackgroundNeutral());
-			}
-		}
-	}
-	
-	
-	
 	/**
 	 * initialize content of Attacks tab
 	 */
@@ -950,14 +903,14 @@ public class RabinThirdTabComposite extends Composite {
 		btnSelFermat.setSelection(true);
 		
 		
-		txtP1.setBackground(guiHandler.getColorBGinfo());
-		txtP2.setBackground(guiHandler.getColorBGinfo());
-		txtQ1.setBackground(guiHandler.getColorBGinfo());
-		txtQ2.setBackground(guiHandler.getColorBGinfo());
-		txtResultP.setBackground(guiHandler.getColorBGinfo());
-		txtResultQ.setBackground(guiHandler.getColorBGinfo());
-		txtpPollard.setBackground(guiHandler.getColorBGinfo());
-		txtqPollard.setBackground(guiHandler.getColorBGinfo());
+		txtP1.setBackground(GUIHandler.colorBGinfo);
+		txtP2.setBackground(GUIHandler.colorBGinfo);
+		txtQ1.setBackground(GUIHandler.colorBGinfo);
+		txtQ2.setBackground(GUIHandler.colorBGinfo);
+		txtResultP.setBackground(GUIHandler.colorBGinfo);
+		txtResultQ.setBackground(GUIHandler.colorBGinfo);
+		txtpPollard.setBackground(GUIHandler.colorBGinfo);
+		txtqPollard.setBackground(GUIHandler.colorBGinfo);
 	
 	}
 	
@@ -976,7 +929,7 @@ public class RabinThirdTabComposite extends Composite {
 				
 		initializeContent();
 		
-		if(guiHandler.getDarkmode())
+		if(GUIHandler.isDarkmode)
 			setColors();
 				
 	}
@@ -1003,12 +956,17 @@ public class RabinThirdTabComposite extends Composite {
 	 * @param rootScrolledComposite
 	 * @param rootComposite
 	 */
-	public RabinThirdTabComposite(Composite parent, int style, Rabin rabinFirst, Rabin rabinSecond, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
+//	public RabinThirdTabComposite(Composite parent, int style, Rabin rabinFirst, Rabin rabinSecond, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
+//		super(parent, style);
+//		this.guiHandler = new HandleThirdTab(rootScrolledComposite, rootComposite, rabinFirst, rabinSecond);
+//		createContent();
+//	}
+	
+	public RabinThirdTabComposite(Composite parent, int style, Rabin rabin, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
 		super(parent, style);
-		this.guiHandler = new HandleThirdTab(rootScrolledComposite, rootComposite, rabinFirst, rabinSecond);
+		this.guiHandler = new HandleThirdTab(rootScrolledComposite, rootComposite, rabin);
 		createContent();
 	}
-	
 	
 	
 	
@@ -1018,10 +976,10 @@ public class RabinThirdTabComposite extends Composite {
 	 * @param rabinFirst
 	 * @param rabinSecond
 	 */
-	public RabinThirdTabComposite(Composite parent, int style, Rabin rabinFirst, Rabin rabinSecond) {
-		super(parent, style);
-		this.guiHandler = new HandleThirdTab(sc, rootComposite, rabinFirst, rabinSecond);
-		createContent();
-	}
+//	public RabinThirdTabComposite(Composite parent, int style, Rabin rabinFirst, Rabin rabinSecond) {
+//		super(parent, style);
+//		this.guiHandler = new HandleThirdTab(sc, rootComposite, rabinFirst, rabinSecond);
+//		createContent();
+//	}
 
 }
