@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import org.eclipse.swt.SWT;
@@ -31,7 +32,7 @@ import org.jcryptool.visual.crtverification.verification.CertPathVerifier;
 import org.jcryptool.visual.crtverification.verification.KeystoreConnector;
 
 public class CrtVerViewController {
-    private String dateformat1 = "/ MMM / yyyy"; // custom format for german; look for "marker-1" in this file
+    private String dateformat1 = "/ MMM / yyyy  "; // custom format for german; look for "marker-1" in this file; look for marker-2 for the parsing-back accomodation. Best never to change this format.
     private String dateformat2 = "MMM / yyyy";
     private String dateformat3 = "yyyy";
     private KeystoreConnector ksc = new KeystoreConnector();
@@ -183,10 +184,10 @@ public class CrtVerViewController {
         } else {
             calendar.add(Calendar.MONTH, selection - default_selection);
         }
-        if(Locale.getDefault().getLanguage().toLowerCase().contains("de")) {
+        if(Locale.getDefault().getLanguage().toLowerCase().contains("de") && format.equals(dateformat1)) {
         	// (marker-1)
         	var monthnames = new String[] {"Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"};       	
-        	return String.format("/ %s / %s", monthnames[calendar.getTime().getMonth()], calendar.get(Calendar.YEAR));
+        	return String.format("/ %s / %s  ", monthnames[calendar.getTime().getMonth()], calendar.getTime().getYear());
         } else {
 			return String.valueOf(dt1.format(calendar.getTime()));
         }
@@ -417,12 +418,35 @@ public class CrtVerViewController {
      */
     public Date parseDate(String day, String monthYear) {
         Date date = null;
-        SimpleDateFormat df = new SimpleDateFormat("ddMMMyyyy");
 
-        String month = monthYear.split("/")[1];
-        String year = monthYear.split("/")[2];
+        //SimpleDateFormat df = new SimpleDateFormat("ddMMMyyyy");
+        SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
 
+        String month = monthYear.split("/")[1].strip();
+        String year = monthYear.split("/")[2].strip();
+
+        // marker-2
+        var monthInts = new LinkedHashMap<String, Integer>();
+        if(Locale.getDefault().getLanguage().toLowerCase().contains("de")) {
+        	// (marker-1)
+        	var monthnames = new String[] {"Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"};       	
+        	for (int i = 0; i < monthnames.length; i++) {
+				String s = monthnames[i];
+				monthInts.put(s, i);
+			}
+        } else {
+        	var monthnames = new String[] {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};       	
+        	for (int i = 0; i < monthnames.length; i++) {
+				String s = monthnames[i];
+				monthInts.put(s, i);
+			}
+        }
+        int monthInt = monthInts.get(month);
         int yearInt = Integer.parseInt(year);
+//        System.out.println("Month: " +month);
+//        System.out.println("MonthInt: " +monthInt);
+//        System.out.println("Year: " +year);
+//        System.out.println("YearInt: " +yearInt);
 
         if (yearInt < 84) {
             if (String.valueOf(yearInt).length() == 1) {
@@ -439,7 +463,7 @@ public class CrtVerViewController {
         }
 
         try {
-            date = df.parse(day + month + year);
+            date = df.parse(day + monthInt + year);
         } catch (ParseException e) {
             LogUtil.logError(Activator.PLUGIN_ID, e);
         }
