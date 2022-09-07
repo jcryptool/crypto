@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.colors.ColorService;
-import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
+import org.jcryptool.visual.rabin.ui.CryptosystemTabComposite;
 import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
 
 

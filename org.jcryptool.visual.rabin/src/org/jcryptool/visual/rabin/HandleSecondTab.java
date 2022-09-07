@@ -36,7 +36,7 @@ public class HandleSecondTab extends GUIHandler {
 	private String strPlessN = Messages.HandleSecondTab_strPlessN;
 	private String strCipherLessN = Messages.HandleSecondTab_strCipherLessN;
 	private String strNotValidPlaintext = Messages.HandleSecondTab_strNotValidPlaintext;
-	
+	private String strNotValidCiphertext = "Attention: not a valid ciphertext. The ciphertext has to be of the form \"decimal number\" or \"decimal number 1 || decimal number 2 || ...\"";
 	
 	
 	private enum State { TEXT, NUM, DECHEX, DECDECIMAL };
@@ -560,7 +560,7 @@ public class HandleSecondTab extends GUIHandler {
 			boolean isPlaintextValidN = rabinFirst.isValidPlaintext(plaintextList, 10);
 			if(!isPlaintextValidN) {
 				rstc.txtEnterCiphertextDecimal.setBackground(this.colorBackgroundWrong);
-				rstc.txtEnterCiphertextDecimalWarning.setText(strPlessN);
+				rstc.txtEnterCiphertextDecimalWarning.setText(strCipherLessN);
 				showControl(rstc.txtEnterCiphertextDecimalWarning);
 				rstc.btnApplyCiphertext.setEnabled(false);
 			}
@@ -572,7 +572,7 @@ public class HandleSecondTab extends GUIHandler {
 		}
 		else {
 			rstc.txtEnterCiphertextDecimal.setBackground(this.colorBackgroundWrong);
-			rstc.txtEnterCiphertextDecimalWarning.setText(strNotValidPlaintext);
+			rstc.txtEnterCiphertextDecimalWarning.setText(strNotValidCiphertext);
 			showControl(rstc.txtEnterCiphertextDecimalWarning);
 			rstc.btnApplyCiphertext.setEnabled(false);
 		}
@@ -777,7 +777,7 @@ public class HandleSecondTab extends GUIHandler {
 		sb.append(this.getMessageByControl("txtInfoSquareRoots_encryption_text"));
 		sb.append("\n\n\n\n\n\n\n");
 		sb.append(this.getMessageByControl("txtInfoLC_encryption_text"));
-		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		sb.append("\n\n\n\n\n\n\n\n\n\n");
 		sb.append(this.getMessageByControl("txtInfoPlaintexts_encryption_text"));
 		
 		rstc.txtInfoDecryption.setText(sb.toString());
@@ -793,9 +793,11 @@ public class HandleSecondTab extends GUIHandler {
 		StringBuffer sb = new StringBuffer();
 		sb.append(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
 		sb.append("\n\n\n\n\n\n\n");
-		sb.append(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
-		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-		sb.append(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		//sb.append(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
+		sb.append(this.getMessageByControl("txtInfoLC_encryption_decimal"));
+		sb.append("\n\n\n\n\n\n\n\n\n\n");
+		//sb.append(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
+		sb.append(this.getMessageByControl("txtInfoPlaintexts_encryption_decimal"));
 		rstc.txtInfoDecryption.setText(sb.toString());
 	}
 	
@@ -810,7 +812,8 @@ public class HandleSecondTab extends GUIHandler {
 		sb.append(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
 		sb.append("\n\n");
 		sb.append(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
-		sb.append("\n\n");
+		//sb.append("\n\n");
+		sb.append("\n\n\n\n\n\n\n\n\n\n");
 		sb.append(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
 		rstc.txtInfoDecryption.setText(sb.toString());
 	}
@@ -826,7 +829,8 @@ public class HandleSecondTab extends GUIHandler {
 		sb.append(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
 		sb.append("\n\n");
 		sb.append(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
-		sb.append("\n\n");
+		//sb.append("\n\n");
+		sb.append("\n\n\n\n\n\n\n\n\n\n");
 		sb.append(this.getMessageByControl("txtInfoPlaintexts_decryption_hex_and_decimal"));
 		rstc.txtInfoDecryption.setText(sb.toString());
 	}
@@ -935,7 +939,15 @@ public class HandleSecondTab extends GUIHandler {
 			
 			ArrayList<String> ciphertextsHex = rabinFirst.getEncryptedListOfStrings(plaintextsHex, radix);
 			
-			ArrayList<String> paddedCiphertextsHex = rabinFirst.getPaddedCiphertextblocks(ciphertextsHex, blocklength);
+			// this is a test for reducing the prefixed bytes for a ciphertext (maybe delete it later again)
+			int iblocklengthFinal = 0;
+			if(this.blocklength > (this.bytesPerBlock * 2))
+				iblocklengthFinal = this.bytesPerBlock * 2;
+			else
+				iblocklengthFinal = this.blocklength;
+			
+			//ArrayList<String> paddedCiphertextsHex = rabinFirst.getPaddedCiphertextblocks(ciphertextsHex, blocklength);
+			ArrayList<String> paddedCiphertextsHex = rabinFirst.getPaddedCiphertextblocks(ciphertextsHex, iblocklengthFinal);
 			
 			String ciphertextInHex = rabinFirst.getStringWithSepForm(paddedCiphertextsHex, separator);
 			

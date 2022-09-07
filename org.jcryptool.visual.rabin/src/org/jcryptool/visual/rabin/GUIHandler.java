@@ -36,7 +36,7 @@ import org.jcryptool.core.operations.editors.EditorsManager;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
 import org.jcryptool.visual.rabin.ui.CryptosystemTextbookComposite;
-import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
+import org.jcryptool.visual.rabin.ui.CryptosystemTabComposite;
 import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
 
 /**
@@ -266,7 +266,7 @@ public class GUIHandler {
 				break;
 				
 			case "txtInfoSelector":
-				message = "click on \"Load text...\" to either load a plaintext you want to encrypt "
+				message = "Click on \"Load text...\" to either load a plaintext you want to encrypt "
 						+ "or a ciphertext you want to decrypt. If you want to load a plaintext "
 						+ "only characters in the UTF-8 format are allowed. If you want to load "
 						+ "a ciphertext only hexadecimal numbers (0-f) are allowed.\n"
@@ -357,11 +357,22 @@ public class GUIHandler {
 				break;
 				
 			case "txtInfoLC_decryption_hex_and_decimal":
-				message = "5) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n"
+				message = "5) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n"
 						+ "6) click on \"Compute v and w\" to compute the intermediate values v and w.";
 				break;
 				
 			case "txtInfoPlaintexts_decryption_hex_and_decimal":
+				message = "7) click on \"Compute all plaintexts\" to compute all plaintexts.\n"
+						+ "The whole computation is based on the Chinese remainder theorem (CRT). "
+						+ "For further information on it take a look at the CRT plugin in JCT.";
+				break;
+				
+			case "txtInfoLC_encryption_decimal":
+				message = "5) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n\n\n\n"
+						+ "6) click on \"Compute v and w\" to compute the intermediate values v and w.";
+				break;
+				
+			case "txtInfoPlaintexts_encryption_decimal":
 				message = "7) click on \"Compute all plaintexts\" to compute all plaintexts.\n"
 						+ "The whole computation is based on the Chinese remainder theorem (CRT). "
 						+ "For further information on it take a look at the CRT plugin in JCT.";
@@ -388,7 +399,7 @@ public class GUIHandler {
 				break;
 				
 			case "txtInfoLC_encryption_text":
-				message = "6) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n"
+				message = "6) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n\n\n\n"
 						+ "7) click on \"Compute v and w\" to compute the intermediate values v and w.";
 				break;
 				
@@ -466,11 +477,23 @@ public class GUIHandler {
 		this.showControl(rstc.compSelectEncDec);
 		this.showControl(rstc.compHoldSepAndInfoEncDecSelection);
 		this.showControl(rstc.lblSepEncDecBottom);
-		this.showControl(rstc.grpPlaintext);
+		
+		if(rstc.btnSelectionDec.getSelection()) {
+			this.showControl(rstc.grpDec);
+			this.showControl(rstc.compHoldSepAndInfoForDecryption);
+		}
+		else {
+			this.showControl(rstc.grpPlaintext);
+			this.showControl(rstc.compHoldSepAndInfoForEncryption);
+			this.showControl(rstc.lblSepEncryptionBottom);
+			this.showControl(rstc.grpDec);
+			this.showControl(rstc.compHoldSepAndInfoForDecryption);
+		}
+		/*this.showControl(rstc.grpPlaintext);
 		this.showControl(rstc.compHoldSepAndInfoForEncryption);
 		this.showControl(rstc.lblSepEncryptionBottom);
 		this.showControl(rstc.grpDec);
-		this.showControl(rstc.compHoldSepAndInfoForDecryption);
+		this.showControl(rstc.compHoldSepAndInfoForDecryption);*/
 	
 	}
 	
@@ -979,7 +1002,7 @@ public class GUIHandler {
 	
 	
 	
-	public void updateTextfields(RabinFirstTabComposite rftc) {
+	public void updateTextfields(CryptosystemTabComposite rftc) {
 		BigInteger ptmp = null;
 		BigInteger qtmp = null;
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$

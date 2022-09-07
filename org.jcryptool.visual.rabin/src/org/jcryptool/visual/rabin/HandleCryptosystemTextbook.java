@@ -27,7 +27,7 @@ import org.jcryptool.core.operations.editors.EditorsManager;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
 import org.jcryptool.visual.rabin.ui.CryptosystemTextbookComposite;
-import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
+import org.jcryptool.visual.rabin.ui.CryptosystemTabComposite;
 import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
 
 
@@ -43,12 +43,12 @@ public class HandleCryptosystemTextbook {
 	private ArrayList<ArrayList<Boolean>> clickedPlaintexts; 
 	private LinkedHashMap<String, String> currentSelectedPlaintexts;
 	private int[] countClicksForPlaintexts; 
-	private RabinFirstTabComposite rftc;
+	private CryptosystemTabComposite rftc;
 	
 	private HandleFirstTab guiHandler;
 	
 	
-	public HandleCryptosystemTextbook(RabinFirstTabComposite rftc) {
+	public HandleCryptosystemTextbook(CryptosystemTabComposite rftc) {
 		this.rftc = rftc;
 		this.guiHandler = rftc.guiHandler;
 		countClicksForPlaintexts = new int[] {0, 0, 0, 0};

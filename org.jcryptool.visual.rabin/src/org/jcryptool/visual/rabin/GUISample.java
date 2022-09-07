@@ -36,6 +36,14 @@ public class GUISample extends Shell {
 		compHoldButtons.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true));
 		compHoldButtons.setLayout(new GridLayout(1, false));
 		
+		Button btnEncrypt = new Button(compHoldButtons, SWT.PUSH);
+		btnEncrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		btnEncrypt.setText("Encrypt");
+		
+		Button btnDecrypt = new Button(compHoldButtons, SWT.PUSH);
+		btnDecrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		btnDecrypt.setText("Decrypt");
+		
 		Group grpCiphertext = new Group(compMain, SWT.NONE);
 		grpCiphertext.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		grpCiphertext.setLayout(new GridLayout(1, false));
@@ -44,14 +52,6 @@ public class GUISample extends Shell {
 		
 		Text txtCiphertext = new Text(grpCiphertext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
 		txtCiphertext.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
-		Button btnEncrypt = new Button(compHoldButtons, SWT.PUSH);
-		btnEncrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		btnEncrypt.setText("Encrypt");
-		
-		Button btnDecrypt = new Button(compHoldButtons, SWT.PUSH);
-		btnDecrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		btnDecrypt.setText("Decrypt");
 	}
 	
 	protected void createContents() {

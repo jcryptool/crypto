@@ -29,7 +29,7 @@ public class RabinMainView extends ViewPart {
 
 	private Composite parent;
 	private Composite rootComposite;
-	private RabinFirstTabComposite compCryptosystem;
+	private CryptosystemTabComposite compCryptosystem;
 	private TitleAndDescriptionComposite compTad;
 	private TabFolder tfRabin;
 	private TabItem tabFirstItem;
@@ -183,7 +183,7 @@ public class RabinMainView extends ViewPart {
 		
 		
 		//compCryptosystem = new RabinFirstTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, rabinAlgorithmTab, scCryptosystem, compHoldCryptosystem);
-		compCryptosystem = new RabinFirstTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, scCryptosystem, compHoldCryptosystem);
+		compCryptosystem = new CryptosystemTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, scCryptosystem, compHoldCryptosystem);
 		compCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compCryptosystem.setLayout(new GridLayout(1, false));
 		

@@ -79,7 +79,7 @@ import org.jcryptool.core.util.ui.auto.SmoothScroller;
 //   }
 // }
 
-public class RabinFirstTabComposite extends Composite {
+public class CryptosystemTabComposite extends Composite {
 	public Combo cmbP;
 	public Combo cmbQ;
 	public Text txtModN;
@@ -164,7 +164,7 @@ public class RabinFirstTabComposite extends Composite {
 	
 	
 	
-	public RabinFirstTabComposite getCurrentInstance() {
+	public CryptosystemTabComposite getCurrentInstance() {
 		return this;
 	}
 	
@@ -886,7 +886,7 @@ public class RabinFirstTabComposite extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public RabinFirstTabComposite(Composite parent, int style) {
+	public CryptosystemTabComposite(Composite parent, int style) {
 		super(parent, style);
 		//createContent();
 	}
@@ -908,7 +908,7 @@ public class RabinFirstTabComposite extends Composite {
 //	}
 	
 	
-	public RabinFirstTabComposite(Composite parent, int style, Rabin rabin, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
+	public CryptosystemTabComposite(Composite parent, int style, Rabin rabin, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
 		super(parent, style);
 		HandleFirstTab guiHandler = new HandleFirstTab(rootScrolledComposite, rootComposite, rabin);
 		this.guiHandler = guiHandler;

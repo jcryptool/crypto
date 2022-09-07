@@ -23,7 +23,7 @@ import org.jcryptool.core.operations.editors.AbstractEditorService;
 import org.jcryptool.core.operations.editors.EditorsManager;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
-import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
+import org.jcryptool.visual.rabin.ui.CryptosystemTabComposite;
 import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
 
 
@@ -111,7 +111,7 @@ public class HandleFirstTab extends GUIHandler {
 	 * @param iterations
 	 * @return
 	 */
-	private Thread generateKeysWithLimitSingle(RabinFirstTabComposite rftc, RabinSecondTabComposite rstc, String strLow, String strUp, int iterations) {
+	private Thread generateKeysWithLimitSingle(CryptosystemTabComposite rftc, RabinSecondTabComposite rstc, String strLow, String strUp, int iterations) {
 		
 		Thread t = new Thread(new Runnable() {
 			
@@ -315,7 +315,7 @@ public class HandleFirstTab extends GUIHandler {
 	 * @param iterations
 	 * @return true if keys were successfully generated, else false
 	 */
-	private boolean generateKeysWithLimitSingle(RabinFirstTabComposite rftc, String strLow, String strUp, int iterations) {
+	private boolean generateKeysWithLimitSingle(CryptosystemTabComposite rftc, String strLow, String strUp, int iterations) {
 	
 
 		
@@ -423,7 +423,7 @@ public class HandleFirstTab extends GUIHandler {
 	 * @param iterations
 	 * @return true if keys were successfully generated, else false
 	 */
-	private boolean generateKeysWithLimit(RabinFirstTabComposite rftc, String strLowP, String strUpP, String strLowQ, String strUpQ, int iterations) {
+	private boolean generateKeysWithLimit(CryptosystemTabComposite rftc, String strLowP, String strUpP, String strLowQ, String strUpQ, int iterations) {
 		
 		BigInteger lowP = null; 
 		BigInteger upP = null; 
@@ -508,7 +508,7 @@ public class HandleFirstTab extends GUIHandler {
 	 * @param rftc
 	 * @param e
 	 */
-	public void btnGenKeysManAction(RabinFirstTabComposite rftc, SelectionEvent e) {
+	public void btnGenKeysManAction(CryptosystemTabComposite rftc, SelectionEvent e) {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
@@ -529,7 +529,7 @@ public class HandleFirstTab extends GUIHandler {
 	 * @param rftc
 	 * @param e
 	 */
-	public void btnGenKeysAction(RabinFirstTabComposite rftc, SelectionEvent e) {
+	public void btnGenKeysAction(CryptosystemTabComposite rftc, SelectionEvent e) {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
@@ -555,7 +555,7 @@ public class HandleFirstTab extends GUIHandler {
 
 	
 	
-	public void initializePrimes(int numOfPrimes, RabinFirstTabComposite rftc) {
+	public void initializePrimes(int numOfPrimes, CryptosystemTabComposite rftc) {
 		
 		for(int i = 0, count = 0; count < numOfPrimes; i++) {
 			BigInteger possiblePrime = BigInteger.valueOf(i);
@@ -582,7 +582,7 @@ public class HandleFirstTab extends GUIHandler {
 	
 	
 	
-	public void btnStartGenKeysAction(RabinFirstTabComposite rftc, RabinSecondTabComposite rstc, int iterations) {
+	public void btnStartGenKeysAction(CryptosystemTabComposite rftc, RabinSecondTabComposite rstc, int iterations) {
 		
 		if(rftc.btnGenKeysMan.getSelection()) {
 			this.btnGenKeysManAction(rftc.cmbP, rftc.cmbQ, rftc.txtModN);
@@ -675,7 +675,7 @@ public class HandleFirstTab extends GUIHandler {
 	 * update limit fields (single mode) each time you enter a char
 	 * @param rftc
 	 */
-	public void updateLimitFieldsSingle(RabinFirstTabComposite rftc) {
+	public void updateLimitFieldsSingle(CryptosystemTabComposite rftc) {
 		String strLowLim = rftc.txtLowLimPQSingle.getText();
 		String strUpperLim = rftc.txtUpperLimPQSingle.getText();
 		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
