@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ModifyEvent;
@@ -110,6 +111,8 @@ public class CryptosystemTextbookComposite extends Composite {
 	public Text txtInfoForEncDecRadio;
 	public Composite compHoldSepAndInfoEncDec;
 	public Label lblSeparateEncDecWithLoadTextBottom;
+	private Label lblChooseBlockPadding;
+	private CCombo cmbChooseBlockPadding;
 		
 	
 	public CryptosystemTextbookComposite(Composite parent, int style) {
@@ -118,7 +121,7 @@ public class CryptosystemTextbookComposite extends Composite {
 	}
 	
 	
-	public CryptosystemTextbookComposite(Composite parent, int style, CryptosystemTabComposite rftc) {
+	public CryptosystemTextbookComposite(Composite parent, int style, RabinFirstTabComposite rftc) {
 		super(parent, style);
 		this.hcstb = new HandleCryptosystemTextbook(rftc);
 		this.guiHandler = rftc.guiHandler;
@@ -467,13 +470,34 @@ public class CryptosystemTextbookComposite extends Composite {
 		compHoldBtnsForFeatures.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 		compHoldBtnsForFeatures.setLayout(new GridLayout(1, false));
 		
+		Composite compChooseBlockPadding = new Composite(compHoldBtnsForFeatures, SWT.NONE);
+		compChooseBlockPadding.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+		compChooseBlockPadding.setLayout(new GridLayout(1, false));
+		
+		
+		lblChooseBlockPadding = new Label(compChooseBlockPadding, SWT.NONE);
+		lblChooseBlockPadding.setText("Block-Padding");
+		
+		cmbChooseBlockPadding = new CCombo(compChooseBlockPadding, SWT.READ_ONLY);
+		cmbChooseBlockPadding.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		//cmbChooseBlockPadding.setVisibleItemCount(10);
+		cmbChooseBlockPadding.setItems(new String[]{"ANSI X9.23", "PKCS#7"});
+		cmbChooseBlockPadding.select(0);
+		
+		
+		Composite compSpaceBetweenCmbs = new Composite(compHoldBtnsForFeatures, SWT.NONE);
+		compSpaceBetweenCmbs.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		compSpaceBetweenCmbs.setLayout(new GridLayout(1, false));
+		guiHandler.setSizeControl(compSpaceBetweenCmbs, SWT.DEFAULT, 20);
+		
+		
 		btnEncrypt = new Button(compHoldBtnsForFeatures, SWT.PUSH);
 		btnEncrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		btnEncrypt.setText("Encrypt");
 		btnEncrypt.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				hcstb.btnEncryptAction(textSelector, txtCiphertext, txtEncryptionWarning);
+				hcstb.btnEncryptAction(textSelector, txtCiphertext, txtEncryptionWarning, cmbChooseBlockPadding);
 			}
 		});
 		

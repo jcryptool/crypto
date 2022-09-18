@@ -194,6 +194,8 @@ public class RabinSecondTabComposite extends Composite {
 	public Label lblSepEncDecBottom;
 
 
+	public Label lblChooseBlockPadding;
+	public CCombo cmbChooseBlockPadding;
 	
 	
 	private String strPlaintextSeparatedIntoSegments = Messages.RabinSecondTabComposite_strPlaintextSeparatedIntoSegments;
@@ -221,6 +223,7 @@ public class RabinSecondTabComposite extends Composite {
 			guiHandler.verifyControlFields(e);			
 		}
 	};
+	
 	
 	
 			
@@ -506,6 +509,21 @@ public class RabinSecondTabComposite extends Composite {
 			
 			
 		});
+		
+		
+		Composite compSpaceBetweenCmbs = new Composite(compBlockN, SWT.NONE);
+		compSpaceBetweenCmbs.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		compSpaceBetweenCmbs.setLayout(new GridLayout(1, false));
+		guiHandler.setSizeControl(compSpaceBetweenCmbs, SWT.DEFAULT, 20);
+		
+		
+		lblChooseBlockPadding = new Label(compBlockN, SWT.NONE);
+		lblChooseBlockPadding.setText("Block-Padding");
+		cmbChooseBlockPadding = new CCombo(compBlockN, SWT.READ_ONLY);
+		cmbChooseBlockPadding.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		//cmbChooseBlockPadding.setVisibleItemCount(10);
+		cmbChooseBlockPadding.setItems(new String[]{"ANSI X9.23", "PKCS#7"});
+		cmbChooseBlockPadding.select(0);
 		
 		
 		

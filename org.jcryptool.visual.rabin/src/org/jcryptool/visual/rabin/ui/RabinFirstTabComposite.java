@@ -79,7 +79,7 @@ import org.jcryptool.core.util.ui.auto.SmoothScroller;
 //   }
 // }
 
-public class CryptosystemTabComposite extends Composite {
+public class RabinFirstTabComposite extends Composite {
 	public Combo cmbP;
 	public Combo cmbQ;
 	public Text txtModN;
@@ -153,6 +153,11 @@ public class CryptosystemTabComposite extends Composite {
 	public Composite compHoldSepAndInfoForCryptoSelection;
 	public Label lblSepInfoForCryptoSelection;
 	public Composite compHoldSepAndInfoForParam;
+	
+	
+	public Composite compHoldInfoParam;
+	public Label lblSepInfoModulus;
+	public Text txtInfoModulus;
 
 	
 	
@@ -164,7 +169,7 @@ public class CryptosystemTabComposite extends Composite {
 	
 	
 	
-	public CryptosystemTabComposite getCurrentInstance() {
+	public RabinFirstTabComposite getCurrentInstance() {
 		return this;
 	}
 	
@@ -225,6 +230,7 @@ public class CryptosystemTabComposite extends Composite {
 			
 		}
 	};
+	
 	
 	
 	
@@ -688,9 +694,14 @@ public class CryptosystemTabComposite extends Composite {
 		
 		lblSepInfoSetParam = new Label(compHoldSepAndInfoForParam, SWT.SEPARATOR | SWT.VERTICAL);
 		lblSepInfoSetParam.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		
+		compHoldInfoParam = new Composite(compHoldSepAndInfoForParam, SWT.NONE);
+		compHoldInfoParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		compHoldInfoParam.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compHoldInfoParam, 0, SWT.DEFAULT);
 			
 		
-		txtInfoSetParam = new Text(compHoldSepAndInfoForParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoSetParam = new Text(compHoldInfoParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		GridData txtInfoSetParamData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoSetParam.setLayoutData(txtInfoSetParamData);
 		guiHandler.setSizeControl(txtInfoSetParam, SWT.DEFAULT, SWT.DEFAULT);
@@ -703,6 +714,18 @@ public class CryptosystemTabComposite extends Composite {
 				guiHandler.setCursorControl(txtInfoSetParam, SWT.CURSOR_ARROW);
 			}
 		});
+		
+		lblSepInfoModulus = new Label(compHoldInfoParam, SWT.SEPARATOR | SWT.HORIZONTAL);
+		lblSepInfoModulus.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		
+		txtInfoModulus = new Text(compHoldInfoParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoModulus.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		((GridData) txtInfoModulus.getLayoutData()).heightHint = 35;
+		
+		txtInfoModulus.setForeground(ColorService.BLUE);
+		txtInfoModulus.setBackground(ColorService.LIGHTGRAY);
+		guiHandler.hideControl(lblSepInfoModulus);
+		guiHandler.hideControl(txtInfoModulus);
 		
 		
 		lblLowLimP = new Label(genPComp, SWT.NONE);
@@ -886,7 +909,7 @@ public class CryptosystemTabComposite extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public CryptosystemTabComposite(Composite parent, int style) {
+	public RabinFirstTabComposite(Composite parent, int style) {
 		super(parent, style);
 		//createContent();
 	}
@@ -908,7 +931,7 @@ public class CryptosystemTabComposite extends Composite {
 //	}
 	
 	
-	public CryptosystemTabComposite(Composite parent, int style, Rabin rabin, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
+	public RabinFirstTabComposite(Composite parent, int style, Rabin rabin, ScrolledComposite rootScrolledComposite, Composite rootComposite) {
 		super(parent, style);
 		HandleFirstTab guiHandler = new HandleFirstTab(rootScrolledComposite, rootComposite, rabin);
 		this.guiHandler = guiHandler;

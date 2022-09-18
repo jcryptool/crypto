@@ -929,7 +929,12 @@ public class HandleSecondTab extends GUIHandler {
 			
 			String plaintext = rstc.txtMessage.getText();
 			String plaintextHex = rabinFirst.bytesToString(plaintext.getBytes());
-			String paddedPlaintextHex = rabinFirst.getPaddedPlaintext(plaintextHex, bytesPerBlock);
+			
+			String paddingScheme = rstc.cmbChooseBlockPadding.getItem(rstc.cmbChooseBlockPadding.getSelectionIndex());
+			
+			//String paddedPlaintextHex = rabinFirst.getPaddedPlaintext(plaintextHex, bytesPerBlock);
+			
+			String paddedPlaintextHex = rabinFirst.getPaddedPlaintext(plaintextHex, bytesPerBlock, paddingScheme);
 			ArrayList<String> plaintextsHex = rabinFirst.parseString(paddedPlaintextHex, bytesPerBlock);
 			
 			plaintextEncodedList = rabinFirst.getEncodedList(plaintextsHex, radix, rabinFirst.getCharset());

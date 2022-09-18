@@ -29,7 +29,7 @@ public class RabinMainView extends ViewPart {
 
 	private Composite parent;
 	private Composite rootComposite;
-	private CryptosystemTabComposite compCryptosystem;
+	private RabinFirstTabComposite compCryptosystem;
 	private TitleAndDescriptionComposite compTad;
 	private TabFolder tfRabin;
 	private TabItem tabFirstItem;
@@ -122,16 +122,35 @@ public class RabinMainView extends ViewPart {
 		tfRabin = new TabFolder(rootComposite, SWT.NONE);
 		tfRabin.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
+		/*Composite compSpaceForTabs = new Composite(tfRabin, SWT.BORDER);
+		compSpaceForTabs.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		((GridData) compSpaceForTabs.getLayoutData()).heightHint = 50;
+		compSpaceForTabs.setLayout(new GridLayout(1, false));
+		compSpaceForTabs.setBackground(ColorService.WHITE);*/
+		
+		
 		//tfRabin.setBackground(ColorService.GRAY);
+		
+		
 	
 		tabFirstItem = new TabItem(tfRabin, SWT.NONE);
 		tabFirstItem.setText(Messages.RabinMainView_tabFirstItem);
 		
+		Composite compSpaceFirstTab = new Composite(tfRabin, SWT.NONE);
+		compSpaceFirstTab.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		compSpaceFirstTab.setLayout(new GridLayout(1, false));
+		((GridLayout) compSpaceFirstTab.getLayout()).marginHeight = 0;
+		((GridLayout) compSpaceFirstTab.getLayout()).marginWidth = 0;
+		((GridLayout) compSpaceFirstTab.getLayout()).marginTop = 10;
+		compSpaceFirstTab.setBackground(ColorService.WHITE);
 		
-		ScrolledComposite scCryptosystem = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		
+		//ScrolledComposite scCryptosystem = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		ScrolledComposite scCryptosystem = new ScrolledComposite(compSpaceFirstTab, SWT.H_SCROLL | SWT.V_SCROLL);
 		scCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		scCryptosystem.setExpandVertical(true);
 		scCryptosystem.setExpandHorizontal(true);
+		
 		
 		//scCryptosystem.setBackground(ColorService.GRAY);
 		
@@ -183,7 +202,7 @@ public class RabinMainView extends ViewPart {
 		
 		
 		//compCryptosystem = new RabinFirstTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, rabinAlgorithmTab, scCryptosystem, compHoldCryptosystem);
-		compCryptosystem = new CryptosystemTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, scCryptosystem, compHoldCryptosystem);
+		compCryptosystem = new RabinFirstTabComposite(compHoldCryptosystem, SWT.NONE, rabinCryptosystemTab, scCryptosystem, compHoldCryptosystem);
 		compCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compCryptosystem.setLayout(new GridLayout(1, false));
 		
@@ -194,7 +213,8 @@ public class RabinMainView extends ViewPart {
 		
 		
 		
-		tabFirstItem.setControl(scCryptosystem);
+		//tabFirstItem.setControl(scCryptosystem);
+		tabFirstItem.setControl(compSpaceFirstTab);
 		
 		/*tabSecondItem = new TabItem(tfRabin, SWT.NONE);
 		tabSecondItem.setText(Messages.RabinMainView_tabSecondItem);
@@ -235,7 +255,16 @@ public class RabinMainView extends ViewPart {
 		tabThirdItem = new TabItem(tfRabin, SWT.NONE);
 		tabThirdItem.setText(Messages.RabinMainView_tabThirdItem);
 		
-		ScrolledComposite scAttacks = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		Composite compSpaceSecondTab = new Composite(tfRabin, SWT.NONE);
+		compSpaceSecondTab.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		compSpaceSecondTab.setLayout(new GridLayout(1, false));
+		((GridLayout) compSpaceSecondTab.getLayout()).marginHeight = 0;
+		((GridLayout) compSpaceSecondTab.getLayout()).marginWidth = 0;
+		((GridLayout) compSpaceSecondTab.getLayout()).marginTop = 10;
+		compSpaceSecondTab.setBackground(ColorService.WHITE);
+		
+		//ScrolledComposite scAttacks = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		ScrolledComposite scAttacks = new ScrolledComposite(compSpaceSecondTab, SWT.H_SCROLL | SWT.V_SCROLL);
 		scAttacks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		scAttacks.setExpandVertical(true);
 		scAttacks.setExpandHorizontal(true);
@@ -266,13 +295,23 @@ public class RabinMainView extends ViewPart {
 		compAttacks.setLayout(new GridLayout(1, false));
 		
 		scAttacks.setMinSize(compHoldAttacks.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		tabThirdItem.setControl(scAttacks);
+		//tabThirdItem.setControl(scAttacks);
+		tabThirdItem.setControl(compSpaceSecondTab);
 		
 		
 		TabItem tabFourthItem = new TabItem(tfRabin, SWT.NONE);
 		tabFourthItem.setText("Settings");
 		
-		ScrolledComposite scSettings = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		Composite compSpaceThirdTab = new Composite(tfRabin, SWT.NONE);
+		compSpaceThirdTab.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		compSpaceThirdTab.setLayout(new GridLayout(1, false));
+		((GridLayout) compSpaceThirdTab.getLayout()).marginHeight = 0;
+		((GridLayout) compSpaceThirdTab.getLayout()).marginWidth = 0;
+		((GridLayout) compSpaceThirdTab.getLayout()).marginTop = 10;
+		compSpaceThirdTab.setBackground(ColorService.WHITE);
+		
+		//ScrolledComposite scSettings = new ScrolledComposite(tfRabin, SWT.H_SCROLL | SWT.V_SCROLL);
+		ScrolledComposite scSettings = new ScrolledComposite(compSpaceThirdTab, SWT.H_SCROLL | SWT.V_SCROLL);
 		scSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		scSettings.setExpandVertical(true);
 		scSettings.setExpandHorizontal(true);
@@ -303,8 +342,8 @@ public class RabinMainView extends ViewPart {
 		
 		
 		scSettings.setMinSize(compHoldSettings.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		tabFourthItem.setControl(scSettings);
-		
+		//tabFourthItem.setControl(scSettings);
+		tabFourthItem.setControl(compSpaceThirdTab);
 		
 		if(GUIHandler.isDarkmode)
 			setColors();

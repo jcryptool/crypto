@@ -591,6 +591,35 @@ public class Rabin {
 		return paddedMessage;
 	}
 	
+	public String getPaddedPlaintext(String message, int blocklength, String paddingScheme) {
+		String paddedMessage = new String(message);
+		/*while(paddedMessage.length() % blocklength != 0) {
+			paddedMessage += padding;
+		}*/
+		
+		//int numOfPaddedBytes = (paddedMessage.length() - (paddedMessage.length() % blocklength)) / blocklength;
+		int numOfPaddedBytes = BigInteger.valueOf(-(paddedMessage.length()/2)).mod(BigInteger.valueOf(blocklength/2)).intValue();
+		if(numOfPaddedBytes == 0)
+			return paddedMessage;
+		
+		if(paddingScheme.equals("ANSI X9.23")) {
+			int numOfNullBytes = numOfPaddedBytes - 1;
+
+			for(int i = 0; i < numOfNullBytes; i++) {
+				paddedMessage += "00";
+			}
+			paddedMessage += byteToString((byte) numOfPaddedBytes);
+		}
+		else if(paddingScheme.equals("PKCS#7")) {
+			for(int i = 0; i < numOfPaddedBytes; i++) {
+				paddedMessage += byteToString((byte) numOfPaddedBytes);
+			}
+		}
+		
+		
+		return paddedMessage;
+	}
+	
 	/**
 	 * 
 	 * @param a
@@ -847,6 +876,17 @@ public class Rabin {
 		String ciphertext = null;
 		String plaintextHex = bytesToString(plaintext.getBytes());
 		String paddedPlaintext = getPaddedPlaintext(plaintextHex, bytesPerBlock);
+		ArrayList<String> parsedPlaintext = parseString(paddedPlaintext, bytesPerBlock);
+		ArrayList<String> encryptedPlaintextList = getEncryptedListOfStrings(parsedPlaintext, radix);
+		ArrayList<String> paddedCiphertextList = getPaddedCiphertextblocks(encryptedPlaintextList, blocklength);
+		return paddedCiphertextList;
+	}
+	
+	
+	public ArrayList<String> getCiphertextblocksAsList(String plaintext, String paddingScheme, int bytesPerBlock, int blocklength, int radix) {
+		String ciphertext = null;
+		String plaintextHex = bytesToString(plaintext.getBytes());
+		String paddedPlaintext = getPaddedPlaintext(plaintextHex, bytesPerBlock, paddingScheme);
 		ArrayList<String> parsedPlaintext = parseString(paddedPlaintext, bytesPerBlock);
 		ArrayList<String> encryptedPlaintextList = getEncryptedListOfStrings(parsedPlaintext, radix);
 		ArrayList<String> paddedCiphertextList = getPaddedCiphertextblocks(encryptedPlaintextList, blocklength);

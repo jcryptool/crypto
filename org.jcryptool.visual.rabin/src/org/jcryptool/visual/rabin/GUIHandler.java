@@ -36,7 +36,7 @@ import org.jcryptool.core.operations.editors.EditorsManager;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
 import org.jcryptool.visual.rabin.ui.CryptosystemTextbookComposite;
-import org.jcryptool.visual.rabin.ui.CryptosystemTabComposite;
+import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
 import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
 
 /**
@@ -1002,7 +1002,7 @@ public class GUIHandler {
 	
 	
 	
-	public void updateTextfields(CryptosystemTabComposite rftc) {
+	public void updateTextfields(RabinFirstTabComposite rftc) {
 		BigInteger ptmp = null;
 		BigInteger qtmp = null;
 		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$

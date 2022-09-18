@@ -64,6 +64,11 @@ public class GUISample extends Shell {
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
+	
+	private static String byteToString(byte b) {
+		String hexString = Integer.toString(Byte.toUnsignedInt(b), 16);
+		return hexString.length() == 1 ? "0" + hexString : hexString;
+	}
 
 	
 
@@ -74,6 +79,11 @@ public class GUISample extends Shell {
 		shell.open();
 		shell.layout();
 		//shell.pack();
+		
+		int a = 120;
+		String b = byteToString((byte) a);
+		System.out.println(b);
+		
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();

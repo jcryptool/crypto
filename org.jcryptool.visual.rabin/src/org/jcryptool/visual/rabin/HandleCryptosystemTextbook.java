@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;
 
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
@@ -27,7 +28,7 @@ import org.jcryptool.core.operations.editors.EditorsManager;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
 import org.jcryptool.visual.rabin.ui.CryptosystemTextbookComposite;
-import org.jcryptool.visual.rabin.ui.CryptosystemTabComposite;
+import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
 import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
 
 
@@ -43,12 +44,12 @@ public class HandleCryptosystemTextbook {
 	private ArrayList<ArrayList<Boolean>> clickedPlaintexts; 
 	private LinkedHashMap<String, String> currentSelectedPlaintexts;
 	private int[] countClicksForPlaintexts; 
-	private CryptosystemTabComposite rftc;
+	private RabinFirstTabComposite rftc;
 	
 	private HandleFirstTab guiHandler;
 	
 	
-	public HandleCryptosystemTextbook(CryptosystemTabComposite rftc) {
+	public HandleCryptosystemTextbook(RabinFirstTabComposite rftc) {
 		this.rftc = rftc;
 		this.guiHandler = rftc.guiHandler;
 		countClicksForPlaintexts = new int[] {0, 0, 0, 0};
@@ -65,7 +66,7 @@ public class HandleCryptosystemTextbook {
 	
 	
 	
-	public void btnEncryptAction(TextLoadController textSelector, Text txtToEncrypt, Text txtEncryptWarning) {
+	public void btnEncryptAction(TextLoadController textSelector, Text txtToEncrypt, Text txtEncryptWarning, CCombo cmbChooseBlockPadding) {
 		if(textSelector.getText() == null || textSelector.getText().getText().isEmpty() || guiHandler.rabinFirst.getN() == null) {
 			String strLoadTextWarning = "Attention: make sure to generate a public and private key and click on \"Load text...\" to load a plaintext you want to encrypt";
 			txtEncryptWarning.setText(strLoadTextWarning);
@@ -76,7 +77,8 @@ public class HandleCryptosystemTextbook {
 		hideControl(txtEncryptWarning);
 		
 		String plaintext = textSelector.getText().getText();
-		ciphertextList = guiHandler.rabinFirst.getCiphertextblocksAsList(plaintext, guiHandler.bytesPerBlock, guiHandler.blocklength, guiHandler.radix);
+		String paddingScheme = cmbChooseBlockPadding.getItem(cmbChooseBlockPadding.getSelectionIndex());
+		ciphertextList = guiHandler.rabinFirst.getCiphertextblocksAsList(plaintext, paddingScheme, guiHandler.bytesPerBlock, guiHandler.blocklength, guiHandler.radix);
 		String ciphertext = guiHandler.rabinFirst.getArrayListToString(ciphertextList);
 		txtToEncrypt.setText(ciphertext);
 		System.out.println(ciphertextList.size());

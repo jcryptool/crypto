@@ -33,7 +33,7 @@ public class Settings extends Composite {
 	private Color colorButtonFG;
 	
 	private RabinMainView rmv;
-	private CryptosystemTabComposite rftc;
+	private RabinFirstTabComposite rftc;
 	private RabinSecondTabComposite rstc;
 	private CryptosystemTextbookComposite cstb;
 	private RabinThirdTabComposite rttc;
@@ -49,7 +49,7 @@ public class Settings extends Composite {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Settings(Composite parent, int style, RabinMainView rmv, CryptosystemTabComposite rftc, RabinThirdTabComposite rttc) {
+	public Settings(Composite parent, int style, RabinMainView rmv, RabinFirstTabComposite rftc, RabinThirdTabComposite rttc) {
 		super(parent, style);
 		this.rmv = rmv;
 		this.rftc = rftc;
