@@ -197,6 +197,8 @@ public class RabinSecondTabComposite extends Composite {
 	public Label lblChooseBlockPadding;
 	public CCombo cmbChooseBlockPadding;
 	
+	public Group grpSelectEncDec;
+	
 	
 	private String strPlaintextSeparatedIntoSegments = Messages.RabinSecondTabComposite_strPlaintextSeparatedIntoSegments;
 	private String strPlainInBase16 = Messages.RabinSecondTabComposite_strPlainInBase16;
@@ -223,6 +225,7 @@ public class RabinSecondTabComposite extends Composite {
 			guiHandler.verifyControlFields(e);			
 		}
 	};
+	
 	
 	
 	
@@ -487,7 +490,8 @@ public class RabinSecondTabComposite extends Composite {
 		grpPlaintext.setLayoutData(grpPlaintextData);
 		//grpPlaintext.setLayout(new GridLayout(5, false));
 		grpPlaintext.setLayout(new GridLayout(3, false));
-		grpPlaintext.setText(Messages.RabinSecondTabComposite_grpPlaintext);
+		//grpPlaintext.setText(Messages.RabinSecondTabComposite_grpPlaintext);
+		grpPlaintext.setText("4 \u2212 Encryption");
 		
 		compBlockN = new Composite(grpPlaintext, SWT.NONE);
 		compBlockNData = new GridData(SWT.CENTER, SWT.CENTER, false, false);
@@ -837,8 +841,8 @@ public class RabinSecondTabComposite extends Composite {
 		});
 		
 		
-		lblSepEncryptionBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
-		lblSepEncryptionBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		//lblSepEncryptionBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		//lblSepEncryptionBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		
 	}
 	
@@ -858,8 +862,9 @@ public class RabinSecondTabComposite extends Composite {
 		grpDec = new Group(parent, SWT.NONE);
 		grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpDec.setLayout(new GridLayout(1, false));
-		grpDec.setText(Messages.RabinSecondTabComposite_grpDec);
-			
+		//grpDec.setText(Messages.RabinSecondTabComposite_grpDec);
+		grpDec.setText("5 \u2212 Decryption");	
+		
 		compHoldAllSteps = new Composite(grpDec, SWT.NONE);
 		compHoldAllSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compHoldAllSteps.setLayout(new GridLayout(1, false));
@@ -1585,7 +1590,15 @@ public class RabinSecondTabComposite extends Composite {
 	 * @param parent
 	 */
 	private void createSelectEncDecContent(Composite parent) {
-		compSelectEncDec = new Composite(parent, SWT.NONE);
+		
+		grpSelectEncDec = new Group(parent, SWT.NONE);
+		grpSelectEncDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpSelectEncDec.setLayout(new GridLayout(1, false));
+		grpSelectEncDec.setText("3 \u2212 Encrypt/Decrypt or only decrypt");
+		
+		
+		//compSelectEncDec = new Composite(parent, SWT.NONE);
+		compSelectEncDec = new Composite(grpSelectEncDec, SWT.NONE);
 		compSelectEncDec.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 		compSelectEncDec.setLayout(new GridLayout(2, false));
 		
@@ -1629,8 +1642,7 @@ public class RabinSecondTabComposite extends Composite {
 		txtInfoForEncDecSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtInfoForEncDecSelection.setBackground(GUIHandler.colorBGinfo);
 		guiHandler.setSizeControl(txtInfoForEncDecSelection, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoForEncDecSelection.setText("Select \"Encryption then decryption\" if you want to encrypt a plaintext and then decrypt it again.\n"
-				+ "Select \"Only decryption\" if you only want to decrypt a ciphertext.");
+		txtInfoForEncDecSelection.setText(guiHandler.getMessageByControl("txtInfoForEncDecSelection"));
 		txtInfoForEncDecSelection.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
@@ -1641,8 +1653,8 @@ public class RabinSecondTabComposite extends Composite {
 		});
 		
 		
-		lblSepEncDecBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
-		lblSepEncDecBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		//lblSepEncDecBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		//lblSepEncDecBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		
 		
 	}

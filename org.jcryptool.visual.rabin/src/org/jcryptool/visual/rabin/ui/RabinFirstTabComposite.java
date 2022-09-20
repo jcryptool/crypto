@@ -45,6 +45,7 @@ import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
@@ -158,6 +159,9 @@ public class RabinFirstTabComposite extends Composite {
 	public Composite compHoldInfoParam;
 	public Label lblSepInfoModulus;
 	public Text txtInfoModulus;
+	
+	public Group grpSelectionCryptosystem;
+	
 
 	
 	
@@ -362,11 +366,11 @@ public class RabinFirstTabComposite extends Composite {
 	private void initializeContent() {
 		cmbP.setText("23"); //$NON-NLS-1$
 		cmbQ.setText("31"); //$NON-NLS-1$
-		txtLowLimP.setText("1"); //$NON-NLS-1$
+		txtLowLimP.setText("2"); //$NON-NLS-1$
 		txtUpperLimP.setText("2^5"); //$NON-NLS-1$
-		txtLowLimQ.setText("1"); //$NON-NLS-1$
+		txtLowLimQ.setText("2"); //$NON-NLS-1$
 		txtUpperLimQ.setText("2^10"); //$NON-NLS-1$
-		txtLowLimPQSingle.setText("1"); //$NON-NLS-1$
+		txtLowLimPQSingle.setText("2"); //$NON-NLS-1$
 		txtUpperLimPQSingle.setText("2^10"); //$NON-NLS-1$
 		btnSelectSingleLimit.setSelection(true);
 		btnGenKeysMan.setSelection(true);
@@ -722,7 +726,9 @@ public class RabinFirstTabComposite extends Composite {
 		txtInfoModulus.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		((GridData) txtInfoModulus.getLayoutData()).heightHint = 35;
 		
-		txtInfoModulus.setForeground(ColorService.BLUE);
+		//txtInfoModulus.setForeground(ColorService.BLUE);
+		txtInfoModulus.setForeground(new Color(new RGB(252, 86, 3)));
+		//txtInfoModulus.setForeground(new Color(new RGB(9, 156, 100)));
 		txtInfoModulus.setBackground(ColorService.LIGHTGRAY);
 		guiHandler.hideControl(lblSepInfoModulus);
 		guiHandler.hideControl(txtInfoModulus);
@@ -782,12 +788,19 @@ public class RabinFirstTabComposite extends Composite {
 	
 	private void createSelectionCryptosystemContent(Composite parent) {
 		
-		compSelectionCryptosystem = new Composite(parent, SWT.NONE);
+		/*compSelectionCryptosystem = new Composite(parent, SWT.NONE);
 		compSelectionCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compSelectionCryptosystem.setLayout(new GridLayout(1, false));
+		compSelectionCryptosystem.setLayout(new GridLayout(1, false));*/
+		
+		grpSelectionCryptosystem = new Group(parent, SWT.NONE);
+		grpSelectionCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpSelectionCryptosystem.setLayout(new GridLayout(1, false));
+		grpSelectionCryptosystem.setText("2 \u2212 Rabin variant");
 		
 		
-		compSelection = new Composite(compSelectionCryptosystem, SWT.NONE);
+		
+		//compSelection = new Composite(compSelectionCryptosystem, SWT.NONE);
+		compSelection = new Composite(grpSelectionCryptosystem, SWT.NONE);
 		compSelection.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
 		compSelection.setLayout(new GridLayout(2, false));
 		
@@ -866,15 +879,21 @@ public class RabinFirstTabComposite extends Composite {
 		createSetParamContent(compHoldLayoutContent);
 		
 		
-		lblSepParamContentBottom = new Label(compHoldLayoutContent, SWT.SEPARATOR | SWT.HORIZONTAL);
-		lblSepParamContentBottom.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		//lblSepParamContentBottom = new Label(compHoldLayoutContent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		//lblSepParamContentBottom.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		
+		/*Group grpSelectionCryptosystem = new Group(compHoldLayoutContent, SWT.NONE);
+		grpSelectionCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		grpSelectionCryptosystem.setLayout(new GridLayout(1, false));
+		grpSelectionCryptosystem.setText("2 - Rabin variant");*/
+		
 		
 		
 		createSelectionCryptosystemContent(compHoldLayoutContent);
-		
+		//createSelectionCryptosystemContent(grpSelectionCryptosystem);
 			
-		lblSepSelectionCryptoBottom = new Label(compHoldLayoutContent, SWT.SEPARATOR | SWT.HORIZONTAL);
-		lblSepSelectionCryptoBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		//lblSepSelectionCryptoBottom = new Label(compHoldLayoutContent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		//lblSepSelectionCryptoBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		
 		
 		cstb = new CryptosystemTextbookComposite(compHoldLayoutContent, SWT.NONE, this);

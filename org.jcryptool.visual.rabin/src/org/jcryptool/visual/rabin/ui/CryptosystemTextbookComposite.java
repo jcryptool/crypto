@@ -111,8 +111,11 @@ public class CryptosystemTextbookComposite extends Composite {
 	public Text txtInfoForEncDecRadio;
 	public Composite compHoldSepAndInfoEncDec;
 	public Label lblSeparateEncDecWithLoadTextBottom;
-	private Label lblChooseBlockPadding;
-	private CCombo cmbChooseBlockPadding;
+	
+	
+	public Label lblChooseBlockPadding;
+	public CCombo cmbChooseBlockPadding;
+	public Group grpHoldEncryptDecryptRadio;
 		
 	
 	public CryptosystemTextbookComposite(Composite parent, int style) {
@@ -293,7 +296,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		grpLoadText = new Group(parent, SWT.NONE);
 		grpLoadText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		grpLoadText.setLayout(new GridLayout(1, false));
-		grpLoadText.setText("Load plaintext or ciphertext");
+		grpLoadText.setText("3 \u2212 Load plaintext or ciphertext");
 	
 		textSelector = new TextLoadController(grpLoadText, parent, SWT.NONE, true, true);
 		textSelector.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
@@ -341,14 +344,24 @@ public class CryptosystemTextbookComposite extends Composite {
 	private void createEncryptionDecryptionRadioBtns(Composite parent) {
 		
 		
-		lblSeparateEncDecWithLoadTextTop = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
-		lblSeparateEncDecWithLoadTextTop.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		//lblSeparateEncDecWithLoadTextTop = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		//lblSeparateEncDecWithLoadTextTop.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		
+		grpHoldEncryptDecryptRadio = new Group(parent, SWT.NONE);
+		grpHoldEncryptDecryptRadio.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpHoldEncryptDecryptRadio.setLayout(new GridLayout(1, false));
+		grpHoldEncryptDecryptRadio.setText("4 \u2212 Encrypt/Decrypt");
 		
+		/*compHoldEncryptDecryptRadio = new Composite(parent, SWT.NONE);
+		compHoldEncryptDecryptRadio.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
+		compHoldEncryptDecryptRadio.setLayout(new GridLayout(2, false));*/
 		
-		compHoldEncryptDecryptRadio = new Composite(parent, SWT.NONE);
+		compHoldEncryptDecryptRadio = new Composite(grpHoldEncryptDecryptRadio, SWT.NONE);
 		compHoldEncryptDecryptRadio.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 		compHoldEncryptDecryptRadio.setLayout(new GridLayout(2, false));
+		
+		
+		
 		
 		btnRadioEncrypt = new Button(compHoldEncryptDecryptRadio, SWT.RADIO);
 		btnRadioEncrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
@@ -396,8 +409,8 @@ public class CryptosystemTextbookComposite extends Composite {
 			}
 		});
 		
-		lblSeparateEncDecWithLoadTextBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
-		lblSeparateEncDecWithLoadTextBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		//lblSeparateEncDecWithLoadTextBottom = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		//lblSeparateEncDecWithLoadTextBottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 	
 	}
 	
@@ -408,7 +421,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		grpEncryptDecrypt = new Group(parent, SWT.NONE);
 		grpEncryptDecrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		grpEncryptDecrypt.setLayout(new GridLayout(1, false));
-		grpEncryptDecrypt.setText("Encryption");
+		grpEncryptDecrypt.setText("5 \u2212 Encryption");
 		
 		compHoldEncryptDecryptContent = new Composite(grpEncryptDecrypt, SWT.NONE);
 		compHoldEncryptDecryptContent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

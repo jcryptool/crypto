@@ -224,17 +224,24 @@ public class GUIHandler {
 		
 		switch(str) {
 			case "btnGenKeysMan_selection":
-				message = "To generate a private key (p,q) and a public key N manually do the following:\n\n"
+				/*message = "To generate a private key (p,q) and a public key N manually do the following:\n\n"
 						+ "1) either enter p and q in the "
 						+ "corresponding fields on the left side or make use of the drop-down lists for p and q."
 						+ "\nMake sure to satisfy the conditions p = q \u2261 3 mod 4 and p \u2260 q. "
 						+ "Furthermore, p and q both must be \u2264 " + "2^" + this.limitExp + ".\n"
 						+ "For a start there are already given default values for p and q.\n\n"
-						+ "2) click on \"Start\" in the middle to generate the keys.";
+						+ "2) click on \"Start\" in the middle to generate the keys.";*/
+				
+				message = "Generate a private key (p,q) and a public key N manually:\n\n"
+						+ "1) Either enter p and q in the "
+						+ "corresponding fields on the left side or make use of the drop-down lists for p and q."
+						+ "\nMake sure to satisfy the conditions: p = q \u2261 3 mod 4 and p \u2260 q "
+						+ "and p,q \u2264 " + "2^" + this.limitExp + ".\n\n"
+						+ "2) Click on \"Start\" in the middle to generate the keys.";
 					break;
 			
 			case "btnGenKeys_selection":
-				message = "To generate a private key (p,q) and a public key N using limits do the following:\n\n"
+				/*message = "To generate a private key (p,q) and a public key N using limits do the following:\n\n"
 						+ "1) select \"Generate p and q having the same range\" or \"Generate p and q having different ranges\" on the left side.\n\n"
 						+ "2) enter a lower and an upper limit for p and q in the corresponding fields. "
 						+ "The numbers for p and q will be between the lower and upper limit. When selecting "
@@ -243,49 +250,78 @@ public class GUIHandler {
 						+ "ranges for p and q independently from each other.\n"
 						+ "Only an upper limit \u2264 " + "2^" + this.limitExp + " is allowed.\n"
 						+ "For a start there are already given default values for the ranges.\n\n"
-						+ "3) click on \"Start\" in the middle to generate the keys.";
+						+ "3) click on \"Start\" in the middle to generate the keys.";*/
+				message = "Generate a private key (p,q) and a public key N using limits:\n\n"
+						+ "1) Select \"Generate p and q having the same range\" or \"Generate p and q having different ranges\" on the left side.\n\n"
+						+ "2) Enter a lower and an upper limit for p and q in the corresponding fields.\n"
+						+ "Only an upper limit \u2264 " + "2^" + this.limitExp + " is allowed.\n\n"
+						+ "3) Click on \"Start\" in the middle to generate the keys.";
 				break;
 			
 			case "txtInfoSelection_textbook":
-				message = "In this mode you are able to encrypt a chosen plaintext"
+				/*message = "In this mode you are able to encrypt a chosen plaintext"
 						+ " or decrypt a chosen chiphertext in textbook mode. For example, "
 						+ "you have N = 713 = 23 \u2219 31 (default value) and want to encrypt "
 						+ "the plaintext \"hello\", then the plaintext will be split in "
 						+ "\"h || e || l || l || o\" and every letter is encrypted individually since N can only encrypt at most 9 bits "
 						+ "and one character is 8 bits long. To encrypt more characters at once you have to choose a greater N."
 						+ "On the other hand decrypting a ciphertext will result in 4 possible plaintexts, of which only one "
-						+ "is the correct one.";
+						+ "is the correct one.";*/
+				
+				message = "Here you can either encrypt a given plaintext or decrypt a given ciphertext in textbook mode."
+						+ "How many letters are combined in one block depends on the size of N.";
 				break;
 				
 			case "txtInfoSelection_steps":
-				message = "In this mode you are able to encrypt a chosen plaintext "
+				/*message = "In this mode you are able to encrypt a chosen plaintext "
 						+ "or decrypt a chosen ciphertext. But compared to the \"textbook\" version "
 						+ "you are shown every step of the encryption and decryption process "
 						+ "in detail. Furthermore you have more options for configurations.\n"
-						+ "As such, this mode is for better understanding the cryptosystem.";
+						+ "As such, this mode is for better understanding the cryptosystem.";*/
+				
+				message = "Here you can either encrypt a given plaintext "
+						+ "or decrypt a given ciphertext. Compared to the textbook mode "
+						+ "every step of the encryption and decryption process is shown"
+						+ "in detail. Furthermore, you can choose how many bytes should be combined into one "
+						+ "block.";
 				break;
 				
 			case "txtInfoSelector":
-				message = "Click on \"Load text...\" to either load a plaintext you want to encrypt "
+				/*message = "Click on \"Load text...\" to either load a plaintext you want to encrypt "
 						+ "or a ciphertext you want to decrypt. If you want to load a plaintext "
 						+ "only characters in the UTF-8 format are allowed. If you want to load "
 						+ "a ciphertext only hexadecimal numbers (0-f) are allowed.\n"
-						+ "Furthermore make sure the length of the ciphertext is a multiple of the blocklength of N.";
+						+ "Furthermore make sure the length of the ciphertext is a multiple of the blocklength of N.";*/
+				
+				message = "Click on \"Load text...\" to either load a plaintext you want to encrypt "
+						+ "or a ciphertext you want to decrypt. For plaintexts "
+						+ "only characters in the UTF-8 format are allowed. For ciphertexts "
+						+ "only hexadecimal numbers (0-f) are allowed "
+						+ "and the length of the ciphertext must be a multiple of the blocklength of N.";
 				break;
 						
 			case "txtInfoEncryptionDecryption_encrypt":
-				message = "In encryption mode you have three options you can choose from:\n\n"
+				/*message = "In encryption mode you have three options you can choose from:\n\n"
 				  		+ "1) click on \"Encrypt\" to encrypt a chosen plaintext. The ciphertext will be shown "
 				  		+ "in the field on the left side.\n\n"
 				  		+ "2) once you have encrypted a plaintext you can click on "
 				  		+ "\"Decrypt and switch to decryption mode\" to decrypt the ciphertext again and "
 				  		+ "switch to decryption mode.\n\n"
 				  		+ "3) you can click on \"Write to JCT editor\" to write your non-empty ciphertext to a build-in "
+				  		+ "editor in JCT.";*/
+				
+				message = "Here you have three options you can choose from:\n\n"
+				  		+ "1) Click on \"Encrypt\" to encrypt a given plaintext. The ciphertext will be shown "
+				  		+ "in the field on the left side.\n\n"
+				  		+ "2) Once you have encrypted a plaintext you can click on "
+				  		+ "\"Decrypt and switch to decryption mode\" to decrypt the ciphertext again and "
+				  		+ "switch to decryption mode.\n\n"
+				  		+ "3) You can click on \"Write to JCT editor\" to write your non-empty ciphertext to a build-in "
 				  		+ "editor in JCT.";
 				break;
 				
 			case "txtInfoEncryptionDecryption_decrypt":
-				message = "In decryption mode you have five options you can choose from:\n\n"
+				/*message = "In decryption mode you have five options you can choose from:\n\n"
 						+ "1) click on \"Decrypt\" to decrypt a chosen ciphertext.\n"
 						+ "The ciphertext is split into blocks with a specific blocklength. "
 						+ "For example, having N = 713 = 23 \u2219 31 (default value), the blocklength "
@@ -307,12 +343,41 @@ public class GUIHandler {
 						+ "4) you can click on \"Write to JCT editor\" to write the content of the field "
 						+ "\"Chosen plaintexts (preview)\" to a build-in editor in JCT.\n\n"
 						+ "5) you can click on \"Reset chosen plaintexts\" to reset the field "
+						+ "\"Chosen plaintexts (preview)\" and your whole selection of plaintexts.";*/
+				
+				message = "Here you have five options you can choose from:\n\n"
+						+ "1) Click on \"Decrypt\" to decrypt a given ciphertext.\n"
+						+ "The ciphertext is split into blocks with a specific blocklength depending on N.\n"
+						+ "The ciphertext separated into blocks is shown in the according field on the left side.\n\n"
+						+ "2) Once you have decrypted a ciphertext you can either use the drop-down list \"Block\" to choose a "
+						+ "specifc ciphertextblock or the buttons \"Previous block\" and \"Next block\" to go through the "
+						+ "ciphertextblocks in a cyclic manner.\n"
+						+ "The currently selected ciphertextblock is decrypted and its four possible plaintexts are "
+						+ "shown in the according fields on the left side.\n"
+						+ "Most of the times three of the four plaintexts consist of random characters, so "
+						+ "they do not make any sense at all.\n\n"
+						+ "3) You can click on one plaintext out of the four available to mark it as \"selected\" and add it to the "
+						+ "list of chosen plaintexts, which is shown in the field \"Chosen plaintexts (preview)\".\n"
+						+ "The first click will add the plaintext to the list and a second click will remove "
+						+ "it again.\n\n"
+						+ "4) You can click on \"Write to JCT editor\" to write the content of the field "
+						+ "\"Chosen plaintexts (preview)\" to a build-in editor in JCT.\n\n"
+						+ "5) You can click on \"Reset chosen plaintexts\" to reset the field "
 						+ "\"Chosen plaintexts (preview)\" and your whole selection of plaintexts.";
+				break;
+				
+			case "txtInfoForEncDecSelection":
+				
+				/*message = "Select \"Encryption then decryption\" if you want to encrypt a plaintext and then decrypt it again.\n"
+						+ "Select \"Only decryption\" if you only want to decrypt a ciphertext.";*/
+				
+				message = "Select \"Encryption then decryption\" if you want to encrypt a plaintext and then decrypt it again.\n"
+						+ "Select \"Only decryption\" if you only want to decrypt a ciphertext.";
 				break;
 				
 				
 			case "txtInfoEnc_Text":
-				message = "To encrypt a plaintext in \"Text\" mode do the following:\n\n"
+				/*message = "To encrypt a plaintext in \"Text\" mode do the following:\n\n"
 						+ "1) select \"Bytes per block\" to choose how many bytes you want to encrypt at once. "
 						+ "For example, having N = 713 = 23 \u2219 31 (default value) you are able "
 						+ "to encrypt at most 1 Byte (or character/letter) at once since N has a bitlength of 10 and 1 Byte "
@@ -322,21 +387,37 @@ public class GUIHandler {
 						+ "you want to encrypt at once. The \"textbook\" mode always uses the maximum number "
 						+ "of bytes.\n\n"
 						+ "2) enter a plaintext in the field \"Plaintext\". Only characters in the UTF-8 format are allowed.\n\n"
-						+ "3) click on \"Encrypt\" to encrypt the plaintext.";
+						+ "3) click on \"Encrypt\" to encrypt the plaintext.";*/
+				
+				message = "Encrypt a plaintext in \"Text\" mode:"
+						+ "1) Select \"Bytes per block\" to choose how many bytes should be combined into one block."
+						+ "In comparison, the textbook mode always uses the maximum number "
+						+ "of bytes.\n\n"
+						+ "2) Enter a plaintext in the field \"Plaintext\". Only characters in the UTF-8 format are allowed.\n\n"
+						+ "3) Click on \"Encrypt\" to encrypt the plaintext.";
+				
 				break;
 				
 			case "txtInfoEnc_Decimal":
-				message = "To encrypt a plaintext in \"Decimal numbers\" mode do the following:\n\n"
+				/*message = "To encrypt a plaintext in \"Decimal numbers\" mode do the following:\n\n"
 						+ "1) enter a plaintext in the field \"Plaintext separated into blocks "
 						+ "(\"||\" as separator)\". You are only allowed to enter decimal numbers "
 						+ "(0-9). Furthermore make sure you enter the numbers in the format "
 						+ "\"decimal number\" or \"decimal number 1 || decimal number 2 || ...\".\n"
 						+ "Every decimal number has to be less than N.\n\n"
-						+ "2) click on \"Encrypt\" to encrypt the plaintext.";
+						+ "2) click on \"Encrypt\" to encrypt the plaintext.";*/
+				
+				message = "Encrypt a plaintext in \"Decimal numbers\" mode:"
+						+ "1) Enter a plaintext in the field \"Plaintext separated into blocks "
+						+ "(\"||\" as separator)\". You are only allowed to enter decimal numbers "
+						+ "(0-9) and make sure you enter the numbers in the format "
+						+ "\"decimal number\" or \"decimal number 1 || decimal number 2 || ...\".\n"
+						+ "Every decimal number has to be \u2264 N.\n\n"
+						+ "2) Click on \"Encrypt\" to encrypt the plaintext.";
 				break;
 				
 			case "txtInfoDecimalAndHex_decryption_hex":
-				message = "You are in \"Hex\" mode. This mode allows you to decrypt ciphertexts entered as "
+				/*message = "You are in \"Hex\" mode. This mode allows you to decrypt ciphertexts entered as "
 						+ "hexstrings. Keep in mind that its only the decryption without previous encryption. "
 						+ "That means, In contrast to the \"Encryption and decryption\" mode this mode computes the four possible plaintexts without notifying the "
 						+ "user which of them is the correct one since the decryption does not know it.\n\n"
@@ -344,7 +425,13 @@ public class GUIHandler {
 						+ "1) enter a ciphertext in the field \"Ciphertext in base 16 format\" as hexstring, which "
 						+ "means only hexadecimal numbers (0-f) are allowed. "
 						+ "Make sure that the length of the ciphertext is a multiple of the blocklength of N.\n\n"
-						+ "2) click on \"Apply\" to get the ciphertext separated into blocks.";
+						+ "2) click on \"Apply\" to get the ciphertext separated into blocks.";*/
+				
+				message = "Decypt a ciphertext:\n\n"
+						+ "1) Enter a ciphertext in the field \"Ciphertext in base 16 format\" as hexstring, that is, "
+						+ "only hexadecimal numbers (0-f) are allowed as in the textbook mode.\n"
+						+ "Make sure that the length of the ciphertext is a multiple of the blocklength of N.\n\n"
+						+ "2) Click on \"Apply\" to get the ciphertext separated into blocks.";
 				break;
 				
 			case "txtInfoSquareRoots_decryption_hex_and_decimal":
@@ -352,28 +439,28 @@ public class GUIHandler {
 						+ "c[i] is only meant as a short version for the specific ciphertextblock. For example c[1] would "
 						+ "be the first ciphertextblock, c[2] the second and so on) or the buttons "
 						+ "\"Previous block\" and \"Next block\" to go through the ciphertextblocks in a cyclic manner.\n\n"
-						+ "4) Once you have chosen a ciphertextblock click on \"Compute square roots mod p and q\" "
+						+ "4) Click on \"Compute square roots mod p and q\" "
 						+ "to compute the square roots of your ciphertextblock mod p and q.";
 				break;
 				
 			case "txtInfoLC_decryption_hex_and_decimal":
-				message = "5) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n"
-						+ "6) click on \"Compute v and w\" to compute the intermediate values v and w.";
+				message = "5) Click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n"
+						+ "6) Click on \"Compute v and w\" to compute the intermediate values v and w.";
 				break;
 				
 			case "txtInfoPlaintexts_decryption_hex_and_decimal":
-				message = "7) click on \"Compute all plaintexts\" to compute all plaintexts.\n"
+				message = "7) Click on \"Compute all plaintexts\" to compute all plaintexts.\n"
 						+ "The whole computation is based on the Chinese remainder theorem (CRT). "
 						+ "For further information on it take a look at the CRT plugin in JCT.";
 				break;
 				
 			case "txtInfoLC_encryption_decimal":
-				message = "5) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n\n\n\n"
-						+ "6) click on \"Compute v and w\" to compute the intermediate values v and w.";
+				message = "5) Click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n\n\n\n"
+						+ "6) Click on \"Compute v and w\" to compute the intermediate values v and w.";
 				break;
 				
 			case "txtInfoPlaintexts_encryption_decimal":
-				message = "7) click on \"Compute all plaintexts\" to compute all plaintexts.\n"
+				message = "7) Click on \"Compute all plaintexts\" to compute all plaintexts.\n"
 						+ "The whole computation is based on the Chinese remainder theorem (CRT). "
 						+ "For further information on it take a look at the CRT plugin in JCT.";
 				break;
@@ -383,10 +470,10 @@ public class GUIHandler {
 						+ "the format \"decimal number\" or \"decimal number 1 || decimal number 2 || ...\". Keep in mind that its only the decryption without previous encryption. "
 						+ "That means, In contrast to the \"Encryption and decryption\" mode this mode computes the four possible plaintexts without notifying the "
 						+ "user which of them is the correct one since the decryption does not know it.\n\n"
-						+ "To decypt a ciphertext do the following:\n\n"
-						+ "1) enter a ciphertext in the field \"Ciphertext in base 10 separated into block (|| as separator)\".\n"
-						+ "Pay attention to the mentioned format.\n\n"
-						+ "2) click on \"Apply\" to get the ciphertext separated into blocks in base 16 format.";
+						+ "Decypt a ciphertext:\n\n"
+						+ "1) Enter a ciphertext in the field \"Ciphertext in base 10 separated into block (|| as separator)\".\n"
+						+ "You are only allowed to enter the numbers in the format \"decimal number\" or \"decimal number 1 || decimal number 2 || ...\".\n\n"
+						+ "2) Click on \"Apply\" to get the ciphertext separated into blocks in base 16 format.";
 				break;
 				
 			case "txtInfoSquareRoots_encryption_text":
@@ -394,24 +481,24 @@ public class GUIHandler {
 						+ "c[i] is only meant as a short version for the specific ciphertextblock. For example c[1] would "
 						+ "be the first ciphertextblock, c[2] the second and so on) or the buttons "
 						+ "\"Previous block\" and \"Next block\" to go through the ciphertextblocks in a cyclic manner.\n\n"
-						+ "5) Once you have chosen a ciphertextblock click on \"Compute square roots mod p and q\" "
+						+ "5) Click on \"Compute square roots mod p and q\" "
 						+ "to compute the square roots of your ciphertextblock mod p and q.";
 				break;
 				
 			case "txtInfoLC_encryption_text":
-				message = "6) click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n\n\n\n"
-						+ "7) click on \"Compute v and w\" to compute the intermediate values v and w.";
+				message = "6) Click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n\n\n\n"
+						+ "7) Click on \"Compute v and w\" to compute the intermediate values v and w.";
 				break;
 				
 			case "txtInfoPlaintexts_encryption_text":
-				message = "8) click on \"Compute all plaintexts\" to compute all plaintexts.\n"
+				message = "8) Click on \"Compute all plaintexts\" to compute all plaintexts.\n"
 						+ "The whole computation is based on the Chinese remainder theorem (CRT). "
 						+ "For further information on it take a look at the CRT plugin in JCT.";
 				break;
 				
 			
 			case "txtInfoFactor_fermat":
-				message = "The Fermat factorization basically works like this (simplified):\n\n"
+				/*message = "The Fermat factorization basically works like this (simplified):\n\n"
 						+ "We want to factorize N into its factors p and q. We use the fact that N can be "
 						+ "expressed as N = y\u00b2 \u2212 x\u00b2 which you can change to "
 						+ "y\u00b2 \u2212 N = x\u00b2. Then we use y as an \"anchor point\" by starting at a specific value "
@@ -428,12 +515,23 @@ public class GUIHandler {
 						+ "In case the processing time takes too long for getting a result you can click on "
 						+ "\"Stop computation\" to stop and quit the computation.\n"
 						+ "Only one number can be factorized at one time. So if you want to factorize a new number you have to either wait "
+						+ "until the current factorization is completed or stop the current factorization.";*/
+				
+				message = "Factorize a composite number N:\n\n"
+						+ "1) Enter N in the corresponding field, use the drop-down list or click on the button"
+						+ " \"Use public key generated in Cryptosystem tab\" to use N which was generated in the "
+						+ "\"Cryptosystem\" tab.\n"
+						+ "Only an upper limit of 2^" + this.limitExpAttacks + " for N is allowed.\n\n"
+						+ "2) Click on \"Factorize\" to start factorizing the number. The whole algorithm is executed in the background.\n"
+						+ "In case the processing time takes too long for getting a result you can click on "
+						+ "\"Stop computation\" to stop and quit the computation.\n"
+						+ "Only one number can be factorized at one time. So if you want to factorize a new number you have to either wait "
 						+ "until the current factorization is completed or stop the current factorization.";
 				break;
 				
 				
 			case "txtInfoFactor_pollard":
-				message = "Pollard's rho factorization basically works like this (simplified):\n\n"
+				/*message = "Pollard's rho factorization basically works like this (simplified):\n\n"
 						+ "To factorize N we try to find numbers say x and y such that x \u2262 y mod N "
 						+ "but x \u2261 y mod p. With that we have that N does not divide (x-y) but p divides both (x-y) "
 						+ "and N. If we compute gcd((x-y), N) now we get one of the factors p or q of N. If we then divide N "
@@ -451,6 +549,17 @@ public class GUIHandler {
 						+ "In case the processing time takes too long for getting a result you can click on "
 						+ "\"Stop computation\" to stop and quit the computation.\n"
 						+ "Only one number can be factorized at one time. So if you want to factorize a new number you have to either wait "
+						+ "until the current factorization is completed or stop the current factorization.";*/
+				
+				message = "Factorize N:\n\n"
+						+ "1) Enter N in the corresponding field, use the drop-down list or click on the button"
+						+ " \"Use public key generated in Cryptosystem tab\" to use N which was generated in the "
+						+ "\"Cryptosystem\" tab.\n"
+						+ "Only an upper limit of 2^" + this.limitExpAttacks + " for N is allowed.\n\n"
+						+ "2) Click on \"Factorize\" to start factorizing the number. The whole algorithm is executed in the background.\n"
+						+ "In case the processing time takes too long for getting a result you can click on "
+						+ "\"Stop computation\" to stop and quit the computation.\n"
+						+ "Only one number can be factorized at one time. So if you want to factorize a new number you have to either wait "
 						+ "until the current factorization is completed or stop the current factorization.";
 				break;
 				
@@ -462,21 +571,23 @@ public class GUIHandler {
 	
 	
 	public void hideStepByStepPart(RabinSecondTabComposite rstc) {
-		this.hideControl(rstc.compSelectEncDec);
+		//this.hideControl(rstc.compSelectEncDec);
+		this.hideControl(rstc.grpSelectEncDec);
 		this.hideControl(rstc.compHoldSepAndInfoEncDecSelection);
-		this.hideControl(rstc.lblSepEncDecBottom);
+		//this.hideControl(rstc.lblSepEncDecBottom);
 		this.hideControl(rstc.grpPlaintext);
 		this.hideControl(rstc.compHoldSepAndInfoForEncryption);
-		this.hideControl(rstc.lblSepEncryptionBottom);
+		//this.hideControl(rstc.lblSepEncryptionBottom);
 		this.hideControl(rstc.grpDec);
 		this.hideControl(rstc.compHoldSepAndInfoForDecryption);
 	
 	}
 	
 	public void showStepByStepPart(RabinSecondTabComposite rstc) {
-		this.showControl(rstc.compSelectEncDec);
+		//this.showControl(rstc.compSelectEncDec);
+		this.showControl(rstc.grpSelectEncDec);
 		this.showControl(rstc.compHoldSepAndInfoEncDecSelection);
-		this.showControl(rstc.lblSepEncDecBottom);
+		//this.showControl(rstc.lblSepEncDecBottom);
 		
 		if(rstc.btnSelectionDec.getSelection()) {
 			this.showControl(rstc.grpDec);
@@ -485,7 +596,7 @@ public class GUIHandler {
 		else {
 			this.showControl(rstc.grpPlaintext);
 			this.showControl(rstc.compHoldSepAndInfoForEncryption);
-			this.showControl(rstc.lblSepEncryptionBottom);
+			//this.showControl(rstc.lblSepEncryptionBottom);
 			this.showControl(rstc.grpDec);
 			this.showControl(rstc.compHoldSepAndInfoForDecryption);
 		}
@@ -502,10 +613,11 @@ public class GUIHandler {
 	public void hideTextbookPart(CryptosystemTextbookComposite cstb) {
 		this.hideControl(cstb.grpLoadText);
 		this.hideControl(cstb.compHoldSepAndInfoForSelector);
-		this.hideControl(cstb.lblSeparateEncDecWithLoadTextTop);
-		this.hideControl(cstb.compHoldEncryptDecryptRadio);
+		//this.hideControl(cstb.lblSeparateEncDecWithLoadTextTop);
+		//this.hideControl(cstb.compHoldEncryptDecryptRadio);
+		this.hideControl(cstb.grpHoldEncryptDecryptRadio);
 		this.hideControl(cstb.compHoldInfoForEncDec);
-		this.hideControl(cstb.lblSeparateEncDecWithLoadTextBottom);
+		//this.hideControl(cstb.lblSeparateEncDecWithLoadTextBottom);
 		this.hideControl(cstb.grpEncryptDecrypt);
 		this.hideControl(cstb.compHoldSepAndInfoEncDec);
 	}
@@ -514,10 +626,11 @@ public class GUIHandler {
 	public void showTextbookPart(CryptosystemTextbookComposite cstb) {
 		this.showControl(cstb.grpLoadText);
 		this.showControl(cstb.compHoldSepAndInfoForSelector);
-		this.showControl(cstb.lblSeparateEncDecWithLoadTextTop);
-		this.showControl(cstb.compHoldEncryptDecryptRadio);
+		//this.showControl(cstb.lblSeparateEncDecWithLoadTextTop);
+		//this.showControl(cstb.compHoldEncryptDecryptRadio);
+		this.showControl(cstb.grpHoldEncryptDecryptRadio);
 		this.showControl(cstb.compHoldInfoForEncDec);
-		this.showControl(cstb.lblSeparateEncDecWithLoadTextBottom);
+		//this.showControl(cstb.lblSeparateEncDecWithLoadTextBottom);
 		this.showControl(cstb.grpEncryptDecrypt);
 		this.showControl(cstb.compHoldSepAndInfoEncDec);
 	}

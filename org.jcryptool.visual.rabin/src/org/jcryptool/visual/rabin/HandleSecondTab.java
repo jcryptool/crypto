@@ -1380,7 +1380,7 @@ public class HandleSecondTab extends GUIHandler {
 			this.hideControl(rstc.compEnterCiphertext);
 			this.showControl(rstc.grpPlaintext);
 			this.showControl(rstc.compHoldSepAndInfoForEncryption);
-			this.showControl(rstc.lblSepEncryptionBottom);
+			//this.showControl(rstc.lblSepEncryptionBottom);
 			
 			if(rstc.btnRadHex.getSelection()) {
 				this.saveState(State.DECHEX, rstc);
@@ -1400,6 +1400,7 @@ public class HandleSecondTab extends GUIHandler {
 			
 			resetFinalPlaintextColor(rstc);
 			setFinalPlaintextColor(rstc);
+			rstc.grpDec.setText("5 \u2212 Decryption");
 			
 		}
 	}
@@ -1417,7 +1418,7 @@ public class HandleSecondTab extends GUIHandler {
 		if(src.getSelection()) {
 			this.hideControl(rstc.grpPlaintext);
 			this.hideControl(rstc.compHoldSepAndInfoForEncryption);
-			this.hideControl(rstc.lblSepEncryptionBottom);
+			//this.hideControl(rstc.lblSepEncryptionBottom);
 			this.showControl(rstc.compEnterCiphertext);
 			
 			if(rstc.btnText.getSelection()) {
@@ -1437,6 +1438,8 @@ public class HandleSecondTab extends GUIHandler {
 			}
 			
 			resetFinalPlaintextColor(rstc);
+			
+			rstc.grpDec.setText("4 \u2212 Decryption");
 		}
 	}
 	

@@ -701,7 +701,8 @@ public class HandleFirstTab extends GUIHandler {
 	public void updateLimitFieldsSingle(RabinFirstTabComposite rftc) {
 		String strLowLim = rftc.txtLowLimPQSingle.getText();
 		String strUpperLim = rftc.txtUpperLimPQSingle.getText();
-		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
+		//String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
+		String pattern = "^(1\\d+|[2-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
 		
 		Color white = this.colorBackgroundNeutral;
 		Color wrong = this.colorBackgroundWrong;
@@ -842,7 +843,8 @@ public class HandleFirstTab extends GUIHandler {
 		String txtUpP = txtUpperLimP.getText();
 		String txtLowQ = txtLowLimQ.getText();
 		String txtUpQ = txtUpperLimQ.getText();
-		String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
+		//String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
+		String pattern = "^(1\\d+|[2-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
 		
 		Color white = this.colorBackgroundNeutral;
 		Color wrong = this.colorBackgroundWrong;
