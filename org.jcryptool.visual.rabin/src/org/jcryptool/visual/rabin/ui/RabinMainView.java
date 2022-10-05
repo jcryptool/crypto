@@ -17,10 +17,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
+import org.jcryptool.visual.extendedrsa.Activator;
 import org.jcryptool.visual.rabin.GUIHandler;
 import org.jcryptool.visual.rabin.Messages;
 import org.jcryptool.visual.rabin.Rabin;
@@ -90,7 +92,7 @@ public class RabinMainView extends ViewPart {
 		compTad = new TitleAndDescriptionComposite(rootComposite);
 		compTad.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compTad.setTitle(Messages.RabinMainView_compTadTitle);
-		compTad.setDescription(Messages.RabinMainView_compTadDescription);
+		compTad.setDescription("The Rabin cryptosystem is an asymmetric cryptosystem sharing similarities with the RSA cryptosystem. Its unique characteristic is that its decryption produces four possible plaintexts, of which only one is the correct one. The plugin demonstrates the Rabin encryption and decryption scheme with a freely chosen private key pair (p,q), where p and q are distinct prime numbers, and the public key N = p · q, which is used as the modulus.");
 		
 		
 		// TODO: insert TitleAndDescriptionComposite here
@@ -194,6 +196,7 @@ public class RabinMainView extends ViewPart {
 					//return;
 				
 				scCryptosystem.setMinSize(compHoldCryptosystem.computeSize(width, SWT.DEFAULT));
+				//scCryptosystem.setMinSize(scCryptosystem.computeSize(width, SWT.DEFAULT));
 			}
 			
 		});
@@ -347,6 +350,9 @@ public class RabinMainView extends ViewPart {
 		
 		if(GUIHandler.isDarkmode)
 			setColors();
+		
+		
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.view");
 		
 		//setBackgroundComponents(compCryptosystem, ColorService.GRAY);
 		//setBackgroundComponents(compHoldCryptosystem, ColorService.GRAY);

@@ -198,6 +198,8 @@ public class RabinSecondTabComposite extends Composite {
 	public CCombo cmbChooseBlockPadding;
 	
 	public Group grpSelectEncDec;
+	public Composite compSpaceBetweenCmbs;
+	
 	
 	
 	private String strPlaintextSeparatedIntoSegments = Messages.RabinSecondTabComposite_strPlaintextSeparatedIntoSegments;
@@ -243,11 +245,27 @@ public class RabinSecondTabComposite extends Composite {
 		Color colorTxtWhichYouCanEnterFG = GUIHandler.colorTxtWhichYouCanEnterFG;
 
 	
+		/*lblChooseBlockPadding.setBackground(colorBG);
+		lblChooseBlockPadding.setForeground(colorFG);
+		cmbChooseBlockPadding.setBackground(colorButtonBG);
+		cmbChooseBlockPadding.setForeground(colorButtonFG);
+		grpSelectEncDec.setBackground(colorBG);
+		grpSelectEncDec.setForeground(colorFG);
+		compSpaceBetweenCmbs.setBackground(colorBG);
+		compSpaceBetweenCmbs.setForeground(colorFG);*/
 		
 		
 		this.setBackground(colorBG);
 		this.setForeground(colorFG);
 		
+		lblChooseBlockPadding.setBackground(colorBG);
+		lblChooseBlockPadding.setForeground(colorFG);
+		cmbChooseBlockPadding.setBackground(colorButtonBG);
+		cmbChooseBlockPadding.setForeground(colorButtonFG);
+		grpSelectEncDec.setBackground(colorBG);
+		grpSelectEncDec.setForeground(colorFG);
+		compSpaceBetweenCmbs.setBackground(colorBG);
+		compSpaceBetweenCmbs.setForeground(colorFG);
 		
 		compSelNumTxt.setBackground(colorBG);
 		compSelNumTxt.setForeground(colorFG);
@@ -455,8 +473,8 @@ public class RabinSecondTabComposite extends Composite {
 		compHoldRadHexDec2.setBackground(colorBG);
 		compHoldRadHexDec2.setForeground(colorFG);
 		
-		lblSepEncryptionBottom.setBackground(colorBG);
-		lblSepEncryptionBottom.setForeground(colorFG);
+		//lblSepEncryptionBottom.setBackground(colorBG);
+		//lblSepEncryptionBottom.setForeground(colorFG);
 		compHoldSepAndInfoForEncryption.setBackground(colorBG);
 		compHoldSepAndInfoForEncryption.setForeground(colorFG);
 		compHoldSepAndInfoForDecryption.setBackground(colorBG);
@@ -471,8 +489,8 @@ public class RabinSecondTabComposite extends Composite {
 		lblSepForInfoEncDecSelection.setForeground(colorFG);
 		txtInfoForEncDecSelection.setBackground(colorBG);
 		txtInfoForEncDecSelection.setForeground(colorFG);
-		lblSepEncDecBottom.setBackground(colorBG);
-		lblSepEncDecBottom.setForeground(colorFG);
+		//lblSepEncDecBottom.setBackground(colorBG);
+		//lblSepEncDecBottom.setForeground(colorFG);
 		
 	}
 	
@@ -515,7 +533,7 @@ public class RabinSecondTabComposite extends Composite {
 		});
 		
 		
-		Composite compSpaceBetweenCmbs = new Composite(compBlockN, SWT.NONE);
+		compSpaceBetweenCmbs = new Composite(compBlockN, SWT.NONE);
 		compSpaceBetweenCmbs.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		compSpaceBetweenCmbs.setLayout(new GridLayout(1, false));
 		guiHandler.setSizeControl(compSpaceBetweenCmbs, SWT.DEFAULT, 20);
@@ -528,6 +546,15 @@ public class RabinSecondTabComposite extends Composite {
 		//cmbChooseBlockPadding.setVisibleItemCount(10);
 		cmbChooseBlockPadding.setItems(new String[]{"ANSI X9.23", "PKCS#7"});
 		cmbChooseBlockPadding.select(0);
+		cmbChooseBlockPadding.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				guiHandler.cmbChooseBlockPaddingAction(getCurrentInstance());
+			}
+			
+		});
 		
 		
 		
@@ -696,7 +723,11 @@ public class RabinSecondTabComposite extends Composite {
 		
 		
 		lblMessageWithPadding = new Label(compEncSteps, SWT.NONE);
-		lblMessageWithPadding.setText("Plaintext with padding in hex format (\"20\" as padding)");
+		lblMessageWithPadding.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		//lblMessageWithPadding.setText("Plaintext with padding in hex format (\"20\" as padding)");
+		String paddingScheme = this.cmbChooseBlockPadding.getItem(this.cmbChooseBlockPadding.getSelectionIndex());
+		lblMessageWithPadding.setText("Plaintext with possible padding (\""
+				+ paddingScheme + "\" as paddig scheme, hex format)");
 		txtMessageWithPadding = new Text(compEncSteps, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
 		GridData txtMessageWithPaddingData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtMessageWithPadding.setLayoutData(txtMessageWithPaddingData);

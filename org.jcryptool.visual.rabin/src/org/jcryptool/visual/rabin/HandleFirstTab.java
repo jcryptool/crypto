@@ -622,7 +622,22 @@ public class HandleFirstTab extends GUIHandler {
 		//rftc.txtInfoModulus.setText("Number of bits of N = " + bitlength + "\n"
 				//+ "Max. number of bytes to encrypt = " + maxBytesPerBlock);
 		
-		String txtInfoModulusStr  = "Number of bits of N = " + bitlength + " ";
+		String strInfoNbits = "Bitlength: " + bitlength + " ";
+		
+		if(bitlength > 1)
+			strInfoNbits += "bits";
+		else
+			strInfoNbits += "bit";
+		
+		String strInfoNmaxBytes = "Max. number of bytes to encrypt: " + maxBytesPerBlock + " ";
+		
+		if(maxBytesPerBlock > 1)
+			strInfoNmaxBytes += "bytes";
+		else
+			strInfoNmaxBytes += "byte";
+		
+		
+		/*String txtInfoModulusStr  = "Number of bits of N = " + bitlength + " ";
 		
 		if(bitlength > 1)
 			txtInfoModulusStr += "bits";
@@ -640,7 +655,7 @@ public class HandleFirstTab extends GUIHandler {
 		rftc.txtInfoModulus.setText(txtInfoModulusStr);
 		
 		showControl(rftc.lblSepInfoModulus);
-		showControl(rftc.txtInfoModulus);
+		showControl(rftc.txtInfoModulus);*/
 				
 		int ibytesPerBlock = (bitlength / 8) * 2;
 		int blocklength = ((bitlength / 8) + 1) * 2;
@@ -650,6 +665,16 @@ public class HandleFirstTab extends GUIHandler {
 		rstc.guiHandler.blocklength = blocklength;
 		rstc.guiHandler.bytesPerBlock = 2;
 		
+		String strInfoNblocklength = "Blocklength ciphertext: " + blocklength / 2 + " ";
+		
+		if(blocklength/2 > 1)
+			strInfoNblocklength += "bytes";
+		else
+			strInfoNblocklength += "byte";
+		
+		rftc.txtInfoNbits.setText(strInfoNbits);
+		rftc.txtInfoNmaxBytes.setText(strInfoNmaxBytes);
+		rftc.txtInfoNblocklength.setText(strInfoNblocklength);
 		
 		rstc.cmbBlockN.removeAll();
 		
@@ -690,7 +715,19 @@ public class HandleFirstTab extends GUIHandler {
 		rftc.txtUpperLimP.setBackground(ColorService.WHITE);
 		rftc.txtUpperLimQ.setBackground(ColorService.WHITE);
 		
+		rftc.btnToggleInfoN.setEnabled(true);
+		
 		hideControl(rftc.txtcompGenPandQWarning);
+	}
+	
+	
+	public void btnToggleInfoNAction(RabinFirstTabComposite rftc) {
+		if(rftc.btnToggleInfoN.getSelection()) {
+			this.showControl(rftc.grpInfoOnN);
+		}
+		else {
+			this.hideControl(rftc.grpInfoOnN);
+		}
 	}
 	
 	

@@ -25,14 +25,14 @@
    <extension
          point="org.eclipse.help.toc">
       <toc
-            file="$nl$/toc.xml"
+            file="$nl$/help/toc.xml"
             primary="false">
       </toc>
    </extension>
    <extension
          point="org.eclipse.help.contexts">
       <contexts
-            file="$nl$/contexts.xml">
+            file="$nl$/help/contexts.xml">
       </contexts>
    </extension>
    <extension
@@ -40,6 +40,10 @@
       <handler
             class="org.jcryptool.visual.rabin.handlers.RestartHandler"
             commandId="org.jcryptool.visual.rabin.restartCommand">
+      </handler>
+      <handler
+            class="org.jcryptool.visual.rabin.files.HelpHandler"
+            commandId="org.jcryptool.visual.rabin.HelpCommand">
       </handler>
    </extension>
    <extension

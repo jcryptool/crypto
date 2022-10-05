@@ -116,7 +116,7 @@ public class GUIHandler {
 		this.rabinFirst = rabin;
 		rabin.setPadding(padding);
 		rabin.setCharset(charset);
-		System.out.format("Light-Gray rgp: r = %x, g = %x, b = %x", ColorService.LIGHTGRAY.getRed(), ColorService.LIGHTGRAY.getGreen(), ColorService.LIGHTGRAY.getBlue());
+		//System.out.format("Light-Gray rgp: r = %x, g = %x, b = %x", ColorService.LIGHTGRAY.getRed(), ColorService.LIGHTGRAY.getGreen(), ColorService.LIGHTGRAY.getBlue());
 	}
 	
 	
@@ -237,7 +237,8 @@ public class GUIHandler {
 						+ "corresponding fields on the left side or make use of the drop-down lists for p and q."
 						+ "\nMake sure to satisfy the conditions: p = q \u2261 3 mod 4 and p \u2260 q "
 						+ "and p,q \u2264 " + "2^" + this.limitExp + ".\n\n"
-						+ "2) Click on \"Start\" in the middle to generate the keys.";
+						+ "2) Click on \"Start\" in the middle to generate the keys.\n\n"
+						+ "After clicking on \"Start\" you can click on \"Show info public key\" to show information about the public key N.";
 					break;
 			
 			case "btnGenKeys_selection":
@@ -255,7 +256,8 @@ public class GUIHandler {
 						+ "1) Select \"Generate p and q having the same range\" or \"Generate p and q having different ranges\" on the left side.\n\n"
 						+ "2) Enter a lower and an upper limit for p and q in the corresponding fields.\n"
 						+ "Only an upper limit \u2264 " + "2^" + this.limitExp + " is allowed.\n\n"
-						+ "3) Click on \"Start\" in the middle to generate the keys.";
+						+ "3) Click on \"Start\" in the middle to generate the keys.\n\n"
+						+ "After clicking on \"Start\" you can click on \"Show info public key\" to show information about the public key N.";
 				break;
 			
 			case "txtInfoSelection_textbook":
@@ -281,8 +283,8 @@ public class GUIHandler {
 				
 				message = "Here you can either encrypt a given plaintext "
 						+ "or decrypt a given ciphertext. Compared to the textbook mode "
-						+ "every step of the encryption and decryption process is shown"
-						+ "in detail. Furthermore, you can choose how many bytes should be combined into one "
+						+ "every step of the encryption and decryption process is shown "
+						+ "in detail. Furthermore, in text mode you can choose how many bytes you want to combine into one "
 						+ "block.";
 				break;
 				
@@ -311,12 +313,13 @@ public class GUIHandler {
 				  		+ "editor in JCT.";*/
 				
 				message = "Here you have three options you can choose from:\n\n"
-				  		+ "1) Click on \"Encrypt\" to encrypt a given plaintext. The ciphertext will be shown "
+						+ "1) Select a padding scheme using the drop-down list \"Block-Padding\".\n\n"
+				  		+ "2) Click on \"Encrypt\" to encrypt a given plaintext. The ciphertext will be shown "
 				  		+ "in the field on the left side.\n\n"
-				  		+ "2) Once you have encrypted a plaintext you can click on "
+				  		+ "3) Once you have encrypted a plaintext you can click on "
 				  		+ "\"Decrypt and switch to decryption mode\" to decrypt the ciphertext again and "
 				  		+ "switch to decryption mode.\n\n"
-				  		+ "3) You can click on \"Write to JCT editor\" to write your non-empty ciphertext to a build-in "
+				  		+ "4) You can click on \"Write to JCT editor\" to write your non-empty ciphertext to a build-in "
 				  		+ "editor in JCT.";
 				break;
 				
@@ -389,12 +392,12 @@ public class GUIHandler {
 						+ "2) enter a plaintext in the field \"Plaintext\". Only characters in the UTF-8 format are allowed.\n\n"
 						+ "3) click on \"Encrypt\" to encrypt the plaintext.";*/
 				
-				message = "Encrypt a plaintext in \"Text\" mode:"
-						+ "1) Select \"Bytes per block\" to choose how many bytes should be combined into one block."
-						+ "In comparison, the textbook mode always uses the maximum number "
-						+ "of bytes.\n\n"
-						+ "2) Enter a plaintext in the field \"Plaintext\". Only characters in the UTF-8 format are allowed.\n\n"
-						+ "3) Click on \"Encrypt\" to encrypt the plaintext.";
+				message = "Encrypt a plaintext in \"Text\" mode:\n\n"
+						+ "1) Select \"Bytes per block\" to choose how many bytes should be combined into one block.\n"
+						+ "In comparison, the textbook mode always uses the maximum number of bytes.\n\n"
+						+ "2) Select a padding scheme using the drop-down list \"Block-Padding\".\n\n"
+						+ "3) Enter a plaintext in the field \"Plaintext\". Only characters in the UTF-8 format are allowed.\n\n"
+						+ "4) Click on \"Encrypt\" to encrypt the plaintext.";
 				
 				break;
 				

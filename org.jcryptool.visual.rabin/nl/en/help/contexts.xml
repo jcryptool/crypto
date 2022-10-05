@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+   <context id="view" title="Rabin Cryptosystem">
+      <description>This plugin visualizes the Rabin Cryptosystem.</description>
+      <topic href="$nl$/help/content/index.html" label="Rabin Cryptosystem"/>
+   </context>
+</contexts>

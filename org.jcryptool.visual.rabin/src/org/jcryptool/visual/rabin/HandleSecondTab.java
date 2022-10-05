@@ -919,6 +919,14 @@ public class HandleSecondTab extends GUIHandler {
 	}
 	
 	
+	public void cmbChooseBlockPaddingAction(RabinSecondTabComposite rstc) {
+		String paddingScheme = rstc.cmbChooseBlockPadding.getItem(rstc.cmbChooseBlockPadding.getSelectionIndex());
+		String message = "Plaintext with possible padding (\""
+				+ paddingScheme + "\" as padding scheme, hex format)";
+		rstc.lblMessageWithPadding.setText(message);
+	}
+	
+	
 	
 	/**
 	 * action for btnEnc

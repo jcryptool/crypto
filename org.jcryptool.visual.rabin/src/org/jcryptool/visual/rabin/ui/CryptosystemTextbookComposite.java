@@ -116,6 +116,8 @@ public class CryptosystemTextbookComposite extends Composite {
 	public Label lblChooseBlockPadding;
 	public CCombo cmbChooseBlockPadding;
 	public Group grpHoldEncryptDecryptRadio;
+	private Composite compChooseBlockPadding;
+	private Composite compSpaceBetweenCmbs;
 		
 	
 	public CryptosystemTextbookComposite(Composite parent, int style) {
@@ -154,6 +156,17 @@ public class CryptosystemTextbookComposite extends Composite {
 		Color colorTxtWarningFG = GUIHandler.colorDarkModeWarningFG;
 		Color colorButtonBG = GUIHandler.colorButtonsBG;
 		Color colorButtonFG = GUIHandler.colorButtonsFG;
+		
+		lblChooseBlockPadding.setBackground(colorBG);
+		lblChooseBlockPadding.setForeground(colorFG);
+		cmbChooseBlockPadding.setBackground(colorButtonBG);
+		cmbChooseBlockPadding.setForeground(colorButtonFG);
+		grpHoldEncryptDecryptRadio.setBackground(colorBG);
+		grpHoldEncryptDecryptRadio.setForeground(colorFG);
+		compChooseBlockPadding.setBackground(colorBG);
+		compChooseBlockPadding.setForeground(colorFG);
+		compSpaceBetweenCmbs.setBackground(colorBG);
+		compSpaceBetweenCmbs.setForeground(colorFG);
 		
 		
 		this.setBackground(colorBG);
@@ -276,8 +289,8 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		compHoldSepAndInfoForSelector.setBackground(colorBG);
 		compHoldSepAndInfoForSelector.setForeground(colorFG);
-		lblSeparateEncDecWithLoadTextTop.setBackground(colorBG);
-		lblSeparateEncDecWithLoadTextTop.setForeground(colorFG);
+		//lblSeparateEncDecWithLoadTextTop.setBackground(colorBG);
+		//lblSeparateEncDecWithLoadTextTop.setForeground(colorFG);
 		compHoldInfoForEncDec.setBackground(colorBG);
 		compHoldInfoForEncDec.setForeground(colorFG);
 		lblSeparateInfoForEncDec.setBackground(colorBG);
@@ -286,8 +299,8 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtInfoForEncDecRadio.setForeground(colorFG);
 		compHoldSepAndInfoEncDec.setBackground(colorBG);
 		compHoldSepAndInfoEncDec.setForeground(colorFG);
-		lblSeparateEncDecWithLoadTextBottom.setBackground(colorBG);
-		lblSeparateEncDecWithLoadTextBottom.setForeground(colorFG);
+		//lblSeparateEncDecWithLoadTextBottom.setBackground(colorBG);
+		//lblSeparateEncDecWithLoadTextBottom.setForeground(colorFG);
 	}
 	
 	
@@ -483,7 +496,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		compHoldBtnsForFeatures.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 		compHoldBtnsForFeatures.setLayout(new GridLayout(1, false));
 		
-		Composite compChooseBlockPadding = new Composite(compHoldBtnsForFeatures, SWT.NONE);
+		compChooseBlockPadding = new Composite(compHoldBtnsForFeatures, SWT.NONE);
 		compChooseBlockPadding.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 		compChooseBlockPadding.setLayout(new GridLayout(1, false));
 		
@@ -498,7 +511,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		cmbChooseBlockPadding.select(0);
 		
 		
-		Composite compSpaceBetweenCmbs = new Composite(compHoldBtnsForFeatures, SWT.NONE);
+		compSpaceBetweenCmbs = new Composite(compHoldBtnsForFeatures, SWT.NONE);
 		compSpaceBetweenCmbs.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		compSpaceBetweenCmbs.setLayout(new GridLayout(1, false));
 		guiHandler.setSizeControl(compSpaceBetweenCmbs, SWT.DEFAULT, 20);
