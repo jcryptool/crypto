@@ -733,14 +733,14 @@ public class RabinSecondTabComposite extends Composite {
 		txtMessageWithPadding.setLayoutData(txtMessageWithPaddingData);
 		guiHandler.setSizeControl(txtMessageWithPadding, SWT.DEFAULT, SWT.DEFAULT);
 		txtMessageWithPadding.setBackground(GUIHandler.colorBGinfo);
-		txtMessageWithPadding.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtMessageWithPadding.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtMessageWithPadding, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		
@@ -1158,14 +1158,14 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});
-		txtCipherFirst.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtCipherFirst.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtCipherFirst, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		compNavElem = new Composite(compTest, SWT.NONE);
@@ -1254,14 +1254,14 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});
-		txtmp.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtmp.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtmp, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		// create group for m_q
@@ -1290,14 +1290,14 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});
-		txtmq.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtmq.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtmq, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 			
 		compHoldLCandInverse = new Composite(compHoldAllSteps, SWT.NONE);
@@ -1337,14 +1337,14 @@ public class RabinSecondTabComposite extends Composite {
 				guiHandler.txtYpAction(getCurrentInstance());
 			}
 		});
-		txtyp.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtyp.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtyp, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		lblyq = new Label(compMerge, SWT.NONE);
@@ -1366,14 +1366,14 @@ public class RabinSecondTabComposite extends Composite {
 				guiHandler.txtYqAction(getCurrentInstance());
 			}
 		});
-		txtyq.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtyq.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtyq, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		btnComputeYpYq = new Button(grpLinCon, SWT.PUSH);
@@ -1431,14 +1431,14 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});	
-		txtV.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtV.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtV, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		lblW = new Label(compHoldvw, SWT.NONE);
@@ -1459,14 +1459,14 @@ public class RabinSecondTabComposite extends Composite {
 				
 			}
 		});	
-		txtW.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtW.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtW, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 			
 		compHoldPlaintextsAndInfo = new Composite(compHoldAllSteps, SWT.NONE);
@@ -1496,14 +1496,14 @@ public class RabinSecondTabComposite extends Composite {
 		txtm1.setBackground(GUIHandler.colorBGinfo);
 		
 		guiHandler.setSizeControl(txtm1, SWT.DEFAULT, SWT.DEFAULT);
-		txtm1.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtm1.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtm1, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		lblm2 = new Label(compAllPt, SWT.NONE);
@@ -1516,14 +1516,14 @@ public class RabinSecondTabComposite extends Composite {
 		txtm2.setBackground(GUIHandler.colorBGinfo);
 		
 		guiHandler.setSizeControl(txtm2, SWT.DEFAULT, SWT.DEFAULT);
-		txtm2.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtm2.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtm2, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		lblm3 = new Label(compAllPt, SWT.NONE);
@@ -1536,14 +1536,14 @@ public class RabinSecondTabComposite extends Composite {
 		txtm3.setBackground(GUIHandler.colorBGinfo);
 		
 		guiHandler.setSizeControl(txtm3, SWT.DEFAULT, SWT.DEFAULT);
-		txtm3.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtm3.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtm3, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		lblm4 = new Label(compAllPt, SWT.NONE);
@@ -1556,14 +1556,14 @@ public class RabinSecondTabComposite extends Composite {
 		txtm4.setBackground(GUIHandler.colorBGinfo);
 		
 		guiHandler.setSizeControl(txtm4, SWT.DEFAULT, SWT.DEFAULT);
-		txtm4.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtm4.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtm4, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		compHoldNextC = new Composite(grpPosPlain, SWT.NONE);

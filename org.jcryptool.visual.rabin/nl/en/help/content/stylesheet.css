@@ -16,12 +16,13 @@
 
 .toc {
   
+  /*margin-right: 800px;*/
   margin: 30px 0px;
   border: 1px solid #a2a9b1;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
-  width: 40%;
+  width: 600px;
   background-color: #f8f9fa;
 }
 
@@ -49,8 +50,8 @@ figure {
     /*display: inline-block;
     margin: 20px;*/ 
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
     margin-top: 30px;
     margin-bottom: 30px;
 }
@@ -60,6 +61,7 @@ figure img {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    width: 85%;
 }
 
 figure figcaption {
@@ -81,3 +83,29 @@ h4 {
   margin-top: 50px;
   margin-bottom: 30px;
 }
+
+#fig1 {
+  width: 20%;
+}
+
+#fig6 {
+  width: 70%;
+}
+
+#fig8 {
+  width: 40%;
+}
+
+#fig24 {
+  width: 40%;
+}
+
+#fig31 {
+  width: 40%;
+}
+
+#fig32 {
+  width: 40%;
+}
+
+

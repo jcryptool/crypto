@@ -470,14 +470,14 @@ public class CryptosystemTextbookComposite extends Composite {
 				hcstb.txtCiphertextModifyAction(getCurrentInstance());
 			}
 		});
-		txtCiphertext.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtCiphertext.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtCiphertext, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		
@@ -851,14 +851,14 @@ public class CryptosystemTextbookComposite extends Composite {
 				hcstb.txtChosenPlaintextsModifyAction(getCurrentInstance());
 			}
 		});
-		txtChosenPlaintexts.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtChosenPlaintexts.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtChosenPlaintexts, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 			
 		

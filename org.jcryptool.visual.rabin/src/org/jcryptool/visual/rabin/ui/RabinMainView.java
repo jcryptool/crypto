@@ -22,7 +22,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
-import org.jcryptool.visual.extendedrsa.Activator;
 import org.jcryptool.visual.rabin.GUIHandler;
 import org.jcryptool.visual.rabin.Messages;
 import org.jcryptool.visual.rabin.Rabin;
@@ -351,9 +350,12 @@ public class RabinMainView extends ViewPart {
 		if(GUIHandler.isDarkmode)
 			setColors();
 		
+		SmoothScroller.scrollSmooth(scCryptosystem);
+		SmoothScroller.scrollSmooth(scSettings);
+		SmoothScroller.scrollSmooth(scAttacks);
 		
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.view");
-		
+		//PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.view");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.RabinView.view");
 		//setBackgroundComponents(compCryptosystem, ColorService.GRAY);
 		//setBackgroundComponents(compHoldCryptosystem, ColorService.GRAY);
 		
@@ -377,6 +379,7 @@ public class RabinMainView extends ViewPart {
 	@Override
 	public void setFocus() {
 		//compCryptosystem.setFocus();
+		rootComposite.setFocus();
 	}
 
 }

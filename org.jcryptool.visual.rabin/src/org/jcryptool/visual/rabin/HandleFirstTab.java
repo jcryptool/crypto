@@ -724,9 +724,11 @@ public class HandleFirstTab extends GUIHandler {
 	public void btnToggleInfoNAction(RabinFirstTabComposite rftc) {
 		if(rftc.btnToggleInfoN.getSelection()) {
 			this.showControl(rftc.grpInfoOnN);
+			rftc.btnToggleInfoN.setText("Hide info public key");
 		}
 		else {
 			this.hideControl(rftc.grpInfoOnN);
+			rftc.btnToggleInfoN.setText("Show info public key");
 		}
 	}
 	

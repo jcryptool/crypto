@@ -5,12 +5,16 @@
     <link rel="stylesheet" href="stylesheet.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Rabin Cryptosystem</title>
-    <script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
+   	<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
+	<!--
+	<script src="${JCTJS_HOST}/javascript/jquery.js"></script> 
+ 	<script>TOC_generate_default("h2, h3, h4")</script> 
+ 	-->
 </head>
 
 <body>
 
-   <h1>Rabin Cryptosystem</h1>
+    <h1>Rabin Cryptosystem</h1>
 
     <p>
         The Rabin cryptosystem is an asymmetric cryptosystem, whereby its encryption scheme shares similarities
@@ -22,7 +26,7 @@
     </p>
 
     <p>
-        In this online help we describe the theory behind the Rabin encryption and decyrption scheme and
+        In this online help we describe the theory behind the Rabin encryption and decryption scheme and
         demonstrate how the plug-in works.
     </p>
 
@@ -161,7 +165,7 @@
 
         <figure>
             <a name="img-cryptosystem">
-                <img src="images/plugin-cryptosystem-tab.png" alt="Cryptosystem tab">
+                <img src="images/plugin-cryptosystem-tab.png" alt="Cryptosystem tab" id="fig1">
                 <figcaption>Figure 1: Cryptosystem tab</figcaption>
             </a>
         </figure>
@@ -181,7 +185,7 @@
 
         <figure>
             <a name="img-keygen-1">
-                <img src="images/plugin-keygen-1.png" alt="Key generation 1" width="1000">
+                <img src="images/plugin-keygen-1.png" alt="Key generation 1" id="fig2">
                 <figcaption>Figure 2: Key generation -- part 1</figcaption>
             </a>
         </figure>
@@ -199,7 +203,7 @@
 
         <figure>
             <a name="img-keygen-2">
-                <img src="images/plugin-keygen-2.png" alt="Key generation 2" width="1000">
+                <img src="images/plugin-keygen-2.png" alt="Key generation 2" id="fig3">
                 <figcaption>Figure 3: Key generation -- part 2</figcaption>
             </a>
         </figure>
@@ -215,7 +219,7 @@
 
         <figure>
             <a name="img-keygen-3">
-                <img src="images/plugin-keygen-3.png" alt="Key generation 3" width="1000">
+                <img src="images/plugin-keygen-3.png" alt="Key generation 3" id="fig4">
                 <figcaption>Figure 4: Key generation -- part 3</figcaption>
             </a>
         </figure>
@@ -229,7 +233,7 @@
 
         <figure>
             <a name="img-info-pk">
-                <img src="images/plugin-info-pk.png" alt="Info public key" width="1000">
+                <img src="images/plugin-info-pk.png" alt="Info public key" id="fig5">
                 <figcaption>Figure 5: Info public key N</figcaption>
             </a>
         </figure>
@@ -245,7 +249,7 @@
 
         <figure>
             <a name="img-textbook">
-                <img src="images/plugin-textbook.png" alt="Textbook format" width="1000">
+                <img src="images/plugin-textbook.png" alt="Textbook format" id="fig6">
                 <figcaption>Figure 6: Textbook format selection</figcaption>
             </a>
         </figure>
@@ -268,14 +272,14 @@
 
         <figure>
             <a name="img-load-text">
-                <img src="images/plugin-loadtext.png" alt="Load text" width="1000">
+                <img src="images/plugin-loadtext.png" alt="Load text" id="fig7">
                 <figcaption>Figure 7: Load text</figcaption>
             </a>
         </figure>
 
         <figure>
             <a name="img-load-text-window">
-                <img src="images/plugin-load-text-window-1.png" alt="Load text window" width="500">
+                <img src="images/plugin-load-text-window-1.png" alt="Load text window" id="fig8">
                 <figcaption>Figure 8: Load text, pop-up window</figcaption>
             </a>
         </figure>
@@ -291,7 +295,7 @@
 
         <figure>
             <a name="img-textbook-select-enc">
-                <img src="images/plugin-select-enc-dec.png" alt="Textbook select encryption" width="1000">
+                <img src="images/plugin-select-enc-dec.png" alt="Textbook select encryption" id="fig9">
                 <figcaption>Figure 9: Textbook format -- select encryption/decryption</figcaption>
             </a>
         </figure>
@@ -314,7 +318,7 @@
 
         <figure>
             <a name="img-textbook-enc">
-                <img src="images/plugin-enc.png" alt="Textbook encryption" width="1000">
+                <img src="images/plugin-enc.png" alt="Textbook encryption" id="fig10">
                 <figcaption>Figure 10: Textbook format -- encryption</figcaption>
             </a>
         </figure>
@@ -325,8 +329,7 @@
             Figure <a href="#img-info-pk">5</a>, the plaintext will be split into
 
             \begin{align}
-            m = \text{ "h || e || l || l || o || || w || o || r || l || d" = "68 || 65 || 6c || 6c || 6f || 20 || 77 ||
-            6f || 72 || 6c || 64" (in hex)}
+            m = \text{ "h || e || l || l || o || || w || o || r || l || d" = "68 || 65 || 6c || 6c || 6f || 20 || 77 || 6f || 72 || 6c || 64" (in hex)}
             \end{align}
 
             and every character is encrypted individually, such that we get the
@@ -394,7 +397,7 @@
 
         <figure>
             <a name="img-textbook-dec">
-                <img src="images/plugin-textbook-dec.png" alt="Textbook decryption" width="800">
+                <img src="images/plugin-textbook-dec.png" alt="Textbook decryption" id="fig11">
                 <figcaption>Figure 11: Textbook format -- decryption</figcaption>
             </a>
         </figure>
@@ -411,7 +414,7 @@
         <figure>
             <a name="img-er-enc-sel">
                 <img src="images/plugin-enhanced-rabin-enctyption-selection.png" alt="step-by-step encryption selection"
-                    width="800">
+                    id="fig12">
                 <figcaption>Figure 12: Enhanced Rabin -- "Encryption then decryption" selection</figcaption>
             </a>
         </figure>
@@ -422,7 +425,7 @@
             In Figure <a href="#img-er-enc-1">13</a> we can see the encryption process of the plaintext
             "hello world" and its different steps (padding, hex etc.). Compared to the
             <b>Rabin textbook format</b> we additionally have here the option to select how many bytes/characters
-            we want to combine into one block on the left side of the figure (<b>Block per bytes</b>). The textbook
+            we want to combine into one block on the left side of the figure (<b>Bytes per block</b>). The textbook
             format
             always uses
             the maximum number of bytes the public key \(N\) can encrypt.
@@ -440,7 +443,7 @@
 
         <figure>
             <a name="img-er-enc-1">
-                <img src="images/plugin-er-enc-1.png" alt="Enhanced Rabin encryption 1" width="800">
+                <img src="images/plugin-er-enc-1.png" alt="Enhanced Rabin encryption 1" id="fig13">
                 <figcaption>Figure 13: Enhanced Rabin -- encryption 2-bytes blocks</figcaption>
             </a>
         </figure>
@@ -458,7 +461,7 @@
 
         <figure>
             <a name="img-er-enc-2">
-                <img src="images/plugin-er-enc-2.png" alt="Enhanced Rabin encryption 2" width="800">
+                <img src="images/plugin-er-enc-2.png" alt="Enhanced Rabin encryption 2" id="fig14">
                 <figcaption>Figure 14: Enhanced Rabin -- encryption 5-bytes blocks</figcaption>
             </a>
         </figure>
@@ -478,14 +481,14 @@
 
         <figure>
             <a name="img-er-dec-1">
-                <img src="images/plugin-er-dec-1.png" alt="Enhanced Rabin decryption 1" width="800">
+                <img src="images/plugin-er-dec-1.png" alt="Enhanced Rabin decryption 1" id="fig15">
                 <figcaption>Figure 15: Enhanced Rabin -- decryption part 1</figcaption>
             </a>
         </figure>
 
         <figure>
             <a name="img-er-dec-2">
-                <img src="images/plugin-er-dec-2.png" alt="Enhanced Rabin decryption 2" width="800">
+                <img src="images/plugin-er-dec-2.png" alt="Enhanced Rabin decryption 2" id="fig16">
                 <figcaption>Figure 16: Enhanced Rabin -- decryption part 2</figcaption>
             </a>
         </figure>
@@ -500,7 +503,7 @@
 
         <figure>
             <a name="img-er-enc-decimal">
-                <img src="images/plugin-er-enc-decimal.png" alt="Enhanced Rabin encryption decimal" width="800">
+                <img src="images/plugin-er-enc-decimal.png" alt="Enhanced Rabin encryption decimal" id="fig17">
                 <figcaption>Figure 17: Enhanced Rabin -- encryption decimal</figcaption>
             </a>
         </figure>
@@ -521,14 +524,14 @@
 
         <figure>
             <a name="img-er-enc-identify-padding-1">
-                <img src="images/plugin-simulate-identify-1.png" alt="Enhanced Rabin simluate identification with padding 1" width="800">
+                <img src="images/plugin-simulate-identify-1.png" alt="Enhanced Rabin simluate identification with padding 1" id="fig18">
                 <figcaption>Figure 18: Enhanced Rabin -- encryption decimal</figcaption>
             </a>
         </figure>
 
         <figure>
             <a name="img-er-enc-identify-padding-2">
-                <img src="images/plugin-simulate-identify-2.png" alt="Enhanced Rabin simluate identification with padding 2" width="800">
+                <img src="images/plugin-simulate-identify-2.png" alt="Enhanced Rabin simluate identification with padding 2" id="fig19">
                 <figcaption>Figure 19: Enhanced Rabin -- encryption decimal</figcaption>
             </a>
         </figure>
@@ -552,14 +555,14 @@
 
         <figure>
             <a name="img-er-dec-hex">
-                <img src="images/plugin-er-dec-hex.png" alt="Enhanced Rabin decryption hex" width="800">
+                <img src="images/plugin-er-dec-hex.png" alt="Enhanced Rabin decryption hex" id="fig20">
                 <figcaption>Figure 20: Enhanced Rabin -- decryption hex</figcaption>
             </a>
         </figure>
 
         <figure>
             <a name="img-er-dec-decimal">
-                <img src="images/plugin-er-dec-decimal.png" alt="Enhanced Rabin decryption decimal" width="800">
+                <img src="images/plugin-er-dec-decimal.png" alt="Enhanced Rabin decryption decimal" id="fig21">
                 <figcaption>Figure 21: Enhanced Rabin -- decryption decimal</figcaption>
             </a>
         </figure>
@@ -574,7 +577,7 @@
 
         <figure>
             <a name="img-attacks-fermat-params">
-                <img src="images/plugin-attacks-selection.png" alt="Attacks selection" width="800">
+                <img src="images/plugin-attacks-selection.png" alt="Attacks selection" id="fig22">
                 <figcaption>Figure 22: Attacks, selection</figcaption>
             </a>
         </figure>
@@ -600,7 +603,7 @@
         <figure>
             <a name="img-attacks-fermat-params">
                 <img src="images/plugin-attacks-fermat-setting-params.png"
-                    alt="Attacks, Fermat factorization -- setting params" width="800">
+                    alt="Attacks, Fermat factorization -- setting params" id="fig23">
                 <figcaption>Figure 23: Attacks, Fermat factorization -- Setting parameters</figcaption>
             </a>
         </figure>
@@ -609,7 +612,7 @@
         <figure>
             <a name="img-attacks-fermat-drop-down">
                 <img src="images/plugin-attacks-fermat-drop-down-list.png"
-                    alt="Attacks, Fermat factorization -- drop-down list" width="600">
+                    alt="Attacks, Fermat factorization -- drop-down list" id="fig24">
                 <figcaption>Figure 24: Attacks, Fermat factorization -- Setting parameters</figcaption>
             </a>
         </figure>
@@ -624,7 +627,7 @@
         <figure>
             <a name="img-attacks-fermat-table">
                 <img src="images/plugin-attacks-fermat-result-table.png"
-                    alt="Attacks, Fermat factorization -- result table" width="800">
+                    alt="Attacks, Fermat factorization -- result table" id="fig25">
                 <figcaption>Figure 25: Attacks, Fermat factorization -- Result table</figcaption>
             </a>
         </figure>
@@ -641,7 +644,7 @@
         <figure>
             <a name="img-attacks-fermat-stop-computation">
                 <img src="images/plugin-attacks-fermat-stop-computation.png"
-                    alt="Attacks, Fermat factorization -- stop computation" width="800">
+                    alt="Attacks, Fermat factorization -- stop computation" id="fig26">
                 <figcaption>Figure 26: Attacks, Fermat factorization -- Stop computation</figcaption>
             </a>
         </figure>
@@ -668,7 +671,7 @@
         <figure>
             <a name="img-attacks-pollard-1">
                 <img src="images/plugin-attacks-pollard-setting-params.png"
-                    alt="Attacks, Pollard's rho factorization -- Setting parameters" width="800">
+                    alt="Attacks, Pollard's rho factorization -- Setting parameters" id="fig27">
                 <figcaption>Figure 27: Attacks, Pollard's rho factorization -- Setting parameters</figcaption>
             </a>
         </figure>
@@ -676,7 +679,7 @@
         <figure>
             <a name="img-attacks-pollard-2">
                 <img src="images/plugin-attacks-pollard-result-table.png"
-                    alt="Attacks, Pollard's rho factorization -- Result table" width="800">
+                    alt="Attacks, Pollard's rho factorization -- Result table" id="fig28">
                 <figcaption>Figure 28: Attacks, Pollard's rho factorization -- Result table</figcaption>
             </a>
         </figure>
@@ -692,14 +695,14 @@
 
         <figure>
             <a name="img-settings">
-                <img src="images/plugin-settings-1.png" alt="Settings tab" width="800">
+                <img src="images/plugin-settings-1.png" alt="Settings tab" id="fig29">
                 <figcaption>Figure 29: Settings tab</figcaption>
             </a>
         </figure>
 
         <figure>
             <a name="img-dark-mode">
-                <img src="images/plugin-dark-mode.png" alt="Dark mode" width="800">
+                <img src="images/plugin-dark-mode.png" alt="Dark mode" id="fig30">
                 <figcaption>Figure 30: Dark mode</figcaption>
             </a>
         </figure>
@@ -721,17 +724,18 @@
 
         <figure>
             <a name="img-error-example-1">
-                <img src="images/rabin-plugin-key-generation-error-1.png" alt="Error message example 1" width="500">
+                <img src="images/rabin-plugin-key-generation-error-1.png" alt="Error message example 1" id="fig31">
                 <figcaption>Figure 31: Error message example 1</figcaption>
             </a>
         </figure>
 
         <figure>
             <a name="img-error-example-2">
-                <img src="images/rabin-plugin-key-generation-error-2.png" alt="Error message example 2" width="500">
+                <img src="images/rabin-plugin-key-generation-error-2.png" alt="Error message example 2" id="fig32">
                 <figcaption>Figure 32: Error message example 2</figcaption>
             </a>
         </figure>
+
 
 
 </body>
