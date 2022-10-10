@@ -355,7 +355,7 @@ public class RabinMainView extends ViewPart {
 		SmoothScroller.scrollSmooth(scAttacks);
 		
 		//PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.view");
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.RabinView.view");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.view");
 		//setBackgroundComponents(compCryptosystem, ColorService.GRAY);
 		//setBackgroundComponents(compHoldCryptosystem, ColorService.GRAY);
 		
