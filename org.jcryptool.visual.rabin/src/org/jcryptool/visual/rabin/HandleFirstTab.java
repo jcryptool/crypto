@@ -552,6 +552,26 @@ public class HandleFirstTab extends GUIHandler {
 		}
 	}
 	
+	public void txtModNModifyListenerAction(RabinFirstTabComposite rftc) {
+		rftc.cstb.txtCiphertext.setText("");
+		if(rftc.cstb.textSelector.getText() != null && !rftc.cstb.textSelector.getText().getText().isEmpty()) {
+			//rftc.cstb.btnEncrypt.setEnabled(true);
+			String newTextselectorText = rftc.cstb.textSelector.getText().getText();
+			if(newTextselectorText != rftc.cstb.hcstb.oldTextselectorText) {
+				rftc.cstb.btnEncrypt.setEnabled(true);
+			}
+			else {
+				if(rftc.cstb.txtCiphertext.getText().isEmpty())
+					rftc.cstb.btnEncrypt.setEnabled(true);
+				else
+					rftc.cstb.btnEncrypt.setEnabled(false);
+			}
+		}
+		else {
+			rftc.cstb.btnEncrypt.setEnabled(false);
+		}
+	}
+	
 
 	
 	

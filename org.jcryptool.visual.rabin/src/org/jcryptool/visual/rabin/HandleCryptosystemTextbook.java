@@ -27,6 +27,7 @@ import org.jcryptool.core.operations.editors.AbstractEditorService;
 import org.jcryptool.core.operations.editors.EditorsManager;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
+import org.jcryptool.crypto.ui.textsource.TextInputWithSource;
 import org.jcryptool.visual.rabin.ui.CryptosystemTextbookComposite;
 import org.jcryptool.visual.rabin.ui.RabinFirstTabComposite;
 import org.jcryptool.visual.rabin.ui.RabinSecondTabComposite;
@@ -45,6 +46,9 @@ public class HandleCryptosystemTextbook {
 	private LinkedHashMap<String, String> currentSelectedPlaintexts;
 	private int[] countClicksForPlaintexts; 
 	private RabinFirstTabComposite rftc;
+	
+	public String oldTextselectorText;
+	public boolean firstTextselectorAccess = false;
 	
 	private HandleFirstTab guiHandler;
 	
@@ -66,22 +70,23 @@ public class HandleCryptosystemTextbook {
 	
 	
 	
-	public void btnEncryptAction(TextLoadController textSelector, Text txtToEncrypt, Text txtEncryptWarning, CCombo cmbChooseBlockPadding) {
-		if(textSelector.getText() == null || textSelector.getText().getText().isEmpty() || guiHandler.rabinFirst.getN() == null) {
+	public void btnEncryptAction(CryptosystemTextbookComposite cstb) {
+		if(cstb.textSelector.getText() == null || cstb.textSelector.getText().getText().isEmpty() || guiHandler.rabinFirst.getN() == null) {
 			String strLoadTextWarning = "Attention: make sure to generate a public and private key and click on \"Load text...\" to load a plaintext you want to encrypt";
-			txtEncryptWarning.setText(strLoadTextWarning);
-			showControl(txtEncryptWarning);
+			cstb.txtEncryptionWarning.setText(strLoadTextWarning);
+			showControl(cstb.txtEncryptionWarning);
 			return;
 		}
 
-		hideControl(txtEncryptWarning);
+		hideControl(cstb.txtEncryptionWarning);
 		
-		String plaintext = textSelector.getText().getText();
-		String paddingScheme = cmbChooseBlockPadding.getItem(cmbChooseBlockPadding.getSelectionIndex());
+		String plaintext = cstb.textSelector.getText().getText();
+		String paddingScheme = cstb.cmbChooseBlockPadding.getItem(cstb.cmbChooseBlockPadding.getSelectionIndex());
 		ciphertextList = guiHandler.rabinFirst.getCiphertextblocksAsList(plaintext, paddingScheme, guiHandler.bytesPerBlock, guiHandler.blocklength, guiHandler.radix);
 		String ciphertext = guiHandler.rabinFirst.getArrayListToString(ciphertextList);
-		txtToEncrypt.setText(ciphertext);
+		cstb.txtCiphertext.setText(ciphertext);
 		System.out.println(ciphertextList.size());
+		cstb.btnEncrypt.setEnabled(false);
 	}
 	
 	
@@ -536,6 +541,7 @@ public class HandleCryptosystemTextbook {
 		showControl(cstb.compHoldEncryptionProcess);
 		cstb.grpEncryptDecrypt.setText("Encryption");
 		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt"));
+		cstb.grpEncryptDecrypt.setText("5 \u2212 Encryption");
 	}
 	
 	
@@ -545,7 +551,43 @@ public class HandleCryptosystemTextbook {
 		showControl(cstb.compHoldDecryptionProcess);
 		cstb.grpEncryptDecrypt.setText("Decryption");
 		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_decrypt"));
-
+		cstb.grpEncryptDecrypt.setText("5 \u2212 Decryption");
+	}
+	
+	
+	public void textSelectorAction(CryptosystemTextbookComposite cstb) {
+		if(cstb.textSelector.getText() != null) {
+			String newTextselectorText = null;
+			if(firstTextselectorAccess) {
+				oldTextselectorText = cstb.textSelector.getText().getText();
+				firstTextselectorAccess = true;
+				return;
+			}
+			
+			newTextselectorText = cstb.textSelector.getText().getText();
+			if(newTextselectorText != oldTextselectorText) {
+				cstb.txtCiphertext.setText("");
+			}
+			
+			
+			
+			if(!cstb.rftc.txtModN.getText().isEmpty() && !cstb.textSelector.getText().getText().isEmpty()) {
+				if(newTextselectorText != oldTextselectorText) {
+					cstb.btnEncrypt.setEnabled(true);
+				}
+				else {
+					if(cstb.txtCiphertext.getText().isEmpty())
+						cstb.btnEncrypt.setEnabled(true);
+					else
+						cstb.btnEncrypt.setEnabled(false);
+				}
+			}
+			else {
+				cstb.btnEncrypt.setEnabled(false);
+			}
+			
+			oldTextselectorText = newTextselectorText;
+		}
 	}
 	
 

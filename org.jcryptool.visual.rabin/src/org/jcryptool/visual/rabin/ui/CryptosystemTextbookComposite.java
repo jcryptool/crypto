@@ -10,6 +10,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.AccessibleActionListener;
+import org.eclipse.swt.accessibility.AccessibleEditableTextEvent;
+import org.eclipse.swt.accessibility.AccessibleEditableTextListener;
+import org.eclipse.swt.accessibility.AccessibleTextAttributeEvent;
+import org.eclipse.swt.accessibility.AccessibleTextEvent;
+import org.eclipse.swt.accessibility.AccessibleTextListener;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
@@ -37,6 +43,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PartInitException;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.crypto.ui.textloader.ui.wizard.TextLoadController;
+import org.jcryptool.crypto.ui.textsource.TextInputWithSource;
 import org.jcryptool.visual.rabin.GUIHandler;
 import org.jcryptool.visual.rabin.HandleCryptosystemTextbook;
 import org.jcryptool.visual.rabin.HandleFirstTab;
@@ -116,8 +123,10 @@ public class CryptosystemTextbookComposite extends Composite {
 	public Label lblChooseBlockPadding;
 	public CCombo cmbChooseBlockPadding;
 	public Group grpHoldEncryptDecryptRadio;
-	private Composite compChooseBlockPadding;
-	private Composite compSpaceBetweenCmbs;
+	public Composite compChooseBlockPadding;
+	public Composite compSpaceBetweenCmbs;
+	
+	public RabinFirstTabComposite rftc;
 		
 	
 	public CryptosystemTextbookComposite(Composite parent, int style) {
@@ -130,6 +139,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		super(parent, style);
 		this.hcstb = new HandleCryptosystemTextbook(rftc);
 		this.guiHandler = rftc.guiHandler;
+		this.rftc = rftc;
 		createLoadTextContent(parent);
 		createEncryptionDecryptionRadioBtns(parent);
 		createEncryptionDecryptionContent(parent);
@@ -313,6 +323,13 @@ public class CryptosystemTextbookComposite extends Composite {
 	
 		textSelector = new TextLoadController(grpLoadText, parent, SWT.NONE, true, true);
 		textSelector.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+		textSelector.addObserver(new Observer() {
+			
+			@Override
+			public void update(Observable o, Object arg) {
+				hcstb.textSelectorAction(getCurrentInstance());
+			}
+		});
 		
 		compHoldSepAndInfoForSelector = new Composite(parent, SWT.NONE);
 		compHoldSepAndInfoForSelector.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -350,6 +367,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnResetChosenPlaintexts.setEnabled(false);
 		btnWriteToJCTeditor.setEnabled(false);
 		btnWriteToJCTeditorDecryptMode.setEnabled(false);
+		btnEncrypt.setEnabled(false);
 	}
 	
 	
@@ -523,9 +541,11 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnEncrypt.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				hcstb.btnEncryptAction(textSelector, txtCiphertext, txtEncryptionWarning, cmbChooseBlockPadding);
+				//hcstb.btnEncryptAction(textSelector, txtCiphertext, txtEncryptionWarning, cmbChooseBlockPadding);
+				hcstb.btnEncryptAction(getCurrentInstance());
 			}
 		});
+		
 		
 		btnDecryptInEncryptionMode = new Button(compHoldBtnsForFeatures, SWT.PUSH);
 		btnDecryptInEncryptionMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));

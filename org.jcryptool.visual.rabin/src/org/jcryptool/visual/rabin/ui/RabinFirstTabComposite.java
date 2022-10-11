@@ -574,6 +574,14 @@ public class RabinFirstTabComposite extends Composite {
 				guiHandler.setCursorControl(txtModN, SWT.CURSOR_ARROW);
 			}
 		});
+		
+		txtModN.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				guiHandler.txtModNModifyListenerAction(getCurrentInstance());
+			}
+		});
 	
 		
 		
