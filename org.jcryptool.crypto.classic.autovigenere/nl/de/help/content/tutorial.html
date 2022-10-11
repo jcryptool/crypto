@@ -5,34 +5,38 @@
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 	  <title>Autokey-Vigenère-Bedienung</title>
+ <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
+ <script>TOC_generate_default("h2, h3")</script> 
 </head>
 <body>
 <h1>Autokey-Vigenère-Bedienung</h1>
 
 <p>Diese Seite erklärt die Bedienung der Oberfläche der Autokey-Vigenère-Verschlüsselung. Weitere Informationen zum Autokey-Vigenère-Verfahren selbst stehen auf der Unterseite <a href="toc_cryptology/toc_cryptology.html">Autokey-Vigenère-Verschlüsselung</a>.</p>
 
+<div class="TOC"></div> <hr /> 
+
 <p>Im Folgenden werden die Optionengruppen des Assistenten vorgestellt. Bei der Autokey-Vigenère-Verschlüsselung muss meist nur den Gruppierungen "Operation" und  "Schlüssel" Beachtung geschenkt werden.</p>
 
 
-<h3>Operation &ndash; Verschlüsseln oder Entschlüsseln</h3>
+<h2 id="OperationndashVerschlsselnoderEntschlsseln">Operation &ndash; Verschlüsseln oder Entschlüsseln</h2>
 <p>Zuerst sollte ausgewählt werden, ob der Text verschlüsselt oder entschlüsselt werden soll. Da die Autokey-Vigenère-Verschlüsselung symmetrisch ist, endet die Verschlüsselung  und danach  ausgeführte Entschlüsselung eines Textes mit ein und demselben Schlüssel wieder im Originaltext.</p>
 
 
-<h3>Alphabet</h3>
+<h2 id="Alphabet">Alphabet</h2>
 
 <p>Das Alphabet, über dem ein kryptografisches Verfahren (z. B eine Ver- oder Entschlüsselung) auf einen Text angewendet wird, beschreibt die Zeichen, welche dieses Verfahren akzeptieren und verarbeiten (hier: verschlüsseln) wird. Der Button "Gewähltes Alphabet anzeigen" zeigt alle Zeichen, die das ausgewählte Alphabet beinhaltet.</p>
 
 <p>Zum Beispiel werden Kleinbuchstaben nicht verschlüsselt, wenn ein Alphabet gewählt wird, dass nur Großbuchstaben enthält (wie "Upper Latin (A-Z)"). Mit der Checkbox "Filtere Nichtalphabet-Zeichen" wird festgelegt, ob (in unserem Beispiel) die Kleinbuchstaben nur unverändert stehenbleiben (Checkbox abgewählt), oder ob sie ganz herausgefiltert werden (Checkbox angewählt).</p>
 
 
-<h3>Vorangehende Text-Transformation</h3>
+<h2 id="VorangehendeTextTransformation">Vorangehende Text-Transformation</h2>
 
 <p>Es besteht die Möglichkeit, vor der Verschlüsselung noch häufig nützliche Text-Transformationen durchzuführen.  Dazu zählen zum Beispiel die Entfernung von Zeilenumbrüchen, Leerzeichen, oder die Umwandlung in Groß- oder Kleinschreibung. Je nach Umständen kann eine solche Umformung auch die Sicherheit des Geheimtextes verbessern. </p>
 
 <p>Die Text-Transformation ist in den allermeisten Fällen nur bei der Verschlüsselung hilfreich! Bei der Entschlüsselung führt sie meist zur Sinnentstellung des Textes.</p>
 
 
-<h3>Schlüssel</h3>
+<h2 id="Schlssel">Schlüssel</h2>
 
 <p>Der Schlüssel der Autokey-Vigenère-Verschlüsselung ist ein Wort, welches nur Zeichen enthalten darf, die auch im oben ausgewählten Alphabet vorkommen.</p>
 
