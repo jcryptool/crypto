@@ -3,6 +3,8 @@
 <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	  <title>ADFGVX-Verschlüsselung</title>
+ <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
+ <script>TOC_generate_default("h2, h3")</script> 
 </head>
 <body>
 
@@ -12,22 +14,23 @@
 	Das ADFGVX-Verfahren besteht aus einer Folge (Kaskade) von zwei Verschlüsselungs-Verfahren: einer Substitution und einer Transformation. ADFGVX wurde von den Deutschen im ersten Weltkrieg eingesetzt, aber schon nach kurzer Zeit von den Franzosen gebrochen.
 </p>
 
+<div class="TOC"></div> <hr /> 
 
-<h3 id="classification">Klassifikation</h3>
+<h2 id="classification">Klassifikation</h2>
 <p>
 	Das ADFGVX-Verfahren ist ein zusammengesetztes Verfahren, aus  bigraphischer Substitution und einfacher Spalten-Transformation.
 </p>
 
 
 
-<h3 id="scheme">Ein- und Ausgabeschema</h3>
+<h2 id="scheme">Ein- und Ausgabeschema</h2>
 <img src="in_out_scheme.png"  width="85%" />
 
 
-<h3 id="algorithm">Der Ver- und Entschlüsselungsalgorithmus</h3>
+<h2 id="algorithm">Der Ver- und Entschlüsselungsalgorithmus</h2>
 
 
-<h4>Verschlüsselung</h4>
+<h3>Verschlüsselung</h3>
 
 <p>Die ADFGVX-Verschlüsselung ist im ersten Teil eine monoalphabetische
 Subsitutions-Verschlüsselung, bei der jedem Element aus dem Klartextalphabet ein Element aus dem Substitutionsalphabet zugeordnet wird. Die Besonderheit ist, dass nur Paare aus den Buchstaben A, D, F, G, V und X die Elemente des Substitutionsalphabets bilden. Da bei einer Substitutions-Verschlüsselung die Anzahl der Elemente des Substitutionsalphabets nicht kleiner sein darf als die des Klartextalphabets, kann das Klartextalphabet höchstens 6x6 = 36 Zeichen
@@ -48,7 +51,7 @@ src="encryption_example.png" alt="encryption_example.png"></p>
 <p>Anschließend wird noch eine einfache Transposition (siehe den Artikel zur <a href="PLUGINS_ROOT/org.jcryptool.crypto.classic.transposition/$nl$/help/content/tutorial.html">spaltenweisen Transposition</a>) auf den substituierten Text angewendet. Dafür wird ein extra Schlüssel verwendet.</p>
 
 
-<h4>Entschlüsselung</h4>
+<h3>Entschlüsselung</h3>
 
 <p>Falls eine Transposition durchgeführt wurde, muss diese zuerst rückgängig gemacht werden.</p>
 
@@ -56,7 +59,7 @@ src="encryption_example.png" alt="encryption_example.png"></p>
 
 
 <p><br class="newline"/></p>
-<h3 id="furtherreading">Weiterführende Lektüre</h3>
+<h2 id="furtherreading">Weiterführende Lektüre</h2>
 <ul>
   <li>
   	<a class="external" target="_blank" href="https://de.wikipedia.org/wiki/ADFGX">
