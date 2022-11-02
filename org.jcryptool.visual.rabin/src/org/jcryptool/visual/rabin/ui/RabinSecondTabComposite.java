@@ -201,6 +201,12 @@ public class RabinSecondTabComposite extends Composite {
 	public Composite compSpaceBetweenCmbs;
 	
 	
+	public Group grpHoldSepAndInfoForEncryption;
+	public Group grpHoldSepAndInfoEncDecSelection;
+	public Group grpHoldSepAndInfoForDecryption;
+	
+	
+	
 	
 	private String strPlaintextSeparatedIntoSegments = Messages.RabinSecondTabComposite_strPlaintextSeparatedIntoSegments;
 	private String strPlainInBase16 = Messages.RabinSecondTabComposite_strPlainInBase16;
@@ -546,6 +552,7 @@ public class RabinSecondTabComposite extends Composite {
 		//cmbChooseBlockPadding.setVisibleItemCount(10);
 		cmbChooseBlockPadding.setItems(new String[]{"ANSI X9.23", "PKCS#7"});
 		cmbChooseBlockPadding.select(0);
+		guiHandler.oldIdxChoosePadding = cmbChooseBlockPadding.getSelectionIndex();
 		cmbChooseBlockPadding.addSelectionListener(new SelectionAdapter() {
 			
 			@Override
@@ -846,17 +853,22 @@ public class RabinSecondTabComposite extends Composite {
 		});
 		
 		
-		compHoldSepAndInfoForEncryption = new Composite(parent, SWT.NONE);
+		/*compHoldSepAndInfoForEncryption = new Composite(parent, SWT.NONE);
 		compHoldSepAndInfoForEncryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compHoldSepAndInfoForEncryption.setLayout(new GridLayout(2, false));
+		compHoldSepAndInfoForEncryption.setLayout(new GridLayout(2, false));*/
+		
+		grpHoldSepAndInfoForEncryption = new Group(parent, SWT.NONE);
+		grpHoldSepAndInfoForEncryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpHoldSepAndInfoForEncryption.setLayout(new GridLayout(1, false));
+		grpHoldSepAndInfoForEncryption.setText(" ");
 		
 		
-		
-		lblSepInfoEnc = new Label(compHoldSepAndInfoForEncryption, SWT.SEPARATOR | SWT.VERTICAL);
+		/*lblSepInfoEnc = new Label(compHoldSepAndInfoForEncryption, SWT.SEPARATOR | SWT.VERTICAL);
 		GridData lblSepInfoEncData = new GridData(SWT.FILL, SWT.FILL, false, true);
-		lblSepInfoEnc.setLayoutData(lblSepInfoEncData);
+		lblSepInfoEnc.setLayoutData(lblSepInfoEncData);*/
 		
-		txtInfoEnc = new Text(compHoldSepAndInfoForEncryption, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
+		//txtInfoEnc = new Text(compHoldSepAndInfoForEncryption, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
+		txtInfoEnc = new Text(grpHoldSepAndInfoForEncryption, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
 		GridData txtInfoEncData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoEnc.setLayoutData(txtInfoEncData);
 		guiHandler.setSizeControl(txtInfoEnc, SWT.DEFAULT, SWT.DEFAULT);
@@ -995,14 +1007,14 @@ public class RabinSecondTabComposite extends Composite {
 				guiHandler.handleDecimalNumbersDecMode(getCurrentInstance());
 			}
 		});
-		txtEnterCiphertextDecimal.addMouseTrackListener(new MouseTrackAdapter() {
+		/*txtEnterCiphertextDecimal.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtEnterCiphertextDecimal, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		txtEnterCiphertextDecimalWarning = new Text(compHoldDecimal, SWT.MULTI | SWT.WRAP);
@@ -1585,16 +1597,22 @@ public class RabinSecondTabComposite extends Composite {
 		});
 			
 		
-		compHoldSepAndInfoForDecryption = new Composite(parent, SWT.NONE);
+		/*compHoldSepAndInfoForDecryption = new Composite(parent, SWT.NONE);
 		compHoldSepAndInfoForDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compHoldSepAndInfoForDecryption.setLayout(new GridLayout(2, false));
+		compHoldSepAndInfoForDecryption.setLayout(new GridLayout(2, false));*/
 		
-		lblSepInfoForDecryption = new Label(compHoldSepAndInfoForDecryption, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSepInfoForDecryption.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		grpHoldSepAndInfoForDecryption = new Group(parent, SWT.NONE);
+		grpHoldSepAndInfoForDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpHoldSepAndInfoForDecryption.setLayout(new GridLayout(1, false));
+		grpHoldSepAndInfoForDecryption.setText(" ");
+		
+		//lblSepInfoForDecryption = new Label(compHoldSepAndInfoForDecryption, SWT.SEPARATOR | SWT.VERTICAL);
+		//lblSepInfoForDecryption.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
 		
 		
 		
-		txtInfoDecryption = new Text(compHoldSepAndInfoForDecryption, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		//txtInfoDecryption = new Text(compHoldSepAndInfoForDecryption, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoDecryption = new Text(grpHoldSepAndInfoForDecryption, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtInfoDecryption.setBackground(GUIHandler.colorBGinfo);
 		guiHandler.setSizeControl(txtInfoDecryption, SWT.DEFAULT, SWT.DEFAULT);
@@ -1662,14 +1680,20 @@ public class RabinSecondTabComposite extends Composite {
 		});
 		
 		
-		compHoldSepAndInfoEncDecSelection = new Composite(parent, SWT.NONE);
+		/*compHoldSepAndInfoEncDecSelection = new Composite(parent, SWT.NONE);
 		compHoldSepAndInfoEncDecSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compHoldSepAndInfoEncDecSelection.setLayout(new GridLayout(2, false));
+		compHoldSepAndInfoEncDecSelection.setLayout(new GridLayout(2, false));*/
 		
-		lblSepForInfoEncDecSelection = new Label(compHoldSepAndInfoEncDecSelection, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSepForInfoEncDecSelection.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		grpHoldSepAndInfoEncDecSelection = new Group(parent, SWT.NONE);
+		grpHoldSepAndInfoEncDecSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpHoldSepAndInfoEncDecSelection.setLayout(new GridLayout(2, false));
+		grpHoldSepAndInfoEncDecSelection.setText(" ");
 		
-		txtInfoForEncDecSelection = new Text(compHoldSepAndInfoEncDecSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		//lblSepForInfoEncDecSelection = new Label(compHoldSepAndInfoEncDecSelection, SWT.SEPARATOR | SWT.VERTICAL);
+		//lblSepForInfoEncDecSelection.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		
+		//txtInfoForEncDecSelection = new Text(compHoldSepAndInfoEncDecSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoForEncDecSelection = new Text(grpHoldSepAndInfoEncDecSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoForEncDecSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtInfoForEncDecSelection.setBackground(GUIHandler.colorBGinfo);
 		guiHandler.setSizeControl(txtInfoForEncDecSelection, SWT.DEFAULT, SWT.DEFAULT);

@@ -47,8 +47,10 @@ public class HandleCryptosystemTextbook {
 	private int[] countClicksForPlaintexts; 
 	private RabinFirstTabComposite rftc;
 	
-	public String oldTextselectorText;
-	public boolean firstTextselectorAccess = false;
+	public String oldTextselectorTextEncryptionMode;
+	public boolean firstTextselectorAccessEncryptionMode = false;
+	public String oldTextselectorTextDecryptionMode;
+	public boolean firstTextselectorAccessDecryptionMode = false;
 	
 	private HandleFirstTab guiHandler;
 	
@@ -80,12 +82,46 @@ public class HandleCryptosystemTextbook {
 
 		hideControl(cstb.txtEncryptionWarning);
 		
+		
+		
 		String plaintext = cstb.textSelector.getText().getText();
+		//int maxBytesPerBlock = guiHandler.bytesPerBlock;
+		
+		int maxBytesPerBlock = guiHandler.bytesPerBlock;
+		int byteLenOfPlaintext = plaintext.length() * 2;
+		
+		
+		if(byteLenOfPlaintext < maxBytesPerBlock)
+			maxBytesPerBlock = byteLenOfPlaintext;
+		
+		
+		int iblocklengthFinal = guiHandler.blocklength;
+		if((byteLenOfPlaintext * 2) < iblocklengthFinal)
+			iblocklengthFinal = byteLenOfPlaintext * 2;
+		
+		
+		
+		String plaintextHex = guiHandler.rabinFirst.bytesToString(plaintext.getBytes());
 		String paddingScheme = cstb.cmbChooseBlockPadding.getItem(cstb.cmbChooseBlockPadding.getSelectionIndex());
-		ciphertextList = guiHandler.rabinFirst.getCiphertextblocksAsList(plaintext, paddingScheme, guiHandler.bytesPerBlock, guiHandler.blocklength, guiHandler.radix);
+		
+		//String paddedPlaintextHex = guiHandler.rabinFirst.getPaddedPlaintext(plaintextHex, guiHandler.bytesPerBlock, paddingScheme);
+		String paddedPlaintextHex = guiHandler.rabinFirst.getPaddedPlaintext(plaintextHex, maxBytesPerBlock, paddingScheme);
+		ArrayList<String> plaintextsHex = guiHandler.rabinFirst.parseString(paddedPlaintextHex, maxBytesPerBlock);
+		
+		// test plaintext with prefix padding
+		//ArrayList<String> prefixPaddedPlaintextblocks = guiHandler.rabinFirst.getPaddedPlaintextblocks(plaintextsHex, guiHandler.blocklength);
+		ArrayList<String> prefixPaddedPlaintextblocks = guiHandler.rabinFirst.getPaddedPlaintextblocks(plaintextsHex, iblocklengthFinal);
+		paddedPlaintextHex = guiHandler.rabinFirst.getArrayListToString(prefixPaddedPlaintextblocks);
+		cstb.txtPlaintext.setText(paddedPlaintextHex);
+		
+		//ciphertextList = guiHandler.rabinFirst.getCiphertextblocksAsList(plaintext, paddingScheme, guiHandler.bytesPerBlock, guiHandler.blocklength, guiHandler.radix);
+		ciphertextList = guiHandler.rabinFirst.getEncryptedListOfStrings(plaintextsHex, guiHandler.radix);
+		ArrayList<String> paddedCiphertextsHex = guiHandler.rabinFirst.getPaddedCiphertextblocks(ciphertextList, iblocklengthFinal);
+		ciphertextList = paddedCiphertextsHex;
 		String ciphertext = guiHandler.rabinFirst.getArrayListToString(ciphertextList);
+		//String ciphertext = guiHandler.rabinFirst.getArrayListToString(paddedCiphertextsHex);
 		cstb.txtCiphertext.setText(ciphertext);
-		System.out.println(ciphertextList.size());
+		//System.out.println(ciphertextList.size());
 		cstb.btnEncrypt.setEnabled(false);
 	}
 	
@@ -542,6 +578,111 @@ public class HandleCryptosystemTextbook {
 		cstb.grpEncryptDecrypt.setText("Encryption");
 		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt"));
 		cstb.grpEncryptDecrypt.setText("5 \u2212 Encryption");
+		
+		
+		/*if(cstb.textSelector.getText() != null) {
+			this.hideControl(cstb.txtLoadTextWarning);
+			
+			String newTextselectorText = null;
+			
+			// maybe uncomment again, atm its just testing
+			//if(firstTextselectorAccessEncryptionMode) {
+				//oldTextselectorTextEncryptionMode = cstb.textSelector.getText().getText();
+				//firstTextselectorAccessEncryptionMode = true;
+				//return;
+			//}
+			
+			newTextselectorText = cstb.textSelector.getText().getText();
+			if(newTextselectorText != oldTextselectorTextEncryptionMode) {
+				cstb.txtCiphertext.setText("");
+			}
+			
+			
+			
+			if(!cstb.rftc.txtModN.getText().isEmpty() && !cstb.textSelector.getText().getText().isEmpty()) {
+				if(newTextselectorText != oldTextselectorTextEncryptionMode) {
+					cstb.btnEncrypt.setEnabled(true);
+				}
+				else {
+					if(cstb.txtCiphertext.getText().isEmpty())
+						cstb.btnEncrypt.setEnabled(true);
+					else {
+						cstb.btnEncrypt.setEnabled(false);
+					}
+				}
+			}
+			else {
+				cstb.btnEncrypt.setEnabled(false);
+				
+				if(cstb.textSelector.getText().getText().isEmpty()) {
+					cstb.txtLoadTextWarning.setText("Attention: load a non-empty plaintext");
+					this.showControl(cstb.txtLoadTextWarning);
+				}
+			}
+		}*/
+		
+		
+		
+			
+			if(cstb.textSelector.getText() != null) {
+				this.hideControl(cstb.txtLoadTextWarning);
+				
+				String newTextselectorText = null;
+				
+				// maybe uncomment again, atm its just testing
+				/*if(firstTextselectorAccessEncryptionMode) {
+					oldTextselectorTextEncryptionMode = cstb.textSelector.getText().getText();
+					firstTextselectorAccessEncryptionMode = true;
+					return;
+				}*/
+				
+				newTextselectorText = cstb.textSelector.getText().getText();
+				if(newTextselectorText != oldTextselectorTextEncryptionMode) {
+					cstb.txtCiphertext.setText("");
+				}
+				
+				
+				
+				if(!cstb.rftc.txtModN.getText().isEmpty() && !cstb.textSelector.getText().getText().isEmpty()) {
+					if(newTextselectorText != oldTextselectorTextEncryptionMode) {
+						cstb.btnEncrypt.setEnabled(true);
+					}
+					else {
+						if(cstb.txtCiphertext.getText().isEmpty())
+							cstb.btnEncrypt.setEnabled(true);
+						else {
+							cstb.btnEncrypt.setEnabled(false);
+						}
+					}
+				}
+				else {
+					cstb.btnEncrypt.setEnabled(false);
+					
+					if(cstb.textSelector.getText().getText().isEmpty()) {
+						cstb.txtLoadTextWarning.setText("Attention: load a non-empty plaintext");
+						this.showControl(cstb.txtLoadTextWarning);
+					}
+				}
+				
+			}
+		
+		
+		
+		/*if(!cstb.rftc.txtModN.getText().isEmpty() && cstb.textSelector.getText() != null && !cstb.textSelector.getText().getText().isEmpty()) {
+			String newTextselectorText = cstb.textSelector.getText().getText();
+			if(newTextselectorText != oldTextselectorTextEncryptionMode) {
+				cstb.btnEncrypt.setEnabled(true);
+			}
+			else {
+				if(cstb.txtCiphertext.getText().isEmpty())
+					cstb.btnEncrypt.setEnabled(true);
+				else
+					cstb.btnEncrypt.setEnabled(false);
+			}
+		}
+		else {
+			cstb.btnEncrypt.setEnabled(false);
+		}*/
 	}
 	
 	
@@ -552,41 +693,234 @@ public class HandleCryptosystemTextbook {
 		cstb.grpEncryptDecrypt.setText("Decryption");
 		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_decrypt"));
 		cstb.grpEncryptDecrypt.setText("5 \u2212 Decryption");
-	}
-	
-	
-	public void textSelectorAction(CryptosystemTextbookComposite cstb) {
+		
+		
+			
 		if(cstb.textSelector.getText() != null) {
-			String newTextselectorText = null;
-			if(firstTextselectorAccess) {
-				oldTextselectorText = cstb.textSelector.getText().getText();
-				firstTextselectorAccess = true;
+			this.hideControl(cstb.txtLoadTextWarning);
+			
+			if(cstb.rftc.txtModN.getText().isEmpty()) {
+				cstb.txtLoadTextWarning.setText("Attention: generate a key pair first");
+				this.showControl(cstb.txtLoadTextWarning);
+				cstb.btnDecryption.setEnabled(false);
 				return;
 			}
 			
+			if(cstb.textSelector.getText().getText().isEmpty()) {
+				cstb.txtLoadTextWarning.setText("Attention: load a non-empty ciphertext");
+				this.showControl(cstb.txtLoadTextWarning);
+				cstb.btnDecryption.setEnabled(false);
+				return;
+			}
+			
+			String pattern = "[0-9a-fA-F]+"; 
+			if(!cstb.textSelector.getText().getText().matches(pattern)) {
+				cstb.txtLoadTextWarning.setText("Attention: only hexadecimal numbers (0-f) are allowed");
+				this.showControl(cstb.txtLoadTextWarning);
+				cstb.btnDecryption.setEnabled(false);
+				return;
+			}
+			
+			boolean checkLength = cstb.textSelector.getText().getText().length() % guiHandler.blocklength == 0;
+			
+			if(!checkLength) {
+				String strLengthCipher = Messages.HandleFirstTab_strLengthCipher;
+				cstb.txtLoadTextWarning.setText(MessageFormat.format(
+						strLengthCipher,
+						(guiHandler.blocklength / 2)));
+				showControl(cstb.txtLoadTextWarning);
+				return;
+			}
+			
+			String newTextselectorText = null;
+			/*if(firstTextselectorAccessDecryptionMode) {
+				oldTextselectorTextDecryptionMode = cstb.textSelector.getText().getText();
+				firstTextselectorAccessDecryptionMode = true;
+				return;
+			}*/
+			
 			newTextselectorText = cstb.textSelector.getText().getText();
-			if(newTextselectorText != oldTextselectorText) {
-				cstb.txtCiphertext.setText("");
+			if(newTextselectorText != oldTextselectorTextDecryptionMode) {
+				cstb.txtCiphertextSegments.setText("");
+				cstb.cmbChooseBlock.removeAll();
+				cstb.txtChosenPlaintexts.setText("");
+				cstb.txtFirstPlaintext.setText("");
+				cstb.txtSecondPlaintext.setText("");
+				cstb.txtThirdPlaintext.setText("");
+				cstb.txtFourthPlaintext.setText("");
 			}
 			
 			
 			
 			if(!cstb.rftc.txtModN.getText().isEmpty() && !cstb.textSelector.getText().getText().isEmpty()) {
-				if(newTextselectorText != oldTextselectorText) {
-					cstb.btnEncrypt.setEnabled(true);
+				if(newTextselectorText != oldTextselectorTextDecryptionMode) {
+					cstb.btnDecryption.setEnabled(true);
 				}
 				else {
-					if(cstb.txtCiphertext.getText().isEmpty())
-						cstb.btnEncrypt.setEnabled(true);
+					if(cstb.txtCiphertextSegments.getText().isEmpty())
+						cstb.btnDecryption.setEnabled(true);
 					else
-						cstb.btnEncrypt.setEnabled(false);
+						cstb.btnDecryption.setEnabled(false);
 				}
 			}
 			else {
-				cstb.btnEncrypt.setEnabled(false);
+				cstb.btnDecryption.setEnabled(false);
 			}
+		}
+		
+		
+		/*if(cstb.btnRadioDecrypt.getSelection()) {
+			cstb.txtCiphertextSegments.setText("");
+			if(!cstb.rftc.txtModN.getText().isEmpty() && cstb.textSelector.getText() != null && !cstb.textSelector.getText().getText().isEmpty()) {
+				String pattern = "[0-9a-fA-F]+";
+				
+				if(!cstb.textSelector.getText().getText().matches(pattern)) {
+					cstb.btnDecryption.setEnabled(false);
+					return;
+				}
+				
+				String newTextselectorText = cstb.textSelector.getText().getText();
+				if(newTextselectorText != oldTextselectorTextDecryptionMode) {
+					cstb.btnDecryption.setEnabled(true);
+				}
+				else {
+					if(cstb.txtCiphertextSegments.getText().isEmpty())
+						cstb.btnDecryption.setEnabled(true);
+					else
+						cstb.btnDecryption.setEnabled(false);
+				}
+			}
+			else {
+				cstb.btnDecryption.setEnabled(false);
+			}
+				
+		}*/
+	}
+	
+	
+	public void textSelectorAction(CryptosystemTextbookComposite cstb) {
+		if(cstb.btnRadioEncrypt.getSelection()) {
 			
-			oldTextselectorText = newTextselectorText;
+			if(cstb.textSelector.getText() != null) {
+				this.hideControl(cstb.txtLoadTextWarning);
+				
+				String newTextselectorText = null;
+				
+				// maybe uncomment again, atm its just testing
+				/*if(firstTextselectorAccessEncryptionMode) {
+					oldTextselectorTextEncryptionMode = cstb.textSelector.getText().getText();
+					firstTextselectorAccessEncryptionMode = true;
+					return;
+				}*/
+				
+				newTextselectorText = cstb.textSelector.getText().getText();
+				if(newTextselectorText != oldTextselectorTextEncryptionMode) {
+					cstb.txtCiphertext.setText("");
+					cstb.txtPlaintext.setText("");
+				}
+				
+				
+				
+				if(!cstb.rftc.txtModN.getText().isEmpty() && !cstb.textSelector.getText().getText().isEmpty()) {
+					if(newTextselectorText != oldTextselectorTextEncryptionMode) {
+						cstb.btnEncrypt.setEnabled(true);
+					}
+					else {
+						if(cstb.txtCiphertext.getText().isEmpty())
+							cstb.btnEncrypt.setEnabled(true);
+						else {
+							cstb.btnEncrypt.setEnabled(false);
+						}
+					}
+				}
+				else {
+					cstb.btnEncrypt.setEnabled(false);
+					
+					if(cstb.textSelector.getText().getText().isEmpty()) {
+						cstb.txtLoadTextWarning.setText("Attention: load a non-empty plaintext");
+						this.showControl(cstb.txtLoadTextWarning);
+					}
+				}
+				
+				oldTextselectorTextEncryptionMode = newTextselectorText;
+			}
+		}
+		
+		if(cstb.btnRadioDecrypt.getSelection()) {
+			
+			if(cstb.textSelector.getText() != null) {
+				this.hideControl(cstb.txtLoadTextWarning);
+				
+				if(cstb.rftc.txtModN.getText().isEmpty()) {
+					cstb.txtLoadTextWarning.setText("Attention: generate a key pair first");
+					this.showControl(cstb.txtLoadTextWarning);
+					cstb.btnDecryption.setEnabled(false);
+					return;
+				}
+				
+				if(cstb.textSelector.getText().getText().isEmpty()) {
+					cstb.txtLoadTextWarning.setText("Attention: load a non-empty ciphertext");
+					this.showControl(cstb.txtLoadTextWarning);
+					cstb.btnDecryption.setEnabled(false);
+					return;
+				}
+				
+				String pattern = "[0-9a-fA-F]+"; 
+				if(!cstb.textSelector.getText().getText().matches(pattern)) {
+					cstb.txtLoadTextWarning.setText("Attention: only hexadecimal numbers (0-f) are allowed");
+					this.showControl(cstb.txtLoadTextWarning);
+					cstb.btnDecryption.setEnabled(false);
+					return;
+				}
+				
+				boolean checkLength = cstb.textSelector.getText().getText().length() % guiHandler.blocklength == 0;
+				
+				if(!checkLength) {
+					String strLengthCipher = Messages.HandleFirstTab_strLengthCipher;
+					cstb.txtLoadTextWarning.setText(MessageFormat.format(
+							strLengthCipher,
+							(guiHandler.blocklength / 2)));
+					showControl(cstb.txtLoadTextWarning);
+					return;
+				}
+				
+				String newTextselectorText = null;
+				/*if(firstTextselectorAccessDecryptionMode) {
+					oldTextselectorTextDecryptionMode = cstb.textSelector.getText().getText();
+					firstTextselectorAccessDecryptionMode = true;
+					return;
+				}*/
+				
+				newTextselectorText = cstb.textSelector.getText().getText();
+				if(newTextselectorText != oldTextselectorTextDecryptionMode) {
+					cstb.txtCiphertextSegments.setText("");
+					cstb.cmbChooseBlock.removeAll();
+					cstb.txtChosenPlaintexts.setText("");
+					cstb.txtFirstPlaintext.setText("");
+					cstb.txtSecondPlaintext.setText("");
+					cstb.txtThirdPlaintext.setText("");
+					cstb.txtFourthPlaintext.setText("");
+				}
+				
+				
+				
+				if(!cstb.rftc.txtModN.getText().isEmpty() && !cstb.textSelector.getText().getText().isEmpty()) {
+					if(newTextselectorText != oldTextselectorTextDecryptionMode) {
+						cstb.btnDecryption.setEnabled(true);
+					}
+					else {
+						if(cstb.txtCiphertextSegments.getText().isEmpty())
+							cstb.btnDecryption.setEnabled(true);
+						else
+							cstb.btnDecryption.setEnabled(false);
+					}
+				}
+				else {
+					cstb.btnDecryption.setEnabled(false);
+				}
+				
+				oldTextselectorTextDecryptionMode = newTextselectorText;
+			}
 		}
 	}
 	

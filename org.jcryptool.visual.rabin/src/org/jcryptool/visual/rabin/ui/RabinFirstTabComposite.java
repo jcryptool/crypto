@@ -174,6 +174,8 @@ public class RabinFirstTabComposite extends Composite {
 	public Button btnToggleInfoN;
 	
 	
+	public Group grpHoldSepAndInfoForCryptoSelection;
+	public Group grpHoldSepAndInfoForParam;
 
 	
 	public HandleFirstTab guiHandler;
@@ -241,6 +243,7 @@ public class RabinFirstTabComposite extends Composite {
 			
 		}
 	};
+	
 	
 	
 	
@@ -653,6 +656,8 @@ public class RabinFirstTabComposite extends Composite {
 			}			
 		});
 		
+	
+		
 		
 		btnToggleInfoN = new Button(compHoldStartAndInfoOnN, SWT.TOGGLE);
 		btnToggleInfoN.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
@@ -796,24 +801,33 @@ public class RabinFirstTabComposite extends Composite {
 		guiHandler.hideControl(txtcompGenPandQWarning);
 		
 		
-		compHoldSepAndInfoForParam = new Composite(parent, SWT.NONE);
+		/*compHoldSepAndInfoForParam = new Composite(parent, SWT.NONE);
 		compHoldSepAndInfoForParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldSepAndInfoForParam.setLayout(new GridLayout(2, false));
 		((GridData) compHoldSepAndInfoForParam.getLayoutData()).widthHint = 400;
-		guiHandler.setControlMargin(compHoldSepAndInfoForParam, 5, 0);
+		guiHandler.setControlMargin(compHoldSepAndInfoForParam, 5, 0);*/
+		
+		
+		grpHoldSepAndInfoForParam = new Group(parent, SWT.NONE);
+		grpHoldSepAndInfoForParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpHoldSepAndInfoForParam.setLayout(new GridLayout(2, false));
+		((GridData) grpHoldSepAndInfoForParam.getLayoutData()).widthHint = 400;
+		grpHoldSepAndInfoForParam.setText(" ");
 		
 		
 		
-		lblSepInfoSetParam = new Label(compHoldSepAndInfoForParam, SWT.SEPARATOR | SWT.VERTICAL);
+		
+		/*lblSepInfoSetParam = new Label(compHoldSepAndInfoForParam, SWT.SEPARATOR | SWT.VERTICAL);
 		lblSepInfoSetParam.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
 		
 		compHoldInfoParam = new Composite(compHoldSepAndInfoForParam, SWT.NONE);
 		compHoldInfoParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldInfoParam.setLayout(new GridLayout(1, false));
-		guiHandler.setControlMargin(compHoldInfoParam, 0, SWT.DEFAULT);
+		guiHandler.setControlMargin(compHoldInfoParam, 0, SWT.DEFAULT);*/
 			
 		
-		txtInfoSetParam = new Text(compHoldInfoParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		//txtInfoSetParam = new Text(compHoldInfoParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoSetParam = new Text(grpHoldSepAndInfoForParam, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		GridData txtInfoSetParamData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoSetParam.setLayoutData(txtInfoSetParamData);
 		guiHandler.setSizeControl(txtInfoSetParam, SWT.DEFAULT, SWT.DEFAULT);
@@ -946,16 +960,22 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		compHoldSepAndInfoForCryptoSelection = new Composite(parent, SWT.NONE);
+		/*compHoldSepAndInfoForCryptoSelection = new Composite(parent, SWT.NONE);
 		compHoldSepAndInfoForCryptoSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		compHoldSepAndInfoForCryptoSelection.setLayout(new GridLayout(2, false));
+		compHoldSepAndInfoForCryptoSelection.setLayout(new GridLayout(2, false));*/
 		
-		lblSepInfoForCryptoSelection = new Label(compHoldSepAndInfoForCryptoSelection, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSepInfoForCryptoSelection.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		grpHoldSepAndInfoForCryptoSelection = new Group(parent, SWT.NONE);
+		grpHoldSepAndInfoForCryptoSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grpHoldSepAndInfoForCryptoSelection.setLayout(new GridLayout(1, false));
+		grpHoldSepAndInfoForCryptoSelection.setText(" ");
+		
+		//lblSepInfoForCryptoSelection = new Label(compHoldSepAndInfoForCryptoSelection, SWT.SEPARATOR | SWT.VERTICAL);
+		//lblSepInfoForCryptoSelection.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
 		
 		
 		
-		txtInfoSelection = new Text(compHoldSepAndInfoForCryptoSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		//txtInfoSelection = new Text(compHoldSepAndInfoForCryptoSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoSelection = new Text(grpHoldSepAndInfoForCryptoSelection, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtInfoSelection, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoSelection.setBackground(GUIHandler.colorBGinfo);

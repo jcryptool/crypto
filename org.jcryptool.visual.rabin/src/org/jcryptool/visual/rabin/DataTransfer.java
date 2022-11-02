@@ -17,6 +17,17 @@ public class DataTransfer {
 	private int cmbChooseCipherIdxDecDecimalMode;
 	
 	
+	public void resetAllStates() {
+		stateText.clear();
+		stateNum.clear();
+		stateDecHex.clear();
+		stateDecDecimal.clear();
+		cmbChooseCipherIdxDecDecimalMode = 0;
+		cmbChooseCipherIdxDecHexMode = 0;
+		cmbChooseCipherIdxNumMode = 0;
+		cmbChooseCipherIdxTextMode = 0;
+	}
+	
 	
 	/**
 	 * initialize states

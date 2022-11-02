@@ -637,6 +637,18 @@ public class Rabin {
 		return paddedCiphertextblocks;
 	}
 	
+	
+	public ArrayList<String> getPaddedPlaintextblocks(ArrayList<String> a, int blocklength) {
+		ArrayList<String> paddedPlaintextblocks = new ArrayList<String>();
+		for(String item : a) {
+			while(item.length() % blocklength != 0) {
+				item = "0" + item;
+			}
+			paddedPlaintextblocks.add(item);
+		}
+		return paddedPlaintextblocks;
+	}
+	
 	/**
 	 * method for debugging
 	 * @param a

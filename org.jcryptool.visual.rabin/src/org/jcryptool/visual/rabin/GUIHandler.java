@@ -576,32 +576,39 @@ public class GUIHandler {
 	public void hideStepByStepPart(RabinSecondTabComposite rstc) {
 		//this.hideControl(rstc.compSelectEncDec);
 		this.hideControl(rstc.grpSelectEncDec);
-		this.hideControl(rstc.compHoldSepAndInfoEncDecSelection);
+		//this.hideControl(rstc.compHoldSepAndInfoEncDecSelection);
+		this.hideControl(rstc.grpHoldSepAndInfoEncDecSelection);
 		//this.hideControl(rstc.lblSepEncDecBottom);
 		this.hideControl(rstc.grpPlaintext);
-		this.hideControl(rstc.compHoldSepAndInfoForEncryption);
+		//this.hideControl(rstc.compHoldSepAndInfoForEncryption);
+		this.hideControl(rstc.grpHoldSepAndInfoForEncryption);
 		//this.hideControl(rstc.lblSepEncryptionBottom);
 		this.hideControl(rstc.grpDec);
-		this.hideControl(rstc.compHoldSepAndInfoForDecryption);
-	
+		//this.hideControl(rstc.compHoldSepAndInfoForDecryption);
+		this.hideControl(rstc.grpHoldSepAndInfoForDecryption);
+		
 	}
 	
 	public void showStepByStepPart(RabinSecondTabComposite rstc) {
 		//this.showControl(rstc.compSelectEncDec);
 		this.showControl(rstc.grpSelectEncDec);
-		this.showControl(rstc.compHoldSepAndInfoEncDecSelection);
+		//this.showControl(rstc.compHoldSepAndInfoEncDecSelection);
+		this.showControl(rstc.grpHoldSepAndInfoEncDecSelection);
 		//this.showControl(rstc.lblSepEncDecBottom);
 		
 		if(rstc.btnSelectionDec.getSelection()) {
 			this.showControl(rstc.grpDec);
-			this.showControl(rstc.compHoldSepAndInfoForDecryption);
+			//this.showControl(rstc.compHoldSepAndInfoForDecryption);
+			this.showControl(rstc.grpHoldSepAndInfoForDecryption);
 		}
 		else {
 			this.showControl(rstc.grpPlaintext);
-			this.showControl(rstc.compHoldSepAndInfoForEncryption);
+			//this.showControl(rstc.compHoldSepAndInfoForEncryption);
+			this.showControl(rstc.grpHoldSepAndInfoForEncryption);
 			//this.showControl(rstc.lblSepEncryptionBottom);
 			this.showControl(rstc.grpDec);
-			this.showControl(rstc.compHoldSepAndInfoForDecryption);
+			//this.showControl(rstc.compHoldSepAndInfoForDecryption);
+			this.showControl(rstc.grpHoldSepAndInfoForDecryption);
 		}
 		/*this.showControl(rstc.grpPlaintext);
 		this.showControl(rstc.compHoldSepAndInfoForEncryption);
@@ -615,27 +622,33 @@ public class GUIHandler {
 	
 	public void hideTextbookPart(CryptosystemTextbookComposite cstb) {
 		this.hideControl(cstb.grpLoadText);
-		this.hideControl(cstb.compHoldSepAndInfoForSelector);
+		//this.hideControl(cstb.compHoldSepAndInfoForSelector);
+		this.hideControl(cstb.grpHoldSepAndInfoForSelector);
 		//this.hideControl(cstb.lblSeparateEncDecWithLoadTextTop);
 		//this.hideControl(cstb.compHoldEncryptDecryptRadio);
 		this.hideControl(cstb.grpHoldEncryptDecryptRadio);
-		this.hideControl(cstb.compHoldInfoForEncDec);
+		//this.hideControl(cstb.compHoldInfoForEncDec);
+		this.hideControl(cstb.grpHoldInfoForEncDec);
 		//this.hideControl(cstb.lblSeparateEncDecWithLoadTextBottom);
 		this.hideControl(cstb.grpEncryptDecrypt);
-		this.hideControl(cstb.compHoldSepAndInfoEncDec);
+		//this.hideControl(cstb.compHoldSepAndInfoEncDec);
+		this.hideControl(cstb.grpHoldSepAndInfoEncDec);
 	}
 	
 	
 	public void showTextbookPart(CryptosystemTextbookComposite cstb) {
 		this.showControl(cstb.grpLoadText);
-		this.showControl(cstb.compHoldSepAndInfoForSelector);
+		//this.showControl(cstb.compHoldSepAndInfoForSelector);
+		this.showControl(cstb.grpHoldSepAndInfoForSelector);
 		//this.showControl(cstb.lblSeparateEncDecWithLoadTextTop);
 		//this.showControl(cstb.compHoldEncryptDecryptRadio);
 		this.showControl(cstb.grpHoldEncryptDecryptRadio);
-		this.showControl(cstb.compHoldInfoForEncDec);
+		//this.showControl(cstb.compHoldInfoForEncDec);
+		this.showControl(cstb.grpHoldInfoForEncDec);
 		//this.showControl(cstb.lblSeparateEncDecWithLoadTextBottom);
 		this.showControl(cstb.grpEncryptDecrypt);
-		this.showControl(cstb.compHoldSepAndInfoEncDec);
+		//this.showControl(cstb.compHoldSepAndInfoEncDec);
+		this.showControl(cstb.grpHoldSepAndInfoEncDec);
 	}
 	
 	

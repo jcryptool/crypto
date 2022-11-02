@@ -34,6 +34,7 @@ public class HandleFirstTab extends GUIHandler {
 	private String strLowerLimitLessUpperLimit = Messages.HandleFirstTab_strLowerLimitLessUpperLimit;
 	private String strAppropriatePrimesWarning = Messages.HandleFirstTab_strAppropriatePrimesWarning;
 	public boolean stopComputation = false;
+	public String oldN = null;
 
 //	/**
 //	 * @param scMain
@@ -512,6 +513,9 @@ public class HandleFirstTab extends GUIHandler {
 		Button src = (Button) e.getSource();
 		
 		if(src.getSelection()) {
+			rftc.cmbP.setEnabled(true);
+			rftc.cmbQ.setEnabled(true);
+			
 			hideControl(rftc.compHoldSelectionPrimesAndLimits);
 			hideControl(rftc.compSelectPrimeGen);
 			String info = this.getMessageByControl("btnGenKeysMan_selection");
@@ -534,6 +538,11 @@ public class HandleFirstTab extends GUIHandler {
 		
 		if(src.getSelection()) {
 			
+			rftc.cmbP.setEnabled(false);
+			rftc.cmbQ.setEnabled(false);
+			rftc.cmbP.setForeground(ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND));
+			//rftc.cmbQ.setForeground(ColorService.BLACK);
+			
 			this.showControl(rftc.compHoldSelectionPrimesAndLimits);
 			showControl(rftc.compSelectPrimeGen);
 			
@@ -553,24 +562,95 @@ public class HandleFirstTab extends GUIHandler {
 	}
 	
 	public void txtModNModifyListenerAction(RabinFirstTabComposite rftc) {
-		rftc.cstb.txtCiphertext.setText("");
-		if(rftc.cstb.textSelector.getText() != null && !rftc.cstb.textSelector.getText().getText().isEmpty()) {
+		
+		
 			//rftc.cstb.btnEncrypt.setEnabled(true);
-			String newTextselectorText = rftc.cstb.textSelector.getText().getText();
-			if(newTextselectorText != rftc.cstb.hcstb.oldTextselectorText) {
-				rftc.cstb.btnEncrypt.setEnabled(true);
-			}
-			else {
-				if(rftc.cstb.txtCiphertext.getText().isEmpty())
-					rftc.cstb.btnEncrypt.setEnabled(true);
-				else
+			
+			if(rftc.cstb.btnRadioEncrypt.getSelection()) {
+				if(!rftc.txtModN.getText().equals(oldN)) {
+					rftc.cstb.txtCiphertext.setText("");
+					rftc.cstb.txtPlaintext.setText("");
+					//rftc.cstb.btnEncrypt.setEnabled(true);
+				}
+				//else {
+				if(rftc.cstb.textSelector.getText() != null && !rftc.cstb.textSelector.getText().getText().isEmpty()) {
+					String newTextselectorText = rftc.cstb.textSelector.getText().getText();
+					if(newTextselectorText != rftc.cstb.hcstb.oldTextselectorTextEncryptionMode) {
+						rftc.cstb.btnEncrypt.setEnabled(true);
+					}
+					else {
+						if(rftc.cstb.txtCiphertext.getText().isEmpty())
+							rftc.cstb.btnEncrypt.setEnabled(true);
+						else
+							rftc.cstb.btnEncrypt.setEnabled(false);
+					}
+				}
+				else {
 					rftc.cstb.btnEncrypt.setEnabled(false);
+				}
+				
 			}
-		}
-		else {
-			rftc.cstb.btnEncrypt.setEnabled(false);
-		}
+				
+				
+				
+			
+			
+			
+			if(rftc.cstb.btnRadioDecrypt.getSelection()) {
+				
+				if(!rftc.txtModN.getText().equals(oldN)) {
+					rftc.cstb.txtCiphertextSegments.setText("");
+					rftc.cstb.cmbChooseBlock.removeAll();
+					rftc.cstb.txtChosenPlaintexts.setText("");
+					rftc.cstb.txtFirstPlaintext.setText("");
+					rftc.cstb.txtSecondPlaintext.setText("");
+					rftc.cstb.txtThirdPlaintext.setText("");
+					rftc.cstb.txtFourthPlaintext.setText("");
+				}
+				
+				if(rftc.cstb.textSelector.getText() != null && !rftc.cstb.textSelector.getText().getText().isEmpty()) {
+					String pattern = "[0-9a-fA-F]+";
+					
+					if(!rftc.cstb.textSelector.getText().getText().matches(pattern)) {
+						rftc.cstb.btnDecryption.setEnabled(false);
+						return;
+					}
+					
+					String newTextselectorText = rftc.cstb.textSelector.getText().getText();
+					if(newTextselectorText != rftc.cstb.hcstb.oldTextselectorTextDecryptionMode) {
+						rftc.cstb.btnDecryption.setEnabled(true);
+					}
+					else {
+						if(rftc.cstb.txtCiphertextSegments.getText().isEmpty())
+							rftc.cstb.btnDecryption.setEnabled(true);
+						else
+							rftc.cstb.btnDecryption.setEnabled(false);
+					}
+				}
+				else {
+					rftc.cstb.btnDecryption.setEnabled(false);
+				}
+					
+			}
+			
+			if(!rftc.txtModN.getText().equals(oldN)) {
+				rftc.rstc.guiHandler.resetEncComponentsText(rftc.rstc);
+				rftc.rstc.guiHandler.resetEncComponentsDecimal(rftc.rstc);
+				rftc.rstc.guiHandler.resetDecComponentsHex(rftc.rstc);
+				rftc.rstc.guiHandler.resetDecComponentsDecimal(rftc.rstc);
+				rftc.rstc.guiHandler.resetDecComponents(rftc.rstc);
+				rftc.rstc.guiHandler.resetFinalPlaintextColor(rftc.rstc);
+				rftc.rstc.guiHandler.resetAllStates();
+				rftc.rstc.guiHandler.initStates();
+			}
+			
+			
+			oldN = rftc.txtModN.getText();
+			
+			
 	}
+		
+			
 	
 
 	
@@ -635,7 +715,6 @@ public class HandleFirstTab extends GUIHandler {
 			
 		}
 		
-		
 		int bitlength = rabinFirst.getN().bitLength();
 		int maxBytesPerBlock = bitlength / 8;
 		
@@ -696,13 +775,28 @@ public class HandleFirstTab extends GUIHandler {
 		rftc.txtInfoNmaxBytes.setText(strInfoNmaxBytes);
 		rftc.txtInfoNblocklength.setText(strInfoNblocklength);
 		
-		rstc.cmbBlockN.removeAll();
+		/*rstc.cmbBlockN.removeAll();
 		
 		for(int i = 1; i <= maxBytesPerBlock; i++) {
 			rstc.cmbBlockN.add(String.valueOf(i));
 		}
 		
-		rstc.cmbBlockN.select(0);
+		rstc.cmbBlockN.select(0);*/
+		
+		
+		if(!rstc.txtMessage.getText().isEmpty()) {
+			int byteLen = rstc.txtMessage.getText().length();
+			
+			
+			if(byteLen < maxBytesPerBlock)
+				maxBytesPerBlock = byteLen;
+			
+			rstc.cmbBlockN.removeAll();
+			
+			for(int i = 1; i <= maxBytesPerBlock; i++) {
+				rstc.cmbBlockN.add(String.valueOf(i));
+			}
+		}
 		
 		// to eliminate warnings
 		rstc.guiHandler.handlePlaintextTextMode(rstc);
