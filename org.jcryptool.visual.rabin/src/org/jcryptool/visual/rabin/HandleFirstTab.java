@@ -796,7 +796,14 @@ public class HandleFirstTab extends GUIHandler {
 			for(int i = 1; i <= maxBytesPerBlock; i++) {
 				rstc.cmbBlockN.add(String.valueOf(i));
 			}
+			
+			//rftc.rstc.cmbBlockN.setEnabled(true);
+			//rftc.rstc.cmbChooseBlockPadding.setEnabled(true);
 		}
+		/*else {
+			rftc.rstc.cmbBlockN.setEnabled(false);
+			rftc.rstc.cmbChooseBlockPadding.setEnabled(false);
+		}*/
 		
 		// to eliminate warnings
 		rstc.guiHandler.handlePlaintextTextMode(rstc);
@@ -832,6 +839,7 @@ public class HandleFirstTab extends GUIHandler {
 		rftc.btnToggleInfoN.setEnabled(true);
 		
 		hideControl(rftc.txtcompGenPandQWarning);
+		rftc.cstb.textSelector.setEnabled(true);
 	}
 	
 	

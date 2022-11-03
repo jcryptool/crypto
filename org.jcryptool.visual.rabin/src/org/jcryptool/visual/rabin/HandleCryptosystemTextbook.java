@@ -54,6 +54,8 @@ public class HandleCryptosystemTextbook {
 	
 	private HandleFirstTab guiHandler;
 	
+	public int oldIdxChoosePadding;
+	
 	
 	public HandleCryptosystemTextbook(RabinFirstTabComposite rftc) {
 		this.rftc = rftc;
@@ -639,6 +641,7 @@ public class HandleCryptosystemTextbook {
 				newTextselectorText = cstb.textSelector.getText().getText();
 				if(newTextselectorText != oldTextselectorTextEncryptionMode) {
 					cstb.txtCiphertext.setText("");
+					cstb.txtPlaintext.setText("");
 				}
 				
 				
@@ -699,38 +702,43 @@ public class HandleCryptosystemTextbook {
 		if(cstb.textSelector.getText() != null) {
 			this.hideControl(cstb.txtLoadTextWarning);
 			
-			if(cstb.rftc.txtModN.getText().isEmpty()) {
-				cstb.txtLoadTextWarning.setText("Attention: generate a key pair first");
-				this.showControl(cstb.txtLoadTextWarning);
-				cstb.btnDecryption.setEnabled(false);
-				return;
+			if(cstb.txtCiphertextSegments.getText().isEmpty()) {
+				if(cstb.rftc.txtModN.getText().isEmpty()) {
+					cstb.txtLoadTextWarning.setText("Attention: generate a key pair first");
+					this.showControl(cstb.txtLoadTextWarning);
+					cstb.btnDecryption.setEnabled(false);
+					return;
+				}
+				
+				if(cstb.textSelector.getText().getText().isEmpty()) {
+					cstb.txtLoadTextWarning.setText("Attention: load a non-empty ciphertext");
+					this.showControl(cstb.txtLoadTextWarning);
+					cstb.btnDecryption.setEnabled(false);
+					return;
+				}
+				
+				String pattern = "[0-9a-fA-F]+"; 
+				if(!cstb.textSelector.getText().getText().matches(pattern)) {
+					cstb.txtLoadTextWarning.setText("Attention: only hexadecimal numbers (0-f) are allowed");
+					this.showControl(cstb.txtLoadTextWarning);
+					cstb.btnDecryption.setEnabled(false);
+					return;
+				}
+				
+				boolean checkLength = cstb.textSelector.getText().getText().length() % guiHandler.blocklength == 0;
+				
+				if(!checkLength) {
+					String strLengthCipher = Messages.HandleFirstTab_strLengthCipher;
+					cstb.txtLoadTextWarning.setText(MessageFormat.format(
+							strLengthCipher,
+							(guiHandler.blocklength / 2)));
+					showControl(cstb.txtLoadTextWarning);
+					return;
+				}
+				
 			}
-			
-			if(cstb.textSelector.getText().getText().isEmpty()) {
-				cstb.txtLoadTextWarning.setText("Attention: load a non-empty ciphertext");
-				this.showControl(cstb.txtLoadTextWarning);
-				cstb.btnDecryption.setEnabled(false);
+			else
 				return;
-			}
-			
-			String pattern = "[0-9a-fA-F]+"; 
-			if(!cstb.textSelector.getText().getText().matches(pattern)) {
-				cstb.txtLoadTextWarning.setText("Attention: only hexadecimal numbers (0-f) are allowed");
-				this.showControl(cstb.txtLoadTextWarning);
-				cstb.btnDecryption.setEnabled(false);
-				return;
-			}
-			
-			boolean checkLength = cstb.textSelector.getText().getText().length() % guiHandler.blocklength == 0;
-			
-			if(!checkLength) {
-				String strLengthCipher = Messages.HandleFirstTab_strLengthCipher;
-				cstb.txtLoadTextWarning.setText(MessageFormat.format(
-						strLengthCipher,
-						(guiHandler.blocklength / 2)));
-				showControl(cstb.txtLoadTextWarning);
-				return;
-			}
 			
 			String newTextselectorText = null;
 			/*if(firstTextselectorAccessDecryptionMode) {
@@ -822,6 +830,7 @@ public class HandleCryptosystemTextbook {
 				
 				
 				if(!cstb.rftc.txtModN.getText().isEmpty() && !cstb.textSelector.getText().getText().isEmpty()) {
+					cstb.cmbChooseBlockPadding.setEnabled(true);
 					if(newTextselectorText != oldTextselectorTextEncryptionMode) {
 						cstb.btnEncrypt.setEnabled(true);
 					}
@@ -834,6 +843,7 @@ public class HandleCryptosystemTextbook {
 					}
 				}
 				else {
+					cstb.cmbChooseBlockPadding.setEnabled(false);
 					cstb.btnEncrypt.setEnabled(false);
 					
 					if(cstb.textSelector.getText().getText().isEmpty()) {
@@ -862,6 +872,13 @@ public class HandleCryptosystemTextbook {
 					cstb.txtLoadTextWarning.setText("Attention: load a non-empty ciphertext");
 					this.showControl(cstb.txtLoadTextWarning);
 					cstb.btnDecryption.setEnabled(false);
+					cstb.txtCiphertextSegments.setText("");
+					cstb.cmbChooseBlock.removeAll();
+					cstb.txtChosenPlaintexts.setText("");
+					cstb.txtFirstPlaintext.setText("");
+					cstb.txtSecondPlaintext.setText("");
+					cstb.txtThirdPlaintext.setText("");
+					cstb.txtFourthPlaintext.setText("");
 					return;
 				}
 				
@@ -922,6 +939,17 @@ public class HandleCryptosystemTextbook {
 				oldTextselectorTextDecryptionMode = newTextselectorText;
 			}
 		}
+	}
+	
+	
+	public void cmbChooseBlockPaddingAction(CryptosystemTextbookComposite cstb) {
+		int idx = cstb.cmbChooseBlockPadding.getSelectionIndex();
+		if(idx != oldIdxChoosePadding) {
+			cstb.txtPlaintext.setText("");
+			cstb.txtCiphertext.setText("");
+			cstb.btnEncrypt.setEnabled(true);
+		}
+		oldIdxChoosePadding = idx;
 	}
 	
 

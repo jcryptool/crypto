@@ -891,6 +891,9 @@ public class HandleSecondTab extends GUIHandler {
 			hideControl(txtWarning);
 			rstc.txtMessage.setBackground(this.colorBackgroundNeutral);
 			rstc.btnEnc.setEnabled(false);
+			
+			rstc.cmbBlockN.setEnabled(false);
+			rstc.cmbChooseBlockPadding.setEnabled(false);
 			return;
 		}
 		
@@ -903,6 +906,8 @@ public class HandleSecondTab extends GUIHandler {
 			rstc.txtMessageWarning.setText(Messages.HandleSecondTab_rstc_getTxtMessageWarning);
 			showControl(txtWarning);
 			rstc.btnEnc.setEnabled(false);
+			rstc.cmbBlockN.setEnabled(false);
+			rstc.cmbChooseBlockPadding.setEnabled(false);
 			return;
 		}
 		
@@ -917,6 +922,8 @@ public class HandleSecondTab extends GUIHandler {
 			
 		}*/
 		
+		rstc.cmbBlockN.setEnabled(true);
+		rstc.cmbChooseBlockPadding.setEnabled(true);
 		
 		int bitlength = rabinFirst.getN().bitLength();
 		int maxBytesPerBlock = bitlength / 8;
@@ -1158,6 +1165,8 @@ public class HandleSecondTab extends GUIHandler {
 		rstc.btnComputevw.setEnabled(false);
 		rstc.btnComputePt.setEnabled(false);
 		rstc.btnApplyCiphertext.setEnabled(false);
+		rstc.cmbBlockN.setEnabled(false);
+		rstc.cmbChooseBlockPadding.setEnabled(false);
 		setInfoEncTextMode(rstc);
 	}
 	
@@ -1586,12 +1595,14 @@ public class HandleSecondTab extends GUIHandler {
 			rstc.btnPrevElem.setEnabled(false);
 			rstc.btnNextElem.setEnabled(false);
 			rstc.btnSqrRoot.setEnabled(false);
+			rstc.cmbChooseCipher.setEnabled(false);
 			return;
 		}
 		
 		rstc.btnPrevElem.setEnabled(true);
 		rstc.btnNextElem.setEnabled(true);
 		rstc.btnSqrRoot.setEnabled(true);
+		rstc.cmbChooseCipher.setEnabled(true);
 	}
 	
 	

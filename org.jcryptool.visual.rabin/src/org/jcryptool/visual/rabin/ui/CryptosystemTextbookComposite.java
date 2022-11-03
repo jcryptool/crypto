@@ -375,6 +375,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		});
 		
 		
+		
 		txtLoadTextWarning = new Text(grpLoadText, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		//txtLoadTextWarning = new Text(compTestHighlighting, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLoadTextWarning.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
@@ -443,6 +444,8 @@ public class CryptosystemTextbookComposite extends Composite {
 		btnWriteToJCTeditorDecryptMode.setEnabled(false);
 		btnEncrypt.setEnabled(false);
 		btnDecryption.setEnabled(false);
+		textSelector.setEnabled(false);
+		cmbChooseBlockPadding.setEnabled(false);
 	}
 	
 	
@@ -645,6 +648,16 @@ public class CryptosystemTextbookComposite extends Composite {
 		//cmbChooseBlockPadding.setVisibleItemCount(10);
 		cmbChooseBlockPadding.setItems(new String[]{"ANSI X9.23", "PKCS#7"});
 		cmbChooseBlockPadding.select(0);
+		hcstb.oldIdxChoosePadding = cmbChooseBlockPadding.getSelectionIndex();
+		
+		cmbChooseBlockPadding.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				hcstb.cmbChooseBlockPaddingAction(getCurrentInstance());
+			}
+		});
 		
 		
 		compSpaceBetweenCmbs = new Composite(compHoldBtnsForFeatures, SWT.NONE);
