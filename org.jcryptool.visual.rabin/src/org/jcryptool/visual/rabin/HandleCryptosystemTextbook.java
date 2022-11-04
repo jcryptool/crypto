@@ -125,6 +125,8 @@ public class HandleCryptosystemTextbook {
 		cstb.txtCiphertext.setText(ciphertext);
 		//System.out.println(ciphertextList.size());
 		cstb.btnEncrypt.setEnabled(false);
+		
+		
 	}
 	
 	
@@ -202,6 +204,7 @@ public class HandleCryptosystemTextbook {
 		showControl(cstb.compHoldDecryptionProcess);
 		hideControl(cstb.txtDecryptWarning);
 		cstb.grpEncryptDecrypt.setText("Decryption");
+		cstb.grpLoadText.setText("4 \u2212 Load ciphertext");
 				
 	}
 	
@@ -580,6 +583,7 @@ public class HandleCryptosystemTextbook {
 		cstb.grpEncryptDecrypt.setText("Encryption");
 		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt"));
 		cstb.grpEncryptDecrypt.setText("5 \u2212 Encryption");
+		cstb.grpLoadText.setText("4 \u2212 Load plaintext");
 		
 		
 		/*if(cstb.textSelector.getText() != null) {
@@ -696,7 +700,7 @@ public class HandleCryptosystemTextbook {
 		cstb.grpEncryptDecrypt.setText("Decryption");
 		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_decrypt"));
 		cstb.grpEncryptDecrypt.setText("5 \u2212 Decryption");
-		
+		cstb.grpLoadText.setText("4 \u2212 Load ciphertext");
 		
 			
 		if(cstb.textSelector.getText() != null) {
@@ -949,7 +953,16 @@ public class HandleCryptosystemTextbook {
 			cstb.txtCiphertext.setText("");
 			cstb.btnEncrypt.setEnabled(true);
 		}
+		
+		String paddingScheme = cstb.cmbChooseBlockPadding.getItem(idx);
+		String message = "Plaintext with possible padding (\""
+				+ paddingScheme + "\" as padding scheme, hex format)";
+		cstb.txtPlaintextDescription.setText(message);
+		
 		oldIdxChoosePadding = idx;
+		
+		
+		
 	}
 	
 

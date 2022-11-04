@@ -721,14 +721,14 @@ public class HandleFirstTab extends GUIHandler {
 		//rftc.txtInfoModulus.setText("Number of bits of N = " + bitlength + "\n"
 				//+ "Max. number of bytes to encrypt = " + maxBytesPerBlock);
 		
-		String strInfoNbits = "Bitlength: " + bitlength + " ";
+		String strInfoNbits = "Bit length of N: " + bitlength + " ";
 		
 		if(bitlength > 1)
 			strInfoNbits += "bits";
 		else
 			strInfoNbits += "bit";
 		
-		String strInfoNmaxBytes = "Max. number of bytes to encrypt: " + maxBytesPerBlock + " ";
+		String strInfoNmaxBytes = "Max. number of bytes per block: " + maxBytesPerBlock + " ";
 		
 		if(maxBytesPerBlock > 1)
 			strInfoNmaxBytes += "bytes";
@@ -773,7 +773,7 @@ public class HandleFirstTab extends GUIHandler {
 		
 		rftc.txtInfoNbits.setText(strInfoNbits);
 		rftc.txtInfoNmaxBytes.setText(strInfoNmaxBytes);
-		rftc.txtInfoNblocklength.setText(strInfoNblocklength);
+		//rftc.txtInfoNblocklength.setText(strInfoNblocklength);
 		
 		/*rstc.cmbBlockN.removeAll();
 		
@@ -846,10 +846,12 @@ public class HandleFirstTab extends GUIHandler {
 	public void btnToggleInfoNAction(RabinFirstTabComposite rftc) {
 		if(rftc.btnToggleInfoN.getSelection()) {
 			this.showControl(rftc.grpInfoOnN);
+			rftc.cstb.lblArrowDown.setImage(rftc.cstb.scaledArrowWhite);
 			rftc.btnToggleInfoN.setText("Hide info public key");
 		}
 		else {
 			this.hideControl(rftc.grpInfoOnN);
+			rftc.cstb.lblArrowDown.setImage(rftc.cstb.scaledArrowGray);
 			rftc.btnToggleInfoN.setText("Show info public key");
 		}
 	}

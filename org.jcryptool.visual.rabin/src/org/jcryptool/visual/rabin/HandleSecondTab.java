@@ -1167,6 +1167,7 @@ public class HandleSecondTab extends GUIHandler {
 		rstc.btnApplyCiphertext.setEnabled(false);
 		rstc.cmbBlockN.setEnabled(false);
 		rstc.cmbChooseBlockPadding.setEnabled(false);
+		rstc.cmbChooseCipher.setEnabled(false);
 		setInfoEncTextMode(rstc);
 	}
 	
@@ -1338,7 +1339,7 @@ public class HandleSecondTab extends GUIHandler {
 		String paddingScheme = rstc.cmbChooseBlockPadding.getItem(idx);
 		String message = "Plaintext with possible padding (\""
 				+ paddingScheme + "\" as padding scheme, hex format)";
-		rstc.lblMessageWithPadding.setText(message);
+		rstc.txtLblMessageWithPadding.setText(message);
 		
 		if(idx != oldIdxChoosePadding)
 			resetEncAndDecComponentsTextWhenModified(rstc);
