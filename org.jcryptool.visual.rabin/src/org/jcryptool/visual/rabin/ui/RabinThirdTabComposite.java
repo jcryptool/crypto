@@ -126,6 +126,23 @@ public class RabinThirdTabComposite extends Composite {
 	public TableColumn pollardtc4;
 	
 	
+	public Text txtLblNPollard;
+	public Text txtLblxPollard;
+	public Text txtLblyPollard;
+	public Text txtLblC;
+	public Text txtLblpPollard;
+	public Text txtLblqPollard;
+	public Text txtLblN;
+	public Text txtLblPrimeP;
+	public Text txtLblPlusP;
+	public Text txtLblResultP;
+	public Text txtLblPrimeQ;
+	public Text txtLblMinusQ;
+	public Text txtLblResultQ;
+	public Group grpInfoPollard;
+	public Group grpInfoFermat;
+	
+	
 	
 	
 	public HandleThirdTab guiHandler;
@@ -185,6 +202,10 @@ public class RabinThirdTabComposite extends Composite {
 			guiHandler.verifyControlFields(e);
 		}
 	};
+
+	
+
+	
 	
 	
 	
@@ -228,17 +249,20 @@ public class RabinThirdTabComposite extends Composite {
 		
 		compFermatAttack = new Composite(parent, SWT.NONE);
 		compFermatAttack.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		compFermatAttack.setLayout(new GridLayout(1, false));
+		//compFermatAttack.setLayout(new GridLayout(1, false));
+		compFermatAttack.setLayout(new GridLayout(2, false));
 			
 		compPollardRho = new Composite(parent, SWT.NONE);
 		compPollardRho.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		compPollardRho.setLayout(new GridLayout(1, false));
+		//compPollardRho.setLayout(new GridLayout(1, false));
+		compPollardRho.setLayout(new GridLayout(2, false));
 		
 		guiHandler.hideControl(compPollardRho);
 		
 		grpPollardSetParam = new Group(compPollardRho, SWT.NONE);
 		grpPollardSetParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		grpPollardSetParam.setLayout(new GridLayout(4, false));
+		//grpPollardSetParam.setLayout(new GridLayout(4, false));
+		grpPollardSetParam.setLayout(new GridLayout(2, false));
 		grpPollardSetParam.setText(Messages.RabinThirdTabComposite_grpSetParam);
 		
 		
@@ -253,11 +277,18 @@ public class RabinThirdTabComposite extends Composite {
 		((GridData) compSelMode.getLayoutData()).verticalIndent = 110;
 		
 		
-		lblSepFactorPollard = new Label(grpPollardSetParam, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSepFactorPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		//lblSepFactorPollard = new Label(grpPollardSetParam, SWT.SEPARATOR | SWT.VERTICAL);
+		//lblSepFactorPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		
+		grpInfoPollard = new Group(compPollardRho, SWT.NONE);
+		grpInfoPollard.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		grpInfoPollard.setLayout(new GridLayout(1, false));
+		grpInfoPollard.setText(" ");
+		//guiHandler.setSizeControl(grpInfoPollard, 300, SWT.DEFAULT);
 		
 		
-		txtInfoFactorPollard = new Text(grpPollardSetParam, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
+		//txtInfoFactorPollard = new Text(grpPollardSetParam, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
+		txtInfoFactorPollard = new Text(grpInfoPollard, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
 		GridData txtInfoFactorDataPollard = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoFactorPollard.setLayoutData(txtInfoFactorDataPollard);
 		guiHandler.setSizeControl(txtInfoFactorPollard, SWT.DEFAULT, SWT.DEFAULT);
@@ -275,9 +306,15 @@ public class RabinThirdTabComposite extends Composite {
 	
 		
 		
-		lblNPollard = new Label(compSelParam, SWT.NONE);
-		lblNPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		lblNPollard.setText("N = "); //$NON-NLS-1$
+//		lblNPollard = new Label(compSelParam, SWT.NONE);
+//		lblNPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+//		lblNPollard.setText("N = "); //$NON-NLS-1$
+		
+		txtLblNPollard = new Text(compSelParam, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblNPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, true));
+		txtLblNPollard.setBackground(guiHandler.colorBGinfo);
+		txtLblNPollard.setText("N =");
+		
 		
 		cmbNPollard = new Combo(compSelParam, SWT.DROP_DOWN);
 		cmbNPollard.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -303,9 +340,14 @@ public class RabinThirdTabComposite extends Composite {
 		
 		
 
-		lblxPollard = new Label(compSelParam, SWT.NONE);
-		lblxPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		lblxPollard.setText("x = "); //$NON-NLS-1$
+//		lblxPollard = new Label(compSelParam, SWT.NONE);
+//		lblxPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+//		lblxPollard.setText("x = "); //$NON-NLS-1$
+		
+		txtLblxPollard = new Text(compSelParam, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblxPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, true));
+		txtLblxPollard.setBackground(guiHandler.colorBGinfo);
+		txtLblxPollard.setText("x =");
 		
 		txtxPollard = new Text(compSelParam, SWT.SINGLE | SWT.LEAD | SWT.BORDER);
 		txtxPollard.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -322,9 +364,14 @@ public class RabinThirdTabComposite extends Composite {
 		guiHandler.hideControl(txtWarningxPollard);
 		
 		
-		lblyPollard = new Label(compSelParam, SWT.NONE);
-		lblyPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		lblyPollard.setText("y = "); //$NON-NLS-1$
+//		lblyPollard = new Label(compSelParam, SWT.NONE);
+//		lblyPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+//		lblyPollard.setText("y = "); //$NON-NLS-1$
+		
+		txtLblyPollard = new Text(compSelParam, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblyPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, true));
+		txtLblyPollard.setBackground(guiHandler.colorBGinfo);
+		txtLblyPollard.setText("y =");
 		
 		txtyPollard = new Text(compSelParam, SWT.SINGLE | SWT.LEAD | SWT.BORDER);
 		txtyPollard.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -353,9 +400,14 @@ public class RabinThirdTabComposite extends Composite {
 		
 		
 		
-		lblC = new Label(grpRndFunction, SWT.NONE);
-		lblC.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		lblC.setText("c = "); //$NON-NLS-1$
+//		lblC = new Label(grpRndFunction, SWT.NONE);
+//		lblC.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+//		lblC.setText("c = "); //$NON-NLS-1$
+		
+		txtLblC = new Text(grpRndFunction, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblC.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		txtLblC.setBackground(guiHandler.colorBGinfo);
+		txtLblC.setText("c =");
 		
 		txtgxPollard = new Text(grpRndFunction, SWT.SINGLE | SWT.LEAD | SWT.BORDER);
 		txtgxPollard.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -379,9 +431,14 @@ public class RabinThirdTabComposite extends Composite {
 		grpResult.setText(Messages.RabinThirdTabComposite_grpResult);
 		
 		
-		lblpPollard = new Label(grpResult, SWT.NONE);
-		lblpPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		lblpPollard.setText(Messages.RabinThirdTabComposite_lblpPollard);
+//		lblpPollard = new Label(grpResult, SWT.NONE);
+//		lblpPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+//		lblpPollard.setText(Messages.RabinThirdTabComposite_lblpPollard);
+		
+		txtLblpPollard = new Text(grpResult, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblpPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		txtLblpPollard.setBackground(guiHandler.colorBGinfo);
+		txtLblpPollard.setText(Messages.RabinThirdTabComposite_lblpPollard);
 		
 		txtpPollard = new Text(grpResult, SWT.SINGLE | SWT.LEAD | SWT.BORDER | SWT.READ_ONLY);
 		txtpPollard.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -397,9 +454,14 @@ public class RabinThirdTabComposite extends Composite {
 	
 		
 		
-		lblqPollard = new Label(grpResult, SWT.NONE);
-		lblqPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		lblqPollard.setText("q = N/p = "); //$NON-NLS-1$
+//		lblqPollard = new Label(grpResult, SWT.NONE);
+//		lblqPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+//		lblqPollard.setText("q = N/p = "); //$NON-NLS-1$
+		
+		txtLblqPollard = new Text(grpResult, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblqPollard.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		txtLblqPollard.setBackground(guiHandler.colorBGinfo);
+		txtLblqPollard.setText("q = N/p = ");
 		
 		txtqPollard = new Text(grpResult, SWT.SINGLE | SWT.LEAD | SWT.BORDER | SWT.READ_ONLY);
 		txtqPollard.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -466,7 +528,7 @@ public class RabinThirdTabComposite extends Composite {
 		
 		
 		grpPollardFactorization = new Group(compPollardRho, SWT.NONE);
-		grpPollardFactorization.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		grpPollardFactorization.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		grpPollardFactorization.setLayout(new GridLayout(1, false));
 		grpPollardFactorization.setText(Messages.RabinThirdTabComposite_grpFactor);
 		
@@ -500,13 +562,11 @@ public class RabinThirdTabComposite extends Composite {
 	
 		grpSetParam = new Group(compFermatAttack, SWT.NONE);
 		grpSetParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		grpSetParam.setLayout(new GridLayout(4, false));
+		//grpSetParam.setLayout(new GridLayout(4, false));
+		grpSetParam.setLayout(new GridLayout(2, false));
 		grpSetParam.setText(Messages.RabinThirdTabComposite_grpSetParam);
 		
-		grpFactor = new Group(compFermatAttack, SWT.NONE);
-		grpFactor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		grpFactor.setLayout(new GridLayout(1, false));
-		grpFactor.setText(Messages.RabinThirdTabComposite_grpFactor);
+		
 		
 		
 		npqComp = new Composite(grpSetParam, SWT.NONE);
@@ -573,11 +633,23 @@ public class RabinThirdTabComposite extends Composite {
 		
 		
 		
-		lblSepFactor = new Label(grpSetParam, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSepFactor.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		//lblSepFactor = new Label(grpSetParam, SWT.SEPARATOR | SWT.VERTICAL);
+		//lblSepFactor.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
+		
+		grpInfoFermat = new Group(compFermatAttack, SWT.NONE);
+		grpInfoFermat.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		grpInfoFermat.setLayout(new GridLayout(1, false));
+		grpInfoFermat.setText(" ");
+		
+		grpFactor = new Group(compFermatAttack, SWT.NONE);
+		//grpFactor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		grpFactor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		grpFactor.setLayout(new GridLayout(1, false));
+		grpFactor.setText(Messages.RabinThirdTabComposite_grpFactor);
 		
 		
-		txtInfoFactor = new Text(grpSetParam, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
+		//txtInfoFactor = new Text(grpSetParam, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
+		txtInfoFactor = new Text(grpInfoFermat, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY);
 		GridData txtInfoFactorData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoFactor.setLayoutData(txtInfoFactorData);
 		guiHandler.setSizeControl(txtInfoFactor, SWT.DEFAULT, SWT.DEFAULT);
@@ -596,8 +668,14 @@ public class RabinThirdTabComposite extends Composite {
 	
 		
 		
-		lblN = new Label(npqComp, SWT.NONE);
-		lblN.setText("N ="); //$NON-NLS-1$
+//		lblN = new Label(npqComp, SWT.NONE);
+//		lblN.setText("N ="); //$NON-NLS-1$
+		
+		txtLblN = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblN.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		txtLblN.setBackground(guiHandler.colorBGinfo);
+		txtLblN.setText("N =");
+		
 		cmbN = new Combo(npqComp, SWT.DROP_DOWN);
 		cmbN.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(cmbN, SWT.DEFAULT, SWT.DEFAULT);
@@ -628,8 +706,14 @@ public class RabinThirdTabComposite extends Composite {
 		guiHandler.setControlMargin(compPrimeP, 0, 5);
 		((GridLayout) compPrimeP.getLayout()).marginLeft = 2;
 		
-		lblPrimeP = new Label(compPrimeP, SWT.NONE);
-		lblPrimeP.setText("p ="); //$NON-NLS-1$
+//		lblPrimeP = new Label(compPrimeP, SWT.NONE);
+//		lblPrimeP.setText("p ="); //$NON-NLS-1$
+		
+		txtLblPrimeP = new Text(compPrimeP, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblPrimeP.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		txtLblPrimeP.setBackground(guiHandler.colorBGinfo);
+		txtLblPrimeP.setText("p =");
+		
 		txtP1 = new Text(compPrimeP, SWT.BORDER | SWT.READ_ONLY);
 		txtP1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtP1, SWT.DEFAULT, SWT.DEFAULT);
@@ -642,8 +726,14 @@ public class RabinThirdTabComposite extends Composite {
 			}
 		});
 	
-		lblPlusP = new Label(compPrimeP, SWT.NONE);
-		lblPlusP.setText("+"); //$NON-NLS-1$
+//		lblPlusP = new Label(compPrimeP, SWT.NONE);
+//		lblPlusP.setText("+"); //$NON-NLS-1$
+		
+		txtLblPlusP = new Text(compPrimeP, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblPlusP.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		txtLblPlusP.setBackground(guiHandler.colorBGinfo);
+		txtLblPlusP.setText("+");
+		
 		txtP2 = new Text(compPrimeP, SWT.BORDER | SWT.READ_ONLY);
 		txtP2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtP2, SWT.DEFAULT, SWT.DEFAULT);
@@ -656,9 +746,15 @@ public class RabinThirdTabComposite extends Composite {
 			}
 		});
 	
-		lblResultP = new Label(npqComp, SWT.NONE);
-		lblResultP.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
-		lblResultP.setText("= "); //$NON-NLS-1$
+//		lblResultP = new Label(npqComp, SWT.NONE);
+//		lblResultP.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+//		lblResultP.setText("= "); //$NON-NLS-1$
+		
+		txtLblResultP = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblResultP.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		txtLblResultP.setBackground(guiHandler.colorBGinfo);
+		txtLblResultP.setText("= ");
+		
 		txtResultP = new Text(npqComp, SWT.BORDER | SWT.READ_ONLY);
 		txtResultP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtResultP, SWT.DEFAULT, SWT.DEFAULT);
@@ -678,8 +774,14 @@ public class RabinThirdTabComposite extends Composite {
 		guiHandler.setControlMargin(compPrimeQ, 0, 5);
 		((GridLayout) compPrimeQ.getLayout()).marginLeft = 2;
 		
-		lblPrimeQ = new Label(compPrimeQ, SWT.NONE);
-		lblPrimeQ.setText("q ="); //$NON-NLS-1$
+//		lblPrimeQ = new Label(compPrimeQ, SWT.NONE);
+//		lblPrimeQ.setText("q ="); //$NON-NLS-1$
+		
+		txtLblPrimeQ = new Text(compPrimeQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblPrimeQ.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		txtLblPrimeQ.setBackground(guiHandler.colorBGinfo);
+		txtLblPrimeQ.setText("q =");
+		
 		txtQ1 = new Text(compPrimeQ, SWT.BORDER | SWT.READ_ONLY);
 		txtQ1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtQ1, SWT.DEFAULT, SWT.DEFAULT);
@@ -692,8 +794,14 @@ public class RabinThirdTabComposite extends Composite {
 			}
 		});
 	
-		lblMinusQ = new Label(compPrimeQ, SWT.NONE);
-		lblMinusQ.setText("\u2212"); //$NON-NLS-1$
+//		lblMinusQ = new Label(compPrimeQ, SWT.NONE);
+//		lblMinusQ.setText("\u2212"); //$NON-NLS-1$
+		
+		txtLblMinusQ = new Text(compPrimeQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblMinusQ.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		txtLblMinusQ.setBackground(guiHandler.colorBGinfo);
+		txtLblMinusQ.setText("\u2212");
+		
 		txtQ2 = new Text(compPrimeQ, SWT.BORDER | SWT.READ_ONLY);
 		txtQ2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtQ2, SWT.DEFAULT, SWT.DEFAULT);
@@ -706,9 +814,15 @@ public class RabinThirdTabComposite extends Composite {
 			}
 		});
 	
-		lblResultQ = new Label(npqComp, SWT.NONE);
-		lblResultQ.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
-		lblResultQ.setText("= "); //$NON-NLS-1$
+//		lblResultQ = new Label(npqComp, SWT.NONE);
+//		lblResultQ.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+//		lblResultQ.setText("= "); //$NON-NLS-1$
+		
+		txtLblResultQ = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		txtLblResultQ.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		txtLblResultQ.setBackground(guiHandler.colorBGinfo);
+		txtLblResultQ.setText("= ");
+		
 		txtResultQ = new Text(npqComp, SWT.BORDER | SWT.READ_ONLY);
 		txtResultQ.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtResultQ, SWT.DEFAULT, SWT.DEFAULT);
@@ -756,6 +870,38 @@ public class RabinThirdTabComposite extends Composite {
 		Color colorTxtWhichYouCanEnterBG = GUIHandler.colorTxtWhichYouCanEnterBG;
 		Color colorTxtWhichYouCanEnterFG = GUIHandler.colorTxtWhichYouCanEnterFG;
 
+		// latest addition (5.11)
+		txtLblNPollard.setBackground(colorBG);
+		txtLblNPollard.setForeground(colorFG);
+		txtLblxPollard.setBackground(colorBG);
+		txtLblxPollard.setForeground(colorFG);
+		txtLblyPollard.setBackground(colorBG);
+		txtLblyPollard.setForeground(colorFG);
+		txtLblC.setBackground(colorBG);
+		txtLblC.setForeground(colorFG);
+		txtLblpPollard.setBackground(colorBG);
+		txtLblpPollard.setForeground(colorFG);
+		txtLblqPollard.setBackground(colorBG);
+		txtLblqPollard.setForeground(colorFG);
+		txtLblN.setBackground(colorBG);
+		txtLblN.setForeground(colorFG);
+		txtLblPrimeP.setBackground(colorBG);
+		txtLblPrimeP.setForeground(colorFG);
+		txtLblPlusP.setBackground(colorBG);
+		txtLblPlusP.setForeground(colorFG);
+		txtLblResultP.setBackground(colorBG);
+		txtLblResultP.setForeground(colorFG);
+		txtLblPrimeQ.setBackground(colorBG);
+		txtLblPrimeQ.setForeground(colorFG);
+		txtLblMinusQ.setBackground(colorBG);
+		txtLblMinusQ.setForeground(colorFG);
+		txtLblResultQ.setBackground(colorBG);
+		txtLblResultQ.setForeground(colorFG);
+		grpInfoPollard.setBackground(colorBG);
+		grpInfoPollard.setForeground(colorFG);
+		grpInfoFermat.setBackground(colorBG);
+		grpInfoFermat.setForeground(colorFG);
+		
 		
 		this.setBackground(colorBG);
 		this.setForeground(colorFG);
@@ -831,54 +977,54 @@ public class RabinThirdTabComposite extends Composite {
 		compSelParam.setForeground(colorFG);
 		compSelMode.setBackground(colorBG);
 		compSelMode.setForeground(colorFG);
-		lblSepFactorPollard.setBackground(colorBG);
-		lblSepFactorPollard.setForeground(colorFG);
+//		lblSepFactorPollard.setBackground(colorBG);
+//		lblSepFactorPollard.setForeground(colorFG);
 		txtInfoFactorPollard.setBackground(colorBG);
 		txtInfoFactorPollard.setForeground(colorFG);
-		lblNPollard.setBackground(colorBG);
-		lblNPollard.setForeground(colorFG);
-		lblxPollard.setBackground(colorBG);
-		lblxPollard.setForeground(colorFG);
-		lblyPollard.setBackground(colorBG);
-		lblyPollard.setForeground(colorFG);
+//		lblNPollard.setBackground(colorBG);
+//		lblNPollard.setForeground(colorFG);
+//		lblxPollard.setBackground(colorBG);
+//		lblxPollard.setForeground(colorFG);
+//		lblyPollard.setBackground(colorBG);
+//		lblyPollard.setForeground(colorFG);
 		grpRndFunction.setBackground(colorBG);
 		grpRndFunction.setForeground(colorFG);
-		lblC.setBackground(colorBG);
-		lblC.setForeground(colorFG);
+//		lblC.setBackground(colorBG);
+//		lblC.setForeground(colorFG);
 		grpResult.setBackground(colorBG);
 		grpResult.setForeground(colorFG);
-		lblpPollard.setBackground(colorBG);
-		lblpPollard.setForeground(colorFG);
-		lblqPollard.setBackground(colorBG);
-		lblqPollard.setForeground(colorFG);
+//		lblpPollard.setBackground(colorBG);
+//		lblpPollard.setForeground(colorFG);
+//		lblqPollard.setBackground(colorBG);
+//		lblqPollard.setForeground(colorFG);
 		btnGenKeysAlgoPollard2.setBackground(colorButtonBG);
 		btnGenKeysAlgoPollard2.setForeground(colorButtonFG);
 		grpPollardFactorization.setBackground(colorBG);
 		grpPollardFactorization.setForeground(colorFG);
 		compGenKeys.setBackground(colorBG);
 		compGenKeys.setForeground(colorFG);
-		lblSepFactor.setBackground(colorBG);
-		lblSepFactor.setForeground(colorFG);
+//		lblSepFactor.setBackground(colorBG);
+//		lblSepFactor.setForeground(colorFG);
 		txtInfoFactor.setBackground(colorBG);
 		txtInfoFactor.setForeground(colorFG);
-		lblN.setBackground(colorBG);
-		lblN.setForeground(colorFG);
+//		lblN.setBackground(colorBG);
+//		lblN.setForeground(colorFG);
 		compPrimeP.setBackground(colorBG);
 		compPrimeP.setForeground(colorFG);
-		lblPrimeP.setBackground(colorBG);
-		lblPrimeP.setForeground(colorFG);
-		lblPlusP.setBackground(colorBG);
-		lblPlusP.setForeground(colorFG);
-		lblResultP.setBackground(colorBG);
-		lblResultP.setForeground(colorFG);
+//		lblPrimeP.setBackground(colorBG);
+//		lblPrimeP.setForeground(colorFG);
+//		lblPlusP.setBackground(colorBG);
+//		lblPlusP.setForeground(colorFG);
+//		lblResultP.setBackground(colorBG);
+//		lblResultP.setForeground(colorFG);
 		compPrimeQ.setBackground(colorBG);
 		compPrimeQ.setForeground(colorFG);
-		lblPrimeQ.setBackground(colorBG);
-		lblPrimeQ.setForeground(colorFG);
-		lblMinusQ.setBackground(colorBG);
-		lblMinusQ.setForeground(colorFG);
-		lblResultQ.setBackground(colorBG);
-		lblResultQ.setForeground(colorFG);
+//		lblPrimeQ.setBackground(colorBG);
+//		lblPrimeQ.setForeground(colorFG);
+//		lblMinusQ.setBackground(colorBG);
+//		lblMinusQ.setForeground(colorFG);
+//		lblResultQ.setBackground(colorBG);
+//		lblResultQ.setForeground(colorFG);
 		
 	}
 	

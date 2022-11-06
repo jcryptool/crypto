@@ -333,6 +333,7 @@ public class RabinMainView extends ViewPart {
 		compHoldSettings = new Composite(scSettings, SWT.NONE);
 		compHoldSettings.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		compHoldSettings.setLayout(new GridLayout(1, false));
+		guiHandler.setControlMargin(compHoldSettings, 0, 0);
 	
 	
 		scSettings.setContent(compHoldSettings);

@@ -37,6 +37,8 @@ public class Settings extends Composite {
 	private RabinSecondTabComposite rstc;
 	private CryptosystemTextbookComposite cstb;
 	private RabinThirdTabComposite rttc;
+	private Group grpInfoMode;
+	private Composite compHoldContent;
 	
 
 	public Settings(Composite parent, int style) {
@@ -76,6 +78,11 @@ public class Settings extends Composite {
 		Color colorButtonBG = GUIHandler.colorButtonsBG;
 		Color colorButtonFG = GUIHandler.colorButtonsFG;
 		
+		grpInfoMode.setBackground(colorBG);
+		grpInfoMode.setForeground(colorFG);
+		compHoldContent.setBackground(colorBG);
+		compHoldContent.setForeground(colorFG);
+		
 		
 		this.setBackground(colorBG);
 		this.setForeground(colorFG);
@@ -89,8 +96,8 @@ public class Settings extends Composite {
 		btnRadioDarkMode.setForeground(colorFG);
 		btnApplyMode.setBackground(colorButtonBG);
 		btnApplyMode.setForeground(colorButtonFG);
-		lblSeparateInfo.setBackground(colorBG);
-		lblSeparateInfo.setForeground(colorFG);
+//		lblSeparateInfo.setBackground(colorBG);
+//		lblSeparateInfo.setForeground(colorFG);
 		txtInfoMode.setBackground(colorBG);
 		txtInfoMode.setForeground(colorFG);
 	}
@@ -104,10 +111,21 @@ public class Settings extends Composite {
 	
 	
 	private void createContent(Composite parent) {
+		setLayout(new GridLayout(1, false));
+		//guiHandler.setControlMargin(this, 0, 0);
+//		setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		grpMode = new Group(parent, SWT.NONE);
+		compHoldContent = new Composite(parent, SWT.NONE);
+		compHoldContent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		compHoldContent.setLayout(new GridLayout(2, false));
+		//guiHandler.setControlMargin(compHoldContent, 0, 0);
+		
+		
+		//grpMode = new Group(parent, SWT.NONE);
+		grpMode = new Group(compHoldContent, SWT.NONE);
 		grpMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		grpMode.setLayout(new GridLayout(4, false));
+		//grpMode.setLayout(new GridLayout(4, false));
+		grpMode.setLayout(new GridLayout(1, false));
 		grpMode.setText("Mode");
 		
 		compSelectionMode = new Composite(grpMode, SWT.NONE);
@@ -177,26 +195,35 @@ public class Settings extends Composite {
 		});
 		
 		
-		lblSeparateInfo = new Label(grpMode, SWT.SEPARATOR | SWT.VERTICAL);
-		lblSeparateInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));	
+//		lblSeparateInfo = new Label(grpMode, SWT.SEPARATOR | SWT.VERTICAL);
+//		lblSeparateInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));	
+		
+		grpInfoMode = new Group(compHoldContent, SWT.NONE);
+		//Group grpInfoMode = new Group(parent, SWT.NONE);
+		grpInfoMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		grpInfoMode.setLayout(new GridLayout(1, false));
+		grpInfoMode.setText(" ");
 		
 		
 		
-		txtInfoMode = new Text(grpMode, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		//txtInfoMode = new Text(grpMode, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+		txtInfoMode = new Text(grpInfoMode, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 		txtInfoMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtInfoMode, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoMode.setBackground(GUIHandler.colorBGinfo);
-		txtInfoMode.setText("Select \"Classic mode\" or \"Dark mode\" and click on \"Apply\" to "
+		/*txtInfoMode.setText("Select \"Classic mode\" or \"Dark mode\" and click on \"Apply\" to "
 				+ "either activate the classic mode or the dark mode. Be aware that the plugin will restart "
-				+ "after clicking on \"Apply\"");
-		txtInfoMode.addMouseTrackListener(new MouseTrackAdapter() {
+				+ "after clicking on \"Apply\"");*/
+		
+		txtInfoMode.setText("After selecting another mode, click on \"Apply\". Note that a mode change restarts the plugin which may take a little time.");
+		/*txtInfoMode.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				guiHandler.setCursorControl(txtInfoMode, SWT.CURSOR_ARROW);
 			}
-		});
+		});*/
 	
 		
 		

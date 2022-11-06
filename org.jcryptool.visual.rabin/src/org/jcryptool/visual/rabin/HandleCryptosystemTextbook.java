@@ -205,6 +205,7 @@ public class HandleCryptosystemTextbook {
 		hideControl(cstb.txtDecryptWarning);
 		cstb.grpEncryptDecrypt.setText("Decryption");
 		cstb.grpLoadText.setText("4 \u2212 Load ciphertext");
+		cstb.txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_ciphertext"));
 				
 	}
 	
@@ -584,6 +585,7 @@ public class HandleCryptosystemTextbook {
 		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt"));
 		cstb.grpEncryptDecrypt.setText("5 \u2212 Encryption");
 		cstb.grpLoadText.setText("4 \u2212 Load plaintext");
+		cstb.txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_plaintext"));
 		
 		
 		/*if(cstb.textSelector.getText() != null) {
@@ -651,6 +653,7 @@ public class HandleCryptosystemTextbook {
 				
 				
 				if(!cstb.rftc.txtModN.getText().isEmpty() && !cstb.textSelector.getText().getText().isEmpty()) {
+					cstb.cmbChooseBlockPadding.setEnabled(true);
 					if(newTextselectorText != oldTextselectorTextEncryptionMode) {
 						cstb.btnEncrypt.setEnabled(true);
 					}
@@ -663,6 +666,7 @@ public class HandleCryptosystemTextbook {
 					}
 				}
 				else {
+					cstb.cmbChooseBlockPadding.setEnabled(false);
 					cstb.btnEncrypt.setEnabled(false);
 					
 					if(cstb.textSelector.getText().getText().isEmpty()) {
@@ -701,6 +705,7 @@ public class HandleCryptosystemTextbook {
 		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_decrypt"));
 		cstb.grpEncryptDecrypt.setText("5 \u2212 Decryption");
 		cstb.grpLoadText.setText("4 \u2212 Load ciphertext");
+		cstb.txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_ciphertext"));
 		
 			
 		if(cstb.textSelector.getText() != null) {

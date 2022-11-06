@@ -35,6 +35,7 @@ public class HandleFirstTab extends GUIHandler {
 	private String strAppropriatePrimesWarning = Messages.HandleFirstTab_strAppropriatePrimesWarning;
 	public boolean stopComputation = false;
 	public String oldN = null;
+	
 
 //	/**
 //	 * @param scMain
@@ -797,6 +798,8 @@ public class HandleFirstTab extends GUIHandler {
 				rstc.cmbBlockN.add(String.valueOf(i));
 			}
 			
+			rstc.cmbBlockN.select(0);
+			
 			//rftc.rstc.cmbBlockN.setEnabled(true);
 			//rftc.rstc.cmbChooseBlockPadding.setEnabled(true);
 		}
@@ -806,27 +809,35 @@ public class HandleFirstTab extends GUIHandler {
 		}*/
 		
 		// to eliminate warnings
-		rstc.guiHandler.handlePlaintextTextMode(rstc);
-		rstc.guiHandler.handleDecimalNumbersEncDecMode(rstc);
-		rstc.guiHandler.handleHexNumDecMode(rstc);
-		rstc.guiHandler.handleDecimalNumbersDecMode(rstc);
+		//rstc.guiHandler.handlePlaintextTextMode(rstc);
+		rstc.guiHandler.handlePlaintextTextModeWithoutReset(rstc);
+		//rstc.guiHandler.handleDecimalNumbersEncDecMode(rstc);
+		rstc.guiHandler.handleDecimalNumbersEncDecModeWithoutReset(rstc);
+		//rstc.guiHandler.handleHexNumDecMode(rstc);
+		rstc.guiHandler.handleHexNumDecModeWithoutReset(rstc);
+		//rstc.guiHandler.handleDecimalNumbersDecMode(rstc);
+		rstc.guiHandler.handleDecimalNumbersDecModeWithoutReset(rstc);
 		
 		// for current mode
 		if(rstc.btnSelectionEnc.getSelection()) {
 			if(rstc.btnText.getSelection()) {
-				rstc.guiHandler.handlePlaintextTextMode(rstc);
+				//rstc.guiHandler.handlePlaintextTextMode(rstc);
+				rstc.guiHandler.handlePlaintextTextModeWithoutReset(rstc);
 			}
 			if(rstc.btnNum.getSelection()) {
-				rstc.guiHandler.handleDecimalNumbersEncDecMode(rstc);
+				//rstc.guiHandler.handleDecimalNumbersEncDecMode(rstc);
+				rstc.guiHandler.handleDecimalNumbersEncDecModeWithoutReset(rstc);
 			}
 		}
 		
 		if(rstc.btnSelectionDec.getSelection()) {
 			if(rstc.btnRadHex.getSelection()) {
-				rstc.guiHandler.handleHexNumDecMode(rstc);
+				//rstc.guiHandler.handleHexNumDecMode(rstc);
+				rstc.guiHandler.handleHexNumDecModeWithoutReset(rstc);
 			}
 			if(rstc.btnRadDecimal.getSelection()) {
-				rstc.guiHandler.handleDecimalNumbersDecMode(rstc);
+				//rstc.guiHandler.handleDecimalNumbersDecMode(rstc);
+				rstc.guiHandler.handleDecimalNumbersDecModeWithoutReset(rstc);
 			}
 		}
 		

@@ -176,6 +176,19 @@ public class RabinFirstTabComposite extends Composite {
 	
 	public Group grpHoldSepAndInfoForCryptoSelection;
 	public Group grpHoldSepAndInfoForParam;
+	
+	
+	
+	public Text txtPrimeP;
+	public Text txtPrimeQ;
+	public Text txtLblModN;
+	public Text txtLblLowLimPQSingle;
+	public Text txtLblUpperLimPQSingle;
+	public Text txtLblLowLimP;
+	public Text txtLblUpperLimP;
+	public Text txtLblLowLimQ;
+	public Text txtLblUpperLimQ;
+	
 
 	
 	public HandleFirstTab guiHandler;
@@ -243,15 +256,7 @@ public class RabinFirstTabComposite extends Composite {
 			
 		}
 	};
-	private Text txtPrimeP;
-	private Text txtPrimeQ;
-	private Text txtLblModN;
-	private Text txtLblLowLimPQSingle;
-	private Text txtLblUpperLimPQSingle;
-	private Text txtLblLowLimP;
-	private Text txtLblUpperLimP;
-	private Text txtLblLowLimQ;
-	private Text txtLblUpperLimQ;
+	
 	
 	
 	
@@ -273,8 +278,34 @@ public class RabinFirstTabComposite extends Composite {
 		Color colorTxtWhichYouCanEnterFG = ColorService.BLACK;
 		
 		
-		compHoldGrpParamAndInfoOnN.setBackground(colorBG);
-		compHoldGrpParamAndInfoOnN.setForeground(colorFG);
+		//latest addition
+		grpHoldSepAndInfoForCryptoSelection.setBackground(colorBG);
+		grpHoldSepAndInfoForCryptoSelection.setForeground(colorFG);
+		grpHoldSepAndInfoForParam.setBackground(colorBG);
+		grpHoldSepAndInfoForParam.setForeground(colorFG);
+		txtPrimeP.setBackground(colorBG);
+		txtPrimeP.setForeground(colorFG);
+		txtPrimeQ.setBackground(colorBG);
+		txtPrimeQ.setForeground(colorFG);
+		txtLblModN.setBackground(colorBG);
+		txtLblModN.setForeground(colorFG);
+		txtLblLowLimPQSingle.setBackground(colorBG);
+		txtLblLowLimPQSingle.setForeground(colorFG);
+		txtLblUpperLimPQSingle.setBackground(colorBG);
+		txtLblUpperLimPQSingle.setForeground(colorFG);
+		txtLblLowLimP.setBackground(colorBG);
+		txtLblLowLimP.setForeground(colorFG);
+		txtLblUpperLimP.setBackground(colorBG);
+		txtLblUpperLimP.setForeground(colorFG);
+		txtLblLowLimQ.setBackground(colorBG);
+		txtLblLowLimQ.setForeground(colorFG);
+		txtLblUpperLimQ.setBackground(colorBG);
+		txtLblUpperLimQ.setForeground(colorFG);
+		
+		
+		
+		//compHoldGrpParamAndInfoOnN.setBackground(colorBG);
+		//compHoldGrpParamAndInfoOnN.setForeground(colorFG);
 		grpInfoOnN.setBackground(colorBG);
 		grpInfoOnN.setForeground(colorFG);
 		compHoldStartAndInfoOnN.setBackground(colorBG);
@@ -283,7 +314,7 @@ public class RabinFirstTabComposite extends Composite {
 		btnToggleInfoN.setForeground(colorButtonFG);
 		txtInfoNbits.setBackground(colorBG);
 		txtInfoNmaxBytes.setBackground(colorBG);
-		txtInfoNblocklength.setBackground(colorBG);
+		//txtInfoNblocklength.setBackground(colorBG);
 		
 		//maybe for later use
 		//txtInfoNbits.setForeground(colorButtonBG);
@@ -309,12 +340,12 @@ public class RabinFirstTabComposite extends Composite {
 		txtcompGenPandQWarning.setForeground(colorTxtWarningFG);
 		grpParam.setBackground(colorBG);
 		grpParam.setForeground(colorFG);
-		lblPrimeP.setBackground(colorBG);
-		lblPrimeP.setForeground(colorFG);
-		lblPrimeQ.setBackground(colorBG);
-		lblPrimeQ.setForeground(colorFG);
-		lblModN.setBackground(colorBG);
-		lblModN.setForeground(colorFG);
+//		lblPrimeP.setBackground(colorBG);
+//		lblPrimeP.setForeground(colorFG);
+//		lblPrimeQ.setBackground(colorBG);
+//		lblPrimeQ.setForeground(colorFG);
+//		lblModN.setBackground(colorBG);
+//		lblModN.setForeground(colorFG);
 		npqComp.setBackground(colorBG);
 		npqComp.setForeground(colorFG);
 		genPComp.setBackground(colorBG);
@@ -362,20 +393,20 @@ public class RabinFirstTabComposite extends Composite {
 		txtInfoSelection.setForeground(colorFG);
 		compSelectPrimeGen.setBackground(colorBG);
 		compSelectPrimeGen.setForeground(colorFG);
-		lblLowLimPQSingle.setBackground(colorBG);
-		lblLowLimPQSingle.setForeground(colorFG);
-		lblUpperLimPQSingle.setBackground(colorBG);
-		lblUpperLimPQSingle.setForeground(colorFG);
-		lblSepInfoSetParam.setBackground(colorBG);
-		lblSepInfoSetParam.setForeground(colorFG);
-		lblLowLimP.setBackground(colorBG);
-		lblLowLimP.setForeground(colorFG);
-		lblUpperLim.setBackground(colorBG);
-		lblUpperLim.setForeground(colorFG);
-		lblLowLimQ.setBackground(colorBG);
-		lblLowLimQ.setForeground(colorFG);
-		lblUpperLimQ.setBackground(colorBG);
-		lblUpperLimQ.setForeground(colorFG);
+//		lblLowLimPQSingle.setBackground(colorBG);
+//		lblLowLimPQSingle.setForeground(colorFG);
+//		lblUpperLimPQSingle.setBackground(colorBG);
+//		lblUpperLimPQSingle.setForeground(colorFG);
+//		lblSepInfoSetParam.setBackground(colorBG);
+//		lblSepInfoSetParam.setForeground(colorFG);
+//		lblLowLimP.setBackground(colorBG);
+//		lblLowLimP.setForeground(colorFG);
+//		lblUpperLim.setBackground(colorBG);
+//		lblUpperLim.setForeground(colorFG);
+//		lblLowLimQ.setBackground(colorBG);
+//		lblLowLimQ.setForeground(colorFG);
+//		lblUpperLimQ.setBackground(colorBG);
+//		lblUpperLimQ.setForeground(colorFG);
 		//compSelectionCryptosystem.setBackground(colorBG);
 		//compSelectionCryptosystem.setForeground(colorFG);
 		compSelection.setBackground(colorBG);
@@ -386,12 +417,12 @@ public class RabinFirstTabComposite extends Composite {
 		//lblSepParamContentBottom.setForeground(colorFG);
 		//lblSepSelectionCryptoBottom.setBackground(colorBG);
 		//lblSepSelectionCryptoBottom.setForeground(colorFG);
-		compHoldSepAndInfoForCryptoSelection.setBackground(colorBG);
-		compHoldSepAndInfoForCryptoSelection.setForeground(colorFG);
-		lblSepInfoForCryptoSelection.setBackground(colorBG);
-		lblSepInfoForCryptoSelection.setForeground(colorFG);
-		compHoldSepAndInfoForParam.setBackground(colorBG);
-		compHoldSepAndInfoForParam.setForeground(colorFG);
+//		compHoldSepAndInfoForCryptoSelection.setBackground(colorBG);
+//		compHoldSepAndInfoForCryptoSelection.setForeground(colorFG);
+//		lblSepInfoForCryptoSelection.setBackground(colorBG);
+//		lblSepInfoForCryptoSelection.setForeground(colorFG);
+//		compHoldSepAndInfoForParam.setBackground(colorBG);
+//		compHoldSepAndInfoForParam.setForeground(colorFG);
 		
 	}
 	
@@ -493,9 +524,9 @@ public class RabinFirstTabComposite extends Composite {
 		});
 		
 		
-		pWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP);
+		pWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		pWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		((GridData) pWarning.getLayoutData()).horizontalIndent = 28;
+		((GridData) pWarning.getLayoutData()).horizontalIndent = 30;
 		pWarning.setText(Messages.RabinFirstTabComposite_pWarning);
 		pWarning.setBackground(guiHandler.colorBackgroundWarning);
 		pWarning.setForeground(guiHandler.colorForegroundWarning);
@@ -532,9 +563,9 @@ public class RabinFirstTabComposite extends Composite {
 		});
 		
 		
-		qWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP);
+		qWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		qWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		((GridData) qWarning.getLayoutData()).horizontalIndent = 28;
+		((GridData) qWarning.getLayoutData()).horizontalIndent = 30;
 		qWarning.setText(Messages.RabinFirstTabComposite_qWarning);
 		qWarning.setBackground(guiHandler.colorBackgroundWarning);
 		qWarning.setForeground(guiHandler.colorForegroundWarning);
@@ -578,9 +609,9 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		
-		nWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP);
+		nWarning = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		nWarning.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		((GridData) nWarning.getLayoutData()).horizontalIndent = 28;
+		((GridData) nWarning.getLayoutData()).horizontalIndent = 30;
 		nWarning.setText(Messages.RabinFirstTabComposite_nWarning);
 		nWarning.setBackground(guiHandler.colorBackgroundWarning);
 		nWarning.setForeground(guiHandler.colorForegroundWarning);
