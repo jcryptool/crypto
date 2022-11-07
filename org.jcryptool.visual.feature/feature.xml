@@ -1,5 +1,5 @@
 <feature 
-id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.8.1-20220718" provider-name="jcryptool.org" plugin="org.jcryptool.visual">
+id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.8.22-20220919" provider-name="jcryptool.org" plugin="org.jcryptool.visual">
     <description url="https://github.com/jcryptool/crypto">
         <!-- keep this in one line -->
         <!-- version:this -->

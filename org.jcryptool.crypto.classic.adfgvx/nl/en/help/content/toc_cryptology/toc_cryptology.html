@@ -3,6 +3,8 @@
 <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	  <title>ADFGVX Cipher</title>
+ <script src="${JCTJS_HOST}/javascript/jquery.js"></script> <!-- TODO: remove this and load automatically! Reason this is here is that certain onLoad methods require this early i.e. statically loaded. --> 
+ <script>TOC_generate_default("h2, h3")</script> 
 </head>
 <body>
 
@@ -12,22 +14,23 @@
 	The ADFGVX cipher consists of a sequence (cascade) of two ciphers, a substitution and a transposition. This cipher was used by the Germans in World War I, but deciphered by French analytics soon after its deployment in the German communication.
 </p>
 
+<div class="TOC"></div> <hr /> 
 
-<h3 id="classification">Classification</h3>
+<h2 id="classification">Classification</h2>
 <p>
 	The ADFGVX cipher is a compound algorithm and consists of a digraph substitution and a simple column transposition.
 </p>
 
 
-<h3 id="scheme">Input and output scheme</h3>
+<h2 id="scheme">Input and output scheme</h2>
 
 <img src="in_out_scheme.png"  width="85%" />
 
 
-<h3 id="algorithm">The algorithms for encryption and decryption</h3>
+<h2 id="algorithm">The algorithms for encryption and decryption</h2>
 
 
-<h4>Encryption</h4>
+<h3>Encryption</h3>
 
 <p>The ADFGVX cipher is a monoalphabetic substitution cipher in its first part (the other part is a simple transposition).
 The substitution alphabet contains all pairs of the letters “A, D, F, G, V, X”, thus contains exactly 36 elements. This means, that the plaintext alphabet cannot contain more than 36 elements, and, that every character from the plaintext will be replaced by two characters at the encryption.</p>
@@ -48,7 +51,7 @@ src="encryption_example.png" alt="encryption_example.png"></p>
 <p>After the substitution, a simple transposition step is applied using a separate key. See the article on the <a href="PLUGINS_ROOT/org.jcryptool.crypto.classic.transposition/$nl$/help/content/tutorial.html">transposition cipher</a> for this.</p>
 
 
-<h4>Decryption</h4>
+<h3>Decryption</h3>
 
 <p>If a transposition was performed in addition to the ADFGVX substitution, then this has be undone first.</p>
 
@@ -56,7 +59,7 @@ src="encryption_example.png" alt="encryption_example.png"></p>
 
 
 <p><br class="newline"/></p>
-<h3 id="furtherreading">Further reading</h3>
+<h2 id="furtherreading">Further reading</h2>
 <ul>
   <li>
   	<a class="external" target="_blank" href="https://en.wikipedia.org/wiki/ADFGVX_cipher">
