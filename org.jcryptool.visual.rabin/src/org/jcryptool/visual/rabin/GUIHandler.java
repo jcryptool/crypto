@@ -282,7 +282,7 @@ public class GUIHandler {
 						+ "As such, this mode is for better understanding the cryptosystem.";*/
 				
 				message = "Here you can encrypt a given plaintext "
-						+ "or decrypt a given ciphertext step-by-step.";
+						+ "or decrypt a given ciphertext in textbook mode step-by-step.";
 				break;
 				
 			case "txtInfoSelector_plaintext":
@@ -371,7 +371,7 @@ public class GUIHandler {
 						 "1) Click on \"Decrypt\" to decrypt a chosen ciphertext.\n\n"
 						+ "2) Use the drop-down list or the buttons \"Previous block\" and \"Next block\" to navigate through the "
 						+ "ciphertextblocks.\n\n"
-						+ "3) Click on one plaintext out of the four available to add it to the "
+						+ "3) Click on one plaintext to add it to the "
 						+ "list of chosen plaintexts.\n"
 						+ "A second click on the plaintext will remove "
 						+ "it again.\n\n"
@@ -464,7 +464,7 @@ public class GUIHandler {
 				
 				message = "Decrypt a ciphertext in \"Hex\" mode:\n\n"
 						+ "1) Enter a ciphertext as a hexstring.\n\n"
-						+ "2) Click on \"Apply\" to get the ciphertext separated into blocks.";
+						+ "2) Click on \"Apply\".";
 				break;
 				
 			case "txtInfoSquareRoots_decryption_hex_and_decimal":
@@ -502,7 +502,7 @@ public class GUIHandler {
 			case "txtInfoDecimalAndHex_decryption_decimal":
 				message = "Decrypt a ciphertext in \"Decimal\" mode:\n\n"
 						+ "1) Enter a ciphertext in the format \"decimal number\" or \"decimal number 1 || decimal number 2 || ...\".\n\n"
-						+ "2) Click on \"Apply\" to get the ciphertext separated into blocks in hexadecimal format.";
+						+ "2) Click on \"Apply\".";
 				break;
 				
 			case "txtInfoSquareRoots_encryption_text":
@@ -550,13 +550,13 @@ public class GUIHandler {
 						+ "Only one number can be factorized at one time. So if you want to factorize a new number you have to either wait "
 						+ "until the current factorization is completed or stop the current factorization.";*/
 				
-				message = "Factorize a composite number N:\n\n"
+				message = "Factorize N:\n\n"
 						+ "1) Enter N in the corresponding field, use the drop-down list or click on the button"
 						+ " \"Use public key generated in Cryptosystem tab\" to use N which was generated in the "
 						+ "\"Cryptosystem\" tab.\n"
 						+ "Only an upper limit of 2^" + this.limitExpAttacks + " for N is allowed.\n\n"
-						+ "2) Click on \"Factorize\" to factorize the number.\n"
-						+ "\"Stop computation\" to stop and quit the computation.\n";
+						+ "2) Click on \"Factorize\" to factorize the number.\n\n"
+						+ "Click on \"Stop computation\" to stop and quit the computation.\n";
 
 				break;
 				
@@ -587,7 +587,8 @@ public class GUIHandler {
 						+ " \"Use public key generated in Cryptosystem tab\" to use N which was generated in the "
 						+ "\"Cryptosystem\" tab.\n"
 						+ "Only an upper limit of 2^" + this.limitExpAttacks + " for N is allowed.\n\n"
-						+ "2) Click on \"Factorize\" to factorize the number.\n"
+						+ "2) Enter x, y and c with x, y, c < N.\n\n"
+						+ "3) Click on \"Factorize\" to factorize the number.\n\n"
 						+ "Click on \"Stop computation\" to stop and quit the computation.\n";
 						
 				break;

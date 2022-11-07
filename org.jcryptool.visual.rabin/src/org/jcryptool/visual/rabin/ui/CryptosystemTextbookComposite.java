@@ -320,8 +320,9 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtInfoEncryptionDecryption.setForeground(colorFG);
 		//txtEncryptWarning.setBackground(colorBG);
 		//txtEncryptWarning.setForeground(colorFG);
-		textSelector.setBackground(colorButtonBG);
-		textSelector.setForeground(colorButtonFG);
+		textSelector.setBackground(colorBG);
+		textSelector.btnLoadText.setBackground(colorButtonBG);
+		textSelector.btnLoadText.setForeground(colorButtonFG);
 		txtEncryptionWarning.setBackground(colorBG);
 		txtEncryptionWarning.setForeground(colorTxtWarningFG);
 		txtDecryptWarning.setBackground(colorBG);

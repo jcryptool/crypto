@@ -541,8 +541,14 @@ public class HandleFirstTab extends GUIHandler {
 			
 			rftc.cmbP.setEnabled(false);
 			rftc.cmbQ.setEnabled(false);
-			rftc.cmbP.setForeground(ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND));
+			rftc.cmbP.setForeground(new Color(79, 78, 82));
+			rftc.cmbQ.setForeground(new Color(79, 78, 82));
 			//rftc.cmbQ.setForeground(ColorService.BLACK);
+			
+			if(GUIHandler.isDarkmode) {
+				rftc.cmbP.setForeground(GUIHandler.colorTxtWhichYouCanEnterFG);
+				rftc.cmbQ.setForeground(GUIHandler.colorTxtWhichYouCanEnterFG);
+			}
 			
 			this.showControl(rftc.compHoldSelectionPrimesAndLimits);
 			showControl(rftc.compSelectPrimeGen);
@@ -857,12 +863,10 @@ public class HandleFirstTab extends GUIHandler {
 	public void btnToggleInfoNAction(RabinFirstTabComposite rftc) {
 		if(rftc.btnToggleInfoN.getSelection()) {
 			this.showControl(rftc.grpInfoOnN);
-			rftc.cstb.lblArrowDown.setImage(rftc.cstb.scaledArrowWhite);
 			rftc.btnToggleInfoN.setText("Hide info public key");
 		}
 		else {
 			this.hideControl(rftc.grpInfoOnN);
-			rftc.cstb.lblArrowDown.setImage(rftc.cstb.scaledArrowGray);
 			rftc.btnToggleInfoN.setText("Show info public key");
 		}
 	}

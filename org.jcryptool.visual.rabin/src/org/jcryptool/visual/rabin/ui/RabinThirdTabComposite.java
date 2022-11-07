@@ -443,6 +443,13 @@ public class RabinThirdTabComposite extends Composite {
 		txtpPollard = new Text(grpResult, SWT.SINGLE | SWT.LEAD | SWT.BORDER | SWT.READ_ONLY);
 		txtpPollard.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		guiHandler.setSizeControl(txtpPollard, SWT.DEFAULT, SWT.DEFAULT);
+		txtpPollard.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				guiHandler.txtpPollardAction(getCurrentInstance());
+			}
+		});
 		txtpPollard.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
@@ -758,6 +765,13 @@ public class RabinThirdTabComposite extends Composite {
 		txtResultP = new Text(npqComp, SWT.BORDER | SWT.READ_ONLY);
 		txtResultP.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtResultP, SWT.DEFAULT, SWT.DEFAULT);
+		txtResultP.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+					guiHandler.txtResultPAction(getCurrentInstance());
+			}
+		});
 		txtResultP.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override

@@ -314,6 +314,8 @@ public class RabinFirstTabComposite extends Composite {
 		btnToggleInfoN.setForeground(colorButtonFG);
 		txtInfoNbits.setBackground(colorBG);
 		txtInfoNmaxBytes.setBackground(colorBG);
+		//txtInfoNbits.setForeground(colorButtonBG);
+		//txtInfoNmaxBytes.setForeground(colorButtonBG);
 		//txtInfoNblocklength.setBackground(colorBG);
 		
 		//maybe for later use

@@ -34,6 +34,10 @@ public class HandleSecondTab extends GUIHandler {
 	private ArrayList<String> ciphertextsDecDecimalMode;
 	public int oldIdxCmbBlockN;
 	public int oldIdxChoosePadding;
+	public int oldChooseCipherIdxEncDecText;
+	public int oldChooseCipherIdxEncDecDecimal;
+	public int oldChooseCipherIdxDecHex;
+	public int oldChooseCipherIdxDecDecimal;
 	private String strGenKeyPairST = Messages.HandleSecondTab_strGenKeyPairST;
 	private String strPlessN = Messages.HandleSecondTab_strPlessN;
 	private String strCipherLessN = Messages.HandleSecondTab_strCipherLessN;
@@ -347,6 +351,14 @@ public class HandleSecondTab extends GUIHandler {
 		this.selectionTextNumMode(elem, rstc);
 		
 		rstc.cmbChooseCipher.select(nextIdx);
+		
+		
+		if(rstc.btnText.getSelection()) {
+			oldChooseCipherIdxEncDecText = rstc.cmbChooseCipher.getSelectionIndex();
+		}
+		if(rstc.btnNum.getSelection()) {
+			oldChooseCipherIdxEncDecDecimal = rstc.cmbChooseCipher.getSelectionIndex();
+		}
 	}
 	
 	
@@ -370,6 +382,13 @@ public class HandleSecondTab extends GUIHandler {
 		this.selectionTextNumMode(elem, rstc);
 		
 		rstc.cmbChooseCipher.select(nextIdx);
+		
+		if(rstc.btnText.getSelection()) {
+			oldChooseCipherIdxEncDecText = rstc.cmbChooseCipher.getSelectionIndex();
+		}
+		if(rstc.btnNum.getSelection()) {
+			oldChooseCipherIdxEncDecDecimal = rstc.cmbChooseCipher.getSelectionIndex();
+		}
 	}
 	
 	
@@ -389,6 +408,13 @@ public class HandleSecondTab extends GUIHandler {
 		this.selectionHexDecMode(elem, rstc);
 		
 		rstc.cmbChooseCipher.select(nextIdx);
+		
+		if(rstc.btnRadHex.getSelection()) {
+			oldChooseCipherIdxDecHex = rstc.cmbChooseCipher.getSelectionIndex();
+		}
+		if(rstc.btnRadDecimal.getSelection()) {
+			oldChooseCipherIdxDecDecimal = rstc.cmbChooseCipher.getSelectionIndex();
+		}
 	}
 	
 	/**
@@ -407,6 +433,13 @@ public class HandleSecondTab extends GUIHandler {
 		this.selectionHexDecMode(elem, rstc);
 		
 		rstc.cmbChooseCipher.select(nextIdx);
+		
+		if(rstc.btnRadHex.getSelection()) {
+			oldChooseCipherIdxDecHex = rstc.cmbChooseCipher.getSelectionIndex();
+		}
+		if(rstc.btnRadDecimal.getSelection()) {
+			oldChooseCipherIdxDecDecimal = rstc.cmbChooseCipher.getSelectionIndex();
+		}
 	}
 	
 	
@@ -795,9 +828,47 @@ public class HandleSecondTab extends GUIHandler {
 		int elem = chosenIdx + 1;
 		String ciphertext = currentCiphertextList.get(chosenIdx);
 		rstc.txtCipherFirst.setText(ciphertext);
+//		boolean resetEncDecText = false;
+//		boolean resetEncDecDecimal = false;
+//		
+//		if(rstc.btnSelectionEnc.getSelection()) {
+//			if(rstc.btnText.getSelection()) {
+//				if(idx != oldChooseCipherIdxEncDecText) {
+//					resetDecComponents(rstc);
+//					resetEncDecText = true;
+//				}
+//			}
+//			if(rstc.btnNum.getSelection()) {
+//				if(idx != oldChooseCipherIdxEncDecDecimal) {
+//					resetDecComponents(rstc);
+//					resetEncDecDecimal = true;
+//				}
+//			}
+//		}
+//		else {
+//			if(rstc.btnRadHex.getSelection()) {
+//				if(idx != oldChooseCipherIdxDecHex) {
+//					resetDecComponents(rstc);
+//					
+//				}
+//			}
+//			else {
+//				if(idx != oldChooseCipherIdxDecDecimal) {
+//					resetDecComponents(rstc);
+//					
+//				}
+//			}
+//		}
+		
+		
 		
 		
 		if(rstc.btnSelectionEnc.getSelection()) {
+//			if(resetEncDecText)
+//				resetFinalPlaintextColor(rstc);
+//			if(resetEncDecDecimal)
+//				resetFinalPlaintextColor(rstc);
+			
 			selectionTextNumMode(elem, rstc);
 		}
 		if(rstc.btnSelectionDec.getSelection()) {
@@ -1215,7 +1286,7 @@ public class HandleSecondTab extends GUIHandler {
 		sb.append(this.getMessageByControl("txtInfoDecimalAndHex_decryption_hex"));
 		sb.append("\n\n");
 		sb.append(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
-		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		sb.append(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
 		//sb.append("\n\n");
 		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -1232,7 +1303,7 @@ public class HandleSecondTab extends GUIHandler {
 		sb.append(this.getMessageByControl("txtInfoDecimalAndHex_decryption_decimal"));
 		sb.append("\n\n");
 		sb.append(this.getMessageByControl("txtInfoSquareRoots_decryption_hex_and_decimal"));
-		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		sb.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		sb.append(this.getMessageByControl("txtInfoLC_decryption_hex_and_decimal"));
 		//sb.append("\n\n");
 		sb.append("\n\n\n\n\n\n\n\n\n\n\n");
@@ -1413,6 +1484,15 @@ public class HandleSecondTab extends GUIHandler {
 			
 			rstc.cmbChooseCipher.select(0);
 			
+			
+			if(rstc.btnText.getSelection()) {
+				oldChooseCipherIdxEncDecText = rstc.cmbChooseCipher.getSelectionIndex();
+			}
+			if(rstc.btnNum.getSelection()) {
+				oldChooseCipherIdxEncDecDecimal = rstc.cmbChooseCipher.getSelectionIndex();
+			}
+			
+			
 			this.chooseCipherAction(rstc);
 			
 			
@@ -1528,6 +1608,8 @@ public class HandleSecondTab extends GUIHandler {
 			
 			rstc.cmbChooseCipher.select(0);
 			
+			oldChooseCipherIdxDecHex = rstc.cmbChooseCipher.getSelectionIndex();
+			
 			this.chooseCipherAction(rstc);
 			
 			
@@ -1547,8 +1629,9 @@ public class HandleSecondTab extends GUIHandler {
 			
 			rstc.cmbChooseCipher.select(0);
 			
-			chooseCipherAction(rstc);
+			oldChooseCipherIdxDecDecimal = rstc.cmbChooseCipher.getSelectionIndex();
 			
+			chooseCipherAction(rstc);
 			
 			
 		}
@@ -1574,12 +1657,65 @@ public class HandleSecondTab extends GUIHandler {
 		String ciphertext = currentCiphertextList.get(chosenIdx);
 		rstc.txtCipherFirst.setText(ciphertext);
 		
+		boolean resetEncDecText = false;
+		boolean resetEncDecDecimal = false;
 		
 		if(rstc.btnSelectionEnc.getSelection()) {
+			if(rstc.btnText.getSelection()) {
+				if(idx != oldChooseCipherIdxEncDecText) {
+					resetDecComponents(rstc);
+					resetEncDecText = true;
+				}
+			}
+			if(rstc.btnNum.getSelection()) {
+				if(idx != oldChooseCipherIdxEncDecDecimal) {
+					resetDecComponents(rstc);
+					resetEncDecDecimal = true;
+				}
+			}
+		}
+		else {
+			if(rstc.btnRadHex.getSelection()) {
+				if(idx != oldChooseCipherIdxDecHex) {
+					resetDecComponents(rstc);
+					
+				}
+			}
+			else {
+				if(idx != oldChooseCipherIdxDecDecimal) {
+					resetDecComponents(rstc);
+					
+				}
+			}
+		}
+		
+		if(rstc.btnSelectionEnc.getSelection()) {
+			if(resetEncDecText)
+				resetFinalPlaintextColor(rstc);
+			if(resetEncDecDecimal)
+				resetFinalPlaintextColor(rstc);
+			
 			selectionTextNumMode(elem, rstc);
 		}
 		if(rstc.btnSelectionDec.getSelection()) {
 			selectionHexDecMode(elem, rstc);
+		}
+		
+		if(rstc.btnSelectionEnc.getSelection()) {
+			if(rstc.btnText.getSelection()) {
+				oldChooseCipherIdxEncDecText = idx;
+			}
+			else {
+				oldChooseCipherIdxEncDecDecimal = idx;
+			}
+		}
+		else {
+			if(rstc.btnRadHex.getSelection()) {
+				oldChooseCipherIdxDecHex = idx;
+			}
+			else {
+				oldChooseCipherIdxDecDecimal = idx;
+			}
 		}
 
 	}

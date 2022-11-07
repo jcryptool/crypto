@@ -14,7 +14,7 @@
 
 <body>
 
-    <h1>Rabin Cryptosystem</h1>
+     <h1>Rabin Cryptosystem</h1>
 
     <p>
         The Rabin cryptosystem is an asymmetric cryptosystem, whereby its encryption scheme shares similarities
@@ -56,7 +56,7 @@
                     <li>2.3 <a href="#cryptosystem-steps">Enhanced Rabin</a>
                         <ul>
                             <li>2.3.1 <a href="#cryptosystem-steps-enc">Encryption then decryption</a></li>
-                            <li>2.3.2 <a href="#cryptosystem-steps-enc-identify-with-padding">Simulate identification with padding</a></li>
+                            <li>2.3.2 <a href="#cryptosystem-steps-enc-identify-with-padding">Identification of the correct plaintext with padding</a></li>
                             <li>2.3.3 <a href="#cryptosystem-steps-dec">Decryption</a></li>
                         </ul>
                     </li>
@@ -177,9 +177,9 @@
             In the middle of the figure the option <b>Generate private and public key manually</b> is selected as
             default when launching the plug-in. With this option we are able to enter primes \(p\) and
             \(q\) manually in the corresponding textfields on the left side. We have to make sure that the conditions
-            \(p \neq q\), \(p \equiv q \equiv 3 \bmod 4\) and \(p,q \leq 2^{1024}\) are fullfilled. Then we can click
+            \(p \neq q\), \(p \equiv q \equiv 3 \bmod 4\) and \(p,q \leq 2^{1024}\) are satisfied. Then we can click
             on <b>Start</b> in the middle to generate the private and public key. There are already default values for
-            \(p\) and \(q\) when launching the plug-in.
+            \(p\) and \(q\) when launching the plugin.
 
         </p>
 
@@ -241,10 +241,10 @@
         <h3 id="cryptosystem-textbook" class="h3">2.2 Textbook format</h3>
 
         <p>
-            We can select between the two options <b>Rabin in textbook format</b> and
-            <b>Enhanced Rabin (step-by-step)</b> as shown in Figure <a href="#img-textbook">6</a>.
-            The default option is the former one, when launching the plug-in. We first cover the textbook
-            format.
+            We can select between the two options <b>Rabin textbook variant</b> and
+            <b>Rabin textbook variant (step-by-step)</b> as shown in Figure <a href="#img-textbook">6</a>.
+            The default option is the former one, when launching the plugin. We first cover the 
+            former option.
         </p>
 
         <figure>
@@ -254,11 +254,26 @@
             </a>
         </figure>
 
+        <h4 id="cryptosystem-textbook-enc" class="h4">2.2.1 Encryption</h4>
+
+        <p>
+            We first can choose between the two options <b>Encryption</b> and <b>Decryption</b> as
+            illustrated in Figure <a href="#img-textbook-select-enc">7</a>. We first deal with the encryption of a
+            chosen plaintext.
+        </p>
+
+        <figure>
+            <a name="img-textbook-select-enc">
+                <img src="images/plugin-select-enc-dec.png" alt="Textbook select encryption" id="fig7">
+                <figcaption>Figure 7: Textbook format -- select encryption/decryption</figcaption>
+            </a>
+        </figure>
+
         <p>
 
-            We first have to click on the button <b>Load text...</b>
-            as shown in Figure <a href="#img-load-text">7</a>, which
-            opens a pop-up window, which we can see in Figure <a href="#img-load-text-window">8</a>.
+            Next, we have to click on the button <b>Load text...</b>
+            as shown in Figure <a href="#img-load-text">8</a>, which
+            opens a pop-up window, which we can see in Figure <a href="#img-load-text-window">9</a>.
             There, we can either select the
             built-in JCT editor, a file or give an own input as it is here the case with the example
             “hello world”. The option of selecting a file is not implemented, that is, only the JCT
@@ -272,33 +287,18 @@
 
         <figure>
             <a name="img-load-text">
-                <img src="images/plugin-loadtext.png" alt="Load text" id="fig7">
-                <figcaption>Figure 7: Load text</figcaption>
+                <img src="images/plugin-loadtext.png" alt="Load text" id="fig8">
+                <figcaption>Figure 8: Load text</figcaption>
             </a>
         </figure>
 
         <figure>
             <a name="img-load-text-window">
-                <img src="images/plugin-load-text-window-1.png" alt="Load text window" id="fig8">
-                <figcaption>Figure 8: Load text, pop-up window</figcaption>
+                <img src="images/plugin-load-text-window-1.png" alt="Load text window" id="fig9">
+                <figcaption>Figure 9: Load text, pop-up window</figcaption>
             </a>
         </figure>
 
-        <h4 id="cryptosystem-textbook-enc" class="h4">2.2.1 Encryption</h4>
-
-        <p>
-            After this, we can choose between the two options <b>Encryption</b> and <b>Decryption</b> as
-            illustrated in Figure <a href="#img-textbook-select-enc">9</a>. We first deal with the encryption of a
-            chosen
-            plaintext.
-        </p>
-
-        <figure>
-            <a name="img-textbook-select-enc">
-                <img src="images/plugin-select-enc-dec.png" alt="Textbook select encryption" id="fig9">
-                <figcaption>Figure 9: Textbook format -- select encryption/decryption</figcaption>
-            </a>
-        </figure>
 
         <p>
             In Figure <a href="#img-textbook-enc">10</a> we can see the encryption of the plaintext “hello world”, which
@@ -357,7 +357,7 @@
             So we have to extend the plaintext with 1 byte, so that we get a length of
             12 letters/bytes and then we split the plaintext into 2-bytes blocks and encrypt every two-bytes
             block individually. We can select between the standardized padding schemes "Ansi X9.23"
-            and "PKCS#7" using the drop-down list <b>Block-Padding</b> <br>
+            and "PKCS#7" using the drop-down list <b>Block padding</b> <br>
             shown in Figure <a href="#img-textbook-enc">10</a>.
 
         </p>
@@ -405,7 +405,7 @@
         <h3 id="cryptosystem-steps" class="h3">2.3 Enhanced Rabin</h3>
 
         <p>
-            The Rabin Enhanced mode we can select in
+            The option <b>Rabin textbook variant (step-by-step)</b>  we can select in
             Figure <a href="#img-textbook">6</a> demonstrates the textbook format in a step-by-step way,
             showing everything in more detail. We first explain the option <b>Encryption then decryption</b>
             which is selected in Figure <a href="#img-er-enc-sel">12</a>.
@@ -423,10 +423,9 @@
 
         <p>
             In Figure <a href="#img-er-enc-1">13</a> we can see the encryption process of the plaintext
-            "hello world" and its different steps (padding, hex etc.). Compared to the
-            <b>Rabin textbook format</b> we additionally have here the option to select how many bytes/characters
-            we want to combine into one block on the left side of the figure (<b>Bytes per block</b>). The textbook
-            format
+            "hello world" and its different steps (padding, hex etc.) with \(N = 827 \cdot 107\). Compared to the
+            <b>Rabin textbook variant</b> we additionally have here the option to select how many bytes/characters
+            we want to combine into one block on the left side of the figure (<b>Bytes per block</b>). The <b>Rabin textbook variant</b>
             always uses
             the maximum number of bytes the public key \(N\) can encrypt.
 
@@ -508,33 +507,18 @@
             </a>
         </figure>
 
-        <h4 id="cryptosystem-steps-enc-identify-with-padding">2.3.2 Simulate identification with padding</h4>
+        <h4 id="cryptosystem-steps-enc-identify-with-padding">2.3.2 Identification of the correct plaintext with padding</h4>
 
         <p>
-            If we encrypt a plaintext with a big public key \(N\) as shown in Figure 
-            <a href="#img-er-enc-identify-padding-1">18</a> padding is added at the end of the plaintext,
-            with which we can identify the correct one out of the four possible ones as it is shown in 
-            Figure <a href="#img-er-enc-identify-padding-2">19</a>. In practice, we usually identify the correct 
-            plaintext by using padding or other methods. However, the plug-in identifies the correct plaintext based on 
-            the previous ASCII encryption. For simulating the identification via padding we need to choose a 
-            public key \(N\) such that the chosen plaintext \(m < N\). The bigger the public key the more padding will be added at the end of a plaintext.
-            Of course, for that we also need to choose a big number in <b>Bytes per block</b>. The identification is supposed to 
-            only show the user how such a method works.
+            As we have seen in the decryption process in Figure <a href="#img-er-dec-2">16</a> we obtain four plaintexts of 
+            which only one is the correct one. The plugin identifies the correct one (marked with a green background color) due to 
+            the prior encryption of the original plaintext. However, if we, as a recipient, do not know the orginial plaintext we 
+            can not identify the correct plaintext just like that. One solution is to add a padding to every 
+            plaintextblock we can see in Figures <a href="#img-er-enc-1">13</a> and <a href="#img-er-enc-2">14</a> and then choose the 
+            plaintext in the decryption process containing the correct padding. This technique is not implemented in the plugin and 
+            is only described here to get some grasp on a possible identification process.
         </p>
 
-        <figure>
-            <a name="img-er-enc-identify-padding-1">
-                <img src="images/plugin-simulate-identify-1.png" alt="Enhanced Rabin simluate identification with padding 1" id="fig18">
-                <figcaption>Figure 18: Enhanced Rabin -- encryption decimal</figcaption>
-            </a>
-        </figure>
-
-        <figure>
-            <a name="img-er-enc-identify-padding-2">
-                <img src="images/plugin-simulate-identify-2.png" alt="Enhanced Rabin simluate identification with padding 2" id="fig19">
-                <figcaption>Figure 19: Enhanced Rabin -- encryption decimal</figcaption>
-            </a>
-        </figure>
 
         <h4 id="cryptosystem-steps-dec" class="h4">2.3.2 Decryption</h4>
 
@@ -543,8 +527,7 @@
             the option <b>Only decryption</b> of the Enhanced Rabin format. We can choose between the
             two options <b>Hex</b> and <b>Decimal numbers</b>. The former one allows us to enter
             a ciphertext in hexadecimal format, whereby its length has to be a multiple of the blocklength
-            of the public key \(N\). The latter one works in the same way as described with Figure <a
-                href="#img-er-enc-decimal">17</a>.
+            of the public key \(N\). The latter one works in the same way as described with Figure <a href="#img-er-enc-decimal">17</a>.
             The rest of the decryption works in the same way as described with Figures <a href="#img-er-dec-1">15</a>
             and <a href="#img-er-dec-2">16</a>
             with the only difference that the correct plaintext is not marked with a green background color.

@@ -1181,7 +1181,7 @@ public class RabinSecondTabComposite extends Composite {
 		});*/
 	
 		
-		txtEnterCiphertextDecimalWarning = new Text(compHoldDecimal, SWT.MULTI | SWT.WRAP);
+		txtEnterCiphertextDecimalWarning = new Text(compHoldDecimal, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtEnterCiphertextDecimalWarningData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtEnterCiphertextDecimalWarning.setLayoutData(txtEnterCiphertextDecimalWarningData);
 		guiHandler.setSizeControlWarning(txtEnterCiphertextDecimalWarning, SWT.DEFAULT, SWT.DEFAULT);
@@ -1251,7 +1251,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		
 		
-		txtEnterCiphertextWarning = new Text(compEnterCiphertextSteps, SWT.MULTI | SWT.WRAP);
+		txtEnterCiphertextWarning = new Text(compEnterCiphertextSteps, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtEnterCiphertextWarningData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtEnterCiphertextWarning.setLayoutData(txtEnterCiphertextWarningData);
 		txtEnterCiphertextWarning.setForeground(guiHandler.colorForegroundWarning);
