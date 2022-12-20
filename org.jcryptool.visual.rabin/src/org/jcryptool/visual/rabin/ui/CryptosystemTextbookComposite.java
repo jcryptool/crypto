@@ -397,7 +397,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		grpLoadText = new Group(parent, SWT.NONE);
 		grpLoadText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpLoadText.setLayout(new GridLayout(1, false));
-		grpLoadText.setText("4 \u2212 Load plaintext");
+		grpLoadText.setText(Messages.CryptosystemTextbookComposite_0);
 		//grpLoadText.setBackground(new Color(78, 77, 81));
 		/*grpLoadText.addMouseTrackListener(new MouseTrackAdapter() {
 			
@@ -450,7 +450,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		grpHoldSepAndInfoForSelector = new Group(parent, SWT.NONE);
 		grpHoldSepAndInfoForSelector.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpHoldSepAndInfoForSelector.setLayout(new GridLayout(1, false));
-		grpHoldSepAndInfoForSelector.setText(" ");	
+		grpHoldSepAndInfoForSelector.setText(" ");	 //$NON-NLS-1$
 		
 		
 		//guiHandler.setControlMargin(grpHoldSepAndInfoForSelector, 5, 0);
@@ -463,7 +463,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtInfoSelector.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtInfoSelector.setBackground(GUIHandler.colorBGinfo);
 		guiHandler.setSizeControl(txtInfoSelector, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_plaintext"));
+		txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_plaintext")); //$NON-NLS-1$
 		txtInfoSelector.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
@@ -504,7 +504,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		grpHoldEncryptDecryptRadio = new Group(parent, SWT.NONE);
 		grpHoldEncryptDecryptRadio.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpHoldEncryptDecryptRadio.setLayout(new GridLayout(1, false));
-		grpHoldEncryptDecryptRadio.setText("3 \u2212 Encryption or decryption");
+		grpHoldEncryptDecryptRadio.setText(Messages.CryptosystemTextbookComposite_3);
 		
 		/*compHoldEncryptDecryptRadio = new Composite(parent, SWT.NONE);
 		compHoldEncryptDecryptRadio.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
@@ -519,7 +519,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnRadioEncrypt = new Button(compHoldEncryptDecryptRadio, SWT.RADIO);
 		btnRadioEncrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnRadioEncrypt.setText("Encryption");
+		btnRadioEncrypt.setText(Messages.CryptosystemTextbookComposite_4);
 		btnRadioEncrypt.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {	
@@ -533,7 +533,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnRadioDecrypt = new Button(compHoldEncryptDecryptRadio, SWT.RADIO);
 		btnRadioDecrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnRadioDecrypt.setText("Decryption");
+		btnRadioDecrypt.setText(Messages.CryptosystemTextbookComposite_1);
 		btnRadioDecrypt.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -552,7 +552,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		grpHoldInfoForEncDec = new Group(parent, SWT.NONE);
 		grpHoldInfoForEncDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpHoldInfoForEncDec.setLayout(new GridLayout(1, false));
-		grpHoldInfoForEncDec.setText(" ");
+		grpHoldInfoForEncDec.setText(Messages.CryptosystemTextbookComposite_6);
 		
 		
 		//lblSeparateInfoForEncDec = new Label(compHoldInfoForEncDec, SWT.SEPARATOR | SWT.VERTICAL);
@@ -564,8 +564,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtInfoForEncDecRadio.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtInfoForEncDecRadio.setBackground(GUIHandler.colorBGinfo);
 		guiHandler.setSizeControl(txtInfoForEncDecRadio, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoForEncDecRadio.setText("Select \"Encryption\" to switch to encryption mode.\n"
-				+ "Select \"Decryption\" to switch to decryption mode");
+		txtInfoForEncDecRadio.setText(Messages.CryptosystemTextbookComposite_7);
 		txtInfoForEncDecRadio.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override
@@ -587,7 +586,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		grpEncryptDecrypt = new Group(parent, SWT.NONE);
 		grpEncryptDecrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		grpEncryptDecrypt.setLayout(new GridLayout(1, false));
-		grpEncryptDecrypt.setText("5 \u2212 Encryption");
+		grpEncryptDecrypt.setText(Messages.CryptosystemTextbookComposite_8);
 		
 		compHoldEncryptDecryptContent = new Composite(grpEncryptDecrypt, SWT.NONE);
 		compHoldEncryptDecryptContent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -613,7 +612,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtPlaintextDescription.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
 		txtPlaintextDescription.setBackground(ColorService.LIGHTGRAY);
 		//guiHandler.setSizeControlWarning(txtPlaintextDescription, SWT.DEFAULT, SWT.DEFAULT);
-		txtPlaintextDescription.setText("Plaintext with possible padding (\"ANSI X9.23\"  as padding scheme, hex format)");
+		txtPlaintextDescription.setText(Messages.CryptosystemTextbookComposite_9);
 		
 		
 		txtPlaintext = new Text(compHoldCiphertext, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER | SWT.READ_ONLY);
@@ -624,10 +623,10 @@ public class CryptosystemTextbookComposite extends Composite {
 		//ImageData id = new ImageData(ClassLoader.getSystemResourceAsStream("arrow-down.png"));
 		//id = id.scaledTo(40, 40);
 		
-		arrowGray = ImageService.getImage("org.jcryptool.visual.rabin", "images/arrow-down.png");
+		arrowGray = ImageService.getImage("org.jcryptool.visual.rabin", "images/arrow-down.png"); //$NON-NLS-1$ //$NON-NLS-2$
 		scaledArrowGray = new Image(getDisplay(), arrowGray.getImageData().scaledTo(40, 40));
 		
-		arrowWhite = ImageService.getImage("org.jcryptool.visual.rabin", "images/arrow-down-white.png");
+		arrowWhite = ImageService.getImage("org.jcryptool.visual.rabin", "images/arrow-down-white.png"); //$NON-NLS-1$ //$NON-NLS-2$
 		scaledArrowWhite = new Image(getDisplay(), arrowWhite.getImageData().scaledTo(40, 40));
 		
 		/*Composite compHoldImgArrow = new Composite(compHoldCiphertext, SWT.BORDER);
@@ -648,7 +647,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtLblCiphertextDescription = new Text(compHoldCiphertext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblCiphertextDescription.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblCiphertextDescription.setText("Ciphertext (hex format)");
+		txtLblCiphertextDescription.setText(Messages.CryptosystemTextbookComposite_14);
 		txtLblCiphertextDescription.setBackground(guiHandler.colorBGinfo);
 		
 		
@@ -701,14 +700,14 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtLblChooseBlockPadding = new Text(compChooseBlockPadding, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblChooseBlockPadding.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblChooseBlockPadding.setText("Block padding");
+		txtLblChooseBlockPadding.setText(Messages.CryptosystemTextbookComposite_15);
 		txtLblChooseBlockPadding.setBackground(guiHandler.colorBGinfo);
 		
 		
 		cmbChooseBlockPadding = new CCombo(compChooseBlockPadding, SWT.READ_ONLY);
 		cmbChooseBlockPadding.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		//cmbChooseBlockPadding.setVisibleItemCount(10);
-		cmbChooseBlockPadding.setItems(new String[]{"ANSI X9.23", "PKCS#7"});
+		cmbChooseBlockPadding.setItems(new String[]{Messages.CryptosystemTextbookComposite_16, Messages.CryptosystemTextbookComposite_17});
 		cmbChooseBlockPadding.select(0);
 		hcstb.oldIdxChoosePadding = cmbChooseBlockPadding.getSelectionIndex();
 		
@@ -730,7 +729,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnEncrypt = new Button(compHoldBtnsForFeatures, SWT.PUSH);
 		btnEncrypt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnEncrypt.setText("Encrypt");
+		btnEncrypt.setText(Messages.CryptosystemTextbookComposite_18);
 		btnEncrypt.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -742,7 +741,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnDecryptInEncryptionMode = new Button(compHoldBtnsForFeatures, SWT.PUSH);
 		btnDecryptInEncryptionMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnDecryptInEncryptionMode.setText("Decrypt and switch to decryption mode");
+		btnDecryptInEncryptionMode.setText(Messages.CryptosystemTextbookComposite_19);
 		btnDecryptInEncryptionMode.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -754,7 +753,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnWriteToJCTeditor = new Button(compHoldBtnsForFeatures, SWT.PUSH);
 		btnWriteToJCTeditor.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnWriteToJCTeditor.setText("Write to JCT editor");
+		btnWriteToJCTeditor.setText(Messages.CryptosystemTextbookComposite_20);
 		btnWriteToJCTeditor.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -792,7 +791,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtLblChooseBlockDesc = new Text(compChooseBlockComponents, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblChooseBlockDesc.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblChooseBlockDesc.setText("Block");
+		txtLblChooseBlockDesc.setText(Messages.CryptosystemTextbookComposite_21);
 		txtLblChooseBlockDesc.setBackground(guiHandler.colorBGinfo);
 		
 		cmbChooseBlock = new Combo(compChooseBlockComponents, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -820,7 +819,7 @@ public class CryptosystemTextbookComposite extends Composite {
 
 		txtLblCiphertextSegmentsDescription = new Text(compHoldCiphertextSegments, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblCiphertextSegmentsDescription.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblCiphertextSegmentsDescription.setText("Ciphertext separated into blocks (\"||\" as separator)");
+		txtLblCiphertextSegmentsDescription.setText(Messages.CryptosystemTextbookComposite_22);
 		txtLblCiphertextSegmentsDescription.setBackground(guiHandler.colorBGinfo);
 		
 				
@@ -857,7 +856,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnPrevBlock = new Button(compPrevNextComponents, SWT.PUSH);
 		btnPrevBlock.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnPrevBlock.setText("Previous block");
+		btnPrevBlock.setText(Messages.CryptosystemTextbookComposite_23);
 		btnPrevBlock.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -868,7 +867,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnNextBlock = new Button(compPrevNextComponents, SWT.PUSH);
 		btnNextBlock.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnNextBlock.setText("Next block");
+		btnNextBlock.setText(Messages.CryptosystemTextbookComposite_24);
 		btnNextBlock.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -916,7 +915,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtLblFirstPlaintextDesc = new Text(compFirstPlaintext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblFirstPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblFirstPlaintextDesc.setText("Plaintext 1");
+		txtLblFirstPlaintextDesc.setText(Messages.CryptosystemTextbookComposite_25);
 		txtLblFirstPlaintextDesc.setBackground(guiHandler.colorBGinfo);
 		
 		
@@ -957,7 +956,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtLblSecondPlaintextDesc = new Text(compSecondPlaintext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblSecondPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblSecondPlaintextDesc.setText("Plaintext 2");
+		txtLblSecondPlaintextDesc.setText(Messages.CryptosystemTextbookComposite_26);
 		txtLblSecondPlaintextDesc.setBackground(guiHandler.colorBGinfo);
 	
 		
@@ -998,7 +997,7 @@ public class CryptosystemTextbookComposite extends Composite {
 	
 		txtLblThirdPlaintextDesc = new Text(compThirdPlaintext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblThirdPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblThirdPlaintextDesc.setText("Plaintext 3");
+		txtLblThirdPlaintextDesc.setText(Messages.CryptosystemTextbookComposite_27);
 		txtLblThirdPlaintextDesc.setBackground(guiHandler.colorBGinfo);
 		
 		
@@ -1039,7 +1038,7 @@ public class CryptosystemTextbookComposite extends Composite {
 	
 		txtLblFourthPlaintextDesc = new Text(compFourthPlaintext, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblFourthPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblFourthPlaintextDesc.setText("Plaintext 4");
+		txtLblFourthPlaintextDesc.setText(Messages.CryptosystemTextbookComposite_28);
 		txtLblFourthPlaintextDesc.setBackground(guiHandler.colorBGinfo);
 		
 		
@@ -1078,7 +1077,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		txtLblPreviewChosenPlaintextDesc = new Text(compPreviewChosenPlaintexts, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblPreviewChosenPlaintextDesc.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblPreviewChosenPlaintextDesc.setText("Chosen plaintexts (preview)");
+		txtLblPreviewChosenPlaintextDesc.setText(Messages.CryptosystemTextbookComposite_29);
 		txtLblPreviewChosenPlaintextDesc.setBackground(guiHandler.colorBGinfo);
 		
 		
@@ -1115,7 +1114,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnDecryption = new Button(compHoldBtnsForFeaturesDecryptionMode, SWT.PUSH);
 		btnDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnDecryption.setText("Decrypt");
+		btnDecryption.setText(Messages.CryptosystemTextbookComposite_30);
 		btnDecryption.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1127,7 +1126,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnWriteToJCTeditorDecryptMode = new Button(compHoldBtnsForFeaturesDecryptionMode, SWT.PUSH);
 		btnWriteToJCTeditorDecryptMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnWriteToJCTeditorDecryptMode.setText("Write to JCT editor");
+		btnWriteToJCTeditorDecryptMode.setText(Messages.CryptosystemTextbookComposite_31);
 		btnWriteToJCTeditorDecryptMode.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1144,7 +1143,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		
 		btnResetChosenPlaintexts = new Button(compHoldBtnsForFeaturesDecryptionMode, SWT.PUSH);
 		btnResetChosenPlaintexts.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnResetChosenPlaintexts.setText("Reset chosen plaintexts");
+		btnResetChosenPlaintexts.setText(Messages.CryptosystemTextbookComposite_32);
 		btnResetChosenPlaintexts.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1163,7 +1162,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		grpHoldSepAndInfoEncDec = new Group(parent, SWT.NONE);
 		grpHoldSepAndInfoEncDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpHoldSepAndInfoEncDec.setLayout(new GridLayout(1, false));
-		grpHoldSepAndInfoEncDec.setText(" ");
+		grpHoldSepAndInfoEncDec.setText(" "); //$NON-NLS-1$
 		
 		
 	
@@ -1176,7 +1175,7 @@ public class CryptosystemTextbookComposite extends Composite {
 		txtInfoEncryptionDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtInfoEncryptionDecryption.setBackground(ColorService.LIGHTGRAY);
 		guiHandler.setSizeControl(txtInfoEncryptionDecryption, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt"));
+		txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt")); //$NON-NLS-1$
 		txtInfoEncryptionDecryption.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override

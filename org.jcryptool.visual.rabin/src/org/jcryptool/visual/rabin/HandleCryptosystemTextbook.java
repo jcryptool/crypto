@@ -76,7 +76,7 @@ public class HandleCryptosystemTextbook {
 	
 	public void btnEncryptAction(CryptosystemTextbookComposite cstb) {
 		if(cstb.textSelector.getText() == null || cstb.textSelector.getText().getText().isEmpty() || guiHandler.rabinFirst.getN() == null) {
-			String strLoadTextWarning = "Attention: make sure to generate a public and private key and click on \"Load text...\" to load a plaintext you want to encrypt";
+			String strLoadTextWarning = Messages.HandleCryptosystemTextbook_0;
 			cstb.txtEncryptionWarning.setText(strLoadTextWarning);
 			showControl(cstb.txtEncryptionWarning);
 			return;
@@ -196,16 +196,16 @@ public class HandleCryptosystemTextbook {
 		
 		updateChosenPlaintexts(idx, cstb, GUIHandler.colorSelectControlBG, GUIHandler.colorDeselectControlBG, GUIHandler.colorSelectControlFG, GUIHandler.colorDeselectControlFG);
 		currentSelectedPlaintexts = new LinkedHashMap<String, String>();
-		cstb.txtChosenPlaintexts.setText("");
+		cstb.txtChosenPlaintexts.setText(""); //$NON-NLS-1$
 		
-		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_decrypt"));
+		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_decrypt")); //$NON-NLS-1$
 		
 		hideControl(cstb.compHoldEncryptionProcess);
 		showControl(cstb.compHoldDecryptionProcess);
 		hideControl(cstb.txtDecryptWarning);
-		cstb.grpEncryptDecrypt.setText("Decryption");
-		cstb.grpLoadText.setText("4 \u2212 Load ciphertext");
-		cstb.txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_ciphertext"));
+		cstb.grpEncryptDecrypt.setText(Messages.HandleCryptosystemTextbook_3);
+		cstb.grpLoadText.setText(Messages.HandleCryptosystemTextbook_4);
+		cstb.txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_ciphertext")); //$NON-NLS-1$
 				
 	}
 	
@@ -287,15 +287,15 @@ public class HandleCryptosystemTextbook {
 	
 	public void btnDecryptionAction(CryptosystemTextbookComposite cstb, int possiblePlaintextsSize) {
 		if(cstb.textSelector.getText() == null || cstb.textSelector.getText().getText().isEmpty() || guiHandler.rabinFirst.getN() == null) {
-			String strLoadTextWarning = "Attention: make sure to generate a public and private key and click on\n\"Load text...\" to load a ciphertext you want to decrypt";
+			String strLoadTextWarning = Messages.HandleCryptosystemTextbook_6;
 			cstb.txtDecryptWarning.setText(strLoadTextWarning);
 			showControl(cstb.txtDecryptWarning);
 			return;
 		}
 
-		String pattern = "[0-9a-fA-F]+"; 
+		String pattern = "[0-9a-fA-F]+";  //$NON-NLS-1$
 		String ciphertext = cstb.textSelector.getText().getText();
-		ciphertext = ciphertext.replaceAll("\\s+", ""); 
+		ciphertext = ciphertext.replaceAll("\\s+", "");  //$NON-NLS-1$ //$NON-NLS-2$
 		if(!ciphertext.matches(pattern)) {
 			String strOnlyHexAllowed = Messages.HandleFirstTab_strOnlyHexAllowed;
 			cstb.txtDecryptWarning.setText(strOnlyHexAllowed);
@@ -332,7 +332,7 @@ public class HandleCryptosystemTextbook {
 			plaintexts = guiHandler.rabinFirst.getAllPlaintextsFromListOfCiphertextblocks(ciphertextList, guiHandler.radix);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			cstb.txtEncryptionWarning.setText("Attention: the computation takes too much time. Please generate a greater N.");
+			cstb.txtEncryptionWarning.setText(Messages.HandleCryptosystemTextbook_10);
 			guiHandler.showControl(cstb.txtEncryptionWarning);
 
 		}
@@ -353,20 +353,20 @@ public class HandleCryptosystemTextbook {
 		
 		updateChosenPlaintexts(idx, cstb, GUIHandler.colorSelectControlBG, GUIHandler.colorDeselectControlBG, GUIHandler.colorSelectControlFG, GUIHandler.colorDeselectControlFG);
 		currentSelectedPlaintexts = new LinkedHashMap<String, String>();
-		cstb.txtChosenPlaintexts.setText("");
+		cstb.txtChosenPlaintexts.setText(""); //$NON-NLS-1$
 	}
 		
 	
 	
 	private void resetChosenPlaintexts(int idx, CryptosystemTextbookComposite cstb) {
 		updateChosenPlaintexts(idx, cstb, GUIHandler.colorSelectControlBG, GUIHandler.colorDeselectControlBG, GUIHandler.colorSelectControlFG, GUIHandler.colorDeselectControlFG);
-		cstb.txtChosenPlaintexts.setText("");
+		cstb.txtChosenPlaintexts.setText(""); //$NON-NLS-1$
 	}
 	
 	
 	
 	private String getCurrentSelectedPlaintexts() {
-		String ret = "";
+		String ret = ""; //$NON-NLS-1$
 		Set<String> keys = currentSelectedPlaintexts.keySet();
 		for(String key : keys) {
 			ret += currentSelectedPlaintexts.get(key);
@@ -581,11 +581,11 @@ public class HandleCryptosystemTextbook {
 	public void btnRadioEncryptAction(CryptosystemTextbookComposite cstb) {
 		hideControl(cstb.compHoldDecryptionProcess);
 		showControl(cstb.compHoldEncryptionProcess);
-		cstb.grpEncryptDecrypt.setText("Encryption");
-		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt"));
-		cstb.grpEncryptDecrypt.setText("5 \u2212 Encryption");
-		cstb.grpLoadText.setText("4 \u2212 Load plaintext");
-		cstb.txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_plaintext"));
+		cstb.grpEncryptDecrypt.setText(Messages.HandleCryptosystemTextbook_14);
+		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_encrypt")); //$NON-NLS-1$
+		cstb.grpEncryptDecrypt.setText(Messages.HandleCryptosystemTextbook_16);
+		cstb.grpLoadText.setText(Messages.HandleCryptosystemTextbook_17);
+		cstb.txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_plaintext")); //$NON-NLS-1$
 		
 		
 		/*if(cstb.textSelector.getText() != null) {
@@ -646,8 +646,8 @@ public class HandleCryptosystemTextbook {
 				
 				newTextselectorText = cstb.textSelector.getText().getText();
 				if(newTextselectorText != oldTextselectorTextEncryptionMode) {
-					cstb.txtCiphertext.setText("");
-					cstb.txtPlaintext.setText("");
+					cstb.txtCiphertext.setText(""); //$NON-NLS-1$
+					cstb.txtPlaintext.setText(""); //$NON-NLS-1$
 				}
 				
 				
@@ -670,7 +670,7 @@ public class HandleCryptosystemTextbook {
 					cstb.btnEncrypt.setEnabled(false);
 					
 					if(cstb.textSelector.getText().getText().isEmpty()) {
-						cstb.txtLoadTextWarning.setText("Attention: load a non-empty plaintext");
+						cstb.txtLoadTextWarning.setText(Messages.HandleCryptosystemTextbook_21);
 						this.showControl(cstb.txtLoadTextWarning);
 					}
 				}
@@ -701,11 +701,11 @@ public class HandleCryptosystemTextbook {
 	public void btnRadioDecryptAction(CryptosystemTextbookComposite cstb) {
 		hideControl(cstb.compHoldEncryptionProcess);
 		showControl(cstb.compHoldDecryptionProcess);
-		cstb.grpEncryptDecrypt.setText("Decryption");
-		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_decrypt"));
-		cstb.grpEncryptDecrypt.setText("5 \u2212 Decryption");
-		cstb.grpLoadText.setText("4 \u2212 Load ciphertext");
-		cstb.txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_ciphertext"));
+		cstb.grpEncryptDecrypt.setText(Messages.HandleCryptosystemTextbook_22);
+		cstb.txtInfoEncryptionDecryption.setText(guiHandler.getMessageByControl("txtInfoEncryptionDecryption_decrypt")); //$NON-NLS-1$
+		cstb.grpEncryptDecrypt.setText(Messages.HandleCryptosystemTextbook_24);
+		cstb.grpLoadText.setText(Messages.HandleCryptosystemTextbook_25);
+		cstb.txtInfoSelector.setText(guiHandler.getMessageByControl("txtInfoSelector_ciphertext")); //$NON-NLS-1$
 		
 			
 		if(cstb.textSelector.getText() != null) {
@@ -713,22 +713,22 @@ public class HandleCryptosystemTextbook {
 			
 			if(cstb.txtCiphertextSegments.getText().isEmpty()) {
 				if(cstb.rftc.txtModN.getText().isEmpty()) {
-					cstb.txtLoadTextWarning.setText("Attention: generate a key pair first");
+					cstb.txtLoadTextWarning.setText(Messages.HandleCryptosystemTextbook_27);
 					this.showControl(cstb.txtLoadTextWarning);
 					cstb.btnDecryption.setEnabled(false);
 					return;
 				}
 				
 				if(cstb.textSelector.getText().getText().isEmpty()) {
-					cstb.txtLoadTextWarning.setText("Attention: load a non-empty ciphertext");
+					cstb.txtLoadTextWarning.setText(Messages.HandleCryptosystemTextbook_28);
 					this.showControl(cstb.txtLoadTextWarning);
 					cstb.btnDecryption.setEnabled(false);
 					return;
 				}
 				
-				String pattern = "[0-9a-fA-F]+"; 
+				String pattern = "[0-9a-fA-F]+";  //$NON-NLS-1$
 				if(!cstb.textSelector.getText().getText().matches(pattern)) {
-					cstb.txtLoadTextWarning.setText("Attention: only hexadecimal numbers (0-f) are allowed");
+					cstb.txtLoadTextWarning.setText(Messages.HandleCryptosystemTextbook_30);
 					this.showControl(cstb.txtLoadTextWarning);
 					cstb.btnDecryption.setEnabled(false);
 					return;
@@ -758,13 +758,13 @@ public class HandleCryptosystemTextbook {
 			
 			newTextselectorText = cstb.textSelector.getText().getText();
 			if(newTextselectorText != oldTextselectorTextDecryptionMode) {
-				cstb.txtCiphertextSegments.setText("");
+				cstb.txtCiphertextSegments.setText(""); //$NON-NLS-1$
 				cstb.cmbChooseBlock.removeAll();
-				cstb.txtChosenPlaintexts.setText("");
-				cstb.txtFirstPlaintext.setText("");
-				cstb.txtSecondPlaintext.setText("");
-				cstb.txtThirdPlaintext.setText("");
-				cstb.txtFourthPlaintext.setText("");
+				cstb.txtChosenPlaintexts.setText(""); //$NON-NLS-1$
+				cstb.txtFirstPlaintext.setText(""); //$NON-NLS-1$
+				cstb.txtSecondPlaintext.setText(""); //$NON-NLS-1$
+				cstb.txtThirdPlaintext.setText(""); //$NON-NLS-1$
+				cstb.txtFourthPlaintext.setText(""); //$NON-NLS-1$
 			}
 			
 			
@@ -832,8 +832,8 @@ public class HandleCryptosystemTextbook {
 				
 				newTextselectorText = cstb.textSelector.getText().getText();
 				if(newTextselectorText != oldTextselectorTextEncryptionMode) {
-					cstb.txtCiphertext.setText("");
-					cstb.txtPlaintext.setText("");
+					cstb.txtCiphertext.setText(""); //$NON-NLS-1$
+					cstb.txtPlaintext.setText(""); //$NON-NLS-1$
 				}
 				
 				
@@ -856,7 +856,7 @@ public class HandleCryptosystemTextbook {
 					cstb.btnEncrypt.setEnabled(false);
 					
 					if(cstb.textSelector.getText().getText().isEmpty()) {
-						cstb.txtLoadTextWarning.setText("Attention: load a non-empty plaintext");
+						cstb.txtLoadTextWarning.setText(Messages.HandleCryptosystemTextbook_39);
 						this.showControl(cstb.txtLoadTextWarning);
 					}
 				}
@@ -871,29 +871,29 @@ public class HandleCryptosystemTextbook {
 				this.hideControl(cstb.txtLoadTextWarning);
 				
 				if(cstb.rftc.txtModN.getText().isEmpty()) {
-					cstb.txtLoadTextWarning.setText("Attention: generate a key pair first");
+					cstb.txtLoadTextWarning.setText(Messages.HandleCryptosystemTextbook_40);
 					this.showControl(cstb.txtLoadTextWarning);
 					cstb.btnDecryption.setEnabled(false);
 					return;
 				}
 				
 				if(cstb.textSelector.getText().getText().isEmpty()) {
-					cstb.txtLoadTextWarning.setText("Attention: load a non-empty ciphertext");
+					cstb.txtLoadTextWarning.setText(Messages.HandleCryptosystemTextbook_41);
 					this.showControl(cstb.txtLoadTextWarning);
 					cstb.btnDecryption.setEnabled(false);
-					cstb.txtCiphertextSegments.setText("");
+					cstb.txtCiphertextSegments.setText(""); //$NON-NLS-1$
 					cstb.cmbChooseBlock.removeAll();
-					cstb.txtChosenPlaintexts.setText("");
-					cstb.txtFirstPlaintext.setText("");
-					cstb.txtSecondPlaintext.setText("");
-					cstb.txtThirdPlaintext.setText("");
-					cstb.txtFourthPlaintext.setText("");
+					cstb.txtChosenPlaintexts.setText(""); //$NON-NLS-1$
+					cstb.txtFirstPlaintext.setText(""); //$NON-NLS-1$
+					cstb.txtSecondPlaintext.setText(""); //$NON-NLS-1$
+					cstb.txtThirdPlaintext.setText(""); //$NON-NLS-1$
+					cstb.txtFourthPlaintext.setText(""); //$NON-NLS-1$
 					return;
 				}
 				
-				String pattern = "[0-9a-fA-F]+"; 
+				String pattern = "[0-9a-fA-F]+";  //$NON-NLS-1$
 				if(!cstb.textSelector.getText().getText().matches(pattern)) {
-					cstb.txtLoadTextWarning.setText("Attention: only hexadecimal numbers (0-f) are allowed");
+					cstb.txtLoadTextWarning.setText(Messages.HandleCryptosystemTextbook_49);
 					this.showControl(cstb.txtLoadTextWarning);
 					cstb.btnDecryption.setEnabled(false);
 					return;
@@ -919,13 +919,13 @@ public class HandleCryptosystemTextbook {
 				
 				newTextselectorText = cstb.textSelector.getText().getText();
 				if(newTextselectorText != oldTextselectorTextDecryptionMode) {
-					cstb.txtCiphertextSegments.setText("");
+					cstb.txtCiphertextSegments.setText(""); //$NON-NLS-1$
 					cstb.cmbChooseBlock.removeAll();
-					cstb.txtChosenPlaintexts.setText("");
-					cstb.txtFirstPlaintext.setText("");
-					cstb.txtSecondPlaintext.setText("");
-					cstb.txtThirdPlaintext.setText("");
-					cstb.txtFourthPlaintext.setText("");
+					cstb.txtChosenPlaintexts.setText(""); //$NON-NLS-1$
+					cstb.txtFirstPlaintext.setText(""); //$NON-NLS-1$
+					cstb.txtSecondPlaintext.setText(""); //$NON-NLS-1$
+					cstb.txtThirdPlaintext.setText(""); //$NON-NLS-1$
+					cstb.txtFourthPlaintext.setText(""); //$NON-NLS-1$
 				}
 				
 				
@@ -954,14 +954,14 @@ public class HandleCryptosystemTextbook {
 	public void cmbChooseBlockPaddingAction(CryptosystemTextbookComposite cstb) {
 		int idx = cstb.cmbChooseBlockPadding.getSelectionIndex();
 		if(idx != oldIdxChoosePadding) {
-			cstb.txtPlaintext.setText("");
-			cstb.txtCiphertext.setText("");
+			cstb.txtPlaintext.setText(""); //$NON-NLS-1$
+			cstb.txtCiphertext.setText(""); //$NON-NLS-1$
 			cstb.btnEncrypt.setEnabled(true);
 		}
 		
 		String paddingScheme = cstb.cmbChooseBlockPadding.getItem(idx);
-		String message = "Plaintext with possible padding (\""
-				+ paddingScheme + "\" as padding scheme, hex format)";
+		String pattern = Messages.HandleCryptosystemTextbook_58;
+		String message = MessageFormat.format(pattern, paddingScheme);
 		cstb.txtPlaintextDescription.setText(message);
 		
 		oldIdxChoosePadding = idx;

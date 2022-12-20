@@ -57,7 +57,7 @@ public class GUIHandler {
 	public int bytesPerBlock;
 	public int blocklength;
 	public int radix = 16;
-	public String padding = "20";
+	public String padding = "20"; //$NON-NLS-1$
 	public Charset charset = StandardCharsets.UTF_8;
 	public String separator = "||"; //$NON-NLS-1$
 	public static boolean isDarkmode = false;
@@ -223,7 +223,7 @@ public class GUIHandler {
 		String message = null;
 		
 		switch(str) {
-			case "btnGenKeysMan_selection":
+			case "btnGenKeysMan_selection": //$NON-NLS-1$
 				/*message = "To generate a private key (p,q) and a public key N manually do the following:\n\n"
 						+ "1) either enter p and q in the "
 						+ "corresponding fields on the left side or make use of the drop-down lists for p and q."
@@ -232,16 +232,13 @@ public class GUIHandler {
 						+ "For a start there are already given default values for p and q.\n\n"
 						+ "2) click on \"Start\" in the middle to generate the keys.";*/
 				
-				message = "Generate a private key (p,q) and a public key N manually:\n\n"
-						+ "1) Enter p and q in the "
-						+ "fields or make use of the drop-down lists."
-						+ "\nMake sure to satisfy the conditions: p \u2261 q \u2261 3 mod 4 and p \u2260 q "
-						+ "and p,q \u2264 " + "2^" + this.limitExp + ".\n\n"
-						+ "2) Click on \"Start\" to generate the keys.\n\n"
-						+ "Click on \"Show info public key\" to show information about the public key N.";
+			String pattern = Messages.GUIHandler_2;
+			message = MessageFormat.format(
+						pattern,
+						this.limitExp);
 					break;
 			
-			case "btnGenKeys_selection":
+			case "btnGenKeys_selection": //$NON-NLS-1$
 				/*message = "To generate a private key (p,q) and a public key N using limits do the following:\n\n"
 						+ "1) select \"Generate p and q having the same range\" or \"Generate p and q having different ranges\" on the left side.\n\n"
 						+ "2) enter a lower and an upper limit for p and q in the corresponding fields. "
@@ -252,15 +249,13 @@ public class GUIHandler {
 						+ "Only an upper limit \u2264 " + "2^" + this.limitExp + " is allowed.\n"
 						+ "For a start there are already given default values for the ranges.\n\n"
 						+ "3) click on \"Start\" in the middle to generate the keys.";*/
-				message = "Generate a private key (p,q) and a public key N using limits:\n\n"
-						+ "1) Select \"Generate p and q having the same range\" or \"Generate p and q having different ranges\".\n\n"
-						+ "2) Enter a lower and an upper limit for p and q.\n"
-						+ "Only an upper limit \u2264 " + "2^" + this.limitExp + " is allowed.\n\n"
-						+ "3) Click on \"Start\" to generate the keys.\n\n"
-						+ "Click on \"Show info public key\" to show information about the public key N.";
+			String pattern1 = Messages.GUIHandler_4;
+			message = MessageFormat.format(
+						pattern1,
+						this.limitExp);
 				break;
 			
-			case "txtInfoSelection_textbook":
+			case "txtInfoSelection_textbook": //$NON-NLS-1$
 				/*message = "In this mode you are able to encrypt a chosen plaintext"
 						+ " or decrypt a chosen chiphertext in textbook mode. For example, "
 						+ "you have N = 713 = 23 \u2219 31 (default value) and want to encrypt "
@@ -270,39 +265,36 @@ public class GUIHandler {
 						+ "On the other hand decrypting a ciphertext will result in 4 possible plaintexts, of which only one "
 						+ "is the correct one.";*/
 				
-				message = "Here you can encrypt a given plaintext or decrypt a given ciphertext in textbook mode.";
+				message = Messages.GUIHandler_6;
 				
 				break;
 				
-			case "txtInfoSelection_steps":
+			case "txtInfoSelection_steps": //$NON-NLS-1$
 				/*message = "In this mode you are able to encrypt a chosen plaintext "
 						+ "or decrypt a chosen ciphertext. But compared to the \"textbook\" version "
 						+ "you are shown every step of the encryption and decryption process "
 						+ "in detail. Furthermore you have more options for configurations.\n"
 						+ "As such, this mode is for better understanding the cryptosystem.";*/
 				
-				message = "Here you can encrypt a given plaintext "
-						+ "or decrypt a given ciphertext in textbook mode step-by-step.";
+				message = Messages.GUIHandler_8;
 				break;
 				
-			case "txtInfoSelector_plaintext":
+			case "txtInfoSelector_plaintext": //$NON-NLS-1$
 				/*message = "Click on \"Load text...\" to either load a plaintext you want to encrypt "
 						+ "or a ciphertext you want to decrypt. If you want to load a plaintext "
 						+ "only characters in the UTF-8 format are allowed. If you want to load "
 						+ "a ciphertext only hexadecimal numbers (0-f) are allowed.\n"
 						+ "Furthermore make sure the length of the ciphertext is a multiple of the blocklength of N.";*/
 				
-				message = "Click on \"Load text...\" to load a plaintext.\n"
-						+ "Only characters in the UTF-8 format are allowed.";
+				message = Messages.GUIHandler_10;
 				break;
 						
-			case "txtInfoSelector_ciphertext":
+			case "txtInfoSelector_ciphertext": //$NON-NLS-1$
 				
-				message = "Click on \"Load text...\" to load a ciphertext.\n"
-						+ "Only hexadecimal numbers (0-f) are allowed.";
+				message = Messages.GUIHandler_12;
 				break;
 				
-			case "txtInfoEncryptionDecryption_encrypt":
+			case "txtInfoEncryptionDecryption_encrypt": //$NON-NLS-1$
 				/*message = "In encryption mode you have three options you can choose from:\n\n"
 				  		+ "1) click on \"Encrypt\" to encrypt a chosen plaintext. The ciphertext will be shown "
 				  		+ "in the field on the left side.\n\n"
@@ -313,16 +305,10 @@ public class GUIHandler {
 				  		+ "editor in JCT.";*/
 				
 				message = //"Here you have three options you can choose from:\n\n"
-						 "1) Select a padding scheme.\n\n"
-				  		+ "2) Click on \"Encrypt\" to encrypt a chosen plaintext.\n\n"
-				  		+ "3) Click on "
-				  		+ "\"Decrypt and switch to decryption mode\" to decrypt the ciphertext again and "
-				  		+ "switch to decryption mode.\n\n"
-				  		+ "4) Click on \"Write to JCT editor\" to write your ciphertext to a build-in "
-				  		+ "editor in JCT.";
+						 Messages.GUIHandler_14;
 				break;
 				
-			case "txtInfoEncryptionDecryption_decrypt":
+			case "txtInfoEncryptionDecryption_decrypt": //$NON-NLS-1$
 				/*message = "In decryption mode you have five options you can choose from:\n\n"
 						+ "1) click on \"Decrypt\" to decrypt a chosen ciphertext.\n"
 						+ "The ciphertext is split into blocks with a specific blocklength. "
@@ -368,18 +354,10 @@ public class GUIHandler {
 //						+ "\"Chosen plaintexts (preview)\" and your whole selection of plaintexts.";
 				
 				message = 
-						 "1) Click on \"Decrypt\" to decrypt a chosen ciphertext.\n\n"
-						+ "2) Use the drop-down list or the buttons \"Previous block\" and \"Next block\" to navigate through the "
-						+ "ciphertextblocks.\n\n"
-						+ "3) Click on one plaintext to add it to the "
-						+ "list of chosen plaintexts.\n"
-						+ "A second click on the plaintext will remove "
-						+ "it again.\n\n"
-						+ "4) Click on \"Write to JCT editor\" to write the chosen plaintexts to a build-in editor in JCT.\n\n"
-						+ "5) Click on \"Reset chosen plaintexts\" to reset the chosen plaintexts.";
+						 Messages.GUIHandler_16;
 				break;
 				
-			case "txtInfoForEncDecSelection":
+			case "txtInfoForEncDecSelection": //$NON-NLS-1$
 				
 				/*message = "Select \"Encryption then decryption\" if you want to encrypt a plaintext and then decrypt it again.\n"
 						+ "Select \"Only decryption\" if you only want to decrypt a ciphertext.";*/
@@ -387,13 +365,12 @@ public class GUIHandler {
 //				message = "Select \"Encryption then decryption\" if you want to encrypt a plaintext and then decrypt it again.\n"
 //						+ "Select \"Only decryption\" if you only want to decrypt a ciphertext.";
 				
-				message = "Select \"Encryption then decryption\" to encrypt a plaintext and then decrypt it again.\n"
-						+ "Select \"Only decryption\" to decrypt a ciphertext.";
+				message = Messages.GUIHandler_18;
 				
 				break;
 				
 				
-			case "txtInfoEnc_Text":
+			case "txtInfoEnc_Text": //$NON-NLS-1$
 				/*message = "To encrypt a plaintext in \"Text\" mode do the following:\n\n"
 						+ "1) select \"Bytes per block\" to choose how many bytes you want to encrypt at once. "
 						+ "For example, having N = 713 = 23 \u2219 31 (default value) you are able "
@@ -413,15 +390,11 @@ public class GUIHandler {
 //						+ "3) Enter a plaintext in the field \"Plaintext\". Only characters in the UTF-8 format are allowed.\n\n"
 //						+ "4) Click on \"Encrypt\" to encrypt the plaintext.";
 				
-				message = "Encrypt a plaintext in \"Text\" mode:\n\n"
-						+ "1) Enter a plaintext in the field \"Plaintext\". Only characters in the UTF-8 format are allowed.\n\n"
-						+ "2) Select \"Bytes per block\" to choose how many bytes should be combined into one block.\n\n"
-						+ "3) Select a padding scheme.\n\n"
-						+ "4) Click on \"Encrypt\" to encrypt the plaintext.";
+				message = Messages.GUIHandler_20;
 				
 				break;
 				
-			case "txtInfoEnc_Decimal":
+			case "txtInfoEnc_Decimal": //$NON-NLS-1$
 				/*message = "To encrypt a plaintext in \"Decimal numbers\" mode do the following:\n\n"
 						+ "1) enter a plaintext in the field \"Plaintext separated into blocks "
 						+ "(\"||\" as separator)\". You are only allowed to enter decimal numbers "
@@ -438,14 +411,10 @@ public class GUIHandler {
 //						+ "Every decimal number has to be \u2264 N.\n\n"
 //						+ "2) Click on \"Encrypt\" to encrypt the plaintext.";
 				
-				message = "Encrypt a plaintext in \"Decimal numbers\" mode:\n\n"
-						+ "1) Enter a plaintext in the format "
-						+ "\"decimal number\" or \"decimal number 1 || decimal number 2 || ...\".\n"
-						+ "Every decimal number has to be < N.\n\n"
-						+ "2) Click on \"Encrypt\" to encrypt the plaintext.";
+				message = Messages.GUIHandler_22;
 				break;
 				
-			case "txtInfoDecimalAndHex_decryption_hex":
+			case "txtInfoDecimalAndHex_decryption_hex": //$NON-NLS-1$
 				/*message = "You are in \"Hex\" mode. This mode allows you to decrypt ciphertexts entered as "
 						+ "hexstrings. Keep in mind that its only the decryption without previous encryption. "
 						+ "That means, In contrast to the \"Encryption and decryption\" mode this mode computes the four possible plaintexts without notifying the "
@@ -462,12 +431,10 @@ public class GUIHandler {
 //						+ "Make sure that the length of the ciphertext is a multiple of the blocklength of N.\n\n"
 //						+ "2) Click on \"Apply\" to get the ciphertext separated into blocks.";
 				
-				message = "Decrypt a ciphertext in \"Hex\" mode:\n\n"
-						+ "1) Enter a ciphertext as a hexstring.\n\n"
-						+ "2) Click on \"Apply\".";
+				message = Messages.GUIHandler_24;
 				break;
 				
-			case "txtInfoSquareRoots_decryption_hex_and_decimal":
+			case "txtInfoSquareRoots_decryption_hex_and_decimal": //$NON-NLS-1$
 //				message = "3) Either use the drop-down list \"Block(c[i])\" to choose a specific ciphertextblock ("
 //						+ "c[i] is only meant as a short version for the specific ciphertextblock. For example c[1] would "
 //						+ "be the first ciphertextblock, c[2] the second and so on) or the buttons "
@@ -475,37 +442,30 @@ public class GUIHandler {
 //						+ "4) Click on \"Compute square roots mod p and q\" "
 //						+ "to compute the square roots of your ciphertextblock mod p and q.";
 				
-				message = "3) Use the drop-down list or the buttons "
-						+ "\"Previous block\" and \"Next block\" to navigate through the ciphertextblocks.\n\n"
-						+ "4) Click on \"Compute square roots mod p and q\" "
-						+ "to compute the square roots of your ciphertextblock mod p and q.";
+				message = Messages.GUIHandler_26;
 				break;
 				
-			case "txtInfoLC_decryption_hex_and_decimal":
-				message = "5) Click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n\n\n\n"
-						+ "6) Click on \"Compute v and w\" to compute the intermediate values v and w.";
+			case "txtInfoLC_decryption_hex_and_decimal": //$NON-NLS-1$
+				message = Messages.GUIHandler_28;
 				break;
 				
-			case "txtInfoPlaintexts_decryption_hex_and_decimal":
-				message = "7) Click on \"Compute all plaintexts\" to compute all plaintexts.";
+			case "txtInfoPlaintexts_decryption_hex_and_decimal": //$NON-NLS-1$
+				message = Messages.GUIHandler_30;
 				break;
 				
-			case "txtInfoLC_encryption_decimal":
-				message = "5) Click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n\n\n\n"
-						+ "6) Click on \"Compute v and w\" to compute the intermediate values v and w.";
+			case "txtInfoLC_encryption_decimal": //$NON-NLS-1$
+				message = Messages.GUIHandler_32;
 				break;
 				
-			case "txtInfoPlaintexts_encryption_decimal":
-				message = "7) Click on \"Compute all plaintexts\" to compute all plaintexts.";
+			case "txtInfoPlaintexts_encryption_decimal": //$NON-NLS-1$
+				message = Messages.GUIHandler_34;
 				break;
 				
-			case "txtInfoDecimalAndHex_decryption_decimal":
-				message = "Decrypt a ciphertext in \"Decimal\" mode:\n\n"
-						+ "1) Enter a ciphertext in the format \"decimal number\" or \"decimal number 1 || decimal number 2 || ...\".\n\n"
-						+ "2) Click on \"Apply\".";
+			case "txtInfoDecimalAndHex_decryption_decimal": //$NON-NLS-1$
+				message = Messages.GUIHandler_36;
 				break;
 				
-			case "txtInfoSquareRoots_encryption_text":
+			case "txtInfoSquareRoots_encryption_text": //$NON-NLS-1$
 //				message = "4) Either use the drop-down list \"Block(c[i])\" to choose a specific ciphertextblock ("
 //						+ "c[i] is only meant as a short version for the specific ciphertextblock. For example c[1] would "
 //						+ "be the first ciphertextblock, c[2] the second and so on) or the buttons "
@@ -513,24 +473,20 @@ public class GUIHandler {
 //						+ "5) Click on \"Compute square roots mod p and q\" "
 //						+ "to compute the square roots of your ciphertextblock mod p and q.";
 				
-				message = "4) Use the drop-down list or the buttons "
-						+ "\"Previous block\" and \"Next block\" to navigate through the ciphertextblocks.\n\n"
-						+ "5) Click on \"Compute square roots mod p and q\" "
-						+ "to compute the square roots of your ciphertextblock mod p and q.";
+				message = Messages.GUIHandler_38;
 				break;
 				
-			case "txtInfoLC_encryption_text":
-				message = "6) Click on \"Compute y_p and y_q\" to compute y_p and y_q using the Euclidean algorithm\n\n\n\n\n\n\n\n"
-						+ "7) Click on \"Compute v and w\" to compute the intermediate values v and w.";
+			case "txtInfoLC_encryption_text": //$NON-NLS-1$
+				message = Messages.GUIHandler_40;
 				break;
 				
-			case "txtInfoPlaintexts_encryption_text":
-				message = "8) Click on \"Compute all plaintexts\" to compute all plaintexts.";
+			case "txtInfoPlaintexts_encryption_text": //$NON-NLS-1$
+				message = Messages.GUIHandler_42;
 				
 				break;
 				
 			
-			case "txtInfoFactor_fermat":
+			case "txtInfoFactor_fermat": //$NON-NLS-1$
 				/*message = "The Fermat factorization basically works like this (simplified):\n\n"
 						+ "We want to factorize N into its factors p and q. We use the fact that N can be "
 						+ "expressed as N = y\u00b2 \u2212 x\u00b2 which you can change to "
@@ -550,18 +506,15 @@ public class GUIHandler {
 						+ "Only one number can be factorized at one time. So if you want to factorize a new number you have to either wait "
 						+ "until the current factorization is completed or stop the current factorization.";*/
 				
-				message = "Factorize N:\n\n"
-						+ "1) Enter N in the corresponding field, use the drop-down list or click on the button"
-						+ " \"Use public key generated in Cryptosystem tab\" to use N which was generated in the "
-						+ "\"Cryptosystem\" tab.\n"
-						+ "Only an upper limit of 2^" + this.limitExpAttacks + " for N is allowed.\n\n"
-						+ "2) Click on \"Factorize\" to factorize the number.\n\n"
-						+ "Click on \"Stop computation\" to stop and quit the computation.\n";
+			String pattern2 = Messages.GUIHandler_44;
+			message = MessageFormat.format(
+						pattern2,
+						this.limitExpAttacks);
 
 				break;
 				
 				
-			case "txtInfoFactor_pollard":
+			case "txtInfoFactor_pollard": //$NON-NLS-1$
 				/*message = "Pollard's rho factorization basically works like this (simplified):\n\n"
 						+ "To factorize N we try to find numbers say x and y such that x \u2262 y mod N "
 						+ "but x \u2261 y mod p. With that we have that N does not divide (x-y) but p divides both (x-y) "
@@ -582,14 +535,10 @@ public class GUIHandler {
 						+ "Only one number can be factorized at one time. So if you want to factorize a new number you have to either wait "
 						+ "until the current factorization is completed or stop the current factorization.";*/
 				
-				message = "Factorize N:\n\n"
-						+ "1) Enter N in the corresponding field, use the drop-down list or click on the button"
-						+ " \"Use public key generated in Cryptosystem tab\" to use N which was generated in the "
-						+ "\"Cryptosystem\" tab.\n"
-						+ "Only an upper limit of 2^" + this.limitExpAttacks + " for N is allowed.\n\n"
-						+ "2) Enter x, y and c with x, y, c < N.\n\n"
-						+ "3) Click on \"Factorize\" to factorize the number.\n\n"
-						+ "Click on \"Stop computation\" to stop and quit the computation.\n";
+			String pattern3 = Messages.GUIHandler_46;
+			message = MessageFormat.format(
+						pattern3,
+						this.limitExpAttacks);
 						
 				break;
 				
@@ -717,441 +666,6 @@ public class GUIHandler {
 		this.rabinFirst.setQ(q);
 		this.rabinFirst.setN(n);
 		txtN.setText(n.toString());
-	}
-	
-	
-		
-	
-	
-	
-	/**
-	 * update textfields for Crypptosytem and Algorithm tab, not used
-	 * @param cP
-	 * @param cQ
-	 * @param btnGenKeysMan
-	 * @param btnStartGenKeys
-	 * @param txtWarning
-	 */
-	public void updateTextfields(Control cP, Control cQ, Button btnGenKeysMan, Button btnStartGenKeys, Text txtWarning) {
-		
-		BigInteger ptmp = null;
-		BigInteger qtmp = null;
-		String pattern = "^[1-9]+\\d*$"; //$NON-NLS-1$
-		
-		Text txtP = null;
-		Text txtQ = null;
-		Combo cmbP = null;
-		Combo cmbQ = null;
-		
-		if(btnGenKeysMan.getSelection())
-			btnStartGenKeys.setEnabled(false);
-		
-		String strNumberRestriction = "Attention: only numbers > 0 are allowed"; //$NON-NLS-1$
-		if(cP instanceof Text && cQ instanceof Text) {
-			txtP = (Text) cP;
-			txtQ = (Text) cQ;
-			
-			
-			String pAsStr = txtP.getText();
-			String qAsStr = txtQ.getText();
-			
-			if(pAsStr.isEmpty() && qAsStr.isEmpty()) {
-				
-				txtP.setBackground(ColorService.WHITE);
-				txtQ.setBackground(ColorService.WHITE);
-				hideControl(txtWarning);
-				return;
-			}
-			
-			if(pAsStr.isEmpty() && !qAsStr.isEmpty()) {
-				
-				
-				if(!qAsStr.matches(pattern)) {
-					txtQ.setBackground(ColorService.RED);
-					txtQ.setBackground(ColorService.WHITE);
-					txtWarning.setText(strNumberRestriction);
-					showControl(txtWarning);
-					return;
-				}
-				
-				txtP.setBackground(ColorService.RED);
-				qtmp = new BigInteger(qAsStr);
-				
-				if(qtmp.compareTo(limitUp) > 0) {
-					txtQ.setBackground(ColorService.RED);
-					txtWarning.setText("Attention:\n1) only an upper limit of 2^" + limitExp + " is allowed\n" //$NON-NLS-1$ //$NON-NLS-2$
-								+ "2) p is missing"); //$NON-NLS-1$
-					showControl(txtWarning);
-					return;
-				}
-				
-				if(rabinFirst.isSuitablePrime(qtmp)) {
-					txtQ.setBackground(ColorService.GREEN);
-					txtWarning.setText("Attention: p is missing"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				else {
-					txtQ.setBackground(ColorService.RED);
-					txtWarning.setText("Attention:\n" //$NON-NLS-1$
-							+ "1) p is missing\n" //$NON-NLS-1$
-							+ "2) q is not a suitable prime"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				return;
-			}
-			
-			if(!pAsStr.isEmpty() && qAsStr.isEmpty()) {
-			
-				
-
-				if(!pAsStr.matches(pattern)) {
-					txtP.setBackground(ColorService.RED);
-					txtQ.setBackground(ColorService.WHITE);
-					txtWarning.setText(strNumberRestriction);
-					showControl(txtWarning);
-					return;
-				}
-				
-				ptmp = new BigInteger(pAsStr);
-				txtQ.setBackground(ColorService.RED);
-				
-				
-				if(ptmp.compareTo(limitUp) > 0) {
-					txtP.setBackground(ColorService.RED);
-					txtWarning.setText("Attention:\n" //$NON-NLS-1$
-						+ "1) only an upper limit of 2^" + limitExp + " is allowed\n" //$NON-NLS-1$ //$NON-NLS-2$
-								+ "2) q is missing"); //$NON-NLS-1$
-					showControl(txtWarning);
-					return;
-				}
-				
-				
-				if(rabinFirst.isSuitablePrime(ptmp)) {
-					txtP.setBackground(ColorService.GREEN);
-					txtWarning.setText("Attention: q is missing"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				else {
-					txtP.setBackground(ColorService.RED);
-					txtWarning.setText("Attention:\n" //$NON-NLS-1$
-							+ "1) q is missing\n" //$NON-NLS-1$
-							+ "2) p is not a suitable prime"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				return;
-			}
-			
-			if(!pAsStr.isEmpty() && !qAsStr.isEmpty()) {
-			
-				
-				boolean checkPattern = pAsStr.matches(pattern) && qAsStr.matches(pattern);
-				
-				if(!checkPattern) {
-					if(!pAsStr.matches(pattern) && !qAsStr.matches(pattern)) {
-						txtP.setBackground(ColorService.RED);
-						txtQ.setBackground(ColorService.RED);
-						txtWarning.setText(strNumberRestriction);
-						showControl(txtWarning);
-					}
-					if(!pAsStr.matches(pattern) && qAsStr.matches(pattern)) {
-						txtP.setBackground(ColorService.RED);
-						txtQ.setBackground(ColorService.WHITE);
-						txtWarning.setText(strNumberRestriction);
-						showControl(txtWarning);
-					}
-					if(pAsStr.matches(pattern) && !qAsStr.matches(pattern)) {
-						txtP.setBackground(ColorService.WHITE);
-						txtQ.setBackground(ColorService.RED);
-						txtWarning.setText(strNumberRestriction);
-						showControl(txtWarning);
-					}
-					return;
-					
-				}
-				
-				ptmp = new BigInteger(pAsStr);
-				qtmp = new BigInteger(qAsStr);
-				
-				boolean checkUpperLimit = ptmp.compareTo(limitUp) <= 0 && qtmp.compareTo(limitUp) <= 0;
-				
-				if(!checkUpperLimit) {
-					if(!(ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
-						txtP.setBackground(ColorService.RED);
-						txtQ.setBackground(ColorService.RED);
-						txtWarning.setText("Attention: " //$NON-NLS-1$
-						+ "only an upper limit of 2^" + limitExp + " is allowed"); //$NON-NLS-1$ //$NON-NLS-2$
-						showControl(txtWarning);
-					}
-					
-					if(!(ptmp.compareTo(limitUp) <= 0) && (qtmp.compareTo(limitUp) <= 0)) {
-						txtP.setBackground(ColorService.RED);
-						txtQ.setBackground(ColorService.GREEN);
-						txtWarning.setText("Attention: " //$NON-NLS-1$
-						+ "only an upper limit of 2^" + limitExp + " is allowed"); //$NON-NLS-1$ //$NON-NLS-2$
-						showControl(txtWarning);
-					}
-					
-					if((ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
-						txtP.setBackground(ColorService.GREEN);
-						txtQ.setBackground(ColorService.RED);
-						txtWarning.setText("Attention: " //$NON-NLS-1$
-						+ "only an upper limit of 2^" + limitExp + " is allowed"); //$NON-NLS-1$ //$NON-NLS-2$
-						showControl(txtWarning);
-					}
-					return;
-				}
-				
-				if(rabinFirst.isSuitablePrime(ptmp) && rabinFirst.isSuitablePrime(qtmp)) {
-					
-					if(!ptmp.equals(qtmp)) {
-						if(rabinFirst.isCompositeSuitable(ptmp, qtmp)) {
-							txtP.setBackground(ColorService.GREEN);
-							txtQ.setBackground(ColorService.GREEN);
-							hideControl(txtWarning);
-							if(btnGenKeysMan.getSelection()) {
-								btnStartGenKeys.setEnabled(true);
-							}
-						}
-						else {
-							txtP.setBackground(ColorService.RED);
-							txtQ.setBackground(ColorService.RED);
-							txtWarning.setText("Attention: " //$NON-NLS-1$
-									+ "N = p \u2219 q < 256"); //$NON-NLS-1$
-							showControl(txtWarning);
-						}
-					}
-					else {
-						txtP.setBackground(ColorService.RED);
-						txtQ.setBackground(ColorService.RED);
-						txtWarning.setText("Attention: the condition p \u2260 q must be satisfied"); //$NON-NLS-1$
-						showControl(txtWarning);
-					}
-				}
-				else if(rabinFirst.isSuitablePrime(ptmp) && !rabinFirst.isSuitablePrime(qtmp)) {
-					
-					txtP.setBackground(ColorService.GREEN);
-					txtQ.setBackground(ColorService.RED);
-					txtWarning.setText("Attention: q is not a suitable prime"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				else if(!rabinFirst.isSuitablePrime(ptmp) && rabinFirst.isSuitablePrime(qtmp)) {
-					
-					txtP.setBackground(ColorService.RED);
-					txtQ.setBackground(ColorService.GREEN);
-					txtWarning.setText("Attention: p is not a suitable prime"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				else if(!rabinFirst.isSuitablePrime(ptmp) && !rabinFirst.isSuitablePrime(qtmp)) {
-					txtP.setBackground(ColorService.RED);
-					txtQ.setBackground(ColorService.RED);
-					txtWarning.setText("Attention: p and q are not suitable primes"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-			}
-			
-		}
-		else if(cP instanceof Combo && cQ instanceof Combo) {
-			cmbP = (Combo) cP;
-			cmbQ = (Combo) cQ;
-			
-			
-			String pAsStr = cmbP.getText();
-			String qAsStr = cmbQ.getText();
-			
-			if(pAsStr.isEmpty() && qAsStr.isEmpty()) {
-				
-				cmbP.setBackground(ColorService.WHITE);
-				cmbQ.setBackground(ColorService.WHITE);
-				hideControl(txtWarning);
-				return;
-			}
-			
-			if(pAsStr.isEmpty() && !qAsStr.isEmpty()) {
-				
-				if(!qAsStr.matches(pattern)) {
-					cmbP.setBackground(ColorService.WHITE);
-					cmbQ.setBackground(ColorService.RED);
-					txtWarning.setText(strNumberRestriction);
-					showControl(txtWarning);
-					return;
-				}
-				
-				cmbP.setBackground(ColorService.RED);
-				qtmp = new BigInteger(qAsStr);
-				
-				if(qtmp.compareTo(limitUp) > 0) {
-					cmbQ.setBackground(ColorService.RED);
-					txtWarning.setText("Attention:\n" //$NON-NLS-1$
-						+ "1) only an upper limit of 2^" + limitExp + " is allowed\n" //$NON-NLS-1$ //$NON-NLS-2$
-								+ "2) p is missing"); //$NON-NLS-1$
-					showControl(txtWarning);
-					return;
-				}
-				
-				if(rabinFirst.isSuitablePrime(qtmp)) {
-					
-					cmbQ.setBackground(ColorService.GREEN);
-					txtWarning.setText("Attention: p is missing"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				else {
-					cmbQ.setBackground(ColorService.RED);
-					txtWarning.setText("Attention:\n" //$NON-NLS-1$
-							+ "1) p is missing\n" //$NON-NLS-1$
-							+ "2) q is not a suitable prime"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				return;
-			}
-			
-			if(!pAsStr.isEmpty() && qAsStr.isEmpty()) {
-				if(!pAsStr.matches(pattern)) {
-					cmbP.setBackground(ColorService.RED);
-					cmbQ.setBackground(ColorService.WHITE);
-					txtWarning.setText(strNumberRestriction);
-					showControl(txtWarning);
-					return;
-				}
-				
-				cmbQ.setBackground(ColorService.RED);
-				ptmp = new BigInteger(pAsStr);
-				
-				
-				if(ptmp.compareTo(limitUp) > 0) {
-					cmbP.setBackground(ColorService.RED);
-					txtWarning.setText("Attention:\n" //$NON-NLS-1$
-						+ "1) only an upper limit of 2^" + limitExp + " is allowed\n" //$NON-NLS-1$ //$NON-NLS-2$
-								+ "2) q is missing"); //$NON-NLS-1$
-					showControl(txtWarning);
-					return;
-				}
-				
-				if(rabinFirst.isSuitablePrime(ptmp)) {
-					cmbP.setBackground(ColorService.GREEN);
-					txtWarning.setText("Attention: q is missing"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				else {
-					cmbP.setBackground(ColorService.RED);
-					txtWarning.setText("Attention:\n" //$NON-NLS-1$
-							+ "1) q is missing\n" //$NON-NLS-1$
-							+ "2) p is not a suitable prime"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				return;
-			}
-			
-			if(!pAsStr.isEmpty() && !qAsStr.isEmpty()) {
-				boolean checkPattern = pAsStr.matches(pattern) && qAsStr.matches(pattern);
-				
-				if(!checkPattern) {
-					if(!pAsStr.matches(pattern) && !qAsStr.matches(pattern)) {
-						cmbP.setBackground(ColorService.RED);
-						cmbQ.setBackground(ColorService.RED);
-						txtWarning.setText(strNumberRestriction);
-						showControl(txtWarning);
-					}
-					if(!pAsStr.matches(pattern) && qAsStr.matches(pattern)) {
-						cmbP.setBackground(ColorService.RED);
-						cmbQ.setBackground(ColorService.WHITE);
-						txtWarning.setText(strNumberRestriction);
-						showControl(txtWarning);
-					}
-					if(pAsStr.matches(pattern) && !qAsStr.matches(pattern)) {
-						cmbP.setBackground(ColorService.WHITE);
-						cmbQ.setBackground(ColorService.RED);
-						txtWarning.setText(strNumberRestriction);
-						showControl(txtWarning);
-					}
-					return;
-					
-				}
-				
-				ptmp = new BigInteger(pAsStr);
-				qtmp = new BigInteger(qAsStr);
-				
-				boolean checkUpperLimit = ptmp.compareTo(limitUp) <= 0 && qtmp.compareTo(limitUp) <= 0;
-				
-				if(!checkUpperLimit) {
-					if(!(ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
-						cmbP.setBackground(ColorService.RED);
-						cmbQ.setBackground(ColorService.RED);
-						txtWarning.setText("Attention: " //$NON-NLS-1$
-						+ "only an upper limit of 2^" + limitExp + " is allowed"); //$NON-NLS-1$ //$NON-NLS-2$
-						showControl(txtWarning);
-					}
-					
-					if(!(ptmp.compareTo(limitUp) <= 0) && (qtmp.compareTo(limitUp) <= 0)) {
-						cmbP.setBackground(ColorService.RED);
-						cmbQ.setBackground(ColorService.GREEN);
-						txtWarning.setText("Attention: " //$NON-NLS-1$
-						+ "only an upper limit of 2^" + limitExp + " is allowed"); //$NON-NLS-1$ //$NON-NLS-2$
-						showControl(txtWarning);
-					}
-					
-					if((ptmp.compareTo(limitUp) <= 0) && !(qtmp.compareTo(limitUp) <= 0)) {
-						cmbP.setBackground(ColorService.GREEN);
-						cmbQ.setBackground(ColorService.RED);
-						txtWarning.setText("Attention: " //$NON-NLS-1$
-						+ "only an upper limit of 2^" + limitExp + " is allowed"); //$NON-NLS-1$ //$NON-NLS-2$
-						showControl(txtWarning);
-					}
-					return;
-				}
-				
-				
-				if(rabinFirst.isSuitablePrime(ptmp) && rabinFirst.isSuitablePrime(qtmp)) {
-					
-					if(!ptmp.equals(qtmp)) {
-						if(rabinFirst.isCompositeSuitable(ptmp, qtmp)) {
-							cmbP.setBackground(ColorService.GREEN);
-							cmbQ.setBackground(ColorService.GREEN);
-							hideControl(txtWarning);
-							if(btnGenKeysMan.getSelection()) {
-								btnStartGenKeys.setEnabled(true);
-							}
-						}
-						else {
-							cmbP.setBackground(ColorService.RED);
-							cmbQ.setBackground(ColorService.RED);
-							txtWarning.setText("Attention: " //$NON-NLS-1$
-									+ "N = p \u2219 q < 256"); //$NON-NLS-1$
-							showControl(txtWarning);
-						}
-					}
-					else {
-						cmbP.setBackground(ColorService.RED);
-						cmbQ.setBackground(ColorService.RED);
-						txtWarning.setText("Attention: the condition p \u2260 q must be satisfied"); //$NON-NLS-1$
-						showControl(txtWarning);
-					}
-				}
-				else if(rabinFirst.isSuitablePrime(ptmp) && !rabinFirst.isSuitablePrime(qtmp)) {
-					
-					cmbP.setBackground(ColorService.GREEN);
-					cmbQ.setBackground(ColorService.RED);
-					txtWarning.setText("Attention: q is not a suitable prime"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				else if(!rabinFirst.isSuitablePrime(ptmp) && rabinFirst.isSuitablePrime(qtmp)) {
-					
-					cmbP.setBackground(ColorService.RED);
-					cmbQ.setBackground(ColorService.GREEN);
-					txtWarning.setText("Attention: p is not a suitable prime"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-				else if(!rabinFirst.isSuitablePrime(ptmp) && !rabinFirst.isSuitablePrime(qtmp)) {
-					cmbP.setBackground(ColorService.RED);
-					cmbQ.setBackground(ColorService.RED);
-					txtWarning.setText("Attention: p and q are not suitable primes"); //$NON-NLS-1$
-					showControl(txtWarning);
-				}
-			}
-		}
-		
-		
-		
-		
 	}
 	
 	
@@ -1428,70 +942,5 @@ public class GUIHandler {
 		return endIdx;
 	}
 		
-		
-		
-		
-		
-		
-		
-	
-	
-	
-	
-	
-	
-	
-	
-		
-	
-	/**
-	 * not used, maybe for later use 
-	 * @param e
-	 */
-	public void verifyControlFields(VerifyEvent e) {
-		Text txt = null;
-		CCombo cmb = null;
-		
-		if(e.getSource() instanceof CCombo) {
-			cmb = (CCombo) e.getSource();
-			
-			boolean doit = true;
-			
-			if((cmb.getText().length() == 0 && e.text.compareTo("0") == 0) //$NON-NLS-1$
-					|| !(e.text.matches("\\d")) //$NON-NLS-1$
-					//|| cmb.getText().length() == 5
-					|| cmb == null)
-				doit = false;
-			
-			if(e.character == '\b')
-				doit = true;
-
-			e.doit = doit;
-		}
-		else if(e.getSource() instanceof Text) {
-			txt = (Text) e.getSource();
-			
-			boolean doit = true;
-			
-			if((txt.getText().length() == 0 && e.text.compareTo("0") == 0) //$NON-NLS-1$
-					|| !(e.text.matches("\\d")) //$NON-NLS-1$
-					//|| cmb.getText().length() == 5
-					|| txt == null)
-				doit = false;
-			
-			if(e.character == '\b')
-				doit = true;
-
-			e.doit = doit;
-		}
-	}
-	
-
-
-	
-	
-	
-	
-	
 	
 }

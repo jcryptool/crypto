@@ -91,7 +91,7 @@ public class RabinMainView extends ViewPart {
 		compTad = new TitleAndDescriptionComposite(rootComposite);
 		compTad.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		compTad.setTitle(Messages.RabinMainView_compTadTitle);
-		compTad.setDescription("The Rabin cryptosystem is an asymmetric cryptosystem sharing similarities with the RSA cryptosystem. Its unique characteristic is that its decryption produces four possible plaintexts, of which only one is the correct one. The plugin demonstrates the Rabin encryption and decryption scheme with a freely chosen private key pair (p,q), where p and q are distinct prime numbers, and the public key N = p · q, which is used as the modulus.");
+		compTad.setDescription(Messages.RabinMainView_0);
 		
 		
 		// TODO: insert TitleAndDescriptionComposite here
@@ -302,7 +302,7 @@ public class RabinMainView extends ViewPart {
 		
 		
 		TabItem tabFourthItem = new TabItem(tfRabin, SWT.NONE);
-		tabFourthItem.setText("Settings");
+		tabFourthItem.setText(Messages.RabinMainView_1);
 		
 		Composite compSpaceThirdTab = new Composite(tfRabin, SWT.NONE);
 		compSpaceThirdTab.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -356,7 +356,7 @@ public class RabinMainView extends ViewPart {
 		SmoothScroller.scrollSmooth(scAttacks);
 		
 		//PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.view");
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.view");
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.rabin.view"); //$NON-NLS-1$
 		//setBackgroundComponents(compCryptosystem, ColorService.GRAY);
 		//setBackgroundComponents(compHoldCryptosystem, ColorService.GRAY);
 		

@@ -249,24 +249,6 @@ public class RabinSecondTabComposite extends Composite {
 	
 	
 	
-		
-	
-	/**
-	 * is not used here but it can still be used in the future
-	 */
-	private VerifyListener vlNumbers = new VerifyListener() {
-		
-		@Override
-		public void verifyText(VerifyEvent e) {
-			
-			guiHandler.verifyControlFields(e);			
-		}
-	};
-	
-	
-	
-	
-	
 			
 	
 	
@@ -607,7 +589,7 @@ public class RabinSecondTabComposite extends Composite {
 		//grpPlaintext.setLayout(new GridLayout(5, false));
 		grpPlaintext.setLayout(new GridLayout(3, false));
 		//grpPlaintext.setText(Messages.RabinSecondTabComposite_grpPlaintext);
-		grpPlaintext.setText("4 \u2212 Encryption");
+		grpPlaintext.setText(Messages.RabinSecondTabComposite_0);
 		
 		compBlockN = new Composite(grpPlaintext, SWT.NONE);
 		compBlockNData = new GridData(SWT.CENTER, SWT.CENTER, false, false);
@@ -619,7 +601,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtLblBlockN = new Text(compBlockN, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblBlockN.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblBlockN.setText("Bytes per block");
+		txtLblBlockN.setText(Messages.RabinSecondTabComposite_1);
 		txtLblBlockN.setBackground(guiHandler.colorBGinfo);
 		
 		
@@ -649,13 +631,13 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtLblChooseBlockPadding = new Text(compBlockN, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblChooseBlockPadding.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false));
-		txtLblChooseBlockPadding.setText("Block padding");
+		txtLblChooseBlockPadding.setText(Messages.RabinSecondTabComposite_2);
 		txtLblChooseBlockPadding.setBackground(guiHandler.colorBGinfo);
 		
 		cmbChooseBlockPadding = new CCombo(compBlockN, SWT.READ_ONLY);
 		cmbChooseBlockPadding.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		//cmbChooseBlockPadding.setVisibleItemCount(10);
-		cmbChooseBlockPadding.setItems(new String[]{"ANSI X9.23", "PKCS#7"});
+		cmbChooseBlockPadding.setItems(new String[]{Messages.RabinSecondTabComposite_3, Messages.RabinSecondTabComposite_4});
 		cmbChooseBlockPadding.select(0);
 		guiHandler.oldIdxChoosePadding = cmbChooseBlockPadding.getSelectionIndex();
 		cmbChooseBlockPadding.addSelectionListener(new SelectionAdapter() {
@@ -868,10 +850,10 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtLblMessageWithPadding = new Text(compEncSteps, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblMessageWithPadding.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		txtLblMessageWithPadding.setText("Plaintext with padding in hex format (\"20\" as padding)");
+		//txtLblMessageWithPadding.setText("Plaintext with padding in hex format (\"20\" as padding)");
 		//String paddingScheme = this.cmbChooseBlockPadding.getItem(this.cmbChooseBlockPadding.getSelectionIndex());
-		txtLblMessageWithPadding.setText("Plaintext with possible padding (\""
-				+ "ANSI X9.23" + "\" as paddig scheme, hex format)");
+		txtLblMessageWithPadding.setText(Messages.RabinSecondTabComposite_5
+				+ Messages.RabinSecondTabComposite_6 + Messages.RabinSecondTabComposite_7);
 		//guiHandler.setSizeControlWarning(txtLblMessageWithPadding, SWT.DEFAULT, SWT.DEFAULT);
 		txtLblMessageWithPadding.setBackground(guiHandler.colorBGinfo);
 		
@@ -1018,7 +1000,7 @@ public class RabinSecondTabComposite extends Composite {
 		grpHoldSepAndInfoForEncryption = new Group(parent, SWT.NONE);
 		grpHoldSepAndInfoForEncryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpHoldSepAndInfoForEncryption.setLayout(new GridLayout(1, false));
-		grpHoldSepAndInfoForEncryption.setText(" ");
+		grpHoldSepAndInfoForEncryption.setText(" "); //$NON-NLS-1$
 		
 		
 		/*lblSepInfoEnc = new Label(compHoldSepAndInfoForEncryption, SWT.SEPARATOR | SWT.VERTICAL);
@@ -1030,7 +1012,7 @@ public class RabinSecondTabComposite extends Composite {
 		GridData txtInfoEncData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoEnc.setLayoutData(txtInfoEncData);
 		guiHandler.setSizeControl(txtInfoEnc, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Text"));
+		txtInfoEnc.setText(guiHandler.getMessageByControl("txtInfoEnc_Text")); //$NON-NLS-1$
 		txtInfoEnc.setBackground(ColorService.LIGHTGRAY);
 		txtInfoEnc.addMouseTrackListener(new MouseTrackAdapter() {
 			
@@ -1064,7 +1046,7 @@ public class RabinSecondTabComposite extends Composite {
 		grpDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpDec.setLayout(new GridLayout(1, false));
 		//grpDec.setText(Messages.RabinSecondTabComposite_grpDec);
-		grpDec.setText("5 \u2212 Decryption");	
+		grpDec.setText(Messages.RabinSecondTabComposite_10);	
 		
 		compHoldAllSteps = new Composite(grpDec, SWT.NONE);
 		compHoldAllSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -1341,7 +1323,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtLblCipherFirst = new Text(compTest, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblCipherFirst.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		txtLblCipherFirst.setText("c[i] = ");
+		txtLblCipherFirst.setText("c[i] = "); //$NON-NLS-1$
 		txtLblCipherFirst.setBackground(guiHandler.colorBGinfo);
 				
 		
@@ -1378,7 +1360,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		btnPrevElem = new Button(compNavElem, SWT.PUSH);
 		btnPrevElem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		btnPrevElem.setText("Previous block"); //$NON-NLS-1$
+		btnPrevElem.setText(Messages.RabinSecondTabComposite_12); 
 		btnPrevElem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1393,7 +1375,7 @@ public class RabinSecondTabComposite extends Composite {
 		btnNextElem = new Button(compNavElem, SWT.PUSH);
 		btnNextElem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		guiHandler.setSizeControl(btnNextElem, btnPrevElem.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, SWT.DEFAULT);
-		btnNextElem.setText("Next block"); //$NON-NLS-1$
+		btnNextElem.setText(Messages.RabinSecondTabComposite_13);
 		btnNextElem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1537,7 +1519,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtLblyp = new Text(compMerge, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblyp.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		txtLblyp.setText("y_p = ");
+		txtLblyp.setText("y_p = "); //$NON-NLS-1$
 		txtLblyp.setBackground(guiHandler.colorBGinfo);
 		
 		// create y_p txtbox
@@ -1571,7 +1553,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtLblyq = new Text(compMerge, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblyq.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		txtLblyq.setText("y_q = ");
+		txtLblyq.setText("y_q = "); //$NON-NLS-1$
 		txtLblyq.setBackground(guiHandler.colorBGinfo);
 		
 		// create txtbox for y_q
@@ -1642,7 +1624,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtLblV = new Text(compHoldvw, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblV.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		txtLblV.setText("v = ");
+		txtLblV.setText("v = "); //$NON-NLS-1$
 		txtLblV.setBackground(guiHandler.colorBGinfo);
 		
 		txtV = new Text(compHoldvw, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
@@ -1676,7 +1658,7 @@ public class RabinSecondTabComposite extends Composite {
 		
 		txtLblW = new Text(compHoldvw, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		txtLblW.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		txtLblW.setText("w = ");
+		txtLblW.setText("w = "); //$NON-NLS-1$
 		txtLblW.setBackground(guiHandler.colorBGinfo);
 		
 		txtW = new Text(compHoldvw, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
@@ -1849,7 +1831,7 @@ public class RabinSecondTabComposite extends Composite {
 		grpHoldSepAndInfoForDecryption = new Group(parent, SWT.NONE);
 		grpHoldSepAndInfoForDecryption.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpHoldSepAndInfoForDecryption.setLayout(new GridLayout(1, false));
-		grpHoldSepAndInfoForDecryption.setText(" ");
+		grpHoldSepAndInfoForDecryption.setText(" "); //$NON-NLS-1$
 		
 		//lblSepInfoForDecryption = new Label(compHoldSepAndInfoForDecryption, SWT.SEPARATOR | SWT.VERTICAL);
 		//lblSepInfoForDecryption.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
@@ -1888,7 +1870,7 @@ public class RabinSecondTabComposite extends Composite {
 		grpSelectEncDec = new Group(parent, SWT.NONE);
 		grpSelectEncDec.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpSelectEncDec.setLayout(new GridLayout(1, false));
-		grpSelectEncDec.setText("3 \u2212 Encryption then decryption or only decryption");
+		grpSelectEncDec.setText(Messages.RabinSecondTabComposite_19);
 		
 		
 		//compSelectEncDec = new Composite(parent, SWT.NONE);
@@ -1932,7 +1914,7 @@ public class RabinSecondTabComposite extends Composite {
 		grpHoldSepAndInfoEncDecSelection = new Group(parent, SWT.NONE);
 		grpHoldSepAndInfoEncDecSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpHoldSepAndInfoEncDecSelection.setLayout(new GridLayout(2, false));
-		grpHoldSepAndInfoEncDecSelection.setText(" ");
+		grpHoldSepAndInfoEncDecSelection.setText(" "); //$NON-NLS-1$
 		
 		//lblSepForInfoEncDecSelection = new Label(compHoldSepAndInfoEncDecSelection, SWT.SEPARATOR | SWT.VERTICAL);
 		//lblSepForInfoEncDecSelection.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
@@ -1942,7 +1924,7 @@ public class RabinSecondTabComposite extends Composite {
 		txtInfoForEncDecSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		txtInfoForEncDecSelection.setBackground(GUIHandler.colorBGinfo);
 		guiHandler.setSizeControl(txtInfoForEncDecSelection, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoForEncDecSelection.setText(guiHandler.getMessageByControl("txtInfoForEncDecSelection"));
+		txtInfoForEncDecSelection.setText(guiHandler.getMessageByControl("txtInfoForEncDecSelection")); //$NON-NLS-1$
 		txtInfoForEncDecSelection.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override

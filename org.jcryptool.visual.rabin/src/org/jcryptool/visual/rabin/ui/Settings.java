@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.visual.rabin.GUIHandler;
+import org.jcryptool.visual.rabin.Messages;
 
 public class Settings extends Composite {
 	
@@ -126,7 +127,7 @@ public class Settings extends Composite {
 		grpMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		//grpMode.setLayout(new GridLayout(4, false));
 		grpMode.setLayout(new GridLayout(1, false));
-		grpMode.setText("Mode");
+		grpMode.setText(Messages.Settings_0);
 		
 		compSelectionMode = new Composite(grpMode, SWT.NONE);
 		compSelectionMode.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
@@ -134,13 +135,13 @@ public class Settings extends Composite {
 		
 		btnRadioClassicMode = new Button(compSelectionMode, SWT.RADIO);
 		btnRadioClassicMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
-		btnRadioClassicMode.setText("Classic mode");
+		btnRadioClassicMode.setText(Messages.Settings_1);
 		
 		
 		
 		btnRadioDarkMode = new Button(compSelectionMode, SWT.RADIO);
 		btnRadioDarkMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
-		btnRadioDarkMode.setText("Dark mode");
+		btnRadioDarkMode.setText(Messages.Settings_2);
 		
 		
 		if(guiHandler.isDarkmode) {
@@ -155,7 +156,7 @@ public class Settings extends Composite {
 		
 		btnApplyMode = new Button(compSelectionMode, SWT.PUSH);
 		btnApplyMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnApplyMode.setText("Apply");
+		btnApplyMode.setText(Messages.Settings_3);
 		btnApplyMode.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -202,7 +203,7 @@ public class Settings extends Composite {
 		//Group grpInfoMode = new Group(parent, SWT.NONE);
 		grpInfoMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		grpInfoMode.setLayout(new GridLayout(1, false));
-		grpInfoMode.setText(" ");
+		grpInfoMode.setText(" "); //$NON-NLS-1$
 		
 		
 		
@@ -215,7 +216,7 @@ public class Settings extends Composite {
 				+ "either activate the classic mode or the dark mode. Be aware that the plugin will restart "
 				+ "after clicking on \"Apply\"");*/
 		
-		txtInfoMode.setText("After selecting another mode, click on \"Apply\". Note that a mode change restarts the plugin which may take a little time.");
+		txtInfoMode.setText(Messages.Settings_5);
 		/*txtInfoMode.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override

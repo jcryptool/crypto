@@ -199,39 +199,7 @@ public class RabinFirstTabComposite extends Composite {
 		return this;
 	}
 	
-	
 
-
-	private VerifyListener vlNumbers = new VerifyListener() {
-		
-		/**
-		 * is not used at the moment, maybe for future uses
-		 */
-		@Override
-		public void verifyText(VerifyEvent e) {
-			// TODO Auto-generated method stub
-			
-			Text txt = null;
-			
-			if(e.getSource() instanceof Text) {
-				txt = (Text) e.getSource();
-			}
-			
-			boolean doit = true;
-			
-			if((txt.getText().length() == 0 && e.text.compareTo("0") == 0) //$NON-NLS-1$
-					|| !(e.text.matches("\\d")) //$NON-NLS-1$
-					//	|| txt.getText().length() == 10
-					|| txt == null)
-				doit = false;
-			
-			if(e.character == '\b')
-				doit = true;
-
-			e.doit = doit;
-			
-		}
-	};
 	
 	
 	
@@ -498,7 +466,7 @@ public class RabinFirstTabComposite extends Composite {
 		//lblPrimeP.setText("p ="); //$NON-NLS-1$
 		
 		txtPrimeP = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtPrimeP.setText("p =");
+		txtPrimeP.setText("p ="); //$NON-NLS-1$
 		txtPrimeP.setBackground(guiHandler.colorBGinfo);
 		
 		
@@ -508,7 +476,8 @@ public class RabinFirstTabComposite extends Composite {
 		//txtP = new Text(compBorderColorP, SWT.BORDER);
 		GridData txtPData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		cmbP.setLayoutData(txtPData);
-		guiHandler.setSizeControl(cmbP, SWT.DEFAULT, SWT.DEFAULT);
+		//guiHandler.setSizeControl(cmbP, 400, SWT.DEFAULT);
+		//((GridData) txtPData).widthHint = 600;
 		cmbP.addModifyListener(mlpq);
 
 		// LAMBDA!! :)
@@ -546,7 +515,7 @@ public class RabinFirstTabComposite extends Composite {
 		//lblPrimeQ.setText("q ="); //$NON-NLS-1$
 		
 		txtPrimeQ = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtPrimeQ.setText("q =");
+		txtPrimeQ.setText("q ="); //$NON-NLS-1$
 		txtPrimeQ.setBackground(guiHandler.colorBGinfo);
 		
 		
@@ -582,7 +551,7 @@ public class RabinFirstTabComposite extends Composite {
 		//lblModN.setText("N ="); //$NON-NLS-1$
 		
 		txtLblModN = new Text(npqComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtLblModN.setText("N =");
+		txtLblModN.setText("N ="); //$NON-NLS-1$
 		txtLblModN.setBackground(guiHandler.colorBGinfo);
 		
 		txtModN = new Text(npqComp, SWT.READ_ONLY | SWT.BORDER);
@@ -622,15 +591,18 @@ public class RabinFirstTabComposite extends Composite {
 		// same as above
 		guiHandler.hideControl(nWarning);
 		
+		//guiHandler.setSizeControlWarning(npqComp, SWT.DEFAULT, SWT.DEFAULT);
+		
 		
 		
 		// create composite for how to generate the keys
 		compGenKeys = new Composite(grpParam, SWT.NONE);
 		compGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		//compGenKeys.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 		compGenKeys.setLayout(new GridLayout(1, false));
 		
 		// create radio button for generating keys manually 
-		btnGenKeysMan = new Button(compGenKeys, SWT.RADIO);
+		btnGenKeysMan = new Button(compGenKeys, SWT.RADIO | SWT.BORDER);
 		btnGenKeysMan.setText(Messages.RabinFirstTabComposite_btnGenKeysMan);
 		
 		
@@ -644,7 +616,7 @@ public class RabinFirstTabComposite extends Composite {
 		
 		btnGenKeys = new Button(compGenKeys, SWT.RADIO | SWT.WRAP | SWT.BORDER);
 		btnGenKeys.setText(Messages.RabinFirstTabComposite_btnGenKeys);
-		btnGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		btnGenKeys.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		guiHandler.setSizeControl(btnGenKeys, SWT.DEFAULT, 35);
 		
 		btnGenKeys.addSelectionListener(new SelectionAdapter() {
@@ -658,18 +630,24 @@ public class RabinFirstTabComposite extends Composite {
 		
 		compHoldStartAndInfoOnN = new Composite(compGenKeys, SWT.NONE);
 		compHoldStartAndInfoOnN.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		//compHoldStartAndInfoOnN.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false));
 		compHoldStartAndInfoOnN.setLayout(new GridLayout(2, false));
 		guiHandler.setControlMargin(compHoldStartAndInfoOnN, 0, 0);
 		
 			
 		//btnStartGenKeys = new Button(compGenKeys, SWT.PUSH);
 		btnStartGenKeys = new Button(compHoldStartAndInfoOnN, SWT.PUSH);
-		GridData btnStartGenData = new GridData(SWT.BEGINNING, SWT.CENTER, true, true);
+		GridData btnStartGenData = new GridData(SWT.BEGINNING, SWT.CENTER, false, true);
 		btnStartGenData.horizontalIndent = 5;
 		btnStartGenData.verticalIndent = 5;
 		btnStartGenKeys.setLayoutData(btnStartGenData);
-		guiHandler.setSizeControl(btnStartGenKeys, 100, 30);
+		//guiHandler.setSizeControl(btnStartGenKeys, 100, 30);
+		//guiHandler.setSizeControl(btnStartGenKeys, 50, 30);
+		btnStartGenData.widthHint = 100;
+		btnStartGenData.heightHint = 30;
+		//guiHandler.setSizeControl(btnStartGenKeys, SWT.DEFAULT, SWT.DEFAULT);
 		btnStartGenKeys.setText(Messages.RabinFirstTabComposite_btnStartGenKeys);
+		//guiHandler.setSizeControl(btnStartGenKeys, 100, 30);
 		
 		btnStartGenKeys.addSelectionListener(new SelectionAdapter() {		
 			@Override
@@ -682,12 +660,16 @@ public class RabinFirstTabComposite extends Composite {
 		
 		
 		btnToggleInfoN = new Button(compHoldStartAndInfoOnN, SWT.TOGGLE);
-		btnToggleInfoN.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+		btnToggleInfoN.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		((GridData) btnToggleInfoN.getLayoutData()).horizontalIndent = 5;
 		((GridData) btnToggleInfoN.getLayoutData()).verticalIndent = 5;
-		//((GridData) btnToggleInfoN.getLayoutData()).heightHint = 30;
-		guiHandler.setSizeControl(btnToggleInfoN, 200, 30);
-		btnToggleInfoN.setText("Show info public key");
+		//((GridData) btnToggleInfoN.getLayoutData()).heightHint = 32;
+		//((GridData) btnToggleInfoN.getLayoutData()).widthHint = 300;
+		//guiHandler.setSizeControl(btnToggleInfoN, SWT.DEFAULT, SWT.DEFAULT);
+		//guiHandler.setSizeControl(btnToggleInfoN, 200, 30);
+		btnToggleInfoN.setText(Messages.RabinFirstTabComposite_3);
+		//guiHandler.setSizeControl(btnToggleInfoN, SWT.DEFAULT, SWT.DEFAULT);
+		//guiHandler.setSizeControlWarning(btnToggleInfoN, SWT.DEFAULT, SWT.DEFAULT);
 		btnToggleInfoN.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -747,7 +729,7 @@ public class RabinFirstTabComposite extends Composite {
 //		lblLowLimPQSingle.setText(strLowerLimit);
 		
 		txtLblLowLimPQSingle = new Text(grpSelectSinglePandQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtLblLowLimPQSingle.setText("Lower limit");
+		txtLblLowLimPQSingle.setText(Messages.RabinFirstTabComposite_4);
 		txtLblLowLimPQSingle.setBackground(guiHandler.colorBGinfo);
 		
 		txtLowLimPQSingle = new Text(grpSelectSinglePandQ, SWT.BORDER);
@@ -771,7 +753,7 @@ public class RabinFirstTabComposite extends Composite {
 //		lblUpperLimPQSingle.setText(strUpperLimit);
 		
 		txtLblUpperLimPQSingle = new Text(grpSelectSinglePandQ, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtLblUpperLimPQSingle.setText("Upper limit");
+		txtLblUpperLimPQSingle.setText(Messages.RabinFirstTabComposite_5);
 		txtLblUpperLimPQSingle.setBackground(guiHandler.colorBGinfo);
 		
 		
@@ -838,7 +820,7 @@ public class RabinFirstTabComposite extends Composite {
 		grpInfoOnN = new Group(grpParam, SWT.NONE);
 		grpInfoOnN.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		grpInfoOnN.setLayout(new GridLayout(3, false));
-		grpInfoOnN.setText("Information about N");
+		grpInfoOnN.setText(Messages.RabinFirstTabComposite_6);
 		guiHandler.setSizeControlWarning(grpInfoOnN, SWT.DEFAULT, 50);	
 		guiHandler.hideControl(grpInfoOnN);
 		
@@ -851,7 +833,7 @@ public class RabinFirstTabComposite extends Composite {
 		txtInfoNbits.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 		//guiHandler.setSizeControl(txtInfoNbits, 150, SWT.DEFAULT);
 		((GridData) txtInfoNbits.getLayoutData()).horizontalIndent = 200;
-		txtInfoNbits.setText("Bit length of N: 2048 bits");
+		txtInfoNbits.setText(Messages.RabinFirstTabComposite_7);
 		guiHandler.setSizeControl(txtInfoNbits, SWT.DEFAULT, SWT.DEFAULT);	
 		txtInfoNbits.setBackground(ColorService.LIGHTGRAY);
 		txtInfoNbits.setForeground(ColorService.BLUE);
@@ -861,7 +843,7 @@ public class RabinFirstTabComposite extends Composite {
 		txtInfoNmaxBytes.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 		((GridData) txtInfoNmaxBytes.getLayoutData()).horizontalIndent = 50;
 		//guiHandler.setSizeControl(txtInfoNmaxBytes, 100, SWT.DEFAULT);
-		txtInfoNmaxBytes.setText("Max. number of bytes per block: 256 bytes");
+		txtInfoNmaxBytes.setText(Messages.RabinFirstTabComposite_8);
 		guiHandler.setSizeControl(txtInfoNmaxBytes, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoNmaxBytes.setBackground(ColorService.LIGHTGRAY);
 		txtInfoNmaxBytes.setForeground(ColorService.BLUE);
@@ -886,7 +868,7 @@ public class RabinFirstTabComposite extends Composite {
 		grpHoldSepAndInfoForParam.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpHoldSepAndInfoForParam.setLayout(new GridLayout(2, false));
 		((GridData) grpHoldSepAndInfoForParam.getLayoutData()).widthHint = 400;
-		grpHoldSepAndInfoForParam.setText(" ");
+		grpHoldSepAndInfoForParam.setText(" "); //$NON-NLS-1$
 		
 		
 		
@@ -905,7 +887,7 @@ public class RabinFirstTabComposite extends Composite {
 		GridData txtInfoSetParamData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		txtInfoSetParam.setLayoutData(txtInfoSetParamData);
 		guiHandler.setSizeControl(txtInfoSetParam, SWT.DEFAULT, SWT.DEFAULT);
-		txtInfoSetParam.setText(guiHandler.getMessageByControl("btnGenKeysMan_selection"));
+		txtInfoSetParam.setText(guiHandler.getMessageByControl("btnGenKeysMan_selection")); //$NON-NLS-1$
 		txtInfoSetParam.setBackground(ColorService.LIGHTGRAY);
 		txtInfoSetParam.addMouseTrackListener(new MouseTrackAdapter() {
 			
@@ -934,7 +916,7 @@ public class RabinFirstTabComposite extends Composite {
 //		lblLowLimP.setText(strLowerLimit);
 		
 		txtLblLowLimP = new Text(genPComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtLblLowLimP.setText("Lower limit");
+		txtLblLowLimP.setText(Messages.RabinFirstTabComposite_11);
 		txtLblLowLimP.setBackground(guiHandler.colorBGinfo);
 		
 		txtLowLimP = new Text(genPComp, SWT.BORDER);
@@ -950,7 +932,7 @@ public class RabinFirstTabComposite extends Composite {
 //		lblUpperLim.setText(strUpperLimit);
 		
 		txtLblUpperLimP = new Text(genPComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtLblUpperLimP.setText("Upper limit");
+		txtLblUpperLimP.setText(Messages.RabinFirstTabComposite_12);
 		txtLblUpperLimP.setBackground(guiHandler.colorBGinfo);
 		
 		txtUpperLimP = new Text(genPComp, SWT.BORDER);
@@ -967,7 +949,7 @@ public class RabinFirstTabComposite extends Composite {
 //		lblLowLimQ.setText(strLowerLimit);
 		
 		txtLblLowLimQ = new Text(genQComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtLblLowLimQ.setText("Lower limit");
+		txtLblLowLimQ.setText(Messages.RabinFirstTabComposite_13);
 		txtLblLowLimQ.setBackground(guiHandler.colorBGinfo);
 		
 		txtLowLimQ = new Text(genQComp, SWT.BORDER);
@@ -982,7 +964,7 @@ public class RabinFirstTabComposite extends Composite {
 //		lblUpperLimQ.setText(strUpperLimit);
 		
 		txtLblUpperLimQ = new Text(genQComp, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		txtLblUpperLimQ.setText("Upper limit");
+		txtLblUpperLimQ.setText(Messages.RabinFirstTabComposite_14);
 		txtLblUpperLimQ.setBackground(guiHandler.colorBGinfo);
 		
 		txtUpperLimQ = new Text(genQComp, SWT.BORDER);
@@ -1011,7 +993,7 @@ public class RabinFirstTabComposite extends Composite {
 		grpSelectionCryptosystem = new Group(parent, SWT.NONE);
 		grpSelectionCryptosystem.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpSelectionCryptosystem.setLayout(new GridLayout(1, false));
-		grpSelectionCryptosystem.setText("2 \u2212 Rabin variant");
+		grpSelectionCryptosystem.setText(Messages.RabinFirstTabComposite_15);
 		
 		
 		
@@ -1024,7 +1006,7 @@ public class RabinFirstTabComposite extends Composite {
 		
 		btnSelectCryptotb = new Button(compSelection, SWT.RADIO);
 		btnSelectCryptotb.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnSelectCryptotb.setText("Rabin textbook variant");
+		btnSelectCryptotb.setText(Messages.RabinFirstTabComposite_16);
 		btnSelectCryptotb.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1033,7 +1015,7 @@ public class RabinFirstTabComposite extends Composite {
 				guiHandler.showTextbookPart(cstb);
 	
 				
-				txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook"));
+				txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook")); //$NON-NLS-1$
 				guiHandler.showControl(txtInfoSelection);
 				
 			}
@@ -1041,13 +1023,13 @@ public class RabinFirstTabComposite extends Composite {
 		
 		btnSelectCryptoSteps = new Button(compSelection, SWT.RADIO);
 		btnSelectCryptoSteps.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		btnSelectCryptoSteps.setText("Rabin textbook variant (step-by-step)");
+		btnSelectCryptoSteps.setText(Messages.RabinFirstTabComposite_18);
 		btnSelectCryptoSteps.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				guiHandler.hideTextbookPart(cstb);
 				guiHandler.showStepByStepPart(rstc);
-				txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_steps"));
+				txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_steps")); //$NON-NLS-1$
 				guiHandler.showControl(txtInfoSelection);
 			}
 		});
@@ -1061,7 +1043,7 @@ public class RabinFirstTabComposite extends Composite {
 		grpHoldSepAndInfoForCryptoSelection = new Group(parent, SWT.NONE);
 		grpHoldSepAndInfoForCryptoSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grpHoldSepAndInfoForCryptoSelection.setLayout(new GridLayout(1, false));
-		grpHoldSepAndInfoForCryptoSelection.setText(" ");
+		grpHoldSepAndInfoForCryptoSelection.setText(" "); //$NON-NLS-1$
 		
 		//lblSepInfoForCryptoSelection = new Label(compHoldSepAndInfoForCryptoSelection, SWT.SEPARATOR | SWT.VERTICAL);
 		//lblSepInfoForCryptoSelection.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, true));
@@ -1073,7 +1055,7 @@ public class RabinFirstTabComposite extends Composite {
 		txtInfoSelection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		guiHandler.setSizeControl(txtInfoSelection, SWT.DEFAULT, SWT.DEFAULT);
 		txtInfoSelection.setBackground(GUIHandler.colorBGinfo);
-		txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook"));
+		txtInfoSelection.setText(guiHandler.getMessageByControl("txtInfoSelection_textbook")); //$NON-NLS-1$
 		txtInfoSelection.addMouseTrackListener(new MouseTrackAdapter() {
 			
 			@Override

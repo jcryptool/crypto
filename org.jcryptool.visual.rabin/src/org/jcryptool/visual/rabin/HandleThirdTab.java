@@ -59,18 +59,18 @@ public class HandleThirdTab extends GUIHandler {
 		rttc.btnFactorize.setEnabled(false);
 		
 		if(!n.equals(oldN)) {
-			rttc.txtP1.setText("");
-			rttc.txtP2.setText("");
-			rttc.txtResultP.setText("");
+			rttc.txtP1.setText(""); //$NON-NLS-1$
+			rttc.txtP2.setText(""); //$NON-NLS-1$
+			rttc.txtResultP.setText(""); //$NON-NLS-1$
 			//rttc.txtP1.setBackground(colorBGinfo);
 			//rttc.txtP1.setBackground(colorBGinfo);
 			if(GUIHandler.isDarkmode)
 				rttc.txtResultP.setBackground(GUIHandler.colorDarkModeBG);
 			else
 				rttc.txtResultP.setBackground(colorBGinfo);
-			rttc.txtQ1.setText("");
-			rttc.txtQ2.setText("");
-			rttc.txtResultQ.setText("");
+			rttc.txtQ1.setText(""); //$NON-NLS-1$
+			rttc.txtQ2.setText(""); //$NON-NLS-1$
+			rttc.txtResultQ.setText(""); //$NON-NLS-1$
 			
 			if(GUIHandler.isDarkmode)
 				rttc.txtResultQ.setBackground(GUIHandler.colorDarkModeBG);
@@ -107,7 +107,8 @@ public class HandleThirdTab extends GUIHandler {
 		
 		
 		if(nAsNum.compareTo(limitUpAttacks) > 0) {
-			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + limitExpAttacks + " is allowed";
+			String pattern2 = Messages.HandleThirdTab_6;
+			String strMaxBitlengthOfN = MessageFormat.format(pattern2, limitExpAttacks);
 			//txtWarning.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
 			rttc.txtNWarning.setText(strMaxBitlengthOfN);
 			showControl(rttc.txtNWarning);
@@ -169,8 +170,8 @@ public class HandleThirdTab extends GUIHandler {
 		
 		if(!n.equals(oldNPollard)) {
 			rttc.pollardFactorTable.removeAll();
-			rttc.txtpPollard.setText("");
-			rttc.txtqPollard.setText("");
+			rttc.txtpPollard.setText(""); //$NON-NLS-1$
+			rttc.txtqPollard.setText(""); //$NON-NLS-1$
 			
 			if(GUIHandler.isDarkmode) {
 				rttc.txtpPollard.setBackground(GUIHandler.colorDarkModeBG);
@@ -199,7 +200,8 @@ public class HandleThirdTab extends GUIHandler {
 		BigInteger nAsNum = new BigInteger(n);
 		
 		if(nAsNum.compareTo(limitUpAttacks) > 0) {
-			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + limitExpAttacks + " is allowed";
+			String pattern2 = Messages.HandleThirdTab_9;
+			String strMaxBitlengthOfN = MessageFormat.format(pattern2, limitExpAttacks);
 			//txtWarning.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
 			txtWarning.setText(strMaxBitlengthOfN);
 			showControl(txtWarning);
@@ -252,8 +254,8 @@ public class HandleThirdTab extends GUIHandler {
 		Color wrong = this.colorBackgroundWrong;
 		
 		rttc.pollardFactorTable.removeAll();
-		rttc.txtpPollard.setText("");
-		rttc.txtqPollard.setText("");
+		rttc.txtpPollard.setText(""); //$NON-NLS-1$
+		rttc.txtqPollard.setText(""); //$NON-NLS-1$
 		
 		if(GUIHandler.isDarkmode) {
 			rttc.txtpPollard.setBackground(GUIHandler.colorDarkModeBG);
@@ -282,7 +284,7 @@ public class HandleThirdTab extends GUIHandler {
 		
 		if(cmbN.getText().isEmpty()) {
 			txt.setBackground(wrong);
-			txtWarning.setText("Attention: N is missing");
+			txtWarning.setText(Messages.HandleThirdTab_12);
 			showControl(txtWarning);
 			return false;
 		}
@@ -305,7 +307,8 @@ public class HandleThirdTab extends GUIHandler {
 		
 		
 		if(nAsNum.compareTo(limitUpAttacks) > 0) {
-			String strMaxBitlengthOfN = "Attention: only an upper limit of 2^" + limitExpAttacks + " is allowed";
+			String pattern2 = Messages.HandleThirdTab_13;
+			String strMaxBitlengthOfN = MessageFormat.format(pattern2, limitExpAttacks);
 			txtWarningNPollard.setText(MessageFormat.format(strMaxBitlengthOfN, maxBitLimit));
 			showControl(txtWarningNPollard);
 			cmbN.setBackground(wrong);
@@ -316,7 +319,7 @@ public class HandleThirdTab extends GUIHandler {
 		if(txtAsNum.compareTo(nAsNum) >= 0) {
 			// TODO continue here
 			txt.setBackground(wrong);
-			txtWarning.setText("Attention: the conditon number < N has to be satisfied");
+			txtWarning.setText(Messages.HandleThirdTab_14);
 			showControl(txtWarning);
 			return false;
 		}
@@ -568,7 +571,7 @@ public class HandleThirdTab extends GUIHandler {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							rttc.txtWarningNPollard.setText("Attention: could not find primes p and q. Please try again or use other parameters");
+							rttc.txtWarningNPollard.setText(Messages.HandleThirdTab_15);
 							showControl(rttc.txtWarningNPollard);
 						}
 					};

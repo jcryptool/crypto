@@ -102,214 +102,6 @@ public class HandleFirstTab extends GUIHandler {
 	
 	
 	
-	
-	
-	/**
-	 * method as a thread, not used
-	 * @param rftc
-	 * @param rstc
-	 * @param strLow
-	 * @param strUp
-	 * @param iterations
-	 * @return
-	 */
-	private Thread generateKeysWithLimitSingle(RabinFirstTabComposite rftc, RabinSecondTabComposite rstc, String strLow, String strUp, int iterations) {
-		
-		Thread t = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				BigInteger low = null; 
-				BigInteger up = null; 
-
-				low = getNumFromLimit(strLow);
-				up = getNumFromLimit(strUp);
-				
-				int iteration = iterations;
-				
-				BigInteger maxMin = up.subtract(low);
-				
-				Random rand = new SecureRandom();
-				
-				BigInteger primeP = null;
-				BigInteger primeQ = null;
-				BigInteger resP = null;
-				BigInteger resQ = null;
-				stopComputation = false;
-				
-				do {
-					resP = new BigInteger(up.bitLength(), rand);
-					resQ = new BigInteger(up.bitLength(), rand);
-					
-					if(resP.compareTo(low) < 0) {
-						resP = resP.add(low);
-					}
-					
-					if(resQ.compareTo(low) < 0) {
-						resQ = resQ.add(low);
-					}
-					
-					if(resP.compareTo(up) >= 0) {
-						resP = resP.mod(maxMin).add(low);
-					}
-					
-					if(resQ.compareTo(up) >= 0) {
-						resQ = resQ.mod(maxMin).add(low);
-					}
-					
-					primeP = resP.nextProbablePrime();
-					primeQ = resQ.nextProbablePrime();
-					
-					iteration--;
-					
-					// delete the stopComputation is the while loop if you want to remove the
-					// stop button
-				}while(!(rabinFirst.isAppropriatePrime(primeP, low, up)
-							&& rabinFirst.isAppropriatePrime(primeQ, low, up)
-							&& !primeP.equals(primeQ)
-							&& rabinFirst.isCompositeSuitable(primeP, primeQ)
-							) && iterations > 0 && !stopComputation);
-				
-				if(stopComputation) {
-					return;
-				}
-				
-				
-				if(iterations == 0) {
-					
-					Runnable r = new Runnable() {
-						
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							rftc.txtSinglePQWarning.setText(strAppropriatePrimesWarning);
-							showControl(rftc.txtSinglePQWarning);
-							
-						}
-					};
-					
-					Display.getDefault().asyncExec(r);
-					
-					return;
-					
-				}
-				
-				Runnable r2 = new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						hideControl(rftc.txtSinglePQWarning);
-						
-					}
-				};
-					
-				Display.getDefault().asyncExec(r2);
-				
-				String strPrimeP = primeP.toString();
-				String strPrimeQ = primeQ.toString();
-			
-				BigInteger p = new BigInteger(strPrimeP);
-				BigInteger q = new BigInteger(strPrimeQ);
-				BigInteger n = p.multiply(q);
-				rabinFirst.setP(p);
-				rabinFirst.setQ(q);
-				rabinFirst.setN(n);
-				
-					
-				Runnable r3 = new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						rftc.cmbP.setText(strPrimeP);
-						rftc.cmbQ.setText(strPrimeQ);
-						rftc.txtModN.setText(n.toString());
-					}
-				};				
-				
-				Display.getDefault().asyncExec(r3);
-				
-				
-				int bitlength = rabinFirst.getN().bitLength();
-				int maxBytesPerBlock = bitlength / 8;
-						
-				int ibytesPerBlock = (bitlength / 8) * 2;
-				int blocklength = ((bitlength / 8) + 1) * 2;
-				bytesPerBlock = ibytesPerBlock;
-				blocklength = blocklength;
-				
-				rstc.guiHandler.blocklength = blocklength;
-				rstc.guiHandler.bytesPerBlock = 2;
-				
-				Runnable r4 = new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						rstc.cmbBlockN.removeAll();
-						
-						for(int i = 1; i <= maxBytesPerBlock; i++) {
-							rstc.cmbBlockN.add(String.valueOf(i));
-						}
-						
-						rstc.cmbBlockN.select(0);
-						
-						// to eliminate warnings
-						rstc.guiHandler.handlePlaintextTextMode(rstc);
-						rstc.guiHandler.handleDecimalNumbersEncDecMode(rstc);
-						rstc.guiHandler.handleHexNumDecMode(rstc);
-						rstc.guiHandler.handleDecimalNumbersDecMode(rstc);
-						
-						// for current mode
-						if(rstc.btnSelectionEnc.getSelection()) {
-							if(rstc.btnText.getSelection()) {
-								rstc.guiHandler.handlePlaintextTextMode(rstc);
-							}
-							if(rstc.btnNum.getSelection()) {
-								rstc.guiHandler.handleDecimalNumbersEncDecMode(rstc);
-							}
-						}
-						
-						if(rstc.btnSelectionDec.getSelection()) {
-							if(rstc.btnRadHex.getSelection()) {
-								rstc.guiHandler.handleHexNumDecMode(rstc);
-							}
-							if(rstc.btnRadDecimal.getSelection()) {
-								rstc.guiHandler.handleDecimalNumbersDecMode(rstc);
-							}
-						}
-						
-						
-						rftc.txtLowLimP.setBackground(ColorService.WHITE);
-						rftc.txtLowLimQ.setBackground(ColorService.WHITE);
-						rftc.txtUpperLimP.setBackground(ColorService.WHITE);
-						rftc.txtUpperLimQ.setBackground(ColorService.WHITE);
-						
-						hideControl(rftc.txtcompGenPandQWarning);
-				
-					}
-				};
-				
-				Display.getDefault().asyncExec(r4);
-			}
-		});
-		
-		return t;
-
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * @param rftc
 	 * @param strLow
@@ -519,7 +311,7 @@ public class HandleFirstTab extends GUIHandler {
 			
 			hideControl(rftc.compHoldSelectionPrimesAndLimits);
 			hideControl(rftc.compSelectPrimeGen);
-			String info = this.getMessageByControl("btnGenKeysMan_selection");
+			String info = this.getMessageByControl("btnGenKeysMan_selection"); //$NON-NLS-1$
 			rftc.txtInfoSetParam.setText(info);
 			this.updateTextfields(rftc);
 		}
@@ -553,7 +345,7 @@ public class HandleFirstTab extends GUIHandler {
 			this.showControl(rftc.compHoldSelectionPrimesAndLimits);
 			showControl(rftc.compSelectPrimeGen);
 			
-			String info = this.getMessageByControl("btnGenKeys_selection");
+			String info = this.getMessageByControl("btnGenKeys_selection"); //$NON-NLS-1$
 			rftc.txtInfoSetParam.setText(info);
 		
 			
@@ -575,8 +367,8 @@ public class HandleFirstTab extends GUIHandler {
 			
 			if(rftc.cstb.btnRadioEncrypt.getSelection()) {
 				if(!rftc.txtModN.getText().equals(oldN)) {
-					rftc.cstb.txtCiphertext.setText("");
-					rftc.cstb.txtPlaintext.setText("");
+					rftc.cstb.txtCiphertext.setText(""); //$NON-NLS-1$
+					rftc.cstb.txtPlaintext.setText(""); //$NON-NLS-1$
 					//rftc.cstb.btnEncrypt.setEnabled(true);
 				}
 				//else {
@@ -606,17 +398,17 @@ public class HandleFirstTab extends GUIHandler {
 			if(rftc.cstb.btnRadioDecrypt.getSelection()) {
 				
 				if(!rftc.txtModN.getText().equals(oldN)) {
-					rftc.cstb.txtCiphertextSegments.setText("");
+					rftc.cstb.txtCiphertextSegments.setText(""); //$NON-NLS-1$
 					rftc.cstb.cmbChooseBlock.removeAll();
-					rftc.cstb.txtChosenPlaintexts.setText("");
-					rftc.cstb.txtFirstPlaintext.setText("");
-					rftc.cstb.txtSecondPlaintext.setText("");
-					rftc.cstb.txtThirdPlaintext.setText("");
-					rftc.cstb.txtFourthPlaintext.setText("");
+					rftc.cstb.txtChosenPlaintexts.setText(""); //$NON-NLS-1$
+					rftc.cstb.txtFirstPlaintext.setText(""); //$NON-NLS-1$
+					rftc.cstb.txtSecondPlaintext.setText(""); //$NON-NLS-1$
+					rftc.cstb.txtThirdPlaintext.setText(""); //$NON-NLS-1$
+					rftc.cstb.txtFourthPlaintext.setText(""); //$NON-NLS-1$
 				}
 				
 				if(rftc.cstb.textSelector.getText() != null && !rftc.cstb.textSelector.getText().getText().isEmpty()) {
-					String pattern = "[0-9a-fA-F]+";
+					String pattern = "[0-9a-fA-F]+"; //$NON-NLS-1$
 					
 					if(!rftc.cstb.textSelector.getText().getText().matches(pattern)) {
 						rftc.cstb.btnDecryption.setEnabled(false);
@@ -725,22 +517,19 @@ public class HandleFirstTab extends GUIHandler {
 		int bitlength = rabinFirst.getN().bitLength();
 		int maxBytesPerBlock = bitlength / 8;
 		
-		//rftc.txtInfoModulus.setText("Number of bits of N = " + bitlength + "\n"
-				//+ "Max. number of bytes to encrypt = " + maxBytesPerBlock);
-		
-		String strInfoNbits = "Bit length of N: " + bitlength + " ";
+		String strInfoNbits = Messages.HandleFirstTab_11 + bitlength + " "; //$NON-NLS-2$
 		
 		if(bitlength > 1)
-			strInfoNbits += "bits";
+			strInfoNbits += Messages.HandleFirstTab_13;
 		else
-			strInfoNbits += "bit";
+			strInfoNbits += Messages.HandleFirstTab_14;
 		
-		String strInfoNmaxBytes = "Max. number of bytes per block: " + maxBytesPerBlock + " ";
+		String strInfoNmaxBytes = Messages.HandleFirstTab_15 + maxBytesPerBlock + " "; //$NON-NLS-2$
 		
 		if(maxBytesPerBlock > 1)
-			strInfoNmaxBytes += "bytes";
+			strInfoNmaxBytes += Messages.HandleFirstTab_17;
 		else
-			strInfoNmaxBytes += "byte";
+			strInfoNmaxBytes += Messages.HandleFirstTab_18;
 		
 		
 		/*String txtInfoModulusStr  = "Number of bits of N = " + bitlength + " ";
@@ -771,12 +560,12 @@ public class HandleFirstTab extends GUIHandler {
 		rstc.guiHandler.blocklength = blocklength;
 		rstc.guiHandler.bytesPerBlock = 2;
 		
-		String strInfoNblocklength = "Blocklength ciphertext: " + blocklength / 2 + " ";
+		String strInfoNblocklength = Messages.HandleFirstTab_19 + blocklength / 2 + " "; //$NON-NLS-2$
 		
 		if(blocklength/2 > 1)
-			strInfoNblocklength += "bytes";
+			strInfoNblocklength += Messages.HandleFirstTab_21;
 		else
-			strInfoNblocklength += "byte";
+			strInfoNblocklength += Messages.HandleFirstTab_22;
 		
 		rftc.txtInfoNbits.setText(strInfoNbits);
 		rftc.txtInfoNmaxBytes.setText(strInfoNmaxBytes);
@@ -863,11 +652,11 @@ public class HandleFirstTab extends GUIHandler {
 	public void btnToggleInfoNAction(RabinFirstTabComposite rftc) {
 		if(rftc.btnToggleInfoN.getSelection()) {
 			this.showControl(rftc.grpInfoOnN);
-			rftc.btnToggleInfoN.setText("Hide info public key");
+			rftc.btnToggleInfoN.setText(Messages.HandleFirstTab_23);
 		}
 		else {
 			this.hideControl(rftc.grpInfoOnN);
-			rftc.btnToggleInfoN.setText("Show info public key");
+			rftc.btnToggleInfoN.setText(Messages.HandleFirstTab_24);
 		}
 	}
 	
@@ -879,7 +668,6 @@ public class HandleFirstTab extends GUIHandler {
 	public void updateLimitFieldsSingle(RabinFirstTabComposite rftc) {
 		String strLowLim = rftc.txtLowLimPQSingle.getText();
 		String strUpperLim = rftc.txtUpperLimPQSingle.getText();
-		//String pattern = "^([1-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
 		String pattern = "^(1\\d+|[2-9]\\d*|2\\^\\d+)$"; //$NON-NLS-1$
 		
 		Color white = this.colorBackgroundNeutral;
