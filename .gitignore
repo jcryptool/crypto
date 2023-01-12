@@ -8,6 +8,7 @@ build.xml
 javaCompiler...args
 Thumbs.db
 .metals
+/org.jcryptool.visual.rabin/_ignore/
 **/.tycho-consumer-pom.xml
 /FETCH_HEAD
 /HEAD

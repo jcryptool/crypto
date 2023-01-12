@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="stylesheet.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Rabin Cryptosystem</title>
+   	<script id="MathJax-script" async src="${JCTJS_HOST}/javascript/MathJax-master/es5/tex-mml-svg.js"></script>
+	<!--
+	<script src="${JCTJS_HOST}/javascript/jquery.js"></script> 
+ 	<script>TOC_generate_default("h2, h3, h4")</script> 
+ 	-->
+</head>
+
+<body>
+
+     <h1>Rabin Cryptosystem</h1>
+
+    <p>
+        The Rabin cryptosystem is an asymmetric cryptosystem, whereby its encryption scheme shares similarities
+        with the RSA encryption scheme. Its unique characteristic is that its decryption scheme
+        produces four possible plaintexts, of which only one is the correct one. Its security is based on the
+        integer factorization problem (IFP), that is, if the prime numbers of the public key can somehow be
+        received, the cryptosystem is completely broken. In fact, it has been mathematically proven that its security
+        is equivalent to the IFP, whereas a similar proof is not known for the RSA cryptosystem.
+    </p>
+
+    <p>
+        In this online help we describe the theory behind the Rabin encryption and decryption scheme and
+        demonstrate how the plug-in works.
+    </p>
+
+
+    <div class="toc">
+        <div class="toc-title">
+            <h2 id="toc-header">Contents</h2>
+        </div>
+        <ul>
+            <li>
+                1. <a href="#theory">Theory</a>
+                <ul>
+                    <li>1.1 <a href="#theory-key-gen">Key generation</a></li>
+                    <li>1.2 <a href="#theory-enc">Encryption</a></li>
+                    <li>1.3 <a href="#theory-dec">Decryption</a></li>
+                </ul>
+            </li>
+            <li>2. <a href="#cryptosystem">Cryptosystem tab</a>
+                <ul>
+                    <li>2.1 <a href="#cryptosystem-key-gen">Key generation</a></li>
+                    <li>2.2 <a href="#cryptosystem-textbook">Textbook format</a>
+                        <ul>
+                            <li>2.2.1 <a href="#cryptosystem-textbook-enc">Encryption</a></li>
+                            <li>2.2.2 <a href="#cryptosystem-textbook-dec">Decryption</a></li>
+                        </ul>
+                    </li>
+                    <li>2.3 <a href="#cryptosystem-steps">Enhanced Rabin</a>
+                        <ul>
+                            <li>2.3.1 <a href="#cryptosystem-steps-enc">Encryption then decryption</a></li>
+                            <li>2.3.2 <a href="#cryptosystem-steps-enc-identify-with-padding">Identification of the correct plaintext with padding</a></li>
+                            <li>2.3.3 <a href="#cryptosystem-steps-dec">Decryption</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>3. <a href="#attacks">Attacks tab</a>
+                <ul>
+                    <li>3.1 <a href="#attacks-fermat">Fermat factorization</a></li>
+                    <li>3.2 <a href="#attacks-pollard">Pollard's rho factorization</a></li>
+                </ul>
+            </li>
+            <li>4. <a href="#settings">Settings tab</a></li>
+            <li>5. <a href="#error-messages">Error messages</a></li>
+        </ul>
+    </div>
+
+    <h2 id="theory" class="h2">1. Theory</h2>
+
+    <p>
+        This section describes the theory behind the Rabin encryption and decryption scheme.
+        We first discuss the key generation, then the encryption and decryption process.
+    </p>
+
+    <h3 id="theory-key-gen" class="h3">1.1 Key generation</h2>
+
+        <p>
+            We choose two primes \(p\) and \(q\) with \(p \neq q\) and
+            \(p \equiv q \equiv 3 \bmod 4\) and compute \(n = p \cdot q\).
+            <br>
+            The public key is \(n\) and the private key (\(p, q\)).
+        </p>
+
+        <h3 id="theory-enc" class="h3">1.2 Encryption</h3>
+
+        <p>
+            Given a plaintext \(m\) and public key \(n\) we compute the corresponding ciphertext as
+            \(c = m^2 \bmod n\).
+        </p>
+
+        <h3 id="theory-dec" class="h3">1.3 Decryption</h3>
+
+        <p>
+            Given a ciphertext \(c\) and a private key \((p,q)\) we compute the
+            four plaintexts as follows:
+
+            \begin{align}
+            &\text{1.) Compute } m_p = c^{\frac{p+1}{4}} \bmod p.\\
+            &\text{2.) Compute } m_q = c^{\frac{q+1}{4}} \bmod q.\\
+            &\text{3.) Compute two integers } s \text{ and } t \text{ such that } s \cdot p + t \cdot q = 1\\
+            &\text{ using the extended Euclidean algorithm (EEA)}.\\
+            &\text{4.) Compute } m_1 = s \cdot p \cdot m_q + t \cdot q \cdot m_p \bmod n. \\
+            &\text{5.) Compute } m_2 = s \cdot p \cdot m_q - t \cdot q \cdot m_p \bmod n. \\
+            &\text{6.) Compute } m_3 = -m_2 \bmod n. \\
+            &\text{7.) Compute } m_4 = -m_1 \bmod n. \\
+            \end{align}
+
+            The four plaintexts are \(m_1, m_2, m_3, m_4\).
+        </p>
+
+        <h3 class="h3">Example</h3>
+
+        <p>
+            Suppose Bob chooses the prime numbers \(p = 19\) and \(q = 23\) such
+            that he obtains the modulus \(n = pq = 19 \cdot 23 = 437\). To encrypt
+            the plaintext \(m = 5\), Alice computes
+
+            \begin{align*}
+            c &= m^2 \bmod n = 5^2 \bmod 437 = 25
+            \end{align*}
+
+            and sends \(c\) to Bob. To decrypt the ciphertext \(c\), Bob computes
+            the following values:
+
+            \begin{align*}
+            m_p &= c^{\frac{p+1}{4}} \bmod p = 25^{\frac{20}{4}} \bmod 19 = 5. \\
+            m_q &= c^{\frac{q+1}{4}} \bmod q = 25^{\frac{24}{4}} \bmod 23 = 18.
+            \end{align*}
+
+            Using the EEA he obtains
+
+            \begin{align*}
+            sp+tq &= 1 = -6 \cdot 19 + 5 \cdot 23
+            \end{align*}
+
+            Then he computes the four plaintexts as follows:
+
+            \begin{align*}
+            m_1 &= -6 \cdot 19 \cdot 18 + 5 \cdot 23 \cdot 5 \bmod 437 = 271 \\
+            m_2 &= -6 \cdot 19 \cdot 18 - 5 \cdot 23 \cdot 5 \bmod 437 = 432 \\
+            m_3 &= -432 \bmod 437 = 5 \\
+            m_4 &= -271 \bmod 437 = 166
+            \end{align*}
+
+            Finally, he has to choose the correct plaintext out of the four. In this case
+            it is \(m_3 = m = 5\).
+        </p>
+
+        <h2 id="cryptosystem" class="h2">2. Cryptosystem tab</h2>
+
+        <p>
+            In Figure <a href="#img-cryptosystem">1</a> we can see the three tabs
+            <b>Cryptosystem</b>, <b>Attacks</b> and <b>Settings</b> of the plug-in. We first explain
+            the <b>Cryptosystem</b> tab.
+
+        </p>
+
+        <figure>
+            <a name="img-cryptosystem">
+                <img src="images/plugin-cryptosystem-tab.png" alt="Cryptosystem tab" id="fig1">
+                <figcaption>Figure 1: Cryptosystem tab</figcaption>
+            </a>
+        </figure>
+
+        <h3 id="cryptosystem-key-gen" class="h3">2.1 Key generation</h3>
+
+        <p>
+            The key generation is shown in Figure <a href="#img-keygen-1">2</a>.
+            In the middle of the figure the option <b>Generate private and public key manually</b> is selected as
+            default when launching the plug-in. With this option we are able to enter primes \(p\) and
+            \(q\) manually in the corresponding textfields on the left side. We have to make sure that the conditions
+            \(p \neq q\), \(p \equiv q \equiv 3 \bmod 4\) and \(p,q \leq 2^{1024}\) are satisfied. Then we can click
+            on <b>Start</b> in the middle to generate the private and public key. There are already default values for
+            \(p\) and \(q\) when launching the plugin.
+
+        </p>
+
+        <figure>
+            <a name="img-keygen-1">
+                <img src="images/plugin-keygen-1.png" alt="Key generation 1" id="fig2">
+                <figcaption>Figure 2: Key generation -- part 1</figcaption>
+            </a>
+        </figure>
+
+        <p>
+
+            If we select the option <b>Generate private and public key using limits</b> we get to
+            the presentation shown in Figure <a href="#img-keygen-2">3</a>. There the default option shown is
+            <b>Generate \(p\) and \(q\) having the same range</b>. With this, we can enter a lower and upper limit
+            for \(p\) and \(q\) on the left side. We have to make sure that the condition upper limit \(\leq 2^{1024}\)
+            is satisfied. Then we can click on <b>Start</b> to generate the private and
+            public key within the given range.
+
+        </p>
+
+        <figure>
+            <a name="img-keygen-2">
+                <img src="images/plugin-keygen-2.png" alt="Key generation 2" id="fig3">
+                <figcaption>Figure 3: Key generation -- part 2</figcaption>
+            </a>
+        </figure>
+
+        <p>
+
+            If we select the option <b>Generate \(p\) and \(q\) having different ranges</b> we can enter
+            ranges for both primes individually as we can see in Figure <a href="#img-keygen-3">4</a>.
+            Then we can click on <b>Start</b> again to generate the keys within the specified ranges.
+            Again we have to make sure to satisfy the condition for both upper limits.
+
+        </p>
+
+        <figure>
+            <a name="img-keygen-3">
+                <img src="images/plugin-keygen-3.png" alt="Key generation 3" id="fig4">
+                <figcaption>Figure 4: Key generation -- part 3</figcaption>
+            </a>
+        </figure>
+
+        <p>
+
+            Once we generated the keys we can click on <b>Show info public key</b> to open up a frame showing
+            information on the public key \(N\), which we can see in <br> Figure <a href="#img-info-pk">5</a>.
+
+        </p>
+
+        <figure>
+            <a name="img-info-pk">
+                <img src="images/plugin-info-pk.png" alt="Info public key" id="fig5">
+                <figcaption>Figure 5: Info public key N</figcaption>
+            </a>
+        </figure>
+
+        <h3 id="cryptosystem-textbook" class="h3">2.2 Textbook format</h3>
+
+        <p>
+            We can select between the two options <b>Rabin textbook variant</b> and
+            <b>Rabin textbook variant (step-by-step)</b> as shown in Figure <a href="#img-textbook">6</a>.
+            The default option is the former one, when launching the plugin. We first cover the 
+            former option.
+        </p>
+
+        <figure>
+            <a name="img-textbook">
+                <img src="images/plugin-textbook.png" alt="Textbook format" id="fig6">
+                <figcaption>Figure 6: Textbook format selection</figcaption>
+            </a>
+        </figure>
+
+        <h4 id="cryptosystem-textbook-enc" class="h4">2.2.1 Encryption</h4>
+
+        <p>
+            We first can choose between the two options <b>Encryption</b> and <b>Decryption</b> as
+            illustrated in Figure <a href="#img-textbook-select-enc">7</a>. We first deal with the encryption of a
+            chosen plaintext.
+        </p>
+
+        <figure>
+            <a name="img-textbook-select-enc">
+                <img src="images/plugin-select-enc-dec.png" alt="Textbook select encryption" id="fig7">
+                <figcaption>Figure 7: Textbook format -- select encryption/decryption</figcaption>
+            </a>
+        </figure>
+
+        <p>
+
+            Next, we have to click on the button <b>Load text...</b>
+            as shown in Figure <a href="#img-load-text">8</a>, which
+            opens a pop-up window, which we can see in Figure <a href="#img-load-text-window">9</a>.
+            There, we can either select the
+            built-in JCT editor, a file or give an own input as it is here the case with the example
+            “hello world”. The option of selecting a file is not implemented, that is, only the JCT
+            editor and using own input are possible. In case we want to encrypt a plaintext the
+            plaintext can be in UTF-8 format. If we want to decrypt a ciphertext the input has to
+            be given in hexadecimal format and the length of the ciphertext must be a multiple of the blocklength of
+            the public key \(N\). Then we can click on <b>Finish</b> or on <b>Next</b>
+            to additionally apply filter options.
+
+        </p>
+
+        <figure>
+            <a name="img-load-text">
+                <img src="images/plugin-loadtext.png" alt="Load text" id="fig8">
+                <figcaption>Figure 8: Load text</figcaption>
+            </a>
+        </figure>
+
+        <figure>
+            <a name="img-load-text-window">
+                <img src="images/plugin-load-text-window-1.png" alt="Load text window" id="fig9">
+                <figcaption>Figure 9: Load text, pop-up window</figcaption>
+            </a>
+        </figure>
+
+
+        <p>
+            In Figure <a href="#img-textbook-enc">10</a> we can see the encryption of the plaintext “hello world”, which
+            we
+            chose
+            as an example in Figure <a href="#img-load-text-window">8</a>.
+            If we click on <b>Encrypt</b> shown in Figure <a href="#img-textbook-enc">10</a> the chosen plaintext is
+            encrypted
+            and the
+            ciphertext is shown in the corresponding textfield on the left side of the figure. With a
+            click on <b>Decrypt and switch to decryption mode</b> we switch to the decryption mode and
+            decrypt the ciphertext we obtain if we click on <b>Encrypt</b>. With a click on
+            <b>Write to JCT editor</b> we write the
+            ciphertext on the left side of the figure to the built-in JCT editor. We can then save the
+            ciphertext as a file.
+        </p>
+
+        <figure>
+            <a name="img-textbook-enc">
+                <img src="images/plugin-enc.png" alt="Textbook encryption" id="fig10">
+                <figcaption>Figure 10: Textbook format -- encryption</figcaption>
+            </a>
+        </figure>
+
+        <p>
+            We describe the encryption process with the example \(N = 713 = 23 \cdot 31\) (default value)
+            and the plaintext \(m = \) "hello world". Because \(N\) can encrypt at most 1 byte as we have seen in
+            Figure <a href="#img-info-pk">5</a>, the plaintext will be split into
+
+            \begin{align}
+            m = \text{ "h || e || l || l || o || || w || o || r || l || d" = "68 || 65 || 6c || 6c || 6f || 20 || 77 || 6f || 72 || 6c || 64" (in hex)}
+            \end{align}
+
+            and every character is encrypted individually, such that we get the
+            ciphertext
+
+            \begin{align}
+            c = \text{ 79 || db || 100 || 100 || c8 || 13 || 72 || 66 || c8 || a2 || 100 || 12}
+            \end{align}
+
+            Then the individual ciphertextblocks are prefixed with zeros such that their length is equal
+            to the blocklength we can see in Figure <a href="#img-info-pk">5</a> (Blocklength ciphertext), so
+            that we get ciphertextblocks of equal blocklength. Lastly the ciphertextblocks are joined together.
+            In this case we get
+
+            \begin{align}
+            c = \text{ 007900db0100010000c80137026600c800a201000012}
+            \end{align}
+
+            If we want to encrypt umlauts
+            "ä, ö, ü" then we have to choose a bigger \(N\) because umlauts are encoded in UTF-8 format and
+            represent 2 bytes. If we choose a bigger
+            public key \(N\) such that 2 bytes are combined into one block, here "he || ll || o etc.", we have
+            to append a padding scheme because the plaintext "hello world" consists of 11 characters/bytes which
+            is not a multiple of 2, so we can not evenly split the plaintext into blocks of 2 bytes.
+            So we have to extend the plaintext with 1 byte, so that we get a length of
+            12 letters/bytes and then we split the plaintext into 2-bytes blocks and encrypt every two-bytes
+            block individually. We can select between the standardized padding schemes "Ansi X9.23"
+            and "PKCS#7" using the drop-down list <b>Block padding</b> <br>
+            shown in Figure <a href="#img-textbook-enc">10</a>.
+
+        </p>
+
+        <h4 id="cryptosystem-textbook-dec" class="h4">2.2.2 Decryption</h4>
+
+        <p>
+            We explain the decryption process with the previous example. If we enter the ciphertext
+            \(c = \) "007900db0100010000c80137026600c800a201000012" by clicking on <b>Load text...</b>
+            or if we just click the button <b>Decrypt and switch to decryption mode</b> in Figure <a
+                href="#img-textbook-enc">10</a>
+            we see the presentation shown in Figure <a href="#img-textbook-dec">11</a>.
+            The ciphertext is split into blocks according to the blocklength mentioned above and every block
+            is decrypted individually and its four possible plaintexts are displayed below the ciphertext.
+
+            <br><br>
+
+            If we click on one of the four plaintexts the plaintext is marked as selected (blue background color)
+            and written to the textfield <b>Chosen plaintexts (preview)</b>. We can deselect the plaintext again by
+            clicking
+            on it a second time.
+
+            <br><br>
+
+            We can use the buttons <b>Previous block</b>, <b>Next block</b> or the drop-down list on the
+            left side to navigate through the ciphertextblocks in a cyclic manner.
+
+            If we click on <b>Reset chosen plaintexts</b> the selected plaintexts and the textfield are
+            reset to their initial state.
+
+            <br><br>
+
+            The button <b>Write to JCT editor</b> wites the content of the textfield
+            <b>Chosen plaintexts (preview)</b> to the built-in editor.
+
+        </p>
+
+        <figure>
+            <a name="img-textbook-dec">
+                <img src="images/plugin-textbook-dec.png" alt="Textbook decryption" id="fig11">
+                <figcaption>Figure 11: Textbook format -- decryption</figcaption>
+            </a>
+        </figure>
+
+        <h3 id="cryptosystem-steps" class="h3">2.3 Enhanced Rabin</h3>
+
+        <p>
+            The option <b>Rabin textbook variant (step-by-step)</b>  we can select in
+            Figure <a href="#img-textbook">6</a> demonstrates the textbook format in a step-by-step way,
+            showing everything in more detail. We first explain the option <b>Encryption then decryption</b>
+            which is selected in Figure <a href="#img-er-enc-sel">12</a>.
+        </p>
+
+        <figure>
+            <a name="img-er-enc-sel">
+                <img src="images/plugin-enhanced-rabin-enctyption-selection.png" alt="step-by-step encryption selection"
+                    id="fig12">
+                <figcaption>Figure 12: Enhanced Rabin -- "Encryption then decryption" selection</figcaption>
+            </a>
+        </figure>
+
+        <h4 id="cryptosystem-steps-enc" class="h4">2.3.1 Encryption then decryption</h4>
+
+        <p>
+            In Figure <a href="#img-er-enc-1">13</a> we can see the encryption process of the plaintext
+            "hello world" and its different steps (padding, hex etc.) with \(N = 827 \cdot 107\). Compared to the
+            <b>Rabin textbook variant</b> we additionally have here the option to select how many bytes/characters
+            we want to combine into one block on the left side of the figure (<b>Bytes per block</b>). The <b>Rabin textbook variant</b>
+            always uses
+            the maximum number of bytes the public key \(N\) can encrypt.
+
+            <br><br>
+
+            For padding schemes we again have the options
+            "ANSI X9.23" and "PKCS#7".
+
+            <br><br>
+
+            Once we have chosen the number of bytes we want to combine and the
+            padding scheme, we can click on <b>Encrypt</b> to encrypt the chosen plaintext and show all steps.
+        </p>
+
+        <figure>
+            <a name="img-er-enc-1">
+                <img src="images/plugin-er-enc-1.png" alt="Enhanced Rabin encryption 1" id="fig13">
+                <figcaption>Figure 13: Enhanced Rabin -- encryption 2-bytes blocks</figcaption>
+            </a>
+        </figure>
+
+        <p>
+
+            In Figure <a href="#img-er-enc-2">14</a> we can see the encryption of the plaintext
+            "hello world" split into 5-bytes blocks for \(N = 944239 \cdot 773567 = 730432130513\).
+            Because the plaintext consists of 11 characters/bytes
+            we can not split it evenly in 5-bytes blocks. Thus, we append "00000004" (ANSI X9.23) as padding to get
+            15 characters/bytes and split it into three 5-bytes blocks.
+
+        </p>
+
+
+        <figure>
+            <a name="img-er-enc-2">
+                <img src="images/plugin-er-enc-2.png" alt="Enhanced Rabin encryption 2" id="fig14">
+                <figcaption>Figure 14: Enhanced Rabin -- encryption 5-bytes blocks</figcaption>
+            </a>
+        </figure>
+
+        <p>
+
+            The corresponding decryption process of Figure <a href="#img-er-enc-1">13</a> can be seen in
+            Figures <a href="#img-er-dec-1">15</a> and <a href="#img-er-dec-2">16</a>. As in the
+            <b>Rabin textbook format</b> we can navigate through the ciphertextblocks using the buttons
+            <b>Next block</b>, <b>Previous block</b> and the drop-down list. Then we can click on
+            the buttons <b>Compute square roots mod p and q</b>, <b>Compute y_p and y_q</b>,
+            <b>Compute v and w</b> and lastly <b>Compute all plaintexts</b> to compute all steps of the decryption
+            process until we get the four plaintexts. The correct plaintext is marked with a green background color.
+
+        </p>
+
+
+        <figure>
+            <a name="img-er-dec-1">
+                <img src="images/plugin-er-dec-1.png" alt="Enhanced Rabin decryption 1" id="fig15">
+                <figcaption>Figure 15: Enhanced Rabin -- decryption part 1</figcaption>
+            </a>
+        </figure>
+
+        <figure>
+            <a name="img-er-dec-2">
+                <img src="images/plugin-er-dec-2.png" alt="Enhanced Rabin decryption 2" id="fig16">
+                <figcaption>Figure 16: Enhanced Rabin -- decryption part 2</figcaption>
+            </a>
+        </figure>
+
+        <p>
+            In Figure <a href="#img-er-enc-decimal">17</a> we can see the option <b>Decimal numbers</b>
+            of the encryption process. Here we are able to enter decimal numbers in the format
+            "decimal number 1 or decimal number 1 || decimal number 2 || etc.". The decryption process is
+            the same as described in the Figures above.
+        </p>
+
+
+        <figure>
+            <a name="img-er-enc-decimal">
+                <img src="images/plugin-er-enc-decimal.png" alt="Enhanced Rabin encryption decimal" id="fig17">
+                <figcaption>Figure 17: Enhanced Rabin -- encryption decimal</figcaption>
+            </a>
+        </figure>
+
+        <h4 id="cryptosystem-steps-enc-identify-with-padding">2.3.2 Identification of the correct plaintext with padding</h4>
+
+        <p>
+            As we have seen in the decryption process in Figure <a href="#img-er-dec-2">16</a> we obtain four plaintexts of 
+            which only one is the correct one. The plugin identifies the correct one (marked with a green background color) due to 
+            the prior encryption of the original plaintext. However, if we, as a recipient, do not know the orginial plaintext we 
+            can not identify the correct plaintext just like that. One solution is to add a padding to every 
+            plaintextblock we can see in Figures <a href="#img-er-enc-1">13</a> and <a href="#img-er-enc-2">14</a> and then choose the 
+            plaintext in the decryption process containing the correct padding. This technique is not implemented in the plugin and 
+            is only described here to get some grasp on a possible identification process.
+        </p>
+
+
+        <h4 id="cryptosystem-steps-dec" class="h4">2.3.2 Decryption</h4>
+
+        <p>
+            Figures <a href="#img-er-dec-hex">20</a> and <a href="#img-er-dec-decimal">21</a> show
+            the option <b>Only decryption</b> of the Enhanced Rabin format. We can choose between the
+            two options <b>Hex</b> and <b>Decimal numbers</b>. The former one allows us to enter
+            a ciphertext in hexadecimal format, whereby its length has to be a multiple of the blocklength
+            of the public key \(N\). The latter one works in the same way as described with Figure <a href="#img-er-enc-decimal">17</a>.
+            The rest of the decryption works in the same way as described with Figures <a href="#img-er-dec-1">15</a>
+            and <a href="#img-er-dec-2">16</a>
+            with the only difference that the correct plaintext is not marked with a green background color.
+            The only purpose of the option <b>Only decryption</b> is that we are able to compute the 4 square roots
+            (plaintexts) of
+            a given ciphertext. Which of them is the correct one has to decide the user.
+        </p>
+
+        <figure>
+            <a name="img-er-dec-hex">
+                <img src="images/plugin-er-dec-hex.png" alt="Enhanced Rabin decryption hex" id="fig20">
+                <figcaption>Figure 20: Enhanced Rabin -- decryption hex</figcaption>
+            </a>
+        </figure>
+
+        <figure>
+            <a name="img-er-dec-decimal">
+                <img src="images/plugin-er-dec-decimal.png" alt="Enhanced Rabin decryption decimal" id="fig21">
+                <figcaption>Figure 21: Enhanced Rabin -- decryption decimal</figcaption>
+            </a>
+        </figure>
+
+        <h2 id="attacks" class="h2">3. Attacks</h2>
+
+        <p>
+            In this section we explain the Fermat factorization and the Pollard's rho factorization
+            of the plug-in, which we can see as selection in Figure <a href="#img-attacks-fermat-params">22</a>.
+            We first cover the former, then the latter.
+        </p>
+
+        <figure>
+            <a name="img-attacks-fermat-params">
+                <img src="images/plugin-attacks-selection.png" alt="Attacks selection" id="fig22">
+                <figcaption>Figure 22: Attacks, selection</figcaption>
+            </a>
+        </figure>
+
+        <h3 id="attacks-fermat" class="h3">3.1 Fermat factorization</h3>
+
+        <p>
+
+            If we want to factorize a public key \(N\) we can either enter the public key
+            in the corresponding textfield manually or make use of the drop-down list to choose a public key
+            among predefined values, which is demonstrated in Figure <a href="#img-attacks-fermat-drop-down">24</a>,
+            or click on the button <b>Use public key generated in Cryptosystem tab</b> to
+            transfer the public key, which was generated in the <b>Cryptosystem</b> tab before. If we have chosen
+            a public key we can click on the button <b>Factorize</b> to factorize the public key.
+            If a factorization can be found the factors \(p\) and \(q\) are displayed on the left side of the figure
+            with a green background color marking the actual results of \(p\) and \(q\).
+            In Figure <a href="#img-attacks-fermat-params">23</a> the factorization of the public key \(N = 413967937\)
+            is
+            shown as an
+            example.
+        </p>
+
+        <figure>
+            <a name="img-attacks-fermat-params">
+                <img src="images/plugin-attacks-fermat-setting-params.png"
+                    alt="Attacks, Fermat factorization -- setting params" id="fig23">
+                <figcaption>Figure 23: Attacks, Fermat factorization -- Setting parameters</figcaption>
+            </a>
+        </figure>
+
+
+        <figure>
+            <a name="img-attacks-fermat-drop-down">
+                <img src="images/plugin-attacks-fermat-drop-down-list.png"
+                    alt="Attacks, Fermat factorization -- drop-down list" id="fig24">
+                <figcaption>Figure 24: Attacks, Fermat factorization -- Setting parameters</figcaption>
+            </a>
+        </figure>
+
+        <p>
+
+            The different steps of the factorization are shown in Figure <a href="#img-attacks-fermat-table">25</a>,
+            whereby
+            the figure only covers part of the table for demonstration.
+        </p>
+
+        <figure>
+            <a name="img-attacks-fermat-table">
+                <img src="images/plugin-attacks-fermat-result-table.png"
+                    alt="Attacks, Fermat factorization -- result table" id="fig25">
+                <figcaption>Figure 25: Attacks, Fermat factorization -- Result table</figcaption>
+            </a>
+        </figure>
+
+        <p>
+
+            The computation of the factorization is run in the background as a separate thread. That means,
+            we can also stop the running computation by clicking on the button
+            <b>Stop computation</b>, which is illustrated in Figure <a
+                href="#img-attacks-fermat-stop-computation">26</a>.
+            If stopping the computation is successful the message <b>Stopped computation successfully</b> appears.
+        </p>
+
+        <figure>
+            <a name="img-attacks-fermat-stop-computation">
+                <img src="images/plugin-attacks-fermat-stop-computation.png"
+                    alt="Attacks, Fermat factorization -- stop computation" id="fig26">
+                <figcaption>Figure 26: Attacks, Fermat factorization -- Stop computation</figcaption>
+            </a>
+        </figure>
+
+
+        <h3 id="attacks-pollard" class="h3">3.2 Pollard's rho factorization</h3>
+
+        <p>
+            The parameter settings of Pollard's rho factorization is shown in Figure <a
+                href="#img-attacks-pollard-1">27</a>.
+            In addition to the Fermat factorization we can enter the starting values \(x\) and \(y\) freely in the range
+            \(1 \leq x,y < N\), if we want to test different kind of starting values and see their influence on the
+                final result. As pseudo-random function we use the function \(g(x)=x^2 + c\), whereby the constant \(c\)
+                is again selectable in the range \(1 \leq c < N\). Once we have chosen a composite number \(N\) we can
+                click on the button <b>Factorize</b> to factorize the number and can follow all steps made by the
+                algorithm
+                in the table shown in Figure <a href="#img-attacks-pollard-2">28</a>, which only demonstrates a part
+                of the actual table. The
+                factorization of \(N = pq\) is then displayed in the corresponding fields in Figure <a
+                    href="#img-attacks-pollard-1">24</a>
+                and marked with a green background color.
+        </p>
+
+        <figure>
+            <a name="img-attacks-pollard-1">
+                <img src="images/plugin-attacks-pollard-setting-params.png"
+                    alt="Attacks, Pollard's rho factorization -- Setting parameters" id="fig27">
+                <figcaption>Figure 27: Attacks, Pollard's rho factorization -- Setting parameters</figcaption>
+            </a>
+        </figure>
+
+        <figure>
+            <a name="img-attacks-pollard-2">
+                <img src="images/plugin-attacks-pollard-result-table.png"
+                    alt="Attacks, Pollard's rho factorization -- Result table" id="fig28">
+                <figcaption>Figure 28: Attacks, Pollard's rho factorization -- Result table</figcaption>
+            </a>
+        </figure>
+
+        <h2 id="settings" class="h2">4. Settings tab</h2>
+
+        <p>
+            The <b>Settings</b> tab allows us to switch between the classic mode (default) and
+            a dark mode, which we can see in Figure <a href="#img-settings">29</a>. If we select the
+            option <b>Dark mode</b> and click on <b>Apply</b> the plug-in will restart and its theme
+            changes to a dark theme, which is shown in Figure <a href="#img-dark-mode">30</a>.
+        </p>
+
+        <figure>
+            <a name="img-settings">
+                <img src="images/plugin-settings-1.png" alt="Settings tab" id="fig29">
+                <figcaption>Figure 29: Settings tab</figcaption>
+            </a>
+        </figure>
+
+        <figure>
+            <a name="img-dark-mode">
+                <img src="images/plugin-dark-mode.png" alt="Dark mode" id="fig30">
+                <figcaption>Figure 30: Dark mode</figcaption>
+            </a>
+        </figure>
+
+        <h2 id="error-messages" class="h2">5. Error messages</h2>
+
+
+        <p>
+            The plug-in uses dynamic error messages to tell the user
+            that something went wrong or an input was entered in a wrong way. 
+            In that case the corresponding textfield is marked with a red background color and 
+            an error message appears below the textfield. Once the user resolves the error the 
+            error message disappears and the red background color turns back to normal.
+            Examples of such error messages are shown in Figures 
+            <a href="#img-error-example-1">31</a> and <a href="#img-error-example-2">32</a>
+            for the key generation.
+        </p>
+
+
+        <figure>
+            <a name="img-error-example-1">
+                <img src="images/rabin-plugin-key-generation-error-1.png" alt="Error message example 1" id="fig31">
+                <figcaption>Figure 31: Error message example 1</figcaption>
+            </a>
+        </figure>
+
+        <figure>
+            <a name="img-error-example-2">
+                <img src="images/rabin-plugin-key-generation-error-2.png" alt="Error message example 2" id="fig32">
+                <figcaption>Figure 32: Error message example 2</figcaption>
+            </a>
+        </figure>
+
+
+
+</body>

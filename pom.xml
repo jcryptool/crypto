@@ -97,6 +97,7 @@
 	<module>org.jcryptool.visual.zeroknowledge</module>
 	<module>org.jcryptool.visual.rainbow</module>
 	<module>org.jcryptool.visual.errorCorrectingCodes</module>
+	<module>org.jcryptool.visual.rabin</module>
   </modules>
 
   <build>
