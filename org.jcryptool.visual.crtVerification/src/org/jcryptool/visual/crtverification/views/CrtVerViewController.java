@@ -417,6 +417,7 @@ public class CrtVerViewController {
      * @return a date or null if parsing fails
      */
     public Date parseDate(String day, String monthYear) {
+//     	System.out.println(String.format("Called parse with %s; %s", day, monthYear));
         Date date = null;
 
         //SimpleDateFormat df = new SimpleDateFormat("ddMMMyyyy");
@@ -425,6 +426,8 @@ public class CrtVerViewController {
         String month = monthYear.split("/")[1].strip();
         String year = monthYear.split("/")[2].strip();
 
+        var dayInt = Integer.parseInt(day);
+        
         // marker-2
         var monthInts = new LinkedHashMap<String, Integer>();
         if(Locale.getDefault().getLanguage().toLowerCase().contains("de")) {
@@ -448,26 +451,25 @@ public class CrtVerViewController {
 //        System.out.println("Year: " +year);
 //        System.out.println("YearInt: " +yearInt);
 
-        if (yearInt < 84) {
-            if (String.valueOf(yearInt).length() == 1) {
-                year = "200" + yearInt;
-            } else {
-                year = "20" + yearInt;
-            }
-        } else {
-            if (String.valueOf(yearInt).length() == 1) {
-                year = "190" + yearInt;
-            } else {
-                year = "19" + yearInt;
-            }
-        }
-
-        try {
-            date = df.parse(day + monthInt + year);
-        } catch (ParseException e) {
-            LogUtil.logError(Activator.PLUGIN_ID, e);
-        }
-
+//        if (yearInt > 100) {
+//        	year = yearInt + "";
+//        } else {
+//			if (yearInt < 84) {
+//				if (String.valueOf(yearInt).length() == 1) {
+//					year = "200" + yearInt;
+//				} else {
+//					year = "20" + yearInt;
+//				}
+//			} else {
+//				if (String.valueOf(yearInt).length() == 1) {
+//					year = "190" + yearInt;
+//				} else {
+//					year = "19" + yearInt;
+//				}
+//			}
+//				
+//        }
+		date = new Date(yearInt-1900, monthInt, dayInt);
         return date;
     }
 

@@ -832,6 +832,15 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		btnValidate.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				controller.updateElements(fromRootCa, scaleRootCaBegin, 180);
+				controller.updateElements(thruRootCa, scaleRootCaEnd, 180);
+				controller.updateElements(fromCa, scaleCaBegin, 180);
+				controller.updateElements(thruCa, scaleCaEnd, 180);
+				controller.updateElements(fromCert, scaleCertBegin, 180);
+				controller.updateElements(thruCert, scaleCertEnd, 180);
+				controller.updateElements(signatureDate, scaleSignatureDate, 360);
+				controller.updateElements(verificationDate, scaleVerificationDate, 360);
+
 				controller.setLogText("### " + String.format("%03d", validationCounter) + " ###"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				validationCounter++;
 
@@ -956,6 +965,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 		});
 
 		controller.reset();
+// 		controller.parseDatesFromComposite();
 	}
 
 	/**
