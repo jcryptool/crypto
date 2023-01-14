@@ -187,7 +187,7 @@ public class CrtVerViewController {
         if(Locale.getDefault().getLanguage().toLowerCase().contains("de") && format.equals(dateformat1)) {
         	// (marker-1)
         	var monthnames = new String[] {"Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"};       	
-        	return String.format("/ %s / %s  ", monthnames[calendar.getTime().getMonth()], calendar.getTime().getYear());
+        	return String.format("/ %s / %s  ", monthnames[calendar.getTime().getMonth()], calendar.getTime().getYear() + 1900);
         } else {
 			return String.valueOf(dt1.format(calendar.getTime()));
         }
@@ -451,24 +451,16 @@ public class CrtVerViewController {
 //        System.out.println("Year: " +year);
 //        System.out.println("YearInt: " +yearInt);
 
-//        if (yearInt > 100) {
-//        	year = yearInt + "";
-//        } else {
-//			if (yearInt < 84) {
-//				if (String.valueOf(yearInt).length() == 1) {
-//					year = "200" + yearInt;
-//				} else {
-//					year = "20" + yearInt;
-//				}
-//			} else {
-//				if (String.valueOf(yearInt).length() == 1) {
-//					year = "190" + yearInt;
-//				} else {
-//					year = "19" + yearInt;
-//				}
-//			}
-//				
-//        }
+        if (yearInt > 100) {
+        	yearInt = yearInt;
+        } else {
+			if (yearInt > 60) {
+				yearInt = 1900 + yearInt;
+			} else {
+				yearInt = 2000 + yearInt;
+			}
+				
+        }
 		date = new Date(yearInt-1900, monthInt, dayInt);
         return date;
     }

@@ -65,7 +65,7 @@ public abstract class AbstractResultDialog extends TitleAreaDialog {
     private int selectedStrategy;
     private Button playSelected;
     private int min = 2;
-    private int max = 519;
+    private int max = 1000;
     TableColumn[] columns;
 
     public AbstractResultDialog(Shell shell, int selectedStrategy) {
