@@ -1,5 +1,5 @@
 <feature 
-id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.8.22-20220919" provider-name="jcryptool.org" plugin="org.jcryptool.visual">
+id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.8.25-20230118" provider-name="jcryptool.org" plugin="org.jcryptool.visual">
     <description url="https://github.com/jcryptool/crypto">
         <!-- keep this in one line -->
         <!-- version:this -->
@@ -246,7 +246,9 @@ litigation.
     <plugin id="org.jcryptool.visual.babystepgiantstep" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
     <plugin id="org.jcryptool.visual.huffmanCoding" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
     <plugin id="org.jcryptool.visual.sigVerification" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-    <plugin id="org.jcryptool.visual.crtVerification" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+    <plugin 
+    id="org.jcryptool.visual.crtVerification" download-size="0" install-size="0" version="1.0.8.25-20230118" unpack="false">
+</plugin>
     <plugin id="org.jcryptool.visual.ssl" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
     <plugin id="org.jcryptool.visual.euclid" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
     <plugin id="org.jcryptool.visual.merkleHellman" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
@@ -265,11 +267,5 @@ litigation.
 </plugin>
     <plugin id="org.jcryptool.visual.jctca" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
     <plugin id="org.jcryptool.visual.jctca" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-
-   <plugin
-         id="org.jcryptool.visual.rabin"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+    <plugin id="org.jcryptool.visual.rabin" download-size="0" install-size="0" version="1.0.8.25-20230118" unpack="false"/>
 </feature>
