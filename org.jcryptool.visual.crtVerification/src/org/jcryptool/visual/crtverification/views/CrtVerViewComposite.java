@@ -841,7 +841,7 @@ public class CrtVerViewComposite extends Composite implements PaintListener {
 				controller.updateElements(signatureDate, scaleSignatureDate, 360);
 				controller.updateElements(verificationDate, scaleVerificationDate, 360);
 
-				controller.setLogText("### " + String.format("%03d", validationCounter) + " ###"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				controller.setLogText("\n### " + String.format("%03d", validationCounter) + " ###"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				validationCounter++;
 
 				controller.logValidityDates();
