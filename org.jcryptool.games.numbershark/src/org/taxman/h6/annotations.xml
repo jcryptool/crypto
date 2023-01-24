@@ -1,0 +1,8 @@
+<root>
+    <item name='org.taxman.h6.game.Board int compareTo(org.taxman.h6.Board) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.taxman.h6.util.TxList java.util.Iterator&lt;java.lang.Integer&gt; iterator()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+</root>
