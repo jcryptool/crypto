@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.jcryptool.core.logging.utils.LogUtil;
+import org.taxman.h6.frame.FrameSolver;
 
 /**
  * Starts the calculation Thread
@@ -41,41 +42,55 @@ public class CalculationThread implements IRunnableWithProgress {
 
     @Override
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-        try {
-            switch (selectedStrategy) {
-            case 0:
-                break;
-            case 1:
-                monitor.beginTask(Messages.ProgressDialog_0, IProgressMonitor.UNKNOWN);
-                ZahlenhaiBestwerte.main(min, max, monitor);
-                outputTable = ZahlenhaiBestwerte.getOutput();
-                stoppedAt = ZahlenhaiBestwerte.getStoppedAt();
-                break;
+		switch (selectedStrategy) {
+		case 0:
+			break;
+		case 1:
+			monitor.beginTask(Messages.ProgressDialog_0, IProgressMonitor.UNKNOWN);
+			var solver = new FrameSolver(); 
+			monitor.beginTask(String.format("Taxman optimal solutions from n = %s through %s", min, max), max-min+1);
+			int[][] moves = new int[max-min+1][];
+			var reached = min;
+			for (int n = min; n <= max; n++) {
+				monitor.subTask("n = " + n);
+				if(monitor.isCanceled()) {
+					reached = n-1;
+					break;
+				}
+				var idx = n-min;
+				moves[idx] = solver.solve(n).moves.toArray();
+				monitor.worked(1);
+				reached = n;
+			}
+			int[][] afterPossibleInterruption = new int[reached-min+1][];
+			for (int i = min; i <= reached; i++) {
+				afterPossibleInterruption[i-min] = moves[i-min];
+			}
+			outputTable = makeOutputTableFromRaw(afterPossibleInterruption);
+			stoppedAt = reached;
+			break;
 
-            case 2:
-                monitor.beginTask(Messages.ProgressDialog_1, IProgressMonitor.UNKNOWN);
-                MaximizeStrategy calc = new MaximizeStrategy(min, max, monitor);
-                outputTable = calc.getOutput();
-                stoppedAt = calc.getStoppedAt();
-                break;
+		case 2:
+			monitor.beginTask(Messages.ProgressDialog_1, IProgressMonitor.UNKNOWN);
+			MaximizeStrategy calc = new MaximizeStrategy(min, max, monitor);
+			outputTable = calc.getOutput();
+			stoppedAt = calc.getStoppedAt();
+			break;
 
-            case 3:
-                monitor.beginTask(Messages.ProgressDialog_1, IProgressMonitor.UNKNOWN);
-                VanNekStrategy calc1 = new VanNekStrategy(min, max, monitor);
-                outputTable = calc1.getOutput();
-                stoppedAt = calc1.getStoppedAt();
-                break;
+		case 3:
+			monitor.beginTask(Messages.ProgressDialog_1, IProgressMonitor.UNKNOWN);
+			VanNekStrategy calc1 = new VanNekStrategy(min, max, monitor);
+			outputTable = calc1.getOutput();
+			stoppedAt = calc1.getStoppedAt();
+			break;
 
-            case 4:
-                monitor.beginTask(Messages.ProgressDialog_1, IProgressMonitor.UNKNOWN);
-                Schu1Strategy calcSchu1 = new Schu1Strategy(min, max, monitor);
-                outputTable = calcSchu1.getOutput();
-                stoppedAt = calcSchu1.getStoppedAt();
-                break;
-            }
-        } catch (InterruptedException ex) {
-            LogUtil.logError(ex);
-        }
+		case 4:
+			monitor.beginTask(Messages.ProgressDialog_1, IProgressMonitor.UNKNOWN);
+			Schu1Strategy calcSchu1 = new Schu1Strategy(min, max, monitor);
+			outputTable = calcSchu1.getOutput();
+			stoppedAt = calcSchu1.getStoppedAt();
+			break;
+		}
         monitor.done();
 
         if (monitor.isCanceled()) {

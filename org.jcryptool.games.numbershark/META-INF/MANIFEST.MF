@@ -22,6 +22,7 @@ Export-Package: org.jcryptool.games.numbershark,
  org.jcryptool.games.numbershark.strategies,
  org.jcryptool.games.numbershark.util,
  org.jcryptool.games.numbershark.views
-Bundle-Classpath: deps/moshi-1.11.0.jar,
+Bundle-Classpath: .,
+ deps/moshi-1.11.0.jar,
  deps/moshi-adapters-1.11.0.jar,
  deps/okio-1.17.5.jar

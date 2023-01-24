@@ -58,7 +58,7 @@ public class OptimalStrategyDialog extends AbstractStrategyDialog {
         Button showButton = new Button(composite, SWT.RADIO);
         showButton.setText(Messages.OptStratDialog_2);
 
-        final Group groupSliders = createSliders(composite, true, 400, 40);
+        final Group groupSliders = createSliders(composite, true, 5000, 40);
 
         showButton.setSelection(false);
         calcButton.setSelection(true);
