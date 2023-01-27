@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jcryptool.visual.merkletree;singleton:=true
-Bundle-Version: 1.0.8
+Bundle-Version: 1.0.8.26-20230127
 Bundle-Activator: org.jcryptool.visual.merkletree.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.layouts,
@@ -13,26 +13,24 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
-Export-Package: org.jcryptool.visual.merkletree;
-  uses:="org.osgi.framework,
-   org.jcryptool.visual.merkletree.algorithm,
-   org.eclipse.osgi.util,
-   org.eclipse.jface.resource,
-   org.jcryptool.visual.merkletree.ui,
-   org.eclipse.swt.widgets,
-   org.eclipse.ui.plugin,
-   org.eclipse.ui.part",
+Export-Package: org.jcryptool.visual.merkletree;uses:="org.osgi.framework,
+ org.jcryptool.visual.merkletree.algorithm,
+ org.eclipse.osgi.util,
+ org.eclipse.jface.resource,
+ org.jcryptool.visual.merkletree.ui,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui.plugin,
+ org.eclipse.ui.part",
  org.jcryptool.visual.merkletree.algorithm,
  org.jcryptool.visual.merkletree.files,
  org.jcryptool.visual.merkletree.handlers;uses:="org.eclipse.core.commands",
- org.jcryptool.visual.merkletree.ui;
-  uses:="org.jcryptool.visual.merkletree.algorithm,
-   org.eclipse.zest.core.viewers,
-   org.eclipse.swt.graphics,
-   org.eclipse.swt.widgets,
-   org.eclipse.swt.custom,
-   org.eclipse.draw2d,
-   org.eclipse.jface.viewers,
-   org.eclipse.ui.part"
+ org.jcryptool.visual.merkletree.ui;uses:="org.jcryptool.visual.merkletree.algorithm,
+ org.eclipse.zest.core.viewers,
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.widgets,
+ org.eclipse.swt.custom,
+ org.eclipse.draw2d,
+ org.eclipse.jface.viewers,
+ org.eclipse.ui.part"
 Import-Package: org.jcryptool.core.util.fonts
 Automatic-Module-Name: org.jcryptool.visual.merkletree

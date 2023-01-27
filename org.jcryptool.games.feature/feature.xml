@@ -1,5 +1,5 @@
 <feature 
-id="org.jcryptool.games.feature" label="JCrypTool Games Feature" version="1.0.8.25-20230118" provider-name="jcryptool.org" plugin="org.jcryptool.games">
+id="org.jcryptool.games.feature" label="JCrypTool Games Feature" version="1.0.8.26-20230127" provider-name="jcryptool.org" plugin="org.jcryptool.games">
     <description url="https://github.com/jcryptool/crypto">
         <!-- keep this in one line -->
         <!-- version:this -->
@@ -216,9 +216,9 @@ litigation.
     <!--    <update label="JCrypTool.org" url="https://www.cryptool.org/jct/update"/> -->
     <!-- </url> -->
     <plugin 
-    id="org.jcryptool.games.numbershark" download-size="0" install-size="0" version="1.0.8.25-20230118" unpack="false">
+    id="org.jcryptool.games.numbershark" download-size="0" install-size="0" version="1.0.8.26-20230127" unpack="false">
 </plugin>
-    <plugin id="org.jcryptool.games" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+    <plugin id="org.jcryptool.games" download-size="0" install-size="0" version="1.0.8.26-20230127" unpack="false"/>
     <!-- Removed for Release 1.0.0 because of a major bug in the autosolver (stackoverflow).
 		Remove the comments after the release of 1.0.0. The plugin should be
 		in a later release.   -->
@@ -228,6 +228,6 @@ litigation.
          install-size="0"
          version="0.0.0"
          unpack="false"/>   -->
-    <plugin id="org.jcryptool.games.zudoku" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-    <plugin id="org.jcryptool.games.divide" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+    <plugin id="org.jcryptool.games.zudoku" download-size="0" install-size="0" version="1.0.8.26-20230127" unpack="false"/>
+    <plugin id="org.jcryptool.games.divide" download-size="0" install-size="0" version="1.0.8.26-20230127" unpack="false"/>
 </feature>
