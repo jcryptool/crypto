@@ -14,8 +14,7 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.jcryptool.visual.sphincsplus
 Bundle-ActivationPolicy: lazy
-Import-Package:
- org.eclipse.core.databinding,
+Import-Package: org.eclipse.core.databinding,
  org.eclipse.wb.swt,
  org.jcryptool.analysis.graphtools,
  org.jcryptool.core.logging.utils,

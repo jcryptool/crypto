@@ -21,8 +21,7 @@ Export-Package: org.jcryptool.visual.sphincs,
  org.jcryptool.visual.sphincs.files,
  org.jcryptool.visual.sphincs.handlers,
  org.jcryptool.visual.sphincs.ui
-Import-Package:
- org.eclipse.core.databinding,
+Import-Package: org.eclipse.core.databinding,
  org.eclipse.wb.swt,
  org.jcryptool.core.util.fonts
 Automatic-Module-Name: org.jcryptool.visual.sphincs
