@@ -6,7 +6,9 @@ Bundle-Version: 1.0.8.26-20230127
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jcryptool.core.util,
- org.jcryptool.thirdparty.m2bundle.jaxb
+ org.jcryptool.thirdparty.m2bundle.jaxb,
+ bcprov;bundle-version="[1.68.0,1.68.0]",
+ bcpkix;bundle-version="[1.68.0,1.68.0]"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jcryptool.visual.wots,
@@ -16,11 +18,6 @@ Bundle-Vendor: %Bundle-Vendor.0
 Import-Package: codec,
  de.flexiprovider.api.keys,
  de.flexiprovider.core.random,
- org.bouncycastle.asn1.x500,
- org.bouncycastle.crypto.generators,
- org.bouncycastle.crypto.prng,
- org.bouncycastle.jce,
- org.bouncycastle.x509,
  org.jcryptool.core.logging.utils,
  org.jcryptool.core.util.colors,
  org.jcryptool.core.util.fonts,

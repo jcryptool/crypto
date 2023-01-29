@@ -6,11 +6,12 @@ Bundle-Version: 1.0.8.26-20230127
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.help,
- org.bouncycastle,
  org.jcryptool.crypto.keystore,
  org.jcryptool.core.logging,
  org.jcryptool.core.operations,
- org.jcryptool.core.util
+ org.jcryptool.core.util,
+ bcprov;bundle-version="[1.68.0,1.68.0]",
+ bcpkix;bundle-version="[1.68.0,1.68.0]"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Activator: org.jcryptool.visual.sig.SigPlugin
 Bundle-ActivationPolicy: lazy
