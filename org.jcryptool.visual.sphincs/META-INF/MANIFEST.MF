@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jcryptool.visual.sphincs;singleton:=true
-Bundle-Version: 1.0.8.26-20230127
+Bundle-Version: 1.0.8.27-20230130
 Bundle-Activator: org.jcryptool.visual.sphincs.SphincsPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.layouts,
@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.core,
  org.jcryptool.thirdparty.m2bundle.jaxb,
  org.jcryptool.core.util,
- bcprov;bundle-version="[1.68.0,1.68.0]"
+ bcprov;bundle-version="[1.68.0,
+ 1.68.0]"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0

@@ -1,5 +1,5 @@
 <feature 
-id="org.jcryptool.crypto.modern.feature" label="JCrypTool Modern Algorithms Feature" version="1.0.8.26-20230127" provider-name="jcryptool.org" plugin="org.jcryptool.crypto.modern">
+id="org.jcryptool.crypto.modern.feature" label="JCrypTool Modern Algorithms Feature" version="1.0.8.27-20230130" provider-name="jcryptool.org" plugin="org.jcryptool.crypto.modern">
     <description url="https://github.com/jcryptool/crypto">
         <!-- keep this in one line -->
         <!-- version:this -->
@@ -215,18 +215,18 @@ litigation.
     <!-- <url> -->
     <!--    <update label="JCrypTool.org" url="https://www.cryptool.org/jct/update"/> -->
     <!-- </url> -->
-    <plugin id="org.jcryptool.crypto.modern" download-size="0" install-size="0" version="1.0.8.26-20230127" unpack="false">
+    <plugin id="org.jcryptool.crypto.modern" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
     </plugin>
     <plugin 
-    id="org.jcryptool.crypto.modern.stream.dragon" download-size="0" install-size="0" version="1.0.8.26-20230127" unpack="false">
+    id="org.jcryptool.crypto.modern.stream.dragon" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
 </plugin>
     <plugin 
-    id="org.jcryptool.crypto.modern.stream.lfsr" download-size="0" install-size="0" version="1.0.8.26-20230127" unpack="false">
+    id="org.jcryptool.crypto.modern.stream.lfsr" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
 </plugin>
     <plugin 
-    id="org.jcryptool.crypto.modern.sha3" download-size="0" install-size="0" version="1.0.8.26-20230127" unpack="false">
+    id="org.jcryptool.crypto.modern.sha3" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
 </plugin>
     <plugin 
-    id="org.jcryptool.crypto.modern.stream.arc4" download-size="0" install-size="0" version="1.0.8.26-20230127" unpack="false">
+    id="org.jcryptool.crypto.modern.stream.arc4" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
 </plugin>
 </feature>

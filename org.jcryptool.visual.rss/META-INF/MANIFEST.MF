@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jcryptool.visual.rss;singleton:=true
-Bundle-Version: 1.0.8.26-20230127
+Bundle-Version: 1.0.8.27-20230130
 Bundle-Activator: org.jcryptool.visual.rss.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.layouts;bundle-version="1.1.0",

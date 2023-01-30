@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.visual.sig; singleton:=true
-Bundle-Version: 1.0.8.26-20230127
+Bundle-Version: 1.0.8.27-20230130
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.help,
@@ -10,8 +10,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.jcryptool.core.logging,
  org.jcryptool.core.operations,
  org.jcryptool.core.util,
- bcprov;bundle-version="[1.68.0,1.68.0]",
- bcpkix;bundle-version="[1.68.0,1.68.0]"
+ bcprov;bundle-version="[1.68.0,
+ 1.68.0]",
+ bcpkix;bundle-version="[1.68.0,
+ 1.68.0]"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Activator: org.jcryptool.visual.sig.SigPlugin
 Bundle-ActivationPolicy: lazy
