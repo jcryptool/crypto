@@ -123,7 +123,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         cmp_bobReceivingAlgorithm.setLayout(Layout.gl_algorithmGroup());
         cmp_bobReceivingAlgorithm.setLayoutData(Layout.gd_algorithmGroup());
         
-        createMessageIcon();
+        createMailIcon();
         grp_bobMessagebox = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
         grp_bobDiffieHellman = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
         grp_bobRootChain = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
@@ -139,7 +139,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         return cmp_bobReceivingAlgorithm;
     }
     
-    private void createMessageIcon() {
+    private void createMailIcon() {
     	UiUtils.insertSpacers(cmp_bobReceivingAlgorithm, 0, 0);
     	drw_incomingMailIcon = ImageComponent.on(cmp_bobReceivingAlgorithm)
 	    	.xOffsetFromEast() // so we don't have to subtract the width of the image ourself as we draw to the left.

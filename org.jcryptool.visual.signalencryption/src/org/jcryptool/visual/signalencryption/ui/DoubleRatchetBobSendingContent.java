@@ -133,74 +133,65 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     }
 
     
-    private void createBobSendingChain() {
-        grp_bobSendingChain.setLayout(Layout.gl_sendingReceivingChainComposite(SWT.LEFT));
-        grp_bobSendingChain.setLayoutData(Layout.gd_sendingReceivingChainComposite());
-        grp_bobSendingChain.setText(SendingChainDescription);
-        
-        txt_bobSendingChain1 = new FlowChartNode.Builder(grp_bobSendingChain)
-                .title(bobSendingChainLabel1)
-                .popupProvider(FlowChartNodePopup.create("Sending Chain key", ""))
-                .buildValueNode();
-        txt_bobSendingChain1.setLayoutData(Layout.gd_algorithmNodes());
-        
-        txt_bobSendingChain2 =  new FlowChartNode.Builder(grp_bobSendingChain)
-                .title(bobSendingChainLabel3)
-                .popupProvider(FlowChartNodePopup.create("Konstante", "0"))
-                .buildValueNode();
-        txt_bobSendingChain2.setLayoutData(Layout.gd_algorithmNodesSlim());
-        
-        txt_bobSendingChain3 =  new FlowChartNode.Builder(grp_bobSendingChain)
-                .title(bobSendingChainLabel2)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
-                .buildOperationNode();
-        txt_bobSendingChain3.setLayoutData(Layout.gd_algorithmNodesSlim());
-        
-        arr_bobSendingChainArrow1 = ArrowComponent
-        		.from(txt_bobSendingChain1).south()
-        		.to(txt_bobSendingChain3).north()
-        		.on(cmp_bobSendingAlgorithm)
-        		.create();
+    private void createOutgoingMailIcon() {
+		drw_outgoingMailIcon = ImageComponent.on(cmp_bobSendingAlgorithm)
+			.xOffsetFromEast() // so we don't have to subtract the width of the image ourself as we draw to the left.
+			.setAnchorLater() // defer setting the location until the object is created
+	    	.offsetX(-ViewConstants.MAIL_ICON_X_OFFSET)  // minus because we want to draw to the left
+	    	.outgoingMailLeft();
+	    
+	    // This one is a special spacer: it doesn't have any content but ensures that the image drawn
+	    // (which does NOT have a concept of layouting) has enough space to be drawn.
+	    // This is necessary because the icon is the last element of the view.
+	    var requiredWidth =  drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET
+	    		- ViewConstants.ARROW_CANVAS_WIDTH;
+	    UiUtils.insertSpacers(cmp_bobSendingAlgorithm, 1, requiredWidth - 5);
+	
+	}
 
-        arr_bobSendingChainArrow2 = ArrowComponent
-        		.from(txt_bobSendingChain2).south()
-        		.to(txt_bobSendingChain3).east()
-        		.on(cmp_bobSendingAlgorithm)
-        		.create();
+	private void createBobDiffieHellmanChain() {
+	    grp_bobDiffieHellman.setText(DiffieHellmanGroupDescription);
+	    grp_bobDiffieHellman.setLayout(Layout.gl_diffieHellmanComposite());
+	    grp_bobDiffieHellman.setLayoutData(Layout.gd_diffieHellmanComposite());
+	
+	    txt_bobDiffieHellman1 =  new FlowChartNode.Builder(grp_bobDiffieHellman)
+	            .title(bobDiffieHellmanLabel1)
+	            .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
+	            .buildValueNode();
+	    txt_bobDiffieHellman1.setLayoutData(Layout.gd_algorithmNodes());
+	
+	    txt_bobDiffieHellman2 =  new FlowChartNode.Builder(grp_bobDiffieHellman)
+	            .title(bobDiffieHellmanLabel2)
+	            .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
+	            .buildOperationNode();
+	    txt_bobDiffieHellman2.setLayoutData(Layout.gd_algorithmNodes());
+	
+	    txt_bobDiffieHellman3 =  new FlowChartNode.Builder(grp_bobDiffieHellman)
+	            .title(bobDiffieHellmanLabel3)
+	            .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
+	            .buildValueNode();
+	    txt_bobDiffieHellman3.setLayoutData(Layout.gd_algorithmNodes());
+	
+	    arr_bobDiffieHellmanArrow1 = ArrowComponent
+	    		.from(txt_bobDiffieHellman1).south()
+	    		.to(txt_bobDiffieHellman2).north()
+	    		.on(cmp_bobSendingAlgorithm)
+	    		.create();
+	
+	    arr_bobDiffieHellmanArrow2 = ArrowComponent
+	    		.from(txt_bobDiffieHellman3).north()
+	    		.to(txt_bobDiffieHellman2).south()
+	    		.on(cmp_bobSendingAlgorithm)
+	    		.create();
+	}
 
-                UiUtils.insertSpacers(grp_bobSendingChain, 1);
+	public void setDiffieHellmanChainVisible(boolean visible) {
+		grp_bobDiffieHellman.setVisible(visible);
+		arr_bobDiffieHellmanArrow1.setVisible(visible);
+		arr_bobDiffieHellmanArrow2.setVisible(visible);
+	}
 
-        txt_bobSendingChain5 =  new FlowChartNode.Builder(grp_bobSendingChain)
-                .title(bobSendingChainLabel5)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
-                .buildValueNode();
-        txt_bobSendingChain5.setLayoutData(Layout.gd_algorithmNodes());
-
-        arr_bobSendingChainArrow3 = ArrowComponent
-        		.from(txt_bobSendingChain3).south()
-        		.to(txt_bobSendingChain5).north()
-        		.on(cmp_bobSendingAlgorithm)
-        		.create();
-    }
-    
-    public void setSendingChainVisible(boolean visible) {
-    	grp_bobSendingChain.setVisible(visible);
-    	arr_bobSpace2.setVisible(visible);
-		grp_bobSendingChain.setVisible(visible);
-		arr_bobSendingChainArrow1.setVisible(visible);
-		arr_bobSendingChainArrow2.setVisible(visible);
-		arr_bobSendingChainArrow3.setVisible(visible);
-		arr_bobSpace3.setVisible(visible);
-		// Part of what we consider the chain is already part in the
-		// Messagebox composite
-		cmp_bobMessagebox.setVisible(visible);
-		txt_bobSendingChain4.setVisible(visible);
-		txt_bobPlainText.setVisible(!visible);
-		txt_bobCipherText.setVisible(!visible);
-    }
-
-
-    private void createBobRootChain() {
+	private void createBobRootChain() {
         grp_bobRootChain.setText(RootChainDescription);
         grp_bobRootChain.setLayout(Layout.gl_rootChainComposite(SWT.RIGHT));
         grp_bobRootChain.setLayoutData(Layout.gd_rootChainComposite());
@@ -258,86 +249,73 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 		arr_bobRootChainArrow3.setVisible(visible);
 	}
 
-	private void createBobDiffieHellmanChain() {
-        grp_bobDiffieHellman.setText(DiffieHellmanGroupDescription);
-        grp_bobDiffieHellman.setLayout(Layout.gl_diffieHellmanComposite());
-        grp_bobDiffieHellman.setLayoutData(Layout.gd_diffieHellmanComposite());
-
-        txt_bobDiffieHellman1 =  new FlowChartNode.Builder(grp_bobDiffieHellman)
-                .title(bobDiffieHellmanLabel1)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
-                .buildValueNode();
-        txt_bobDiffieHellman1.setLayoutData(Layout.gd_algorithmNodes());
-
-        txt_bobDiffieHellman2 =  new FlowChartNode.Builder(grp_bobDiffieHellman)
-                .title(bobDiffieHellmanLabel2)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
-                .buildOperationNode();
-        txt_bobDiffieHellman2.setLayoutData(Layout.gd_algorithmNodes());
-
-        txt_bobDiffieHellman3 =  new FlowChartNode.Builder(grp_bobDiffieHellman)
-                .title(bobDiffieHellmanLabel3)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
-                .buildValueNode();
-        txt_bobDiffieHellman3.setLayoutData(Layout.gd_algorithmNodes());
-
-        arr_bobDiffieHellmanArrow1 = ArrowComponent
-        		.from(txt_bobDiffieHellman1).south()
-        		.to(txt_bobDiffieHellman2).north()
-        		.on(cmp_bobSendingAlgorithm)
-        		.create();
-
-        arr_bobDiffieHellmanArrow2 = ArrowComponent
-        		.from(txt_bobDiffieHellman3).north()
-        		.to(txt_bobDiffieHellman2).south()
-        		.on(cmp_bobSendingAlgorithm)
-        		.create();
-    }
-	
-	public void setDiffieHellmanChainVisible(boolean visible) {
-		grp_bobDiffieHellman.setVisible(visible);
-		arr_bobDiffieHellmanArrow1.setVisible(visible);
-		arr_bobDiffieHellmanArrow2.setVisible(visible);
-	}
-    
-    private void createBobArrowSpaces() {
-        arr_bobSpace1 = ArrowComponent
-				.from(grp_bobDiffieHellman, txt_bobDiffieHellman2).west()
-				.to(txt_bobRootChain3, txt_bobRootChain3).east()
-				.on(cmp_bobSendingAlgorithm)
-				.withDefaults();
-		
-		arr_bobSpace2 = ArrowComponent
-				.from(txt_bobRootChain3).west()
-				.to(txt_bobSendingChain3).east()
-				.on(cmp_bobSendingAlgorithm)
-	    	    .arrowId("cmp_aliceArrowSpace2")
-				.withDefaults();
-		
-        arr_bobSpace3 = ArrowComponent
-	    	.from(txt_bobSendingChain3).west()
-	    	.to(cmp_bobMessagebox, txt_bobSendingChain3).east()
-	    	.on(cmp_bobSendingAlgorithm)
-	    	.create();
-    }
-    
-    private void createOutgoingMailIcon() {
-    	drw_outgoingMailIcon = ImageComponent.on(cmp_bobSendingAlgorithm)
-    		.xOffsetFromEast() // so we don't have to subtract the width of the image ourself as we draw to the left.
-    		.setAnchorLater() // defer setting the location until the object is created
-	    	.offsetX(-ViewConstants.MAIL_ICON_X_OFFSET)  // minus because we want to draw to the left
-	    	.outgoingMailLeft();
+	private void createBobSendingChain() {
+	    grp_bobSendingChain.setLayout(Layout.gl_sendingReceivingChainComposite(SWT.LEFT));
+	    grp_bobSendingChain.setLayoutData(Layout.gd_sendingReceivingChainComposite());
+	    grp_bobSendingChain.setText(SendingChainDescription);
 	    
-	    // This one is a special spacer: it doesn't have any content but ensures that the image drawn
-	    // (which does NOT have a concept of layouting) has enough space to be drawn.
-	    // This is necessary because the icon is the last element of the view.
-	    var requiredWidth =  drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET
-	    		- ViewConstants.ARROW_CANVAS_WIDTH;
-	    UiUtils.insertSpacers(cmp_bobSendingAlgorithm, 1, requiredWidth - 5);
+	    txt_bobSendingChain1 = new FlowChartNode.Builder(grp_bobSendingChain)
+	            .title(bobSendingChainLabel1)
+	            .popupProvider(FlowChartNodePopup.create("Sending Chain key", ""))
+	            .buildValueNode();
+	    txt_bobSendingChain1.setLayoutData(Layout.gd_algorithmNodes());
+	    
+	    txt_bobSendingChain2 =  new FlowChartNode.Builder(grp_bobSendingChain)
+	            .title(bobSendingChainLabel3)
+	            .popupProvider(FlowChartNodePopup.create("Konstante", "0"))
+	            .buildValueNode();
+	    txt_bobSendingChain2.setLayoutData(Layout.gd_algorithmNodesSlim());
+	    
+	    txt_bobSendingChain3 =  new FlowChartNode.Builder(grp_bobSendingChain)
+	            .title(bobSendingChainLabel2)
+	            .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
+	            .buildOperationNode();
+	    txt_bobSendingChain3.setLayoutData(Layout.gd_algorithmNodesSlim());
+	    
+	    arr_bobSendingChainArrow1 = ArrowComponent
+	    		.from(txt_bobSendingChain1).south()
+	    		.to(txt_bobSendingChain3).north()
+	    		.on(cmp_bobSendingAlgorithm)
+	    		.create();
+	
+	    arr_bobSendingChainArrow2 = ArrowComponent
+	    		.from(txt_bobSendingChain2).south()
+	    		.to(txt_bobSendingChain3).east()
+	    		.on(cmp_bobSendingAlgorithm)
+	    		.create();
+	
+	            UiUtils.insertSpacers(grp_bobSendingChain, 1);
+	
+	    txt_bobSendingChain5 =  new FlowChartNode.Builder(grp_bobSendingChain)
+	            .title(bobSendingChainLabel5)
+	            .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
+	            .buildValueNode();
+	    txt_bobSendingChain5.setLayoutData(Layout.gd_algorithmNodes());
+	
+	    arr_bobSendingChainArrow3 = ArrowComponent
+	    		.from(txt_bobSendingChain3).south()
+	    		.to(txt_bobSendingChain5).north()
+	    		.on(cmp_bobSendingAlgorithm)
+	    		.create();
+	}
 
-    }
+	public void setSendingChainVisible(boolean visible) {
+		grp_bobSendingChain.setVisible(visible);
+		arr_bobSpace2.setVisible(visible);
+		grp_bobSendingChain.setVisible(visible);
+		arr_bobSendingChainArrow1.setVisible(visible);
+		arr_bobSendingChainArrow2.setVisible(visible);
+		arr_bobSendingChainArrow3.setVisible(visible);
+		arr_bobSpace3.setVisible(visible);
+		// Part of what we consider the chain is already part in the
+		// Messagebox composite
+		cmp_bobMessagebox.setVisible(visible);
+		txt_bobSendingChain4.setVisible(visible);
+		txt_bobPlainText.setVisible(!visible);
+		txt_bobCipherText.setVisible(!visible);
+	}
 
-    private void createBobMessagebox() {
+	private void createBobMessagebox() {
         cmp_bobMessagebox.setLayout(Layout.gl_messageboxGroup());
         cmp_bobMessagebox.setLayoutData(Layout.gd_messageboxComposite());
 
@@ -374,7 +352,28 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 		drw_outgoingMailIcon.setVisible(false);
 	}
 
-    public void setAllVisible(boolean visible) {
+    private void createBobArrowSpaces() {
+	    arr_bobSpace1 = ArrowComponent
+				.from(grp_bobDiffieHellman, txt_bobDiffieHellman2).west()
+				.to(txt_bobRootChain3, txt_bobRootChain3).east()
+				.on(cmp_bobSendingAlgorithm)
+				.withDefaults();
+		
+		arr_bobSpace2 = ArrowComponent
+				.from(txt_bobRootChain3).west()
+				.to(txt_bobSendingChain3).east()
+				.on(cmp_bobSendingAlgorithm)
+	    	    .arrowId("cmp_aliceArrowSpace2")
+				.withDefaults();
+		
+	    arr_bobSpace3 = ArrowComponent
+	    	.from(txt_bobSendingChain3).west()
+	    	.to(cmp_bobMessagebox, txt_bobSendingChain3).east()
+	    	.on(cmp_bobSendingAlgorithm)
+	    	.create();
+	}
+
+	public void setAllVisible(boolean visible) {
 		setDiffieHellmanChainVisible(visible);
 		setRootChainVisible(visible);
 		setSendingChainVisible(visible);

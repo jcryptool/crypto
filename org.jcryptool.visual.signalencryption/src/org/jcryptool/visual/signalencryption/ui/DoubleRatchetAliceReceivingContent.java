@@ -139,64 +139,65 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         return cmp_aliceReceivingAlgorithm;
     }
 
-    private void createAliceReceivingChain() {
-        grp_aliceReceivingChain.setLayout(Layout.gl_sendingReceivingChainComposite(SWT.RIGHT));
-        grp_aliceReceivingChain.setLayoutData(Layout.gd_sendingReceivingChainComposite());
-        grp_aliceReceivingChain.setText(ReceivingChainDescription);
-        
-        txt_aliceReceivingChain1 = new FlowChartNode.Builder(grp_aliceReceivingChain)
-                .title(aliceReceivingChainLabel1)
-                .popupProvider(FlowChartNodePopup.create("Receive Chain Key", "0"))
-                .buildValueNode();
-        txt_aliceReceivingChain1.setLayoutData(Layout.gd_algorithmNodes());
+    private void createAliceDiffieHellmanChain() {
+	    grp_aliceDiffieHellman.setText(DiffieHellmanGroupDescription);
+	    grp_aliceDiffieHellman.setLayout(Layout.gl_diffieHellmanComposite());
+	    grp_aliceDiffieHellman.setLayoutData(Layout.gd_diffieHellmanComposite());
+	
+	    txt_aliceDiffieHellman1 = new FlowChartNode.Builder(grp_aliceDiffieHellman)
+	            .title(aliceDiffieHellmanLabel1)
+	            .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
+	            .buildValueNode();
+	    txt_aliceDiffieHellman1.setLayoutData(Layout.gd_algorithmNodes());
+	    
+	    arr_aliceMessagePublicKey = ArrowComponent
+	    		.fromAnchors()
+	    		.fromAnchorX(grp_aliceMessagebox, Side.WEST)
+	    		.fromAnchorY(txt_aliceDiffieHellman1, Side.EAST)
+	    		.outgoingDirection(Side.WEST)
+	    		.toAnchorX(grp_aliceDiffieHellman, Side.EAST)
+	    		.toAnchorY(txt_aliceDiffieHellman1, Side.EAST)
+	    		.incomingDirection(Side.EAST)
+	    		.on(cmp_aliceReceivingAlgorithm)
+	    		.create();
+	
+	
+	    txt_aliceDiffieHellman2 = new FlowChartNode.Builder(grp_aliceDiffieHellman)
+	            .title(aliceDiffieHellmanLabel2)
+	            .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
+	            .buildOperationNode();
+	    txt_aliceDiffieHellman2.setLayoutData(Layout.gd_algorithmNodes());
+	
+	    txt_aliceDiffieHellman3 = new FlowChartNode.Builder(grp_aliceDiffieHellman)
+	            .title(aliceDiffieHellmanLabel3)
+	            .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
+	            .buildValueNode();
+	    txt_aliceDiffieHellman3.setLayoutData(Layout.gd_algorithmNodes());
+	
+	    arr_aliceDiffieHellmanArrow1 = ArrowComponent
+	    		.from(txt_aliceDiffieHellman1).south()
+	    		.to(txt_aliceDiffieHellman2).north()
+	    		.on(cmp_aliceReceivingAlgorithm)
+	    		.create();
+	
+	    arr_aliceDiffieHellmanArrow2 = ArrowComponent
+	    		.from(txt_aliceDiffieHellman3).north()
+	    		.to(txt_aliceDiffieHellman2).south()
+	    		.on(cmp_aliceReceivingAlgorithm)
+	    		.create();
+	
+	}
 
-        txt_aliceReceivingChain2 = new FlowChartNode.Builder(grp_aliceReceivingChain)
-                .title(aliceReceivingChainLabel2)
-                .popupProvider(FlowChartNodePopup.create("Constant", "0"))
-                .buildValueNode();
-        txt_aliceReceivingChain2.setLayoutData(Layout.gd_algorithmNodesSlim());
 
-        txt_aliceReceivingChain3 = new FlowChartNode.Builder(grp_aliceReceivingChain)
-                .title(aliceReceivingChainLabel3)
-                .popupProvider(FlowChartNodePopup.create("KDF", "0"))
-                .buildOperationNode();
-        txt_aliceReceivingChain3.setLayoutData(Layout.gd_algorithmNodes());
+	public void setDiffieHellmanChainVisible(boolean visible) {
+		grp_aliceDiffieHellman.setVisible(visible);
+		arr_aliceMessagePublicKey.setVisible(visible);
+		arr_aliceDiffieHellmanArrow1.setVisible(visible);
+		arr_aliceDiffieHellmanArrow2.setVisible(visible);
+	}
 
-        UiUtils.insertSpacers(grp_aliceReceivingChain, 1);
-        
-        arr_aliceReceivingChainArrow1 = ArrowComponent
-        		.from(txt_aliceReceivingChain1).south()
-        		.to(txt_aliceReceivingChain3).north()
-        		.on(cmp_aliceReceivingAlgorithm)
-        		.create();
-        arr_aliceReceivingChainArrow2 = ArrowComponent
-        		.from(txt_aliceReceivingChain2).south()
-        		.to(txt_aliceReceivingChain3).east()
-        		.on(cmp_aliceReceivingAlgorithm)
-        		.create();
 
-        txt_aliceReceivingChain5 = new FlowChartNode.Builder(grp_aliceReceivingChain)
-                .title(aliceReceivingChainLabel5)
-                .popupProvider(FlowChartNodePopup.create("Neuer Receiving Chain Key", "0"))
-                .buildValueNode();
-        txt_aliceReceivingChain5.setLayoutData(Layout.gd_algorithmNodes());
-
-        arr_aliceReceivingChainArrow3 = ArrowComponent
-        		.from(txt_aliceReceivingChain3).south()
-        		.to(txt_aliceReceivingChain5).north()
-        		.on(cmp_aliceReceivingAlgorithm)
-        		.create();
-    }
-    
-    public void setReceivingChainVisible(boolean visible) {
-		arr_aliceSpace2.setVisible(visible);
-    	grp_aliceReceivingChain.setVisible(visible);
-		arr_aliceReceivingChainArrow1.setVisible(visible);
-		arr_aliceReceivingChainArrow2.setVisible(visible);
-		arr_aliceReceivingChainArrow3.setVisible(visible);
-    }
-
-    private void createAliceRootChain() {
+	private void createAliceRootChain() {
         grp_aliceRootChain.setText(RootChainDescription);
         grp_aliceRootChain.setLayout(Layout.gl_rootChainComposite(SWT.RIGHT));
         grp_aliceRootChain.setLayoutData(Layout.gd_rootChainComposite());
@@ -254,88 +255,66 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
 		arr_aliceRootChainArrow3.setVisible(visible);
     }
 
-    private void createAliceDiffieHellmanChain() {
-        grp_aliceDiffieHellman.setText(DiffieHellmanGroupDescription);
-        grp_aliceDiffieHellman.setLayout(Layout.gl_diffieHellmanComposite());
-        grp_aliceDiffieHellman.setLayoutData(Layout.gd_diffieHellmanComposite());
-
-        txt_aliceDiffieHellman1 = new FlowChartNode.Builder(grp_aliceDiffieHellman)
-                .title(aliceDiffieHellmanLabel1)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
-                .buildValueNode();
-        txt_aliceDiffieHellman1.setLayoutData(Layout.gd_algorithmNodes());
-        
-        arr_aliceMessagePublicKey = ArrowComponent
-	    		.fromAnchors()
-	    		.fromAnchorX(grp_aliceMessagebox, Side.WEST)
-	    		.fromAnchorY(txt_aliceDiffieHellman1, Side.EAST)
-	    		.outgoingDirection(Side.WEST)
-	    		.toAnchorX(grp_aliceDiffieHellman, Side.EAST)
-	    		.toAnchorY(txt_aliceDiffieHellman1, Side.EAST)
-	    		.incomingDirection(Side.EAST)
+    private void createAliceReceivingChain() {
+	    grp_aliceReceivingChain.setLayout(Layout.gl_sendingReceivingChainComposite(SWT.RIGHT));
+	    grp_aliceReceivingChain.setLayoutData(Layout.gd_sendingReceivingChainComposite());
+	    grp_aliceReceivingChain.setText(ReceivingChainDescription);
+	    
+	    txt_aliceReceivingChain1 = new FlowChartNode.Builder(grp_aliceReceivingChain)
+	            .title(aliceReceivingChainLabel1)
+	            .popupProvider(FlowChartNodePopup.create("Receive Chain Key", "0"))
+	            .buildValueNode();
+	    txt_aliceReceivingChain1.setLayoutData(Layout.gd_algorithmNodes());
+	
+	    txt_aliceReceivingChain2 = new FlowChartNode.Builder(grp_aliceReceivingChain)
+	            .title(aliceReceivingChainLabel2)
+	            .popupProvider(FlowChartNodePopup.create("Constant", "0"))
+	            .buildValueNode();
+	    txt_aliceReceivingChain2.setLayoutData(Layout.gd_algorithmNodesSlim());
+	
+	    txt_aliceReceivingChain3 = new FlowChartNode.Builder(grp_aliceReceivingChain)
+	            .title(aliceReceivingChainLabel3)
+	            .popupProvider(FlowChartNodePopup.create("KDF", "0"))
+	            .buildOperationNode();
+	    txt_aliceReceivingChain3.setLayoutData(Layout.gd_algorithmNodes());
+	
+	    UiUtils.insertSpacers(grp_aliceReceivingChain, 1);
+	    
+	    arr_aliceReceivingChainArrow1 = ArrowComponent
+	    		.from(txt_aliceReceivingChain1).south()
+	    		.to(txt_aliceReceivingChain3).north()
 	    		.on(cmp_aliceReceivingAlgorithm)
 	    		.create();
+	    arr_aliceReceivingChainArrow2 = ArrowComponent
+	    		.from(txt_aliceReceivingChain2).south()
+	    		.to(txt_aliceReceivingChain3).east()
+	    		.on(cmp_aliceReceivingAlgorithm)
+	    		.create();
+	
+	    txt_aliceReceivingChain5 = new FlowChartNode.Builder(grp_aliceReceivingChain)
+	            .title(aliceReceivingChainLabel5)
+	            .popupProvider(FlowChartNodePopup.create("Neuer Receiving Chain Key", "0"))
+	            .buildValueNode();
+	    txt_aliceReceivingChain5.setLayoutData(Layout.gd_algorithmNodes());
+	
+	    arr_aliceReceivingChainArrow3 = ArrowComponent
+	    		.from(txt_aliceReceivingChain3).south()
+	    		.to(txt_aliceReceivingChain5).north()
+	    		.on(cmp_aliceReceivingAlgorithm)
+	    		.create();
+	}
 
 
-        txt_aliceDiffieHellman2 = new FlowChartNode.Builder(grp_aliceDiffieHellman)
-                .title(aliceDiffieHellmanLabel2)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
-                .buildOperationNode();
-        txt_aliceDiffieHellman2.setLayoutData(Layout.gd_algorithmNodes());
+	public void setReceivingChainVisible(boolean visible) {
+		arr_aliceSpace2.setVisible(visible);
+		grp_aliceReceivingChain.setVisible(visible);
+		arr_aliceReceivingChainArrow1.setVisible(visible);
+		arr_aliceReceivingChainArrow2.setVisible(visible);
+		arr_aliceReceivingChainArrow3.setVisible(visible);
+	}
 
-        txt_aliceDiffieHellman3 = new FlowChartNode.Builder(grp_aliceDiffieHellman)
-                .title(aliceDiffieHellmanLabel3)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0"))
-                .buildValueNode();
-        txt_aliceDiffieHellman3.setLayoutData(Layout.gd_algorithmNodes());
 
-        arr_aliceDiffieHellmanArrow1 = ArrowComponent
-        		.from(txt_aliceDiffieHellman1).south()
-        		.to(txt_aliceDiffieHellman2).north()
-        		.on(cmp_aliceReceivingAlgorithm)
-        		.create();
-
-        arr_aliceDiffieHellmanArrow2 = ArrowComponent
-        		.from(txt_aliceDiffieHellman3).north()
-        		.to(txt_aliceDiffieHellman2).south()
-        		.on(cmp_aliceReceivingAlgorithm)
-        		.create();
-
-    }
-    
-    public void setDiffieHellmanChainVisible(boolean visible) {
-    	grp_aliceDiffieHellman.setVisible(visible);
-    	arr_aliceMessagePublicKey.setVisible(visible);
-    	arr_aliceDiffieHellmanArrow1.setVisible(visible);
-    	arr_aliceDiffieHellmanArrow2.setVisible(visible);
-    }
-    
-    private void createAliceArrowSpaces() {
-        arr_aliceSpace1 = ArrowComponent
-				.from(grp_aliceDiffieHellman, txt_aliceDiffieHellman2).west()
-				.to(txt_aliceRootChain3, txt_aliceRootChain3).east()
-				.on(cmp_aliceReceivingAlgorithm)
-				.withDefaults();
-
-        arr_aliceSpace2 = ArrowComponent
-				.from(grp_aliceRootChain, txt_aliceRootChain3).west()
-				.to(txt_aliceReceivingChain3, txt_aliceReceivingChain3).east()
-				.on(cmp_aliceReceivingAlgorithm)
-				.breakBetween()
-	    	    	.first(grp_aliceRootChain, Side.EAST)
-	    	    	.second(grp_aliceReceivingChain, Side.WEST)
-	    	    	.at(ArrowComponent.BREAK_CENTER)
-	    	    .arrowId("cmp_aliceArrowSpace2")
-				.withDefaults();
- 
-        arr_aliceSpace3 = ArrowComponent
-        		.from(txt_aliceReceivingChain3).west()
-        		.to(grp_aliceDecryptedMessage, txt_aliceReceivingChain4).east()
-        		.on(cmp_aliceReceivingAlgorithm)
-        		.create();
-    }
-
-    private void createAliceEncryptedMessagebox() {
+	private void createAliceEncryptedMessagebox() {
         grp_aliceMessagebox.setLayout(Layout.gl_messageboxGroup());
         grp_aliceMessagebox.setLayoutData(Layout.gd_messageboxComposite());
         grp_aliceMessagebox.setText(MessageboxDescription);
@@ -386,7 +365,33 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     	grp_aliceDecryptedMessage.setVisible(visible);
     }
     
-    public void setAllVisible(boolean visible) {
+    private void createAliceArrowSpaces() {
+	    arr_aliceSpace1 = ArrowComponent
+				.from(grp_aliceDiffieHellman, txt_aliceDiffieHellman2).west()
+				.to(txt_aliceRootChain3, txt_aliceRootChain3).east()
+				.on(cmp_aliceReceivingAlgorithm)
+				.withDefaults();
+	
+	    arr_aliceSpace2 = ArrowComponent
+				.from(grp_aliceRootChain, txt_aliceRootChain3).west()
+				.to(txt_aliceReceivingChain3, txt_aliceReceivingChain3).east()
+				.on(cmp_aliceReceivingAlgorithm)
+				.breakBetween()
+	    	    	.first(grp_aliceRootChain, Side.EAST)
+	    	    	.second(grp_aliceReceivingChain, Side.WEST)
+	    	    	.at(ArrowComponent.BREAK_CENTER)
+	    	    .arrowId("cmp_aliceArrowSpace2")
+				.withDefaults();
+	
+	    arr_aliceSpace3 = ArrowComponent
+	    		.from(txt_aliceReceivingChain3).west()
+	    		.to(grp_aliceDecryptedMessage, txt_aliceReceivingChain4).east()
+	    		.on(cmp_aliceReceivingAlgorithm)
+	    		.create();
+	}
+
+
+	public void setAllVisible(boolean visible) {
 		setEncryptedMessageBoxVisible(visible);
 		setDiffieHellmanChainVisible(visible);
 		setRootChainVisible(visible);
