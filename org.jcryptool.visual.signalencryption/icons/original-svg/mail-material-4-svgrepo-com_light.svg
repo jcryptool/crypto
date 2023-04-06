@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   height="620.56873"
+   width="800"
+   version="1.1"
+   id="_x32_"
+   viewBox="0 0 512 397.16398"
+   xml:space="preserve"
+   sodipodi:docname="mail-material-4-svgrepo-com_light.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs145" /><sodipodi:namedview
+   id="namedview143"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   showgrid="false"
+   inkscape:zoom="0.92875"
+   inkscape:cx="401.07672"
+   inkscape:cy="311.70929"
+   inkscape:window-width="1920"
+   inkscape:window-height="1006"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="_x32_" />
+<style
+   type="text/css"
+   id="style134">
+	.st0{fill:#000000;}
+</style>
+<g
+   id="g140"
+   style="fill:#e3dedb"
+   transform="translate(0,-57.418)">
+	<path
+   class="st0"
+   d="M 395.914,280.909 V 391.152 L 293.305,290.163 335.323,254.496 c -9.729,-7.633 -18.24,-16.686 -25.196,-26.818 l -87.074,73.902 c -1.69,1.418 -4.19,2.228 -6.891,2.228 -2.635,0 -5.135,-0.81 -6.822,-2.228 L 49.785,166.209 h 237.846 c -0.338,-3.783 -0.541,-7.635 -0.541,-11.553 0,-8.308 0.812,-16.414 2.297,-24.318 H 0 v 324.244 h 432.324 v -173.47 c -5.742,0.81 -11.617,1.216 -17.563,1.216 -6.417,0 -12.699,-0.473 -18.847,-1.419 z M 36.41,203.091 80.318,240.379 139.019,290.163 36.41,391.152 Z m 26.481,215.621 105.379,-103.757 13.779,11.686 c 9.188,7.836 21.279,12.092 34.113,12.092 12.834,0 24.994,-4.256 34.113,-12.024 l 13.782,-11.754 105.377,103.757 z"
+   id="path136"
+   style="fill:#e3dedb" />
+	<path
+   class="st0"
+   d="m 414.744,57.418 c -53.713,0 -97.256,43.543 -97.256,97.256 0,53.713 43.543,97.256 97.256,97.256 53.717,0 97.256,-43.543 97.256,-97.256 0,-53.713 -43.539,-97.256 -97.256,-97.256 z m 24.889,154.086 H 413.565 V 125.92 l -29.078,25.26 v -28.074 l 29.078,-25.261 h 26.068 z"
+   id="path138"
+   style="fill:#e3dedb" />
+</g>
+</svg>

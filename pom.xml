@@ -87,6 +87,7 @@
 	<module>org.jcryptool.visual.secretsharing</module>
 	<module>org.jcryptool.visual.sidechannelattack.spa</module>
 	<module>org.jcryptool.visual.sig</module>
+	<module>org.jcryptool.visual.signalencryption</module>
 	<module>org.jcryptool.visual.sigVerification</module>
 	<module>org.jcryptool.visual.sphincs</module>
 	<module>org.jcryptool.visual.sphincsplus</module>
