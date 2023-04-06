@@ -82,14 +82,14 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     protected ArrowComponent arr_aliceSendingChainArrow1;
     protected ArrowComponent arr_aliceSendingChainArrow2;
     protected ArrowComponent arr_aliceSendingChainArrow3;
-    protected ArrowComponent arr_aliceSendingChainArrow4;
+    protected ArrowComponent arr_aliceSpace3;
     protected ArrowComponent arr_aliceReceivingChainArrow1;
     protected ArrowComponent arr_aliceReceivingChainArrow2;
     protected ArrowComponent arr_aliceReceivingChainArrow3;
     protected ArrowComponent arr_aliceReceivingChainArrow4;
     
-    protected ArrowComponent cmp_aliceArrowSpace1;
-    protected ArrowComponent cmp_aliceArrowSpace2;
+    protected ArrowComponent arr_aliceSpace1;
+    protected ArrowComponent arr_aliceSpace2;
     protected ImageComponent drw_outgoingMailIcon;
 
     @Override
@@ -234,7 +234,7 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     }
 	
 	public void setRootChainVisible(boolean visible) {
-		cmp_aliceArrowSpace1.setVisible(visible);
+		arr_aliceSpace1.setVisible(visible);
 		grp_aliceRootChain.setVisible(visible);
 		arr_aliceRootChainArrow0.setVisible(visible);
 		arr_aliceRootChainArrow1.setVisible(visible);
@@ -294,12 +294,12 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
 	    	}
 
     public void setSendingChainVisible(boolean visible) {
-		cmp_aliceArrowSpace2.setVisible(visible);
+		arr_aliceSpace2.setVisible(visible);
 		grp_aliceSendingChain.setVisible(visible);
 		arr_aliceSendingChainArrow1.setVisible(visible);
 		arr_aliceSendingChainArrow2.setVisible(visible);
 		arr_aliceSendingChainArrow3.setVisible(visible);
-		arr_aliceSendingChainArrow4.setVisible(visible);
+		arr_aliceSpace3.setVisible(visible);
 		// Part of what we consider the chain is already part in the
 		// Messagebox composite
 		cmp_aliceMessagebox.setVisible(visible);
@@ -322,16 +322,6 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
 	            .buildValueNode();
 	    txt_aliceSendingChain4.setLayoutData(Layout.gd_algorithmNodes());
 	    
-	    arr_aliceSendingChainArrow4 = ArrowComponent.fromAnchors()
-	    	.fromAnchorX(txt_aliceSendingChain3, Side.EAST)
-	    	.fromAnchorY(txt_aliceSendingChain3, Side.EAST)
-	    	.outgoingDirection(Side.EAST)
-	    	.toAnchorX(cmp_aliceMessagebox, Side.WEST)
-	    	.toAnchorY(txt_aliceSendingChain3, Side.WEST)
-	    	.incomingDirection(Side.WEST)
-	    	.on(cmp_aliceSendingAlgorithm)
-	    	.withDefaults();
-
 	    txt_aliceCipherText = new Text(cmp_aliceMessagebox,
 	            SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 	    txt_aliceCipherText.setLayoutData(Layout.gd_Messagebox());
@@ -350,9 +340,6 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
 	    // (which does NOT have a concept of layouting) has enough space to be drawn.
 	    // This is necessary because the icon is the last element of the view.
 	    var requiredWidth =  drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET - ViewConstants.ARROW_CANVAS_WIDTH;
-	    // TODO Investigate the resizing-bug regarding this control
-	    //   Note, I think the spacing comes from that I only adapted half of the composites.
-	    //   Since it's a stacked layout it still uses the largest underneath which is invisible.
 	    UiUtils.insertSpacers(cmp_aliceSendingAlgorithm, 1, requiredWidth - 5);
 	}
 	
@@ -369,18 +356,24 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
 	}
 	
 	private void createAliceArrowSpaces() {
-		cmp_aliceArrowSpace1 = ArrowComponent
+		arr_aliceSpace1 = ArrowComponent
 				.from(grp_aliceDiffieHellman, txt_aliceDiffieHellman2).east()
 				.to(txt_aliceRootChain2, txt_aliceRootChain2).west()
 				.on(cmp_aliceSendingAlgorithm)
 				.withDefaults();
 		
-		cmp_aliceArrowSpace2 = ArrowComponent
+		arr_aliceSpace2 = ArrowComponent
 				.from(grp_aliceRootChain, txt_aliceRootChain2).east()
 				.to(txt_aliceSendingChain3, txt_aliceSendingChain3).west()
 				.on(cmp_aliceSendingAlgorithm)
 	    	    .arrowId("cmp_aliceArrowSpace2")
 				.withDefaults();
+		
+	    arr_aliceSpace3 = ArrowComponent
+	    	.from(txt_aliceSendingChain3).east()
+	    	.to(cmp_aliceMessagebox, txt_aliceSendingChain3).west()
+	    	.on(cmp_aliceSendingAlgorithm)
+	    	.withDefaults();
 	}
 	
 	public void setAllVisible(boolean visible) {

@@ -57,7 +57,7 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     protected ArrowComponent arr_bobSendingChainArrow1;
     protected ArrowComponent arr_bobSendingChainArrow2;
     protected ArrowComponent arr_bobSendingChainArrow3;
-    protected ArrowComponent arr_bobSendingChainArrow4;
+    protected ArrowComponent arr_bobSpace3;
     protected ArrowComponent arr_bobDiffieHellmanArrow1;
     protected ArrowComponent arr_bobDiffieHellmanArrow2;
     protected ArrowComponent arr_bobRootChainArrow1;
@@ -190,7 +190,7 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 		arr_bobSendingChainArrow1.setVisible(visible);
 		arr_bobSendingChainArrow2.setVisible(visible);
 		arr_bobSendingChainArrow3.setVisible(visible);
-		arr_bobSendingChainArrow4.setVisible(visible);
+		arr_bobSpace3.setVisible(visible);
 		// Part of what we consider the chain is already part in the
 		// Messagebox composite
 		cmp_bobMessagebox.setVisible(visible);
@@ -313,7 +313,12 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 				.on(cmp_bobSendingAlgorithm)
 	    	    .arrowId("cmp_aliceArrowSpace2")
 				.withDefaults();
-
+		
+        arr_bobSpace3 = ArrowComponent
+	    	.from(txt_bobSendingChain3).west()
+	    	.to(cmp_bobMessagebox, txt_bobSendingChain3).east()
+	    	.on(cmp_bobSendingAlgorithm)
+	    	.create();
     }
     
     private void createOutgoingMailIcon() {
@@ -326,10 +331,8 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 	    // This one is a special spacer: it doesn't have any content but ensures that the image drawn
 	    // (which does NOT have a concept of layouting) has enough space to be drawn.
 	    // This is necessary because the icon is the last element of the view.
-	    var requiredWidth =  drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET - ViewConstants.ARROW_CANVAS_WIDTH;
-	    // TODO Investigate the resizing-bug regarding this control
-	    //   Note, I think the spacing comes from that I only adapted half of the composites.
-	    //   Since it's a stacked layout it still uses the largest underneath which is invisible.
+	    var requiredWidth =  drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET
+	    		- ViewConstants.ARROW_CANVAS_WIDTH;
 	    UiUtils.insertSpacers(cmp_bobSendingAlgorithm, 1, requiredWidth - 5);
 
     }
@@ -350,12 +353,6 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
                 .buildValueNode();
         txt_bobSendingChain4.setLayoutData(Layout.gd_algorithmNodes());
         
-        arr_bobSendingChainArrow4 = ArrowComponent
-	    	.from(txt_bobSendingChain3).west()
-	    	.to(cmp_bobMessagebox, txt_bobSendingChain3).east()
-	    	.on(cmp_bobSendingAlgorithm)
-	    	.create();
-
         txt_bobCipherText = new Text(cmp_bobMessagebox,
                 SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
 	    txt_bobCipherText.setFont(FontService.getNormalMonospacedFont());

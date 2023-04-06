@@ -61,14 +61,12 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     protected ArrowComponent arr_bobReceivingChainArrow1;
     protected ArrowComponent arr_bobReceivingChainArrow2;
     protected ArrowComponent arr_bobReceivingChainArrow3;
-    protected ArrowComponent arr_bobReceivingChainArrow4;
+    protected ArrowComponent arr_bobSpace3;
     protected ArrowComponent arr_bobDiffieHellmanArrow1;
     protected ArrowComponent arr_bobDiffieHellmanArrow2;
 	protected ArrowComponent arr_bobRootChainArrow0;
     protected ArrowComponent arr_bobRootChainArrow1;
     protected ArrowComponent arr_bobRootChainArrow2;
-    protected ArrowComponent arr_bobSpace1;
-    protected ArrowComponent arr_bobSpace2;
 
     Group grp_bobReceivingChain;
     Group grp_bobSpace2;
@@ -81,8 +79,8 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     ComponentDrawComposite cmp_bobReceivingAlgorithm;
     Composite cmp_bobDiffieHellman;
     Composite cmp_bobRootChain;
-    ArrowComponent cmp_bobArrowSpace1;
-    ArrowComponent cmp_bobArrowSpace2;
+    ArrowComponent arr_bobSpace1;
+    ArrowComponent arr_bobSpace2;
     ImageComponent drw_incomingMailIcon;
 
     private String MessageboxCipherText = "The Ciphertext";
@@ -155,9 +153,6 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     	// The x offset is taken twice, so we have even distance left and right
 	    var requiredWidth =  drw_incomingMailIcon.imageWidth()
 	    		+ (ViewConstants.MAIL_ICON_X_OFFSET * 2) - ViewConstants.ARROW_CANVAS_WIDTH;
-	    // TODO Investigate the resizing-bug regarding this control
-	    //   Note, I think the spacing comes from that I only adapted half of the composites.
-	    //   Since it's a stacked layout it still uses the largest underneath which is invisible.
 	    UiUtils.insertSpacers(cmp_bobReceivingAlgorithm, 1, requiredWidth - 5);
 
     }
@@ -293,7 +288,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
 	}
 	
 	public void setRootChainVisible(boolean visible) {
-		cmp_bobArrowSpace1.setVisible(visible);
+		arr_bobSpace1.setVisible(visible);
 		grp_bobRootChain.setVisible(visible);
 		arr_bobRootChainArrow0.setVisible(visible);
 		arr_bobRootChainArrow1.setVisible(visible);
@@ -353,7 +348,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
 	        }
 
 	public void setReceivingChainVisible(boolean visible) {
-		cmp_bobArrowSpace2.setVisible(visible);
+		arr_bobSpace2.setVisible(visible);
 		grp_bobReceivingChain.setVisible(visible);
 		arr_bobReceivingChainArrow1.setVisible(visible);
 		arr_bobReceivingChainArrow2.setVisible(visible);
@@ -371,16 +366,6 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
                 .buildValueNode();
         txt_bobReceivingChain4.setLayoutData(Layout.gd_algorithmNodes());
         
-        arr_bobReceivingChainArrow4 = ArrowComponent.fromAnchors()
-	    	.fromAnchorX(txt_bobReceivingChain3, Side.EAST)
-	    	.fromAnchorY(txt_bobReceivingChain3, Side.EAST)
-	    	.outgoingDirection(Side.EAST)
-	    	.toAnchorX(grp_bobDecryptedMessage, Side.WEST)
-	    	.toAnchorY(txt_bobReceivingChain4, Side.WEST)
-	    	.incomingDirection(Side.WEST)
-	    	.on(cmp_bobReceivingAlgorithm)
-	    	.withDefaults();
-
 	    txt_bobPlainText = new Text(
 	            grp_bobDecryptedMessage,
 	            SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY
@@ -391,17 +376,17 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
 	}
     
     public void setDecryptedMessageboxVisible(boolean visible) {
-		arr_bobReceivingChainArrow4.setVisible(visible);
+		arr_bobSpace3.setVisible(visible);
     	grp_bobDecryptedMessage.setVisible(visible);
     }
 
 	private void createBobArrowSpaces() {
-		cmp_bobArrowSpace1 = ArrowComponent
+		arr_bobSpace1 = ArrowComponent
 				.from(grp_bobDiffieHellman, txt_bobDiffieHellman2).east()
 				.to(txt_bobRootChain2, txt_bobRootChain2).west()
 				.on(cmp_bobReceivingAlgorithm)
 				.withDefaults();
-		cmp_bobArrowSpace2 = ArrowComponent
+		arr_bobSpace2 = ArrowComponent
 				.from(grp_bobRootChain, txt_bobRootChain2).east()
 				.to(txt_bobReceivingChain3, txt_bobReceivingChain3).west()
 				.on(cmp_bobReceivingAlgorithm)
@@ -411,6 +396,12 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
 	    	    	.at(ArrowComponent.BREAK_CENTER)
 	    	    .arrowId("cmp_bobArrowSpace2")
 				.withDefaults();
+		
+        arr_bobSpace3 = ArrowComponent
+	    	.from(txt_bobReceivingChain3).east()
+	    	.to(grp_bobDecryptedMessage, txt_bobReceivingChain4).west()
+	    	.on(cmp_bobReceivingAlgorithm)
+	    	.withDefaults();
     }
 	
 	public void setAllVisible(boolean visible) {

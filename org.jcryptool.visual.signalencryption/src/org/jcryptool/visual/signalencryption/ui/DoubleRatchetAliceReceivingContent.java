@@ -64,7 +64,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     protected ArrowComponent arr_aliceReceivingChainArrow1;
     protected ArrowComponent arr_aliceReceivingChainArrow2;
     protected ArrowComponent arr_aliceReceivingChainArrow3;
-    protected ArrowComponent arr_aliceReceivingChainArrow4;
+    protected ArrowComponent arr_aliceSpace3;
     protected ArrowComponent arr_aliceSpace1;
     protected ArrowComponent arr_aliceSpace2;
 	protected ImageComponent drw_outgoingMailIcon;
@@ -328,6 +328,11 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
 	    	    .arrowId("cmp_aliceArrowSpace2")
 				.withDefaults();
  
+        arr_aliceSpace3 = ArrowComponent
+        		.from(txt_aliceReceivingChain3).west()
+        		.to(grp_aliceDecryptedMessage, txt_aliceReceivingChain4).east()
+        		.on(cmp_aliceReceivingAlgorithm)
+        		.create();
     }
 
     private void createAliceEncryptedMessagebox() {
@@ -340,7 +345,6 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         txt_aliceCipherText.setText(MessageboxCipherText);
         txt_aliceCipherText.setLayoutData(Layout.gd_Messagebox());
         
-        
 	    drw_outgoingMailIcon = ImageComponent.on(cmp_aliceReceivingAlgorithm)
 	    	.relativeTo(txt_aliceCipherText, Side.EAST)
 	    	.offsetX(ViewConstants.MAIL_ICON_X_OFFSET)
@@ -349,9 +353,6 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
 	    // (which does NOT have a concept of layouting) has enough space to be drawn.
 	    // This is necessary because the icon is the last element of the view.
 	    var requiredWidth =  drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET - ViewConstants.ARROW_CANVAS_WIDTH;
-	    // TODO Investigate the resizing-bug regarding this control
-	    //   Note, I think the spacing comes from that I only adapted half of the composites.
-	    //   Since it's a stacked layout it still uses the largest underneath which is invisible.
 	    UiUtils.insertSpacers(cmp_aliceReceivingAlgorithm, 1, requiredWidth - 5);
 
     }
@@ -373,12 +374,6 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
                 .buildValueNode();
         txt_aliceReceivingChain4.setLayoutData(Layout.gd_algorithmNodes());
         
-        arr_aliceReceivingChainArrow4 = ArrowComponent
-        		.from(txt_aliceReceivingChain3).west()
-        		.to(grp_aliceDecryptedMessage, txt_aliceReceivingChain4).east()
-        		.on(cmp_aliceReceivingAlgorithm)
-        		.create();
-
         txt_alicePlainText = new Text(grp_aliceDecryptedMessage,
                 SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
         txt_alicePlainText.setText(MessageboxPlainText);
@@ -387,7 +382,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     }
     
     public void setDecryptedMessageboxVisible(boolean visible) {
-    	arr_aliceReceivingChainArrow4.setVisible(visible);
+    	arr_aliceSpace3.setVisible(visible);
     	grp_aliceDecryptedMessage.setVisible(visible);
     }
     
