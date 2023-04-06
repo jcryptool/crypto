@@ -145,7 +145,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     	UiUtils.insertSpacers(cmp_bobReceivingAlgorithm, 0, 0);
     	drw_incomingMailIcon = ImageComponent.on(cmp_bobReceivingAlgorithm)
 	    	.xOffsetFromEast() // so we don't have to subtract the width of the image ourself as we draw to the left.
-	    	.offsetX(-ViewConstants.MAIL_ICON_X_OFFSET)
+	    	.offsetX(-ViewConstants.MAIL_ICON_X_OFFSET) // minus because we want to draw to the left
 	    	.setAnchorLater() // defer setting the location until the object is created
 	    	.incomingMail();
 	    

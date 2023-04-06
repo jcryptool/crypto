@@ -15,7 +15,10 @@ public class ImageComponent implements Component {
 
 	private static final String OUTGOING_MAIL_BASE = "icons/mailOutgoing";
 	private static final String INCOMING_MAIL_BASE = "icons/mailIncoming";
-	private static final String DARK_MODE_PATH_COMPONENT = "_light";
+	private static final String LIGHT_ICON_PATH = "_light";
+	private static final String DARK_ICON_PATH = "_dark";
+	private static final String LEFT_ORIENTATION = "_left";
+	private static final String RIGHT_ORIENTATION = "_right";
 	private static final String FILE_ENDING = ".png";
 
 	private boolean visible;
@@ -123,6 +126,7 @@ public class ImageComponent implements Component {
 		private Side xOffsetSide = Side.WEST;
 		private int offsetX = 0;
 		private int offsetY = 0;
+		private final String colorScheme = Display.isSystemDarkTheme() ? LIGHT_ICON_PATH : DARK_ICON_PATH;
 
 		public ImageComponentBuilder(ComponentDrawComposite canvas) {
 			this.canvas = canvas;
@@ -157,20 +161,16 @@ public class ImageComponent implements Component {
 			return this;
 		}
 		
-		public ImageComponent outgoingMail() {
-			return create(resolveForDarkMode(OUTGOING_MAIL_BASE, canvas));
+		public ImageComponent outgoingMailLeft() {
+			return create(OUTGOING_MAIL_BASE + LEFT_ORIENTATION + colorScheme + FILE_ENDING);
+		}
+		
+		public ImageComponent outgoingMailRight() {
+			return create(OUTGOING_MAIL_BASE + RIGHT_ORIENTATION + colorScheme + FILE_ENDING);
 		}
 
 		public ImageComponent incomingMail() {
-			return create(resolveForDarkMode(INCOMING_MAIL_BASE, canvas));
-		}
-
-		private static String resolveForDarkMode(String path, ComponentDrawComposite canvas) {
-			if (Display.isSystemDarkTheme()) {
-				return path + DARK_MODE_PATH_COMPONENT + FILE_ENDING;
-			} else {
-				return path + FILE_ENDING;
-			}
+			return create(INCOMING_MAIL_BASE + colorScheme + FILE_ENDING);
 		}
 
 		private ImageComponent create(String path) {

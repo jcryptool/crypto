@@ -344,7 +344,7 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
 	    drw_outgoingMailIcon = ImageComponent.on(cmp_aliceSendingAlgorithm)
 	    	.relativeTo(txt_aliceCipherText, Side.EAST)
 	    	.offsetX(ViewConstants.MAIL_ICON_X_OFFSET)
-	    	.outgoingMail();
+	    	.outgoingMailRight();
 	    
 	    // This one is a special spacer: it doesn't have any content but ensures that the image drawn
 	    // (which does NOT have a concept of layouting) has enough space to be drawn.

@@ -8,6 +8,8 @@ import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.visual.signalencryption.graphics.ArrowComponent;
 import org.jcryptool.visual.signalencryption.graphics.ComponentDrawComposite;
+import org.jcryptool.visual.signalencryption.graphics.ImageComponent;
+import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityContent {
@@ -63,6 +65,7 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 	protected ArrowComponent arr_bobRootChainArrow3;
     protected ArrowComponent arr_bobSpace1;
     protected ArrowComponent arr_bobSpace2;
+    protected ImageComponent drw_outgoingMailIcon;
 
     Group grp_bobSendingChain;
     Group grp_bobSpace2;
@@ -71,11 +74,6 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     Group grp_bobDiffieHellman;
     Composite cmp_bobMessagebox;
     
-    Composite cmp_bobDiffieHellman;
-    Composite cmp_bobReceivingChain;
-    Composite cmp_bobRootChain;
-    Composite cmp_bobArrowSpace1;
-    Composite cmp_bobArrowSpace2;
 
     private String MessageboxCipherText = "The Ciphertext";
     private String MessageboxDescription = Messages.SignalEncryption_MessageboxDescription;
@@ -119,9 +117,8 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         layout.horizontalAlignment = SWT.RIGHT;
         cmp_bobSendingAlgorithm.setLayoutData(layout);
         
-        //var spacer = new Composite(cmp_bobSendingAlgorithm, SWT.NONE);
-        //spacer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
         UiUtils.insertExcessiveSpacers(cmp_bobSendingAlgorithm, 1);
+        createOutgoingMailIcon();
         cmp_bobMessagebox = new Composite(cmp_bobSendingAlgorithm, SWT.NONE);
         grp_bobSendingChain = new Group(cmp_bobSendingAlgorithm, SWT.NONE);
         grp_bobRootChain = new Group(cmp_bobSendingAlgorithm, SWT.NONE);
@@ -318,6 +315,24 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 				.withDefaults();
 
     }
+    
+    private void createOutgoingMailIcon() {
+    	drw_outgoingMailIcon = ImageComponent.on(cmp_bobSendingAlgorithm)
+    		.xOffsetFromEast() // so we don't have to subtract the width of the image ourself as we draw to the left.
+    		.setAnchorLater() // defer setting the location until the object is created
+	    	.offsetX(-ViewConstants.MAIL_ICON_X_OFFSET)  // minus because we want to draw to the left
+	    	.outgoingMailLeft();
+	    
+	    // This one is a special spacer: it doesn't have any content but ensures that the image drawn
+	    // (which does NOT have a concept of layouting) has enough space to be drawn.
+	    // This is necessary because the icon is the last element of the view.
+	    var requiredWidth =  drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET - ViewConstants.ARROW_CANVAS_WIDTH;
+	    // TODO Investigate the resizing-bug regarding this control
+	    //   Note, I think the spacing comes from that I only adapted half of the composites.
+	    //   Since it's a stacked layout it still uses the largest underneath which is invisible.
+	    UiUtils.insertSpacers(cmp_bobSendingAlgorithm, 1, requiredWidth - 5);
+
+    }
 
     private void createBobMessagebox() {
         cmp_bobMessagebox.setLayout(Layout.gl_messageboxGroup());
@@ -346,18 +361,20 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 	    txt_bobCipherText.setFont(FontService.getNormalMonospacedFont());
         txt_bobCipherText.setText(MessageboxCipherText);
         txt_bobCipherText.setLayoutData(Layout.gd_Messagebox());
+        
+        drw_outgoingMailIcon.setRelativeTo(txt_bobCipherText, Side.WEST);
     }
     
     public void setMessageBoxVisible(boolean visible) {
 		txt_bobPlainText.setVisible(visible);
 		txt_bobCipherText.setVisible(visible);
-		//drw_outgoingMailIcon.setVisible(visible);
+		drw_outgoingMailIcon.setVisible(visible);
 	}
 	
 	public void showOnlyMessagePlaintext() {
 		txt_bobPlainText.setVisible(true);
 		txt_bobCipherText.setVisible(false);
-		//drw_outgoingMailIcon.setVisible(false);
+		drw_outgoingMailIcon.setVisible(false);
 	}
 
     public void setAllVisible(boolean visible) {

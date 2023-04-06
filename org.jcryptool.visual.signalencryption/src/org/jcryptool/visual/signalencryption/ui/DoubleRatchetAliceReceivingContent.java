@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.visual.signalencryption.graphics.ArrowComponent;
 import org.jcryptool.visual.signalencryption.graphics.ComponentDrawComposite;
+import org.jcryptool.visual.signalencryption.graphics.ImageComponent;
 import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
@@ -66,6 +67,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     protected ArrowComponent arr_aliceReceivingChainArrow4;
     protected ArrowComponent arr_aliceSpace1;
     protected ArrowComponent arr_aliceSpace2;
+	protected ImageComponent drw_outgoingMailIcon;
 
     Group grp_aliceReceivingChain;
     Group grp_aliceSpace2;
@@ -122,7 +124,6 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         cmp_aliceReceivingAlgorithm.setLayout(Layout.gl_algorithmGroup());
         cmp_aliceReceivingAlgorithm.setLayoutData(Layout.gd_algorithmGroup());
         
-        UiUtils.insertExcessiveSpacers(cmp_aliceReceivingAlgorithm, 1);
         grp_aliceDecryptedMessage = new Group(cmp_aliceReceivingAlgorithm, SWT.NONE);
         grp_aliceReceivingChain = new Group(cmp_aliceReceivingAlgorithm, SWT.NONE);
         grp_aliceRootChain = new Group(cmp_aliceReceivingAlgorithm, SWT.NONE);
@@ -338,9 +339,25 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
                 SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
         txt_aliceCipherText.setText(MessageboxCipherText);
         txt_aliceCipherText.setLayoutData(Layout.gd_Messagebox());
+        
+        
+	    drw_outgoingMailIcon = ImageComponent.on(cmp_aliceReceivingAlgorithm)
+	    	.relativeTo(txt_aliceCipherText, Side.EAST)
+	    	.offsetX(ViewConstants.MAIL_ICON_X_OFFSET)
+	    	.incomingMail();
+	    // This one is a special spacer: it doesn't have any content but ensures that the image drawn
+	    // (which does NOT have a concept of layouting) has enough space to be drawn.
+	    // This is necessary because the icon is the last element of the view.
+	    var requiredWidth =  drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET - ViewConstants.ARROW_CANVAS_WIDTH;
+	    // TODO Investigate the resizing-bug regarding this control
+	    //   Note, I think the spacing comes from that I only adapted half of the composites.
+	    //   Since it's a stacked layout it still uses the largest underneath which is invisible.
+	    UiUtils.insertSpacers(cmp_aliceReceivingAlgorithm, 1, requiredWidth - 5);
+
     }
     
     public void setEncryptedMessageBoxVisible(boolean visible) {
+    	drw_outgoingMailIcon.setVisible(visible);
     	grp_aliceMessagebox.setVisible(visible);
     }
 
@@ -361,15 +378,6 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         		.to(grp_aliceDecryptedMessage, txt_aliceReceivingChain4).east()
         		.on(cmp_aliceReceivingAlgorithm)
         		.create();
-        //arr_aliceReceivingChainArrow4 = ArrowComponent.fromAnchors()
-	    //	.fromAnchorX(txt_aliceReceivingChain3, Side.WEST)
-	    //	.fromAnchorY(txt_aliceReceivingChain3, Side.WEST)
-	    //	.outgoingDirection(Side.WEST)
-	    //	.toAnchorX(grp_aliceDecryptedMessage, Side.EAST)
-	    //	.toAnchorY(txt_aliceReceivingChain4, Side.EAST)
-	    //	.incomingDirection(Side.EAST)
-	    //	.on(cmp_aliceReceivingAlgorithm)
-	    //	.withDefaults();
 
         txt_alicePlainText = new Text(grp_aliceDecryptedMessage,
                 SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);

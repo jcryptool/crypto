@@ -1,9 +1,13 @@
 I used the following commands to convert the images
 
-    inkscape  -h 100 mail-material-4-svgrepo-com.svg -o mailIncoming.png
-    inkscape  -h 82 mail-material-2-svgrepo-com_moving_modified.svg -o mailOutgoing.png
-    inkscape  -h 82 mail-material-2-svgrepo-com_moving_modified_light.svg -o mailOutgoing_light.png
-    inkscape  -h 100 mail-material-4-svgrepo-com_light.svg -o mailIncoming_light.png 
+    inkscape -h 70 mail-material-4-svgrepo-com_light.svg -o ../mailIncoming_light.png
+    inkscape -h 70 mail-material-4-svgrepo-com_dark.svg -o ../mailIncoming_dark.png
+    inkscape -h 57 mail-material-2-svgrepo-com_moving_modified_left_dark.svg -o ../mailOutgoing_left_dark.png
+    inkscape -h 57 mail-material-2-svgrepo-com_moving_modified_left_light.svg -o ../mailOutgoing_left_light.png
+    inkscape -h 57 mail-material-2-svgrepo-com_moving_modified_right_light.svg -o ../mailOutgoing_right_light.png
+    inkscape -h 57 mail-material-2-svgrepo-com_moving_modified_right_dark.svg -o ../mailOutgoing_right_dark.png
+  
+
 
     
 Original image sources:
