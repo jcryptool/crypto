@@ -1,9 +1,12 @@
 package org.jcryptool.visual.signalencryption.ui;
 
+import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.ALICE;
+import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.BOB;
 import static org.jcryptool.visual.signalencryption.util.ToHex.toHex;
 
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.visual.signalencryption.SignalEncryptionPlugin;
+import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException;
 import org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.AliceSendingStep;
 import org.jcryptool.visual.signalencryption.util.ToHex;
@@ -58,6 +61,21 @@ public class DoubleRatchetBobSendingLogic {
                 AliceSendingStep.STEP_9.switchState(swtParent);
                 return AliceSendingStep.STEP_9;
             }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_1;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return AliceSendingStep.STEP_9;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return BOB;
+			}
         },
         /**
          * Show Diffie-Hellman calculation.
@@ -72,7 +90,7 @@ public class DoubleRatchetBobSendingLogic {
 
                 // Show these elements
                 swtParent.grp_bobAlgorithm.setVisible(true);
-                bobContent.setDiffieHellmanChainVisible(true);
+                bobContent.setDiffieHellmanRatchetVisible(true);
                 bobContent.txt_bobSendingStep1.setVisible(true);
 
                 // Hide these Elements
@@ -80,7 +98,7 @@ public class DoubleRatchetBobSendingLogic {
 				bobContent.txt_bobSendingStep2.setVisible(false);
 
                 // Pick up user input text
-                bobContent.txt_bobCipherText.setText(AlgorithmState.get().getAliceEncryptedMessage());
+                bobContent.txt_cipherText.setText(AlgorithmState.get().getAliceEncryptedMessage());
             }
 
             @Override
@@ -94,6 +112,21 @@ public class DoubleRatchetBobSendingLogic {
                 STEP_0.switchState(swtParent);
                 return STEP_0;
             }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_2;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return STEP_0;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return BOB;
+			}
         },
         /**
          * Show the root chain calculation.
@@ -105,7 +138,7 @@ public class DoubleRatchetBobSendingLogic {
                 var bobContent = swtParent.getBobSendingContent();
 
                 // Show these labels
-                bobContent.grp_bobRootChain.setVisible(true);
+                bobContent.grp_rootChain.setVisible(true);
                 bobContent.setRootChainVisible(true);
                 bobContent.txt_bobSendingStep2.setVisible(true);
 
@@ -125,6 +158,21 @@ public class DoubleRatchetBobSendingLogic {
                 STEP_1.switchState(swtParent);
                 return STEP_1;
             }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_3;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return STEP_1;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return BOB;
+			}
         },
         /**
          * Show the sending chain calculation.
@@ -144,7 +192,7 @@ public class DoubleRatchetBobSendingLogic {
                 bobContent.setMessageBoxVisible(false);
                 bobContent.txt_bobSendingStep4.setVisible(false);
 
-                aliceContent.grp_aliceReceivingChain.setVisible(false);
+                aliceContent.grp_receivingChain.setVisible(false);
 
             }
 
@@ -159,6 +207,21 @@ public class DoubleRatchetBobSendingLogic {
                 STEP_2.switchState(swtParent);
                 return STEP_2;
             }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_4;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return STEP_2;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return BOB;
+			}
         },
         /**
          * Show the message input box. Set previously entered text if entered.
@@ -183,9 +246,9 @@ public class DoubleRatchetBobSendingLogic {
                 aliceContent.setEncryptedMessageBoxVisible(false);
 
                 if (AlgorithmState.get().allowMessageEntering()) {
-                    bobContent.txt_bobPlainText.setEnabled(true);
+                    bobContent.txt_plainText.setEnabled(true);
                 } else {
-                    bobContent.txt_bobPlainText.setEnabled(false);
+                    bobContent.txt_plainText.setEnabled(false);
                 }
 
                 // Set the text for the user message input.
@@ -194,7 +257,7 @@ public class DoubleRatchetBobSendingLogic {
                 // Afterwards, if a user goes forward/backwards, this ensures that always the
                 // correct message is set.
                 String userInput = AlgorithmState.get().getCommunication().current().getMessage();
-                bobContent.txt_bobPlainText.setText(userInput);
+                bobContent.txt_plainText.setText(userInput);
             }
 
             @Override
@@ -205,29 +268,42 @@ public class DoubleRatchetBobSendingLogic {
                     encryptMessage(swtParent);
                 }
 
-                // TODO: Update keys on first tab
-                STEP_5.switchState(swtParent);
-                return STEP_5;
+                STEP_5_SENDING.switchState(swtParent);
+                return STEP_5_SENDING;
             }
 
             @Override
             public DoubleRatchetStep back(DoubleRatchetView swtParent) {
                 // Save state of the input field if it has not been encrypted yet.
                 if (AlgorithmState.get().allowMessageEntering()) {
-                    var currentInput = swtParent.getBobSendingContent().txt_bobPlainText.getText();
+                    var currentInput = swtParent.getBobSendingContent().txt_plainText.getText();
                     AlgorithmState.get().getCommunication().current().setMessage(currentInput);
                 }
-                // TODO: Update keys on first tab
                 STEP_3.switchState(swtParent);
                 return STEP_3;
             }
 
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_5_SENDING;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return STEP_3;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return BOB;
+			}
+
         },
         /**
          * Showing the final, encrypted message and "send" it to Alice.
-         * Showing Bob's view (important if going backwards).
+         * Showing Bob's perspective of the step.
          */
-        STEP_5 {
+        STEP_5_SENDING {
 
             @Override
             protected void switchState(DoubleRatchetView swtParent) {
@@ -240,20 +316,80 @@ public class DoubleRatchetBobSendingLogic {
                 bobContent.txt_bobSendingStep5.setVisible(true);
                 aliceContent.txt_aliceReceivingStep5.setVisible(true);
 
-                swtParent.showBobView();
-
                 // Hide these Elements
-                aliceContent.setDiffieHellmanChainVisible(false);
+                aliceContent.setDiffieHellmanRatchetVisible(false);
                 aliceContent.txt_aliceReceivingStep6.setVisible(false);
 
                 // State
-                bobContent.txt_bobPlainText.setEnabled(false);
+                bobContent.txt_plainText.setEnabled(false);
                 var communication = AlgorithmState.get().getCommunication();
                 var ciphertextOptional = communication.current().getCiphertextMessage();
                 var ciphertextAsBytes = ciphertextOptional.orElse("An error occured".getBytes());
                 var ciphertextAsString = toHex(ciphertextAsBytes);
-                aliceContent.txt_aliceCipherText.setText(ciphertextAsString);
-                bobContent.txt_bobCipherText.setText(ciphertextAsString);
+                aliceContent.txt_cipherText.setText(ciphertextAsString);
+                bobContent.txt_cipherText.setText(ciphertextAsString);
+                
+                
+				// After encrypting the message, we have access to the receiving keys
+                updateReceivingKeyDisplayInformation(swtParent);
+            }
+
+            @Override
+            public DoubleRatchetStep next(DoubleRatchetView swtParent) {
+                STEP_5_RECEIVING.switchState(swtParent);
+                return STEP_5_RECEIVING;
+            }
+
+            @Override
+            public DoubleRatchetStep back(DoubleRatchetView swtParent) {
+                STEP_4.switchState(swtParent);
+                return STEP_4;
+            }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_5_RECEIVING;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return STEP_4;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return BOB;
+			}
+        },
+        /**
+         * Showing the final, encrypted message and "send" it to Alice.
+         * Showing Alices's perspective of the step.
+         */
+        STEP_5_RECEIVING{
+
+            @Override
+            protected void switchState(DoubleRatchetView swtParent) {
+                var bobContent = swtParent.getBobSendingContent();
+                var aliceContent = swtParent.getAliceReceivingContent();
+                // Show these elements
+                swtParent.grp_aliceAlgorithm.setVisible(true);
+                bobContent.setMessageBoxVisible(true);
+                aliceContent.setEncryptedMessageBoxVisible(true);
+                bobContent.txt_bobSendingStep5.setVisible(true);
+                aliceContent.txt_aliceReceivingStep5.setVisible(true);
+
+                // Hide these Elements
+                aliceContent.setDiffieHellmanRatchetVisible(false);
+                aliceContent.txt_aliceReceivingStep6.setVisible(false);
+
+                // State
+                bobContent.txt_plainText.setEnabled(false);
+                var communication = AlgorithmState.get().getCommunication();
+                var ciphertextOptional = communication.current().getCiphertextMessage();
+                var ciphertextAsBytes = ciphertextOptional.orElse("An error occured".getBytes());
+                var ciphertextAsString = toHex(ciphertextAsBytes);
+                aliceContent.txt_cipherText.setText(ciphertextAsString);
+                bobContent.txt_cipherText.setText(ciphertextAsString);
                 
                 
 				// After encrypting the message, we have access to the receiving keys
@@ -268,9 +404,24 @@ public class DoubleRatchetBobSendingLogic {
 
             @Override
             public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_4.switchState(swtParent);
-                return STEP_4;
+                STEP_5_SENDING.switchState(swtParent);
+                return STEP_5_SENDING;
             }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_6;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return STEP_5_SENDING;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return ALICE;
+			}
         },
         /**
          * Switch to Alice's view and "receive" the encrypted message.
@@ -280,15 +431,14 @@ public class DoubleRatchetBobSendingLogic {
 
             @Override
             protected void switchState(DoubleRatchetView swtParent) {
-                swtParent.showAliceView();
                 var aliceContent = swtParent.getAliceReceivingContent();
 
                 // Show these labels
-                aliceContent.setDiffieHellmanChainVisible(true);
+                aliceContent.setDiffieHellmanRatchetVisible(true);
                 aliceContent.txt_aliceReceivingStep6.setVisible(true);
 
                 // Hide these Elements
-                aliceContent.setRootChainVisible(true);
+                aliceContent.setRootChainVisible(false);
                 aliceContent.txt_aliceReceivingStep7.setVisible(false);
             }
 
@@ -300,9 +450,24 @@ public class DoubleRatchetBobSendingLogic {
 
             @Override
             public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_5.switchState(swtParent);
-                return STEP_5;
+                STEP_5_SENDING.switchState(swtParent);
+                return STEP_5_SENDING;
             }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_7;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return STEP_5_SENDING;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return ALICE;
+			}
         },
         /**
          * Show the root chain calculation.
@@ -314,7 +479,7 @@ public class DoubleRatchetBobSendingLogic {
                 var aliceContent = swtParent.getAliceReceivingContent();
 
                 // Show these labels
-                aliceContent.setRootChainVisible(true);;
+                aliceContent.setRootChainVisible(true);
                 aliceContent.txt_aliceReceivingStep7.setVisible(true);
 
                 // Hide these Elements
@@ -334,6 +499,21 @@ public class DoubleRatchetBobSendingLogic {
                 STEP_6.switchState(swtParent);
                 return STEP_6;
             }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_8;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+				return STEP_6;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return ALICE;
+			}
         },
         /**
          * Show the receiving chain calculation.
@@ -364,6 +544,21 @@ public class DoubleRatchetBobSendingLogic {
                 STEP_7.switchState(swtParent);
                 return STEP_7;
             }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return STEP_9;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return STEP_7;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return ALICE;
+			}
         },
         /**
          * Show the decrypted message.
@@ -374,7 +569,6 @@ public class DoubleRatchetBobSendingLogic {
             protected void switchState(DoubleRatchetView swtParent) {
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
-                swtParent.showAliceView();
                 // Show these Elements
                 swtParent.grp_aliceAlgorithm.setVisible(true);
                 swtParent.grp_aliceSteps.setVisible(true);
@@ -394,12 +588,12 @@ public class DoubleRatchetBobSendingLogic {
                 aliceContent.txt_aliceReceivingStep8.setVisible(true);
 
                 // Show these labels
-                aliceContent.txt_alicePlainText.setVisible(true);
+                aliceContent.txt_plainText.setVisible(true);
                 aliceContent.txt_aliceReceivingStep9.setVisible(true);
                 var decryptedMessage = AlgorithmState.get().getCommunication().current()
                         .getDecryptedMessage();
                 if (decryptedMessage.isPresent()) {
-                    aliceContent.txt_alicePlainText.setText(decryptedMessage.get());
+                    aliceContent.txt_plainText.setText(decryptedMessage.get());
                 } else {
                     LogUtil.logError(new SignalAlgorithmException(), true);
                 }
@@ -421,6 +615,21 @@ public class DoubleRatchetBobSendingLogic {
                 STEP_8.switchState(swtParent);
                 return STEP_8;
             }
+
+			@Override
+			public DoubleRatchetStep peekForward() {
+                return AliceSendingStep.STEP_0;
+			}
+
+			@Override
+			public DoubleRatchetStep peekBackward() {
+                return STEP_8;
+			}
+
+			@Override
+			public CommunicationEntity shouldShowThisEntity() {
+				return ALICE;
+			}
         };
 
         protected abstract void switchState(DoubleRatchetView swtParent);
@@ -451,7 +660,7 @@ public class DoubleRatchetBobSendingLogic {
      * Get user input from UI and give it to the encryption algorithm.
      */
     private static void encryptMessage(DoubleRatchetView view) {
-        var message = view.getBobSendingContent().txt_bobPlainText.getText();
+        var message = view.getBobSendingContent().txt_plainText.getText();
         var communication = AlgorithmState.get().getCommunication();
         try {
             communication.encrypt(message);
@@ -465,33 +674,33 @@ public class DoubleRatchetBobSendingLogic {
     private static void updateSendingKeyDisplayInformation(DoubleRatchetView view) {
 		var bobContent = view.getBobSendingContent();
 		var ctx = AlgorithmState.get().getCommunication().current();
-		bobContent.txt_bobSendingChain5.getPopupProvider().setValue(ctx.senderChainNewChainKey());
-		bobContent.txt_bobSendingChain4.getPopupProvider().setValues(ctx.senderChainMessageKey());
-		bobContent.txt_bobSendingChain3.getPopupProvider().setValue(ctx.senderChainOutput());
-		bobContent.txt_bobSendingChain2.getPopupProvider().setValue(ctx.senderChainConstantInput());
-		bobContent.txt_bobSendingChain1.getPopupProvider().setValue(ctx.senderChainChainKey());
-		bobContent.txt_bobRootChain4.getPopupProvider().setValue(ctx.senderRootNewRootChainKey());
-		bobContent.txt_bobRootChain3.getPopupProvider().setValues(ctx.senderRootOutput());
-		bobContent.txt_bobRootChain2.getPopupProvider().setValue(ctx.senderRootChainKey());
-		bobContent.txt_bobRootChain1.getPopupProvider().setValue(ctx.senderRootConstantInput());
-		bobContent.txt_bobDiffieHellman3.getPopupProvider().setValue(ctx.diffieHellmanSenderPrivateKey());
-		bobContent.txt_bobDiffieHellman2.getPopupProvider().setValue(ctx.diffieHellmanSenderOutput());
-		bobContent.txt_bobDiffieHellman1.getPopupProvider().setValue(ctx.diffieHellmanSenderPublicKey());
+		bobContent.txt_diffieHellmanTop.getPopupProvider().setValue(ctx.diffieHellmanSenderPublicKey());
+		bobContent.txt_diffieHellmanMid.getPopupProvider().setValue(ctx.diffieHellmanSenderOutput());
+		bobContent.txt_diffieHellmanBot.getPopupProvider().setValue(ctx.diffieHellmanSenderPrivateKey());
+		bobContent.txt_rootChainTop.getPopupProvider().setValue(ctx.senderRootChainKey());
+		bobContent.txt_rootChainConst.getPopupProvider().setValue(ctx.senderRootConstantInput());
+		bobContent.txt_rootChainMid.getPopupProvider().setValues(ctx.senderRootOutput());
+		bobContent.txt_rootChainBot.getPopupProvider().setValue(ctx.senderRootNewRootChainKey());
+		bobContent.txt_sendingChainTop.getPopupProvider().setValue(ctx.senderChainChainKey());
+		bobContent.txt_sendingChainConst.getPopupProvider().setValue(ctx.senderChainConstantInput());
+		bobContent.txt_sendingChainMid.getPopupProvider().setValue(ctx.senderChainOutput());
+		bobContent.txt_sendingChainBot.getPopupProvider().setValue(ctx.senderChainNewChainKey());
+		bobContent.txt_messageKeys.getPopupProvider().setValues(ctx.senderChainMessageKey());
     }
 	private static void updateReceivingKeyDisplayInformation(DoubleRatchetView view) {
 		var aliceContent = view.getAliceReceivingContent();
 		var ctx = AlgorithmState.get().getCommunication().current();
-		aliceContent.txt_aliceReceivingChain5.getPopupProvider().setValue(ctx.receiverChainNewChainKey());
-		aliceContent.txt_aliceReceivingChain4.getPopupProvider().setValues(ctx.receiverChainMessageKey());
-		aliceContent.txt_aliceReceivingChain3.getPopupProvider().setValue(ctx.receiverChainOutput());
-		aliceContent.txt_aliceReceivingChain2.getPopupProvider().setValue(ctx.receiverChainConstantInput());
-		aliceContent.txt_aliceReceivingChain1.getPopupProvider().setValue(ctx.receiverChainChainKey());
-		aliceContent.txt_aliceRootChain4.getPopupProvider().setValue(ctx.receiverRootNewRootChainKey());
-		aliceContent.txt_aliceRootChain3.getPopupProvider().setValues(ctx.receiverRootOutput());
-		aliceContent.txt_aliceRootChain2.getPopupProvider().setValue(ctx.receiverRootChainKey());
-		aliceContent.txt_aliceRootChain1.getPopupProvider().setValue(ctx.receiverRootConstantInput());
-		aliceContent.txt_aliceDiffieHellman3.getPopupProvider().setValue(ctx.diffieHellmanReceiverPrivateKey());
-		aliceContent.txt_aliceDiffieHellman2.getPopupProvider().setValue(ctx.diffieHellmanReceiverOutput());
-		aliceContent.txt_aliceDiffieHellman1.getPopupProvider().setValue(ctx.diffieHellmanReceiverPublicKey());
+		aliceContent.txt_diffieHellmanTop.getPopupProvider().setValue(ctx.diffieHellmanReceiverPublicKey());
+		aliceContent.txt_diffieHellmanMid.getPopupProvider().setValue(ctx.diffieHellmanReceiverOutput());
+		aliceContent.txt_diffieHellmanBot.getPopupProvider().setValue(ctx.diffieHellmanReceiverPrivateKey());
+		aliceContent.txt_rootChainTop.getPopupProvider().setValue(ctx.receiverRootChainKey());
+		aliceContent.txt_rootChainConst.getPopupProvider().setValue(ctx.receiverRootConstantInput());
+		aliceContent.txt_rootChainMid.getPopupProvider().setValues(ctx.receiverRootOutput());
+		aliceContent.txt_rootChainBot.getPopupProvider().setValue(ctx.receiverRootNewRootChainKey());
+		aliceContent.txt_receivingChainTop.getPopupProvider().setValue(ctx.receiverChainChainKey());
+		aliceContent.txt_receivingChainConst.getPopupProvider().setValue(ctx.receiverChainConstantInput());
+		aliceContent.txt_receivingChainMid.getPopupProvider().setValue(ctx.receiverChainOutput());
+		aliceContent.txt_receivingChainBot.getPopupProvider().setValue(ctx.receiverChainNewChainKey());
+		aliceContent.txt_messageKeys.getPopupProvider().setValues(ctx.receiverChainMessageKey());
 	}
 }

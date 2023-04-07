@@ -1,5 +1,7 @@
 package org.jcryptool.visual.signalencryption.ui;
 
+import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
+
 /**
  * A step in the UI logic of the Double Ratchet visualization.
  */
@@ -18,4 +20,13 @@ public interface DoubleRatchetStep {
      * @return the previous step
      */
     DoubleRatchetStep back(DoubleRatchetView swtParent);
+    
+    /** Returns the next step without taking any action */
+    DoubleRatchetStep peekForward();
+
+    /** Returns the previous step without taking any action */
+    DoubleRatchetStep peekBackward();
+    
+    /** For the given step, which entity (Alice or Bob) should be shown on screen? */
+    CommunicationEntity shouldShowThisEntity();
 }

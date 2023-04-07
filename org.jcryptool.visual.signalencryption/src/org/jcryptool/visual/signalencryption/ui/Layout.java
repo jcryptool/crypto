@@ -61,7 +61,7 @@ public class Layout {
     	return layout;
     }
 
-    public static GridLayout gl_messageboxGroup() {
+    public static GridLayout gl_messageBoxGroup() {
         return new GridLayout(1, false);
     }
 
@@ -124,7 +124,7 @@ public class Layout {
         return new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
     }
 
-    public static GridData gd_messageboxComposite() {
+    public static GridData gd_messageBoxComposite() {
         return new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
     }
 

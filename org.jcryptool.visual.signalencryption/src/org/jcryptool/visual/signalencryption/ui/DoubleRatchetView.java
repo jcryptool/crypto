@@ -5,9 +5,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
@@ -123,7 +123,7 @@ public class DoubleRatchetView extends Composite {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 showAliceView();
-
+            	signalEncryptionUiState.checkIfViewChangeRequiresStateChange(instance);
             }
         });
     }
@@ -141,7 +141,7 @@ public class DoubleRatchetView extends Composite {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 showBobView();
-
+            	signalEncryptionUiState.checkIfViewChangeRequiresStateChange(instance);
             }
         });
     }
@@ -156,12 +156,10 @@ public class DoubleRatchetView extends Composite {
         btn_previous.addSelectionListener(new SelectionAdapter() {
 
             @Override
-            public void widgetSelected(SelectionEvent e) {
-
-                signalEncryptionUiState.stepBack(instance);
-                System.out.println(signalEncryptionUiState.getCurrentStep().toString());
-
-            }
+			public void widgetSelected(SelectionEvent e) {
+					signalEncryptionUiState.stepBack(instance);
+					System.out.println(signalEncryptionUiState.getCurrentStep().toString());
+	           }
         });
     }
 
@@ -176,8 +174,8 @@ public class DoubleRatchetView extends Composite {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                signalEncryptionUiState.stepForward(instance);
-                System.out.println(signalEncryptionUiState.getCurrentStep().toString());
+				signalEncryptionUiState.stepForward(instance);
+				System.out.println(signalEncryptionUiState.getCurrentStep().toString());
             }
         });
 
@@ -250,16 +248,14 @@ public class DoubleRatchetView extends Composite {
     void showBobView() {
         btn_alice.setSelection(false);
         btn_bob.setSelection(true);
-        StackLayout layout = (StackLayout) this.cmp_body.getLayout();
-        layout.topControl = this.cmp_bob;
+        getCurrentLayout().topControl = this.cmp_bob;
         cmp_body.layout();
     }
 
     void showAliceView() {
         btn_alice.setSelection(true);
         btn_bob.setSelection(false);
-        StackLayout layout = (StackLayout) this.cmp_body.getLayout();
-        layout.topControl = this.cmp_alice;
+        getCurrentLayout().topControl = this.cmp_alice;
         cmp_body.layout();
         
     }
@@ -305,6 +301,26 @@ public class DoubleRatchetView extends Composite {
             showBobSending();
         }
     }
+    
+    public boolean isShowingAlice() {
+    	return getCurrentLayout().topControl == cmp_alice;
+    }
+
+    public boolean isShowingBob() {
+    	return getCurrentLayout().topControl == cmp_bob;
+    }
+    
+    private boolean shouldShowAlice(DoubleRatchetStep step) {
+    	return step.shouldShowThisEntity() == CommunicationEntity.ALICE;
+    }
+    
+    private boolean shouldShowBob(DoubleRatchetStep step) {
+    	return !shouldShowAlice(step);
+    }
+    
+    private StackLayout getCurrentLayout() {
+    	return (StackLayout) this.cmp_body.getLayout();
+    }
 
     public void resetAll() {
     	showAliceSending();
@@ -315,6 +331,7 @@ public class DoubleRatchetView extends Composite {
     private boolean isAliceSendingShowing() {
         return sl_aliceAlgorithm.topControl == cmp_aliceSendingAlgorithm;
     }
+    
     private boolean isBobSendingShowing() {
         return sl_bobAlgorithm.topControl == cmp_bobSendingAlgorithm;
     }
