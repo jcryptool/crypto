@@ -22,21 +22,21 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     Text txt_bobReceivingStep8;
     Text txt_bobReceivingStep9;
     
-	FlowChartNode txt_bobRootChain0;
-    FlowChartNode txt_bobRootChain1;
-    FlowChartNode txt_bobRootChain2;
-    FlowChartNode txt_bobRootChain3;
-    FlowChartNode txt_bobReceivingChain1;
-    FlowChartNode txt_bobReceivingChain2;
-    FlowChartNode txt_bobReceivingChain3;
-    FlowChartNode txt_bobReceivingChain4;
-    FlowChartNode txt_bobReceivingChain5;
-    FlowChartNode txt_bobDiffieHellman1;
-    FlowChartNode txt_bobDiffieHellman2;
-    FlowChartNode txt_bobDiffieHellman3;
+	FlowChartNode txt_rootChainConst;
+    FlowChartNode txt_rootChainTop;
+    FlowChartNode txt_rootChainMid;
+    FlowChartNode txt_rootChainBot;
+    FlowChartNode txt_receivingChainConst;
+    FlowChartNode txt_receivingChainTop;
+    FlowChartNode txt_receivingChainMid;
+    FlowChartNode txt_messageKeys;
+    FlowChartNode txt_receivingChainBot;
+    FlowChartNode txt_diffieHellmanTop;
+    FlowChartNode txt_diffieHellmanMid;
+    FlowChartNode txt_diffieHellmanBot;
     
-    Text txt_bobPlainText;
-    Text txt_bobCipherText;
+    Text txt_plainText;
+    Text txt_cipherText;
     
     private String bobStep0 = Messages.SignalEncryption_bobDescriptionText0;
     private String bobStep5 = Messages.SignalEncryption_bobStepText5;
@@ -58,29 +58,25 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     private String bobReceivingChainLabel5 = Messages.SignalEncryption_bobReceivingChainLabel5;
 
 	protected ArrowComponent arr_bobMessagePublicKey;
-    protected ArrowComponent arr_bobReceivingChainArrow1;
-    protected ArrowComponent arr_bobReceivingChainArrow2;
-    protected ArrowComponent arr_bobReceivingChainArrow3;
-    protected ArrowComponent arr_bobSpace3;
-    protected ArrowComponent arr_bobDiffieHellmanArrow1;
-    protected ArrowComponent arr_bobDiffieHellmanArrow2;
-	protected ArrowComponent arr_bobRootChainArrow0;
-    protected ArrowComponent arr_bobRootChainArrow1;
-    protected ArrowComponent arr_bobRootChainArrow2;
+    protected ArrowComponent arr_receivingChain1;
+    protected ArrowComponent arr_receivingChain2;
+    protected ArrowComponent arr_receivingChain3;
+    protected ArrowComponent arr_space3;
+    protected ArrowComponent arr_diffieHellman1;
+    protected ArrowComponent arr_diffieHellman2;
+	protected ArrowComponent arr_rootChain1;
+    protected ArrowComponent arr_rootChain2;
+    protected ArrowComponent arr_rootChain3;
 
-    Group grp_bobReceivingChain;
-    Group grp_bobSpace2;
-    Group grp_bobRootChain;
-    Group grp_bobSpace1;
-    Group grp_bobDiffieHellman;
-    Group grp_bobMessagebox;
-    Group grp_bobDecryptedMessage;
+    Group grp_receivingChain;
+    Group grp_rootChain;
+    Group grp_diffieHellman;
+    Group grp_messageBox;
+    Group grp_decryptedMessage;
     
     ComponentDrawComposite cmp_bobReceivingAlgorithm;
-    Composite cmp_bobDiffieHellman;
-    Composite cmp_bobRootChain;
-    ArrowComponent arr_bobSpace1;
-    ArrowComponent arr_bobSpace2;
+    ArrowComponent arr_space1;
+    ArrowComponent arr_space2;
     ImageComponent drw_incomingMailIcon;
 
     private String MessageboxCipherText = "The Ciphertext";
@@ -124,18 +120,18 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         cmp_bobReceivingAlgorithm.setLayoutData(Layout.gd_algorithmGroup());
         
         createMailIcon();
-        grp_bobMessagebox = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
-        grp_bobDiffieHellman = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
-        grp_bobRootChain = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
-        grp_bobReceivingChain = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
-        grp_bobDecryptedMessage = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
+        grp_messageBox = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
+        grp_diffieHellman = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
+        grp_rootChain = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
+        grp_receivingChain = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
+        grp_decryptedMessage = new Group(cmp_bobReceivingAlgorithm, SWT.NONE);
         
-        createBobEncryptedMessagebox();
-        createBobDiffieHellmanChain();
-        createBobRootChain();
-        createBobReceivingChain();
-        createBobDecryptedMessagebox();
-        createBobArrowSpaces();
+        createEncryptedMessageBox();
+        createDiffieHellmanRatchet();
+        createRootChain();
+        createReceivingChain();
+        createDecryptedMessagebox();
+        createArrowSpaces();
         return cmp_bobReceivingAlgorithm;
     }
     
@@ -157,259 +153,252 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
 
     }
 
-    private void createBobEncryptedMessagebox() {
-	    grp_bobMessagebox.setLayout(Layout.gl_messageboxGroup());
-	    grp_bobMessagebox.setLayoutData(Layout.gd_messageboxComposite());
-	    grp_bobMessagebox.setText(MessageboxDescription);
+    private void createEncryptedMessageBox() {
+	    grp_messageBox.setLayout(Layout.gl_messageBoxGroup());
+	    grp_messageBox.setLayoutData(Layout.gd_messageBoxComposite());
+	    grp_messageBox.setText(MessageboxDescription);
 	
-	    txt_bobCipherText = new Text(
-	            grp_bobMessagebox,
-	            SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY | SWT.CENTER
-	    );
-	    txt_bobCipherText.setText(MessageboxCipherText);
-	    txt_bobCipherText.setLayoutData(Layout.gd_Messagebox());
-	    txt_bobCipherText.setEditable(false);
-	    txt_bobCipherText.setFont(FontService.getNormalMonospacedFont());
+	    txt_cipherText = new Text(grp_messageBox, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
+	    txt_cipherText.setText(MessageboxCipherText);
+	    txt_cipherText.setLayoutData(Layout.gd_Messagebox());
+	    txt_cipherText.setEditable(false);
+	    txt_cipherText.setFont(FontService.getNormalMonospacedFont());
 	    
 	    // This has to live here, because the icon has to come into existance before the messagebox, but still needs
 	    // a reference to the messagebox to infer it's location.
-	    drw_incomingMailIcon.setRelativeTo(grp_bobMessagebox, Side.WEST);
+	    drw_incomingMailIcon.setRelativeTo(grp_messageBox, Side.WEST);
 	}
     
     public void setEncryptedMessageBoxVisible(boolean visible) {
-    	grp_bobMessagebox.setVisible(visible);
+    	grp_messageBox.setVisible(visible);
     }
 
-	private void createBobDiffieHellmanChain() {
-	    grp_bobDiffieHellman.setText(DiffieHellmanGroupDescription);
-	    grp_bobDiffieHellman.setLayout(Layout.gl_diffieHellmanComposite());
-	    grp_bobDiffieHellman.setLayoutData(Layout.gd_diffieHellmanComposite());
+	private void createDiffieHellmanRatchet() {
+	    grp_diffieHellman.setText(DiffieHellmanGroupDescription);
+	    grp_diffieHellman.setLayout(Layout.gl_diffieHellmanComposite());
+	    grp_diffieHellman.setLayoutData(Layout.gd_diffieHellmanComposite());
 	
-	    txt_bobDiffieHellman1 =  new FlowChartNode.Builder(grp_bobDiffieHellman)
+	    txt_diffieHellmanTop =  new FlowChartNode.Builder(grp_diffieHellman)
 	            .title(bobDiffieHellmanLabel1)
 	            .popupProvider(FlowChartNodePopup.create("EC Public Key", "0"))
 	            .buildValueNode();
-	    txt_bobDiffieHellman1.setLayoutData(Layout.gd_algorithmNodes());
+	    txt_diffieHellmanTop.setLayoutData(Layout.gd_algorithmNodes());
 	    
 	    arr_bobMessagePublicKey = ArrowComponent
 	    		.fromAnchors()
-	    		.fromAnchorX(grp_bobMessagebox, Side.EAST)
-	    		.fromAnchorY(txt_bobDiffieHellman1, Side.WEST)
+	    		.fromAnchorX(grp_messageBox, Side.EAST)
+	    		.fromAnchorY(txt_diffieHellmanTop, Side.WEST)
 	    		.outgoingDirection(Side.EAST)
-	    		.toAnchorX(grp_bobDiffieHellman, Side.WEST)
-	    		.toAnchorY(txt_bobDiffieHellman1, Side.WEST)
+	    		.toAnchorX(grp_diffieHellman, Side.WEST)
+	    		.toAnchorY(txt_diffieHellmanTop, Side.WEST)
 	    		.incomingDirection(Side.WEST)
 	    		.on(cmp_bobReceivingAlgorithm)
 	    		.create();
 	    
-	    txt_bobDiffieHellman2 =  new FlowChartNode.Builder(grp_bobDiffieHellman)
+	    txt_diffieHellmanMid =  new FlowChartNode.Builder(grp_diffieHellman)
 	            .title(bobDiffieHellmanLabel2)
 	            .popupProvider(FlowChartNodePopup.create("Shared Secret", "1"))
 	            .buildOperationNode();
-	    txt_bobDiffieHellman2.setLayoutData(Layout.gd_algorithmNodes());
+	    txt_diffieHellmanMid.setLayoutData(Layout.gd_algorithmNodes());
 	
-	    txt_bobDiffieHellman3 =  new FlowChartNode.Builder(grp_bobDiffieHellman)
+	    txt_diffieHellmanBot =  new FlowChartNode.Builder(grp_diffieHellman)
 	            .title(bobDiffieHellmanLabel3)
 	            .popupProvider(FlowChartNodePopup.create("EC Private Key", "2"))
 	            .buildValueNode();
-	    txt_bobDiffieHellman3.setLayoutData(Layout.gd_algorithmNodes());
+	    txt_diffieHellmanBot.setLayoutData(Layout.gd_algorithmNodes());
 	    
-	    arr_bobDiffieHellmanArrow1 = ArrowComponent
-	    	.from(txt_bobDiffieHellman1).south()
-	    	.to(txt_bobDiffieHellman2).north()
+	    arr_diffieHellman1 = ArrowComponent
+	    	.from(txt_diffieHellmanTop).south()
+	    	.to(txt_diffieHellmanMid).north()
 	    	.on(cmp_bobReceivingAlgorithm)
 	    	.withDefaults();
 	
-	    arr_bobDiffieHellmanArrow2 = ArrowComponent
-	    	.from(txt_bobDiffieHellman3).north()
-	    	.to(txt_bobDiffieHellman2).south()
+	    arr_diffieHellman2 = ArrowComponent
+	    	.from(txt_diffieHellmanBot).north()
+	    	.to(txt_diffieHellmanMid).south()
 	    	.on(cmp_bobReceivingAlgorithm)
 	    	.withDefaults();
-	
 	}
 	
-    public void setDiffieHellmanChainVisible(boolean visible) {
-    	grp_bobDiffieHellman.setVisible(visible);
+    public void setDiffieHellmanRatchetVisible(boolean visible) {
+    	grp_diffieHellman.setVisible(visible);
     	arr_bobMessagePublicKey.setVisible(visible);
-    	arr_bobDiffieHellmanArrow1.setVisible(visible);
-    	arr_bobDiffieHellmanArrow2.setVisible(visible);
+    	arr_diffieHellman1.setVisible(visible);
+    	arr_diffieHellman2.setVisible(visible);
     }
 
-	private void createBobRootChain() {
-	    grp_bobRootChain.setText(RootChainDescription);
-	    grp_bobRootChain.setLayout(Layout.gl_rootChainComposite(SWT.LEFT));
-	    grp_bobRootChain.setLayoutData(Layout.gd_rootChainComposite());
+	private void createRootChain() {
+	    grp_rootChain.setText(RootChainDescription);
+	    grp_rootChain.setLayout(Layout.gl_rootChainComposite(SWT.LEFT));
+	    grp_rootChain.setLayoutData(Layout.gd_rootChainComposite());
 	    
-	    txt_bobRootChain0 = new FlowChartNode.Builder(grp_bobRootChain)
+	    txt_rootChainConst = new FlowChartNode.Builder(grp_rootChain)
         		.title(bobReceivingChainLabel2)
         		.popupProvider(FlowChartNodePopup.create("Constant", "WhisperChain"))
         		.buildValueNode();
-        txt_bobRootChain0.setLayoutData(Layout.gd_algorithmNodesSlim());
+        txt_rootChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
-	    txt_bobRootChain1 =  new FlowChartNode.Builder(grp_bobRootChain)
+	    txt_rootChainTop =  new FlowChartNode.Builder(grp_rootChain)
 	            .title(bobRootChainLabel1)
                 .popupProvider(FlowChartNodePopup.create("Root-Key", "4"))
 	            .buildValueNode();
-	    txt_bobRootChain1.setLayoutData(Layout.gd_algorithmNodes());
+	    txt_rootChainTop.setLayoutData(Layout.gd_algorithmNodes());
 	    
-	    UiUtils.insertSpacers(grp_bobRootChain, 1, ViewConstants.BOX_WIDTH_SLIM);
+	    UiUtils.insertSpacers(grp_rootChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 	
-	    txt_bobRootChain2 =  new FlowChartNode.Builder(grp_bobRootChain)
+	    txt_rootChainMid =  new FlowChartNode.Builder(grp_rootChain)
 	            .title(bobRootChainLabel2)
                 .popupProvider(FlowChartNodePopup.create(Map.of("Chain key", "5", "New Root-Key", "6")))
 	            .buildOperationNode();
-	    txt_bobRootChain2.setLayoutData(Layout.gd_algorithmNodes());
+	    txt_rootChainMid.setLayoutData(Layout.gd_algorithmNodes());
 	    
-	    arr_bobRootChainArrow0 = ArrowComponent
-	    		.from(txt_bobRootChain0).south()
-	    		.to(txt_bobRootChain2).west()
+	    arr_rootChain1 = ArrowComponent
+	    		.from(txt_rootChainConst).south()
+	    		.to(txt_rootChainMid).west()
 	    		.on(cmp_bobReceivingAlgorithm)
 	    		.create();
 	
-	    UiUtils.insertSpacers(grp_bobRootChain, 1);
+	    UiUtils.insertSpacers(grp_rootChain, 1);
 	    
-	    txt_bobRootChain3 =  new FlowChartNode.Builder(grp_bobRootChain)
+	    txt_rootChainBot =  new FlowChartNode.Builder(grp_rootChain)
 	            .title(bobRootChainLabel3)
                 .popupProvider(FlowChartNodePopup.create("Root-Key", "5"))
 	            .buildValueNode();
-	    txt_bobRootChain3.setLayoutData(Layout.gd_algorithmNodes());
-	    arr_bobRootChainArrow1 = ArrowComponent
-	    	.from(txt_bobRootChain1).south()
-	    	.to(txt_bobRootChain2).north()
+	    txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
+	    arr_rootChain2 = ArrowComponent
+	    	.from(txt_rootChainTop).south()
+	    	.to(txt_rootChainMid).north()
 	    	.on(cmp_bobReceivingAlgorithm)
 	    	.withDefaults();
 	
-	    arr_bobRootChainArrow2 = ArrowComponent
-	    	.from(txt_bobRootChain2).south()
-	    	.to(txt_bobRootChain3).north()
+	    arr_rootChain3 = ArrowComponent
+	    	.from(txt_rootChainMid).south()
+	    	.to(txt_rootChainBot).north()
 	    	.on(cmp_bobReceivingAlgorithm)
 	    	.withDefaults();
-	
 	}
 	
 	public void setRootChainVisible(boolean visible) {
-		arr_bobSpace1.setVisible(visible);
-		grp_bobRootChain.setVisible(visible);
-		arr_bobRootChainArrow0.setVisible(visible);
-		arr_bobRootChainArrow1.setVisible(visible);
-		arr_bobRootChainArrow2.setVisible(visible);
+		arr_space1.setVisible(visible);
+		grp_rootChain.setVisible(visible);
+		arr_rootChain1.setVisible(visible);
+		arr_rootChain2.setVisible(visible);
+		arr_rootChain3.setVisible(visible);
 	}
 
-	private void createBobReceivingChain() {
-        grp_bobReceivingChain.setLayout(Layout.gl_sendingReceivingChainComposite(SWT.RIGHT));
-        grp_bobReceivingChain.setLayoutData(Layout.gd_sendingReceivingChainComposite());
-        grp_bobReceivingChain.setText(ReceivingChainDescription);
+	private void createReceivingChain() {
+        grp_receivingChain.setLayout(Layout.gl_sendingReceivingChainComposite(SWT.RIGHT));
+        grp_receivingChain.setLayoutData(Layout.gd_sendingReceivingChainComposite());
+        grp_receivingChain.setText(ReceivingChainDescription);
         
-        txt_bobReceivingChain1 = new FlowChartNode.Builder(grp_bobReceivingChain)
+        txt_receivingChainConst = new FlowChartNode.Builder(grp_receivingChain)
                 .title(bobReceivingChainLabel3)
 	            .popupProvider(FlowChartNodePopup.create("Constant", "WhisperMessage"))
                 .buildValueNode();
-        txt_bobReceivingChain1.setLayoutData(Layout.gd_algorithmNodesSlim());
+        txt_receivingChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
-        txt_bobReceivingChain2 =  new FlowChartNode.Builder(grp_bobReceivingChain)
+        txt_receivingChainTop =  new FlowChartNode.Builder(grp_receivingChain)
                 .title(bobReceivingChainLabel1)
 	            .popupProvider(FlowChartNodePopup.create("Chain-Key", "7"))
                 .buildValueNode();
-        txt_bobReceivingChain2.setLayoutData(Layout.gd_algorithmNodes());
+        txt_receivingChainTop.setLayoutData(Layout.gd_algorithmNodes());
 
-        UiUtils.insertSpacers(grp_bobReceivingChain, 1, ViewConstants.BOX_WIDTH_SLIM);
+        UiUtils.insertSpacers(grp_receivingChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 
-        txt_bobReceivingChain3 =  new FlowChartNode.Builder(grp_bobReceivingChain)
+        txt_receivingChainMid =  new FlowChartNode.Builder(grp_receivingChain)
                 .title(bobReceivingChainLabel2)
 	            .popupProvider(FlowChartNodePopup.create(Map.of("Message Key", "9", "New Chain Key", "10")))
                 .buildOperationNode();
-        txt_bobReceivingChain3.setLayoutData(Layout.gd_algorithmNodes());
+        txt_receivingChainMid.setLayoutData(Layout.gd_algorithmNodes());
         
-	    arr_bobReceivingChainArrow1 = ArrowComponent
-	    	.from(txt_bobReceivingChain1).south()
-	    	.to(txt_bobReceivingChain3).west()
+	    arr_receivingChain1 = ArrowComponent
+	    	.from(txt_receivingChainConst).south()
+	    	.to(txt_receivingChainMid).west()
 	    	.on(cmp_bobReceivingAlgorithm)
 	    	.withDefaults();
 	    
-	    arr_bobReceivingChainArrow2 = ArrowComponent
-	    	.from(txt_bobReceivingChain2).south()
-	    	.to(txt_bobReceivingChain3).north()
+	    arr_receivingChain2 = ArrowComponent
+	    	.from(txt_receivingChainTop).south()
+	    	.to(txt_receivingChainMid).north()
 	    	.on(cmp_bobReceivingAlgorithm)
 	    	.withDefaults();
 
-        UiUtils.insertSpacers(grp_bobReceivingChain, 1, ViewConstants.BOX_WIDTH_SLIM);
+        UiUtils.insertSpacers(grp_receivingChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 
-                txt_bobReceivingChain5 =  new FlowChartNode.Builder(grp_bobReceivingChain)
+        txt_receivingChainBot =  new FlowChartNode.Builder(grp_receivingChain)
                 .title(bobReceivingChainLabel5)
 	            .popupProvider(FlowChartNodePopup.create("Message-Key", "9"))
                 .buildValueNode();
-        txt_bobReceivingChain5.setLayoutData(Layout.gd_algorithmNodes());
+        txt_receivingChainBot.setLayoutData(Layout.gd_algorithmNodes());
         
-        arr_bobReceivingChainArrow3 = ArrowComponent
-	    	.from(txt_bobReceivingChain3).south()
-	    	.to(txt_bobReceivingChain5).north()
+        arr_receivingChain3 = ArrowComponent
+	    	.from(txt_receivingChainMid).south()
+	    	.to(txt_receivingChainBot).north()
 	    	.on(cmp_bobReceivingAlgorithm)
 	    	.withDefaults();
 	        }
 
 	public void setReceivingChainVisible(boolean visible) {
-		arr_bobSpace2.setVisible(visible);
-		grp_bobReceivingChain.setVisible(visible);
-		arr_bobReceivingChainArrow1.setVisible(visible);
-		arr_bobReceivingChainArrow2.setVisible(visible);
-		arr_bobReceivingChainArrow3.setVisible(visible);
+		arr_space2.setVisible(visible);
+		grp_receivingChain.setVisible(visible);
+		arr_receivingChain1.setVisible(visible);
+		arr_receivingChain2.setVisible(visible);
+		arr_receivingChain3.setVisible(visible);
     }
 	
-    private void createBobDecryptedMessagebox() {
-	    grp_bobDecryptedMessage.setLayout(Layout.gl_messageboxGroup());
-	    grp_bobDecryptedMessage.setLayoutData(Layout.gd_messageboxComposite());
-	    grp_bobDecryptedMessage.setText("Nachricht entschlüsseln");
+    private void createDecryptedMessagebox() {
+	    grp_decryptedMessage.setLayout(Layout.gl_messageBoxGroup());
+	    grp_decryptedMessage.setLayoutData(Layout.gd_messageBoxComposite());
+	    grp_decryptedMessage.setText("Nachricht entschlüsseln");
 	    
-    	txt_bobReceivingChain4 =  new FlowChartNode.Builder(grp_bobDecryptedMessage)
+    	txt_messageKeys =  new FlowChartNode.Builder(grp_decryptedMessage)
                 .title(bobReceivingChainLabel4)
 	            .popupProvider(FlowChartNodePopup.create("Message Keys", "10"))
                 .buildValueNode();
-        txt_bobReceivingChain4.setLayoutData(Layout.gd_algorithmNodes());
+        txt_messageKeys.setLayoutData(Layout.gd_algorithmNodes());
         
-	    txt_bobPlainText = new Text(
-	            grp_bobDecryptedMessage,
-	            SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY
+	    txt_plainText = new Text(
+	    		grp_decryptedMessage, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY
 	    );
-	    txt_bobPlainText.setText(MessageboxPlainText);
-	    txt_bobPlainText.setLayoutData(Layout.gd_Messagebox());
-	    txt_bobPlainText.setEditable(false);
+	    txt_plainText.setText(MessageboxPlainText);
+	    txt_plainText.setLayoutData(Layout.gd_Messagebox());
+	    txt_plainText.setEditable(false);
 	}
     
     public void setDecryptedMessageboxVisible(boolean visible) {
-		arr_bobSpace3.setVisible(visible);
-    	grp_bobDecryptedMessage.setVisible(visible);
+		arr_space3.setVisible(visible);
+    	grp_decryptedMessage.setVisible(visible);
     }
 
-	private void createBobArrowSpaces() {
-		arr_bobSpace1 = ArrowComponent
-				.from(grp_bobDiffieHellman, txt_bobDiffieHellman2).east()
-				.to(txt_bobRootChain2, txt_bobRootChain2).west()
+	private void createArrowSpaces() {
+		arr_space1 = ArrowComponent
+				.from(grp_diffieHellman, txt_diffieHellmanMid).east()
+				.to(txt_rootChainMid, txt_rootChainMid).west()
 				.on(cmp_bobReceivingAlgorithm)
 				.withDefaults();
-		arr_bobSpace2 = ArrowComponent
-				.from(grp_bobRootChain, txt_bobRootChain2).east()
-				.to(txt_bobReceivingChain3, txt_bobReceivingChain3).west()
+		arr_space2 = ArrowComponent
+				.from(grp_rootChain, txt_rootChainMid).east()
+				.to(txt_receivingChainMid, txt_receivingChainMid).west()
 				.on(cmp_bobReceivingAlgorithm)
 				.breakBetween()
-	    	    	.first(grp_bobRootChain, Side.EAST)
-	    	    	.second(grp_bobReceivingChain, Side.WEST)
+	    	    	.first(grp_rootChain, Side.EAST)
+	    	    	.second(grp_receivingChain, Side.WEST)
 	    	    	.at(ArrowComponent.BREAK_CENTER)
 	    	    .arrowId("cmp_bobArrowSpace2")
 				.withDefaults();
 		
-        arr_bobSpace3 = ArrowComponent
-	    	.from(txt_bobReceivingChain3).east()
-	    	.to(grp_bobDecryptedMessage, txt_bobReceivingChain4).west()
+        arr_space3 = ArrowComponent
+	    	.from(txt_receivingChainMid).east()
+	    	.to(grp_decryptedMessage, txt_messageKeys).west()
 	    	.on(cmp_bobReceivingAlgorithm)
 	    	.withDefaults();
     }
 	
 	public void setAllVisible(boolean visible) {
 		setEncryptedMessageBoxVisible(visible);
-		setDiffieHellmanChainVisible(visible);
+		setDiffieHellmanRatchetVisible(visible);
 		setRootChainVisible(visible);
 		setReceivingChainVisible(visible);
 		setDecryptedMessageboxVisible(visible);
 	}
-
 }
