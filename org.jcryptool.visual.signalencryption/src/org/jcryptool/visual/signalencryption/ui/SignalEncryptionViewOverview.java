@@ -12,14 +12,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.layout.GridDataBuilder;
+import org.jcryptool.visual.signalencryption.ui.SignalEncryptionView.Tab;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 
@@ -43,42 +42,14 @@ public class SignalEncryptionViewOverview extends Composite {
 	private GridData gd_overViewComposite;
 	private GridData gd_keyTableGroup;
 	private GridData gd_text;
-	private GridData gd_value;
-
-	// TableLabels
-	private Label label_column;
-	private Label text_column;
-	private Label value_column_alice;
-	private Label value_column_bob;
-
-	private Label label_b_private;
-	private Label label_b_public;
-	private Label label_d;
+	
 
 	// TableTexts
 
-	private Text text_b_private;
-	private Text text_b_public;
-	private Text text_d;
+	private Button btn_newKeysBoth;
 
-	// TableValues
-	private Text value_b_alice_private;
-	private Text value_b_alice_public;
-
-	// TableValues
-	private Text value_b_bob_private;
-	private Text value_b_bob_public;
-
-	private Button btn_regenerate;
-
-	// Variables for the used keys
-	private String aliceRatchetPublicKey;
-	private String aliceRatchetPrivateKey;
-
-	private String bobRatchetPublicKey;
-	private String bobRatchetPrivateKey;
-
-	private DoubleRatchetView doubleRatchetTabComposite;
+	private final DoubleRatchetView doubleRatchetTabComposite;
+	private final SignalEncryptionView parentView;
 
 	private Text txt_aliceIdentity;
 	private Text txt_bobIdentity;
@@ -86,13 +57,26 @@ public class SignalEncryptionViewOverview extends Composite {
 	private FlowChartNode node_aliceKeyBundle;
 	private FlowChartNode node_bobKeyBundle;
 
+	private Group grp_doubleRatchetInfo;
+
+	private Button btn_switchToDoubleRatchetView;
+
+	private Button btn_newKeysAlice;
+
+	private Button btn_newKeysBob;
+
 	/**
 	 * 
 	 **/
-	public SignalEncryptionViewOverview(final Composite parent, final int style,
-			DoubleRatchetView doubleRatchetTabComposite) {
+	public SignalEncryptionViewOverview(
+			Composite parent,
+			int style,
+			DoubleRatchetView doubleRatchetTabComposite,
+			SignalEncryptionView parentView
+	) {
 		super(parent, style);
 		this.doubleRatchetTabComposite = doubleRatchetTabComposite;
+		this.parentView = parentView;
 		setLayout(new GridLayout());
 
 		setTitleAndDescription();
@@ -108,10 +92,6 @@ public class SignalEncryptionViewOverview extends Composite {
 		titleAndDescription.setDescription(Messages.SignalEncryption_TabDesc1);
 	}
 
-	private void createDescriptionGroup() {
-		// gd_descriptionGroup = new GridData(SWT.FILL, SWT.FILL, true, true);
-	}
-
 	private void createOverViewComposite() {
 		overViewComposite = new Composite(this, SWT.NONE);
 		gl_overViewComposite = new GridLayout(2, false);
@@ -121,50 +101,30 @@ public class SignalEncryptionViewOverview extends Composite {
 		overViewComposite.setLayoutData(gd_overViewComposite);
 	
 		createTableGroup();
-		createDescriptionGroup();
 	
 	}
 
 	private void createKeyInformation() {
 		gd_text = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
-		gd_value = gd_text;
 		gd_text.widthHint = 300;
 		
-		UiUtils.insertSpacers(keyTableGroup, 1);
 		node_aliceKeyBundle = new FlowChartNode.Builder(keyTableGroup)
 				.title("Alice Pre-Key-Bundle")
 				.buildValueNode();
-		node_aliceKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).minimumWidth(200).get());
+		node_aliceKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
 		node_bobKeyBundle = new FlowChartNode.Builder(keyTableGroup)
 				.title("Bob Pre-Key-Bundle")
 				.buildValueNode();
-		node_bobKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).minimumWidth(200).get());
+		node_bobKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
 		
-		UiUtils.insertSpacers(keyTableGroup, 1);
-		txt_aliceIdentity = createIdentityText(keyTableGroup, SWT.BORDER);
-		txt_bobIdentity = createIdentityText(keyTableGroup, SWT.BORDER);
+		txt_aliceIdentity = createIdentityText(keyTableGroup, SWT.BORDER | SWT.WRAP);
+		txt_bobIdentity = createIdentityText(keyTableGroup, SWT.BORDER | SWT.WRAP);
 		
-		// Button for generating all keys new
-		btn_regenerate = new Button(keyTableGroup, SWT.PUSH);
-		btn_regenerate.setText(Messages.SignalEncryption_btn_generateBoth);
-		btn_regenerate.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (discardIfNecessary()) {
-					generateBoth();
-				}
-			}
-
-		});
-
-		btn_regenerate.addSelectionListener(new SelectionAdapter() {
-		});
-
 		// Button for generating new keys for Alice
-		btn_regenerate = new Button(keyTableGroup, SWT.PUSH);
-		btn_regenerate.setText(Messages.SignalEncryption_btn_generateAlice);
-		btn_regenerate.addSelectionListener(new SelectionAdapter() {
+		btn_newKeysAlice = new Button(keyTableGroup, SWT.PUSH);
+		btn_newKeysAlice.setText(Messages.SignalEncryption_btn_generateAlice);
+		btn_newKeysAlice.setLayoutData(gd_createKeyButton());
+		btn_newKeysAlice.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -175,9 +135,10 @@ public class SignalEncryptionViewOverview extends Composite {
 		});
 
 		// Button for generation new keys for Bob
-		btn_regenerate = new Button(keyTableGroup, SWT.PUSH);
-		btn_regenerate.setText(Messages.SignalEncryption_btn_generateBob);
-		btn_regenerate.addSelectionListener(new SelectionAdapter() {
+		btn_newKeysBob = new Button(keyTableGroup, SWT.PUSH);
+		btn_newKeysBob.setText(Messages.SignalEncryption_btn_generateBob);
+		btn_newKeysBob.setLayoutData(gd_createKeyButton());
+		btn_newKeysBob.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -186,22 +147,55 @@ public class SignalEncryptionViewOverview extends Composite {
 				}
 			}
 		});
+		
+		btn_newKeysBoth = new Button(keyTableGroup, SWT.PUSH);
+		btn_newKeysBoth.setText(Messages.SignalEncryption_btn_generateBoth);
+		btn_newKeysBoth.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		btn_newKeysBoth.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (discardIfNecessary()) {
+					generateBoth();
+				}
+			}
+		});
+
 
 	}
 
 	private void createTableGroup() {
 	
 		keyTableGroup = new Group(overViewComposite, SWT.NONE);
-		gl_keyTableGroup = new GridLayout(3, false);
+		gl_keyTableGroup = new GridLayout(2, false);
 		gd_keyTableGroup = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd_keyTableGroup.minimumWidth = 1000;
 	
 		keyTableGroup.setLayout(gl_keyTableGroup);
 		keyTableGroup.setText(Messages.SignalEncryption_TblTitel_Key);
 		keyTableGroup.setLayoutData(gd_keyTableGroup);
+		
+		grp_doubleRatchetInfo = new Group(overViewComposite, SWT.NONE);
+		grp_doubleRatchetInfo.setText("Double Ratchet");
+		grp_doubleRatchetInfo.setLayoutData(gd_keyTableGroup);
+		grp_doubleRatchetInfo.setLayout(new GridLayout(1, true));
 	
 		createKeyInformation();
+		createDoubleRatchetInformation();
 	
+	}
+
+	private void createDoubleRatchetInformation() {
+		btn_switchToDoubleRatchetView = new Button(grp_doubleRatchetInfo, SWT.PUSH);
+		btn_switchToDoubleRatchetView.setLayoutData(GridDataBuilder.with(SWT.CENTER, SWT.TOP, true, true).widthHint(200).heightHint(100).get());
+		btn_switchToDoubleRatchetView.setText("Show Double-Ratchet");
+		
+		btn_switchToDoubleRatchetView.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				parentView.setTab(Tab.DOUBLE_RATCHET);
+			}
+		});
 	}
 
 	private boolean discardIfNecessary() {
@@ -246,28 +240,32 @@ public class SignalEncryptionViewOverview extends Composite {
 		var aliceBundle = AlgorithmState.get().getSignalEncryptionAlgorithm().getAlicePreKeyBundle();
 		var bobBundle = AlgorithmState.get().getSignalEncryptionAlgorithm().getAlicePreKeyBundle();
 		
-		txt_aliceIdentity.setText(toHex(aliceBundle.getIdentityKey().getPublicKey().serialize()));
-		txt_bobIdentity.setText(toHex(bobBundle.getIdentityKey().getPublicKey().serialize()));
+		txt_aliceIdentity.setText(toHex(aliceBundle.getIdentityKey().getPublicKey().serialize(), 1, 32));
+		txt_bobIdentity.setText(toHex(bobBundle.getIdentityKey().getPublicKey().serialize(), 1, 32));
 		
 		node_aliceKeyBundle.getPopupProvider().setValues(unpackBundle(aliceBundle));
 		node_bobKeyBundle.getPopupProvider().setValues(unpackBundle(bobBundle));
 	}
 	
 	private Map<String, String> unpackBundle(PreKeyBundle bundle) {
-		var map = new TreeMap<>();
+		var map = new TreeMap<String, String>();
 		
 		map.put("Identity Public Key", toHex(bundle.getIdentityKey().getPublicKey().serialize()));
 		map.put("Pre Key", toHex(bundle.getPreKey().serialize()));
 		map.put("Pre Key-Signatur", toHex(bundle.getSignedPreKeySignature()));
 		
-		return (Map) map;
+		return map;
 	}
 	
 	private Text createIdentityText(Composite parent, int style) {
 		var text = new Text(parent, style);
 		text.setEditable(false);
 		text.setFont(FontService.getNormalMonospacedFont());
-		text.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.CENTER, true, false).get());
+		text.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.CENTER, true, false).widthHint(80).get());
 		return text;
+	}
+	
+	private GridData gd_createKeyButton() {
+		return GridDataBuilder.with(SWT.CENTER, SWT.CENTER, false, false).get();
 	}
 }

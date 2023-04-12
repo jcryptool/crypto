@@ -21,14 +21,12 @@ import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
 
-
-
-
-
 public class SignalEncryptionView extends ViewPart {
 	
 	// Constants
 	public static final String ID = "org.jcryptool.visual.signalencryption";
+	public static final int OVERVIEW_ID = 0;
+	public static final int DOUBLE_RATCHET_ID = 1;
 		
 	// Main UI components
 	private Composite parent;
@@ -81,13 +79,13 @@ public class SignalEncryptionView extends ViewPart {
 				int selection = tabFolder.getSelectionIndex();
 				
 				tabFolder.setSelection(selection);
-				setTab(selection);
+				setTab(Tab.values()[selection]);
 			}
 		});
 		
 		//init first tab
         doubleRatchetTabComposite = new DoubleRatchetView(tabFolder, SWT.NONE);
-		overViewTabComposite = new SignalEncryptionViewOverview(tabFolder, SWT.NONE, doubleRatchetTabComposite);	
+		overViewTabComposite = new SignalEncryptionViewOverview(tabFolder, SWT.NONE, doubleRatchetTabComposite, this);
 
         tbtmOverview.setControl(overViewTabComposite);
 		                     
@@ -102,13 +100,9 @@ public class SignalEncryptionView extends ViewPart {
 	}
 	
 
-	// sets the selected tab as current content of the view
-	// 0 = overviewTab
-	// 1 = doubleRatchetTab
-	
-	public void setTab(int tab) { 
+	public void setTab(Tab tab) { 
         switch (tab) {
-         case 0:
+         case OVERVIEW:
 
            //overViewTabComposite = new SignalEncryptionViewOverview(tabFolder, SWT.NONE, signalEncryptionState, doubleRatchetTabComposite);
            overViewTabComposite.setParameter();
@@ -116,7 +110,7 @@ public class SignalEncryptionView extends ViewPart {
            tbtmOverview.setControl(overViewTabComposite);
            previousTab = 0;
            break; 
-         case 1:
+         case DOUBLE_RATCHET:
              //doubleRatchetTabComposite = new DoubleRatchetView(tabFolder, SWT.NONE, signalEncryptionState);
              tbtmDoubleRatchet.setControl(doubleRatchetTabComposite);
              previousTab = 1;
@@ -124,7 +118,7 @@ public class SignalEncryptionView extends ViewPart {
             break;
         }
 
-        tabFolder.setSelection(tab);
+        tabFolder.setSelection(tab.getIndex());
         FontService.getHeaderFont();
     }
 	
@@ -145,6 +139,22 @@ public class SignalEncryptionView extends ViewPart {
         createPartControl(parent);
         parent.layout();
         
+    }
+    
+    public enum Tab {
+    	OVERVIEW {
+			@Override
+			int getIndex() {
+				return 0;
+			}
+		}, DOUBLE_RATCHET {
+			@Override
+			int getIndex() {
+				return 1;
+			}
+		};
+    	
+    	abstract int getIndex();
     }
     
 }
