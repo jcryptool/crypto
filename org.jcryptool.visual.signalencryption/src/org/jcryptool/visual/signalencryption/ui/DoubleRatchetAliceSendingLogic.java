@@ -688,6 +688,16 @@ public class DoubleRatchetAliceSendingLogic {
 		return currentStep;
 	}
 	
+	private boolean showingWrongView(DoubleRatchetView swtParent, Direction direction) {
+		if (direction == Direction.FORWARD) {
+			return (swtParent.isShowingAlice() && currentStep.peekForward().shouldShowThisEntity() == BOB)
+					|| (swtParent.isShowingBob() && currentStep.peekForward().shouldShowThisEntity() == ALICE);
+		} else {
+			return (swtParent.isShowingAlice() && currentStep.peekBackward().shouldShowThisEntity() == BOB)
+					|| (swtParent.isShowingBob() && currentStep.peekBackward().shouldShowThisEntity() == ALICE);
+		}
+	}
+	
 	/** Returns true if instead of a forward/backwards operation a switch view operation is required */
 	private boolean correctPerspectiveForward(DoubleRatchetView swtParent) {
 		if (swtParent.isShowingAlice() && currentStep.peekForward().shouldShowThisEntity() == BOB) {
@@ -722,7 +732,6 @@ public class DoubleRatchetAliceSendingLogic {
 			return false;
 		}
 		return true;
-
 	}
 	
 	/**
@@ -780,5 +789,9 @@ public class DoubleRatchetAliceSendingLogic {
 		} else if (swtParent.isShowingAlice() && getCurrentStep() == AliceSendingStep.STEP_5_RECEIVING) {
 			stepBack(swtParent);
 		}
+	}
+	
+	private static enum Direction {
+		FORWARD, BACKWARD;
 	}
 }
