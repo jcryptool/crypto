@@ -129,6 +129,7 @@ public class SessionManager {
         return bobBuiltSession.getPreKeyBundle();
     }
 
+    /** Simple Dataclass holding algorithm values for both Alice and bob */
     public static class Captures {
         private JCrypToolCapturer aliceCapture;
         private JCrypToolCapturer bobCapture;
