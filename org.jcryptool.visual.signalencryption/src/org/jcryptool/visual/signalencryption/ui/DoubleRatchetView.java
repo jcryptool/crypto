@@ -127,7 +127,7 @@ public class DoubleRatchetView extends Composite {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 showAliceView();
-            	signalEncryptionUiState.checkIfViewChangeRequiresStateChange(instance, ALICE);
+            	signalEncryptionUiState.doStateChangeIfRequiredByViewChange(instance, ALICE);
             }
         });
     }
@@ -145,7 +145,7 @@ public class DoubleRatchetView extends Composite {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 showBobView();
-            	signalEncryptionUiState.checkIfViewChangeRequiresStateChange(instance, BOB);
+            	signalEncryptionUiState.doStateChangeIfRequiredByViewChange(instance, BOB);
             }
         });
     }

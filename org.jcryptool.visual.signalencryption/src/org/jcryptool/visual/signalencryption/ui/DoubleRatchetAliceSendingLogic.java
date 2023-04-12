@@ -2,9 +2,8 @@ package org.jcryptool.visual.signalencryption.ui;
 
 import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.ALICE;
 import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.BOB;
-
-import java.util.Map;
-import java.util.function.Function;
+import static org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.Direction.BACKWARD;
+import static org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.Direction.FORWARD;
 
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.visual.signalencryption.SignalEncryptionPlugin;
@@ -15,26 +14,10 @@ import org.jcryptool.visual.signalencryption.util.ToHex;
 
 public class DoubleRatchetAliceSendingLogic {
 	
-	@FunctionalInterface
-	static interface ViewShower {
-		void show();
-	}
-	
-
 	private DoubleRatchetStep currentStep = AliceSendingStep.STEP_0;
-	private Map<CommunicationEntity, ViewShower> entityView;
-	private Map<Direction, Function<DoubleRatchetStep, DoubleRatchetStep>> changeStep;
 
 	public DoubleRatchetAliceSendingLogic(DoubleRatchetView swtParent) {
 		currentStep = AliceSendingStep.STEP_0.setInitialState(swtParent);
-		entityView = Map.of(
-				CommunicationEntity.ALICE, swtParent::showAliceView,
-				CommunicationEntity.BOB, swtParent::showBobView
-		);
-		changeStep = Map.of(
-				Direction.FORWARD, (step) -> step.peekForward(),
-				Direction.BACKWARD, (step) -> step.peekBackward()
-		);
 	}
 
 	public enum AliceSendingStep implements DoubleRatchetStep {
@@ -689,18 +672,18 @@ public class DoubleRatchetAliceSendingLogic {
 	}
 
 	public void stepForward(DoubleRatchetView swtParent) {
-		if (showingCorrectView(swtParent, Direction.FORWARD) || stateChangeRequiresViewChange(Direction.FORWARD))  {
+		if (isShowingCorrectView(swtParent, FORWARD) || stateChangeIncludesViewChange(FORWARD))  {
 			currentStep = currentStep.next(swtParent);
 		} else {
-			showCorrectView(swtParent, Direction.FORWARD);
+			showCorrectView(swtParent, FORWARD);
 		}
 	}
 
 	public void stepBack(DoubleRatchetView swtParent) {
-		if (showingCorrectView(swtParent, Direction.BACKWARD) || stateChangeRequiresViewChange(Direction.BACKWARD)) {
+		if (isShowingCorrectView(swtParent, BACKWARD) || stateChangeIncludesViewChange(BACKWARD)) {
 			currentStep = currentStep.back(swtParent);
 		} else {
-			showCorrectView(swtParent, Direction.BACKWARD);
+			showCorrectView(swtParent, BACKWARD);
 		}
 	}
 
@@ -716,8 +699,8 @@ public class DoubleRatchetAliceSendingLogic {
 	 * Check if the state change into direction causes a natural view change.
 	 * This more or less means: next-button becomes showAliceView/showBobView button
 	 * */
-	private boolean stateChangeRequiresViewChange(Direction direction) {
-		if (direction == Direction.BACKWARD) {
+	private boolean stateChangeIncludesViewChange(Direction direction) {
+		if (direction == BACKWARD) {
 			return currentStep.requiresViewSwitchBackward();
 		} else {
 			return currentStep.requiresViewSwitchForward();
@@ -733,7 +716,7 @@ public class DoubleRatchetAliceSendingLogic {
 	 *    User manually switches to bob view (next-button logic switches to showing next step of bob)
 	 * </pre>
 	 */
-	public void checkIfViewChangeRequiresStateChange(DoubleRatchetView swtParent, CommunicationEntity showingEntity) {
+	public void doStateChangeIfRequiredByViewChange(DoubleRatchetView swtParent, CommunicationEntity showingEntity) {
 		if (currentStep.requiresViewSwitchForward() && currentStep.peekForward().shouldShowEntity() == showingEntity) {
 			stepForward(swtParent);
 		}
@@ -742,12 +725,12 @@ public class DoubleRatchetAliceSendingLogic {
 		}
 	}
 
-	private boolean showingCorrectView(DoubleRatchetView view, Direction direction) {
-		return changeStep.get(direction).apply(currentStep).shouldShowEntity() == view.getCurrentlyShowingEntity();
+	private boolean isShowingCorrectView(DoubleRatchetView view, Direction direction) {
+		return direction.peek(currentStep).shouldShowEntity() == view.getCurrentlyShowingEntity();
 	}
 	
 	private void showCorrectView(DoubleRatchetView swtParent, Direction direction) {
-		entityView.get(changeStep.get(direction).apply(currentStep).shouldShowEntity()).show();;
+		switchViewTo(direction.peek(currentStep).shouldShowEntity(), swtParent);
 	}
 	
 	/**
@@ -800,6 +783,27 @@ public class DoubleRatchetAliceSendingLogic {
 	}
 
 	public static enum Direction {
-		FORWARD, BACKWARD;
+		FORWARD {
+			@Override
+			DoubleRatchetStep peek(DoubleRatchetStep current) {
+				return current.peekForward();
+			}
+		},
+		BACKWARD {
+			@Override
+			DoubleRatchetStep peek(DoubleRatchetStep current) {
+				return current.peekBackward();
+			}
+		};
+
+		abstract DoubleRatchetStep peek(DoubleRatchetStep current);
+	}
+
+	private void switchViewTo(CommunicationEntity entity, DoubleRatchetView view) {
+		if (entity == ALICE) {
+			view.showAliceView();
+		} else {
+			view.showBobView();
+		}
 	}
 }

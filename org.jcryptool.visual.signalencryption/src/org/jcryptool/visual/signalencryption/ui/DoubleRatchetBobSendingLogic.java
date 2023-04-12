@@ -264,7 +264,7 @@ public class DoubleRatchetBobSendingLogic {
                 var communication = AlgorithmState.get().getCommunication();
 
                 if (!communication.current().isAlreadyEncrypted()) {
-                    encryptMessage(swtParent);
+                    passMessageToEncryption(swtParent);
                 }
 
                 STEP_5_SENDING.switchState(swtParent);
@@ -660,7 +660,7 @@ public class DoubleRatchetBobSendingLogic {
     /**
      * Get user input from UI and give it to the encryption algorithm.
      */
-    private static void encryptMessage(DoubleRatchetView view) {
+    private static void passMessageToEncryption(DoubleRatchetView view) {
         var message = view.getBobSendingContent().txt_plainText.getText();
         var communication = AlgorithmState.get().getCommunication();
         try {
