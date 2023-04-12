@@ -28,5 +28,15 @@ public interface DoubleRatchetStep {
     DoubleRatchetStep peekBackward();
     
     /** For the given step, which entity (Alice or Bob) should be shown on screen? */
-    CommunicationEntity shouldShowThisEntity();
+    CommunicationEntity shouldShowEntity();
+    
+    /** If the step requires a view-change when going forward */
+    default boolean requiresViewSwitchForward() {
+    	return peekForward().shouldShowEntity() != this.shouldShowEntity();
+    }
+
+    /** If the step requires a view-change when going forward */
+    default boolean requiresViewSwitchBackward() {
+    	return peekBackward().shouldShowEntity() != this.shouldShowEntity();
+    }
 }

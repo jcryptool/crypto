@@ -1,11 +1,15 @@
 package org.jcryptool.visual.signalencryption.ui;
 
+import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.ALICE;
+import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.BOB;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
+import org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.Direction;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -123,7 +127,7 @@ public class DoubleRatchetView extends Composite {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 showAliceView();
-            	signalEncryptionUiState.checkIfViewChangeRequiresStateChange(instance);
+            	signalEncryptionUiState.checkIfViewChangeRequiresStateChange(instance, ALICE);
             }
         });
     }
@@ -141,7 +145,7 @@ public class DoubleRatchetView extends Composite {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 showBobView();
-            	signalEncryptionUiState.checkIfViewChangeRequiresStateChange(instance);
+            	signalEncryptionUiState.checkIfViewChangeRequiresStateChange(instance, BOB);
             }
         });
     }
@@ -310,8 +314,12 @@ public class DoubleRatchetView extends Composite {
     	return getCurrentLayout().topControl == cmp_bob;
     }
     
+    public CommunicationEntity getCurrentlyShowingEntity() {
+    	return isShowingAlice() ? ALICE : BOB;
+    }
+    
     private boolean shouldShowAlice(DoubleRatchetStep step) {
-    	return step.shouldShowThisEntity() == CommunicationEntity.ALICE;
+    	return step.shouldShowEntity() == ALICE;
     }
     
     private boolean shouldShowBob(DoubleRatchetStep step) {

@@ -9,7 +9,6 @@ import org.jcryptool.visual.signalencryption.SignalEncryptionPlugin;
 import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException;
 import org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.AliceSendingStep;
-import org.jcryptool.visual.signalencryption.util.ToHex;
 
 public class DoubleRatchetBobSendingLogic {
 
@@ -73,7 +72,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
         },
@@ -124,7 +123,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
         },
@@ -170,7 +169,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
         },
@@ -219,7 +218,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
         },
@@ -294,7 +293,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
 
@@ -307,6 +306,7 @@ public class DoubleRatchetBobSendingLogic {
 
             @Override
             protected void switchState(DoubleRatchetView swtParent) {
+            	swtParent.showBobView();
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
                 // Show these elements
@@ -357,7 +357,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
         },
@@ -369,6 +369,7 @@ public class DoubleRatchetBobSendingLogic {
 
             @Override
             protected void switchState(DoubleRatchetView swtParent) {
+            	swtParent.showAliceView();
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
                 // Show these elements
@@ -419,7 +420,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
         },
@@ -465,7 +466,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
         },
@@ -511,7 +512,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
         },
@@ -556,7 +557,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
         },
@@ -627,7 +628,7 @@ public class DoubleRatchetBobSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
         };

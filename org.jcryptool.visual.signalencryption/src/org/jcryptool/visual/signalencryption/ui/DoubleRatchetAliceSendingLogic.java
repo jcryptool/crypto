@@ -3,7 +3,9 @@ package org.jcryptool.visual.signalencryption.ui;
 import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.ALICE;
 import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.BOB;
 
-import org.eclipse.swt.SWT;
+import java.util.Map;
+import java.util.function.Function;
+
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.visual.signalencryption.SignalEncryptionPlugin;
 import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
@@ -12,11 +14,27 @@ import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException
 import org.jcryptool.visual.signalencryption.util.ToHex;
 
 public class DoubleRatchetAliceSendingLogic {
+	
+	@FunctionalInterface
+	static interface ViewShower {
+		void show();
+	}
+	
 
 	private DoubleRatchetStep currentStep = AliceSendingStep.STEP_0;
+	private Map<CommunicationEntity, ViewShower> entityView;
+	private Map<Direction, Function<DoubleRatchetStep, DoubleRatchetStep>> changeStep;
 
 	public DoubleRatchetAliceSendingLogic(DoubleRatchetView swtParent) {
 		currentStep = AliceSendingStep.STEP_0.setInitialState(swtParent);
+		entityView = Map.of(
+				CommunicationEntity.ALICE, swtParent::showAliceView,
+				CommunicationEntity.BOB, swtParent::showBobView
+		);
+		changeStep = Map.of(
+				Direction.FORWARD, (step) -> step.peekForward(),
+				Direction.BACKWARD, (step) -> step.peekBackward()
+		);
 	}
 
 	public enum AliceSendingStep implements DoubleRatchetStep {
@@ -89,7 +107,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
 		},
@@ -144,7 +162,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
 		},
@@ -189,7 +207,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
 		},
@@ -238,7 +256,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
 		},
@@ -284,7 +302,7 @@ public class DoubleRatchetAliceSendingLogic {
 				var communication = AlgorithmState.get().getCommunication();
 
 				if (!communication.current().isAlreadyEncrypted()) {
-					encryptMessage(swtParent);
+					passMessageToEncryption(swtParent);
 				}
 
 				STEP_5_SENDING.switchState(swtParent);
@@ -313,7 +331,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
 		},
@@ -325,6 +343,7 @@ public class DoubleRatchetAliceSendingLogic {
 
 			@Override
 			protected void switchState(DoubleRatchetView swtParent) {
+				swtParent.showAliceView();
 				var aliceContent = swtParent.getAliceSendingContent();
 				var bobContent = swtParent.getBobReceivingContent();
 				// Show these elements
@@ -374,7 +393,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return ALICE;
 			}
 		},
@@ -386,6 +405,7 @@ public class DoubleRatchetAliceSendingLogic {
 
 			@Override
 			protected void switchState(DoubleRatchetView swtParent) {
+				swtParent.showBobView();
 				var aliceContent = swtParent.getAliceSendingContent();
 				var bobContent = swtParent.getBobReceivingContent();
 				// Show these elements
@@ -435,7 +455,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
 		},
@@ -489,7 +509,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
 		},
@@ -535,7 +555,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
 		},
@@ -580,7 +600,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
 		},
@@ -655,7 +675,7 @@ public class DoubleRatchetAliceSendingLogic {
 			}
 
 			@Override
-			public CommunicationEntity shouldShowThisEntity() {
+			public CommunicationEntity shouldShowEntity() {
 				return BOB;
 			}
 		};
@@ -669,14 +689,18 @@ public class DoubleRatchetAliceSendingLogic {
 	}
 
 	public void stepForward(DoubleRatchetView swtParent) {
-		if (correctPerspectiveForward(swtParent)) {
+		if (showingCorrectView(swtParent, Direction.FORWARD) || stateChangeRequiresViewChange(Direction.FORWARD))  {
 			currentStep = currentStep.next(swtParent);
+		} else {
+			showCorrectView(swtParent, Direction.FORWARD);
 		}
 	}
 
 	public void stepBack(DoubleRatchetView swtParent) {
-		 if (correctPerspectiveBackward(swtParent)) {
+		if (showingCorrectView(swtParent, Direction.BACKWARD) || stateChangeRequiresViewChange(Direction.BACKWARD)) {
 			currentStep = currentStep.back(swtParent);
+		} else {
+			showCorrectView(swtParent, Direction.BACKWARD);
 		}
 	}
 
@@ -688,62 +712,54 @@ public class DoubleRatchetAliceSendingLogic {
 		return currentStep;
 	}
 	
-	private boolean showingWrongView(DoubleRatchetView swtParent, Direction direction) {
-		if (direction == Direction.FORWARD) {
-			return (swtParent.isShowingAlice() && currentStep.peekForward().shouldShowThisEntity() == BOB)
-					|| (swtParent.isShowingBob() && currentStep.peekForward().shouldShowThisEntity() == ALICE);
+	/**
+	 * Check if the state change into direction causes a natural view change.
+	 * This more or less means: next-button becomes showAliceView/showBobView button
+	 * */
+	private boolean stateChangeRequiresViewChange(Direction direction) {
+		if (direction == Direction.BACKWARD) {
+			return currentStep.requiresViewSwitchBackward();
 		} else {
-			return (swtParent.isShowingAlice() && currentStep.peekBackward().shouldShowThisEntity() == BOB)
-					|| (swtParent.isShowingBob() && currentStep.peekBackward().shouldShowThisEntity() == ALICE);
+			return currentStep.requiresViewSwitchForward();
 		}
 	}
 	
-	/** Returns true if instead of a forward/backwards operation a switch view operation is required */
-	private boolean correctPerspectiveForward(DoubleRatchetView swtParent) {
-		if (swtParent.isShowingAlice() && currentStep.peekForward().shouldShowThisEntity() == BOB) {
-			swtParent.showBobView();
-			if (currentStep == AliceSendingStep.STEP_5_SENDING) {
-				return true;
-			}
-			return false;
-		} else if (swtParent.isShowingBob() && currentStep.peekForward().shouldShowThisEntity() == ALICE) {
-			swtParent.showAliceView();
-			if (currentStep == BobSendingStep.STEP_5_SENDING) {
-				return true;
-			}
-			return false;
+	/**
+	 * Some states only differ if they show Alice or Bob - switch state if the user manually switches
+	 * <p/>
+	 * Example:
+	 * <pre>
+	 *    Reaching end of alice view (next-button would switch to bob's view)
+	 *    User manually switches to bob view (next-button logic switches to showing next step of bob)
+	 * </pre>
+	 */
+	public void checkIfViewChangeRequiresStateChange(DoubleRatchetView swtParent, CommunicationEntity showingEntity) {
+		if (currentStep.requiresViewSwitchForward() && currentStep.peekForward().shouldShowEntity() == showingEntity) {
+			stepForward(swtParent);
 		}
-		return true;
+		if (currentStep.requiresViewSwitchBackward() && currentStep.peekBackward().shouldShowEntity() == showingEntity) {
+			stepBack(swtParent);
+		}
+	}
+
+	private boolean showingCorrectView(DoubleRatchetView view, Direction direction) {
+		return changeStep.get(direction).apply(currentStep).shouldShowEntity() == view.getCurrentlyShowingEntity();
 	}
 	
-	/** Returns true if instead of a forward/backwards operation a switch view operation is required */
-	private boolean correctPerspectiveBackward(DoubleRatchetView swtParent) {
-		if (swtParent.isShowingAlice() && currentStep.peekBackward().shouldShowThisEntity() == BOB) {
-			swtParent.showBobView();
-			if (currentStep == BobSendingStep.STEP_5_RECEIVING) {
-				return true;
-			}
-			return false;
-		} else if (swtParent.isShowingBob() && currentStep.peekBackward().shouldShowThisEntity() == ALICE) {
-			swtParent.showAliceView();
-			if (currentStep == AliceSendingStep.STEP_5_RECEIVING) {
-				return true;
-			}
-			return false;
-		}
-		return true;
+	private void showCorrectView(DoubleRatchetView swtParent, Direction direction) {
+		entityView.get(changeStep.get(direction).apply(currentStep).shouldShowEntity()).show();;
 	}
 	
 	/**
 	 * Get user input from UI and give it to the encryption algorithm.
 	 */
-	private static void encryptMessage(DoubleRatchetView view) {
+	private static void passMessageToEncryption(DoubleRatchetView view) {
 		var message = view.getAliceSendingContent().txt_plainText.getText();
 		var communication = AlgorithmState.get().getCommunication();
 		try {
 			communication.encrypt(message);
 		} catch (SignalAlgorithmException e) {
-			LogUtil.logError(SignalEncryptionPlugin.PLUGIN_ID, "Sorry, that shouldn't have happened, must restart", e,
+			LogUtil.logError(SignalEncryptionPlugin.PLUGIN_ID, "Sorry, that shouldn't have happened. Please restart the plug-in", e,
 					true);
 			view.resetAll();
 		}
@@ -783,15 +799,7 @@ public class DoubleRatchetAliceSendingLogic {
 		bobContent.txt_messageKeys.getPopupProvider().setValues(ctx.receiverChainMessageKey());
 	}
 
-	public void checkIfViewChangeRequiresStateChange(DoubleRatchetView swtParent) {
-		if (swtParent.isShowingBob() && getCurrentStep() == AliceSendingStep.STEP_5_SENDING) {
-			stepForward(swtParent);
-		} else if (swtParent.isShowingAlice() && getCurrentStep() == AliceSendingStep.STEP_5_RECEIVING) {
-			stepBack(swtParent);
-		}
-	}
-	
-	private static enum Direction {
+	public static enum Direction {
 		FORWARD, BACKWARD;
 	}
 }
