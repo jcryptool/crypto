@@ -44,18 +44,7 @@ public class SessionManager {
         
         aliceRemoteAddress = new SignalProtocolAddress("Alice", ALICE_DEVICE_ID);
         bobRemoteAddress = new SignalProtocolAddress("Bob", BOB_DEVICE_ID);
-        
-        aliceBuiltSession = new PreSessionParameter(bobRemoteAddress,ALICE_DEVICE_ID ,aliceParameter);
-        bobBuiltSession = new PreSessionParameter(aliceRemoteAddress, BOB_DEVICE_ID, bobParameter);
-        
-        aliceSession = new SessionInitialization(aliceBuiltSession, bobBuiltSession.getPreKeyBundle());
-        bobSession = new SessionInitialization(bobBuiltSession, aliceBuiltSession.getPreKeyBundle());
-
-        var aliceCapturer = new JCrypToolCapturer();
-        var bobCapturer = new JCrypToolCapturer();
-        alice = aliceSession.buildSessionCipher(aliceCapturer);
-        bob = bobSession.buildSessionCipher(bobCapturer);
-        return new Captures(aliceCapturer, bobCapturer);
+        return initSession();
     }
     
     public Captures createSessionAlice() {
@@ -66,19 +55,7 @@ public class SessionManager {
         }
         
         aliceRemoteAddress = new SignalProtocolAddress("Alice", ALICE_DEVICE_ID);
-        bobRemoteAddress = new SignalProtocolAddress("Bob", BOB_DEVICE_ID);
-        
-        aliceBuiltSession = new PreSessionParameter(bobRemoteAddress,ALICE_DEVICE_ID ,aliceParameter);
-        bobBuiltSession = new PreSessionParameter(aliceRemoteAddress, BOB_DEVICE_ID, bobParameter);
-        
-        aliceSession = new SessionInitialization(aliceBuiltSession, bobBuiltSession.getPreKeyBundle());
-        bobSession = new SessionInitialization(bobBuiltSession, aliceBuiltSession.getPreKeyBundle());
-
-        var aliceCapturer = new JCrypToolCapturer();
-        var bobCapturer = new JCrypToolCapturer();
-        alice = aliceSession.buildSessionCipher(aliceCapturer);
-        bob = bobSession.buildSessionCipher(bobCapturer);
-        return new Captures(aliceCapturer, bobCapturer);
+        return initSession();
     }
     
     public Captures createSessionBob() {
@@ -87,10 +64,12 @@ public class SessionManager {
         } catch (InvalidKeyException e) {
             e.printStackTrace();
         }
-        aliceRemoteAddress = new SignalProtocolAddress("Alice", ALICE_DEVICE_ID);
         bobRemoteAddress = new SignalProtocolAddress("Bob", BOB_DEVICE_ID);
-        
-        aliceBuiltSession = new PreSessionParameter(bobRemoteAddress,ALICE_DEVICE_ID ,aliceParameter);
+        return initSession();
+    }
+    
+    private Captures initSession() {
+    	aliceBuiltSession = new PreSessionParameter(bobRemoteAddress, ALICE_DEVICE_ID, aliceParameter);
         bobBuiltSession = new PreSessionParameter(aliceRemoteAddress, BOB_DEVICE_ID, bobParameter);
         
         aliceSession = new SessionInitialization(aliceBuiltSession, bobBuiltSession.getPreKeyBundle());
@@ -101,6 +80,7 @@ public class SessionManager {
         alice = aliceSession.buildSessionCipher(aliceCapturer);
         bob = bobSession.buildSessionCipher(bobCapturer);
         return new Captures(aliceCapturer, bobCapturer);
+
     }
     
     public SessionCipher getAliceSessionCipher() {

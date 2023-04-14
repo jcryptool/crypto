@@ -105,8 +105,7 @@ public class SignalEncryptionView extends ViewPart {
          case OVERVIEW:
 
            //overViewTabComposite = new SignalEncryptionViewOverview(tabFolder, SWT.NONE, signalEncryptionState, doubleRatchetTabComposite);
-           overViewTabComposite.setParameter();
-           overViewTabComposite.textReset();
+           overViewTabComposite.updateValues();
            tbtmOverview.setControl(overViewTabComposite);
            previousTab = 0;
            break; 

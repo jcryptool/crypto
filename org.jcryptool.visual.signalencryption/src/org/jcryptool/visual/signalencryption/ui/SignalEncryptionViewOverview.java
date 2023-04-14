@@ -19,13 +19,11 @@ import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.layout.GridDataBuilder;
 import org.jcryptool.visual.signalencryption.ui.SignalEncryptionView.Tab;
-import org.jcryptool.visual.signalencryption.util.UiUtils;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 
 public class SignalEncryptionViewOverview extends Composite {
 
-	//
-
+	private static final int KEY_SIZE = 32;
 	private Composite overViewComposite;
 
 	// Title and description
@@ -81,7 +79,7 @@ public class SignalEncryptionViewOverview extends Composite {
 
 		setTitleAndDescription();
 		createOverViewComposite();
-		setParameter();
+		updateValues();
 	}
 
 	private void setTitleAndDescription() {
@@ -117,8 +115,8 @@ public class SignalEncryptionViewOverview extends Composite {
 				.buildValueNode();
 		node_bobKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
 		
-		txt_aliceIdentity = createIdentityText(keyTableGroup, SWT.BORDER | SWT.WRAP);
-		txt_bobIdentity = createIdentityText(keyTableGroup, SWT.BORDER | SWT.WRAP);
+		txt_aliceIdentity = createIdentityText(keyTableGroup);
+		txt_bobIdentity = createIdentityText(keyTableGroup);
 		
 		// Button for generating new keys for Alice
 		btn_newKeysAlice = new Button(keyTableGroup, SWT.PUSH);
@@ -211,57 +209,60 @@ public class SignalEncryptionViewOverview extends Composite {
 	public void generateBoth() {
 		AlgorithmState.get().getSignalEncryptionAlgorithm().generateBoth();
 		doubleRatchetTabComposite.resetAll();
-		setParameter();
-		textReset();
+		updateValues();
 	}
 
 	public void generateAlice() {
 		AlgorithmState.get().getSignalEncryptionAlgorithm().generateAlice();
 		doubleRatchetTabComposite.resetAll();
-		setParameter();
-		textReset();
+		updateValues();
 	}
 
 	public void generateBob() {
 		AlgorithmState.get().getSignalEncryptionAlgorithm().generateBob();
 		doubleRatchetTabComposite.resetAll();
-		setParameter();
-		textReset();
+		updateValues();
 	}
 	
 	public void reinitializeDoubleRatchetTab() {
 		doubleRatchetTabComposite.resetAll();
 	}
 
-	public void textReset() {
-	}
-
-	public void setParameter() {
+	public void updateValues() {
 		var aliceBundle = AlgorithmState.get().getSignalEncryptionAlgorithm().getAlicePreKeyBundle();
-		var bobBundle = AlgorithmState.get().getSignalEncryptionAlgorithm().getAlicePreKeyBundle();
+		var bobBundle = AlgorithmState.get().getSignalEncryptionAlgorithm().getBobPreKeyBundle();
 		
-		txt_aliceIdentity.setText(toHex(aliceBundle.getIdentityKey().getPublicKey().serialize(), 1, 32));
-		txt_bobIdentity.setText(toHex(bobBundle.getIdentityKey().getPublicKey().serialize(), 1, 32));
+		var aliceKeyInformation = unpackBundle(aliceBundle);
+		var bobKeyInformation = unpackBundle(bobBundle);
 		
-		node_aliceKeyBundle.getPopupProvider().setValues(unpackBundle(aliceBundle));
-		node_bobKeyBundle.getPopupProvider().setValues(unpackBundle(bobBundle));
+		txt_aliceIdentity.setText(aliceKeyInformation.get("Identity Public Key"));
+		txt_bobIdentity.setText(bobKeyInformation.get("Identity Public Key"));
+		
+		node_aliceKeyBundle.getPopupProvider().setValues(aliceKeyInformation);
+		node_bobKeyBundle.getPopupProvider().setValues(bobKeyInformation);
 	}
 	
 	private Map<String, String> unpackBundle(PreKeyBundle bundle) {
 		var map = new TreeMap<String, String>();
 		
-		map.put("Identity Public Key", toHex(bundle.getIdentityKey().getPublicKey().serialize()));
-		map.put("Pre Key", toHex(bundle.getPreKey().serialize()));
+		map.put("Identity Public Key", toHex(bundle.getIdentityKey().getPublicKey().serialize(), 1, KEY_SIZE));
+		map.put("Pre Key", toHex(bundle.getPreKey().serialize(), 1, KEY_SIZE));
 		map.put("Pre Key-Signatur", toHex(bundle.getSignedPreKeySignature()));
 		
 		return map;
 	}
 	
-	private Text createIdentityText(Composite parent, int style) {
-		var text = new Text(parent, style);
+	private Text createIdentityText(Composite parent) {
+		
+		var grp_fingerprint = new Group(parent, SWT.NONE);
+		grp_fingerprint.setLayout(new GridLayout());
+		grp_fingerprint.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, false, false).widthHint(80).get());
+		grp_fingerprint.setText("Identity fingerprint");
+		
+		var text = new Text(grp_fingerprint, SWT.WRAP);
+		text.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true, false).widthHint(80).get());
 		text.setEditable(false);
 		text.setFont(FontService.getNormalMonospacedFont());
-		text.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.CENTER, true, false).widthHint(80).get());
 		return text;
 	}
 	
