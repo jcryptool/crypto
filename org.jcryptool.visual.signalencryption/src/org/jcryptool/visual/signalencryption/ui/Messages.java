@@ -20,7 +20,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public class Messages extends NLS {
     private static final String BUNDLE_NAME = "org.jcryptool.visual.signalencryption.ui";
-    
+
     public static String SignalEncryption_TabTitleOverView;
     public static String SignalEncryption_TabTitleRatchetView;
     
@@ -53,7 +53,12 @@ public class Messages extends NLS {
     public static String Overview_IdentityPublicKey;
     public static String Overview_PreKey;
     public static String Overview_PreKeySignature;
+	public static String Overview_DoubleRatchetOverview;
     public static String Overview_showDoubleRatchet;
+    public static String Overview_QuestionDoubleRatchetSecurity;
+    public static String Overview_AnswerDoubleRatchetSecurity;
+    public static String Overview_QuestionDoubleRatchetInit;
+    public static String Overview_AnswerDoubleRatchetInit;
 
     //Table Values - Second Column, description of the keys
     public static String SignalEncryption_DescText_Diffie_Private;

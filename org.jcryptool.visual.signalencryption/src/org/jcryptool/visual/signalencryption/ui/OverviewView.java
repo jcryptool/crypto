@@ -7,11 +7,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.fonts.FontService;
@@ -38,6 +40,8 @@ public class OverviewView extends Composite {
 	private Button btn_newKeysBoth;
 	private Button btn_newKeysAlice;
 	private Button btn_newKeysBob;
+
+	private StyledText txt_doubleRatchetExplanation;
 
 	/** First tab (overview tab) content **/
 	public OverviewView(
@@ -125,14 +129,25 @@ public class OverviewView extends Composite {
 	}
 
 	private void createDoubleRatchetInformation() {
+		
+		txt_doubleRatchetExplanation = new StyledText(grp_doubleRatchetInfo, SWT.BORDER);
+		txt_doubleRatchetExplanation.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		txt_doubleRatchetExplanation.setText(Messages.Overview_DoubleRatchetOverview);
+		
 		btn_switchToDoubleRatchetView = new Button(grp_doubleRatchetInfo, SWT.PUSH);
 		btn_switchToDoubleRatchetView.setText(Messages.Overview_showDoubleRatchet);
 		btn_switchToDoubleRatchetView.setLayoutData(
-				GridDataBuilder.with(SWT.CENTER, SWT.TOP, true, true).widthHint(200).heightHint(100).get()
+				GridDataBuilder.with(SWT.CENTER, SWT.TOP, true, false).heightHint(40).get()
 		);
 		btn_switchToDoubleRatchetView.addSelectionListener(
 				onSelection(selectionEvent -> parentView.setTab(Tab.DOUBLE_RATCHET))
 		);
+		var separator = new Label(grp_doubleRatchetInfo, SWT.SEPARATOR | SWT.HORIZONTAL);
+		separator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		new Explainer(grp_doubleRatchetInfo, SWT.NONE, Messages.Overview_QuestionDoubleRatchetSecurity, Messages.Overview_AnswerDoubleRatchetSecurity)
+		.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+		new Explainer(grp_doubleRatchetInfo, SWT.NONE, Messages.Overview_QuestionDoubleRatchetInit, Messages.Overview_AnswerDoubleRatchetInit)
+		.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 	}
 
 	private boolean discardIfNecessary() {
