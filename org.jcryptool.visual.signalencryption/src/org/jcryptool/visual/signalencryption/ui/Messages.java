@@ -20,22 +20,41 @@ import org.eclipse.osgi.util.NLS;
  */
 public class Messages extends NLS {
     private static final String BUNDLE_NAME = "org.jcryptool.visual.signalencryption.ui";
+    
+    public static String SignalEncryption_TabTitleOverView;
+    public static String SignalEncryption_TabTitleRatchetView;
+    
+    public static String SignalEncryption_Title;
+    public static String SignalEncryption_Description;
+    
+    public static String Name_Alice;
+    public static String Name_Bob;
+    /** Alice's name in genitive case */
+    public static String Name_AliceGenitive;
+    /** Bob's name in genitive case */
+    public static String Name_BobGenitive;
+    /** Alice's name followed by a space (for easy string concatenation) */
+    public static String Name_Alice_Space;
+    /** Bob's name followed by a space (for easy string concatenation) */
+    public static String Name_Bob_Space;
+    /** Alice's name in genitive case followed by a space (for easy string concatenation) */
+    public static String Name_AliceGenitive_Space;
+    /** Bob's name in genitive case followed by a space (for easy string concatenation) */
+    public static String Name_BobGenitive_Space;
+    
+    public static String Overview_GroupTitleIdentities;
+    public static String Overview_GroupTitleDoubleRatchet;
+    public static String Overview_PreKeyBundle;
+    public static String Overview_DiscardWarningTitle;
+    public static String Overview_DiscardWarningMessage;
+    public static String Overview_IdentityFingerprint;
+    public static String Overview_generateIdentityBoth;
+    public static String Overview_generateIdentityPerson;
+    public static String Overview_IdentityPublicKey;
+    public static String Overview_PreKey;
+    public static String Overview_PreKeySignature;
+    public static String Overview_showDoubleRatchet;
 
-    //Table Titles
-    public static String SignalEncryption_TblTitel_Key;
-    public static String SignalEncryption_TblTitel_Description;
-    public static String SignalEncryption_TblTitel_ValuesAlice;
-    public static String SignalEncryption_TblTitel_ValuesBob;
-    
-    //Table Values - First Column, the names of the keys
-    public static String SignalEncryption_KeyName_Diffie_Private;
-    public static String SignalEncryption_KeyName_Diffie_Public;
-    public static String SignalEncryption_KeyName_Shared;
-    public static String SignalEncryption_KeyName_Root;
-    public static String SignalEncryption_KeyName_Sending;
-    public static String SignalEncryption_KeyName_Receiving;
-    public static String SignalEncryption_KeyName_MsgKey;
-    
     //Table Values - Second Column, description of the keys
     public static String SignalEncryption_DescText_Diffie_Private;
     public static String SignalEncryption_DescText_Diffie_Public;
@@ -44,12 +63,6 @@ public class Messages extends NLS {
     public static String SignalEncryption_DescText_Sending;
     public static String SignalEncryption_DescText_Receiving;
     public static String SignalEncryption_DescText_MsgKey;
-    
-    
-    //Button texts
-    public static String SignalEncryption_btn_generateBoth;
-    public static String SignalEncryption_btn_generateAlice;
-    public static String SignalEncryption_btn_generateBob;
     
     //Dummy Text for not implemented Keys
     public static String SignalEncryption_Dummy;
@@ -121,26 +134,8 @@ public class Messages extends NLS {
     public static String SignalEncryption_stepText8;
     public static String SignalEncryption_stepText9;
 
-
-    public static String SignalEncryption_TabTitle1;
-
-
-    public static String SignalEncryption_TabDesc1;
-
-
-    public static String SignalEncryption_TabTitle2;
-
-
-    public static String SignalEncryption_TabDesc2;
-
     public static String SignalEncryption_btnName_Next;
     public static String SignalEncryption_btnName_Previous;
-
-
-
-
-
-
 
     static {
         // initialize resource bundle
@@ -149,4 +144,5 @@ public class Messages extends NLS {
 
     private Messages() {
     }
+    
 }

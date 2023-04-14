@@ -52,9 +52,9 @@ public class SignalEncryptionView extends ViewPart {
 		tabFolder = new TabFolder(scrolledComposite, SWT.NONE);
 		
 		tbtmOverview = new TabItem(tabFolder, SWT.NONE);
-		tbtmOverview.setText("Allgemein");
+		tbtmOverview.setText(Messages.SignalEncryption_TabTitleOverView);
 		tbtmDoubleRatchet = new TabItem(tabFolder, SWT.NONE);
-		tbtmDoubleRatchet.setText("Double Ratchet");
+		tbtmDoubleRatchet.setText(Messages.SignalEncryption_TabTitleRatchetView);
 		
 		tabFolder.addSelectionListener(onSelection((selectionEvent) -> {
 				setTab(tabFolder.getSelectionIndex());

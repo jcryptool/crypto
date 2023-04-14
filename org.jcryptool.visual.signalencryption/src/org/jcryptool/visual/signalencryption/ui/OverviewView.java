@@ -57,8 +57,8 @@ public class OverviewView extends Composite {
 	private void createTitleAndDescription() {
 		titleAndDescription = new TitleAndDescriptionComposite(this);
 		titleAndDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		titleAndDescription.setTitle(Messages.SignalEncryption_TabTitle1);
-		titleAndDescription.setDescription(Messages.SignalEncryption_TabDesc1);
+		titleAndDescription.setTitle(Messages.SignalEncryption_Title);
+		titleAndDescription.setDescription(Messages.SignalEncryption_Description);
 	}
 
 	private void createBody() {
@@ -68,25 +68,25 @@ public class OverviewView extends Composite {
 		
 		grp_identitiesInfo = new Group(overViewComposite, SWT.NONE);
 		grp_identitiesInfo.setLayout(new GridLayout(2, false));
-		grp_identitiesInfo.setText(Messages.SignalEncryption_TblTitel_Key);
+		grp_identitiesInfo.setText(Messages.Overview_GroupTitleIdentities);
 		grp_identitiesInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		grp_doubleRatchetInfo = new Group(overViewComposite, SWT.NONE);
-		grp_doubleRatchetInfo.setText("Double Ratchet");
+		grp_doubleRatchetInfo.setText(Messages.Overview_GroupTitleDoubleRatchet);
 		grp_doubleRatchetInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		grp_doubleRatchetInfo.setLayout(new GridLayout(1, true));
 	
-		createKeyInformation();
+		createIdentitiesGroup();
 		createDoubleRatchetInformation();
 	}
 
-	private void createKeyInformation() {
+	private void createIdentitiesGroup() {
 		node_aliceKeyBundle = new FlowChartNode.Builder(grp_identitiesInfo)
-				.title("Alice Pre-Key-Bundle")
+				.title(Messages.Name_AliceGenitive_Space + Messages.Overview_PreKeyBundle)
 				.buildValueNode();
 		node_aliceKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
 		node_bobKeyBundle = new FlowChartNode.Builder(grp_identitiesInfo)
-				.title("Bob Pre-Key-Bundle")
+				.title(Messages.Name_BobGenitive_Space + Messages.Overview_PreKeyBundle)
 				.buildValueNode();
 		node_bobKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
 		
@@ -95,7 +95,7 @@ public class OverviewView extends Composite {
 		
 		// Button for generating new keys for Alice
 		btn_newKeysAlice = new Button(grp_identitiesInfo, SWT.PUSH);
-		btn_newKeysAlice.setText(Messages.SignalEncryption_btn_generateAlice);
+		btn_newKeysAlice.setText(Messages.Name_AliceGenitive_Space + Messages.Overview_generateIdentityPerson);
 		btn_newKeysAlice.setLayoutData(gd_createKeyButton());
 		btn_newKeysAlice.addSelectionListener(onSelection(selectionEvent -> {
 				if (discardIfNecessary()) {
@@ -105,7 +105,7 @@ public class OverviewView extends Composite {
 
 		// Button for generation new keys for Bob
 		btn_newKeysBob = new Button(grp_identitiesInfo, SWT.PUSH);
-		btn_newKeysBob.setText(Messages.SignalEncryption_btn_generateBob);
+		btn_newKeysBob.setText(Messages.Name_BobGenitive_Space + Messages.Overview_generateIdentityPerson);
 		btn_newKeysBob.setLayoutData(gd_createKeyButton());
 		btn_newKeysBob.addSelectionListener(onSelection(selectionEvent -> {
 				if (discardIfNecessary()) {
@@ -115,7 +115,7 @@ public class OverviewView extends Composite {
 		
 		// Button for generation new keys for both parties
 		btn_newKeysBoth = new Button(grp_identitiesInfo, SWT.PUSH);
-		btn_newKeysBoth.setText(Messages.SignalEncryption_btn_generateBoth);
+		btn_newKeysBoth.setText(Messages.Overview_generateIdentityBoth);
 		btn_newKeysBoth.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		btn_newKeysBoth.addSelectionListener(onSelection(selectionEvent -> {
 			if (discardIfNecessary()) {
@@ -126,7 +126,7 @@ public class OverviewView extends Composite {
 
 	private void createDoubleRatchetInformation() {
 		btn_switchToDoubleRatchetView = new Button(grp_doubleRatchetInfo, SWT.PUSH);
-		btn_switchToDoubleRatchetView.setText("Show Double-Ratchet");
+		btn_switchToDoubleRatchetView.setText(Messages.Overview_showDoubleRatchet);
 		btn_switchToDoubleRatchetView.setLayoutData(
 				GridDataBuilder.with(SWT.CENTER, SWT.TOP, true, true).widthHint(200).heightHint(100).get()
 		);
@@ -138,8 +138,8 @@ public class OverviewView extends Composite {
 	private boolean discardIfNecessary() {
 		if (AlgorithmState.get().getCommunication().inProgress()) {
 			var messageBox = new MessageBox(getShell(), SWT.OK | SWT.CANCEL);
-			messageBox.setMessage("Warning");
-			messageBox.setMessage("Generating a new identity resets all the progress. Do you want to continue?");
+			messageBox.setMessage(Messages.Overview_DiscardWarningTitle);
+			messageBox.setMessage(Messages.Overview_DiscardWarningMessage);
 			return messageBox.open() == SWT.OK;
 		}
 		return true;
@@ -180,11 +180,18 @@ public class OverviewView extends Composite {
 	
 	private Map<String, String> unpackBundle(PreKeyBundle bundle) {
 		var map = new TreeMap<String, String>();
-		
-		map.put("Identity Public Key", toHex(bundle.getIdentityKey().getPublicKey().serialize(), 1, KEY_SIZE));
-		map.put("Pre Key", toHex(bundle.getPreKey().serialize(), 1, KEY_SIZE));
-		map.put("Pre Key-Signatur", toHex(bundle.getSignedPreKeySignature()));
-		
+		map.put(
+				Messages.Overview_IdentityPublicKey,
+				toHex(bundle.getIdentityKey().getPublicKey().serialize(), 1, KEY_SIZE)
+		);
+		map.put(
+				Messages.Overview_PreKey,
+				toHex(bundle.getPreKey().serialize(), 1, KEY_SIZE)
+		);
+		map.put(
+				Messages.Overview_PreKeySignature,
+				toHex(bundle.getSignedPreKeySignature())
+		);
 		return map;
 	}
 	
@@ -193,7 +200,7 @@ public class OverviewView extends Composite {
 		var grp_fingerprint = new Group(parent, SWT.NONE);
 		grp_fingerprint.setLayout(new GridLayout());
 		grp_fingerprint.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, false, false).widthHint(80).get());
-		grp_fingerprint.setText("Identity fingerprint");
+		grp_fingerprint.setText(Messages.Overview_IdentityFingerprint);
 		
 		var text = new Text(grp_fingerprint, SWT.WRAP);
 		text.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true, false).widthHint(80).get());
