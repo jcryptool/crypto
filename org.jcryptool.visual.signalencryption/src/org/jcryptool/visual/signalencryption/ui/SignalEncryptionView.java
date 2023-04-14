@@ -9,10 +9,10 @@
 //-----END DISCLAIMER-----
 package org.jcryptool.visual.signalencryption.ui;
 
+import static org.jcryptool.visual.signalencryption.util.UiUtils.onSelection;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
@@ -23,73 +23,47 @@ import org.jcryptool.core.util.ui.auto.SmoothScroller;
 
 public class SignalEncryptionView extends ViewPart {
 	
-	// Constants
 	public static final String ID = "org.jcryptool.visual.signalencryption";
 	public static final int OVERVIEW_ID = 0;
 	public static final int DOUBLE_RATCHET_ID = 1;
 		
-	// Main UI components
 	private Composite parent;
 
 	private TabFolder tabFolder;
 	private TabItem tbtmOverview;
 	private TabItem tbtmDoubleRatchet;
-	private SignalEncryptionView mainView;
+	
+	/** plug-in's scroll-able container */
+	private ScrolledComposite scrolledComposite;
+	/** First tab's view (overview, general) */
+	private OverviewView overviewView;
+	/** Second tab's view (double-ratchet) */
 	private DoubleRatchetView doubleRatchetView;
-	
-	// Tab-Handling
-    private int previousTab = 0;
-	private SignalEncryptionViewOverview overViewTabComposite;
-	private DoubleRatchetView doubleRatchetTabComposite;
-	
-	private EncryptionAlgorithm signalEncryptionAlgorithm;
-	
-	
-	public SignalEncryptionView() {
-	}
-	/**
-	 * Create contents of the view part.
-	 * 
-	 * @param parent
-	 */
+
+
+	/** [Entry-point] Creates the plug-in and all its UI components */
 	@Override
 	public void createPartControl(Composite parent) {
 		this.parent = parent;
-		this.mainView = this;
-		ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
 		
-		// Tab folder for the tabs
 		tabFolder = new TabFolder(scrolledComposite, SWT.NONE);
 		
-		// first tab for the key overview
 		tbtmOverview = new TabItem(tabFolder, SWT.NONE);
 		tbtmOverview.setText("Allgemein");
-
-		
-		// second tab for the Double Ratchet algorithm
 		tbtmDoubleRatchet = new TabItem(tabFolder, SWT.NONE);
 		tbtmDoubleRatchet.setText("Double Ratchet");
 		
-		//tab selection listener
-		tabFolder.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				int selection = tabFolder.getSelectionIndex();
-				
-				tabFolder.setSelection(selection);
-				setTab(Tab.values()[selection]);
-			}
-		});
+		tabFolder.addSelectionListener(onSelection((selectionEvent) -> {
+				setTab(tabFolder.getSelectionIndex());
+		}));
 		
-		//init first tab
-        doubleRatchetTabComposite = new DoubleRatchetView(tabFolder, SWT.NONE);
-		overViewTabComposite = new SignalEncryptionViewOverview(tabFolder, SWT.NONE, doubleRatchetTabComposite, this);
+		overviewView = new OverviewView(tabFolder, SWT.NONE, this);
+        doubleRatchetView = new DoubleRatchetView(tabFolder, SWT.NONE);
+        tbtmOverview.setControl(overviewView);
 
-        tbtmOverview.setControl(overViewTabComposite);
-		                     
-		
         scrolledComposite.setContent(tabFolder);
         scrolledComposite.setMinSize(tabFolder.computeSize(ViewConstants.PLUGIN_WIDTH,ViewConstants.PLUGIN_HEIGTH));
 		
@@ -99,20 +73,19 @@ public class SignalEncryptionView extends ViewPart {
 		SmoothScroller.scrollSmooth(scrolledComposite);
 	}
 	
+	
+	public void setTab(int tabIndex) {
+		setTab(Tab.values()[tabIndex]);
+	}
 
 	public void setTab(Tab tab) { 
         switch (tab) {
          case OVERVIEW:
-
-           //overViewTabComposite = new SignalEncryptionViewOverview(tabFolder, SWT.NONE, signalEncryptionState, doubleRatchetTabComposite);
-           overViewTabComposite.updateValues();
-           tbtmOverview.setControl(overViewTabComposite);
-           previousTab = 0;
+           overviewView.updateValues();
+           tbtmOverview.setControl(overviewView);
            break; 
          case DOUBLE_RATCHET:
-             //doubleRatchetTabComposite = new DoubleRatchetView(tabFolder, SWT.NONE, signalEncryptionState);
-             tbtmDoubleRatchet.setControl(doubleRatchetTabComposite);
-             previousTab = 1;
+             tbtmDoubleRatchet.setControl(doubleRatchetView);
         default:
             break;
         }
@@ -123,12 +96,10 @@ public class SignalEncryptionView extends ViewPart {
 	
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-		
+		scrolledComposite.setFocus();
 	}
-	/**
-     * resets the view, it's needed by JCrypTool
-     */
+
+	/** Resets the whole plug-in */
     public void resetView() {
         AlgorithmState.destroy();
         Control[] children = parent.getChildren();
@@ -139,21 +110,25 @@ public class SignalEncryptionView extends ViewPart {
         parent.layout();
         
     }
-    
+
+    /** Resets the {@link DoubleRatchetView} tab */
+    public void resetDoubleRatchetView() {
+    	doubleRatchetView.resetView();
+    }
+
     public enum Tab {
     	OVERVIEW {
 			@Override
 			int getIndex() {
-				return 0;
+				return OVERVIEW.ordinal();
 			}
 		}, DOUBLE_RATCHET {
 			@Override
 			int getIndex() {
-				return 1;
+				return DOUBLE_RATCHET.ordinal();
 			}
 		};
-    	
+
     	abstract int getIndex();
     }
-    
 }

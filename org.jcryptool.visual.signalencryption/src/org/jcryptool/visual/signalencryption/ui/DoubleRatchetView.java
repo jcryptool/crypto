@@ -9,7 +9,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
-import org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.Direction;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -330,7 +329,7 @@ public class DoubleRatchetView extends Composite {
     	return (StackLayout) this.cmp_body.getLayout();
     }
 
-    public void resetAll() {
+    public void resetView() {
     	showAliceSending();
     	AlgorithmState.get().resetCommunication();
         signalEncryptionUiState.reset(this);

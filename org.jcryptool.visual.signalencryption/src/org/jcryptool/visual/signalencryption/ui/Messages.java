@@ -21,19 +21,6 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
     private static final String BUNDLE_NAME = "org.jcryptool.visual.signalencryption.ui";
 
-    
-    /**
-     * 
-     */
-    
-    //Overview Strings - All text variables which can be found in the tab "Overview"
-    
-    //Top title
-
-//    public static String SignalEncryption_TabTitle1;
-//    public static String SignalEncryption_TabDesc1;
-
-    
     //Table Titles
     public static String SignalEncryption_TblTitel_Key;
     public static String SignalEncryption_TblTitel_Description;

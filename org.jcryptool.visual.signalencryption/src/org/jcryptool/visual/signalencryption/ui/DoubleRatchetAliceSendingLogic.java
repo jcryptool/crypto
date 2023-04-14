@@ -744,7 +744,7 @@ public class DoubleRatchetAliceSendingLogic {
 		} catch (SignalAlgorithmException e) {
 			LogUtil.logError(SignalEncryptionPlugin.PLUGIN_ID, "Sorry, that shouldn't have happened. Please restart the plug-in", e,
 					true);
-			view.resetAll();
+			view.resetView();
 		}
 	}
 

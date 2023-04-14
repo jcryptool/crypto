@@ -1,6 +1,8 @@
 package org.jcryptool.visual.signalencryption.util;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -72,5 +74,28 @@ public class UiUtils {
         }
     }
     
+    public static SelectionAdapter onSelection(SelectionHandler handler) {
+    	
+    	return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handler.on(e);
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// do nothing
+			}
+    		
+		};
+    }
+    
+    
+    @FunctionalInterface
+    public interface SelectionHandler {
+    	
+    	public void on(SelectionEvent e);
+    }
 
 }

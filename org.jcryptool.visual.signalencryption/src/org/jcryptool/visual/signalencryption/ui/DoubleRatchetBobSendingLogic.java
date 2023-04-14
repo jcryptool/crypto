@@ -668,7 +668,7 @@ public class DoubleRatchetBobSendingLogic {
         } catch (SignalAlgorithmException e) {
             LogUtil.logError(SignalEncryptionPlugin.PLUGIN_ID,
                     "Sorry, that shouldn't have happened, must restart", e, true);
-            view.resetAll();
+            view.resetView();
         }
     }
     
