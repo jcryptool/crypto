@@ -55,6 +55,10 @@ public class Messages extends NLS {
     public static String Overview_PreKeySignature;
 	public static String Overview_DoubleRatchetOverview;
     public static String Overview_showDoubleRatchet;
+    public static String Overview_QuestionX3DH;
+    public static String Overview_AnswerX3DH;
+    public static String Overview_QuestionPreKeyBundle;
+    public static String Overview_AnswerPreKeyBundle;
     public static String Overview_QuestionDoubleRatchetSecurity;
     public static String Overview_AnswerDoubleRatchetSecurity;
     public static String Overview_QuestionDoubleRatchetInit;

@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
-import org.jcryptool.core.util.colors.ColorService;
 
 public class Explainer {
 
@@ -19,6 +18,9 @@ public class Explainer {
 	private ExpandBar explanationExpander;
 	private ExpandItem collapsable;
 	private Composite content;
+	
+	public static final int HEIGHT_HINT = SWT.DEFAULT;
+	private StyledText descriptionText;
 
 	public Explainer(Composite parent, int style, String title, String description) {
 		this.title = title;
@@ -38,15 +40,15 @@ public class Explainer {
 
 		content = new Composite(explanationExpander, SWT.NONE);
 		content.setLayout(new GridLayout());
-		content.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		StyledText descriptionText = new StyledText(content, SWT.BORDER);
-		descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		content.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		descriptionText = new StyledText(content, SWT.WRAP | SWT.MULTI);
+		descriptionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		descriptionText.setText(description);
 		descriptionText.setCaret(null);
 		descriptionText.setEditable(false);
 
 		collapsable.setControl(content);
-		collapsable.setHeight(content.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		collapsable.setHeight(content.computeSize(SWT.DEFAULT, HEIGHT_HINT).y);
 	}
 	
 	public Explainer setLayoutData(GridData gridData) {
@@ -68,7 +70,13 @@ public class Explainer {
 			@Override
 			public void itemExpanded(ExpandEvent e) {
 				Display.getDefault().asyncExec(() -> {
-					collapsable.setHeight(content.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+					var contentSize = content.computeSize(SWT.DEFAULT, HEIGHT_HINT);
+					var textSize = descriptionText.computeSize(contentSize.x, SWT.DEFAULT);
+					System.out.println(collapsable.getHeight());
+					System.out.println(content.getSize());
+					System.out.printf("StyledText size: %s%n", textSize);
+					System.out.printf("StyledText actualSize: %s%n", descriptionText.getSize());
+					collapsable.setHeight(descriptionText.getSize().y + contentSize.y);
 					parent.layout();
 				});
 			}

@@ -16,10 +16,12 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
+import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.layout.GridDataBuilder;
 import org.jcryptool.visual.signalencryption.ui.SignalEncryptionView.Tab;
+import org.jcryptool.visual.signalencryption.util.UiUtils;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 
 public class OverviewView extends Composite {
@@ -71,7 +73,7 @@ public class OverviewView extends Composite {
 		overViewComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		
 		grp_identitiesInfo = new Group(overViewComposite, SWT.NONE);
-		grp_identitiesInfo.setLayout(new GridLayout(2, false));
+		grp_identitiesInfo.setLayout(new GridLayout(3, false));
 		grp_identitiesInfo.setText(Messages.Overview_GroupTitleIdentities);
 		grp_identitiesInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
@@ -89,17 +91,11 @@ public class OverviewView extends Composite {
 				.title(Messages.Name_AliceGenitive_Space + Messages.Overview_PreKeyBundle)
 				.buildValueNode();
 		node_aliceKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
-		node_bobKeyBundle = new FlowChartNode.Builder(grp_identitiesInfo)
-				.title(Messages.Name_BobGenitive_Space + Messages.Overview_PreKeyBundle)
-				.buildValueNode();
-		node_bobKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
 		
 		txt_aliceIdentity = createIdentityText(grp_identitiesInfo);
-		txt_bobIdentity = createIdentityText(grp_identitiesInfo);
-		
 		// Button for generating new keys for Alice
 		btn_newKeysAlice = new Button(grp_identitiesInfo, SWT.PUSH);
-		btn_newKeysAlice.setText(Messages.Name_AliceGenitive_Space + Messages.Overview_generateIdentityPerson);
+		btn_newKeysAlice.setText(Messages.Overview_generateIdentityPerson);
 		btn_newKeysAlice.setLayoutData(gd_createKeyButton());
 		btn_newKeysAlice.addSelectionListener(onSelection(selectionEvent -> {
 				if (discardIfNecessary()) {
@@ -107,9 +103,16 @@ public class OverviewView extends Composite {
 				}
 		}));
 
-		// Button for generation new keys for Bob
+		node_bobKeyBundle = new FlowChartNode.Builder(grp_identitiesInfo)
+				.title(Messages.Name_BobGenitive_Space + Messages.Overview_PreKeyBundle)
+				.buildValueNode();
+		node_bobKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
+		
+		txt_bobIdentity = createIdentityText(grp_identitiesInfo);
+		
+		//// Button for generation new keys for Bob
 		btn_newKeysBob = new Button(grp_identitiesInfo, SWT.PUSH);
-		btn_newKeysBob.setText(Messages.Name_BobGenitive_Space + Messages.Overview_generateIdentityPerson);
+		btn_newKeysBob.setText(Messages.Overview_generateIdentityPerson);
 		btn_newKeysBob.setLayoutData(gd_createKeyButton());
 		btn_newKeysBob.addSelectionListener(onSelection(selectionEvent -> {
 				if (discardIfNecessary()) {
@@ -118,14 +121,21 @@ public class OverviewView extends Composite {
 		}));
 		
 		// Button for generation new keys for both parties
+		UiUtils.insertSpacers(grp_identitiesInfo, 2);
 		btn_newKeysBoth = new Button(grp_identitiesInfo, SWT.PUSH);
 		btn_newKeysBoth.setText(Messages.Overview_generateIdentityBoth);
-		btn_newKeysBoth.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		btn_newKeysBoth.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		btn_newKeysBoth.addSelectionListener(onSelection(selectionEvent -> {
 			if (discardIfNecessary()) {
 				generateBoth();
 			}
 		}));
+		insertHorizontalSeparator(grp_identitiesInfo);
+		
+		new Explainer(grp_identitiesInfo, SWT.NONE, Messages.Overview_QuestionPreKeyBundle, Messages.Overview_AnswerPreKeyBundle)
+		.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 3, 1));
+		new Explainer(grp_identitiesInfo, SWT.NONE, Messages.Overview_QuestionX3DH, Messages.Overview_AnswerX3DH)
+		.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 3, 1));
 	}
 
 	private void createDoubleRatchetInformation() {
@@ -135,6 +145,7 @@ public class OverviewView extends Composite {
 		txt_doubleRatchetExplanation.setText(Messages.Overview_DoubleRatchetOverview);
 		
 		btn_switchToDoubleRatchetView = new Button(grp_doubleRatchetInfo, SWT.PUSH);
+		btn_switchToDoubleRatchetView.setFont(FontService.getNormalBoldFont());
 		btn_switchToDoubleRatchetView.setText(Messages.Overview_showDoubleRatchet);
 		btn_switchToDoubleRatchetView.setLayoutData(
 				GridDataBuilder.with(SWT.CENTER, SWT.TOP, true, false).heightHint(40).get()
@@ -142,8 +153,7 @@ public class OverviewView extends Composite {
 		btn_switchToDoubleRatchetView.addSelectionListener(
 				onSelection(selectionEvent -> parentView.setTab(Tab.DOUBLE_RATCHET))
 		);
-		var separator = new Label(grp_doubleRatchetInfo, SWT.SEPARATOR | SWT.HORIZONTAL);
-		separator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		insertHorizontalSeparator(grp_doubleRatchetInfo);
 		new Explainer(grp_doubleRatchetInfo, SWT.NONE, Messages.Overview_QuestionDoubleRatchetSecurity, Messages.Overview_AnswerDoubleRatchetSecurity)
 		.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		new Explainer(grp_doubleRatchetInfo, SWT.NONE, Messages.Overview_QuestionDoubleRatchetInit, Messages.Overview_AnswerDoubleRatchetInit)
@@ -211,20 +221,28 @@ public class OverviewView extends Composite {
 	}
 	
 	private Text createIdentityText(Composite parent) {
-		
 		var grp_fingerprint = new Group(parent, SWT.NONE);
 		grp_fingerprint.setLayout(new GridLayout());
-		grp_fingerprint.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, false, false).widthHint(80).get());
+		grp_fingerprint.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		grp_fingerprint.setText(Messages.Overview_IdentityFingerprint);
 		
 		var text = new Text(grp_fingerprint, SWT.WRAP);
 		text.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true, false).widthHint(80).get());
 		text.setEditable(false);
 		text.setFont(FontService.getNormalMonospacedFont());
+		text.setBackground(ColorService.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 		return text;
 	}
 	
 	private GridData gd_createKeyButton() {
-		return GridDataBuilder.with(SWT.CENTER, SWT.CENTER, false, false).get();
+		return GridDataBuilder.with(SWT.FILL, SWT.CENTER, false, false).get();
+	}
+	
+	private void insertHorizontalSeparator(Composite parent) {
+		var numColumns = ((GridLayout) parent.getLayout()).numColumns;
+		var separator = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		var gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = numColumns;
+		separator.setLayoutData(gridData);
 	}
 }

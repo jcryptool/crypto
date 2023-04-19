@@ -81,7 +81,7 @@ public class FlowChartNode extends Composite {
 		txt_title.setText(title);
 
 		btn_showPopup = new Button(this, SWT.TOGGLE);
-		btn_showPopup.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		btn_showPopup.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
 		btn_showPopup.setImage(BUTTON_IMAGE);
 	}
 
