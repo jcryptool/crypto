@@ -22,9 +22,9 @@ public class DoubleRatchetBobSendingLogic {
         /**
          * Initial, blank step. Showing Bob's view
          */
-        STEP_0 {
+        STEP_0(0, BOB) {
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
                 swtParent.showBobView();
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
@@ -48,12 +48,6 @@ public class DoubleRatchetBobSendingLogic {
             }
 
             @Override
-            public DoubleRatchetStep next(DoubleRatchetView swtParent) {
-                STEP_1.switchState(swtParent);
-                return STEP_1;
-            }
-
-            @Override
             public DoubleRatchetStep back(DoubleRatchetView swtParent) {
                 swtParent.switchSenderReceiver();
                 AlgorithmState.get().getCommunication().prev();
@@ -70,19 +64,14 @@ public class DoubleRatchetBobSendingLogic {
 			public DoubleRatchetStep peekBackward() {
                 return AliceSendingStep.STEP_9;
 			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return BOB;
-			}
         },
         /**
          * Show Diffie-Hellman calculation.
          */
-        STEP_1 {
+        STEP_1(1, BOB) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
                 var bobContent = swtParent.getBobSendingContent();
                 // On this transition, update all key details as well
                 updateSendingKeyDisplayInformation(swtParent);
@@ -100,18 +89,6 @@ public class DoubleRatchetBobSendingLogic {
                 bobContent.txt_cipherText.setText(AlgorithmState.get().getAliceEncryptedMessage());
             }
 
-            @Override
-            public DoubleRatchetStep next(DoubleRatchetView swtParent) {
-                STEP_2.switchState(swtParent);
-                return STEP_2;
-            }
-
-            @Override
-            public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_0.switchState(swtParent);
-                return STEP_0;
-            }
-
 			@Override
 			public DoubleRatchetStep peekForward() {
                 return STEP_2;
@@ -121,19 +98,14 @@ public class DoubleRatchetBobSendingLogic {
 			public DoubleRatchetStep peekBackward() {
                 return STEP_0;
 			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return BOB;
-			}
         },
         /**
          * Show the root chain calculation.
          */
-        STEP_2 {
+        STEP_2(2, BOB) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
                 var bobContent = swtParent.getBobSendingContent();
 
                 // Show these labels
@@ -145,18 +117,6 @@ public class DoubleRatchetBobSendingLogic {
                 bobContent.txt_bobSendingStep3.setVisible(false);
             }
 
-            @Override
-            public DoubleRatchetStep next(DoubleRatchetView swtParent) {
-                STEP_3.switchState(swtParent);
-                return STEP_3;
-            }
-
-            @Override
-            public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_1.switchState(swtParent);
-                return STEP_1;
-            }
-
 			@Override
 			public DoubleRatchetStep peekForward() {
                 return STEP_3;
@@ -166,19 +126,15 @@ public class DoubleRatchetBobSendingLogic {
 			public DoubleRatchetStep peekBackward() {
                 return STEP_1;
 			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return BOB;
-			}
         },
+        
         /**
          * Show the sending chain calculation.
          */
-        STEP_3 {
+        STEP_3(3, BOB) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
                 var bobContent = swtParent.getBobSendingContent();
 
                 // Show these labels
@@ -189,18 +145,6 @@ public class DoubleRatchetBobSendingLogic {
                 bobContent.setMessageBoxVisible(false);
                 bobContent.txt_bobSendingStep4.setVisible(false);
 
-            }
-
-            @Override
-            public DoubleRatchetStep next(DoubleRatchetView swtParent) {
-                STEP_4.switchState(swtParent);
-                return STEP_4;
-            }
-
-            @Override
-            public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_2.switchState(swtParent);
-                return STEP_2;
             }
 
 			@Override
@@ -223,10 +167,10 @@ public class DoubleRatchetBobSendingLogic {
          * The <b>message encryption</b> happens when going forward from here.
          * If already encrypted, the message box may not be changed anymore.
          */
-        STEP_4 {
+        STEP_4(4, BOB) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
 
@@ -286,21 +230,15 @@ public class DoubleRatchetBobSendingLogic {
 			public DoubleRatchetStep peekBackward() {
                 return STEP_3;
 			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return BOB;
-			}
-
         },
         /**
          * Showing the final, encrypted message and "send" it to Alice.
          * Showing Bob's perspective of the step.
          */
-        STEP_5_SENDING {
+        STEP_5_SENDING(5, BOB) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
             	swtParent.showBobView();
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
@@ -350,20 +288,15 @@ public class DoubleRatchetBobSendingLogic {
 			public DoubleRatchetStep peekBackward() {
                 return STEP_4;
 			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return BOB;
-			}
         },
         /**
          * Showing the final, encrypted message and "send" it to Alice.
          * Showing Alices's perspective of the step.
          */
-        STEP_5_RECEIVING{
+        STEP_5_RECEIVING(5, ALICE) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
             	swtParent.showAliceView();
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
@@ -392,18 +325,6 @@ public class DoubleRatchetBobSendingLogic {
                 updateReceivingKeyDisplayInformation(swtParent);
             }
 
-            @Override
-            public DoubleRatchetStep next(DoubleRatchetView swtParent) {
-                STEP_6.switchState(swtParent);
-                return STEP_6;
-            }
-
-            @Override
-            public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_5_SENDING.switchState(swtParent);
-                return STEP_5_SENDING;
-            }
-
 			@Override
 			public DoubleRatchetStep peekForward() {
                 return STEP_6;
@@ -423,10 +344,10 @@ public class DoubleRatchetBobSendingLogic {
          * Switch to Alice's view and "receive" the encrypted message.
          * Show the encrypted message text box and the Diffie-Hellman calculation.
          */
-        STEP_6 {
+        STEP_6(6, ALICE) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
                 var aliceContent = swtParent.getAliceReceivingContent();
 
                 // Show these labels
@@ -438,18 +359,6 @@ public class DoubleRatchetBobSendingLogic {
                 aliceContent.txt_aliceReceivingStep7.setVisible(false);
             }
 
-            @Override
-            public DoubleRatchetStep next(DoubleRatchetView swtParent) {
-                STEP_7.switchState(swtParent);
-                return STEP_7;
-            }
-
-            @Override
-            public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_5_RECEIVING.switchState(swtParent);
-                return STEP_5_RECEIVING;
-            }
-
 			@Override
 			public DoubleRatchetStep peekForward() {
                 return STEP_7;
@@ -459,19 +368,14 @@ public class DoubleRatchetBobSendingLogic {
 			public DoubleRatchetStep peekBackward() {
                 return STEP_5_RECEIVING;
 			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return ALICE;
-			}
         },
         /**
          * Show the root chain calculation.
          */
-        STEP_7 {
+        STEP_7(7, ALICE) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
                 var aliceContent = swtParent.getAliceReceivingContent();
 
                 // Show these labels
@@ -484,18 +388,6 @@ public class DoubleRatchetBobSendingLogic {
 
             }
 
-            @Override
-            public DoubleRatchetStep next(DoubleRatchetView swtParent) {
-                STEP_8.switchState(swtParent);
-                return STEP_8;
-            }
-
-            @Override
-            public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_6.switchState(swtParent);
-                return STEP_6;
-            }
-
 			@Override
 			public DoubleRatchetStep peekForward() {
                 return STEP_8;
@@ -505,19 +397,14 @@ public class DoubleRatchetBobSendingLogic {
 			public DoubleRatchetStep peekBackward() {
 				return STEP_6;
 			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return ALICE;
-			}
         },
         /**
          * Show the receiving chain calculation.
          */
-        STEP_8 {
+        STEP_8(8, ALICE) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
                 var aliceContent = swtParent.getAliceReceivingContent();
 
                 // Show these labels
@@ -529,18 +416,6 @@ public class DoubleRatchetBobSendingLogic {
                 aliceContent.txt_aliceReceivingStep9.setVisible(false);
             }
 
-            @Override
-            public DoubleRatchetStep next(DoubleRatchetView swtParent) {
-                STEP_9.switchState(swtParent);
-                return STEP_9;
-            }
-
-            @Override
-            public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_7.switchState(swtParent);
-                return STEP_7;
-            }
-
 			@Override
 			public DoubleRatchetStep peekForward() {
                 return STEP_9;
@@ -550,19 +425,14 @@ public class DoubleRatchetBobSendingLogic {
 			public DoubleRatchetStep peekBackward() {
                 return STEP_7;
 			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return ALICE;
-			}
         },
         /**
          * Show the decrypted message.
          */
-        STEP_9 {
+        STEP_9(9, ALICE) {
 
             @Override
-            protected void switchState(DoubleRatchetView swtParent) {
+            public void switchState(DoubleRatchetView swtParent) {
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
                 swtParent.showAliceReceiving();
@@ -605,12 +475,6 @@ public class DoubleRatchetBobSendingLogic {
                 return AliceSendingStep.STEP_0;
             }
 
-            @Override
-            public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_8.switchState(swtParent);
-                return STEP_8;
-            }
-
 			@Override
 			public DoubleRatchetStep peekForward() {
                 return AliceSendingStep.STEP_0;
@@ -621,13 +485,25 @@ public class DoubleRatchetBobSendingLogic {
                 return STEP_8;
 			}
 
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return ALICE;
-			}
         };
-
-        protected abstract void switchState(DoubleRatchetView swtParent);
+    	
+    	private int id;
+		private CommunicationEntity entityToShow;
+		
+		BobSendingStep(int id, CommunicationEntity entityToShow) {
+			this.id = id;
+			this.entityToShow = entityToShow;
+		}
+		
+		@Override
+		public CommunicationEntity shouldShowEntity() {
+			return entityToShow;
+		}
+		
+		@Override
+		public int getStepIndex() {
+			return id;
+		}
 
         public BobSendingStep setInitialState(DoubleRatchetView swtParent) {
             STEP_0.switchState(swtParent);

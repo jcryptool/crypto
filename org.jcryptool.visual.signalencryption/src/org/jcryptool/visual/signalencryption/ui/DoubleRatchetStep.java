@@ -12,14 +12,22 @@ public interface DoubleRatchetStep {
      * @param swtParent The UI description where the visual changes for this step should be applied
      * @return the next step
      */
-    DoubleRatchetStep next(DoubleRatchetView swtParent);
+    default DoubleRatchetStep next(DoubleRatchetView swtParent) {
+    	peekForward().switchState(swtParent);
+    	return peekForward();
+    }
     /**
      * Go back one step, e.g. when the user clicks the 'back' button
      * 
      * @param swtParent The UI description where the visual changes for this step should be applied
      * @return the previous step
      */
-    DoubleRatchetStep back(DoubleRatchetView swtParent);
+    default DoubleRatchetStep back(DoubleRatchetView swtParent) {
+    	peekBackward().switchState(swtParent);
+    	return peekBackward();
+    }
+    
+    void switchState(DoubleRatchetView swtParent);
     
     /** Returns the next step without taking any action */
     DoubleRatchetStep peekForward();
@@ -29,6 +37,8 @@ public interface DoubleRatchetStep {
     
     /** For the given step, which entity (Alice or Bob) should be shown on screen? */
     CommunicationEntity shouldShowEntity();
+    
+    int getStepIndex();
     
     /** If the step requires a view-change when going forward */
     default boolean requiresViewSwitchForward() {

@@ -1,6 +1,7 @@
 package org.jcryptool.visual.signalencryption.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
@@ -16,11 +17,11 @@ import java.util.Map;
 
 public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityContent {
     
-    Text txt_aliceSendingStep1;
-    Text txt_aliceSendingStep2;
-    Text txt_aliceSendingStep3;
-    Text txt_aliceSendingStep4;
-    Text txt_aliceSendingStep5;
+    StyledText txt_aliceSendingStep1;
+    StyledText txt_aliceSendingStep2;
+    StyledText txt_aliceSendingStep3;
+    StyledText txt_aliceSendingStep4;
+    StyledText txt_aliceSendingStep5;
    
     FlowChartNode txt_diffieHellmanTop;
     FlowChartNode txt_diffieHellmanMid;
@@ -88,26 +89,26 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     protected ArrowComponent arr_space2;
     protected ArrowComponent arr_space3;
     protected ImageComponent drw_outgoingMailIcon;
-	private List<Text> stepDescriptions;
+	private List<StyledText> stepDescriptions;
 
     @Override
     public Composite buildStepsContent(Composite parent) {
         var cmp_aliceSendingSteps = new Composite(parent, SWT.NONE);
         cmp_aliceSendingSteps.setLayout(Layout.gl_stepsComposite());
         
-        txt_aliceSendingStep1 = new Text(cmp_aliceSendingSteps, SWT.WRAP | SWT.READ_ONLY);
+        txt_aliceSendingStep1 = new StyledText(cmp_aliceSendingSteps, SWT.WRAP | SWT.READ_ONLY);
         txt_aliceSendingStep1.setText(msg_aliceSendingStep1);
         txt_aliceSendingStep1.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_aliceSendingStep2 = new Text(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_aliceSendingStep2 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_aliceSendingStep2.setText(msg_aliceSendingStep2);
         txt_aliceSendingStep2.setLayoutData(Layout.gd_longDescriptionTexts());
-        txt_aliceSendingStep3 = new Text(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_aliceSendingStep3 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_aliceSendingStep3.setText(msg_aliceSendingStep3);
         txt_aliceSendingStep3.setLayoutData(Layout.gd_longDescriptionTexts());
-        txt_aliceSendingStep4 = new Text(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_aliceSendingStep4 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_aliceSendingStep4.setText(msg_aliceSendingStep4);
         txt_aliceSendingStep4.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_aliceSendingStep5 = new Text(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_aliceSendingStep5 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_aliceSendingStep5.setText(msg_aliceSendingStep5);
         txt_aliceSendingStep5.setLayoutData(Layout.gd_longDescriptionTexts());
         
@@ -382,5 +383,6 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
 
 	@Override
 	public void showStep(DoubleRatchetStep step) {
+		showStep(step, stepDescriptions, lengthOfWordStep);
 	}
 }
