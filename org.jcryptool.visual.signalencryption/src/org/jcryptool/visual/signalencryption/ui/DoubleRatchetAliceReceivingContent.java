@@ -86,7 +86,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     
 
     @Override
-    public Composite buildStepsContent(Composite parent, COMMUNICATION_STATE state) {
+    public Composite buildStepsContent(Composite parent) {
         Composite cmp_aliceReceivingSteps = new Composite(parent, SWT.NONE);
         cmp_aliceReceivingSteps.setLayout(Layout.gl_stepsComposite());
         
@@ -113,7 +113,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
 
     
     @Override
-    public Composite buildAlgorithmContent(Composite parent, COMMUNICATION_STATE state) {
+    public Composite buildAlgorithmContent(Composite parent) {
         cmp_aliceReceivingAlgorithm = new ComponentDrawComposite(parent, SWT.NONE);
         cmp_aliceReceivingAlgorithm.setLayout(Layout.gl_algorithmGroup());
         cmp_aliceReceivingAlgorithm.setLayoutData(Layout.gd_algorithmGroup());
@@ -388,5 +388,12 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
 		setRootChainVisible(visible);
 		setReceivingChainVisible(visible);
 		setDecryptedMessageboxVisible(visible);
+	}
+
+
+	@Override
+	public void showStep(DoubleRatchetStep step) {
+		// TODO Auto-generated method stub
+		
 	}
 }

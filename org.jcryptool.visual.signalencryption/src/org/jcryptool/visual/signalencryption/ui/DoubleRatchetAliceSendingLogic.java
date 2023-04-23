@@ -31,9 +31,8 @@ public class DoubleRatchetAliceSendingLogic {
 				updateSenderKeyDisplayInformation(swtParent);
 				var bobContent = swtParent.getBobReceivingContent();
 				var aliceContent = swtParent.getAliceSendingContent();
+				
 				// Hide these Elements
-				swtParent.grp_bobAlgorithm.setVisible(false);
-				swtParent.grp_aliceAlgorithm.setVisible(false);
 				aliceContent.setAllVisible(false);
 				bobContent.setAllVisible(false);
 
@@ -51,9 +50,11 @@ public class DoubleRatchetAliceSendingLogic {
 
 				// Initial value only valid for initial message
 				if (AlgorithmState.get().getCommunication().isBeginning()) {
-					aliceContent.txt_aliceSendingStep0.setText(Messages.SignalEncryption_aliceDescriptionText0);
+					swtParent.showAliceSendingInitialLabel();
+					swtParent.showBobWaitingInitialLabel();
 				} else {
-					aliceContent.txt_aliceSendingStep0.setText("Alice sendet eine Nachricht an Bob");
+					swtParent.showAliceSendingLabel();
+					swtParent.showBobWaitingLabel();
 				}
 			}
 
@@ -106,7 +107,7 @@ public class DoubleRatchetAliceSendingLogic {
 				updateSenderKeyDisplayInformation(swtParent);
 
 				// Show these elements
-				swtParent.grp_aliceAlgorithm.setVisible(true);
+				swtParent.showAliceSending();
 				aliceContent.setDiffieHellmanRatchetVisible(true);
 				aliceContent.txt_aliceSendingStep1.setVisible(true);
 
@@ -202,7 +203,6 @@ public class DoubleRatchetAliceSendingLogic {
 			@Override
 			protected void switchState(DoubleRatchetView swtParent) {
 				var aliceContent = swtParent.getAliceSendingContent();
-				var bobContent = swtParent.getBobReceivingContent();
 
 				// Show these labels
 				aliceContent.setSendingChainVisible(true);
@@ -211,9 +211,6 @@ public class DoubleRatchetAliceSendingLogic {
 				// Hide these Elements
 				aliceContent.setMessageBoxVisible(false);
 				aliceContent.txt_aliceSendingStep4.setVisible(false);
-
-				bobContent.grp_receivingChain.setVisible(false);
-
 			}
 
 			@Override
@@ -254,16 +251,20 @@ public class DoubleRatchetAliceSendingLogic {
 			protected void switchState(DoubleRatchetView swtParent) {
 				var aliceContent = swtParent.getAliceSendingContent();
 				var bobContent = swtParent.getBobReceivingContent();
+				if (AlgorithmState.get().getCommunication().isBeginning()) {
+					swtParent.showBobWaitingInitialLabel();
+				} else {
+					swtParent.showBobWaitingLabel();
+				}
 
 				// Show these labels
 				aliceContent.showOnlyMessagePlaintext();
 				aliceContent.txt_aliceSendingStep4.setVisible(true);
 
 				// Hide these Elements
-				swtParent.grp_bobAlgorithm.setVisible(false);
-				aliceContent.txt_aliceSendingStep5.setVisible(false);
 				bobContent.setEncryptedMessageBoxVisible(false);
 				bobContent.txt_bobReceivingStep5.setVisible(false);
+				aliceContent.txt_aliceSendingStep5.setVisible(false);
 
 				if (AlgorithmState.get().allowMessageEntering()) {
 					aliceContent.txt_plainText.setEnabled(true);
@@ -330,7 +331,7 @@ public class DoubleRatchetAliceSendingLogic {
 				var aliceContent = swtParent.getAliceSendingContent();
 				var bobContent = swtParent.getBobReceivingContent();
 				// Show these elements
-				swtParent.grp_bobAlgorithm.setVisible(true);
+				swtParent.showBobReceiving();
 				aliceContent.setMessageBoxVisible(true);
 				bobContent.setEncryptedMessageBoxVisible(true);
 				aliceContent.txt_aliceSendingStep5.setVisible(true);
@@ -392,7 +393,7 @@ public class DoubleRatchetAliceSendingLogic {
 				var aliceContent = swtParent.getAliceSendingContent();
 				var bobContent = swtParent.getBobReceivingContent();
 				// Show these elements
-				swtParent.grp_bobAlgorithm.setVisible(true);
+				swtParent.showBobReceiving();
 				aliceContent.setMessageBoxVisible(true);
 				bobContent.setEncryptedMessageBoxVisible(true);
 				aliceContent.txt_aliceSendingStep5.setVisible(true);
@@ -460,13 +461,6 @@ public class DoubleRatchetAliceSendingLogic {
 				// Hide these Elements
 				bobContent.setRootChainVisible(false);
 				bobContent.txt_bobReceivingStep7.setVisible(false);
-
-				// Initial value only valid for initial message
-				if (AlgorithmState.get().getCommunication().isBeginning()) {
-					bobContent.txt_bobReceivingStep0.setText(Messages.SignalEncryption_bobDescriptionText0);
-				} else {
-					bobContent.txt_bobReceivingStep0.setText("Bob wartet auf eine Nachricht von Alice");
-				}
 			}
 
 			@Override
@@ -596,9 +590,8 @@ public class DoubleRatchetAliceSendingLogic {
 			protected void switchState(DoubleRatchetView swtParent) {
 				var bobContent = swtParent.getBobReceivingContent();
 				var aliceContent = swtParent.getAliceSendingContent();
+				swtParent.showBobReceiving();
 				// Show these Elements
-				swtParent.grp_bobAlgorithm.setVisible(true);
-				swtParent.grp_aliceAlgorithm.setVisible(true);
 				aliceContent.setAllVisible(true);
 				bobContent.setAllVisible(true);
 
@@ -614,11 +607,6 @@ public class DoubleRatchetAliceSendingLogic {
 				bobContent.txt_bobReceivingStep8.setVisible(true);
 				bobContent.txt_bobReceivingStep9.setVisible(true);
 
-				// If going back to initial message, this may be required to update
-				if (AlgorithmState.get().getCommunication().isBeginning()) {
-					bobContent.txt_bobReceivingStep0.setText(Messages.SignalEncryption_bobDescriptionText0);
-					aliceContent.txt_aliceSendingStep0.setText(Messages.SignalEncryption_aliceDescriptionText0);
-				}
 				// Show these labels
 				bobContent.txt_plainText.setVisible(true);
 				bobContent.txt_bobReceivingStep9.setVisible(true);

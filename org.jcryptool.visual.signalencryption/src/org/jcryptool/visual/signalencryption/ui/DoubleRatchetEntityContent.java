@@ -1,7 +1,6 @@
 package org.jcryptool.visual.signalencryption.ui;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 
 /**
  * Provide DoubleRatchet UI elements for a Signal communication entity (e.g. Alice or Bob).
@@ -12,12 +11,8 @@ import org.eclipse.swt.widgets.Control;
  */
 public interface DoubleRatchetEntityContent {
     
-    Composite buildStepsContent(Composite parent, COMMUNICATION_STATE state);
-    Composite buildAlgorithmContent(Composite parent, COMMUNICATION_STATE state);
+    Composite buildStepsContent(Composite parent);
+    Composite buildAlgorithmContent(Composite parent);
+    void showStep(DoubleRatchetStep step);
 
-}
-
-enum COMMUNICATION_STATE {
-    INITIALISING,
-    NORMAL;
 }

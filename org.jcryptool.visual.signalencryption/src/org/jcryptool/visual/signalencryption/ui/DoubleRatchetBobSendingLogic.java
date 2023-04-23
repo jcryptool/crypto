@@ -28,9 +28,9 @@ public class DoubleRatchetBobSendingLogic {
                 swtParent.showBobView();
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
+                swtParent.showBobSendingLabel();
+                swtParent.showAliceWaitingLabel();
                 // Hide these Elements
-                swtParent.grp_aliceAlgorithm.setVisible(false);
-                swtParent.grp_bobAlgorithm.setVisible(false);
                 aliceContent.setAllVisible(false);
                 bobContent.setAllVisible(false);
 
@@ -86,9 +86,9 @@ public class DoubleRatchetBobSendingLogic {
                 var bobContent = swtParent.getBobSendingContent();
                 // On this transition, update all key details as well
                 updateSendingKeyDisplayInformation(swtParent);
+                swtParent.showBobSending();
 
                 // Show these elements
-                swtParent.grp_bobAlgorithm.setVisible(true);
                 bobContent.setDiffieHellmanRatchetVisible(true);
                 bobContent.txt_bobSendingStep1.setVisible(true);
 
@@ -137,7 +137,6 @@ public class DoubleRatchetBobSendingLogic {
                 var bobContent = swtParent.getBobSendingContent();
 
                 // Show these labels
-                bobContent.grp_rootChain.setVisible(true);
                 bobContent.setRootChainVisible(true);
                 bobContent.txt_bobSendingStep2.setVisible(true);
 
@@ -181,7 +180,6 @@ public class DoubleRatchetBobSendingLogic {
             @Override
             protected void switchState(DoubleRatchetView swtParent) {
                 var bobContent = swtParent.getBobSendingContent();
-                var aliceContent = swtParent.getAliceReceivingContent();
 
                 // Show these labels
                 bobContent.setSendingChainVisible(true);
@@ -190,8 +188,6 @@ public class DoubleRatchetBobSendingLogic {
                 // Hide these Elements
                 bobContent.setMessageBoxVisible(false);
                 bobContent.txt_bobSendingStep4.setVisible(false);
-
-                aliceContent.grp_receivingChain.setVisible(false);
 
             }
 
@@ -239,7 +235,6 @@ public class DoubleRatchetBobSendingLogic {
                 bobContent.txt_bobSendingStep4.setVisible(true);
 
                 // Hide these Elements
-                swtParent.grp_aliceAlgorithm.setVisible(false);
                 bobContent.txt_bobSendingStep5.setVisible(false);
                 aliceContent.txt_aliceReceivingStep5.setVisible(false);
                 aliceContent.setEncryptedMessageBoxVisible(false);
@@ -309,8 +304,8 @@ public class DoubleRatchetBobSendingLogic {
             	swtParent.showBobView();
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
+                swtParent.showAliceReceiving();
                 // Show these elements
-                swtParent.grp_aliceAlgorithm.setVisible(true);
                 bobContent.setMessageBoxVisible(true);
                 aliceContent.setEncryptedMessageBoxVisible(true);
                 bobContent.txt_bobSendingStep5.setVisible(true);
@@ -372,8 +367,8 @@ public class DoubleRatchetBobSendingLogic {
             	swtParent.showAliceView();
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
+                swtParent.showAliceReceiving();
                 // Show these elements
-                swtParent.grp_aliceAlgorithm.setVisible(true);
                 bobContent.setMessageBoxVisible(true);
                 aliceContent.setEncryptedMessageBoxVisible(true);
                 bobContent.txt_bobSendingStep5.setVisible(true);
@@ -451,8 +446,8 @@ public class DoubleRatchetBobSendingLogic {
 
             @Override
             public DoubleRatchetStep back(DoubleRatchetView swtParent) {
-                STEP_5_SENDING.switchState(swtParent);
-                return STEP_5_SENDING;
+                STEP_5_RECEIVING.switchState(swtParent);
+                return STEP_5_RECEIVING;
             }
 
 			@Override
@@ -462,7 +457,7 @@ public class DoubleRatchetBobSendingLogic {
 
 			@Override
 			public DoubleRatchetStep peekBackward() {
-                return STEP_5_SENDING;
+                return STEP_5_RECEIVING;
 			}
 
 			@Override
@@ -570,9 +565,8 @@ public class DoubleRatchetBobSendingLogic {
             protected void switchState(DoubleRatchetView swtParent) {
                 var bobContent = swtParent.getBobSendingContent();
                 var aliceContent = swtParent.getAliceReceivingContent();
+                swtParent.showAliceReceiving();
                 // Show these Elements
-                swtParent.grp_aliceAlgorithm.setVisible(true);
-                swtParent.grp_aliceSteps.setVisible(true);
                 aliceContent.setAllVisible(true);
                 bobContent.setAllVisible(true);
 

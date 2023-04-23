@@ -81,7 +81,7 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     
 
     @Override
-    public Composite buildStepsContent(Composite parent, COMMUNICATION_STATE state) {
+    public Composite buildStepsContent(Composite parent) {
         Composite cmp_bobSendingSteps = new Composite(parent, SWT.NONE);
         cmp_bobSendingSteps.setLayout(Layout.gl_stepsComposite());
         
@@ -107,7 +107,7 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     }
 
     @Override
-    public Composite buildAlgorithmContent(Composite parent, COMMUNICATION_STATE state) {
+    public Composite buildAlgorithmContent(Composite parent) {
         cmp_bobSendingAlgorithm = new ComponentDrawComposite(parent, SWT.NONE);
         cmp_bobSendingAlgorithm.setLayout(Layout.gl_algorithmGroup());
         var layout = Layout.gd_algorithmGroup();
@@ -372,5 +372,11 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 		setRootChainVisible(visible);
 		setSendingChainVisible(visible);
 		setMessageBoxVisible(visible);
+	}
+
+	@Override
+	public void showStep(DoubleRatchetStep step) {
+		// TODO Auto-generated method stub
+		
 	}
 }

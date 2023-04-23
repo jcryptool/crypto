@@ -63,6 +63,12 @@ public class Messages extends NLS {
     public static String Overview_AnswerDoubleRatchetSecurity;
     public static String Overview_QuestionDoubleRatchetInit;
     public static String Overview_AnswerDoubleRatchetInit;
+    
+    public static String DoubleRatchet_Step;
+    public static String DoubleRatchet_sendingInitialMessage;
+    public static String DoubleRatchet_sendingAnyMessage;
+    public static String DoubleRatchet_waitingForInitialMessage;
+    public static String DoubleRatchet_waitingForAnyMessage;
 
     //Table Values - Second Column, description of the keys
     public static String SignalEncryption_DescText_Diffie_Private;

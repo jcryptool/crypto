@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityContent {
     
-    Text txt_bobReceivingStep0;
     Text txt_bobReceivingStep5;
     Text txt_bobReceivingStep6;
     Text txt_bobReceivingStep7;
@@ -38,7 +37,6 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     Text txt_plainText;
     Text txt_cipherText;
     
-    private String bobStep0 = Messages.SignalEncryption_bobDescriptionText0;
     private String bobStep5 = Messages.SignalEncryption_bobStepText5;
     private String step6 = Messages.SignalEncryption_stepText6;
     private String step7 = Messages.SignalEncryption_stepText7;
@@ -88,13 +86,10 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     
 
     @Override
-    public Composite buildStepsContent(Composite parent, COMMUNICATION_STATE state) {
+    public Composite buildStepsContent(Composite parent) {
         Composite cmp_bobSendingSteps = new Composite(parent, SWT.NONE);
         cmp_bobSendingSteps.setLayout(Layout.gl_stepsComposite());
         
-        txt_bobReceivingStep0 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_bobReceivingStep0.setText(bobStep0);
-        txt_bobReceivingStep0.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_bobReceivingStep5 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobReceivingStep5.setText(bobStep5);
         txt_bobReceivingStep5.setLayoutData(Layout.gd_shortDescriptionTexts());
@@ -114,7 +109,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     }
 
     @Override
-    public Composite buildAlgorithmContent(Composite parent, COMMUNICATION_STATE state) {
+    public Composite buildAlgorithmContent(Composite parent) {
     	cmp_bobReceivingAlgorithm = new ComponentDrawComposite(parent, SWT.NONE);
         cmp_bobReceivingAlgorithm.setLayout(Layout.gl_algorithmGroup());
         cmp_bobReceivingAlgorithm.setLayoutData(Layout.gd_algorithmGroup());
@@ -400,5 +395,11 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
 		setRootChainVisible(visible);
 		setReceivingChainVisible(visible);
 		setDecryptedMessageboxVisible(visible);
+	}
+
+	@Override
+	public void showStep(DoubleRatchetStep step) {
+		// TODO Auto-generated method stub
+		
 	}
 }

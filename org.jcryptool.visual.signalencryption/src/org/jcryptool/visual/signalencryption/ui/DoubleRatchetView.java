@@ -4,15 +4,17 @@ import static org.jcryptool.visual.signalencryption.communication.CommunicationE
 import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.BOB;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.jcryptool.core.util.fonts.FontService;
+import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 
 public class DoubleRatchetView extends Composite {
 
@@ -67,6 +69,12 @@ public class DoubleRatchetView extends Composite {
 
     private Composite cmp_buttons;
     private Composite cmp_header;
+	private Composite cmp_bobWaitingInitialLabel;
+	private Composite cmp_bobWaitingLabel;
+	private Composite cmp_bobSendingLabel;
+	private Composite cmp_aliceSendingLabel;
+	private Composite cmp_aliceSendingInitialLabel;
+	private Composite cmp_aliceWaitingLabel;
 
     DoubleRatchetView(Composite parent, int style) {
         super(parent, style);
@@ -204,14 +212,17 @@ public class DoubleRatchetView extends Composite {
         grp_bobAlgorithm.setLayoutData(Layout.gd_algorithmGroup());
         
         bobSendingContent = new DoubleRatchetBobSendingContent();
-        cmp_bobSendingSteps = getBobSendingContent().buildStepsContent(grp_bobSteps, COMMUNICATION_STATE.INITIALISING);
-        cmp_bobSendingAlgorithm =  getBobSendingContent().buildAlgorithmContent(grp_bobAlgorithm, COMMUNICATION_STATE.INITIALISING);
+        cmp_bobSendingSteps = getBobSendingContent().buildStepsContent(grp_bobSteps);
+        cmp_bobSendingAlgorithm =  getBobSendingContent().buildAlgorithmContent(grp_bobAlgorithm);
         
         bobReceivingContent = new DoubleRatchetBobReceivingContent();
-        cmp_bobReceivingSteps = getBobReceivingContent().buildStepsContent(grp_bobSteps, COMMUNICATION_STATE.INITIALISING);
-        cmp_bobReceivingAlgorithm =  getBobReceivingContent().buildAlgorithmContent(grp_bobAlgorithm, COMMUNICATION_STATE.INITIALISING);
+        cmp_bobReceivingSteps = getBobReceivingContent().buildStepsContent(grp_bobSteps);
+        cmp_bobReceivingAlgorithm =  getBobReceivingContent().buildAlgorithmContent(grp_bobAlgorithm);
         
-        showBobReceiving();
+        cmp_bobSendingLabel = createCenterDescription(grp_bobAlgorithm, CenterDescriptionType.BOB_SENDING);
+        cmp_bobWaitingInitialLabel = createCenterDescription(grp_bobAlgorithm, CenterDescriptionType.BOB_INIT_WAITING);
+        cmp_bobWaitingLabel = createCenterDescription(grp_bobAlgorithm, CenterDescriptionType.BOB_WAITING);
+        showBobWaitingInitialLabel();
     }
 
     private void createAliceComposite() {
@@ -237,18 +248,37 @@ public class DoubleRatchetView extends Composite {
         grp_aliceAlgorithm.setLayout(sl_aliceAlgorithm);
         
         aliceSendingContent  = new DoubleRatchetAliceSendingContent();
-        cmp_aliceSendingSteps = getAliceSendingContent().buildStepsContent(grp_aliceSteps, COMMUNICATION_STATE.INITIALISING);
-        cmp_aliceSendingAlgorithm =  getAliceSendingContent().buildAlgorithmContent(grp_aliceAlgorithm, COMMUNICATION_STATE.INITIALISING);
+        cmp_aliceSendingSteps = getAliceSendingContent().buildStepsContent(grp_aliceSteps);
+        cmp_aliceSendingAlgorithm =  getAliceSendingContent().buildAlgorithmContent(grp_aliceAlgorithm);
         
         aliceReceivingContent  = new DoubleRatchetAliceReceivingContent();
-        cmp_aliceReceivingSteps = getAliceReceivingContent().buildStepsContent(grp_aliceSteps, COMMUNICATION_STATE.INITIALISING);
-        cmp_aliceReceivingAlgorithm =  getAliceReceivingContent().buildAlgorithmContent(grp_aliceAlgorithm, COMMUNICATION_STATE.INITIALISING);
-
-        showAliceSending();
+        cmp_aliceReceivingSteps = getAliceReceivingContent().buildStepsContent(grp_aliceSteps);
+        cmp_aliceReceivingAlgorithm =  getAliceReceivingContent().buildAlgorithmContent(grp_aliceAlgorithm);
+        
+        cmp_aliceSendingLabel = createCenterDescription(grp_aliceAlgorithm, CenterDescriptionType.ALICE_SENDING);
+        cmp_aliceSendingInitialLabel = createCenterDescription(grp_aliceAlgorithm, CenterDescriptionType.ALICE_INIT);
+        cmp_aliceWaitingLabel = createCenterDescription(grp_aliceAlgorithm, CenterDescriptionType.ALICE_WAITING);
+        showAliceSendingInitialLabel();
     }
     
 
-    void showBobView() {
+    /**
+     * Create a shadow-etched label showing {@code entity} is waiting.
+     * Use "initial" or "any" to show which message is waited for
+     */
+    private Composite createCenterDescription(Group parent, CenterDescriptionType type) {
+    	Composite cmp_receivingWaiting =  new Composite(parent, SWT.NONE);
+        cmp_receivingWaiting.setLayout(new GridLayout());
+        cmp_receivingWaiting.setLayoutData(GridData.FILL_BOTH);
+    	Label label = new Label(cmp_receivingWaiting, SWT.SHADOW_IN);
+    	label.setFont(FontService.getLargeBoldFont());
+    	label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+    	label.setText(type.getText());
+    	return cmp_receivingWaiting;
+
+	}
+
+	void showBobView() {
         btn_alice.setSelection(false);
         btn_bob.setSelection(true);
         getCurrentLayout().topControl = this.cmp_bob;
@@ -276,6 +306,42 @@ public class DoubleRatchetView extends Composite {
         sl_aliceAlgorithm.topControl = cmp_aliceSendingAlgorithm;
         grp_aliceSteps.layout();
         grp_aliceAlgorithm.layout();
+    }
+    
+    void showAliceWaitingLabel() {
+        sl_aliceAlgorithm.topControl = cmp_aliceWaitingLabel;
+        grp_aliceSteps.layout();
+        grp_aliceAlgorithm.layout();
+    }
+    
+    void showAliceSendingInitialLabel() {
+        sl_aliceAlgorithm.topControl = cmp_aliceSendingInitialLabel;
+        grp_aliceSteps.layout();
+        grp_aliceAlgorithm.layout();
+    }
+    
+    void showAliceSendingLabel() {
+        sl_aliceAlgorithm.topControl = cmp_aliceSendingLabel;
+        grp_aliceSteps.layout();
+        grp_aliceAlgorithm.layout();
+    }
+    
+    void showBobWaitingLabel() {
+        sl_bobAlgorithm.topControl = cmp_bobWaitingLabel;
+        grp_bobSteps.layout();
+        grp_bobAlgorithm.layout();
+    }
+    
+    void showBobWaitingInitialLabel() {
+        sl_bobAlgorithm.topControl = cmp_bobWaitingInitialLabel;
+        grp_bobSteps.layout();
+        grp_bobAlgorithm.layout();
+    }
+    
+    void showBobSendingLabel() {
+        sl_bobAlgorithm.topControl = cmp_bobSendingLabel;
+        grp_bobSteps.layout();
+        grp_bobAlgorithm.layout();
     }
 
     void showBobSending() {
@@ -317,14 +383,6 @@ public class DoubleRatchetView extends Composite {
     	return isShowingAlice() ? ALICE : BOB;
     }
     
-    private boolean shouldShowAlice(DoubleRatchetStep step) {
-    	return step.shouldShowEntity() == ALICE;
-    }
-    
-    private boolean shouldShowBob(DoubleRatchetStep step) {
-    	return !shouldShowAlice(step);
-    }
-    
     private StackLayout getCurrentLayout() {
     	return (StackLayout) this.cmp_body.getLayout();
     }
@@ -357,5 +415,24 @@ public class DoubleRatchetView extends Composite {
 
     public DoubleRatchetAliceReceivingContent getAliceReceivingContent() {
         return aliceReceivingContent;
+    }
+    
+    enum CenterDescriptionType {
+    	ALICE_INIT(Messages.Name_Alice_Space + Messages.DoubleRatchet_sendingInitialMessage),
+    	ALICE_SENDING(Messages.Name_Alice_Space + Messages.DoubleRatchet_sendingAnyMessage),
+    	ALICE_WAITING(Messages.Name_Alice_Space + Messages.DoubleRatchet_waitingForAnyMessage),
+    	BOB_INIT_WAITING(Messages.Name_Bob_Space + Messages.DoubleRatchet_waitingForInitialMessage),
+    	BOB_SENDING(Messages.Name_Bob_Space + Messages.DoubleRatchet_sendingAnyMessage),
+    	BOB_WAITING(Messages.Name_Bob_Space + Messages.DoubleRatchet_waitingForAnyMessage);
+
+    	private final String text;
+    	
+    	private CenterDescriptionType(String text) {
+    		this.text = text;
+		}
+    	
+    	public String getText() {
+    		return this.text;
+    	}
     }
 }

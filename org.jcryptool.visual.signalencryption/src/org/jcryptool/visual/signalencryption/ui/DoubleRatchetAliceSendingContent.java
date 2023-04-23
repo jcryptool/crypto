@@ -1,7 +1,6 @@
 package org.jcryptool.visual.signalencryption.ui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
@@ -17,7 +16,6 @@ import java.util.Map;
 
 public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityContent {
     
-    Text txt_aliceSendingStep0;
     Text txt_aliceSendingStep1;
     Text txt_aliceSendingStep2;
     Text txt_aliceSendingStep3;
@@ -50,12 +48,12 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     Group grp_rootChain;
     Group grp_sendingChain;
     
-    private String msg_aliceSendingStep0 = Messages.SignalEncryption_aliceDescriptionText0;
-    private String msg_aliceSendingStep1 = Messages.SignalEncryption_stepText1;
-    private String msg_aliceSendingStep2 = Messages.SignalEncryption_stepText2;
-    private String msg_aliceSendingStep3 = Messages.SignalEncryption_stepText3;
-    private String msg_aliceSendingStep4 = Messages.SignalEncryption_stepText4;
-    private String msg_aliceSendingStep5 = Messages.SignalEncryption_aliceStepText5;
+    private int lengthOfWordStep = Messages.DoubleRatchet_Step.length();
+    private String msg_aliceSendingStep1 = Messages.DoubleRatchet_Step + " 1 " + Messages.SignalEncryption_stepText1;
+    private String msg_aliceSendingStep2 = Messages.DoubleRatchet_Step + " 2 " + Messages.SignalEncryption_stepText2;
+    private String msg_aliceSendingStep3 = Messages.DoubleRatchet_Step + " 3 " + Messages.SignalEncryption_stepText3;
+    private String msg_aliceSendingStep4 = Messages.DoubleRatchet_Step + " 4 " + Messages.SignalEncryption_stepText4;
+    private String msg_aliceSendingStep5 = Messages.DoubleRatchet_Step + " 5 " + Messages.SignalEncryption_aliceStepText5;
     
     private String aliceDiffieHellmanLabel1 = Messages.SignalEncryption_aliceDiffieHellmanLabel1;
     private String aliceDiffieHellmanLabel2 = Messages.SignalEncryption_aliceDiffieHellmanLabel2;
@@ -90,15 +88,13 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     protected ArrowComponent arr_space2;
     protected ArrowComponent arr_space3;
     protected ImageComponent drw_outgoingMailIcon;
+	private List<Text> stepDescriptions;
 
     @Override
-    public Composite buildStepsContent(Composite parent, COMMUNICATION_STATE state) {
+    public Composite buildStepsContent(Composite parent) {
         var cmp_aliceSendingSteps = new Composite(parent, SWT.NONE);
         cmp_aliceSendingSteps.setLayout(Layout.gl_stepsComposite());
         
-        txt_aliceSendingStep0 = new Text(cmp_aliceSendingSteps, SWT.WRAP | SWT.READ_ONLY);
-        txt_aliceSendingStep0.setText(msg_aliceSendingStep0);
-        txt_aliceSendingStep0.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_aliceSendingStep1 = new Text(cmp_aliceSendingSteps, SWT.WRAP | SWT.READ_ONLY);
         txt_aliceSendingStep1.setText(msg_aliceSendingStep1);
         txt_aliceSendingStep1.setLayoutData(Layout.gd_shortDescriptionTexts());
@@ -114,11 +110,16 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
         txt_aliceSendingStep5 = new Text(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_aliceSendingStep5.setText(msg_aliceSendingStep5);
         txt_aliceSendingStep5.setLayoutData(Layout.gd_longDescriptionTexts());
+        
+        stepDescriptions = List.of(
+        		txt_aliceSendingStep1, txt_aliceSendingStep2, txt_aliceSendingStep3,
+        		txt_aliceSendingStep4, txt_aliceSendingStep5
+        );
         return cmp_aliceSendingSteps;
     }
 
     @Override
-    public ComponentDrawComposite buildAlgorithmContent(Composite parent, COMMUNICATION_STATE state) {
+    public ComponentDrawComposite buildAlgorithmContent(Composite parent) {
         cmp_aliceSendingAlgorithm = new ComponentDrawComposite(parent, SWT.NONE);
         cmp_aliceSendingAlgorithm.setLayout(Layout.gl_algorithmGroup());
         cmp_aliceSendingAlgorithm.setLayoutData(Layout.gd_algorithmGroup());
@@ -377,5 +378,9 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
 		setRootChainVisible(visible);
 		setSendingChainVisible(visible);
 		setMessageBoxVisible(visible);
+	}
+
+	@Override
+	public void showStep(DoubleRatchetStep step) {
 	}
 }
