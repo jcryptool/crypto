@@ -20,7 +20,11 @@ public class ViewConstants {
      * edge cases it may actually be larger.
      */
     public static final int ALGORITHM_HEIGHT = 400;
-
+    
+    /**
+     * The width of the Alice and Bob selection view buttons
+     */
+    public static final int ENTITY_BUTTON_WIDTH = 150;
     /**
      * This is the width hint of the algorithm boxes, a major part of the plugin's
      * flow elements.
@@ -86,34 +90,5 @@ public class ViewConstants {
      * Distance between tip of the arrow head and the border of the canvas
      */
     public static final int TARGET_MARGIN = 2;
-
-    /**
-     * Problematic variable used in the offset calculation for the connection
-     * arrows.
-     * 
-     * <p>
-     * The connection arrows are the big ones which have two corners and connect the
-     * major components. One of them actually is drawn on two different canvases,
-     * which have to be aligned. The problem is: one of the elements is in a Group,
-     * the other on a Composite. And the Group has a header, for which we do not
-     * know how big it is. I think we cannot programmatically access its height,
-     * which is a little bit unfortunate.
-     * 
-     * <p>
-     * The connection arrows are the big ones which have two corners and connect the
-     * This value may accidentally cover other size factors as well (which it
-     * shouldn't), so it should be replaced by something more robust if possible.
-     */
-    public static final int UNKNOWN_GROUP_HEIGHT_DEFAULT = 13;
-
-    /**
-     * See {@link UNKNOWN_GROUP_HEIGHT_DEFAULT}
-     */
-    public static final int UNKNOWN_GROUP_HEIGHT_LINUX = 17;
-
-    /**
-     * See {@link UNKNOWN_GROUP_HEIGHT_DEFAULT}
-     */
-    public static final int UNKNOWN_GROUP_HEIGHT_WINDOWS = 13;
 
 }

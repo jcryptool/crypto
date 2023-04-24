@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
+import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 public class DoubleRatchetView extends Composite {
 
@@ -125,70 +126,52 @@ public class DoubleRatchetView extends Composite {
         btn_alice.setAlignment(SWT.CENTER);
 
         GridData gd_btnAlice = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-        gd_btnAlice.widthHint = 150;
+        gd_btnAlice.widthHint = ViewConstants.ENTITY_BUTTON_WIDTH;
         btn_alice.setLayoutData(gd_btnAlice);
         btn_alice.setText(Messages.SignalEncryption_btnName_Alice);
 
-        btn_alice.addSelectionListener(new SelectionAdapter() {
-
-            @Override
-            public void widgetSelected(SelectionEvent e) {
+        btn_alice.addSelectionListener(UiUtils.onSelection((selectionEvent) -> {
                 showAliceView();
-            	signalEncryptionUiState.doStateChangeIfRequiredByViewChange(instance, ALICE);
-            }
-        });
+                signalEncryptionUiState.doStateChangeIfRequiredByViewChange(instance, ALICE);
+        }));
     }
 
     private void createBobButton() {
         btn_bob = new Button(cmp_buttons, SWT.TOGGLE);
         btn_bob.setAlignment(SWT.CENTER);
         GridData gd_btnBob = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
-        gd_btnBob.widthHint = 150;
+        gd_btnBob.widthHint = ViewConstants.ENTITY_BUTTON_WIDTH;
         btn_bob.setLayoutData(gd_btnBob);
         btn_bob.setText(Messages.SignalEncryption_btnName_Bob);
 
-        btn_bob.addSelectionListener(new SelectionAdapter() {
-
-            @Override
-            public void widgetSelected(SelectionEvent e) {
+        btn_bob.addSelectionListener(UiUtils.onSelection((selectionEvent) -> {
                 showBobView();
-            	signalEncryptionUiState.doStateChangeIfRequiredByViewChange(instance, BOB);
-            }
-        });
+                signalEncryptionUiState.doStateChangeIfRequiredByViewChange(instance, BOB);
+        }));
     }
 
     private void createPreviousButton() {
         btn_previous = new Button(cmp_buttons, SWT.PUSH);
         btn_previous.setAlignment(SWT.CENTER);
         GridData gd_btnPrev = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
-        gd_btnPrev.widthHint = 150;
+        gd_btnPrev.widthHint = ViewConstants.ENTITY_BUTTON_WIDTH;
         btn_previous.setLayoutData(gd_btnPrev);
         btn_previous.setText(btn_PreviousDescription);
-        btn_previous.addSelectionListener(new SelectionAdapter() {
-
-            @Override
-			public void widgetSelected(SelectionEvent e) {
-					signalEncryptionUiState.stepBack(instance);
-					System.out.println(signalEncryptionUiState.getCurrentStep().toString());
-	           }
-        });
+        btn_previous.addSelectionListener(UiUtils.onSelection((selectionEvent) -> {
+                signalEncryptionUiState.stepBack(instance);
+        }));
     }
 
     private void createNextButton() {
         btn_next = new Button(cmp_buttons, SWT.PUSH);
         btn_next.setAlignment(SWT.CENTER);
         GridData gd_btnNext = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-        gd_btnNext.widthHint = 150;
+        gd_btnNext.widthHint = ViewConstants.ENTITY_BUTTON_WIDTH;
         btn_next.setLayoutData(gd_btnNext);
         btn_next.setText(btn_NextDescription);
-        btn_next.addSelectionListener(new SelectionAdapter() {
-
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-				signalEncryptionUiState.stepForward(instance);
-				System.out.println(signalEncryptionUiState.getCurrentStep().toString());
-            }
-        });
+        btn_next.addSelectionListener(UiUtils.onSelection((selectionEvent) -> {
+                signalEncryptionUiState.stepForward(instance);
+        }));
 
     }
 
