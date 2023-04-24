@@ -2,14 +2,13 @@ package org.jcryptool.visual.signalencryption.ui;
 
 public class ViewConstants {
 
+    // height of the plug-in as a whole (this is important for the scrolling of
+    // the plug-in)
+    public static final int PLUGIN_HEIGTH = 680;
 
-	// height of the plug-in as a whole (this is important for the scrolling of
-	// the plug-in)
-	public static final int PLUGIN_HEIGTH = 680;
-
-	// width of the plug-in as a whole (this is important for the scrolling of
-	// the plug-in)
-	public static final int PLUGIN_WIDTH = 900;
+    // width of the plug-in as a whole (this is important for the scrolling of
+    // the plug-in)
+    public static final int PLUGIN_WIDTH = 900;
 
     /**
      * Estimated height of the algorithm composite.
@@ -20,7 +19,7 @@ public class ViewConstants {
      * edge cases it may actually be larger.
      */
     public static final int ALGORITHM_HEIGHT = 400;
-    
+
     /**
      * The width of the Alice and Bob selection view buttons
      */
@@ -30,10 +29,10 @@ public class ViewConstants {
      * flow elements.
      */
     public static final int BOX_WIDTH = 175;
-    
+
     /**
-     * This is the width hint of the (slim) algorithm boxes, a major part of the plugin's
-     * flow elements.
+     * This is the width hint of the (slim) algorithm boxes, a major part of the
+     * plugin's flow elements.
      */
     public static final int BOX_WIDTH_SLIM = 90;
 
@@ -65,12 +64,12 @@ public class ViewConstants {
      * The default canvas width hint of all inter-group arrows
      */
     public static final int ARROW_CANVAS_WIDTH = 55;
-    
+
     /**
      * Distance between message group and icon start
      */
     public static final int MAIL_ICON_X_OFFSET = 35;
-    
+
     /**
      * Arrow line thickness
      */

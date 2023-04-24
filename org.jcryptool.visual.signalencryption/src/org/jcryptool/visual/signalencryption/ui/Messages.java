@@ -12,10 +12,11 @@ package org.jcryptool.visual.signalencryption.ui;
 import org.eclipse.osgi.util.NLS;
 
 /**
- * This class defines variables, which are used in the GUI. The values of this variables are defined
- * in the messages.properties and messages_de.properties. This is an easy way to change text printed
- * in the GUI, without doing anything in the actual code.
- * 
+ * This class defines variables, which are used in the GUI. The values of this
+ * variables are defined in the messages.properties and messages_de.properties.
+ * This is an easy way to change text printed in the GUI, without doing anything
+ * in the actual code.
+ *
  * @author Dominik Fuereder
  */
 public class Messages extends NLS {
@@ -23,10 +24,10 @@ public class Messages extends NLS {
 
     public static String SignalEncryption_TabTitleOverView;
     public static String SignalEncryption_TabTitleRatchetView;
-    
+
     public static String SignalEncryption_Title;
     public static String SignalEncryption_Description;
-    
+
     public static String Name_Alice;
     public static String Name_Bob;
     /** Alice's name in genitive case */
@@ -37,11 +38,17 @@ public class Messages extends NLS {
     public static String Name_Alice_Space;
     /** Bob's name followed by a space (for easy string concatenation) */
     public static String Name_Bob_Space;
-    /** Alice's name in genitive case followed by a space (for easy string concatenation) */
+    /**
+     * Alice's name in genitive case followed by a space (for easy string
+     * concatenation)
+     */
     public static String Name_AliceGenitive_Space;
-    /** Bob's name in genitive case followed by a space (for easy string concatenation) */
+    /**
+     * Bob's name in genitive case followed by a space (for easy string
+     * concatenation)
+     */
     public static String Name_BobGenitive_Space;
-    
+
     public static String Overview_GroupTitleIdentities;
     public static String Overview_GroupTitleDoubleRatchet;
     public static String Overview_PreKeyBundle;
@@ -53,7 +60,7 @@ public class Messages extends NLS {
     public static String Overview_IdentityPublicKey;
     public static String Overview_PreKey;
     public static String Overview_PreKeySignature;
-	public static String Overview_DoubleRatchetOverview;
+    public static String Overview_DoubleRatchetOverview;
     public static String Overview_showDoubleRatchet;
     public static String Overview_QuestionX3DH;
     public static String Overview_AnswerX3DH;
@@ -72,7 +79,7 @@ public class Messages extends NLS {
     public static String DoubleRatchet_waitingForInitialMessage;
     public static String DoubleRatchet_waitingForAnyMessage;
 
-    //Table Values - Second Column, description of the keys
+    // Table Values - Second Column, description of the keys
     public static String SignalEncryption_DescText_Diffie_Private;
     public static String SignalEncryption_DescText_Diffie_Public;
     public static String SignalEncryption_DescText_Shared;
@@ -80,12 +87,12 @@ public class Messages extends NLS {
     public static String SignalEncryption_DescText_Sending;
     public static String SignalEncryption_DescText_Receiving;
     public static String SignalEncryption_DescText_MsgKey;
-    
-    //Dummy Text for not implemented Keys
+
+    // Dummy Text for not implemented Keys
     public static String SignalEncryption_Dummy;
-    
-    
-    //Double Ratchet Strings - All text variables which can be found in the tab "Double Ratchet"
+
+    // Double Ratchet Strings - All text variables which can be found in the tab
+    // "Double Ratchet"
     public static String SignalEncryption_btnName_Alice;
     public static String SignalEncryption_btnName_Bob;
 
@@ -97,21 +104,21 @@ public class Messages extends NLS {
     public static String SignalEncryption_SendingChainDescription;
     public static String SignalEncryption_ReceivingChainDescription;
     public static String SignalEncryption_MessageboxDescription;
-    
+
     public static String SignalEncryption_aliceDiffieHellmanLabel1;
     public static String SignalEncryption_aliceDiffieHellmanLabel2;
     public static String SignalEncryption_aliceDiffieHellmanLabel3;
     public static String SignalEncryption_bobDiffieHellmanLabel1;
     public static String SignalEncryption_bobDiffieHellmanLabel2;
     public static String SignalEncryption_bobDiffieHellmanLabel3;
-    
+
     public static String SignalEncryption_aliceRootChainLabel1;
     public static String SignalEncryption_aliceRootChainLabel2;
     public static String SignalEncryption_aliceRootChainLabel3;
     public static String SignalEncryption_bobRootChainLabel1;
     public static String SignalEncryption_bobRootChainLabel2;
     public static String SignalEncryption_bobRootChainLabel3;
-    
+
     public static String SignalEncryption_aliceSendingChainLabel1;
     public static String SignalEncryption_aliceSendingChainLabel2;
     public static String SignalEncryption_aliceSendingChainLabel3;
@@ -122,10 +129,10 @@ public class Messages extends NLS {
     public static String SignalEncryption_bobSendingChainLabel3;
     public static String SignalEncryption_bobSendingChainLabel4;
     public static String SignalEncryption_bobSendingChainLabel5;
-    
+
     public static String SignalEncryption_aliceDefaultMessage;
     public static String SignalEncryption_bobDefaultMessage;
-    
+
     public static String SignalEncryption_aliceReceivingChainLabel1;
     public static String SignalEncryption_aliceReceivingChainLabel2;
     public static String SignalEncryption_aliceReceivingChainLabel3;
@@ -161,5 +168,5 @@ public class Messages extends NLS {
 
     private Messages() {
     }
-    
+
 }

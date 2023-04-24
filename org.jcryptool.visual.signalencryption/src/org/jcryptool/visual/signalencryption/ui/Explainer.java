@@ -13,74 +13,74 @@ import org.eclipse.swt.widgets.ExpandItem;
 
 public class Explainer {
 
-	private final String title;
-	private final String description;
-	private ExpandBar explanationExpander;
-	private ExpandItem collapsable;
-	private Composite content;
-	
-	public static final int HEIGHT_HINT = SWT.DEFAULT;
-	private StyledText descriptionText;
+    private final String title;
+    private final String description;
+    private ExpandBar explanationExpander;
+    private ExpandItem collapsable;
+    private Composite content;
 
-	public Explainer(Composite parent, int style, String title, String description) {
-		this.title = title;
-		this.description = description;
-		createExpandItem(parent, style);
-		createParts();
-	}
-	
-	private void createExpandItem(Composite parent, int style) {
-		explanationExpander = new ExpandBar(parent, style);
-		explanationExpander.addExpandListener(expandAdapter(parent));
-	}
+    public static final int HEIGHT_HINT = SWT.DEFAULT;
+    private StyledText descriptionText;
 
-	private void createParts() {
-		collapsable = new ExpandItem(explanationExpander, SWT.NONE);
-		collapsable.setText(title);
+    public Explainer(Composite parent, int style, String title, String description) {
+        this.title = title;
+        this.description = description;
+        createExpandItem(parent, style);
+        createParts();
+    }
 
-		content = new Composite(explanationExpander, SWT.NONE);
-		content.setLayout(new GridLayout());
-		content.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		descriptionText = new StyledText(content, SWT.WRAP | SWT.MULTI);
-		descriptionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		descriptionText.setText(description);
-		descriptionText.setCaret(null);
-		descriptionText.setEditable(false);
+    private void createExpandItem(Composite parent, int style) {
+        explanationExpander = new ExpandBar(parent, style);
+        explanationExpander.addExpandListener(expandAdapter(parent));
+    }
 
-		collapsable.setControl(content);
-		collapsable.setHeight(content.computeSize(SWT.DEFAULT, HEIGHT_HINT).y);
-	}
-	
-	public Explainer setLayoutData(GridData gridData) {
-		explanationExpander.setLayoutData(gridData);
-		return this;
-	}
+    private void createParts() {
+        collapsable = new ExpandItem(explanationExpander, SWT.NONE);
+        collapsable.setText(title);
 
-	ExpandAdapter expandAdapter(Composite parent) {
-		return new ExpandAdapter() {
+        content = new Composite(explanationExpander, SWT.NONE);
+        content.setLayout(new GridLayout());
+        content.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        descriptionText = new StyledText(content, SWT.WRAP | SWT.MULTI);
+        descriptionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        descriptionText.setText(description);
+        descriptionText.setCaret(null);
+        descriptionText.setEditable(false);
 
-			@Override
-			public void itemCollapsed(ExpandEvent e) {
-				Display.getDefault().asyncExec(() -> {
-					collapsable.setHeight(0);
-					parent.layout();
-				});
-			}
+        collapsable.setControl(content);
+        collapsable.setHeight(content.computeSize(SWT.DEFAULT, HEIGHT_HINT).y);
+    }
 
-			@Override
-			public void itemExpanded(ExpandEvent e) {
-				Display.getDefault().asyncExec(() -> {
-					var contentSize = content.computeSize(SWT.DEFAULT, HEIGHT_HINT);
-					var textSize = descriptionText.computeSize(contentSize.x, SWT.DEFAULT);
-					System.out.println(collapsable.getHeight());
-					System.out.println(content.getSize());
-					System.out.printf("StyledText size: %s%n", textSize);
-					System.out.printf("StyledText actualSize: %s%n", descriptionText.getSize());
-					collapsable.setHeight(descriptionText.getSize().y + contentSize.y);
-					parent.layout();
-				});
-			}
-		};
-	}
+    public Explainer setLayoutData(GridData gridData) {
+        explanationExpander.setLayoutData(gridData);
+        return this;
+    }
+
+    ExpandAdapter expandAdapter(Composite parent) {
+        return new ExpandAdapter() {
+
+            @Override
+            public void itemCollapsed(ExpandEvent e) {
+                Display.getDefault().asyncExec(() -> {
+                    collapsable.setHeight(0);
+                    parent.layout();
+                });
+            }
+
+            @Override
+            public void itemExpanded(ExpandEvent e) {
+                Display.getDefault().asyncExec(() -> {
+                    var contentSize = content.computeSize(SWT.DEFAULT, HEIGHT_HINT);
+                    var textSize = descriptionText.computeSize(contentSize.x, SWT.DEFAULT);
+                    System.out.println(collapsable.getHeight());
+                    System.out.println(content.getSize());
+                    System.out.printf("StyledText size: %s%n", textSize);
+                    System.out.printf("StyledText actualSize: %s%n", descriptionText.getSize());
+                    collapsable.setHeight(descriptionText.getSize().y + contentSize.y);
+                    parent.layout();
+                });
+            }
+        };
+    }
 
 }

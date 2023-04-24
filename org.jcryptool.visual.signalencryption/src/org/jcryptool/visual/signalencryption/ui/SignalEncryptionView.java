@@ -22,70 +22,68 @@ import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
 
 public class SignalEncryptionView extends ViewPart {
-	
-	public static final String ID = "org.jcryptool.visual.signalencryption";
-	public static final int OVERVIEW_ID = 0;
-	public static final int DOUBLE_RATCHET_ID = 1;
-		
-	private Composite parent;
 
-	private TabFolder tabFolder;
-	private TabItem tbtmOverview;
-	private TabItem tbtmDoubleRatchet;
-	
-	/** plug-in's scroll-able container */
-	private ScrolledComposite scrolledComposite;
-	/** First tab's view (overview, general) */
-	private OverviewView overviewView;
-	/** Second tab's view (double-ratchet) */
-	private DoubleRatchetView doubleRatchetView;
+    public static final String ID = "org.jcryptool.visual.signalencryption";
+    public static final int OVERVIEW_ID = 0;
+    public static final int DOUBLE_RATCHET_ID = 1;
 
+    private Composite parent;
 
-	/** [Entry-point] Creates the plug-in and all its UI components */
-	@Override
-	public void createPartControl(Composite parent) {
-		this.parent = parent;
-		scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-		scrolledComposite.setExpandHorizontal(true);
-		scrolledComposite.setExpandVertical(true);
-		
-		tabFolder = new TabFolder(scrolledComposite, SWT.NONE);
-		
-		tbtmOverview = new TabItem(tabFolder, SWT.NONE);
-		tbtmOverview.setText(Messages.SignalEncryption_TabTitleOverView);
-		tbtmDoubleRatchet = new TabItem(tabFolder, SWT.NONE);
-		tbtmDoubleRatchet.setText(Messages.SignalEncryption_TabTitleRatchetView);
-		
-		tabFolder.addSelectionListener(onSelection((selectionEvent) -> {
-				setTab(tabFolder.getSelectionIndex());
-		}));
-		
-		overviewView = new OverviewView(tabFolder, SWT.NONE, this);
+    private TabFolder tabFolder;
+    private TabItem tbtmOverview;
+    private TabItem tbtmDoubleRatchet;
+
+    /** plug-in's scroll-able container */
+    private ScrolledComposite scrolledComposite;
+    /** First tab's view (overview, general) */
+    private OverviewView overviewView;
+    /** Second tab's view (double-ratchet) */
+    private DoubleRatchetView doubleRatchetView;
+
+    /** [Entry-point] Creates the plug-in and all its UI components */
+    @Override
+    public void createPartControl(Composite parent) {
+        this.parent = parent;
+        scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+        scrolledComposite.setExpandHorizontal(true);
+        scrolledComposite.setExpandVertical(true);
+
+        tabFolder = new TabFolder(scrolledComposite, SWT.NONE);
+
+        tbtmOverview = new TabItem(tabFolder, SWT.NONE);
+        tbtmOverview.setText(Messages.SignalEncryption_TabTitleOverView);
+        tbtmDoubleRatchet = new TabItem(tabFolder, SWT.NONE);
+        tbtmDoubleRatchet.setText(Messages.SignalEncryption_TabTitleRatchetView);
+
+        tabFolder.addSelectionListener(onSelection((selectionEvent) -> {
+            setTab(tabFolder.getSelectionIndex());
+        }));
+
+        overviewView = new OverviewView(tabFolder, SWT.NONE, this);
         doubleRatchetView = new DoubleRatchetView(tabFolder, SWT.NONE);
         tbtmOverview.setControl(overviewView);
 
         scrolledComposite.setContent(tabFolder);
-        scrolledComposite.setMinSize(tabFolder.computeSize(ViewConstants.PLUGIN_WIDTH,ViewConstants.PLUGIN_HEIGTH));
-		
-		// This makes the ScrolledComposite scrolling, when the mouse 
-		// is on a Text with one or more of the following tags: SWT.READ_ONLY,
-		// SWT.V_SCROLL or SWT.H_SCROLL.
-		SmoothScroller.scrollSmooth(scrolledComposite);
-	}
-	
-	
-	public void setTab(int tabIndex) {
-		setTab(Tab.values()[tabIndex]);
-	}
+        scrolledComposite.setMinSize(tabFolder.computeSize(ViewConstants.PLUGIN_WIDTH, ViewConstants.PLUGIN_HEIGTH));
 
-	public void setTab(Tab tab) { 
+        // This makes the ScrolledComposite scrolling, when the mouse
+        // is on a Text with one or more of the following tags: SWT.READ_ONLY,
+        // SWT.V_SCROLL or SWT.H_SCROLL.
+        SmoothScroller.scrollSmooth(scrolledComposite);
+    }
+
+    public void setTab(int tabIndex) {
+        setTab(Tab.values()[tabIndex]);
+    }
+
+    public void setTab(Tab tab) {
         switch (tab) {
-         case OVERVIEW:
-           overviewView.updateValues();
-           tbtmOverview.setControl(overviewView);
-           break; 
-         case DOUBLE_RATCHET:
-             tbtmDoubleRatchet.setControl(doubleRatchetView);
+        case OVERVIEW:
+            overviewView.updateValues();
+            tbtmOverview.setControl(overviewView);
+            break;
+        case DOUBLE_RATCHET:
+            tbtmDoubleRatchet.setControl(doubleRatchetView);
         default:
             break;
         }
@@ -93,13 +91,13 @@ public class SignalEncryptionView extends ViewPart {
         tabFolder.setSelection(tab.getIndex());
         FontService.getHeaderFont();
     }
-	
-	@Override
-	public void setFocus() {
-		scrolledComposite.setFocus();
-	}
 
-	/** Resets the whole plug-in */
+    @Override
+    public void setFocus() {
+        scrolledComposite.setFocus();
+    }
+
+    /** Resets the whole plug-in */
     public void resetView() {
         AlgorithmState.destroy();
         Control[] children = parent.getChildren();
@@ -108,27 +106,28 @@ public class SignalEncryptionView extends ViewPart {
         }
         createPartControl(parent);
         parent.layout();
-        
+
     }
 
     /** Resets the {@link DoubleRatchetView} tab */
     public void resetDoubleRatchetView() {
-    	doubleRatchetView.resetView();
+        doubleRatchetView.resetView();
     }
 
     public enum Tab {
-    	OVERVIEW {
-			@Override
-			int getIndex() {
-				return OVERVIEW.ordinal();
-			}
-		}, DOUBLE_RATCHET {
-			@Override
-			int getIndex() {
-				return DOUBLE_RATCHET.ordinal();
-			}
-		};
+        OVERVIEW {
+            @Override
+            int getIndex() {
+                return OVERVIEW.ordinal();
+            }
+        },
+        DOUBLE_RATCHET {
+            @Override
+            int getIndex() {
+                return DOUBLE_RATCHET.ordinal();
+            }
+        };
 
-    	abstract int getIndex();
+        abstract int getIndex();
     }
 }

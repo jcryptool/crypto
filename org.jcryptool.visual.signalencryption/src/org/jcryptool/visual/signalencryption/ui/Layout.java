@@ -7,8 +7,9 @@ import org.eclipse.swt.layout.GridLayout;
 
 public class Layout {
 
-	private Layout() {
-        // Private constructor to prevent instantiation of this class with only static methods.
+    private Layout() {
+        // Private constructor to prevent instantiation of this class with only static
+        // methods.
     }
 
     public static GridLayout gl_algorithmGroup() {
@@ -22,11 +23,11 @@ public class Layout {
     }
 
     public static GridLayout gl_sendingReceivingChainComposite(int alignment) {
-    	return gl_genericChainComposite(alignment, 2);
+        return gl_genericChainComposite(alignment, 2);
     }
-    
+
     public static GridLayout gl_rootChainComposite(int alignment) {
-    	return gl_genericChainComposite(alignment, 2);
+        return gl_genericChainComposite(alignment, 2);
     }
 
     public static GridLayout gl_genericChainComposite(int alignment, int numColumns) {
@@ -37,9 +38,9 @@ public class Layout {
     }
 
     public static GridLayout gl_diffieHellmanComposite() {
-    	var layout = new GridLayout(1, true);
-    	layout.verticalSpacing = ViewConstants.BOX_HEIGHT;
-    	return layout;
+        var layout = new GridLayout(1, true);
+        layout.verticalSpacing = ViewConstants.BOX_HEIGHT;
+        return layout;
     }
 
     public static GridLayout gl_messageBoxGroup() {
@@ -52,7 +53,7 @@ public class Layout {
 
     public static GridData gd_algorithmGroup() {
         var gd_algorithmGroup = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1);
-        gd_algorithmGroup.heightHint = ViewConstants.ALGORITHM_HEIGHT; 
+        gd_algorithmGroup.heightHint = ViewConstants.ALGORITHM_HEIGHT;
         return gd_algorithmGroup;
     }
 
@@ -76,14 +77,14 @@ public class Layout {
         return gd_shortDescriptionTexts;
 
     }
-    
+
     // style data for the labels within the algorithm
     public static GridData gd_algorithmNodesSlim() {
-    	return gd_algorithmNodes(ViewConstants.BOX_WIDTH_SLIM);
+        return gd_algorithmNodes(ViewConstants.BOX_WIDTH_SLIM);
     }
-    
+
     public static GridData gd_algorithmNodes() {
-    	return gd_algorithmNodes(ViewConstants.BOX_WIDTH);
+        return gd_algorithmNodes(ViewConstants.BOX_WIDTH);
     }
 
     // style data for the labels within the algorithm

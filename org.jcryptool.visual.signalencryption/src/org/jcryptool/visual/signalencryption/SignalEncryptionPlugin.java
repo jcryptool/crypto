@@ -12,7 +12,7 @@ package org.jcryptool.visual.signalencryption;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class SignalEncryptionPlugin extends AbstractUIPlugin {
- 
- public static final String PLUGIN_ID = "org.jcryptool.visual.signalencryption";
+
+    public static final String PLUGIN_ID = "org.jcryptool.visual.signalencryption";
 
 }
