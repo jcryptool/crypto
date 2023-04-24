@@ -12,12 +12,6 @@ import org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.A
 
 public class DoubleRatchetBobSendingLogic {
 
-    private DoubleRatchetStep currentStep = BobSendingStep.STEP_0;
-
-    public DoubleRatchetBobSendingLogic(DoubleRatchetView swtParent) {
-        currentStep = BobSendingStep.STEP_0.setInitialState(swtParent);
-    }
-
     public enum BobSendingStep implements DoubleRatchetStep {
         /**
          * Initial, blank step. Showing Bob's view
@@ -416,9 +410,6 @@ public class DoubleRatchetBobSendingLogic {
                 aliceContent.showStep(this);
                 bobContent.showStep(this);
 
-                // Show these labels
-                aliceContent.txt_plainText.setVisible(true);
-                aliceContent.txt_aliceReceivingStep9.setVisible(true);
                 var decryptedMessage = AlgorithmState.get().getCommunication().current().getDecryptedMessage();
                 if (decryptedMessage.isPresent()) {
                     aliceContent.txt_plainText.setText(decryptedMessage.get());

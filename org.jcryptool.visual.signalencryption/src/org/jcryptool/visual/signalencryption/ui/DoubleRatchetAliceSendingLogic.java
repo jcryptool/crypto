@@ -8,8 +8,8 @@ import static org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSending
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.visual.signalencryption.SignalEncryptionPlugin;
 import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
-import org.jcryptool.visual.signalencryption.ui.DoubleRatchetBobSendingLogic.BobSendingStep;
 import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException;
+import org.jcryptool.visual.signalencryption.ui.DoubleRatchetBobSendingLogic.BobSendingStep;
 import org.jcryptool.visual.signalencryption.util.ToHex;
 
 public class DoubleRatchetAliceSendingLogic {
@@ -36,18 +36,22 @@ public class DoubleRatchetAliceSendingLogic {
                 aliceContent.setAllVisible(false);
                 bobContent.setAllVisible(false);
 
-                // Hide Steps
-                aliceContent.showStep(this);
-                bobContent.showStep(this);
 
                 // Initial value only valid for initial message
                 if (AlgorithmState.get().getCommunication().isBeginning()) {
                     swtParent.showAliceSendingInitialLabel();
                     swtParent.showBobWaitingInitialLabel();
+                    aliceContent.setInitialStepDescriptions();
+                    bobContent.setInitialStepDescriptions();
                 } else {
                     swtParent.showAliceSendingLabel();
                     swtParent.showBobWaitingLabel();
+                    aliceContent.setNormalStepDescriptions();
+                    bobContent.setNormalStepDescriptions();
                 }
+                // Hide Steps (this is done after setting the initial/normal descriptions to prevent weird behaviour)
+                aliceContent.showStep(this);
+                bobContent.showStep(this);
             }
 
             @Override
@@ -420,15 +424,10 @@ public class DoubleRatchetAliceSendingLogic {
                 var bobContent = swtParent.getBobReceivingContent();
                 var aliceContent = swtParent.getAliceSendingContent();
                 swtParent.showBobReceiving();
-                aliceContent.showStep(STEP_9);
-                bobContent.showStep(STEP_9);
                 // Show these Elements
                 aliceContent.setAllVisible(true);
                 bobContent.setAllVisible(true);
 
-                // Show these labels
-                bobContent.txt_plainText.setVisible(true);
-                bobContent.txt_bobReceivingStep9.setVisible(true);
                 var decryptedMessage = AlgorithmState.get().getCommunication().current().getDecryptedMessage();
                 if (decryptedMessage.isPresent()) {
                     bobContent.txt_plainText.setText(decryptedMessage.get());
@@ -438,6 +437,17 @@ public class DoubleRatchetAliceSendingLogic {
                 // On this transition, update all key steps as well
                 updateSenderKeyDisplayInformation(swtParent);
                 updateReceivingKeyDisplayInformation(swtParent);
+
+                if (AlgorithmState.get().getCommunication().isBeginning()) {
+                    aliceContent.setInitialStepDescriptions();
+                    bobContent.setInitialStepDescriptions();
+                } else {
+                    aliceContent.setNormalStepDescriptions();
+                    bobContent.setNormalStepDescriptions();
+                }
+                // Show Steps (this is done after setting the initial/normal descriptions to prevent weird behaviour)
+                aliceContent.showStep(this);
+                bobContent.showStep(this);
             }
 
             @Override
@@ -524,7 +534,7 @@ public class DoubleRatchetAliceSendingLogic {
      * manually switches
      * <p/>
      * Example:
-     * 
+     *
      * <pre>
      *    Reaching end of alice view (next-button would switch to bob's view)
      *    User manually switches to bob view (next-button logic switches to showing next step of bob)

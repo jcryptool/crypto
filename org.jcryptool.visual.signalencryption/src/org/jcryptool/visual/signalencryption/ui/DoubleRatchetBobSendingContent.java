@@ -13,6 +13,7 @@ import org.jcryptool.visual.signalencryption.graphics.ArrowComponent;
 import org.jcryptool.visual.signalencryption.graphics.ComponentDrawComposite;
 import org.jcryptool.visual.signalencryption.graphics.ImageComponent;
 import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
+import org.jcryptool.visual.signalencryption.util.Templating;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityContent {
@@ -39,11 +40,11 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     Text txt_plainText;
     Text txt_cipherText;
 
-    private String step1 = Messages.DoubleRatchet_Step + " 1 " + Messages.SignalEncryption_stepText1;
-    private String step2 = Messages.DoubleRatchet_Step + " 2 " + Messages.SignalEncryption_stepText2;
-    private String step3 = Messages.DoubleRatchet_Step + " 3 " + Messages.SignalEncryption_stepText3;
-    private String step4 = Messages.DoubleRatchet_Step + " 4 " + Messages.SignalEncryption_stepText4;
-    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Messages.SignalEncryption_aliceStepText5;
+    private String step1 = Messages.DoubleRatchet_Step + " 1 " + Templating.forBob(Messages.DoubleRatchet_Step1);
+    private String step2 = Messages.DoubleRatchet_Step + " 2 " + Templating.forBob(Messages.DoubleRatchet_Step2);
+    private String step3 = Messages.DoubleRatchet_Step + " 3 " + Templating.forBob(Messages.DoubleRatchet_Step3);
+    private String step4 = Messages.DoubleRatchet_Step + " 4 " + Templating.forBob(Messages.DoubleRatchet_Step4);
+    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Templating.forBob(Messages.DoubleRatchet_Step5Sending);
 
     private String bobDiffieHellmanLabel1 = Messages.SignalEncryption_bobDiffieHellmanLabel1;
     private String bobDiffieHellmanLabel2 = Messages.SignalEncryption_bobDiffieHellmanLabel2;
@@ -56,6 +57,13 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     private String bobSendingChainLabel3 = Messages.SignalEncryption_bobSendingChainLabel3;
     private String bobSendingChainLabel4 = Messages.SignalEncryption_bobSendingChainLabel4;
     private String bobSendingChainLabel5 = Messages.SignalEncryption_bobSendingChainLabel5;
+
+    private String MessageboxCipherText = "The Ciphertext";
+    private String MessageboxDescription = Messages.SignalEncryption_MessageboxDescription;
+    private String step = Messages.DoubleRatchet_Step;
+    private String DiffieHellmanGroupDescription = step + " 1" + Messages.SignalEncryption_DiffieHellmanGroupDescription;
+    private String RootChainDescription = step + " 2" + Messages.SignalEncryption_RootChainDescription;
+    private String SendingChainDescription = step + " 3" + Messages.SignalEncryption_SendingChainDescription;
 
     protected Canvas arr_bobReceivingChainArrow1;
     protected Canvas arr_bobReceivingChainArrow2;
@@ -79,11 +87,6 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     Group grp_diffieHellman;
     Composite cmp_messageBox;
 
-    private String MessageboxCipherText = "The Ciphertext";
-    private String MessageboxDescription = Messages.SignalEncryption_MessageboxDescription;
-    private String RootChainDescription = Messages.SignalEncryption_RootChainDescription;
-    private String DiffieHellmanGroupDescription = Messages.SignalEncryption_DiffieHellmanGroupDescription;
-    private String SendingChainDescription = Messages.SignalEncryption_SendingChainDescription;
     private ComponentDrawComposite cmp_bobSendingAlgorithm;
     private List<StyledText> stepDescriptions;
 

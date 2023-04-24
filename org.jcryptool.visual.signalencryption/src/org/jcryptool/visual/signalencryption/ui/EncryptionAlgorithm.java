@@ -2,7 +2,6 @@ package org.jcryptool.visual.signalencryption.ui;
 
 import org.jcryptool.visual.signalencryption.algorithm.SessionManager;
 import org.jcryptool.visual.signalencryption.algorithm.SessionManager.Captures;
-import org.jcryptool.visual.signalencryption.ui.AlgorithmState.STATE;
 import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.state.PreKeyBundle;

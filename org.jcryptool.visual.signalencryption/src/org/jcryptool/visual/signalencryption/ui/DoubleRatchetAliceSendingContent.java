@@ -1,5 +1,8 @@
 package org.jcryptool.visual.signalencryption.ui;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
@@ -10,10 +13,8 @@ import org.jcryptool.visual.signalencryption.graphics.ArrowComponent;
 import org.jcryptool.visual.signalencryption.graphics.ComponentDrawComposite;
 import org.jcryptool.visual.signalencryption.graphics.ImageComponent;
 import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
+import org.jcryptool.visual.signalencryption.util.Templating;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
-
-import java.util.List;
-import java.util.Map;
 
 public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityContent {
 
@@ -49,11 +50,17 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     Group grp_rootChain;
     Group grp_sendingChain;
 
-    private String step1 = Messages.DoubleRatchet_Step + " 1 " + Messages.SignalEncryption_stepText1;
-    private String step2 = Messages.DoubleRatchet_Step + " 2 " + Messages.SignalEncryption_stepText2;
-    private String step3 = Messages.DoubleRatchet_Step + " 3 " + Messages.SignalEncryption_stepText3;
-    private String step4 = Messages.DoubleRatchet_Step + " 4 " + Messages.SignalEncryption_stepText4;
-    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Messages.SignalEncryption_aliceStepText5;
+    private String step1Initial = Messages.DoubleRatchet_Step + " 1 " + Messages.DoubleRatchet_Step1Initial;
+    private String step2Initial = Messages.DoubleRatchet_Step + " 2 " + Messages.DoubleRatchet_Step2Initial;
+    private String step3Initial = Messages.DoubleRatchet_Step + " 3 " + Messages.DoubleRatchet_Step3Initial;
+    private String step4Initial = Messages.DoubleRatchet_Step + " 4 " + Messages.DoubleRatchet_Step4Initial;
+    private String step5Initial = Messages.DoubleRatchet_Step + " 5 " + Messages.DoubleRatchet_Step5SendingInitial;
+
+    private String step1 = Messages.DoubleRatchet_Step + " 1 " + Templating.forAlice(Messages.DoubleRatchet_Step1);
+    private String step2 = Messages.DoubleRatchet_Step + " 2 " + Templating.forAlice(Messages.DoubleRatchet_Step2);
+    private String step3 = Messages.DoubleRatchet_Step + " 3 " + Templating.forAlice(Messages.DoubleRatchet_Step3);
+    private String step4 = Messages.DoubleRatchet_Step + " 4 " + Templating.forAlice(Messages.DoubleRatchet_Step4);
+    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Templating.forAlice(Messages.DoubleRatchet_Step5Sending);
 
     private String aliceDiffieHellmanLabel1 = Messages.SignalEncryption_aliceDiffieHellmanLabel1;
     private String aliceDiffieHellmanLabel2 = Messages.SignalEncryption_aliceDiffieHellmanLabel2;
@@ -67,10 +74,12 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     private String aliceSendingChainLabel4 = Messages.SignalEncryption_aliceSendingChainLabel4;
     private String aliceSendingChainLabel5 = Messages.SignalEncryption_aliceSendingChainLabel5;
 
-    private String DiffieHellmanGroupDescription = Messages.SignalEncryption_DiffieHellmanGroupDescription;
-    private String RootChainDescription = Messages.SignalEncryption_RootChainDescription;
+
+    private String step = Messages.DoubleRatchet_Step;
+    private String DiffieHellmanGroupDescription = step + " 1" + Messages.SignalEncryption_DiffieHellmanGroupDescription;
+    private String RootChainDescription = step + " 2" + Messages.SignalEncryption_RootChainDescription;
+    private String SendingChainDescription = step + " 3" + Messages.SignalEncryption_SendingChainDescription;
     private String MessageboxDescription = Messages.SignalEncryption_MessageboxDescription;
-    private String SendingChainDescription = Messages.SignalEncryption_SendingChainDescription;
 
     protected ArrowComponent arr_diffieHellman1;
     protected ArrowComponent arr_diffieHellman2;
@@ -96,24 +105,36 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
         cmp_aliceSendingSteps.setLayout(Layout.gl_stepsComposite());
 
         txt_aliceSendingStep1 = new StyledText(cmp_aliceSendingSteps, SWT.WRAP | SWT.READ_ONLY);
-        txt_aliceSendingStep1.setText(step1);
         txt_aliceSendingStep1.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_aliceSendingStep2 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceSendingStep2.setText(step2);
         txt_aliceSendingStep2.setLayoutData(Layout.gd_longDescriptionTexts());
         txt_aliceSendingStep3 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceSendingStep3.setText(step3);
         txt_aliceSendingStep3.setLayoutData(Layout.gd_longDescriptionTexts());
         txt_aliceSendingStep4 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceSendingStep4.setText(step4);
         txt_aliceSendingStep4.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_aliceSendingStep5 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceSendingStep5.setText(step5);
         txt_aliceSendingStep5.setLayoutData(Layout.gd_longDescriptionTexts());
 
         stepDescriptions = List.of(txt_aliceSendingStep1, txt_aliceSendingStep2, txt_aliceSendingStep3,
                 txt_aliceSendingStep4, txt_aliceSendingStep5);
+        setInitialStepDescriptions();
         return cmp_aliceSendingSteps;
+    }
+
+    public void setInitialStepDescriptions() {
+        txt_aliceSendingStep1.setText(step1Initial);
+        txt_aliceSendingStep2.setText(step2Initial);
+        txt_aliceSendingStep3.setText(step3Initial);
+        txt_aliceSendingStep4.setText(step4Initial);
+        txt_aliceSendingStep5.setText(step5Initial);
+    }
+
+    public void setNormalStepDescriptions() {
+        txt_aliceSendingStep1.setText(step1);
+        txt_aliceSendingStep2.setText(step2);
+        txt_aliceSendingStep3.setText(step3);
+        txt_aliceSendingStep4.setText(step4);
+        txt_aliceSendingStep5.setText(step5);
     }
 
     @Override

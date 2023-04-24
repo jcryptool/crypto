@@ -1,24 +1,24 @@
 package org.jcryptool.visual.signalencryption.communication;
 
+import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.ALICE;
+import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.BOB;
+import static org.jcryptool.visual.signalencryption.util.ToHex.toHex;
+
 import java.util.Map;
 import java.util.Optional;
 
 import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
 import org.jcryptool.visual.signalencryption.algorithm.SessionManager;
 import org.jcryptool.visual.signalencryption.ui.Messages;
-import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SessionCipher.EncryptCallbackHandler;
+import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.ratchet.MessageKeys;
-
-import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.ALICE;
-import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.BOB;
-import static org.jcryptool.visual.signalencryption.util.ToHex.toHex;
 
 /**
  * Dataclass for Double-Ratchet and message information for one message
  * exchange.
- * 
+ *
  * Contains relevant key information and allows the storage of the raw input
  * message, the ciphertext (encrypted message) and the decrypted message.
  */
@@ -39,7 +39,7 @@ public class MessageContext {
     /**
      * Dataclass for Double-Ratchet value, key and message information for one
      * message exchange.
-     * 
+     *
      * @param isAliceSending         Whether Alice is sending (true) or Bob is
      *                               sending (false).
      * @param message                A plain String message, can be changed as long
@@ -92,9 +92,9 @@ public class MessageContext {
 
     /**
      * Update the object with a new message.
-     * 
+     *
      * @param message the string to set.
-     * 
+     *
      * @throws IllegalStateException if the message for this object is already
      *                               encrypted.
      * @see #isAlreadyEncrypted()
@@ -117,18 +117,18 @@ public class MessageContext {
 
     /**
      * Set the encrypted message and its decrypted counterpart in one go.
-     * 
+     *
      * Make sure to actually encrypt/decrypt and not just pass the undecrypted
      * message again, since that would be cheating.
-     * 
+     *
      * Since the encryption can't be rolled back, a change to the message afterwards
      * brings it in an inconsistent state. That's why
      * {@link #setEncryptedMessageAndSeal(byte[], String)} will throw an exception
      * if it is called more than once.
-     * 
+     *
      * @param encryptedMessage
      * @param decryptedMessage
-     * 
+     *
      * @throws An {@link IllegalStateException} if already encrypted.
      * @see #isAlreadyEncrypted()
      */
@@ -148,8 +148,7 @@ public class MessageContext {
     // Diffie-Hellman Getters
     /////////////////////////
     public String diffieHellmanSenderPublicKey() {
-        // For some reason Signal preprends a 05 for this key (33) bytes, so we ignore
-        // that here.
+        // For some reason Signal preprends a 05 for this key (33) bytes, so we ignore that here.
         return toHex(sendingCapture.publicDiffieHellmanRatchetKey.serialize(), 1, EC_PUBLIC_KEY_SIZE);
     }
 
@@ -162,8 +161,7 @@ public class MessageContext {
     }
 
     public String diffieHellmanReceiverPublicKey() {
-        // For some reason Signal preprends a 05 for this key (33) bytes, so we ignore
-        // that here.
+        // For some reason Signal preprends a 05 for this key (33) bytes, so we ignore that here.
         return toHex(receivingCapture.publicDiffieHellmanRatchetKey.serialize(), 1, EC_PUBLIC_KEY_SIZE);
     }
 

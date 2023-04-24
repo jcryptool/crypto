@@ -12,6 +12,7 @@ import org.jcryptool.visual.signalencryption.graphics.ArrowComponent;
 import org.jcryptool.visual.signalencryption.graphics.ComponentDrawComposite;
 import org.jcryptool.visual.signalencryption.graphics.ImageComponent;
 import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
+import org.jcryptool.visual.signalencryption.util.Templating;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityContent {
@@ -38,11 +39,11 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     Text txt_plainText;
     Text txt_cipherText;
 
-    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Messages.SignalEncryption_stepText1;
-    private String step6 = Messages.DoubleRatchet_Step + " 6 " + Messages.SignalEncryption_stepText2;
-    private String step7 = Messages.DoubleRatchet_Step + " 7 " + Messages.SignalEncryption_stepText3;
-    private String step8 = Messages.DoubleRatchet_Step + " 8 " + Messages.SignalEncryption_stepText4;
-    private String step9 = Messages.DoubleRatchet_Step + " 9 " + Messages.SignalEncryption_aliceStepText5;
+    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Templating.forAlice(Messages.DoubleRatchet_Step5Receiving);
+    private String step6 = Messages.DoubleRatchet_Step + " 6 " + Templating.forAlice(Messages.DoubleRatchet_Step6);
+    private String step7 = Messages.DoubleRatchet_Step + " 7 " + Templating.forAlice(Messages.DoubleRatchet_Step7);
+    private String step8 = Messages.DoubleRatchet_Step + " 8 " + Templating.forAlice(Messages.DoubleRatchet_Step8);
+    private String step9 = Messages.DoubleRatchet_Step + " 9 " + Templating.forAlice(Messages.DoubleRatchet_Step9);
 
     private String aliceDiffieHellmanLabel1 = Messages.SignalEncryption_aliceDiffieHellmanLabel1;
     private String aliceDiffieHellmanLabel2 = Messages.SignalEncryption_aliceDiffieHellmanLabel2;
@@ -55,6 +56,14 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     private String aliceReceivingChainLabel3 = Messages.SignalEncryption_aliceReceivingChainLabel3;
     private String aliceReceivingChainLabel4 = Messages.SignalEncryption_aliceReceivingChainLabel4;
     private String aliceReceivingChainLabel5 = Messages.SignalEncryption_aliceReceivingChainLabel5;
+
+    private String MessageboxCipherText = "The Ciphertext";
+    private String MessageboxPlainText = "Geben Sie hier Ihre Nachricht an Alice ein.";
+    private String step = Messages.DoubleRatchet_Step;
+    private String MessageBoxDescription = Messages.SignalEncryption_MessageboxDescription;
+    private String DiffieHellmanGroupDescription = step + " 6" + Messages.SignalEncryption_DiffieHellmanGroupDescription;
+    private String RootChainDescription = step + " 7" + Messages.SignalEncryption_RootChainDescription;
+    private String ReceivingChainDescription = step + " 8" + Messages.SignalEncryption_ReceivingChainDescription;
 
     protected ArrowComponent arr_messagePublicKey;
     protected ArrowComponent arr_diffieHellman1;
@@ -76,12 +85,6 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     Group grp_messageBox;
     Group grp_decryptedMessage;
 
-    private String MessageboxCipherText = "The Ciphertext";
-    private String MessageBoxDescription = Messages.SignalEncryption_MessageboxDescription;
-    private String RootChainDescription = Messages.SignalEncryption_RootChainDescription;
-    private String MessageboxPlainText = "Geben Sie hier Ihre Nachricht an Alice ein.";
-    private String DiffieHellmanGroupDescription = Messages.SignalEncryption_DiffieHellmanGroupDescription;
-    private String ReceivingChainDescription = Messages.SignalEncryption_ReceivingChainDescription;
     private ComponentDrawComposite cmp_aliceReceivingAlgorithm;
     private List<StyledText> stepDescriptions;
 
@@ -92,30 +95,18 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
 
         txt_aliceReceivingStep5 = new StyledText(cmp_aliceReceivingSteps, SWT.WRAP | SWT.READ_ONLY);
         txt_aliceReceivingStep5.setText(step5);
-        // txt_aliceReceivingStep5.setText("Nachricht von Bob empfangen");
         txt_aliceReceivingStep5.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_aliceReceivingStep6 = new StyledText(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_aliceReceivingStep6.setText(step6);
-        // txt_aliceReceivingStep6.setText("Schritt 6 Diffie Hellman Ratchet: Alice
-        // führt mit dem in der Nachricht enthaltenen Schlüsselinformationen den
-        // nächsten Diffie Hellman-Schritt durch.");
         txt_aliceReceivingStep6.setLayoutData(Layout.gd_longDescriptionTexts());
         txt_aliceReceivingStep7 = new StyledText(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_aliceReceivingStep7.setText(step7);
-        // txt_aliceReceivingStep7.setText("Schritt 7 Root Chain: Der Diffie
-        // Hellman-Schlüssel und der Output der letzten KDF der Root Chain wird genutzt
-        // um einen neuen Root Chain Key zu erzeugen.");
         txt_aliceReceivingStep7.setLayoutData(Layout.gd_longDescriptionTexts());
         txt_aliceReceivingStep8 = new StyledText(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_aliceReceivingStep8.setText(step8);
-        // txt_aliceReceivingStep8.setText("Schritt 8 Receiving Chain: Der Root
-        // Chain-Schlüssel und der Output der letzten KDF in der Receiving Chain wird
-        // genutzt um einen neuen Receiving Chain Key (Message Key) zu erzeugen.");
         txt_aliceReceivingStep8.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_aliceReceivingStep9 = new StyledText(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_aliceReceivingStep9.setText(step9);
-        // txt_aliceReceivingStep9.setText("Schritt 9 Nachricht entschlüsseln: Alice
-        // nutzt den Message Key um die Nachricht zu entschlüssln.");
         txt_aliceReceivingStep9.setLayoutData(Layout.gd_longDescriptionTexts());
 
         stepDescriptions = List.of(txt_aliceReceivingStep5, txt_aliceReceivingStep6, txt_aliceReceivingStep7,

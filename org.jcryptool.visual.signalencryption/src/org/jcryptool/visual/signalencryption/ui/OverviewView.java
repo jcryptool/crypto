@@ -191,8 +191,8 @@ public class OverviewView extends Composite {
         var aliceKeyInformation = unpackBundle(aliceBundle);
         var bobKeyInformation = unpackBundle(bobBundle);
 
-        txt_aliceIdentity.setText(aliceKeyInformation.get("Identity Public Key"));
-        txt_bobIdentity.setText(bobKeyInformation.get("Identity Public Key"));
+        txt_aliceIdentity.setText(aliceKeyInformation.get(Messages.Overview_IdentityPublicKey));
+        txt_bobIdentity.setText(bobKeyInformation.get(Messages.Overview_IdentityPublicKey));
 
         node_aliceKeyBundle.getPopupProvider().setValues(aliceKeyInformation);
         node_bobKeyBundle.getPopupProvider().setValues(bobKeyInformation);

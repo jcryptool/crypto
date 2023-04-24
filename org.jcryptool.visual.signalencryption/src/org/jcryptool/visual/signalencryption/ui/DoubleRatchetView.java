@@ -2,6 +2,10 @@ package org.jcryptool.visual.signalencryption.ui;
 
 import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.ALICE;
 import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.BOB;
+import static org.jcryptool.visual.signalencryption.ui.DoubleRatchetView.UiSendStatus.ALICE_RECEIVE_MSG;
+import static org.jcryptool.visual.signalencryption.ui.DoubleRatchetView.UiSendStatus.ALICE_SEND_MSG;
+import static org.jcryptool.visual.signalencryption.ui.DoubleRatchetView.UiSendStatus.BOB_RECEIVE_MSG;
+import static org.jcryptool.visual.signalencryption.ui.DoubleRatchetView.UiSendStatus.BOB_SEND_MSG;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -150,13 +154,13 @@ public class DoubleRatchetView extends Composite {
     private void createStatusLabels() {
         lbl_aliceStatus = new Label(cmp_buttons, SWT.CENTER);
         lbl_aliceStatus.setLayoutData(leftAlignedLayoutData());
-        lbl_aliceStatus.setText(Messages.DoubleRatchet_TopBarStatusSending);
+        lbl_aliceStatus.setText(ALICE_SEND_MSG.statusMessage);
 
         UiUtils.insertSpacers(cmp_buttons, 2);
 
         lbl_bobStatus = new Label(cmp_buttons, SWT.CENTER);
         lbl_bobStatus.setLayoutData(rightAlignedLayoutData());
-        lbl_bobStatus.setText(Messages.DoubleRatchet_TopBarStatusReceiving);
+        lbl_bobStatus.setText(BOB_RECEIVE_MSG.statusMessage);
     }
 
     private void createPreviousButton() {
@@ -300,7 +304,7 @@ public class DoubleRatchetView extends Composite {
     }
 
     void showAliceReceiving() {
-        lbl_aliceStatus.setText(Messages.DoubleRatchet_TopBarStatusReceiving);
+        lbl_aliceStatus.setText(ALICE_RECEIVE_MSG.statusMessage);
         sl_aliceSteps.topControl = cmp_aliceReceivingSteps;
         sl_aliceAlgorithm.topControl = cmp_aliceReceivingAlgorithm;
         grp_aliceSteps.layout();
@@ -309,7 +313,7 @@ public class DoubleRatchetView extends Composite {
     }
 
     void showAliceSending() {
-        lbl_aliceStatus.setText(Messages.DoubleRatchet_TopBarStatusSending);
+        lbl_aliceStatus.setText(ALICE_SEND_MSG.statusMessage);
         sl_aliceSteps.topControl = cmp_aliceSendingSteps;
         sl_aliceAlgorithm.topControl = cmp_aliceSendingAlgorithm;
         grp_aliceSteps.layout();
@@ -353,7 +357,7 @@ public class DoubleRatchetView extends Composite {
     }
 
     void showBobSending() {
-        lbl_bobStatus.setText(Messages.DoubleRatchet_TopBarStatusSending);
+        lbl_bobStatus.setText(BOB_SEND_MSG.statusMessage);
         sl_bobSteps.topControl = cmp_bobSendingSteps;
         sl_bobAlgorithm.topControl = cmp_bobSendingAlgorithm;
         grp_bobSteps.layout();
@@ -361,7 +365,7 @@ public class DoubleRatchetView extends Composite {
     }
 
     void showBobReceiving() {
-        lbl_bobStatus.setText(Messages.DoubleRatchet_TopBarStatusReceiving);
+        lbl_bobStatus.setText(BOB_RECEIVE_MSG.statusMessage);
         sl_bobSteps.topControl = cmp_bobReceivingSteps;
         sl_bobAlgorithm.topControl = cmp_bobReceivingAlgorithm;
         grp_bobSteps.layout();
@@ -445,4 +449,17 @@ public class DoubleRatchetView extends Composite {
             return this.text;
         }
     }
+    public enum UiSendStatus {
+        BOB_SEND_MSG("..." + Messages.DoubleRatchet_TopBarStatusSending),
+        BOB_RECEIVE_MSG("..." + Messages.DoubleRatchet_TopBarStatusReceiving),
+        ALICE_SEND_MSG(Messages.DoubleRatchet_TopBarStatusSending + "..."),
+        ALICE_RECEIVE_MSG(Messages.DoubleRatchet_TopBarStatusReceiving + "...");
+
+        private String statusMessage;
+
+        private UiSendStatus(String statusMessage) {
+            this.statusMessage = statusMessage;
+        }
+    }
+
 }

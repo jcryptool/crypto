@@ -38,6 +38,10 @@ public class Messages extends NLS {
     public static String Name_Alice_Space;
     /** Bob's name followed by a space (for easy string concatenation) */
     public static String Name_Bob_Space;
+    public static String Name_AlicePronoun;
+    public static String Name_AlicePronounPossessive;
+    public static String Name_BobPronoun;
+    public static String Name_BobPronounPossessive;
     /**
      * Alice's name in genitive case followed by a space (for easy string
      * concatenation)
@@ -70,6 +74,28 @@ public class Messages extends NLS {
     public static String Overview_AnswerDoubleRatchetSecurity;
     public static String Overview_QuestionDoubleRatchetInit;
     public static String Overview_AnswerDoubleRatchetInit;
+
+    public static String DoubleRatchet_Step1Initial;
+    public static String DoubleRatchet_Step2Initial;
+    public static String DoubleRatchet_Step3Initial;
+    public static String DoubleRatchet_Step4Initial;
+    public static String DoubleRatchet_Step5SendingInitial;
+    public static String DoubleRatchet_Step5ReceivingInitial;
+    public static String DoubleRatchet_Step6Initial;
+    public static String DoubleRatchet_Step7Initial;
+    public static String DoubleRatchet_Step8Initial;
+    public static String DoubleRatchet_Step9Initial;
+
+    public static String DoubleRatchet_Step1;
+    public static String DoubleRatchet_Step2;
+    public static String DoubleRatchet_Step3;
+    public static String DoubleRatchet_Step4;
+    public static String DoubleRatchet_Step5Sending;
+    public static String DoubleRatchet_Step5Receiving;
+    public static String DoubleRatchet_Step6;
+    public static String DoubleRatchet_Step7;
+    public static String DoubleRatchet_Step8;
+    public static String DoubleRatchet_Step9;
 
     public static String DoubleRatchet_TopBarStatusSending;
     public static String DoubleRatchet_TopBarStatusReceiving;
@@ -143,20 +169,6 @@ public class Messages extends NLS {
     public static String SignalEncryption_bobReceivingChainLabel3;
     public static String SignalEncryption_bobReceivingChainLabel4;
     public static String SignalEncryption_bobReceivingChainLabel5;
-
-    public static String SignalEnrcyption_messageboxDescription;
-    public static String SignalEncryption_aliceDescriptionText0;
-    public static String SignalEncryption_bobDescriptionText0;
-    public static String SignalEncryption_stepText1;
-    public static String SignalEncryption_stepText2;
-    public static String SignalEncryption_stepText3;
-    public static String SignalEncryption_stepText4;
-    public static String SignalEncryption_aliceStepText5;
-    public static String SignalEncryption_bobStepText5;
-    public static String SignalEncryption_stepText6;
-    public static String SignalEncryption_stepText7;
-    public static String SignalEncryption_stepText8;
-    public static String SignalEncryption_stepText9;
 
     public static String SignalEncryption_btnName_Next;
     public static String SignalEncryption_btnName_Previous;
