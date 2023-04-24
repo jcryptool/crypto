@@ -5,8 +5,6 @@ import static org.jcryptool.visual.signalencryption.communication.CommunicationE
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -14,6 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.jcryptool.core.util.fonts.FontService;
+import org.jcryptool.core.util.ui.layout.GridDataBuilder;
 import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
@@ -27,6 +26,9 @@ public class DoubleRatchetView extends Composite {
     Button btn_bob;
     Button btn_next;
     Button btn_previous;
+
+    Label lbl_aliceStatus;
+    Label lbl_bobStatus;
 
     Group grp_aliceSteps;
     Group grp_aliceAlgorithm;
@@ -100,6 +102,7 @@ public class DoubleRatchetView extends Composite {
         cmp_header.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 14, 1));
 
         createButtons();
+        createStatusLabels();
     }
 
     private void createButtons() {
@@ -114,20 +117,16 @@ public class DoubleRatchetView extends Composite {
     }
 
     private void createBodyComposite() {
-
         cmp_body = new Composite(this, SWT.NONE);
         cmp_body.setLayout(new StackLayout());
         cmp_body.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
     }
 
     private void createAliceButton() {
-
         btn_alice = new Button(cmp_buttons, SWT.TOGGLE);
         btn_alice.setAlignment(SWT.CENTER);
 
-        GridData gd_btnAlice = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-        gd_btnAlice.widthHint = ViewConstants.ENTITY_BUTTON_WIDTH;
-        btn_alice.setLayoutData(gd_btnAlice);
+        btn_alice.setLayoutData(leftAlignedLayoutData());
         btn_alice.setText(Messages.SignalEncryption_btnName_Alice);
 
         btn_alice.addSelectionListener(UiUtils.onSelection((selectionEvent) -> {
@@ -139,9 +138,7 @@ public class DoubleRatchetView extends Composite {
     private void createBobButton() {
         btn_bob = new Button(cmp_buttons, SWT.TOGGLE);
         btn_bob.setAlignment(SWT.CENTER);
-        GridData gd_btnBob = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
-        gd_btnBob.widthHint = ViewConstants.ENTITY_BUTTON_WIDTH;
-        btn_bob.setLayoutData(gd_btnBob);
+        btn_bob.setLayoutData(rightAlignedLayoutData());
         btn_bob.setText(Messages.SignalEncryption_btnName_Bob);
 
         btn_bob.addSelectionListener(UiUtils.onSelection((selectionEvent) -> {
@@ -150,7 +147,19 @@ public class DoubleRatchetView extends Composite {
         }));
     }
 
-    private void createPreviousButton() {
+    private void createStatusLabels() {
+        lbl_aliceStatus = new Label(cmp_buttons, SWT.CENTER);
+        lbl_aliceStatus.setLayoutData(leftAlignedLayoutData());
+        lbl_aliceStatus.setText(Messages.DoubleRatchet_TopBarStatusSending);
+
+        UiUtils.insertSpacers(cmp_buttons, 2);
+
+        lbl_bobStatus = new Label(cmp_buttons, SWT.CENTER);
+        lbl_bobStatus.setLayoutData(rightAlignedLayoutData());
+        lbl_bobStatus.setText(Messages.DoubleRatchet_TopBarStatusReceiving);
+    }
+
+	private void createPreviousButton() {
         btn_previous = new Button(cmp_buttons, SWT.PUSH);
         btn_previous.setAlignment(SWT.CENTER);
         GridData gd_btnPrev = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
@@ -172,7 +181,20 @@ public class DoubleRatchetView extends Composite {
         btn_next.addSelectionListener(UiUtils.onSelection((selectionEvent) -> {
                 signalEncryptionUiState.stepForward(instance);
         }));
+    }
 
+    /** GridData for the top bar buttons/labels which are aligned on the left (Alice) */
+    private GridData leftAlignedLayoutData() {
+        return GridDataBuilder.with(SWT.LEFT, SWT.CENTER, true, false, 1, 1)
+                .widthHint(ViewConstants.ENTITY_BUTTON_WIDTH)
+                .get();
+    }
+
+    /** GridData for the top bar buttons/labels which are aligned on the left (Alice) */
+    private GridData rightAlignedLayoutData() {
+        return GridDataBuilder.with(SWT.RIGHT, SWT.CENTER, true, false, 1, 1)
+                .widthHint(ViewConstants.ENTITY_BUTTON_WIDTH)
+                .get();
     }
 
     private void createBobComposite() {
@@ -273,54 +295,56 @@ public class DoubleRatchetView extends Composite {
         btn_bob.setSelection(false);
         getCurrentLayout().topControl = this.cmp_alice;
         cmp_body.layout();
-        
+
     }
 
     void showAliceReceiving() {
+        lbl_aliceStatus.setText(Messages.DoubleRatchet_TopBarStatusReceiving);
         sl_aliceSteps.topControl = cmp_aliceReceivingSteps;
         sl_aliceAlgorithm.topControl = cmp_aliceReceivingAlgorithm;
         grp_aliceSteps.layout();
         grp_aliceAlgorithm.layout();
-        
+
     }
 
     void showAliceSending() {
+        lbl_aliceStatus.setText(Messages.DoubleRatchet_TopBarStatusSending);
         sl_aliceSteps.topControl = cmp_aliceSendingSteps;
         sl_aliceAlgorithm.topControl = cmp_aliceSendingAlgorithm;
         grp_aliceSteps.layout();
         grp_aliceAlgorithm.layout();
     }
-    
+
     void showAliceWaitingLabel() {
         sl_aliceAlgorithm.topControl = cmp_aliceWaitingLabel;
         grp_aliceSteps.layout();
         grp_aliceAlgorithm.layout();
     }
-    
+
     void showAliceSendingInitialLabel() {
         sl_aliceAlgorithm.topControl = cmp_aliceSendingInitialLabel;
         grp_aliceSteps.layout();
         grp_aliceAlgorithm.layout();
     }
-    
+
     void showAliceSendingLabel() {
         sl_aliceAlgorithm.topControl = cmp_aliceSendingLabel;
         grp_aliceSteps.layout();
         grp_aliceAlgorithm.layout();
     }
-    
+
     void showBobWaitingLabel() {
         sl_bobAlgorithm.topControl = cmp_bobWaitingLabel;
         grp_bobSteps.layout();
         grp_bobAlgorithm.layout();
     }
-    
+
     void showBobWaitingInitialLabel() {
         sl_bobAlgorithm.topControl = cmp_bobWaitingInitialLabel;
         grp_bobSteps.layout();
         grp_bobAlgorithm.layout();
     }
-    
+
     void showBobSendingLabel() {
         sl_bobAlgorithm.topControl = cmp_bobSendingLabel;
         grp_bobSteps.layout();
@@ -328,6 +352,7 @@ public class DoubleRatchetView extends Composite {
     }
 
     void showBobSending() {
+        lbl_bobStatus.setText(Messages.DoubleRatchet_TopBarStatusSending);
         sl_bobSteps.topControl = cmp_bobSendingSteps;
         sl_bobAlgorithm.topControl = cmp_bobSendingAlgorithm;
         grp_bobSteps.layout();
@@ -335,12 +360,13 @@ public class DoubleRatchetView extends Composite {
     }
 
     void showBobReceiving() {
+        lbl_bobStatus.setText(Messages.DoubleRatchet_TopBarStatusReceiving);
         sl_bobSteps.topControl = cmp_bobReceivingSteps;
         sl_bobAlgorithm.topControl = cmp_bobReceivingAlgorithm;
         grp_bobSteps.layout();
         grp_bobAlgorithm.layout();
     }
-    
+
     void switchSenderReceiver() {
         if (isAliceSendingShowing()) {
             showAliceReceiving();
