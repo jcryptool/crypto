@@ -49,12 +49,11 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     Group grp_rootChain;
     Group grp_sendingChain;
     
-    private int lengthOfWordStep = Messages.DoubleRatchet_Step.length();
-    private String msg_aliceSendingStep1 = Messages.DoubleRatchet_Step + " 1 " + Messages.SignalEncryption_stepText1;
-    private String msg_aliceSendingStep2 = Messages.DoubleRatchet_Step + " 2 " + Messages.SignalEncryption_stepText2;
-    private String msg_aliceSendingStep3 = Messages.DoubleRatchet_Step + " 3 " + Messages.SignalEncryption_stepText3;
-    private String msg_aliceSendingStep4 = Messages.DoubleRatchet_Step + " 4 " + Messages.SignalEncryption_stepText4;
-    private String msg_aliceSendingStep5 = Messages.DoubleRatchet_Step + " 5 " + Messages.SignalEncryption_aliceStepText5;
+    private String step1 = Messages.DoubleRatchet_Step + " 1 " + Messages.SignalEncryption_stepText1;
+    private String step2 = Messages.DoubleRatchet_Step + " 2 " + Messages.SignalEncryption_stepText2;
+    private String step3 = Messages.DoubleRatchet_Step + " 3 " + Messages.SignalEncryption_stepText3;
+    private String step4 = Messages.DoubleRatchet_Step + " 4 " + Messages.SignalEncryption_stepText4;
+    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Messages.SignalEncryption_aliceStepText5;
     
     private String aliceDiffieHellmanLabel1 = Messages.SignalEncryption_aliceDiffieHellmanLabel1;
     private String aliceDiffieHellmanLabel2 = Messages.SignalEncryption_aliceDiffieHellmanLabel2;
@@ -97,19 +96,19 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
         cmp_aliceSendingSteps.setLayout(Layout.gl_stepsComposite());
         
         txt_aliceSendingStep1 = new StyledText(cmp_aliceSendingSteps, SWT.WRAP | SWT.READ_ONLY);
-        txt_aliceSendingStep1.setText(msg_aliceSendingStep1);
+        txt_aliceSendingStep1.setText(step1);
         txt_aliceSendingStep1.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_aliceSendingStep2 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceSendingStep2.setText(msg_aliceSendingStep2);
+        txt_aliceSendingStep2.setText(step2);
         txt_aliceSendingStep2.setLayoutData(Layout.gd_longDescriptionTexts());
         txt_aliceSendingStep3 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceSendingStep3.setText(msg_aliceSendingStep3);
+        txt_aliceSendingStep3.setText(step3);
         txt_aliceSendingStep3.setLayoutData(Layout.gd_longDescriptionTexts());
         txt_aliceSendingStep4 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceSendingStep4.setText(msg_aliceSendingStep4);
+        txt_aliceSendingStep4.setText(step4);
         txt_aliceSendingStep4.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_aliceSendingStep5 = new StyledText(cmp_aliceSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceSendingStep5.setText(msg_aliceSendingStep5);
+        txt_aliceSendingStep5.setText(step5);
         txt_aliceSendingStep5.setLayoutData(Layout.gd_longDescriptionTexts());
         
         stepDescriptions = List.of(
@@ -383,6 +382,6 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
 
 	@Override
 	public void showStep(DoubleRatchetStep step) {
-		showStep(step, stepDescriptions, lengthOfWordStep);
+		showStep(step, stepDescriptions, 0);
 	}
 }

@@ -37,12 +37,8 @@ public class DoubleRatchetAliceSendingLogic {
 				bobContent.setAllVisible(false);
 
 				// Hide Steps
-				aliceContent.showStep(STEP_0);
-				bobContent.txt_bobReceivingStep5.setVisible(false);
-				bobContent.txt_bobReceivingStep6.setVisible(false);
-				bobContent.txt_bobReceivingStep7.setVisible(false);
-				bobContent.txt_bobReceivingStep8.setVisible(false);
-				bobContent.txt_bobReceivingStep9.setVisible(false);
+				aliceContent.showStep(this);
+				bobContent.showStep(this);
 
 				// Initial value only valid for initial message
 				if (AlgorithmState.get().getCommunication().isBeginning()) {
@@ -59,7 +55,6 @@ public class DoubleRatchetAliceSendingLogic {
 				if (AlgorithmState.get().getCommunication().isBeginning()) {
 					return STEP_0;
 				} else {
-					// TODO
 					swtParent.switchSenderReceiver();
 					AlgorithmState.get().getCommunication().prev();
 					BobSendingStep.STEP_9.switchState(swtParent);
@@ -95,8 +90,9 @@ public class DoubleRatchetAliceSendingLogic {
 				// Show these elements
 				swtParent.showAliceSending();
 				aliceContent.setDiffieHellmanRatchetVisible(true);
-				aliceContent.showStep(STEP_1);
+				aliceContent.showStep(this);
 
+				// TODO verify this line is needed
 				// Pick up user input text
 				aliceContent.txt_cipherText.setText(AlgorithmState.get().getAliceEncryptedMessage());
 				
@@ -125,11 +121,10 @@ public class DoubleRatchetAliceSendingLogic {
 
 				// Show these labels
 				aliceContent.setRootChainVisible(true);
-				aliceContent.txt_aliceSendingStep2.setVisible(true);
+				aliceContent.showStep(this);
 
 				// Hide these Elements
 				aliceContent.setSendingChainVisible(false);
-				aliceContent.txt_aliceSendingStep3.setVisible(false);
 			}
 
 			@Override
@@ -153,7 +148,7 @@ public class DoubleRatchetAliceSendingLogic {
 
 				// Show these labels
 				aliceContent.setSendingChainVisible(true);
-				aliceContent.showStep(STEP_3);
+				aliceContent.showStep(this);
 
 				// Hide these Elements
 				aliceContent.setMessageBoxVisible(false);
@@ -188,12 +183,11 @@ public class DoubleRatchetAliceSendingLogic {
 
 				// Show these labels
 				aliceContent.showOnlyMessagePlaintext();
-				aliceContent.txt_aliceSendingStep4.setVisible(true);
+				aliceContent.showStep(this);
+				bobContent.showStep(this);
 
 				// Hide these Elements
 				bobContent.setEncryptedMessageBoxVisible(false);
-				bobContent.txt_bobReceivingStep5.setVisible(false);
-				aliceContent.txt_aliceSendingStep5.setVisible(false);
 
 				if (AlgorithmState.get().allowMessageEntering()) {
 					aliceContent.txt_plainText.setEnabled(true);
@@ -258,8 +252,8 @@ public class DoubleRatchetAliceSendingLogic {
 				swtParent.showBobReceiving();
 				aliceContent.setMessageBoxVisible(true);
 				bobContent.setEncryptedMessageBoxVisible(true);
-				aliceContent.txt_aliceSendingStep5.setVisible(true);
-				bobContent.txt_bobReceivingStep5.setVisible(true);
+				aliceContent.showStep(this);
+				bobContent.showStep(this);
 
 				// Hide these Elements
 				bobContent.setDiffieHellmanRatchetVisible(false);
@@ -303,12 +297,10 @@ public class DoubleRatchetAliceSendingLogic {
 				swtParent.showBobReceiving();
 				aliceContent.setMessageBoxVisible(true);
 				bobContent.setEncryptedMessageBoxVisible(true);
-				aliceContent.txt_aliceSendingStep5.setVisible(true);
-				bobContent.txt_bobReceivingStep5.setVisible(true);
+				bobContent.showStep(this);
 
 				// Hide these Elements
 				bobContent.setDiffieHellmanRatchetVisible(false);
-				bobContent.txt_bobReceivingStep6.setVisible(false);
 
 				// State
 				aliceContent.txt_plainText.setEnabled(false);
@@ -346,11 +338,10 @@ public class DoubleRatchetAliceSendingLogic {
 
 				// Show these labels
 				bobContent.setDiffieHellmanRatchetVisible(true);
-				bobContent.txt_bobReceivingStep6.setVisible(true);
+				bobContent.showStep(this);
 
 				// Hide these Elements
 				bobContent.setRootChainVisible(false);
-				bobContent.txt_bobReceivingStep7.setVisible(false);
 			}
 
 			@Override
@@ -374,11 +365,10 @@ public class DoubleRatchetAliceSendingLogic {
 
 				// Show these labels
 				bobContent.setRootChainVisible(true);
-				bobContent.txt_bobReceivingStep7.setVisible(true);
+				bobContent.showStep(this);
 
 				// Hide these Elements
 				bobContent.setReceivingChainVisible(false);
-				bobContent.txt_bobReceivingStep8.setVisible(false);
 
 			}
 
@@ -400,14 +390,13 @@ public class DoubleRatchetAliceSendingLogic {
 			@Override
 			public void switchState(DoubleRatchetView swtParent) {
 				var bobContent = swtParent.getBobReceivingContent();
+				bobContent.showStep(this);
 
 				// Show these labels
 				bobContent.setReceivingChainVisible(true);
-				bobContent.txt_bobReceivingStep8.setVisible(true);
 
 				// Hide these Elements
 				bobContent.setDecryptedMessageboxVisible(false);
-				bobContent.txt_bobReceivingStep9.setVisible(false);
 			}
 
 			@Override
@@ -430,21 +419,11 @@ public class DoubleRatchetAliceSendingLogic {
 				var bobContent = swtParent.getBobReceivingContent();
 				var aliceContent = swtParent.getAliceSendingContent();
 				swtParent.showBobReceiving();
+				aliceContent.showStep(STEP_9);
+				bobContent.showStep(STEP_9);
 				// Show these Elements
 				aliceContent.setAllVisible(true);
 				bobContent.setAllVisible(true);
-
-				// Show Steps
-				aliceContent.txt_aliceSendingStep1.setVisible(true);
-				aliceContent.txt_aliceSendingStep2.setVisible(true);
-				aliceContent.txt_aliceSendingStep3.setVisible(true);
-				aliceContent.txt_aliceSendingStep4.setVisible(true);
-				aliceContent.txt_aliceSendingStep5.setVisible(true);
-				bobContent.txt_bobReceivingStep5.setVisible(true);
-				bobContent.txt_bobReceivingStep6.setVisible(true);
-				bobContent.txt_bobReceivingStep7.setVisible(true);
-				bobContent.txt_bobReceivingStep8.setVisible(true);
-				bobContent.txt_bobReceivingStep9.setVisible(true);
 
 				// Show these labels
 				bobContent.txt_plainText.setVisible(true);

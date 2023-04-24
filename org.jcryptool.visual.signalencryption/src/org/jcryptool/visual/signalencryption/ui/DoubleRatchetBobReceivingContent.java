@@ -1,6 +1,7 @@
 package org.jcryptool.visual.signalencryption.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
@@ -11,15 +12,17 @@ import org.jcryptool.visual.signalencryption.graphics.ImageComponent;
 import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
+import java.util.List;
 import java.util.Map;
 
 public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityContent {
     
-    Text txt_bobReceivingStep5;
-    Text txt_bobReceivingStep6;
-    Text txt_bobReceivingStep7;
-    Text txt_bobReceivingStep8;
-    Text txt_bobReceivingStep9;
+    StyledText txt_bobReceivingStep5;
+    StyledText txt_bobReceivingStep6;
+    StyledText txt_bobReceivingStep7;
+    StyledText txt_bobReceivingStep8;
+    StyledText txt_bobReceivingStep9;
+    
     
 	FlowChartNode txt_rootChainConst;
     FlowChartNode txt_rootChainTop;
@@ -37,11 +40,11 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     Text txt_plainText;
     Text txt_cipherText;
     
-    private String bobStep5 = Messages.SignalEncryption_bobStepText5;
-    private String step6 = Messages.SignalEncryption_stepText6;
-    private String step7 = Messages.SignalEncryption_stepText7;
-    private String step8 = Messages.SignalEncryption_stepText8;
-    private String step9 = Messages.SignalEncryption_stepText9;
+    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Messages.SignalEncryption_bobStepText5;
+    private String step6 = Messages.DoubleRatchet_Step + " 6 " + Messages.SignalEncryption_stepText6;
+    private String step7 = Messages.DoubleRatchet_Step + " 7 " + Messages.SignalEncryption_stepText7;
+    private String step8 = Messages.DoubleRatchet_Step + " 8 " + Messages.SignalEncryption_stepText8;
+    private String step9 = Messages.DoubleRatchet_Step + " 9 " + Messages.SignalEncryption_stepText9;
     
     private String bobDiffieHellmanLabel1 = Messages.SignalEncryption_bobDiffieHellmanLabel1;
     private String bobDiffieHellmanLabel2 = Messages.SignalEncryption_bobDiffieHellmanLabel2;
@@ -83,29 +86,35 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     private String MessageboxPlainText = "Geben Sie hier Ihre Nachricht an Bob ein.";
     private String DiffieHellmanGroupDescription = Messages.SignalEncryption_DiffieHellmanGroupDescription;
     private String ReceivingChainDescription = Messages.SignalEncryption_ReceivingChainDescription;
+	private List<StyledText> stepDescriptions;
     
 
     @Override
     public Composite buildStepsContent(Composite parent) {
-        Composite cmp_bobSendingSteps = new Composite(parent, SWT.NONE);
-        cmp_bobSendingSteps.setLayout(Layout.gl_stepsComposite());
+        Composite cmp_bobReceivingSteps = new Composite(parent, SWT.NONE);
+        cmp_bobReceivingSteps.setLayout(Layout.gl_stepsComposite());
         
-        txt_bobReceivingStep5 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_bobReceivingStep5.setText(bobStep5);
+        txt_bobReceivingStep5 = new StyledText(cmp_bobReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobReceivingStep5.setText(step5);
         txt_bobReceivingStep5.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_bobReceivingStep6 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobReceivingStep6 = new StyledText(cmp_bobReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobReceivingStep6.setText(step6);
         txt_bobReceivingStep6.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_bobReceivingStep7 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobReceivingStep7 = new StyledText(cmp_bobReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobReceivingStep7.setText(step7);
         txt_bobReceivingStep7.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_bobReceivingStep8 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobReceivingStep8 = new StyledText(cmp_bobReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobReceivingStep8.setText(step8);
         txt_bobReceivingStep8.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_bobReceivingStep9 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobReceivingStep9 = new StyledText(cmp_bobReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobReceivingStep9.setText(step9);
         txt_bobReceivingStep9.setLayoutData(Layout.gd_shortDescriptionTexts());
-        return cmp_bobSendingSteps;
+        
+        stepDescriptions = List.of(
+        		txt_bobReceivingStep5, txt_bobReceivingStep6, txt_bobReceivingStep7,
+        		txt_bobReceivingStep8, txt_bobReceivingStep9
+        );
+        return cmp_bobReceivingSteps;
     }
 
     @Override
@@ -399,7 +408,6 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
 
 	@Override
 	public void showStep(DoubleRatchetStep step) {
-		// TODO Auto-generated method stub
-		
+		showStep(step, stepDescriptions, DoubleRatchetStep.INDEX_OF_RECEIVING_STEPS);
 	}
 }

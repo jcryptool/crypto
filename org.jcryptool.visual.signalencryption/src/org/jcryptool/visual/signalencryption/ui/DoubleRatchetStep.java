@@ -6,6 +6,9 @@ import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
  * A step in the UI logic of the Double Ratchet visualization.
  */
 public interface DoubleRatchetStep {
+	
+	/** What's the index of steps switching to the receiving side */
+	static int INDEX_OF_RECEIVING_STEPS = 4;
     /**
      * Advance one step, e.g. when the user clicks the 'next' button.
      * 

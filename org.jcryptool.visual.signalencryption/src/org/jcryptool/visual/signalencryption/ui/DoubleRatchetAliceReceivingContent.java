@@ -1,7 +1,9 @@
 package org.jcryptool.visual.signalencryption.ui;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
@@ -14,19 +16,11 @@ import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityContent {
     
-    private String aliceReceivingStep0 = Messages.SignalEncryption_aliceDescriptionText0;
-    private String aliceReceivingStep5 = Messages.SignalEncryption_stepText1;
-    private String aliceReceivingStep6 = Messages.SignalEncryption_stepText2;
-    private String aliceReceivingStep7 = Messages.SignalEncryption_stepText3;
-    private String aliceReceivingStep8 = Messages.SignalEncryption_stepText4;
-    private String aliceReceivingStep9 = Messages.SignalEncryption_aliceStepText5;
-   
-    Text txt_aliceReceivingStep0;
-    Text txt_aliceReceivingStep5;
-    Text txt_aliceReceivingStep6;
-    Text txt_aliceReceivingStep7;
-    Text txt_aliceReceivingStep8;
-    Text txt_aliceReceivingStep9;
+    StyledText txt_aliceReceivingStep5;
+    StyledText txt_aliceReceivingStep6;
+    StyledText txt_aliceReceivingStep7;
+    StyledText txt_aliceReceivingStep8;
+    StyledText txt_aliceReceivingStep9;
     
     FlowChartNode txt_rootChainTop;
     FlowChartNode txt_rootChainConst;
@@ -43,7 +37,13 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     
     Text txt_plainText;
     Text txt_cipherText;
-    
+
+    private String step5 = Messages.DoubleRatchet_Step + " 5 " +  Messages.SignalEncryption_stepText1;
+    private String step6 = Messages.DoubleRatchet_Step + " 6 " +  Messages.SignalEncryption_stepText2;
+    private String step7 = Messages.DoubleRatchet_Step + " 7 " +  Messages.SignalEncryption_stepText3;
+    private String step8 = Messages.DoubleRatchet_Step + " 8 " +  Messages.SignalEncryption_stepText4;
+    private String step9 = Messages.DoubleRatchet_Step + " 9 " +  Messages.SignalEncryption_aliceStepText5;
+   
     private String aliceDiffieHellmanLabel1 = Messages.SignalEncryption_aliceDiffieHellmanLabel1;
     private String aliceDiffieHellmanLabel2 = Messages.SignalEncryption_aliceDiffieHellmanLabel2;
     private String aliceDiffieHellmanLabel3 = Messages.SignalEncryption_aliceDiffieHellmanLabel3;
@@ -83,6 +83,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     private String DiffieHellmanGroupDescription = Messages.SignalEncryption_DiffieHellmanGroupDescription;
     private String ReceivingChainDescription = Messages.SignalEncryption_ReceivingChainDescription;
     private ComponentDrawComposite cmp_aliceReceivingAlgorithm;
+	private List<StyledText> stepDescriptions;
     
 
     @Override
@@ -90,24 +91,31 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         Composite cmp_aliceReceivingSteps = new Composite(parent, SWT.NONE);
         cmp_aliceReceivingSteps.setLayout(Layout.gl_stepsComposite());
         
-        txt_aliceReceivingStep0 = new Text(cmp_aliceReceivingSteps, SWT.WRAP | SWT.READ_ONLY);
-        txt_aliceReceivingStep0.setText("Alice wartet auf eine Nachricht von Bob");
-        txt_aliceReceivingStep0.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_aliceReceivingStep5 = new Text(cmp_aliceReceivingSteps, SWT.WRAP | SWT.READ_ONLY);
-        txt_aliceReceivingStep5.setText("Nachricht von Bob empfangen");
+        txt_aliceReceivingStep5 = new StyledText(cmp_aliceReceivingSteps, SWT.WRAP | SWT.READ_ONLY);
+        txt_aliceReceivingStep5.setText(step5);
+        //txt_aliceReceivingStep5.setText("Nachricht von Bob empfangen");
         txt_aliceReceivingStep5.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_aliceReceivingStep6 = new Text(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceReceivingStep6.setText("Schritt 6 Diffie Hellman Ratchet: Alice führt mit dem in der Nachricht enthaltenen Schlüsselinformationen den nächsten Diffie Hellman-Schritt durch.");
+        txt_aliceReceivingStep6 = new StyledText(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_aliceReceivingStep6.setText(step6);
+        //txt_aliceReceivingStep6.setText("Schritt 6 Diffie Hellman Ratchet: Alice führt mit dem in der Nachricht enthaltenen Schlüsselinformationen den nächsten Diffie Hellman-Schritt durch.");
         txt_aliceReceivingStep6.setLayoutData(Layout.gd_longDescriptionTexts());
-        txt_aliceReceivingStep7 = new Text(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceReceivingStep7.setText("Schritt 7 Root Chain: Der Diffie Hellman-Schlüssel und der Output der letzten KDF der Root Chain wird genutzt um einen neuen Root Chain Key zu erzeugen.");
+        txt_aliceReceivingStep7 = new StyledText(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_aliceReceivingStep7.setText(step7);
+        //txt_aliceReceivingStep7.setText("Schritt 7 Root Chain: Der Diffie Hellman-Schlüssel und der Output der letzten KDF der Root Chain wird genutzt um einen neuen Root Chain Key zu erzeugen.");
         txt_aliceReceivingStep7.setLayoutData(Layout.gd_longDescriptionTexts());
-        txt_aliceReceivingStep8 = new Text(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceReceivingStep8.setText("Schritt 8 Receiving Chain: Der Root Chain-Schlüssel und der Output der letzten KDF in der Receiving Chain wird genutzt um einen neuen Receiving Chain Key (Message Key) zu erzeugen.");
+        txt_aliceReceivingStep8 = new StyledText(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_aliceReceivingStep8.setText(step8);
+        //txt_aliceReceivingStep8.setText("Schritt 8 Receiving Chain: Der Root Chain-Schlüssel und der Output der letzten KDF in der Receiving Chain wird genutzt um einen neuen Receiving Chain Key (Message Key) zu erzeugen.");
         txt_aliceReceivingStep8.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_aliceReceivingStep9 = new Text(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_aliceReceivingStep9.setText("Schritt 9 Nachricht entschlüsseln: Alice nutzt den Message Key um die Nachricht zu entschlüssln.");
+        txt_aliceReceivingStep9 = new StyledText(cmp_aliceReceivingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_aliceReceivingStep9.setText(step9);
+        //txt_aliceReceivingStep9.setText("Schritt 9 Nachricht entschlüsseln: Alice nutzt den Message Key um die Nachricht zu entschlüssln.");
         txt_aliceReceivingStep9.setLayoutData(Layout.gd_longDescriptionTexts());
+        
+        stepDescriptions = List.of(
+                txt_aliceReceivingStep5, txt_aliceReceivingStep6, txt_aliceReceivingStep7,
+                txt_aliceReceivingStep8, txt_aliceReceivingStep9
+        );
         return cmp_aliceReceivingSteps;
     }
 
@@ -393,7 +401,6 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
 
 	@Override
 	public void showStep(DoubleRatchetStep step) {
-		// TODO Auto-generated method stub
-		
+		showStep(step, stepDescriptions, DoubleRatchetStep.INDEX_OF_RECEIVING_STEPS);
 	}
 }

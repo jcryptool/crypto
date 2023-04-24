@@ -33,18 +33,10 @@ public class DoubleRatchetBobSendingLogic {
                 // Hide these Elements
                 aliceContent.setAllVisible(false);
                 bobContent.setAllVisible(false);
-
+                
                 // Hide Steps
-                bobContent.txt_bobSendingStep1.setVisible(false);
-                bobContent.txt_bobSendingStep2.setVisible(false);
-                bobContent.txt_bobSendingStep3.setVisible(false);
-                bobContent.txt_bobSendingStep4.setVisible(false);
-                bobContent.txt_bobSendingStep5.setVisible(false);
-                aliceContent.txt_aliceReceivingStep5.setVisible(false);
-                aliceContent.txt_aliceReceivingStep6.setVisible(false);
-                aliceContent.txt_aliceReceivingStep7.setVisible(false);
-                aliceContent.txt_aliceReceivingStep8.setVisible(false);
-                aliceContent.txt_aliceReceivingStep9.setVisible(false);
+                bobContent.showStep(this);
+                aliceContent.showStep(this);
             }
 
             @Override
@@ -79,12 +71,12 @@ public class DoubleRatchetBobSendingLogic {
 
                 // Show these elements
                 bobContent.setDiffieHellmanRatchetVisible(true);
-                bobContent.txt_bobSendingStep1.setVisible(true);
+				bobContent.showStep(this);
 
                 // Hide these Elements
                 bobContent.setRootChainVisible(false);
-				bobContent.txt_bobSendingStep2.setVisible(false);
 
+				// TODO verify this line is needed
                 // Pick up user input text
                 bobContent.txt_cipherText.setText(AlgorithmState.get().getAliceEncryptedMessage());
             }
@@ -110,11 +102,10 @@ public class DoubleRatchetBobSendingLogic {
 
                 // Show these labels
                 bobContent.setRootChainVisible(true);
-                bobContent.txt_bobSendingStep2.setVisible(true);
+                bobContent.showStep(this);
 
                 // Hide these Elements
                 bobContent.setSendingChainVisible(false);
-                bobContent.txt_bobSendingStep3.setVisible(false);
             }
 
 			@Override
@@ -139,11 +130,10 @@ public class DoubleRatchetBobSendingLogic {
 
                 // Show these labels
                 bobContent.setSendingChainVisible(true);
-                bobContent.txt_bobSendingStep3.setVisible(true);
+                bobContent.showStep(this);
 
                 // Hide these Elements
                 bobContent.setMessageBoxVisible(false);
-                bobContent.txt_bobSendingStep4.setVisible(false);
 
             }
 
@@ -155,11 +145,6 @@ public class DoubleRatchetBobSendingLogic {
 			@Override
 			public DoubleRatchetStep peekBackward() {
                 return STEP_2;
-			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return BOB;
 			}
         },
         /**
@@ -176,11 +161,10 @@ public class DoubleRatchetBobSendingLogic {
 
                 // Show these labels
                 bobContent.showOnlyMessagePlaintext();
-                bobContent.txt_bobSendingStep4.setVisible(true);
+                bobContent.showStep(this);
+                aliceContent.showStep(this);
 
                 // Hide these Elements
-                bobContent.txt_bobSendingStep5.setVisible(false);
-                aliceContent.txt_aliceReceivingStep5.setVisible(false);
                 aliceContent.setEncryptedMessageBoxVisible(false);
 
                 if (AlgorithmState.get().allowMessageEntering()) {
@@ -246,12 +230,11 @@ public class DoubleRatchetBobSendingLogic {
                 // Show these elements
                 bobContent.setMessageBoxVisible(true);
                 aliceContent.setEncryptedMessageBoxVisible(true);
-                bobContent.txt_bobSendingStep5.setVisible(true);
-                aliceContent.txt_aliceReceivingStep5.setVisible(true);
+				aliceContent.showStep(this);
+				bobContent.showStep(this);
 
                 // Hide these Elements
                 aliceContent.setDiffieHellmanRatchetVisible(false);
-                aliceContent.txt_aliceReceivingStep6.setVisible(false);
 
                 // State
                 bobContent.txt_plainText.setEnabled(false);
@@ -304,12 +287,11 @@ public class DoubleRatchetBobSendingLogic {
                 // Show these elements
                 bobContent.setMessageBoxVisible(true);
                 aliceContent.setEncryptedMessageBoxVisible(true);
-                bobContent.txt_bobSendingStep5.setVisible(true);
-                aliceContent.txt_aliceReceivingStep5.setVisible(true);
+                aliceContent.showStep(this);
+                bobContent.showStep(this);
 
                 // Hide these Elements
                 aliceContent.setDiffieHellmanRatchetVisible(false);
-                aliceContent.txt_aliceReceivingStep6.setVisible(false);
 
                 // State
                 bobContent.txt_plainText.setEnabled(false);
@@ -334,11 +316,6 @@ public class DoubleRatchetBobSendingLogic {
 			public DoubleRatchetStep peekBackward() {
                 return STEP_5_SENDING;
 			}
-
-			@Override
-			public CommunicationEntity shouldShowEntity() {
-				return ALICE;
-			}
         },
         /**
          * Switch to Alice's view and "receive" the encrypted message.
@@ -352,11 +329,10 @@ public class DoubleRatchetBobSendingLogic {
 
                 // Show these labels
                 aliceContent.setDiffieHellmanRatchetVisible(true);
-                aliceContent.txt_aliceReceivingStep6.setVisible(true);
+				aliceContent.showStep(this);
 
                 // Hide these Elements
                 aliceContent.setRootChainVisible(false);
-                aliceContent.txt_aliceReceivingStep7.setVisible(false);
             }
 
 			@Override
@@ -380,11 +356,10 @@ public class DoubleRatchetBobSendingLogic {
 
                 // Show these labels
                 aliceContent.setRootChainVisible(true);
-                aliceContent.txt_aliceReceivingStep7.setVisible(true);
+				aliceContent.showStep(this);
 
                 // Hide these Elements
                 aliceContent.setReceivingChainVisible(false);
-                aliceContent.txt_aliceReceivingStep8.setVisible(false);
 
             }
 
@@ -409,11 +384,10 @@ public class DoubleRatchetBobSendingLogic {
 
                 // Show these labels
                 aliceContent.setReceivingChainVisible(true);
-                aliceContent.txt_aliceReceivingStep8.setVisible(true);
+                aliceContent.showStep(this);
 
                 // Hide these Elements
                 aliceContent.setDecryptedMessageboxVisible(false);
-                aliceContent.txt_aliceReceivingStep9.setVisible(false);
             }
 
 			@Override
@@ -441,16 +415,8 @@ public class DoubleRatchetBobSendingLogic {
                 bobContent.setAllVisible(true);
 
                 // Show Steps
-                bobContent.txt_bobSendingStep1.setVisible(true);
-                bobContent.txt_bobSendingStep2.setVisible(true);
-                bobContent.txt_bobSendingStep3.setVisible(true);
-                bobContent.txt_bobSendingStep4.setVisible(true);
-                bobContent.txt_bobSendingStep5.setVisible(true);
-                aliceContent.txt_aliceReceivingStep5.setVisible(true);
-                aliceContent.txt_aliceReceivingStep6.setVisible(true);
-                aliceContent.txt_aliceReceivingStep7.setVisible(true);
-                aliceContent.txt_aliceReceivingStep8.setVisible(true);
-                aliceContent.txt_aliceReceivingStep8.setVisible(true);
+                aliceContent.showStep(this);
+                bobContent.showStep(this);
 
                 // Show these labels
                 aliceContent.txt_plainText.setVisible(true);
@@ -509,22 +475,6 @@ public class DoubleRatchetBobSendingLogic {
             STEP_0.switchState(swtParent);
             return STEP_0;
         }
-    }
-
-    public void stepForward(DoubleRatchetView swtParent) {
-        currentStep = currentStep.next(swtParent);
-    }
-
-    public void stepBack(DoubleRatchetView swtParent) {
-        currentStep = currentStep.back(swtParent);
-    }
-
-    public void reset(DoubleRatchetView swtParent) {
-        currentStep = BobSendingStep.STEP_0.setInitialState(swtParent);
-    }
-
-    public DoubleRatchetStep getCurrentState() {
-        return currentStep;
     }
 
     /**

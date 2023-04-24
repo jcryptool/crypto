@@ -1,6 +1,9 @@
 package org.jcryptool.visual.signalencryption.ui;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -14,12 +17,11 @@ import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityContent {
     
-    Text txt_bobSendingStep0;
-    Text txt_bobSendingStep1;
-    Text txt_bobSendingStep2;
-    Text txt_bobSendingStep3;
-    Text txt_bobSendingStep4;
-    Text txt_bobSendingStep5;
+    StyledText txt_bobSendingStep1;
+    StyledText txt_bobSendingStep2;
+    StyledText txt_bobSendingStep3;
+    StyledText txt_bobSendingStep4;
+    StyledText txt_bobSendingStep5;
  
     
     FlowChartNode txt_rootChainTop;
@@ -37,6 +39,12 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     
     Text txt_plainText;
     Text txt_cipherText;
+    
+    private String step1 = Messages.DoubleRatchet_Step + " 1 " + Messages.SignalEncryption_stepText1;
+    private String step2 = Messages.DoubleRatchet_Step + " 2 " + Messages.SignalEncryption_stepText2;
+    private String step3 = Messages.DoubleRatchet_Step + " 3 " + Messages.SignalEncryption_stepText3;
+    private String step4 = Messages.DoubleRatchet_Step + " 4 " + Messages.SignalEncryption_stepText4;
+    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Messages.SignalEncryption_aliceStepText5;
     
     private String bobDiffieHellmanLabel1 = Messages.SignalEncryption_bobDiffieHellmanLabel1;
     private String bobDiffieHellmanLabel2 = Messages.SignalEncryption_bobDiffieHellmanLabel2;
@@ -78,6 +86,7 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     private String DiffieHellmanGroupDescription = Messages.SignalEncryption_DiffieHellmanGroupDescription;
     private String SendingChainDescription = Messages.SignalEncryption_SendingChainDescription;
 	private ComponentDrawComposite cmp_bobSendingAlgorithm;
+	private List<StyledText> stepDescriptions;
     
 
     @Override
@@ -85,24 +94,32 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         Composite cmp_bobSendingSteps = new Composite(parent, SWT.NONE);
         cmp_bobSendingSteps.setLayout(Layout.gl_stepsComposite());
         
-        txt_bobSendingStep0 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_bobSendingStep0.setText("Bob sendet eine Nachricht an Alice.");
-        txt_bobSendingStep0.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_bobSendingStep1 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_bobSendingStep1.setText("Schritt 1 Diffie Hellman Ratchet: Nach jeder Nachricht wird ein neuer Diffie Hellman-Schlüssel erstellt. Bob erzeugt dazu Alices Public einen neuen Private Key.");
+        txt_bobSendingStep1 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobSendingStep1.setText(step1);
+        //txt_bobSendingStep1.setText("Schritt 1 Diffie Hellman Ratchet: Nach jeder Nachricht wird ein neuer Diffie Hellman-Schlüssel erstellt. Bob erzeugt dazu Alices Public einen neuen Private Key.");
         txt_bobSendingStep1.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_bobSendingStep2 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_bobSendingStep2.setText("Schritt 2 Root Chain: Der Diffie Hellman-Schlüssel und der Output der letzten KDF der Root Chain wird genutzt um einen neuen Root Chain Key zu erzeugen.");
+        txt_bobSendingStep2 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobSendingStep2.setText(step2);
+        //txt_bobSendingStep2.setText("Schritt 2 Root Chain: Der Diffie Hellman-Schlüssel und der Output der letzten KDF der Root Chain wird genutzt um einen neuen Root Chain Key zu erzeugen.");
         txt_bobSendingStep2.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_bobSendingStep3 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_bobSendingStep3.setText("Schritt 3 Sending Chain: Der Root Chain-Schlüssel und der Output der letzten KDF in der Sending Chain wird genutzt um einen neuen Receiving Chain Key (Message Key) zu erzeugen.");
+        txt_bobSendingStep3 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobSendingStep3.setText(step3);
+        //txt_bobSendingStep3.setText("Schritt 3 Sending Chain: Der Root Chain-Schlüssel und der Output der letzten KDF in der Sending Chain wird genutzt um einen neuen Receiving Chain Key (Message Key) zu erzeugen.");
         txt_bobSendingStep3.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_bobSendingStep4 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_bobSendingStep4.setText("Schritt 4 Nachricht verfassen: Bob kann seine Nachricht an Alice schreiben.");
+        txt_bobSendingStep4 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobSendingStep4.setText(step4);
+        //txt_bobSendingStep4.setText("Schritt 4 Nachricht verfassen: Bob kann seine Nachricht an Alice schreiben.");
         txt_bobSendingStep4.setLayoutData(Layout.gd_shortDescriptionTexts());
-        txt_bobSendingStep5 = new Text(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
-        txt_bobSendingStep5.setText("Schritt 5 Nachricht verschlüsseln & senden: Bob verschlüsselt die Nachricht mit dem Message Key und sendet diese mit seinem Diffie-Hellman-Schlüssel an Alice.");
+        txt_bobSendingStep5 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
+        txt_bobSendingStep5.setText(step5);
+        //txt_bobSendingStep5.setText("Schritt 5 Nachricht verschlüsseln & senden: Bob verschlüsselt die Nachricht mit dem Message Key und sendet diese mit seinem Diffie-Hellman-Schlüssel an Alice.");
         txt_bobSendingStep5.setLayoutData(Layout.gd_shortDescriptionTexts());
+
+        stepDescriptions = List.of(
+                txt_bobSendingStep1, txt_bobSendingStep2, txt_bobSendingStep3,
+                txt_bobSendingStep4, txt_bobSendingStep5
+        );
+        
         return cmp_bobSendingSteps;
     }
 
@@ -376,7 +393,6 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 
 	@Override
 	public void showStep(DoubleRatchetStep step) {
-		// TODO Auto-generated method stub
-		
+		showStep(step, stepDescriptions, 0);
 	}
 }
