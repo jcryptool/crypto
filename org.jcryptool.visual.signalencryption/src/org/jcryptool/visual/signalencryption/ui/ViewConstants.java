@@ -4,15 +4,15 @@ public class ViewConstants {
 
     // height of the plug-in as a whole (this is important for the scrolling of
     // the plug-in)
-    public static final int PLUGIN_HEIGTH = 680;
+    public static final int PLUGIN_HEIGTH = 900;
 
     // width of the plug-in as a whole (this is important for the scrolling of
     // the plug-in)
-    public static final int PLUGIN_WIDTH = 900;
+    public static final int PLUGIN_WIDTH = 1300;
 
     /**
      * Estimated height of the algorithm composite.
-     * 
+     *
      * <p>
      * <b>Note:</b> this is not used as minimum height, but as hint. A minimum
      * height can only be used when grabbing excess space, which we do not do. So in
@@ -24,6 +24,11 @@ public class ViewConstants {
      * The width of the Alice and Bob selection view buttons
      */
     public static final int ENTITY_BUTTON_WIDTH = 150;
+
+    /**
+     * I don't know why, but this offset seems to work best when to compute the height of the explainers textbox
+     * */
+    public static final int EXPLAINER_HEIGHT_OFFSET = 50;
     /**
      * This is the width hint of the algorithm boxes, a major part of the plugin's
      * flow elements.
@@ -49,7 +54,7 @@ public class ViewConstants {
 
     /**
      * Default value of the SWT horizontal spacing.
-     * 
+     *
      * We sometimes have to specify this manually, because we set the default to 0,
      * so that some arrows connect nicely to their neighbours.
      */

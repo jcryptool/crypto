@@ -135,14 +135,14 @@ public class OverviewView extends Composite {
     private void createDoubleRatchetInformation() {
 
         txt_doubleRatchetExplanation = new StyledText(grp_doubleRatchetInfo, SWT.BORDER);
-        txt_doubleRatchetExplanation.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        txt_doubleRatchetExplanation.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         txt_doubleRatchetExplanation.setText(Messages.Overview_DoubleRatchetOverview);
 
         btn_switchToDoubleRatchetView = new Button(grp_doubleRatchetInfo, SWT.PUSH);
         btn_switchToDoubleRatchetView.setFont(FontService.getNormalBoldFont());
         btn_switchToDoubleRatchetView.setText(Messages.Overview_showDoubleRatchet);
         btn_switchToDoubleRatchetView
-                .setLayoutData(GridDataBuilder.with(SWT.CENTER, SWT.TOP, true, false).heightHint(40).get());
+                .setLayoutData(GridDataBuilder.with(SWT.CENTER, SWT.TOP, false, false).heightHint(40).get());
         btn_switchToDoubleRatchetView
                 .addSelectionListener(onSelection(selectionEvent -> parentView.setTab(Tab.DOUBLE_RATCHET)));
         insertHorizontalSeparator(grp_doubleRatchetInfo);
