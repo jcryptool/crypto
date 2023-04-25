@@ -188,10 +188,10 @@ public class MessageContext {
 
     public List<SimpleEntry<String, String>> senderRootOutput() {
         var newRootKey = toHex(sendingCapture.rootKdfOutput.getRootKey());
-        var chainKey = toHex(sendingCapture.rootKdfOutput.getChainKey());
+        var chainOutput = toHex(sendingCapture.rootKdfOutput.getChainKey());
         return List.of(
                 new SimpleEntry<>(Messages.DoubleRatchet_TypeNewRootChainKey, newRootKey),
-                new SimpleEntry<>(Messages.DoubleRatchet_TypeChainKey, chainKey)
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeRootOutput, chainOutput)
         );
     }
 
@@ -209,10 +209,10 @@ public class MessageContext {
 
     public List<SimpleEntry<String, String>> receiverRootOutput() {
         var newRootKey = toHex(receivingCapture.rootKdfOutput.getRootKey());
-        var chainKey = toHex(receivingCapture.rootKdfOutput.getChainKey());
+        var chainOutput = toHex(receivingCapture.rootKdfOutput.getChainKey());
         return List.of(
                 new SimpleEntry<>(Messages.DoubleRatchet_TypeNewRootChainKey, newRootKey),
-                new SimpleEntry<>(Messages.DoubleRatchet_TypeChainKey, chainKey)
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeRootOutput, chainOutput)
         );
     }
 

@@ -185,7 +185,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
 
         txt_rootChainMid = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelMid)
                 .popupProvider(FlowChartNodePopup.create(
-                        Messages.DoubleRatchet_TypeRootChainKey, DUMMY,
+                        Messages.DoubleRatchet_TypeRootOutput, DUMMY,
                         Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY))
                 .operationNode();
         txt_rootChainMid.setLayoutData(Layout.gd_algorithmNodes());

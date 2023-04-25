@@ -129,6 +129,7 @@ public class Messages extends NLS {
     public static String DoubleRatchet_TypeChainKey;
     public static String DoubleRatchet_TypeNewChainKey;
     public static String DoubleRatchet_TypeRootChainKey;
+    public static String DoubleRatchet_TypeRootOutput;
     public static String DoubleRatchet_TypeNewRootChainKey;
     public static String DoubleRatchet_TypeBytes;
     public static String DoubleRatchet_TypeSymmAes;
