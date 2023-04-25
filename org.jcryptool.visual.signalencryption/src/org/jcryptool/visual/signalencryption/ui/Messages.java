@@ -105,6 +105,21 @@ public class Messages extends NLS {
     public static String DoubleRatchet_waitingForInitialMessage;
     public static String DoubleRatchet_waitingForAnyMessage;
 
+    public static String DoubleRatchet_DiffieHellmanLabelTop;
+    public static String DoubleRatchet_DiffieHellmanLabelMid;
+    public static String DoubleRatchet_DiffieHellmanLabelBot;
+    public static String DoubleRatchet_RootChainLabelTop;
+    public static String DoubleRatchet_RootChainLabelMid;
+    public static String DoubleRatchet_RootChainLabelBot;
+    public static String DoubleRatchet_SendingChainLabelTop;
+    public static String DoubleRatchet_SendingChainLabelMid;
+    public static String DoubleRatchet_SendingChainLabelBot;
+    public static String DoubleRatchet_ReceivingChainLabelTop;
+    public static String DoubleRatchet_ReceivingChainLabelMid;
+    public static String DoubleRatchet_ReceivingChainLabelBot;
+    public static String DoubleRatchet_ChainLabelConst;
+    public static String DoubleRatchet_MessageKeyLabel;
+
     // Table Values - Second Column, description of the keys
     public static String SignalEncryption_DescText_Diffie_Private;
     public static String SignalEncryption_DescText_Diffie_Public;

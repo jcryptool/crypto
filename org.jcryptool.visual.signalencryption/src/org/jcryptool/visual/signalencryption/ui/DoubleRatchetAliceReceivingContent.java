@@ -45,17 +45,19 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     private String step8 = Messages.DoubleRatchet_Step + " 8 " + Templating.forAlice(Messages.DoubleRatchet_Step8);
     private String step9 = Messages.DoubleRatchet_Step + " 9 " + Templating.forAlice(Messages.DoubleRatchet_Step9);
 
-    private String aliceDiffieHellmanLabel1 = Messages.SignalEncryption_aliceDiffieHellmanLabel1;
-    private String aliceDiffieHellmanLabel2 = Messages.SignalEncryption_aliceDiffieHellmanLabel2;
-    private String aliceDiffieHellmanLabel3 = Messages.SignalEncryption_aliceDiffieHellmanLabel3;
-    private String aliceRootChainLabel1 = Messages.SignalEncryption_aliceRootChainLabel1;
-    private String aliceRootChainLabel2 = Messages.SignalEncryption_aliceRootChainLabel2;
-    private String aliceRootChainLabel3 = Messages.SignalEncryption_aliceRootChainLabel3;
-    private String aliceReceivingChainLabel1 = Messages.SignalEncryption_aliceReceivingChainLabel1;
-    private String aliceReceivingChainLabel2 = Messages.SignalEncryption_aliceReceivingChainLabel2;
-    private String aliceReceivingChainLabel3 = Messages.SignalEncryption_aliceReceivingChainLabel3;
-    private String aliceReceivingChainLabel4 = Messages.SignalEncryption_aliceReceivingChainLabel4;
-    private String aliceReceivingChainLabel5 = Messages.SignalEncryption_aliceReceivingChainLabel5;
+    private String DiffieHellmanLabelTop = Templating.forAlice(Messages.DoubleRatchet_DiffieHellmanLabelTop);
+    private String DiffieHellmanLabelMid = Templating.forAlice(Messages.DoubleRatchet_DiffieHellmanLabelMid);
+    private String DiffieHellmanLabelBot = Templating.forAlice(Messages.DoubleRatchet_DiffieHellmanLabelBot);
+    private String RootChainLabelTop = Messages.DoubleRatchet_RootChainLabelTop;
+    private String RootChainLabelMid = Messages.DoubleRatchet_RootChainLabelMid;
+    private String RootChainLabelBot = Messages.DoubleRatchet_RootChainLabelBot;
+    private String ReceivingChainLabelTop = Messages.DoubleRatchet_ReceivingChainLabelTop;
+    private String ReceivingChainLabelMid = Messages.DoubleRatchet_ReceivingChainLabelMid;
+    private String ReceivingChainLabelBot = Messages.DoubleRatchet_ReceivingChainLabelBot;
+    private String ChainLabelConst = Messages.DoubleRatchet_ChainLabelConst;
+    private String MessageKeyLabel = Messages.DoubleRatchet_MessageKeyLabel;
+
+
 
     private String MessageboxCipherText = "The Ciphertext";
     private String MessageboxPlainText = "Geben Sie hier Ihre Nachricht an Alice ein.";
@@ -140,7 +142,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         grp_diffieHellman.setLayout(Layout.gl_diffieHellmanComposite());
         grp_diffieHellman.setLayoutData(Layout.gd_diffieHellmanComposite());
 
-        txt_diffieHellmanTop = new FlowChartNode.Builder(grp_diffieHellman).title(aliceDiffieHellmanLabel1)
+        txt_diffieHellmanTop = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelTop)
                 .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).buildValueNode();
         txt_diffieHellmanTop.setLayoutData(Layout.gd_algorithmNodes());
 
@@ -149,11 +151,11 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
                 .toAnchorX(grp_diffieHellman, Side.EAST).toAnchorY(txt_diffieHellmanTop, Side.EAST)
                 .incomingDirection(Side.EAST).on(cmp_aliceReceivingAlgorithm).create();
 
-        txt_diffieHellmanMid = new FlowChartNode.Builder(grp_diffieHellman).title(aliceDiffieHellmanLabel2)
+        txt_diffieHellmanMid = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelMid)
                 .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).buildOperationNode();
         txt_diffieHellmanMid.setLayoutData(Layout.gd_algorithmNodes());
 
-        txt_diffieHellmanBot = new FlowChartNode.Builder(grp_diffieHellman).title(aliceDiffieHellmanLabel3)
+        txt_diffieHellmanBot = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelBot)
                 .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).buildValueNode();
         txt_diffieHellmanBot.setLayoutData(Layout.gd_algorithmNodes());
 
@@ -176,15 +178,15 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         grp_rootChain.setLayout(Layout.gl_rootChainComposite(SWT.RIGHT));
         grp_rootChain.setLayoutData(Layout.gd_rootChainComposite());
 
-        txt_rootChainTop = new FlowChartNode.Builder(grp_rootChain).title(aliceRootChainLabel1)
+        txt_rootChainTop = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelTop)
                 .popupProvider(FlowChartNodePopup.create("Root chain", "0")).buildValueNode();
         txt_rootChainTop.setLayoutData(Layout.gd_algorithmNodes());
 
-        txt_rootChainConst = new FlowChartNode.Builder(grp_rootChain).title(aliceReceivingChainLabel3)
+        txt_rootChainConst = new FlowChartNode.Builder(grp_rootChain).title(ChainLabelConst)
                 .popupProvider(FlowChartNodePopup.create("Konstante", "0")).buildValueNode();
         txt_rootChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
-        txt_rootChainMid = new FlowChartNode.Builder(grp_rootChain).title(aliceRootChainLabel2)
+        txt_rootChainMid = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelMid)
                 .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).buildOperationNode();
         txt_rootChainMid.setLayoutData(Layout.gd_algorithmNodes());
 
@@ -196,7 +198,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         arr_rootChain2 = ArrowComponent.from(txt_rootChainConst).south().to(txt_rootChainMid).east()
                 .on(cmp_aliceReceivingAlgorithm).create();
 
-        txt_rootChainBot = new FlowChartNode.Builder(grp_rootChain).title(aliceRootChainLabel3)
+        txt_rootChainBot = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelBot)
                 .popupProvider(FlowChartNodePopup.create("Neuer Root key", "0")).buildValueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
@@ -217,15 +219,15 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         grp_receivingChain.setLayoutData(Layout.gd_sendingReceivingChainComposite());
         grp_receivingChain.setText(ReceivingChainDescription);
 
-        txt_receivingChainTop = new FlowChartNode.Builder(grp_receivingChain).title(aliceReceivingChainLabel1)
+        txt_receivingChainTop = new FlowChartNode.Builder(grp_receivingChain).title(ReceivingChainLabelTop)
                 .popupProvider(FlowChartNodePopup.create("Receive Chain Key", "0")).buildValueNode();
         txt_receivingChainTop.setLayoutData(Layout.gd_algorithmNodes());
 
-        txt_receivingChainConst = new FlowChartNode.Builder(grp_receivingChain).title(aliceReceivingChainLabel2)
+        txt_receivingChainConst = new FlowChartNode.Builder(grp_receivingChain).title(ChainLabelConst)
                 .popupProvider(FlowChartNodePopup.create("Constant", "0")).buildValueNode();
         txt_receivingChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
-        txt_receivingChainMid = new FlowChartNode.Builder(grp_receivingChain).title(aliceReceivingChainLabel3)
+        txt_receivingChainMid = new FlowChartNode.Builder(grp_receivingChain).title(ReceivingChainLabelMid)
                 .popupProvider(FlowChartNodePopup.create("KDF", "0")).buildOperationNode();
         txt_receivingChainMid.setLayoutData(Layout.gd_algorithmNodes());
 
@@ -236,7 +238,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         arr_receivingChain2 = ArrowComponent.from(txt_receivingChainConst).south().to(txt_receivingChainMid).east()
                 .on(cmp_aliceReceivingAlgorithm).create();
 
-        txt_receivingChainBot = new FlowChartNode.Builder(grp_receivingChain).title(aliceReceivingChainLabel5)
+        txt_receivingChainBot = new FlowChartNode.Builder(grp_receivingChain).title(ReceivingChainLabelBot)
                 .popupProvider(FlowChartNodePopup.create("Neuer Receiving Chain Key", "0")).buildValueNode();
         txt_receivingChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
@@ -284,7 +286,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         grp_decryptedMessage.setLayoutData(Layout.gd_messageBoxComposite());
         grp_decryptedMessage.setText("Nachricht entschlüsseln");
 
-        txt_messageKeys = new FlowChartNode.Builder(grp_decryptedMessage).title(aliceReceivingChainLabel4)
+        txt_messageKeys = new FlowChartNode.Builder(grp_decryptedMessage).title(MessageKeyLabel)
                 .popupProvider(FlowChartNodePopup.create("MessageKeys", "0")).buildValueNode();
         txt_messageKeys.setLayoutData(Layout.gd_algorithmNodes());
 
