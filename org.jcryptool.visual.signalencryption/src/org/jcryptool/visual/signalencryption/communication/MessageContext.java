@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
 import org.jcryptool.visual.signalencryption.algorithm.SessionManager;
 import org.jcryptool.visual.signalencryption.ui.Messages;
+import org.jcryptool.visual.signalencryption.util.Templating;
 import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SessionCipher.EncryptCallbackHandler;
 import org.whispersystems.libsignal.SignalProtocolAddress;
@@ -277,19 +278,20 @@ public class MessageContext {
     }
 
     public static class Builder {
-        private CommunicationEntity sendingEntity = ALICE;
-        private String message = Messages.SignalEncryption_aliceDefaultMessage;
+
+        private static final String DEFAULT_MSG_ALICE = Templating.forAlice(Messages.DoubleRatchet_DefaultPlainText);
+        private static final String DEFAULT_MSG_BOB =  Templating.forBob(Messages.DoubleRatchet_DefaultPlainText);
+
+        private final CommunicationEntity sendingEntity;
+        private final String message;
         private SessionCipher aliceCipher;
         private SessionCipher bobCipher;
         private JCrypToolCapturer sendingCapture;
         private JCrypToolCapturer receivingCapture = new JCrypToolCapturer();
 
-        private static final String DEFAULT_MESSAGE_ALICE = Messages.SignalEncryption_aliceDefaultMessage;
-        private static final String DEFAULT_MESSAGE_BOB = Messages.SignalEncryption_bobDefaultMessage;
-
         public Builder(CommunicationEntity sendingEntity) {
             this.sendingEntity = sendingEntity;
-            this.message = sendingEntity == ALICE ? DEFAULT_MESSAGE_ALICE : DEFAULT_MESSAGE_BOB;
+            this.message = sendingEntity == ALICE ? DEFAULT_MSG_ALICE : DEFAULT_MSG_BOB;
         }
 
         public Builder sendingCapture(JCrypToolCapturer sendingCapture) {
@@ -311,11 +313,6 @@ public class MessageContext {
             this.bobCipher = bobSessionCipher;
             return this;
         }
-
-        // public Builder encryptHandler(EncryptCallbackHandler encryptHandler) {
-        // this.encryptHandler = encryptHandler;
-        // return this;
-        // }
 
         public MessageContext build() {
             // Don't call build() without setting these values

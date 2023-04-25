@@ -54,16 +54,9 @@ public class DoubleRatchetView extends Composite {
     Composite cmp_bobSendingAlgorithm;
     Composite cmp_bobReceivingAlgorithm;
 
-    String aliceAlgorithmGroupDescription = Messages.SignalEncryption_alice_AlgorithmGroupDescription;
-    String bobAlgorithmGroupDescription = Messages.SignalEncryption_bob_AlgorithmGroupDescription;
-    String stepGroupDescription = Messages.SignalEncryption_stepGroupDescription;
-    String DiffieHellmanGroupDescription = Messages.SignalEncryption_DiffieHellmanGroupDescription;
-    String RootChainDescription = Messages.SignalEncryption_RootChainDescription;
-    String SendingChainDescription = Messages.SignalEncryption_SendingChainDescription;
-    String ReceivingChainDescription = Messages.SignalEncryption_ReceivingChainDescription;
-    String MessageboxDescription = Messages.SignalEncryption_MessageboxDescription;
-    String btn_NextDescription = Messages.SignalEncryption_btnName_Next;
-    String btn_PreviousDescription = Messages.SignalEncryption_btnName_Previous;
+    String stepGroupDescription = Messages.DoubleRatchet_stepGroupDescription;
+    String btn_NextDescription = Messages.DoubleRatchet_buttonNext;
+    String btn_PreviousDescription = Messages.DoubleRatchet_buttonBack;
 
     StackLayout sl_aliceSteps;
     StackLayout sl_bobSteps;
@@ -131,7 +124,7 @@ public class DoubleRatchetView extends Composite {
         btn_alice.setAlignment(SWT.CENTER);
 
         btn_alice.setLayoutData(leftAlignedLayoutData());
-        btn_alice.setText(Messages.SignalEncryption_btnName_Alice);
+        btn_alice.setText(Messages.Name_Alice);
 
         btn_alice.addSelectionListener(UiUtils.onSelection((selectionEvent) -> {
             showAliceView();
@@ -143,7 +136,7 @@ public class DoubleRatchetView extends Composite {
         btn_bob = new Button(cmp_buttons, SWT.TOGGLE);
         btn_bob.setAlignment(SWT.CENTER);
         btn_bob.setLayoutData(rightAlignedLayoutData());
-        btn_bob.setText(Messages.SignalEncryption_btnName_Bob);
+        btn_bob.setText(Messages.Name_Bob);
 
         btn_bob.addSelectionListener(UiUtils.onSelection((selectionEvent) -> {
             showBobView();
@@ -218,7 +211,7 @@ public class DoubleRatchetView extends Composite {
         grp_bobSteps.setLayoutData(Layout.gd_stepsComposite());
 
         sl_bobAlgorithm = new StackLayout();
-        grp_bobAlgorithm.setText(bobAlgorithmGroupDescription);
+        grp_bobAlgorithm.setText(Messages.Name_Bob);
         grp_bobAlgorithm.setLayout(sl_bobAlgorithm);
         grp_bobAlgorithm.setLayoutData(Layout.gd_algorithmGroup());
 
@@ -245,7 +238,7 @@ public class DoubleRatchetView extends Composite {
         grp_aliceSteps = new Group(cmp_alice, SWT.NONE);
         grp_aliceAlgorithm = new Group(cmp_alice, SWT.NONE);
 
-        grp_aliceAlgorithm.setText(aliceAlgorithmGroupDescription);
+        grp_aliceAlgorithm.setText(Messages.Name_Alice);
         grp_aliceAlgorithm.setLayout(Layout.gl_algorithmGroup());
         grp_aliceAlgorithm.setLayoutData(Layout.gd_algorithmGroup());
 

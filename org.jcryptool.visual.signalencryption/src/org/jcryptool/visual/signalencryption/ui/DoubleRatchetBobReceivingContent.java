@@ -64,13 +64,11 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     private String MessageKeyLabel = Messages.DoubleRatchet_MessageKeyLabel;
 
     private String step = Messages.DoubleRatchet_Step;
-    private String DiffieHellmanGroupDescription = step + " 6" + Messages.SignalEncryption_DiffieHellmanGroupDescription;
-    private String RootChainDescription = step + " 7" + Messages.SignalEncryption_RootChainDescription;
-    private String ReceivingChainDescription = step + " 8" + Messages.SignalEncryption_ReceivingChainDescription;
-
-    private String MessageboxCipherText = "The Ciphertext";
-    private String MessageboxPlainText = "Geben Sie hier Ihre Nachricht an Bob ein.";
-    private String MessageboxDescription = Messages.SignalEncryption_MessageboxDescription;
+    private String DiffieHellmanGroupDescription = step + " 6" + Messages.DoubleRatchet_DiffieHellmanGroupDescription;
+    private String RootChainDescription = step + " 7" + Messages.DoubleRatchet_RootChainDescription;
+    private String ReceivingChainDescription = step + " 8" + Messages.DoubleRatchet_ReceivingChainDescription;
+    private String DecryptionDescription = step + " 9" + Messages.DoubleRatchet_MessageDecryptionDescription;
+    private String MessageboxDescription = Messages.DoubleRatchet_MessageBoxDescription;
 
     protected ArrowComponent arr_bobMessagePublicKey;
     protected ArrowComponent arr_receivingChain1;
@@ -181,7 +179,6 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         grp_messageBox.setText(MessageboxDescription);
 
         txt_cipherText = new Text(grp_messageBox, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
-        txt_cipherText.setText(MessageboxCipherText);
         txt_cipherText.setLayoutData(Layout.gd_Messagebox());
         txt_cipherText.setEditable(false);
         txt_cipherText.setFont(FontService.getNormalMonospacedFont());
@@ -238,11 +235,11 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         grp_rootChain.setLayoutData(Layout.gd_rootChainComposite());
 
         txt_rootChainConst = new FlowChartNode.Builder(grp_rootChain).title(ChainLabelConst)
-                .popupProvider(FlowChartNodePopup.create("Constant", "WhisperChain")).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeBytes, DUMMY)).valueNode();
         txt_rootChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
         txt_rootChainTop = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelTop)
-                .popupProvider(FlowChartNodePopup.create("Root-Key", "4")).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeRootChainKey, DUMMY)).valueNode();
         txt_rootChainTop.setLayoutData(Layout.gd_algorithmNodes());
 
         UiUtils.insertSpacers(grp_rootChain, 1, ViewConstants.BOX_WIDTH_SLIM);
@@ -260,7 +257,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         UiUtils.insertSpacers(grp_rootChain, 1);
 
         txt_rootChainBot = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create("Root-Key", "5")).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY)).valueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
         arr_rootChain2 = ArrowComponent.from(txt_rootChainTop).south().to(txt_rootChainMid).north()
                 .on(cmp_bobReceivingAlgorithm).withDefaults();
@@ -283,11 +280,11 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         grp_receivingChain.setText(ReceivingChainDescription);
 
         txt_receivingChainConst = new FlowChartNode.Builder(grp_receivingChain).title(ChainLabelConst)
-                .popupProvider(FlowChartNodePopup.create("Constant", "WhisperMessage")).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeBytes, DUMMY)).valueNode();
         txt_receivingChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
         txt_receivingChainTop = new FlowChartNode.Builder(grp_receivingChain).title(ReceivingChainLabelTop)
-                .popupProvider(FlowChartNodePopup.create("Chain-Key", "7")).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeChainKey, DUMMY)).valueNode();
         txt_receivingChainTop.setLayoutData(Layout.gd_algorithmNodes());
 
         UiUtils.insertSpacers(grp_receivingChain, 1, ViewConstants.BOX_WIDTH_SLIM);
@@ -308,7 +305,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         UiUtils.insertSpacers(grp_receivingChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 
         txt_receivingChainBot = new FlowChartNode.Builder(grp_receivingChain).title(ReceivingChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create("Message-Key", "9")).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewChainKey, DUMMY)).valueNode();
         txt_receivingChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_receivingChain3 = ArrowComponent.from(txt_receivingChainMid).south().to(txt_receivingChainBot).north()
@@ -326,15 +323,15 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     private void createDecryptedMessagebox() {
         grp_decryptedMessage.setLayout(Layout.gl_messageBoxGroup());
         grp_decryptedMessage.setLayoutData(Layout.gd_messageBoxComposite());
-        grp_decryptedMessage.setText("Nachricht entschlüsseln");
+        grp_decryptedMessage.setText(DecryptionDescription);
 
         txt_messageKeys = new FlowChartNode.Builder(grp_decryptedMessage).title(MessageKeyLabel)
-                .popupProvider(FlowChartNodePopup.create("Message Keys", "10")).valueNode();
+                .popupProvider(FlowChartNodePopup.create(MessageKeyLabel, DUMMY)).valueNode();
         txt_messageKeys.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_plainText = new Text(grp_decryptedMessage,
                 SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);
-        txt_plainText.setText(MessageboxPlainText);
+        txt_plainText.setText(Templating.forBob(Messages.DoubleRatchet_DefaultPlainText));
         txt_plainText.setLayoutData(Layout.gd_Messagebox());
         txt_plainText.setEditable(false);
     }

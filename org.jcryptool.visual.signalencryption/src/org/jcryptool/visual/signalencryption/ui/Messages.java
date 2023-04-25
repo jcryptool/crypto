@@ -75,6 +75,9 @@ public class Messages extends NLS {
     public static String Overview_QuestionDoubleRatchetInit;
     public static String Overview_AnswerDoubleRatchetInit;
 
+    public static String DoubleRatchet_buttonNext;
+    public static String DoubleRatchet_buttonBack;
+
     public static String DoubleRatchet_Step1Initial;
     public static String DoubleRatchet_Step2Initial;
     public static String DoubleRatchet_Step3Initial;
@@ -127,79 +130,20 @@ public class Messages extends NLS {
     public static String DoubleRatchet_TypeNewChainKey;
     public static String DoubleRatchet_TypeRootChainKey;
     public static String DoubleRatchet_TypeNewRootChainKey;
-
+    public static String DoubleRatchet_TypeBytes;
     public static String DoubleRatchet_TypeSymmAes;
     public static String DoubleRatchet_TypeSymmCount;
     public static String DoubleRatchet_TypeSymmIv;
     public static String DoubleRatchet_TypeSymmMac;
 
-    // Table Values - Second Column, description of the keys
-    public static String SignalEncryption_DescText_Diffie_Private;
-    public static String SignalEncryption_DescText_Diffie_Public;
-    public static String SignalEncryption_DescText_Shared;
-    public static String SignalEncryption_DescText_Root;
-    public static String SignalEncryption_DescText_Sending;
-    public static String SignalEncryption_DescText_Receiving;
-    public static String SignalEncryption_DescText_MsgKey;
-
-    // Dummy Text for not implemented Keys
-    public static String SignalEncryption_Dummy;
-
-    // Double Ratchet Strings - All text variables which can be found in the tab
-    // "Double Ratchet"
-    public static String SignalEncryption_btnName_Alice;
-    public static String SignalEncryption_btnName_Bob;
-
-    public static String SignalEncryption_alice_AlgorithmGroupDescription;
-    public static String SignalEncryption_bob_AlgorithmGroupDescription;
-    public static String SignalEncryption_stepGroupDescription;
-    public static String SignalEncryption_DiffieHellmanGroupDescription;
-    public static String SignalEncryption_RootChainDescription;
-    public static String SignalEncryption_SendingChainDescription;
-    public static String SignalEncryption_ReceivingChainDescription;
-    public static String SignalEncryption_MessageboxDescription;
-
-    public static String SignalEncryption_aliceDiffieHellmanLabel1;
-    public static String SignalEncryption_aliceDiffieHellmanLabel2;
-    public static String SignalEncryption_aliceDiffieHellmanLabel3;
-    public static String SignalEncryption_bobDiffieHellmanLabel1;
-    public static String SignalEncryption_bobDiffieHellmanLabel2;
-    public static String SignalEncryption_bobDiffieHellmanLabel3;
-
-    public static String SignalEncryption_aliceRootChainLabel1;
-    public static String SignalEncryption_aliceRootChainLabel2;
-    public static String SignalEncryption_aliceRootChainLabel3;
-    public static String SignalEncryption_bobRootChainLabel1;
-    public static String SignalEncryption_bobRootChainLabel2;
-    public static String SignalEncryption_bobRootChainLabel3;
-
-    public static String SignalEncryption_aliceSendingChainLabel1;
-    public static String SignalEncryption_aliceSendingChainLabel2;
-    public static String SignalEncryption_aliceSendingChainLabel3;
-    public static String SignalEncryption_aliceSendingChainLabel4;
-    public static String SignalEncryption_aliceSendingChainLabel5;
-    public static String SignalEncryption_bobSendingChainLabel1;
-    public static String SignalEncryption_bobSendingChainLabel2;
-    public static String SignalEncryption_bobSendingChainLabel3;
-    public static String SignalEncryption_bobSendingChainLabel4;
-    public static String SignalEncryption_bobSendingChainLabel5;
-
-    public static String SignalEncryption_aliceDefaultMessage;
-    public static String SignalEncryption_bobDefaultMessage;
-
-    public static String SignalEncryption_aliceReceivingChainLabel1;
-    public static String SignalEncryption_aliceReceivingChainLabel2;
-    public static String SignalEncryption_aliceReceivingChainLabel3;
-    public static String SignalEncryption_aliceReceivingChainLabel4;
-    public static String SignalEncryption_aliceReceivingChainLabel5;
-    public static String SignalEncryption_bobReceivingChainLabel1;
-    public static String SignalEncryption_bobReceivingChainLabel2;
-    public static String SignalEncryption_bobReceivingChainLabel3;
-    public static String SignalEncryption_bobReceivingChainLabel4;
-    public static String SignalEncryption_bobReceivingChainLabel5;
-
-    public static String SignalEncryption_btnName_Next;
-    public static String SignalEncryption_btnName_Previous;
+    public static String DoubleRatchet_stepGroupDescription;
+    public static String DoubleRatchet_DiffieHellmanGroupDescription;
+    public static String DoubleRatchet_RootChainDescription;
+    public static String DoubleRatchet_SendingChainDescription;
+    public static String DoubleRatchet_ReceivingChainDescription;
+    public static String DoubleRatchet_MessageBoxDescription;
+    public static String DoubleRatchet_MessageDecryptionDescription;
+    public static String DoubleRatchet_DefaultPlainText;
 
     static {
         // initialize resource bundle
@@ -208,5 +152,4 @@ public class Messages extends NLS {
 
     private Messages() {
     }
-
 }

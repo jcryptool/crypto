@@ -19,7 +19,6 @@ public class Explainer {
     private ExpandItem collapsable;
     private Composite content;
 
-    public static final int HEIGHT_HINT = SWT.DEFAULT;
     private StyledText descriptionText;
 
     public Explainer(Composite parent, int style, String title, String description) {
@@ -48,7 +47,7 @@ public class Explainer {
         descriptionText.setEditable(false);
 
         collapsable.setControl(content);
-        collapsable.setHeight(content.computeSize(SWT.DEFAULT, HEIGHT_HINT).y);
+        collapsable.setHeight(content.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
     }
 
     public Explainer setLayoutData(GridData gridData) {
@@ -70,13 +69,9 @@ public class Explainer {
             @Override
             public void itemExpanded(ExpandEvent e) {
                 Display.getDefault().asyncExec(() -> {
-                    var contentSize = content.computeSize(SWT.DEFAULT, HEIGHT_HINT);
+                    var contentSize = content.computeSize(SWT.DEFAULT, SWT.DEFAULT);
                     var textSize = descriptionText.computeSize(contentSize.x, SWT.DEFAULT);
-                    System.out.println(collapsable.getHeight());
-                    System.out.println(content.getSize());
-                    System.out.printf("StyledText size: %s%n", textSize);
-                    System.out.printf("StyledText actualSize: %s%n", descriptionText.getSize());
-                    collapsable.setHeight(descriptionText.getSize().y + contentSize.y);
+                    collapsable.setHeight(textSize.y + contentSize.y);
                     parent.layout();
                 });
             }

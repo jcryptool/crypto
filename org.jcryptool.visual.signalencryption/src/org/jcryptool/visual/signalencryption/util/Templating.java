@@ -2,15 +2,18 @@ package org.jcryptool.visual.signalencryption.util;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.osgi.util.NLS;
 import org.jcryptool.visual.signalencryption.ui.Messages;
 
 public class Templating {
 
+    private static final Pattern TEMPLATE = Pattern.compile("\\{[a-zA-Z0-9_]+\\}");
     private static final Map<String, String> BOB_TOKENS = Map.of(
                 "{Name}", Messages.Name_Bob,
                 "{NameGenitive}", Messages.Name_BobGenitive,
+                "{OtherName}", Messages.Name_Alice,
                 "{OtherNameGenitive}", Messages.Name_AliceGenitive,
                 "{Pronoun}", capitalize(Messages.Name_BobPronoun),
                 "{pronoun}", Messages.Name_BobPronoun,
@@ -21,6 +24,7 @@ public class Templating {
     private static final Map<String, String> ALICE_TOKENS = Map.of(
                 "{Name}", Messages.Name_Alice,
                 "{NameGenitive}", Messages.Name_AliceGenitive,
+                "{OtherName}", Messages.Name_Bob,
                 "{OtherNameGenitive}", Messages.Name_BobGenitive,
                 "{Pronoun}", capitalize(Messages.Name_AlicePronoun),
                 "{pronoun}", Messages.Name_AlicePronoun,
@@ -63,7 +67,9 @@ public class Templating {
                 sb.append('{').append(i).append('}').append(' ');
                 i++;
                 replacements.add(templates.get(token));
-            } else {
+            } else if (TEMPLATE.matcher(token).find()) {
+                throw new TemplatingException("Found template " + token + " but did not find key/value to relace with");
+            }else {
                 sb.append(token).append(' ');
             }
         }
@@ -76,6 +82,13 @@ public class Templating {
 
     private Templating() {
         // prevent instantiation of all-static class
+    }
+
+    public static class TemplatingException extends RuntimeException {
+
+        public TemplatingException(String message) {
+            super(message);
+        }
     }
 
 }
