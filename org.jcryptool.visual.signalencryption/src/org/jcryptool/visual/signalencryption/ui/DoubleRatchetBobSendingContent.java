@@ -95,32 +95,18 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 
         txt_bobSendingStep1 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobSendingStep1.setText(step1);
-        // txt_bobSendingStep1.setText("Schritt 1 Diffie Hellman Ratchet: Nach jeder
-        // Nachricht wird ein neuer Diffie Hellman-Schlüssel erstellt. Bob erzeugt dazu
-        // Alices Public einen neuen Private Key.");
         txt_bobSendingStep1.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_bobSendingStep2 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobSendingStep2.setText(step2);
-        // txt_bobSendingStep2.setText("Schritt 2 Root Chain: Der Diffie
-        // Hellman-Schlüssel und der Output der letzten KDF der Root Chain wird genutzt
-        // um einen neuen Root Chain Key zu erzeugen.");
         txt_bobSendingStep2.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_bobSendingStep3 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobSendingStep3.setText(step3);
-        // txt_bobSendingStep3.setText("Schritt 3 Sending Chain: Der Root
-        // Chain-Schlüssel und der Output der letzten KDF in der Sending Chain wird
-        // genutzt um einen neuen Receiving Chain Key (Message Key) zu erzeugen.");
         txt_bobSendingStep3.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_bobSendingStep4 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobSendingStep4.setText(step4);
-        // txt_bobSendingStep4.setText("Schritt 4 Nachricht verfassen: Bob kann seine
-        // Nachricht an Alice schreiben.");
         txt_bobSendingStep4.setLayoutData(Layout.gd_shortDescriptionTexts());
         txt_bobSendingStep5 = new StyledText(cmp_bobSendingSteps, SWT.READ_ONLY | SWT.WRAP);
         txt_bobSendingStep5.setText(step5);
-        // txt_bobSendingStep5.setText("Schritt 5 Nachricht verschlüsseln & senden: Bob
-        // verschlüsselt die Nachricht mit dem Message Key und sendet diese mit seinem
-        // Diffie-Hellman-Schlüssel an Alice.");
         txt_bobSendingStep5.setLayoutData(Layout.gd_shortDescriptionTexts());
 
         stepDescriptions = List.of(txt_bobSendingStep1, txt_bobSendingStep2, txt_bobSendingStep3, txt_bobSendingStep4,
@@ -153,10 +139,8 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     }
 
     private void createOutgoingMailIcon() {
-        drw_outgoingMailIcon = ImageComponent.on(cmp_bobSendingAlgorithm).xOffsetFromEast() // so we don't have to
-                                                                                            // subtract the width of the
-                                                                                            // image ourself as we draw
-                                                                                            // to the left.
+        drw_outgoingMailIcon = ImageComponent.on(cmp_bobSendingAlgorithm)
+                .xOffsetFromEast() // so we don't have to subtract the width of the img ourself (we draw to the left)
                 .setAnchorLater() // defer setting the location until the object is created
                 .offsetX(-ViewConstants.MAIL_ICON_X_OFFSET) // minus because we want to draw to the left
                 .outgoingMailLeft();
@@ -177,15 +161,15 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         grp_diffieHellman.setLayoutData(Layout.gd_diffieHellmanComposite());
 
         txt_diffieHellmanTop = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelTop)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeEcPublic, DUMMY)).valueNode();
         txt_diffieHellmanTop.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_diffieHellmanMid = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelMid)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).buildOperationNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY)).operationNode();
         txt_diffieHellmanMid.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_diffieHellmanBot = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelBot)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeEcPrivate, DUMMY)).valueNode();
         txt_diffieHellmanBot.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_diffieHellman1 = ArrowComponent.from(txt_diffieHellmanTop).south().to(txt_diffieHellmanMid).north()
@@ -207,21 +191,24 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         grp_rootChain.setLayoutData(Layout.gd_rootChainComposite());
 
         txt_rootChainTop = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelTop)
-                .popupProvider(FlowChartNodePopup.create("Root Chain Key", "0")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Root Chain Key", "0")).valueNode();
         txt_rootChainTop.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_rootChainConst = new FlowChartNode.Builder(grp_rootChain).title(ChainLabelConst)
-                .popupProvider(FlowChartNodePopup.create("Constant", "0")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Constant", "0")).valueNode();
         txt_rootChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
         txt_rootChainMid = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelMid)
-                .popupProvider(FlowChartNodePopup.create("KDF", "0")).buildOperationNode();
+                .popupProvider(FlowChartNodePopup.create(
+                        Messages.DoubleRatchet_TypeRootChainKey, DUMMY,
+                        Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY))
+                .operationNode();
         txt_rootChainMid.setLayoutData(Layout.gd_algorithmNodes());
 
         UiUtils.insertSpacers(grp_rootChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 
         txt_rootChainBot = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create("KDF", "0")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("KDF", "0")).valueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_rootChain1 = ArrowComponent.from(txt_rootChainTop).south().to(txt_rootChainMid).north()
@@ -248,15 +235,17 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         grp_sendingChain.setText(SendingChainDescription);
 
         txt_sendingChainTop = new FlowChartNode.Builder(grp_sendingChain).title(SendingChainLabelTop)
-                .popupProvider(FlowChartNodePopup.create("Sending Chain key", "")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Sending Chain key", "")).valueNode();
         txt_sendingChainTop.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_sendingChainConst = new FlowChartNode.Builder(grp_sendingChain).title(ChainLabelConst)
-                .popupProvider(FlowChartNodePopup.create("Konstante", "0")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Konstante", "0")).valueNode();
         txt_sendingChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
         txt_sendingChainMid = new FlowChartNode.Builder(grp_sendingChain).title(SendingChainLabelMid)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).buildOperationNode();
+                .popupProvider(FlowChartNodePopup.create(
+                        MessageKeyLabel, DUMMY, Messages.DoubleRatchet_TypeNewChainKey, DUMMY))
+                .operationNode();
         txt_sendingChainMid.setLayoutData(Layout.gd_algorithmNodesSlim());
 
         arr_sendingChain1 = ArrowComponent.from(txt_sendingChainTop).south().to(txt_sendingChainMid).north()
@@ -268,7 +257,7 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         UiUtils.insertSpacers(grp_sendingChain, 1);
 
         txt_sendingChainBot = new FlowChartNode.Builder(grp_sendingChain).title(SendingChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("DH key calculation", "0")).valueNode();
         txt_sendingChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_sendingChain3 = ArrowComponent.from(txt_sendingChainMid).south().to(txt_sendingChainBot).north()
@@ -301,7 +290,7 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         txt_plainText.setEditable(true);
 
         txt_messageKeys = new FlowChartNode.Builder(cmp_messageBox).title(MessageKeyLabel)
-                .popupProvider(FlowChartNodePopup.create("MessageKeys", "0")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("MessageKeys", "0")).valueNode();
         txt_messageKeys.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_cipherText = new Text(cmp_messageBox, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);

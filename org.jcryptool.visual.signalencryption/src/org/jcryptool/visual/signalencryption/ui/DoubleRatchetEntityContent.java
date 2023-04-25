@@ -6,18 +6,18 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
-import org.jcryptool.core.util.colors.ColorService;
 
 /**
  * Provide DoubleRatchet UI elements for a Signal communication entity (e.g.
  * Alice or Bob).
- * 
+ *
  * Since entities have to show different content when sending than when
  * receiving, this interface allows a unified approach to get the co
  *
  */
 public interface DoubleRatchetEntityContent {
 
+    static final String DUMMY = "";
     static final int RECEIVING_STEP_OFFSET = 5;
     static final int highlightLength = (Messages.DoubleRatchet_Step + " X").length();
     static final StyleRange stepBold = new StyleRange(0, highlightLength, null, null, SWT.BOLD);

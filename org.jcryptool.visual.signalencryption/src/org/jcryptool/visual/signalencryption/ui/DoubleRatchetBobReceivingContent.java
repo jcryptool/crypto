@@ -1,7 +1,6 @@
 package org.jcryptool.visual.signalencryption.ui;
 
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -159,10 +158,8 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
 
     private void createMailIcon() {
         UiUtils.insertSpacers(cmp_bobReceivingAlgorithm, 0, 0);
-        drw_incomingMailIcon = ImageComponent.on(cmp_bobReceivingAlgorithm).xOffsetFromEast() // so we don't have to
-                                                                                              // subtract the width of
-                                                                                              // the image ourself as we
-                                                                                              // draw to the left.
+        drw_incomingMailIcon = ImageComponent.on(cmp_bobReceivingAlgorithm)
+                .xOffsetFromEast() // so we don't have to subtract the width of the img ourself (we draw to the left)
                 .offsetX(-ViewConstants.MAIL_ICON_X_OFFSET) // minus because we want to draw to the left
                 .setAnchorLater() // defer setting the location until the object is created
                 .incomingMail();
@@ -205,7 +202,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         grp_diffieHellman.setLayoutData(Layout.gd_diffieHellmanComposite());
 
         txt_diffieHellmanTop = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelTop)
-                .popupProvider(FlowChartNodePopup.create("EC Public Key", "0")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeEcPublic, DUMMY)).valueNode();
         txt_diffieHellmanTop.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_bobMessagePublicKey = ArrowComponent.fromAnchors().fromAnchorX(grp_messageBox, Side.EAST)
@@ -214,11 +211,11 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
                 .incomingDirection(Side.WEST).on(cmp_bobReceivingAlgorithm).create();
 
         txt_diffieHellmanMid = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelMid)
-                .popupProvider(FlowChartNodePopup.create("Shared Secret", "1")).buildOperationNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY)).operationNode();
         txt_diffieHellmanMid.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_diffieHellmanBot = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelBot)
-                .popupProvider(FlowChartNodePopup.create("EC Private Key", "2")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeEcPrivate, DUMMY)).valueNode();
         txt_diffieHellmanBot.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_diffieHellman1 = ArrowComponent.from(txt_diffieHellmanTop).south().to(txt_diffieHellmanMid).north()
@@ -241,18 +238,20 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         grp_rootChain.setLayoutData(Layout.gd_rootChainComposite());
 
         txt_rootChainConst = new FlowChartNode.Builder(grp_rootChain).title(ChainLabelConst)
-                .popupProvider(FlowChartNodePopup.create("Constant", "WhisperChain")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Constant", "WhisperChain")).valueNode();
         txt_rootChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
         txt_rootChainTop = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelTop)
-                .popupProvider(FlowChartNodePopup.create("Root-Key", "4")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Root-Key", "4")).valueNode();
         txt_rootChainTop.setLayoutData(Layout.gd_algorithmNodes());
 
         UiUtils.insertSpacers(grp_rootChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 
         txt_rootChainMid = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelMid)
-                .popupProvider(FlowChartNodePopup.create(Map.of("Chain key", "5", "New Root-Key", "6")))
-                .buildOperationNode();
+                .popupProvider(FlowChartNodePopup.create(
+                        Messages.DoubleRatchet_TypeRootChainKey, DUMMY,
+                        Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY))
+                .operationNode();
         txt_rootChainMid.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_rootChain1 = ArrowComponent.from(txt_rootChainConst).south().to(txt_rootChainMid).west()
@@ -261,7 +260,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         UiUtils.insertSpacers(grp_rootChain, 1);
 
         txt_rootChainBot = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create("Root-Key", "5")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Root-Key", "5")).valueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
         arr_rootChain2 = ArrowComponent.from(txt_rootChainTop).south().to(txt_rootChainMid).north()
                 .on(cmp_bobReceivingAlgorithm).withDefaults();
@@ -284,18 +283,20 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         grp_receivingChain.setText(ReceivingChainDescription);
 
         txt_receivingChainConst = new FlowChartNode.Builder(grp_receivingChain).title(ChainLabelConst)
-                .popupProvider(FlowChartNodePopup.create("Constant", "WhisperMessage")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Constant", "WhisperMessage")).valueNode();
         txt_receivingChainConst.setLayoutData(Layout.gd_algorithmNodesSlim());
 
         txt_receivingChainTop = new FlowChartNode.Builder(grp_receivingChain).title(ReceivingChainLabelTop)
-                .popupProvider(FlowChartNodePopup.create("Chain-Key", "7")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Chain-Key", "7")).valueNode();
         txt_receivingChainTop.setLayoutData(Layout.gd_algorithmNodes());
 
         UiUtils.insertSpacers(grp_receivingChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 
         txt_receivingChainMid = new FlowChartNode.Builder(grp_receivingChain).title(ReceivingChainLabelMid)
-                .popupProvider(FlowChartNodePopup.create(Map.of("Message Key", "9", "New Chain Key", "10")))
-                .buildOperationNode();
+                .popupProvider(FlowChartNodePopup.create(
+                        MessageKeyLabel, DUMMY,
+                        Messages.DoubleRatchet_TypeNewChainKey, DUMMY))
+                .operationNode();
         txt_receivingChainMid.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_receivingChain1 = ArrowComponent.from(txt_receivingChainConst).south().to(txt_receivingChainMid).west()
@@ -307,7 +308,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         UiUtils.insertSpacers(grp_receivingChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 
         txt_receivingChainBot = new FlowChartNode.Builder(grp_receivingChain).title(ReceivingChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create("Message-Key", "9")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Message-Key", "9")).valueNode();
         txt_receivingChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_receivingChain3 = ArrowComponent.from(txt_receivingChainMid).south().to(txt_receivingChainBot).north()
@@ -328,7 +329,7 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         grp_decryptedMessage.setText("Nachricht entschlüsseln");
 
         txt_messageKeys = new FlowChartNode.Builder(grp_decryptedMessage).title(MessageKeyLabel)
-                .popupProvider(FlowChartNodePopup.create("Message Keys", "10")).buildValueNode();
+                .popupProvider(FlowChartNodePopup.create("Message Keys", "10")).valueNode();
         txt_messageKeys.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_plainText = new Text(grp_decryptedMessage,

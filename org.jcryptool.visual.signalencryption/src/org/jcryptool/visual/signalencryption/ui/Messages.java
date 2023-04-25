@@ -120,6 +120,19 @@ public class Messages extends NLS {
     public static String DoubleRatchet_ChainLabelConst;
     public static String DoubleRatchet_MessageKeyLabel;
 
+    public static String DoubleRatchet_TypeEcPublic;
+    public static String DoubleRatchet_TypeEcPrivate;
+    public static String DoubleRatchet_TypeSharedSecret;
+    public static String DoubleRatchet_TypeChainKey;
+    public static String DoubleRatchet_TypeNewChainKey;
+    public static String DoubleRatchet_TypeRootChainKey;
+    public static String DoubleRatchet_TypeNewRootChainKey;
+
+    public static String DoubleRatchet_TypeSymmAes;
+    public static String DoubleRatchet_TypeSymmCount;
+    public static String DoubleRatchet_TypeSymmIv;
+    public static String DoubleRatchet_TypeSymmMac;
+
     // Table Values - Second Column, description of the keys
     public static String SignalEncryption_DescText_Diffie_Private;
     public static String SignalEncryption_DescText_Diffie_Public;

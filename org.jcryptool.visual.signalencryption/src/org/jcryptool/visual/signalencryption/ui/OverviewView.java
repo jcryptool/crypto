@@ -3,8 +3,8 @@ package org.jcryptool.visual.signalencryption.ui;
 import static org.jcryptool.visual.signalencryption.util.ToHex.toHex;
 import static org.jcryptool.visual.signalencryption.util.UiUtils.onSelection;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -84,7 +84,7 @@ public class OverviewView extends Composite {
 
     private void createIdentitiesGroup() {
         node_aliceKeyBundle = new FlowChartNode.Builder(grp_identitiesInfo)
-                .title(Messages.Name_AliceGenitive_Space + Messages.Overview_PreKeyBundle).buildValueNode();
+                .title(Messages.Name_AliceGenitive_Space + Messages.Overview_PreKeyBundle).valueNode();
         node_aliceKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
 
         txt_aliceIdentity = createIdentityText(grp_identitiesInfo);
@@ -99,7 +99,7 @@ public class OverviewView extends Composite {
         }));
 
         node_bobKeyBundle = new FlowChartNode.Builder(grp_identitiesInfo)
-                .title(Messages.Name_BobGenitive_Space + Messages.Overview_PreKeyBundle).buildValueNode();
+                .title(Messages.Name_BobGenitive_Space + Messages.Overview_PreKeyBundle).valueNode();
         node_bobKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
 
         txt_bobIdentity = createIdentityText(grp_identitiesInfo);
@@ -191,20 +191,22 @@ public class OverviewView extends Composite {
         var aliceKeyInformation = unpackBundle(aliceBundle);
         var bobKeyInformation = unpackBundle(bobBundle);
 
-        txt_aliceIdentity.setText(aliceKeyInformation.get(Messages.Overview_IdentityPublicKey));
-        txt_bobIdentity.setText(bobKeyInformation.get(Messages.Overview_IdentityPublicKey));
+        txt_aliceIdentity.setText(findInBundle(aliceKeyInformation, Messages.Overview_IdentityPublicKey));
+        txt_bobIdentity.setText(findInBundle(bobKeyInformation, Messages.Overview_IdentityPublicKey));
 
         node_aliceKeyBundle.getPopupProvider().setValues(aliceKeyInformation);
         node_bobKeyBundle.getPopupProvider().setValues(bobKeyInformation);
     }
 
-    private Map<String, String> unpackBundle(PreKeyBundle bundle) {
-        var map = new TreeMap<String, String>();
-        map.put(Messages.Overview_IdentityPublicKey,
-                toHex(bundle.getIdentityKey().getPublicKey().serialize(), 1, KEY_SIZE));
-        map.put(Messages.Overview_PreKey, toHex(bundle.getPreKey().serialize(), 1, KEY_SIZE));
-        map.put(Messages.Overview_PreKeySignature, toHex(bundle.getSignedPreKeySignature()));
-        return map;
+    private List<SimpleEntry<String, String>> unpackBundle(PreKeyBundle bundle) {
+        var identityKey = toHex(bundle.getIdentityKey().getPublicKey().serialize(), 1, KEY_SIZE);
+        var preKey = toHex(bundle.getPreKey().serialize(), 1, KEY_SIZE);
+        var signedPreKey = toHex(bundle.getSignedPreKeySignature());
+        return List.of(
+                new SimpleEntry<>(Messages.Overview_IdentityPublicKey, identityKey),
+                new SimpleEntry<>(Messages.Overview_PreKey, preKey),
+                new SimpleEntry<>(Messages.Overview_PreKeySignature, signedPreKey)
+        );
     }
 
     private Text createIdentityText(Composite parent) {
@@ -231,5 +233,9 @@ public class OverviewView extends Composite {
         var gridData = new GridData(GridData.FILL_HORIZONTAL);
         gridData.horizontalSpan = numColumns;
         separator.setLayoutData(gridData);
+    }
+
+    private String findInBundle(List<SimpleEntry<String, String>> bundle, String key) {
+        return bundle.stream().filter((entry) -> entry.getKey().equals(key)).findFirst().orElseThrow().getValue();
     }
 }

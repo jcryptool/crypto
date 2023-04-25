@@ -295,11 +295,11 @@ public class FlowChartNode extends Composite {
             return this;
         }
 
-        public FlowChartNode buildOperationNode() {
+        public FlowChartNode operationNode() {
             return new FlowChartNode(parent, style, title, actionName, popupProvider, Type.OPERATION);
         }
 
-        public FlowChartNode buildValueNode() {
+        public FlowChartNode valueNode() {
             return new FlowChartNode(parent, style, title, actionName, popupProvider, Type.VALUE);
         }
 

@@ -1,17 +1,16 @@
 package org.jcryptool.visual.signalencryption.ui;
 
-import java.util.Map;
-import java.util.HashMap;
-
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.BiFunction;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.custom.StyledText;
-import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.layout.GridDataBuilder;
 
@@ -22,28 +21,32 @@ import org.jcryptool.core.util.ui.layout.GridDataBuilder;
  */
 public class FlowChartNodePopup implements BiFunction<Composite, Integer, Composite> {
 
-    private Map<String, String> keyValuePairs;
+    private List<SimpleEntry<String, String>> keyValuePairs;
 
     /** Creates a simple pop-up which displays exactly one key-value pair */
     public static FlowChartNodePopup create(String key, String value) {
-        return new FlowChartNodePopup(Map.of(key, value));
+        return new FlowChartNodePopup(List.of(new SimpleEntry<>(key, value)));
     }
 
     /**
      * Creates a simple pop-up which displays each item in the given key-value pairs
      * (one per line)
      */
-    public static FlowChartNodePopup create(Map<String, String> keyValuePairs) {
+    public static FlowChartNodePopup create(String k1, String v1, String k2, String v2) {
+        List<SimpleEntry<String, String>> keyValuePairs = List.of(
+                new SimpleEntry<>(k1, v1),
+                new SimpleEntry<>(k2, v2)
+        );
         return new FlowChartNodePopup(keyValuePairs);
     }
 
     /** Creates an empty pop-up */
     public static FlowChartNodePopup empty() {
-        return new FlowChartNodePopup(Collections.emptyMap());
+        return new FlowChartNodePopup(Collections.emptyList());
     }
 
-    private FlowChartNodePopup(Map<String, String> keyValuePairs) {
-        this.keyValuePairs = new HashMap<>(keyValuePairs); // wrapping in HashMap should ensure mutability
+    private FlowChartNodePopup(List<SimpleEntry<String, String>> keyValuePairs) {
+        this.keyValuePairs = new ArrayList<>(keyValuePairs); // wrapping in ArrayList should ensure mutability
     }
 
     /**
@@ -52,19 +55,14 @@ public class FlowChartNodePopup implements BiFunction<Composite, Integer, Compos
      */
     public void setValue(String value) {
         assert keyValuePairs.size() == 1;
-        var optKey = keyValuePairs.keySet().stream().findFirst();
-        if (optKey.isPresent()) {
-            keyValuePairs.put(optKey.get(), value);
-        } else {
-            LogUtil.logError(String.format("Tried to set value '%s' but it failed%n", value));
-        }
+        keyValuePairs.set(0, new SimpleEntry<>(keyValuePairs.get(0).getKey(), value));
     }
 
     /**
      * Sets all the given key-value pairs when the next pop-up is created. Overrides
      * any previously set values
      */
-    public void setValues(Map<String, String> newKeyValuePairs) {
+    public void setValues(List<SimpleEntry<String, String>> newKeyValuePairs) {
         this.keyValuePairs = newKeyValuePairs;
     }
 
@@ -72,7 +70,7 @@ public class FlowChartNodePopup implements BiFunction<Composite, Integer, Compos
     public Composite apply(Composite parent, Integer style) {
         var composite = new Composite(parent, style);
 
-        for (var keyValuePair : keyValuePairs.entrySet()) {
+        for (var keyValuePair : keyValuePairs) {
             var label = new Label(composite, SWT.NONE);
             var txt = new StyledText(composite, SWT.BORDER);
             txt.setCaret(null);

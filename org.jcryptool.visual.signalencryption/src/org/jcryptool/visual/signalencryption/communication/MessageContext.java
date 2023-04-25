@@ -4,7 +4,8 @@ import static org.jcryptool.visual.signalencryption.communication.CommunicationE
 import static org.jcryptool.visual.signalencryption.communication.CommunicationEntity.BOB;
 import static org.jcryptool.visual.signalencryption.util.ToHex.toHex;
 
-import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.List;
 import java.util.Optional;
 
 import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
@@ -184,9 +185,13 @@ public class MessageContext {
         return toHex(sendingCapture.rootChainConstantInput);
     }
 
-    public Map<String, String> senderRootOutput() {
-        return Map.of("New Root-Key", toHex(sendingCapture.rootKdfOutput.getRootKey()), "Chain-Key",
-                toHex(sendingCapture.rootKdfOutput.getChainKey()));
+    public List<SimpleEntry<String, String>> senderRootOutput() {
+        var newRootKey = toHex(sendingCapture.rootKdfOutput.getRootKey());
+        var chainKey = toHex(sendingCapture.rootKdfOutput.getChainKey());
+        return List.of(
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeNewRootChainKey, newRootKey),
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeChainKey, chainKey)
+        );
     }
 
     public String senderRootNewRootChainKey() {
@@ -201,9 +206,13 @@ public class MessageContext {
         return toHex(receivingCapture.rootChainConstantInput);
     }
 
-    public Map<String, String> receiverRootOutput() {
-        return Map.of("New Root-Key", toHex(receivingCapture.rootKdfOutput.getRootKey()), "Chain-Key",
-                toHex(receivingCapture.rootKdfOutput.getChainKey()));
+    public List<SimpleEntry<String, String>> receiverRootOutput() {
+        var newRootKey = toHex(receivingCapture.rootKdfOutput.getRootKey());
+        var chainKey = toHex(receivingCapture.rootKdfOutput.getChainKey());
+        return List.of(
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeNewRootChainKey, newRootKey),
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeChainKey, chainKey)
+        );
     }
 
     public String receiverRootNewRootChainKey() {
@@ -225,7 +234,7 @@ public class MessageContext {
         return toHex(sendingCapture.sendChain.kdfOutput);
     }
 
-    public Map<String, String> senderChainMessageKey() {
+    public List<SimpleEntry<String, String>> senderChainMessageKey() {
         return resolveMessageKey(sendingCapture.sendChain.messageKey);
     }
 
@@ -245,7 +254,7 @@ public class MessageContext {
         return toHex(receivingCapture.receiveChain.kdfOutput);
     }
 
-    public Map<String, String> receiverChainMessageKey() {
+    public List<SimpleEntry<String, String>> receiverChainMessageKey() {
         return resolveMessageKey(receivingCapture.receiveChain.messageKey);
     }
 
@@ -253,9 +262,13 @@ public class MessageContext {
         return toHex(receivingCapture.receiveChain.newChainKey);
     }
 
-    private Map<String, String> resolveMessageKey(MessageKeys key) {
-        return Map.of("AES-128", toHex(key.getCipherKey().getEncoded()), "Counter", Integer.toString(key.getCounter()),
-                "IV", toHex(key.getIv().getIV()), "macKey", toHex(key.getMacKey().getEncoded()));
+    private List<SimpleEntry<String, String>> resolveMessageKey(MessageKeys key) {
+        return List.of(
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeSymmAes, toHex(key.getCipherKey().getEncoded())),
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeSymmCount, Integer.toString(key.getCounter())),
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeSymmIv, toHex(key.getIv().getIV())),
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeSymmMac, toHex(key.getMacKey().getEncoded()))
+        );
 
     }
 
