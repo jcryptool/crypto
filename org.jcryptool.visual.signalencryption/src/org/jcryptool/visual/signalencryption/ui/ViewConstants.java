@@ -33,18 +33,23 @@ public class ViewConstants {
      * This is the width hint of the algorithm boxes, a major part of the plugin's
      * flow elements.
      */
-    public static final int BOX_WIDTH = 175;
+    public static final int BOX_WIDTH = 180;
 
     /**
      * This is the width hint of the (slim) algorithm boxes, a major part of the
      * plugin's flow elements.
      */
-    public static final int BOX_WIDTH_SLIM = 90;
+    public static final int BOX_WIDTH_SLIM = 85;
+
+    /**
+     * Width of the encrypted/decrypted messagebox
+     */
+    public static final int MESSAGE_BOX_WIDTH = 250;
 
     /**
      * Any chain's horizontal spacing
      */
-    public static final int CHAIN_HORIZONTAL_SPACE = 15;
+    public static final int CHAIN_HORIZONTAL_SPACE = 14;
 
     /**
      * This is the height hint of the algorithm boxes, a major part of the plugin's
@@ -61,19 +66,15 @@ public class ViewConstants {
     public static final int HORIZONTAL_SPACING = 5;
 
     /**
-     * The height hint of arrows which go either up or down
+     * The horizontal spacing between canvas elements
+     * (e.g. between Root and Sending Chain or Sending Chain and MessageBox)
      */
-    public static final int UP_DOWN_ARROW_SIZE = 60;
+    public static final int CANVAS_SPACING = 38;
 
     /**
-     * The default canvas width hint of all inter-group arrows
+     * Horizontal distance between message-box and the mail icon edge
      */
-    public static final int ARROW_CANVAS_WIDTH = 55;
-
-    /**
-     * Distance between message group and icon start
-     */
-    public static final int MAIL_ICON_X_OFFSET = 35;
+    public static final int MAIL_ICON_X_OFFSET = Math.round(CANVAS_SPACING * 0.75f);
 
     /**
      * Arrow line thickness

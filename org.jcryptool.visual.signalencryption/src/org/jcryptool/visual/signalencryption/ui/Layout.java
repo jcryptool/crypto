@@ -1,6 +1,5 @@
 package org.jcryptool.visual.signalencryption.ui;
 
-import java.util.NoSuchElementException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -14,7 +13,7 @@ public class Layout {
 
     public static GridLayout gl_algorithmGroup() {
         var gl_algorithmGroup = new GridLayout(8, false);
-        gl_algorithmGroup.horizontalSpacing = ViewConstants.ARROW_CANVAS_WIDTH;
+        gl_algorithmGroup.horizontalSpacing = ViewConstants.CANVAS_SPACING;
         return gl_algorithmGroup;
     }
 
@@ -65,8 +64,7 @@ public class Layout {
 
     public static GridData gd_Messagebox() {
         var gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-        gridData.widthHint = 250;
-        gridData.heightHint = ViewConstants.BOX_HEIGHT * 2;
+        gridData.widthHint = ViewConstants.MESSAGE_BOX_WIDTH;
         return gridData;
     }
 

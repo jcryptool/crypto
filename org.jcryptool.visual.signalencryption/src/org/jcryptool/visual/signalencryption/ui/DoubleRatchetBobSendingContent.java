@@ -123,7 +123,7 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         layout.horizontalAlignment = SWT.RIGHT;
         cmp_bobSendingAlgorithm.setLayoutData(layout);
 
-        UiUtils.insertExcessiveSpacers(cmp_bobSendingAlgorithm, 1);
+        UiUtils.insertGreedySpacers(cmp_bobSendingAlgorithm, 1);
         createOutgoingMailIcon();
         cmp_messageBox = new Composite(cmp_bobSendingAlgorithm, SWT.NONE);
         grp_sendingChain = new Group(cmp_bobSendingAlgorithm, SWT.NONE);
@@ -149,9 +149,9 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         // the image drawn
         // (which does NOT have a concept of layouting) has enough space to be drawn.
         // This is necessary because the icon is the last element of the view.
-        var requiredWidth = drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET
-                - ViewConstants.ARROW_CANVAS_WIDTH;
-        UiUtils.insertSpacers(cmp_bobSendingAlgorithm, 1, requiredWidth - 5);
+        //var requiredWidth = drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET
+        //        - ViewConstants.CANVAS_SPACING;
+        //UiUtils.insertSpacers(cmp_bobSendingAlgorithm, 1, requiredWidth - 5);
 
     }
 

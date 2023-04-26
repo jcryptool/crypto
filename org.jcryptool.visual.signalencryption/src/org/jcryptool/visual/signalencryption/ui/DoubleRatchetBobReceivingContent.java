@@ -155,22 +155,19 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     }
 
     private void createMailIcon() {
-        UiUtils.insertSpacers(cmp_bobReceivingAlgorithm, 0, 0);
         drw_incomingMailIcon = ImageComponent.on(cmp_bobReceivingAlgorithm)
                 .xOffsetFromEast() // so we don't have to subtract the width of the img ourself (we draw to the left)
                 .offsetX(-ViewConstants.MAIL_ICON_X_OFFSET) // minus because we want to draw to the left
                 .setAnchorLater() // defer setting the location until the object is created
                 .incomingMail();
 
-        // This one is a special spacer: it doesn't have any content but ensures that
-        // the image drawn
+        // This one is a special spacer: it doesn't have any content but ensures that the image drawn
         // (which does NOT have a concept of layouting) has enough space to be drawn.
-        // This is necessary because the icon is the last element of the view.
+        // This is necessary because the icon is the first (left-most) element of the view.
         // The x offset is taken twice, so we have even distance left and right
         var requiredWidth = drw_incomingMailIcon.imageWidth() + (ViewConstants.MAIL_ICON_X_OFFSET * 2)
-                - ViewConstants.ARROW_CANVAS_WIDTH;
-        UiUtils.insertSpacers(cmp_bobReceivingAlgorithm, 1, requiredWidth - 5);
-
+                - ViewConstants.CANVAS_SPACING;
+        UiUtils.insertNonGreedySpacer(cmp_bobReceivingAlgorithm, 1, requiredWidth - 5);
     }
 
     private void createEncryptedMessageBox() {

@@ -272,7 +272,7 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
         // (which does NOT have a concept of layouting) has enough space to be drawn.
         // This is necessary because the icon is the last element of the view.
         var requiredWidth = drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET
-                - ViewConstants.ARROW_CANVAS_WIDTH;
+                - ViewConstants.CANVAS_SPACING;
         UiUtils.insertSpacers(cmp_aliceReceivingAlgorithm, 1, requiredWidth - 5);
 
     }
