@@ -10,8 +10,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
+import org.jcryptool.visual.signalencryption.ui.OverviewView.ScrollableSize;
 
 public class Explainer {
+
+    private static final int EXPANDED_MARGIN = 15;
 
     private final String title;
     private final String description;
@@ -20,6 +23,7 @@ public class Explainer {
     private Composite content;
 
     private StyledText descriptionText;
+    private ScrollableSize callback;
 
     public Explainer(Composite parent, int style, String title, String description) {
         this.title = title;
@@ -39,9 +43,9 @@ public class Explainer {
 
         content = new Composite(explanationExpander, SWT.NONE);
         content.setLayout(new GridLayout());
-        content.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        content.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         descriptionText = new StyledText(content, SWT.WRAP | SWT.MULTI);
-        descriptionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        descriptionText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         descriptionText.setText(description);
         descriptionText.setCaret(null);
         descriptionText.setEditable(false);
@@ -55,6 +59,11 @@ public class Explainer {
         return this;
     }
 
+    public Explainer setScrollerCalback(ScrollableSize callback) {
+        this.callback = callback;
+        return this;
+    }
+
     ExpandAdapter expandAdapter(Composite parent) {
         return new ExpandAdapter() {
 
@@ -63,24 +72,37 @@ public class Explainer {
                 Display.getDefault().asyncExec(() -> {
                     collapsable.setHeight(0);
                     parent.layout();
+                    scrollableSizeCallback();
                 });
             }
 
             @Override
             public void itemExpanded(ExpandEvent e) {
                 Display.getDefault().asyncExec(() -> {
-                    var parentSize = content.getParent().computeSize(SWT.DEFAULT, SWT.DEFAULT);
+                    // How to layout this thing?
+                    // Initially, we don't know anything, so let's compute the estimated size
+                    var parentSize = content.getParent().getParent().computeSize(SWT.DEFAULT, SWT.DEFAULT);
                     var contentSize = content.computeSize(parentSize.x, parentSize.y);
-                    var textSize = descriptionText.computeSize(contentSize.x, SWT.DEFAULT);
-                    // TODO There is a layouting problem related to this expander
-                    //      When the height is small and the user expands the text, the ScrolledComposite does not
-                    //      take that into account.
-                    System.out.printf("parentSize: %s%ncontentSize: %s%n  textSize: %s%n", parentSize, contentSize, textSize);
-                    collapsable.setHeight(textSize.y);
+                    var estimatedSize = descriptionText.computeSize(contentSize.x, SWT.DEFAULT);
+                    // Good, set that estimated size and layout it.
+                    collapsable.setHeight(estimatedSize.y);
                     parent.layout();
+                    // Now since the text has space, it gets actually resized to its proper size (which is usually
+                    // smaller than the estimatedSize). So let's get its actual size and set it as height.
+                    var actualSize = descriptionText.getSize();
+                    collapsable.setHeight(actualSize.y + EXPANDED_MARGIN);
+                    // Now we have to layout again and tell the outer scrollable to adjust its height as well.
+                    parent.layout();
+                    scrollableSizeCallback();
                 });
             }
         };
+    }
+
+    private void scrollableSizeCallback() {
+        if (callback != null) {
+            callback.adjust();
+        }
     }
 
 }

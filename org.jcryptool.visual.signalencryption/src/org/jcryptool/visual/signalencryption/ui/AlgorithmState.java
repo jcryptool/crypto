@@ -34,8 +34,12 @@ public class AlgorithmState {
         return !communication.current().isAlreadyEncrypted();
     }
 
-    public String getAliceEncryptedMessage() {
+    public String getEncryptedMessage() {
         return ToHex.toHex(communication.current().getCiphertextMessage().orElse(new byte[] {}));
+    }
+
+    public String getPlainTextMessage() {
+        return communication.current().getMessage();
     }
 
     public SignalCommunication getCommunication() {

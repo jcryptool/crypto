@@ -96,9 +96,9 @@ public class DoubleRatchetAliceSendingLogic {
                 aliceContent.setDiffieHellmanRatchetVisible(true);
                 aliceContent.showStep(this);
 
-                // TODO verify this line is needed
-                // Pick up user input text
-                aliceContent.txt_cipherText.setText(AlgorithmState.get().getAliceEncryptedMessage());
+                // Set plain- and ciphertext in case the user is jumping around.
+                aliceContent.txt_plainText.setText(AlgorithmState.get().getPlainTextMessage());
+                aliceContent.txt_cipherText.setText(AlgorithmState.get().getEncryptedMessage());
 
                 // Notify the UI that the user has already progressed and viewed values in this
                 // tab
@@ -196,6 +196,7 @@ public class DoubleRatchetAliceSendingLogic {
 
                 if (AlgorithmState.get().allowMessageEntering()) {
                     aliceContent.txt_plainText.setEnabled(true);
+                    aliceContent.txt_plainText.setFocus();
                 } else {
                     aliceContent.txt_plainText.setEnabled(false);
 
@@ -428,6 +429,9 @@ public class DoubleRatchetAliceSendingLogic {
                 aliceContent.setAllVisible(true);
                 bobContent.setAllVisible(true);
 
+                // Set plain- and ciphertext in case the user is jumping around.
+                aliceContent.txt_plainText.setText(AlgorithmState.get().getPlainTextMessage());
+                aliceContent.txt_cipherText.setText(AlgorithmState.get().getEncryptedMessage());
                 var decryptedMessage = AlgorithmState.get().getCommunication().current().getDecryptedMessage();
                 if (decryptedMessage.isPresent()) {
                     bobContent.txt_plainText.setText(decryptedMessage.get());

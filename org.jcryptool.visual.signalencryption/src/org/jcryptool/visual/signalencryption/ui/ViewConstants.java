@@ -4,11 +4,11 @@ public class ViewConstants {
 
     // height of the plug-in as a whole (this is important for the scrolling of
     // the plug-in)
-    public static final int PLUGIN_HEIGTH = 900;
+    public static final int PLUGIN_HEIGTH = 780;
 
     // width of the plug-in as a whole (this is important for the scrolling of
     // the plug-in)
-    public static final int PLUGIN_WIDTH = 1300;
+    public static final int PLUGIN_WIDTH = 1715;
 
     /**
      * Estimated height of the algorithm composite.

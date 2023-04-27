@@ -7,6 +7,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -56,7 +57,6 @@ public class OverviewView extends Composite {
         createTitleAndDescription();
         createBody();
         updateValues();
-
     }
 
     /**
@@ -94,8 +94,8 @@ public class OverviewView extends Composite {
         grp_identitiesInfo.setLayout(new GridLayout(3, false));
         grp_identitiesInfo.setText(Messages.Overview_GroupTitleIdentities);
         grp_identitiesInfo.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, true)
-                .minimumWidth(600)
-                .widthHint(700)
+                .minimumWidth(750)
+                .widthHint(900)
                 .get());
 
         grp_doubleRatchetInfo = new Group(overViewComposite, SWT.NONE);
@@ -151,49 +151,34 @@ public class OverviewView extends Composite {
         }));
         insertHorizontalSeparator(grp_identitiesInfo);
 
-        new Explainer(grp_identitiesInfo, SWT.NONE, Messages.Overview_QuestionPreKeyBundle,
-                Messages.Overview_AnswerPreKeyBundle).setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 3, 1));
-        new Explainer(grp_identitiesInfo, SWT.NONE, Messages.Overview_QuestionX3DH, Messages.Overview_AnswerX3DH)
-                .setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 3, 1));
+        createScrollableExplainers(grp_identitiesInfo, List.of(
+                new SimpleEntry<>(Messages.Overview_QuestionPreKeyBundle, Messages.Overview_AnswerPreKeyBundle),
+                new SimpleEntry<>(Messages.Overview_QuestionX3DH, Messages.Overview_AnswerX3DH)
+        ));
     }
 
     private void createDoubleRatchetInformation() {
 
-        //ScrolledComposite scroller = new ScrolledComposite(grp_doubleRatchetInfo, SWT.V_SCROLL);
-        //scroller.setExpandHorizontal(true);
-        //scroller.setExpandVertical(true);
-        //Composite container = new Composite(scroller, SWT.V_SCROLL);
-        //Composite container = new Composite(grp_doubleRatchetInfo, SWT.NONE);
-        //container.setLayout(new GridLayout());
-        //container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        //scroller.setContent(container);
 
         txt_doubleRatchetExplanation = new StyledText(grp_doubleRatchetInfo, SWT.BORDER | SWT.WRAP | SWT.MULTI);
         txt_doubleRatchetExplanation.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         txt_doubleRatchetExplanation.setText(Messages.Overview_DoubleRatchetOverview);
 
-        //txt_doubleRatchetExplanation = new StyledText(container, SWT.BORDER | SWT.WRAP | SWT.MULTI);
-        //txt_doubleRatchetExplanation.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        ////txt_doubleRatchetExplanation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        //txt_doubleRatchetExplanation.setText("x".repeat(1000));
-
-        //var txt_x = new Text(grp_doubleRatchetInfo, SWT.BORDER | SWT.WRAP | SWT.READ_ONLY);
-        //txt_x.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, true).minimumWidth(200).get());
-        //txt_x.setText("x".repeat(1000));
-
         btn_switchToDoubleRatchetView = new Button(grp_doubleRatchetInfo, SWT.PUSH);
         btn_switchToDoubleRatchetView.setFont(FontService.getNormalBoldFont());
         btn_switchToDoubleRatchetView.setText(Messages.Overview_showDoubleRatchet);
-        btn_switchToDoubleRatchetView
-                .setLayoutData(GridDataBuilder.with(SWT.CENTER, SWT.TOP, false, false).heightHint(40).get());
-        btn_switchToDoubleRatchetView
-                .addSelectionListener(onSelection(selectionEvent -> parentView.setTab(Tab.DOUBLE_RATCHET)));
+        btn_switchToDoubleRatchetView.setLayoutData(
+                GridDataBuilder.with(SWT.CENTER, SWT.TOP, false, false).heightHint(40).get()
+        );
+        btn_switchToDoubleRatchetView.addSelectionListener(onSelection(e -> parentView.setTab(Tab.DOUBLE_RATCHET)));
+
         insertHorizontalSeparator(grp_doubleRatchetInfo);
-        new Explainer(grp_doubleRatchetInfo, SWT.NONE, Messages.Overview_QuestionDoubleRatchetSecurity,
-                Messages.Overview_AnswerDoubleRatchetSecurity)
-                .setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-        new Explainer(grp_doubleRatchetInfo, SWT.NONE, Messages.Overview_QuestionDoubleRatchetInit,
-                Messages.Overview_AnswerDoubleRatchetInit).setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        createScrollableExplainers(grp_doubleRatchetInfo, List.of(
+                new SimpleEntry<>(
+                        Messages.Overview_QuestionDoubleRatchetSecurity,
+                        Messages.Overview_AnswerDoubleRatchetSecurity),
+                new SimpleEntry<>(Messages.Overview_QuestionDoubleRatchetInit,
+                        Messages.Overview_AnswerDoubleRatchetInit)));
     }
 
     private boolean discardIfNecessary() {
@@ -278,7 +263,48 @@ public class OverviewView extends Composite {
         separator.setLayoutData(gridData);
     }
 
+    private void createScrollableExplainers(Composite parent, List<SimpleEntry<String, String>> content) {
+        var numColumns = ((GridLayout) parent.getLayout()).numColumns;
+        ScrolledComposite scroller = new ScrolledComposite(parent, SWT.V_SCROLL);
+        scroller.setLayout(new GridLayout());
+        scroller.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, numColumns, 1));
+        scroller.setExpandHorizontal(true);
+        scroller.setExpandVertical(true);
+        scroller.setAlwaysShowScrollBars(false);
+        Composite container = new Composite(scroller, SWT.V_SCROLL);
+        container.setLayout(new GridLayout());
+        container.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true, true).get());
+        scroller.setContent(container);
+
+        // This function sets the minimum height before scrolling to the actual size of the current children.
+        ScrollableSize sizeCallback = () -> {
+            var children = container.getChildren();
+            int size = 0;
+            for (var child : children) {
+                size += child.getSize().y;
+            }
+            scroller.setMinHeight(size);
+        };
+
+        for (var questionAnswerPair : content) {
+            new Explainer(
+                   container, SWT.NONE,
+                   questionAnswerPair.getKey(),
+                   questionAnswerPair.getValue())
+                .setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1))
+                .setScrollerCalback(sizeCallback);
+        }
+        // Initially set the min-height to its own size, so it does not have to scroll
+        scroller.setMinHeight(scroller.getSize().y + 10);
+
+    }
+
     private String findInBundle(List<SimpleEntry<String, String>> bundle, String key) {
         return bundle.stream().filter((entry) -> entry.getKey().equals(key)).findFirst().orElseThrow().getValue();
+    }
+
+    @FunctionalInterface
+    interface ScrollableSize {
+        void adjust();
     }
 }
