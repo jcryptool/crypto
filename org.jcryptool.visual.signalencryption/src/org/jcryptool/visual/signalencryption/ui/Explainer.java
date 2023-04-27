@@ -69,13 +69,14 @@ public class Explainer {
             @Override
             public void itemExpanded(ExpandEvent e) {
                 Display.getDefault().asyncExec(() -> {
-                    var contentSize = content.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+                    var parentSize = content.getParent().computeSize(SWT.DEFAULT, SWT.DEFAULT);
+                    var contentSize = content.computeSize(parentSize.x, parentSize.y);
                     var textSize = descriptionText.computeSize(contentSize.x, SWT.DEFAULT);
                     // TODO There is a layouting problem related to this expander
                     //      When the height is small and the user expands the text, the ScrolledComposite does not
                     //      take that into account.
-                    //System.out.printf("contentSize: %s%n  textSize: %s%n", contentSize, textSize);
-                    collapsable.setHeight(textSize.y + ViewConstants.EXPLAINER_HEIGHT_OFFSET);
+                    System.out.printf("parentSize: %s%ncontentSize: %s%n  textSize: %s%n", parentSize, contentSize, textSize);
+                    collapsable.setHeight(textSize.y);
                     parent.layout();
                 });
             }

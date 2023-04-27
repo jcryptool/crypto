@@ -28,7 +28,7 @@ public class ViewConstants {
     /**
      * I don't know why, but this offset seems to work best when to compute the height of the explainers textbox
      * */
-    public static final int EXPLAINER_HEIGHT_OFFSET = 50;
+    public static final int EXPLAINER_HEIGHT_OFFSET = 63;
     /**
      * This is the width hint of the algorithm boxes, a major part of the plugin's
      * flow elements.

@@ -26,6 +26,8 @@ public class FlowChartNode extends Composite {
     private static final int POPUP_STYLE = SWT.MODELESS | SWT.SHADOW_ETCHED_OUT | SWT.BORDER;
     private static final Image BUTTON_IMAGE = ImageService.getImage(SignalEncryptionView.ID, "icons/searchIcon.png");
     private static final Image OPERATION_IMAGE = ImageService.getImage(SignalEncryptionView.ID, "icons/gear.png");
+    /** The spacing between the gear symbol and the lense icon */
+    private static final int HORIZONTAL_SPACING = 17;
     /** How long to keep the button disabled when the window is closing */
     private static final long BUTTON_DISABLE_TIME_IN_MS = 80;
     /**
@@ -89,7 +91,7 @@ public class FlowChartNode extends Composite {
 
     private void createOperationBody() {
         var layout = new GridLayout(2, true);
-        layout.horizontalSpacing = 20;
+        layout.horizontalSpacing = HORIZONTAL_SPACING;
         setLayout(layout);
         txt_title = new Text(this, SWT.NONE);
         txt_title.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));

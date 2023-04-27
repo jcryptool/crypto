@@ -30,8 +30,8 @@ public class OverviewView extends Composite {
 
     private final SignalEncryptionView parentView;
 
+    private Composite headerComposite;
     private Composite overViewComposite;
-    private TitleAndDescriptionComposite titleAndDescription;
     private Group grp_identitiesInfo;
     private Group grp_doubleRatchetInfo;
     private Text txt_aliceIdentity;
@@ -42,7 +42,8 @@ public class OverviewView extends Composite {
     private Button btn_newKeysBoth;
     private Button btn_newKeysAlice;
     private Button btn_newKeysBob;
-
+    private StyledText description;
+    private StyledText title;
     private StyledText txt_doubleRatchetExplanation;
 
     /** First tab (overview tab) content **/
@@ -50,28 +51,52 @@ public class OverviewView extends Composite {
         super(parent, style);
         this.parentView = parentView;
         setLayout(new GridLayout());
+        setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
         createTitleAndDescription();
         createBody();
         updateValues();
+
     }
 
+    /**
+     * Create a title and description box.
+     * <p/>
+     * <b>Note</b> that I don't use the premade {@link TitleAndDescriptionComposite} because this made layout problems
+     * with the wrapping of the text in {@link #createDoubleRatchetInformation()}
+     */
     private void createTitleAndDescription() {
-        titleAndDescription = new TitleAndDescriptionComposite(this);
-        titleAndDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-        titleAndDescription.setTitle(Messages.SignalEncryption_Title);
-        titleAndDescription.setDescription(Messages.SignalEncryption_Description);
+        var layout = new GridLayout();
+        layout.verticalSpacing = 0;
+        layout.marginHeight = 0;
+        layout.marginWidth = 0;
+        headerComposite = new Composite(this, SWT.NONE);
+        headerComposite.setLayout(layout);
+        headerComposite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+        title = new StyledText(headerComposite, SWT.READ_ONLY);
+        title.setText(Messages.SignalEncryption_Title);
+        title.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true ,false).get());
+        title.setFont(FontService.getHugeBoldFont());
+        title.setCaret(null);
+        description = new StyledText(headerComposite, SWT.READ_ONLY | SWT.WRAP);
+        description.setText(Messages.SignalEncryption_Description);
+        description.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true ,false).get());
+        description.setCaret(null);
     }
 
     private void createBody() {
         overViewComposite = new Composite(this, SWT.NONE);
         overViewComposite.setLayout(new GridLayout(2, false));
-        overViewComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+        overViewComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         grp_identitiesInfo = new Group(overViewComposite, SWT.NONE);
         grp_identitiesInfo.setLayout(new GridLayout(3, false));
         grp_identitiesInfo.setText(Messages.Overview_GroupTitleIdentities);
-        grp_identitiesInfo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        grp_identitiesInfo.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, true)
+                .minimumWidth(600)
+                .widthHint(700)
+                .get());
 
         grp_doubleRatchetInfo = new Group(overViewComposite, SWT.NONE);
         grp_doubleRatchetInfo.setText(Messages.Overview_GroupTitleDoubleRatchet);
@@ -85,7 +110,7 @@ public class OverviewView extends Composite {
     private void createIdentitiesGroup() {
         node_aliceKeyBundle = new FlowChartNode.Builder(grp_identitiesInfo)
                 .title(Messages.Name_AliceGenitive_Space + Messages.Overview_PreKeyBundle).valueNode();
-        node_aliceKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
+        node_aliceKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, false, false).get());
 
         txt_aliceIdentity = createIdentityText(grp_identitiesInfo);
         // Button for generating new keys for Alice
@@ -100,7 +125,7 @@ public class OverviewView extends Composite {
 
         node_bobKeyBundle = new FlowChartNode.Builder(grp_identitiesInfo)
                 .title(Messages.Name_BobGenitive_Space + Messages.Overview_PreKeyBundle).valueNode();
-        node_bobKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, false).get());
+        node_bobKeyBundle.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, false, false).get());
 
         txt_bobIdentity = createIdentityText(grp_identitiesInfo);
 
@@ -134,9 +159,27 @@ public class OverviewView extends Composite {
 
     private void createDoubleRatchetInformation() {
 
-        txt_doubleRatchetExplanation = new StyledText(grp_doubleRatchetInfo, SWT.BORDER);
+        //ScrolledComposite scroller = new ScrolledComposite(grp_doubleRatchetInfo, SWT.V_SCROLL);
+        //scroller.setExpandHorizontal(true);
+        //scroller.setExpandVertical(true);
+        //Composite container = new Composite(scroller, SWT.V_SCROLL);
+        //Composite container = new Composite(grp_doubleRatchetInfo, SWT.NONE);
+        //container.setLayout(new GridLayout());
+        //container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        //scroller.setContent(container);
+
+        txt_doubleRatchetExplanation = new StyledText(grp_doubleRatchetInfo, SWT.BORDER | SWT.WRAP | SWT.MULTI);
         txt_doubleRatchetExplanation.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         txt_doubleRatchetExplanation.setText(Messages.Overview_DoubleRatchetOverview);
+
+        //txt_doubleRatchetExplanation = new StyledText(container, SWT.BORDER | SWT.WRAP | SWT.MULTI);
+        //txt_doubleRatchetExplanation.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        ////txt_doubleRatchetExplanation.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        //txt_doubleRatchetExplanation.setText("x".repeat(1000));
+
+        //var txt_x = new Text(grp_doubleRatchetInfo, SWT.BORDER | SWT.WRAP | SWT.READ_ONLY);
+        //txt_x.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, true).minimumWidth(200).get());
+        //txt_x.setText("x".repeat(1000));
 
         btn_switchToDoubleRatchetView = new Button(grp_doubleRatchetInfo, SWT.PUSH);
         btn_switchToDoubleRatchetView.setFont(FontService.getNormalBoldFont());
@@ -224,7 +267,7 @@ public class OverviewView extends Composite {
     }
 
     private GridData gd_createKeyButton() {
-        return GridDataBuilder.with(SWT.FILL, SWT.CENTER, false, false).get();
+        return GridDataBuilder.with(SWT.FILL, SWT.FILL, false, false).get();
     }
 
     private void insertHorizontalSeparator(Composite parent) {
