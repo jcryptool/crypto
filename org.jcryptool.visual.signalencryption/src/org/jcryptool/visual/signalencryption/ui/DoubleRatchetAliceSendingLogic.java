@@ -96,6 +96,9 @@ public class DoubleRatchetAliceSendingLogic {
                 aliceContent.setDiffieHellmanRatchetVisible(true);
                 aliceContent.showStep(this);
 
+                // Hide these elements
+                aliceContent.setRootChainVisible(false);
+
                 // Set plain- and ciphertext in case the user is jumping around.
                 aliceContent.txt_plainText.setText(AlgorithmState.get().getPlainTextMessage());
                 aliceContent.txt_cipherText.setText(AlgorithmState.get().getEncryptedMessage());
