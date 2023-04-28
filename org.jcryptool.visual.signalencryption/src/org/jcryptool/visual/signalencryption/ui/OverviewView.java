@@ -287,7 +287,7 @@ public class OverviewView extends Composite {
         };
 
         for (var questionAnswerPair : content) {
-            new Explainer(
+            new QuestionAnswerExpander(
                    container, SWT.NONE,
                    questionAnswerPair.getKey(),
                    questionAnswerPair.getValue())

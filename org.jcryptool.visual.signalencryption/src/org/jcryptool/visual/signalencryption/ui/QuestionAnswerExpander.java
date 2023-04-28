@@ -1,6 +1,7 @@
 package org.jcryptool.visual.signalencryption.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ExpandAdapter;
 import org.eclipse.swt.events.ExpandEvent;
@@ -12,7 +13,8 @@ import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.jcryptool.visual.signalencryption.ui.OverviewView.ScrollableSize;
 
-public class Explainer {
+/** Displays a question — if you click it, displays a text with the answer */
+public class QuestionAnswerExpander {
 
     private static final int EXPANDED_MARGIN = 15;
 
@@ -25,7 +27,8 @@ public class Explainer {
     private StyledText descriptionText;
     private ScrollableSize callback;
 
-    public Explainer(Composite parent, int style, String title, String description) {
+    /** Displays a question — if you click it, displays a text with the answer */
+    public QuestionAnswerExpander(Composite parent, int style, String title, String description) {
         this.title = title;
         this.description = description;
         createExpandItem(parent, style);
@@ -54,12 +57,16 @@ public class Explainer {
         collapsable.setHeight(content.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
     }
 
-    public Explainer setLayoutData(GridData gridData) {
+    public QuestionAnswerExpander setLayoutData(GridData gridData) {
         explanationExpander.setLayoutData(gridData);
         return this;
     }
 
-    public Explainer setScrollerCalback(ScrollableSize callback) {
+    /**
+     * If the this class lives in a {@link ScrolledComposite} there are some layouting issues.
+     * One can pass in a callback which adjusts the parents ScrolledComposite on expand/collapse events.
+     */
+    public QuestionAnswerExpander setScrollerCalback(ScrollableSize callback) {
         this.callback = callback;
         return this;
     }
@@ -91,7 +98,7 @@ public class Explainer {
                     // smaller than the estimatedSize). So let's get its actual size and set it as height.
                     var actualSize = descriptionText.getSize();
                     collapsable.setHeight(actualSize.y + EXPANDED_MARGIN);
-                    // Now we have to layout again and tell the outer scrollable to adjust its height as well.
+                    // Now layout again and tell an any outer scrollable (if exists) to adjust its height as well.
                     parent.layout();
                     scrollableSizeCallback();
                 });
