@@ -1,101 +1,197 @@
-<!DOCTYPE html lang="de">
+<!DOCTYPE html>
+<html lang="de">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Signal-Protokoll</title>
+    <title>Signal-Protokoll – Double Ratchet-Verschlüsselung</title>
+    <style>
+    tr:nth-child(even) { background-color: #D6EEEE; }
+    figure { margin-left: 5%; }
+    figcaption {font-style: italic; margin-left: 5%; margin-top: 10px; margin-right: auto}
+    span.caption {color: #4d50f5; font-weight: bold; }
+    img.grid {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 90%;
+      min-width: 150px;
+      max-width: 250px;
+      text-align: center
+    }
+
+    </style>
+
 </head>
 
 <body>
-<h1>Signal-Protokoll</h1>
+<h1>Signal-Protokoll – Double Ratchet-Verschlüsselung</h1>
 
-<p>In diesem Plugin wird das <b>Double-Ratchet</b> des Signal-Protokolls visualisiert.</br>
-    Insgesamt besteht das Signal-Protokoll aus mehreren Schritten die hier in der Onlinehilfe erklärt werden.</p>
+<p>
+    In diesem Plugin wird das <b>Double Ratchet</b>-Verfahren des Signal-Protokolls visualisiert. Es wird u.a. im
+    Signal- und WhatsApp-Messenger für die Ende-zu-Ende-Verschlüsselung der Kommunikation eingesetzt.
+</p>
 
 <p>Das Plugin lässt sich über das Menü <b>Visualisierungen</b> oder über den Krypto-Explorer im Reiter <b>Visualisierungen</b>
     starten.</p>
 
-<p>Die JCT-Onlinehilfe zum Signal-Protokoll ist in drei Teile aufgeteilt:</p>
-<ul>
-    <li><a href="index.html">Benutzung des Plugins [diese Seite]</a></li>
-    <li><a href="algorithm.html">Algorithmus</a></li>
-    <li><a href="ablauf.html">Ablauf</a></li>
-</ul>
-
-
 <h2>Benutzung des Plugins</h2>
-<p>Das Plugin wird über das Hauptmenü "Visualisierung" und den
-    Menüeintrag "Signal-Encryption" gestartet. Danach erscheint ein Reiter
-    "Signal-Encryption, der 2 Unterreiter besitzt. Deren Namen sind:</p>
+
+<p>Das Plug-in ist in zwei Ansichten aufgeteilt die über die Reiter links oben ausgewählt werden können</p>
+
 <ul>
-    <li><a href="#params">Allgemein</a></li>
-    <li><a href="#signing">Double Ratchet</a></li>
-
+    <li><a href="#overview">Übersicht</a></li>
+    <li><a href="#doubleratchet">Double Ratchet-Visualisierung</a></li>
 </ul>
-<p>Im Folgenden werden die Inhalte der 2 Unterreiter beschrieben.</p>
 
-<p>&nbsp;</p>
-<h2 id="params">1. Unterreiter "Allgemein"</h2>
-<p>Im ersten Unterreiter erfolgt eine einleitende Erklärung können Sie die benutzten Parameter sehen und ändern, und die
-    Schlüssel generieren, die dann im 2. Unterreiter zum Signieren und Verifizieren benutzt werden.</p>
-<p> Der folgende Screenshot zeigt die Standardeinstellungen, und Schlüssel, die durch Drücken des Buttons "Schlüssel
-    generieren" zufällig erzeugt wurden. Sie können Schlüssel auch von Hand eingeben, um Beispiele aus der Literatur zu
-    testen.</p>
-<img src="images/firstscreen.png" alt="Sub-tab 1" id="subtab1" width="50%"/>
+<p>Alle dargestellten Werte sind in hexadezimaler Form, sofern es sich nicht um einfachen Text handelt.</p>
 
-<h4 id="Parameter">Gruppierung "Parameter"</h4>
-<p>Im ersten Unterreiter können Sie die ff. Verfahrensparameter verändern und einsehen. Die Parameter sind im
-    Dezimalsystem (Basis 10) angegeben.</p>
-<table border=1>
-    <thead>
-    <tr>
-        <td>Schlüssel</td>
-        <td>Beschreibung</td>
-    </tr>
-    <tbody>
-    <tr>
-        <td>Diffie Hellman Privater Schlüssel</td>
-        <td>Beschreibung
-        </td>
-    </tr>
-    <tr>
-        <td>Diffie Hellman öffentlicher Schlüssel</td>
-        <td>Beschreibung
-        </td>
-    </tr>
-    <tr>
-        <td>Root Chain Schlüssel</td>
-        <td>Beschreibung
-        </td>
-    </tr>
-    <tr>
-        <td>Sending Chain Schlüssel</td>
-        <td>Beschreibung
-        </td>
-    </tr>
-    <tr>
-        <td>Receiving Chain Schlüssel</td>
-        <td>Beschreibung
-        </td>
-    </tr>
-    <tr>
-        <td>Message Schlüssel</td>
-        <td>Beschreibung</td>
-    </tr>
+<h3 id="overview">Reiter „Übersicht“</h3>
 
+<p>
+    Im Übersichtsreiter gibt es einleitende und allgemeine Information. Zusätzlich können dort neue Identitäten
+    bzw. Schlüssel angelegt werden. Per Klick auf die Lupen können die Pre-Key-Bundles angezeigt werden.
+    Ein Klick auf „Zur Double Ratchet-Visualisierung“ ermöglicht ebenfalls das Wechseln zur Algorithmusansicht.
+</p>
+
+<figure>
+    <img src="images/overview.png" style="width: 90%; min-width: 1000px; max-width: 2200px"
+         alt="1. Reiter. Oben allgemeine Beschreibung. Linke Spalte Details zu Identitäten / Pre-Key-Bundles">
+    <figcaption>
+        Abbildung 1 – Übersicht: <span class="caption">1</span> Navigation zwischen Übersicht und Double Ratchet-Visualisierung;
+        <span class="caption">2</span> Information über die asymmetrischen Schlüssel der Kommunikationspartner und
+        Schritte die vor dem Austausch von Nachrichten durchgeführt werden müssen; <span class="caption">3</span>
+        Allgemeine Information über den Double Ratchet-Algorithmus
+    </figcaption>
+</figure>
+
+<p>Die Frage-Antwort-Elemente lassen sich durch Klicken ausklappen und enthalten zusätzliche Information.</p>
+
+<figure>
+    <img src="images/qa-expander.png" style="width: 41%; min-width: 300px; max-width: 700px"
+         alt="Eine ausgeklappte Informationstafel mit Beschreibung zu Identitäten / Pre-Key-Bundles">
+    <figcaption>Abbildung 2 – Details können durch klicken ausgeklappt werden</figcaption>
+</figure>
+
+<h3 id="doubleratchet">Reiter „Double Ratchet“</h3>
+
+<p>
+    Hier wird das Double Ratchet-Verfahren schrittweise visualisiert. Im oberen Teil befinden sich die Bedienelemente
+    und die Erklärungen zu den einzelnen Schritten. Der aktuelle Schritt wird jeweils hervorgehoben.
+</p>
+
+<figure>
+    <img src="images/double-ratchet.png" style="width: 90%; min-width: 1000px; max-width: 2200px;"
+         alt="2. Reiter mit Hauptansicht des Double Ratchet-Algorithmus. Oben Buttons Alice, Weiter, Zurück, Bob;
+         Mittig: textuelle Beschreibung der Schritte; Unten: Ablaufdiagramm, Knoten verbunden durch gerichtete Pfeile">
+    <figcaption>
+        Abbildung 3 – Double Ratchet-Visualisierung: <span class="caption">1</span> Bedienfeld mit den Buttons zum Navigieren;
+        <span class="caption">2</span> Beschreibung der Algorithmusschritte; <span class="caption">3</span>
+        Diagramm des Algorithmus
+    </figcaption>
+</figure>
+<p>
+    Im unteren Abschnitt ist der Algorithmus in Form eines Ablaufdiagrammes dargestellt. Durch die Buttons
+    „Weiter“ und „Zurück“ kann im Algorithmus navigiert werden. Über die Buttons „Alice“ und „Bob“ kann die Ansicht
+    zwischen den Kommunikationspartnern gewechselt werden.
+</p>
+
+<p>
+    Das Diagramm besteht aus Werten und Operationen. Die Operationen sind speziell durch Zahnräder gekennzeichnet.
+    Durch Klicken der Lupe wird der Wert bzw. das Ergebnis der Operation angezeigt.
+</p>
+
+<div class="flex-container" style="display: flex;">
+    <div>
+        <figure style="margin-left: 10%">
+            <img src="images/node-value.png" class="grid" alt="Knoten im Ablaufdiagramm">
+            <figcaption>Abbildung 4 – Knoten im Diagramm der einen Wert repräsentiert</figcaption>
+        </figure>
+    </div>
+    <div>
+        <figure style="margin-left: 10%">
+            <img src="images/node-operation.png" class="grid" alt="Knoten im Ablaufdiagramm mit Zahnrädern">
+            <figcaption>Abbildung 5 – Knoten im Diagramm der eine Operation repräsentiert</figcaption>
+        </figure>
+    </div>
+</div>
+
+<p>
+    In dieser Visualisierung senden Alice und Bob jeweils abwechseln Nachrichten aneinander. Alice befindet sich
+    auf der linken Seite und Bob auf der rechten. Dabei werden jeweils 9 Schritte pro Nachricht zum Ver- und
+    Entschlüsseln angezeigt.
+</p>
+<p>
+    Natürlich müssen sich die Kommunikationsteilnehmer bei eier echten Konversation nicht abwechseln. Im Falle, dass
+    Alice mehrere Nachrichten hintereinander an Bob schreibt, führt sie jedes Mal einen Diffie-Hellman Ratchet-Schritt
+    mit dem letzten bekannten öffentlichen DH-Schlüssel Bobs durch.
+</p>
+<p>
+    Nach dem „senden“ der Nachricht wechselt die Ansicht automatisch zum Empfänger. Es kann aber jederzeit
+    zwischen Alices und Bobs Ansicht mit den jeweiligen Buttons gewechselt werden.
+</p>
+
+<h2>Details zur Implementierung</h2>
+
+<p>
+    In diesem JCrypTool-Plug-in wird die Standard-Implementierung des Signal-Protokolls in
+    Java verwendet <a href="#ref1"> [1]</a>. Diese wurde leicht angepasst, um das Anzeigen der Zwischenergebnisse zu
+    ermöglichen. Die Originalspezifikation enthält weitere Details<a href="#ref2"> [2]</a>.
+</p>
+
+<p>
+    Die folgenden Algorithmen (und daraus folgenden Schlüssel- bzw. Wertlängen) werden in dieser Implementierung
+    verwendet.
+</p>
+
+<table>
     <tr>
-        <td>Knopf "Alle Schlüssel neu erzeugen"</td>
-        <td>Durch Drücken dieses Buttons werden alle Schlüssel neu erzeugt.</td>
+        <th>Operation</th>
+        <th>Algorithmus</th>
+        <th>Schlüssellänge</th>
     </tr>
     <tr>
-        <td>Knopf "Alices Schlüssel neu erzeugen"</td>
-        <td>Durch Drücken dieses Buttons werden Alices Schlüssel neu erzeugt.</td>
+        <td>Diffie-Hellman</td>
+        <td>Elliptische Kurve auf Curve25519</td>
+        <td>32 Byte (256 Bit)</td>
     </tr>
     <tr>
-        <td>Knopf "Bobs Schlüssel neu erzeugen"</td>
-        <td>Durch Drücken dieses Buttons werden Bobs Schlüssel neu erzeugt.</td>
+        <td>Key-Derivation-Function (KDF)</td>
+        <td>HKDF (HMAC basierte KDF)</td>
+        <td>Unterschiedlich</td>
     </tr>
-    </tbody>
+    <tr>
+        <td>Symmetrisches Verschlüsselungsverfahren</td>
+        <td>AES-256 mit Hmac-SHA256 im CBC-Modus mit PKCS5-Padding</td>
+        <td>32 Byte (256 Bit) Schlüssellänge<br>16 Byte (128 Bit) Blocklänge</td>
+    </tr>
 </table>
 
+<p>
+    Um Werte zu konkatenieren (z.B. im X3DH-Algorithmus oder die Inputs für die KDFs) werden die Bytes einfach
+    aneinandergehängt 0x02, 0x04 || 0x0A, 0x0B = 0x02, 0x04, 0x0A, 0x0B
+</p>
 
-<p> </br> </p>
+<h2>Sicherheit des Verfahrens</h2>
+
+<p>
+    Eine wichtige Eigenschaft des Protokolls ist die <b>forward secrecy</b>: kompromittierte Nachrichten erlauben
+    nicht oder nur bedingt das Entschlüsseln darauffolgender Kommunikation. Ein wichtiger Teil davon sind die Ratchets,
+    die immer mit der vorherigen Nachricht verbunden sind. Werden die Chain Keys dazu gelöscht (was nach
+    Fortschreiten der Kommunikation stark empfohlen ist), kann die Schlüsselableitung für die nächste Nachricht nicht
+    mehr nachvollzogen werden.
+</p>
+
+<p>
+    Zusätzliche Details zur Sicherheit werden in der Dokumentation des Algorithmus erläutert.
+    <a href="#ref3"> [3]</a>
+</p>
+
+<h2>Referenzen</h2>
+
+[1] <a id="ref1" href="https://github.com/signalapp/libsignal-protocol-java">libsignal-protocol-java auf github.com</a>
+(Englisch) <br>
+[2] <a id="ref2" href="https://signal.org/docs/">Spezifikation des Signal-Protokolls</a> (Englisch) <br>
+[3] <a id="ref3" href="https://signal.org/docs/specifications/doubleratchet/#security-considerations">Betrachtungen zur
+    Sicherheit des Double Ratchet-Verfahrens in der Originaldokumentation</a> (Englisch)
+
 </body>
+</html>
