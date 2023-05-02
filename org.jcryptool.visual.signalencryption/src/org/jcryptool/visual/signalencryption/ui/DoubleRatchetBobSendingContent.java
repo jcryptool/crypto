@@ -172,10 +172,14 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
                 .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeEcPrivate, DUMMY)).valueNode();
         txt_diffieHellmanBot.setLayoutData(Layout.gd_algorithmNodes());
 
-        arr_diffieHellman1 = ArrowComponent.from(txt_diffieHellmanTop).south().to(txt_diffieHellmanMid).north()
+        arr_diffieHellman1 = ArrowComponent
+                .from(txt_diffieHellmanTop).south()
+                .to(txt_diffieHellmanMid).north()
                 .on(cmp_bobSendingAlgorithm).create();
 
-        arr_diffieHellman2 = ArrowComponent.from(txt_diffieHellmanBot).north().to(txt_diffieHellmanMid).south()
+        arr_diffieHellman2 = ArrowComponent
+                .from(txt_diffieHellmanBot).north()
+                .to(txt_diffieHellmanMid).south()
                 .on(cmp_bobSendingAlgorithm).create();
     }
 
@@ -211,13 +215,19 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
                 .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY)).valueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
-        arr_rootChain1 = ArrowComponent.from(txt_rootChainTop).south().to(txt_rootChainMid).north()
+        arr_rootChain1 = ArrowComponent
+                .from(txt_rootChainTop).south()
+                .to(txt_rootChainMid).north()
                 .on(cmp_bobSendingAlgorithm).create();
 
-        arr_rootChain2 = ArrowComponent.from(txt_rootChainConst).south().to(txt_rootChainMid).east()
+        arr_rootChain2 = ArrowComponent
+                .from(txt_rootChainConst).south()
+                .to(txt_rootChainMid).east()
                 .on(cmp_bobSendingAlgorithm).create();
 
-        arr_rootChain3 = ArrowComponent.from(txt_rootChainMid).south().to(txt_rootChainBot).north()
+        arr_rootChain3 = ArrowComponent
+                .from(txt_rootChainMid).south()
+                .to(txt_rootChainBot).north()
                 .on(cmp_bobSendingAlgorithm).create();
     }
 
@@ -248,10 +258,14 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
                 .operationNode();
         txt_sendingChainMid.setLayoutData(Layout.gd_algorithmNodesSlim());
 
-        arr_sendingChain1 = ArrowComponent.from(txt_sendingChainTop).south().to(txt_sendingChainMid).north()
+        arr_sendingChain1 = ArrowComponent
+                .from(txt_sendingChainTop).south()
+                .to(txt_sendingChainMid).north()
                 .on(cmp_bobSendingAlgorithm).create();
 
-        arr_sendingChain2 = ArrowComponent.from(txt_sendingChainConst).south().to(txt_sendingChainMid).east()
+        arr_sendingChain2 = ArrowComponent
+                .from(txt_sendingChainConst).south()
+                .to(txt_sendingChainMid).east()
                 .on(cmp_bobSendingAlgorithm).create();
 
         UiUtils.insertSpacers(grp_sendingChain, 1);
@@ -260,7 +274,9 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
                 .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewChainKey, DUMMY)).valueNode();
         txt_sendingChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
-        arr_sendingChain3 = ArrowComponent.from(txt_sendingChainMid).south().to(txt_sendingChainBot).north()
+        arr_sendingChain3 = ArrowComponent
+                .from(txt_sendingChainMid).south()
+                .to(txt_sendingChainBot).north()
                 .on(cmp_bobSendingAlgorithm).create();
     }
 
@@ -313,13 +329,19 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
     }
 
     private void createArrowSpaces() {
-        arr_space1 = ArrowComponent.from(grp_diffieHellman, txt_diffieHellmanMid).west()
-                .to(txt_rootChainMid, txt_rootChainMid).east().on(cmp_bobSendingAlgorithm).withDefaults();
+        arr_space1 = ArrowComponent
+                .from(grp_diffieHellman, txt_diffieHellmanMid).west()
+                .to(txt_rootChainMid, txt_rootChainMid).east()
+                .on(cmp_bobSendingAlgorithm).create();
 
-        arr_space2 = ArrowComponent.from(txt_rootChainMid).west().to(txt_sendingChainMid).east()
-                .on(cmp_bobSendingAlgorithm).withDefaults();
+        arr_space2 = ArrowComponent
+                .from(txt_rootChainMid).west()
+                .to(txt_sendingChainMid).east()
+                .on(cmp_bobSendingAlgorithm).create();
 
-        arr_space3 = ArrowComponent.from(txt_sendingChainMid).west().to(cmp_messageBox, txt_sendingChainMid).east()
+        arr_space3 = ArrowComponent
+                .from(txt_sendingChainMid).west()
+                .to(cmp_messageBox, txt_sendingChainMid).east()
                 .on(cmp_bobSendingAlgorithm).create();
     }
 

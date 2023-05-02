@@ -173,11 +173,13 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
                 .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeEcPrivate, DUMMY)).valueNode();
         txt_diffieHellmanBot.setLayoutData(Layout.gd_algorithmNodes());
 
-        arr_diffieHellman1 = ArrowComponent.from(txt_diffieHellmanTop).south().to(txt_diffieHellmanMid).north()
-                .on(cmp_aliceSendingAlgorithm).withDefaults();
+        arr_diffieHellman1 = ArrowComponent
+                .from(txt_diffieHellmanTop).south()
+                .to(txt_diffieHellmanMid).north()
+                .on(cmp_aliceSendingAlgorithm).create();
 
         arr_diffieHellman2 = ArrowComponent.from(txt_diffieHellmanBot).north().to(txt_diffieHellmanMid).south()
-                .on(cmp_aliceSendingAlgorithm).withDefaults();
+                .on(cmp_aliceSendingAlgorithm).create();
     }
 
     public void setDiffieHellmanRatchetVisible(boolean visible) {
@@ -208,7 +210,9 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
                 .operationNode();
         txt_rootChainMid.setLayoutData(Layout.gd_algorithmNodes());
 
-        arr_rootChain1 = ArrowComponent.from(txt_rootChainConst).south().to(txt_rootChainMid).west()
+        arr_rootChain1 = ArrowComponent
+                .from(txt_rootChainConst).south()
+                .to(txt_rootChainMid).west()
                 .on(cmp_aliceSendingAlgorithm).create();
 
         UiUtils.insertSpacers(grp_rootChain, 1);
@@ -217,11 +221,15 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
                 .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY)).valueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
-        arr_rootChain2 = ArrowComponent.from(txt_rootChainTop).south().to(txt_rootChainMid).north()
-                .on(cmp_aliceSendingAlgorithm).withDefaults();
+        arr_rootChain2 = ArrowComponent
+                .from(txt_rootChainTop).south()
+                .to(txt_rootChainMid).north()
+                .on(cmp_aliceSendingAlgorithm).create();
 
-        arr_rootChain3 = ArrowComponent.from(txt_rootChainMid).south().to(txt_rootChainBot).north()
-                .on(cmp_aliceSendingAlgorithm).withDefaults();
+        arr_rootChain3 = ArrowComponent
+                .from(txt_rootChainMid).south()
+                .to(txt_rootChainBot).north()
+                .on(cmp_aliceSendingAlgorithm).create();
     }
 
     public void setRootChainVisible(boolean visible) {
@@ -253,11 +261,15 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
                 .operationNode();
         txt_sendingChainMid.setLayoutData(Layout.gd_algorithmNodes());
 
-        arr_sendingChain1 = ArrowComponent.from(txt_sendingChainConst).south().to(txt_sendingChainMid).west()
-                .on(cmp_aliceSendingAlgorithm).withDefaults();
+        arr_sendingChain1 = ArrowComponent
+                .from(txt_sendingChainConst).south()
+                .to(txt_sendingChainMid).west()
+                .on(cmp_aliceSendingAlgorithm).create();
 
-        arr_sendingChain2 = ArrowComponent.from(txt_sendingChainTop).south().to(txt_sendingChainMid).north()
-                .on(cmp_aliceSendingAlgorithm).withDefaults();
+        arr_sendingChain2 = ArrowComponent
+                .from(txt_sendingChainTop).south()
+                .to(txt_sendingChainMid).north()
+                .on(cmp_aliceSendingAlgorithm).create();
 
         UiUtils.insertSpacers(grp_sendingChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 
@@ -265,8 +277,10 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
                 .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewChainKey, DUMMY)).valueNode();
         txt_sendingChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
-        arr_sendingChain3 = ArrowComponent.from(txt_sendingChainMid).south().to(txt_sendingChainBot).north()
-                .on(cmp_aliceSendingAlgorithm).withDefaults();
+        arr_sendingChain3 = ArrowComponent
+                .from(txt_sendingChainMid).south()
+                .to(txt_sendingChainBot).north()
+                .on(cmp_aliceSendingAlgorithm).create();
     }
 
     public void setSendingChainVisible(boolean visible) {
@@ -327,15 +341,23 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     }
 
     private void createArrowSpaces() {
-        arr_space1 = ArrowComponent.from(grp_diffieHellman, txt_diffieHellmanMid).east()
-                .to(txt_rootChainMid, txt_rootChainMid).west().on(cmp_aliceSendingAlgorithm).withDefaults();
+        arr_space1 = ArrowComponent
+                .from(grp_diffieHellman, txt_diffieHellmanMid).east()
+                .to(txt_rootChainMid, txt_rootChainMid).west()
+                .on(cmp_aliceSendingAlgorithm)
+                .create();
 
-        arr_space2 = ArrowComponent.from(grp_rootChain, txt_rootChainMid).east()
-                .to(txt_sendingChainMid, txt_sendingChainMid).west().on(cmp_aliceSendingAlgorithm)
-                .withDefaults();
+        arr_space2 = ArrowComponent
+                .from(grp_rootChain, txt_rootChainMid).east()
+                .to(txt_sendingChainMid, txt_sendingChainMid).west()
+                .on(cmp_aliceSendingAlgorithm)
+                .create();
 
-        arr_space3 = ArrowComponent.from(txt_sendingChainMid).east().to(cmp_messageBox, txt_sendingChainMid).west()
-                .on(cmp_aliceSendingAlgorithm).withDefaults();
+        arr_space3 = ArrowComponent
+                .from(txt_sendingChainMid).east()
+                .to(cmp_messageBox, txt_sendingChainMid).west()
+                .on(cmp_aliceSendingAlgorithm)
+                .create();
     }
 
     public void setAllVisible(boolean visible) {
