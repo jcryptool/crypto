@@ -271,7 +271,7 @@ public class OverviewView extends Composite {
         scroller.setExpandHorizontal(true);
         scroller.setExpandVertical(true);
         scroller.setAlwaysShowScrollBars(false);
-        Composite container = new Composite(scroller, SWT.V_SCROLL);
+        Composite container = new Composite(scroller, SWT.NONE);
         container.setLayout(new GridLayout());
         container.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true, true).get());
         scroller.setContent(container);
