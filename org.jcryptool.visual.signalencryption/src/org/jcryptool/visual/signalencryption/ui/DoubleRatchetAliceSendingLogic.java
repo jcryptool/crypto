@@ -221,8 +221,9 @@ public class DoubleRatchetAliceSendingLogic {
                     passMessageToEncryption(swtParent);
                 }
 
-                STEP_5_SENDING.switchState(swtParent);
-                return STEP_5_SENDING;
+                var nextStep = peekForward();
+                nextStep.switchState(swtParent);
+                return nextStep;
             }
 
             @Override
