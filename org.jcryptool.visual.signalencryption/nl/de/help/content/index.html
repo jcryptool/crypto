@@ -1,106 +1,100 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-  "http://www.w3.org/TR/html4/loose.dtd">
-
-<head>	  
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>Signal-Protokoll</title>
-      <style>
-      	#explanation {
-      					float: left;
-      					margin-left: 30px;
-      					margin-right: 30px;
-      					padding-bottom: 5px;
-      				 }
-      </style>
+<!DOCTYPE html lang="de">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Signal-Protokoll</title>
 </head>
 
 <body>
-	<h1>Signal-Protokoll</h1>
-	
-	<p>In diesem Plugin wird das <b>Double-Ratchet</b> des Signal-Protokolls visualisiert.</br>
-	Insgesamt besteht das Signal-Protokoll aus mehreren Schritten die hier in der Onlinehilfe erklärt werden.</p>
-	  
-	<p>Das Plugin lässt sich über das Menü <b>Visualisierungen</b> oder über den Krypto-Explorer im Reiter <b>Visualisierungen</b> starten.</p>
+<h1>Signal-Protokoll</h1>
 
-	<p>Die JCT-Onlinehilfe zum Signal-Protokoll ist in drei Teile aufgeteilt:</p>
-	<ul>
-		<li><a href="index.html">Benutzung des Plugins [diese Seite]</a></li>
-		<li><a href="algorithm.html">Algorithmus</a></li>
-		<li><a href="ablauf.html">Ablauf</a></li>
-	</ul>
+<p>In diesem Plugin wird das <b>Double-Ratchet</b> des Signal-Protokolls visualisiert.</br>
+    Insgesamt besteht das Signal-Protokoll aus mehreren Schritten die hier in der Onlinehilfe erklärt werden.</p>
 
-	
-	<h2>Benutzung des Plugins</h2>
-	<p>Das Plugin wird über das Hauptmenü "Visualisierung" und den
-		Menüeintrag "Signal-Encryption" gestartet. Danach erscheint ein Reiter
-		"Signal-Encryption, der 2 Unterreiter besitzt. Deren Namen sind:</p>
-	<ul>
-		<li><a href="#params">Allgemein</a></li>
-		<li><a href="#signing">Double Ratchet</a></li>
+<p>Das Plugin lässt sich über das Menü <b>Visualisierungen</b> oder über den Krypto-Explorer im Reiter <b>Visualisierungen</b>
+    starten.</p>
 
-	</ul>
-	<p>Im Folgenden werden die Inhalte der 2 Unterreiter beschrieben.</p>
+<p>Die JCT-Onlinehilfe zum Signal-Protokoll ist in drei Teile aufgeteilt:</p>
+<ul>
+    <li><a href="index.html">Benutzung des Plugins [diese Seite]</a></li>
+    <li><a href="algorithm.html">Algorithmus</a></li>
+    <li><a href="ablauf.html">Ablauf</a></li>
+</ul>
 
-	<p>&nbsp;</p>
-	<h2 id="params">1. Unterreiter "Allgemein"</h2>
-	<p>Im ersten Unterreiter erfolgt eine einleitende Erklärung können Sie die benutzten Parameter sehen und ändern, und die Schlüssel generieren, die dann im 2. Unterreiter zum Signieren und Verifizieren benutzt werden.</p>
-	<p> Der folgende Screenshot zeigt die Standardeinstellungen, und Schlüssel, die durch Drücken des Buttons "Schlüssel generieren" zufällig erzeugt wurden. Sie können Schlüssel auch von Hand eingeben, um Beispiele aus der Literatur zu testen.</p>
-	<img src="images/firstscreen.png" alt="Sub-tab 1" id="subtab1" width = "50%" />
-	
-	<h4 id="Parameter">Gruppierung "Parameter"</h4>
-	<p>Im ersten Unterreiter können Sie die ff. Verfahrensparameter verändern und einsehen. Die Parameter sind im Dezimalsystem (Basis 10) angegeben.</p>
-	<table border=1>
-		<thead>
-			<tr>
-				<td>Schlüssel</td>
-				<td>Beschreibung</td>
-			</tr>
-		<tbody>
-			<tr>
-				<td>Diffie Hellman Privater Schlüssel</td>
-				<td>Beschreibung
-				</td>
-			</tr>
-			<tr>
-				<td>Diffie Hellman öffentlicher Schlüssel</td>
-				<td>Beschreibung
-				</td>
-			</tr>
-			<tr>
-				<td>Root Chain Schlüssel</td>
-				<td>Beschreibung
-				</td>
-			</tr>
-			<tr>
-				<td>Sending Chain Schlüssel</td>
-				<td>Beschreibung
-				</td>
-			</tr>
-			<tr>
-				<td>Receiving Chain Schlüssel</td>
-				<td>Beschreibung
-				</td>
-			</tr>
-			<tr>
-				<td>Message Schlüssel</td>
-				<td>Beschreibung</td>
-			</tr>
 
-			<tr>
-				<td>Knopf "Alle Schlüssel neu erzeugen"</td>
-				<td>Durch Drücken dieses Buttons werden alle Schlüssel neu erzeugt.</td>
-			</tr>
-			<tr>
-				<td>Knopf "Alices Schlüssel neu erzeugen"</td>
-				<td>Durch Drücken dieses Buttons werden Alices Schlüssel neu erzeugt.</td>
-			</tr>
-			<tr>
-				<td>Knopf "Bobs Schlüssel neu erzeugen"</td>
-				<td>Durch Drücken dieses Buttons werden Bobs Schlüssel neu erzeugt.</td>
-			</tr>
-		</tbody>
-	</table>
+<h2>Benutzung des Plugins</h2>
+<p>Das Plugin wird über das Hauptmenü "Visualisierung" und den
+    Menüeintrag "Signal-Encryption" gestartet. Danach erscheint ein Reiter
+    "Signal-Encryption, der 2 Unterreiter besitzt. Deren Namen sind:</p>
+<ul>
+    <li><a href="#params">Allgemein</a></li>
+    <li><a href="#signing">Double Ratchet</a></li>
 
+</ul>
+<p>Im Folgenden werden die Inhalte der 2 Unterreiter beschrieben.</p>
+
+<p>&nbsp;</p>
+<h2 id="params">1. Unterreiter "Allgemein"</h2>
+<p>Im ersten Unterreiter erfolgt eine einleitende Erklärung können Sie die benutzten Parameter sehen und ändern, und die
+    Schlüssel generieren, die dann im 2. Unterreiter zum Signieren und Verifizieren benutzt werden.</p>
+<p> Der folgende Screenshot zeigt die Standardeinstellungen, und Schlüssel, die durch Drücken des Buttons "Schlüssel
+    generieren" zufällig erzeugt wurden. Sie können Schlüssel auch von Hand eingeben, um Beispiele aus der Literatur zu
+    testen.</p>
+<img src="images/firstscreen.png" alt="Sub-tab 1" id="subtab1" width="50%"/>
+
+<h4 id="Parameter">Gruppierung "Parameter"</h4>
+<p>Im ersten Unterreiter können Sie die ff. Verfahrensparameter verändern und einsehen. Die Parameter sind im
+    Dezimalsystem (Basis 10) angegeben.</p>
+<table border=1>
+    <thead>
+    <tr>
+        <td>Schlüssel</td>
+        <td>Beschreibung</td>
+    </tr>
+    <tbody>
+    <tr>
+        <td>Diffie Hellman Privater Schlüssel</td>
+        <td>Beschreibung
+        </td>
+    </tr>
+    <tr>
+        <td>Diffie Hellman öffentlicher Schlüssel</td>
+        <td>Beschreibung
+        </td>
+    </tr>
+    <tr>
+        <td>Root Chain Schlüssel</td>
+        <td>Beschreibung
+        </td>
+    </tr>
+    <tr>
+        <td>Sending Chain Schlüssel</td>
+        <td>Beschreibung
+        </td>
+    </tr>
+    <tr>
+        <td>Receiving Chain Schlüssel</td>
+        <td>Beschreibung
+        </td>
+    </tr>
+    <tr>
+        <td>Message Schlüssel</td>
+        <td>Beschreibung</td>
+    </tr>
+
+    <tr>
+        <td>Knopf "Alle Schlüssel neu erzeugen"</td>
+        <td>Durch Drücken dieses Buttons werden alle Schlüssel neu erzeugt.</td>
+    </tr>
+    <tr>
+        <td>Knopf "Alices Schlüssel neu erzeugen"</td>
+        <td>Durch Drücken dieses Buttons werden Alices Schlüssel neu erzeugt.</td>
+    </tr>
+    <tr>
+        <td>Knopf "Bobs Schlüssel neu erzeugen"</td>
+        <td>Durch Drücken dieses Buttons werden Bobs Schlüssel neu erzeugt.</td>
+    </tr>
+    </tbody>
+</table>
 
 
 <p> </br> </p>
