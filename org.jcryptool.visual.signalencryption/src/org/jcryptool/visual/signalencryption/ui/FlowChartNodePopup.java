@@ -72,7 +72,7 @@ public class FlowChartNodePopup implements BiFunction<Composite, Integer, Compos
 
         for (var keyValuePair : keyValuePairs) {
             var label = new Label(composite, SWT.NONE);
-            var txt = new StyledText(composite, SWT.BORDER);
+            var txt = new StyledText(composite, SWT.BORDER | SWT.WRAP);
             txt.setCaret(null);
             txt.setEditable(false);
 
@@ -81,8 +81,10 @@ public class FlowChartNodePopup implements BiFunction<Composite, Integer, Compos
             composite.setLayout(layout);
             composite.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.FILL, true, true).get());
             label.setText(keyValuePair.getKey());
-            label.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, false, false).get());
-            txt.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true, false).get());
+            label.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.CENTER, false, false).get());
+            txt.setLayoutData(
+                    GridDataBuilder.with(SWT.FILL, SWT.TOP, true, true).widthHint(ViewConstants.POPUP_TEXT_WIDTH).get()
+            );
             txt.setFont(FontService.getNormalMonospacedFont());
             txt.setText(keyValuePair.getValue());
         }

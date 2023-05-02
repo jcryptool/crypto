@@ -198,8 +198,11 @@ public class FlowChartNode extends Composite {
         popup.setText(title);
         var baseComposite = new Composite(popup, SWT.NONE);
         baseComposite.setLayout(new GridLayout(1, true));
-        baseComposite.setLayoutData(
-                GridDataBuilder.with(SWT.FILL, SWT.FILL, true, true).minimumHeight(100).minimumWidth(400).get());
+        baseComposite.setLayoutData(GridDataBuilder
+                .with(SWT.FILL, SWT.FILL, true, true)
+                .minimumHeight(ViewConstants.POPUP_MIN_HEIGHT)
+                .minimumWidth(ViewConstants.POPUP_MIN_WIDTH)
+                .get());
         popupProvider.apply(baseComposite, SWT.NONE);
         popup.forceActive();
         popup.forceFocus();

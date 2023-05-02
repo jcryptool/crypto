@@ -96,4 +96,13 @@ public class ViewConstants {
      */
     public static final int TARGET_MARGIN = 2;
 
+    /** The width hint for the popup's value text field */
+    public static final int POPUP_TEXT_WIDTH = 330;
+
+    /** Minimum value for the popup size (width) */
+    public static final int POPUP_MIN_WIDTH = 250;
+
+    /** Minimum value for the popup size (height) */
+    public static final int POPUP_MIN_HEIGHT = 25;
+
 }
