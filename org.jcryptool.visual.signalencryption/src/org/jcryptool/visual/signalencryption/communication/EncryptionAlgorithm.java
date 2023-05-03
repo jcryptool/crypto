@@ -6,6 +6,7 @@ import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 
+/** Manages sessions, identites and keys. */
 public class EncryptionAlgorithm {
 
     public SessionManager session;

@@ -11,6 +11,10 @@ import org.jcryptool.visual.signalencryption.graphics.Positioning.Anchor;
 import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
 import org.jcryptool.visual.signalencryption.ui.SignalEncryptionView;
 
+/**
+ * Draws images on the canvas which can be easily hidden via {@link #setVisible(boolean)}.
+ * Image position can be conveniently specified via the {@link Positioning} utility.
+ */
 public class ImageComponent implements Component {
 
     private static final String OUTGOING_MAIL_BASE = "icons/mailOutgoing";
@@ -61,6 +65,7 @@ public class ImageComponent implements Component {
         this.visible = visible;
     }
 
+    /** Sets the position of where to draw the image relative to an existing Control. */
     public void setRelativeTo(Control to, Side side) {
         this.location.anchor = new Anchor(to, side);
     }
@@ -82,16 +87,11 @@ public class ImageComponent implements Component {
         return image;
     }
 
+    /** Dataclass which holds all details where to draw the image. */
     private class LocationProps {
-        /**
-         * Canvas anchor where the image shall be drawn (uses center y coordinate
-         * instead of a corner)
-         */
+        /** Canvas anchor where the image shall be drawn (uses center y coordinate instead of a corner) */
         private Anchor anchor;
-        /**
-         * Use WEST or EAST to indicate if the offset shall be added to the left or east
-         * side of the image
-         */
+        /** Use WEST or EAST to indicate if the offset shall be added to the left or east side of the image */
         final Side imageAnchor;
         /** An additional offset if you want it somewhere off of the anchor. */
         final Point offset;
@@ -110,8 +110,8 @@ public class ImageComponent implements Component {
         }
 
         /**
-         * Note that this resolving anchors at the image's west point, instead of
-         * north-west
+         * Gets the current point where the image should be drawn.
+         * Note that this resolving anchors at the image's west point, instead of north-west.
          */
         Point resolve(Image image) {
             var imageBounds = image.getBounds();

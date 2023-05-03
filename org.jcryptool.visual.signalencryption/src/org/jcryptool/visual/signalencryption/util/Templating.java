@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import org.eclipse.osgi.util.NLS;
 import org.jcryptool.visual.signalencryption.ui.Messages;
 
+/** A simple key-value based templating engine working with Eclipse message bundles. */
 public class Templating {
 
     private static final Pattern TEMPLATE = Pattern.compile("\\{[a-zA-Z0-9_]+\\}");

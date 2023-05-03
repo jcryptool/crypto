@@ -18,8 +18,7 @@ import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.ratchet.MessageKeys;
 
 /**
- * Dataclass for Double-Ratchet and message information for one message
- * exchange.
+ * Dataclass for Double-Ratchet and message information for one message exchange.
  *
  * Contains relevant key information and allows the storage of the raw input
  * message, the ciphertext (encrypted message) and the decrypted message.

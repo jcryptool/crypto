@@ -12,12 +12,16 @@ public class Positioning {
     }
 
     /**
-     * Specifies a Point on the given control. Those can resolve to X or Y
-     * coordinates independently.
-     * 
+     * Specifies a Point of a Control on the given Composite. Those can resolve to X or Y coordinates independently.
+     *
      * <pre>
-     * North | ˇ +-----------------------+ | | West -> | Control | <- East | |
-     * +-----------------------+ ^ | South </pre
+     * {@code
+     *                North
+     *        +-------------------+
+     *   West |      Control      | East
+     *        +-------------------+
+     *                South
+     * }</pre
      */
     public static class Anchor {
 
@@ -133,7 +137,7 @@ public class Positioning {
          * There is a problem with groups that they don't put their proper location into
          * getBounds(). This constants acknowledges that we are using exactly two
          * groups.
-         * 
+         *
          * I don't exactly know if there was a cleaner way to do this.
          */
         static final int CORRECTION_FACTOR = 20;
@@ -145,8 +149,8 @@ public class Positioning {
         abstract int getY(Control control, Control anchor);
 
         /**
-         * Traverse all parents until the drawing canvas to get a correct absolute
-         * position of things.
+         * Traverse all parents until the drawing canvas to get a correct absolute position of things.
+         * There is actually a out-of-the-box method for this, but I did not know about that before.
          */
         public static Rectangle correctedBounds(Control control, Control drawingCanvas) {
             Rectangle innerBounds = control.getBounds();

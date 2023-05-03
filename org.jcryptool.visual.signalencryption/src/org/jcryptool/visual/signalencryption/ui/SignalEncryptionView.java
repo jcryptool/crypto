@@ -21,6 +21,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.auto.SmoothScroller;
 
+/** [Entry-point] Creates the plug-in and all its UI components */
 public class SignalEncryptionView extends ViewPart {
 
     public static final String ID = "org.jcryptool.visual.signalencryption";

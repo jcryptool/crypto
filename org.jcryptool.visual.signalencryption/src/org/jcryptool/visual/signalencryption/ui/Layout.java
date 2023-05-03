@@ -4,11 +4,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 
+/** Utility class providing layouting objects. */
 public class Layout {
 
     private Layout() {
-        // Private constructor to prevent instantiation of this class with only static
-        // methods.
+        // Private constructor to prevent instantiation of this class with only static methods.
     }
 
     public static GridLayout gl_algorithmGroup() {

@@ -1,7 +1,5 @@
 package org.jcryptool.visual.signalencryption.ui;
 
-import java.util.Objects;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
@@ -21,6 +19,10 @@ import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.core.util.ui.layout.GridDataBuilder;
 
+/**
+ * The main component of the flowchart. A node with a title and a button, which shows a pop-up when clicked.
+ * This class requires two async execution hooks for the smooth pop-up opening and closing.
+ */
 public class FlowChartNode extends Composite {
 
     private static final int POPUP_STYLE = SWT.MODELESS | SWT.SHADOW_ETCHED_OUT | SWT.BORDER;
@@ -28,19 +30,20 @@ public class FlowChartNode extends Composite {
     private static final Image OPERATION_IMAGE = ImageService.getImage(SignalEncryptionView.ID, "icons/gear.png");
     /** The spacing between the gear symbol and the lense icon */
     private static final int HORIZONTAL_SPACING = 17;
-    /** How long to keep the button disabled when the window is closing */
+    /** How long to keep the lense-button disabled when the window is closing (prevents immediate re-opening) */
     private static final long BUTTON_DISABLE_TIME_IN_MS = 80;
     /**
-     * The difference to {@link #DISPOSE_AFTER_MS} should be enough that both
+     * How long to block closing of the pop-up after gaining the focus.
+     * <p>
+     * Compared to {@link #DISPOSE_AFTER_MS} this value should be enough long that both
      * focusGained and focusLost events can fire, but not too long to make it
-     * unresponsive
+     * unresponsive.
      */
-    private static final long DISALLOW_CLOSING_FOR_MS = 50;
+    private static final long PREVENT_CLOSING_FOR_MS = 50;
     private static final long DISPOSE_AFTER_MS = 15;
 
     static {
-        // Make definitely sure that the pop-up closes before enable the open-button
-        // again
+        // Make definitely sure that the pop-up closes before enable the open-button again
         assert BUTTON_DISABLE_TIME_IN_MS > DISPOSE_AFTER_MS;
     }
 
@@ -57,8 +60,13 @@ public class FlowChartNode extends Composite {
     private boolean allowOpen = true;
     private boolean allowClose = true;
 
-    private FlowChartNode(Composite parent, int style, String title, String actionName,
-            FlowChartNodePopup popupProvider, Type type) {
+    private FlowChartNode(
+            Composite parent, int style,
+            String title,
+            String popupTooltip,
+            FlowChartNodePopup popupProvider,
+            Type type
+    ) {
         super(parent, style);
         this.popupProvider = popupProvider;
         this.parentShell = getShell();
@@ -71,8 +79,8 @@ public class FlowChartNode extends Composite {
             createOperationBody();
         }
 
-        if (!Objects.isNull(actionName) && !actionName.isEmpty()) {
-            btn_showPopup.setText(actionName);
+        if (popupTooltip != null && !popupTooltip.isEmpty()) {
+            btn_showPopup.setToolTipText(popupTooltip);
         }
 
         btn_showPopup.addSelectionListener(showPopupListener());
@@ -104,7 +112,6 @@ public class FlowChartNode extends Composite {
         btn_showPopup = new Button(this, SWT.TOGGLE);
         btn_showPopup.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
         btn_showPopup.setImage(BUTTON_IMAGE);
-
     }
 
     public FlowChartNodePopup getPopupProvider() {
@@ -152,7 +159,7 @@ public class FlowChartNode extends Composite {
                 // close (focusLost) or not (focusSwitched)
                 allowClosing(false);
                 Display.getDefault().asyncExec(() -> {
-                    sleep(DISALLOW_CLOSING_FOR_MS);
+                    sleep(PREVENT_CLOSING_FOR_MS);
                     allowClosing(true);
                 });
             }
@@ -218,6 +225,7 @@ public class FlowChartNode extends Composite {
         });
     }
 
+    /** Adds a close-on-lose-focus listener to each child of the composite. */
     private void recursivelyAddFocusListener(Composite x) {
         var children = x.getChildren();
         for (var child : children) {
@@ -257,10 +265,7 @@ public class FlowChartNode extends Composite {
         }
     }
 
-    /**
-     * Note that this is an „unsafe“ sleep, but we don't care about being
-     * interrupted
-     */
+    /** Sleeps „unsafely“, but we don't care about being interrupted */
     private void sleep(long duration) {
         try {
             Thread.sleep(duration);

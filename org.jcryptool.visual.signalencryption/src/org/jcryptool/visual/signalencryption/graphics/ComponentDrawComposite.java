@@ -1,13 +1,14 @@
 package org.jcryptool.visual.signalencryption.graphics;
 
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
+/** Draws {@link Component}s on the canvas. */
 public class ComponentDrawComposite extends Canvas {
 
     private Set<Component> componentsToDraw = new HashSet<>();
@@ -18,7 +19,6 @@ public class ComponentDrawComposite extends Canvas {
     }
 
     private void paintControl(PaintEvent e) {
-        // e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_DARK_RED));
         e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_WIDGET_BORDER));
 
         for (var component : componentsToDraw) {

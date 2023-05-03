@@ -19,9 +19,9 @@ import org.whispersystems.libsignal.protocol.SignalMessage;
 
 /**
  * Interface between UI "frontend" and algorithm "backend".
- * 
- * Handle multiple messages and the keys used to encryt/decrypt them. Provide as
- * a simple-to-use class with methods similar to an iterator.
+ *
+ * Handles multiple messages and the keys used to encryt/decrypt them. Provides a list-like interface
+ * to advance through the messages (this is important if the user switches forth and back between states).
  */
 public class SignalCommunication {
 
@@ -33,7 +33,7 @@ public class SignalCommunication {
 
     /**
      * Interface between UI "frontend" and algorithm "backend".
-     * 
+     *
      * Handle multiple messages and the keys used to encryt/decrypt them. Provide as
      * a simple-to-use class with methods similar to an iterator.
      */
@@ -50,7 +50,7 @@ public class SignalCommunication {
 
     /**
      * Retrieve the object the communication is currently pointing at.
-     * 
+     *
      * @return the {@link MessageContext}
      */
     public MessageContext current() {
@@ -59,7 +59,7 @@ public class SignalCommunication {
 
     /**
      * Set the pointer to the previous element and return the object there.
-     * 
+     *
      * @return the new {@link MessageContext} after moving the pointer. Return the
      *         same object if already at the beginning.
      * @see #begin()
@@ -74,7 +74,7 @@ public class SignalCommunication {
 
     /**
      * Set the pointer to the next element and return the object there.
-     * 
+     *
      * @return The new {@link MessageContext} after moving the pointer. A new object
      *         is automatically appended at the end if already at the end.
      * @see #end()
@@ -98,7 +98,7 @@ public class SignalCommunication {
 
     /**
      * Set the pointer to the first element and return the object there.
-     * 
+     *
      * @return The new {@link MessageContext} after moving the pointer.
      */
     public MessageContext begin() {
@@ -108,7 +108,7 @@ public class SignalCommunication {
 
     /**
      * Set the pointer to the last element and return the object there.
-     * 
+     *
      * @return The new {@link MessageContext} after moving the pointer.
      */
     public MessageContext end() {
@@ -118,7 +118,7 @@ public class SignalCommunication {
 
     /**
      * Check the state of the pointer.
-     * 
+     *
      * @return True if the pointer is currently at the begin.
      */
     public boolean isBeginning() {
@@ -131,7 +131,7 @@ public class SignalCommunication {
 
     /**
      * Check the state of the pointer.
-     * 
+     *
      * @return True if the pointer is currently at the end.
      */
     public boolean isEnd() {
@@ -148,11 +148,11 @@ public class SignalCommunication {
 
     /**
      * Encrypt the message set in the current {@link MessageContext} and update it.
-     * 
+     *
      * This makes the encrypted and decrypted data available in the context object.
      * <p>
      * THERE IS NO SEPARATE DECRYPT METHOD AS THIS IS DONE DIRECTLY HERE
-     * 
+     *
      * @throws SignalAlgorithmException if something goes wrong on the algorithm
      *                                  side.
      * @throws IllegalStateException    if the current MessageContext is already
@@ -174,7 +174,7 @@ public class SignalCommunication {
 
     /**
      * Update the message before calling {@linkplain #encrypt()}.
-     * 
+     *
      * <p>
      * See the docstring of {@link #encrypt()}.
      */
@@ -196,10 +196,10 @@ public class SignalCommunication {
 
     /**
      * Helper method to encrypt and decrypt a given message.
-     * 
+     *
      * It also handles preKeyMessages. This does not care who Alice or Bob is, as
      * long as their ciphers are set correctly in the parameters.
-     * 
+     *
      * @param encryptingCipher the keys to use for encryption
      * @param decryptingCipher the keys to use for decryption
      * @param message          the plaintext to encrypt

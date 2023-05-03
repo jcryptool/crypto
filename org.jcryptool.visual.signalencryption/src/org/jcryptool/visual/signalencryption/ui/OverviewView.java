@@ -25,6 +25,7 @@ import org.jcryptool.visual.signalencryption.ui.SignalEncryptionView.Tab;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 
+/** Main view of the Overview tab containing the general explanations. */
 public class OverviewView extends Composite {
 
     private static final int KEY_SIZE = 32;
