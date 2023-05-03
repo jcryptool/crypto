@@ -15,6 +15,7 @@ import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
 import org.jcryptool.visual.signalencryption.util.Templating;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
+/** Double Ratchet algorithm content showing Alice receiving a message. */
 public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityContent {
 
     StyledText txt_aliceReceivingStep5;

@@ -15,6 +15,7 @@ import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
 import org.jcryptool.visual.signalencryption.util.Templating;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
+/** Double Ratchet algorithm content showing Bob receiving a message. */
 public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityContent {
 
     StyledText txt_bobReceivingStep5;

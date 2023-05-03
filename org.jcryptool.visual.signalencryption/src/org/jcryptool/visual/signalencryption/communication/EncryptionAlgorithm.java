@@ -1,4 +1,4 @@
-package org.jcryptool.visual.signalencryption.ui;
+package org.jcryptool.visual.signalencryption.communication;
 
 import org.jcryptool.visual.signalencryption.algorithm.SessionManager;
 import org.jcryptool.visual.signalencryption.algorithm.SessionManager.Captures;

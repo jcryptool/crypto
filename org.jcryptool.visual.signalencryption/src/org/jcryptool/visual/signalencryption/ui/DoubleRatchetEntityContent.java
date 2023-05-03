@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Composite;
 public interface DoubleRatchetEntityContent {
 
     static final String DUMMY = "";
-    static final int RECEIVING_STEP_OFFSET = 5;
     static final int highlightLength = (Messages.DoubleRatchet_Step + " X").length();
     static final StyleRange stepBold = new StyleRange(0, highlightLength, null, null, SWT.BOLD);
     static final StyleRange stepNormal = new StyleRange(0, highlightLength, null, null, SWT.NORMAL);
@@ -30,8 +29,7 @@ public interface DoubleRatchetEntityContent {
     void showStep(DoubleRatchetStep step);
 
     default void showStep(DoubleRatchetStep step, List<StyledText> stepDescriptions, int offset) {
-        // Last visible step if offset by one, as STEP_0 does not show a step
-        // description
+        // Last visible step if offset by one, as STEP_0 does not show a step description
         int lastVisibleStep = step.getStepIndex() - 1;
         for (int i = offset; i < stepDescriptions.size() + offset; ++i) {
             StyledText description = stepDescriptions.get(i - offset);

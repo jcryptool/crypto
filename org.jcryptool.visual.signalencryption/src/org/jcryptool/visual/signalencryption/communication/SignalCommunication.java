@@ -2,7 +2,7 @@ package org.jcryptool.visual.signalencryption.communication;
 
 import java.util.LinkedList;
 import java.util.List;
-import org.jcryptool.visual.signalencryption.ui.EncryptionAlgorithm;
+
 import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
 import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException;
 import org.whispersystems.libsignal.DuplicateMessageException;

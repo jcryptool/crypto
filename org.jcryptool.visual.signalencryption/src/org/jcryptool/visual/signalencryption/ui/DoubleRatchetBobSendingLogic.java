@@ -10,6 +10,12 @@ import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException;
 import org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.AliceSendingStep;
 
+/**
+ * All state changes necesssary to represent Bob sending a message to Alice.
+ * I know that this class is kind of redundant, but I don't have the time to refactor it.
+ *
+ * @see DoubleRatchetAliceSendingLogic
+ */
 public class DoubleRatchetBobSendingLogic {
 
     public enum BobSendingStep implements DoubleRatchetStep {

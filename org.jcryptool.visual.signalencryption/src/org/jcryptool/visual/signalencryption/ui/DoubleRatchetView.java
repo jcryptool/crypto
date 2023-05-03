@@ -20,53 +20,47 @@ import org.jcryptool.core.util.ui.layout.GridDataBuilder;
 import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
+/** Main view of the Double Ratchet tab containing the flowchart with explanation. */
 public class DoubleRatchetView extends Composite {
 
-    Composite cmp_body;
-    Composite cmp_alice;
-    Composite cmp_bob;
+    private Button btn_alice;
+    private Button btn_bob;
+    private Button btn_next;
+    private Button btn_previous;
 
-    Button btn_alice;
-    Button btn_bob;
-    Button btn_next;
-    Button btn_previous;
+    private Label lbl_aliceStatus;
+    private Label lbl_bobStatus;
 
-    Label lbl_aliceStatus;
-    Label lbl_bobStatus;
+    private Group grp_aliceSteps;
+    private Group grp_aliceAlgorithm;
+    private Group grp_bobSteps;
+    private Group grp_bobAlgorithm;
 
-    Group grp_aliceSteps;
-    Group grp_aliceAlgorithm;
-    Group grp_bobSteps;
-    Group grp_bobAlgorithm;
+    private DoubleRatchetBobSendingContent bobSendingContent;
+    private DoubleRatchetBobReceivingContent bobReceivingContent;
 
-    private DoubleRatchetAliceSendingContent aliceSendingContent;
-    private DoubleRatchetAliceReceivingContent aliceReceivingContent;
-    DoubleRatchetBobSendingContent bobSendingContent;
-    DoubleRatchetBobReceivingContent bobReceivingContent;
+    private Composite cmp_aliceSendingSteps;
+    private Composite cmp_aliceReceivingSteps;
+    private Composite cmp_bobSendingSteps;
+    private Composite cmp_bobReceivingSteps;
+    private Composite cmp_aliceSendingAlgorithm;
+    private Composite cmp_aliceReceivingAlgorithm;
+    private Composite cmp_bobSendingAlgorithm;
+    private Composite cmp_bobReceivingAlgorithm;
 
-    Composite cmp_aliceSendingSteps;
-    Composite cmp_aliceReceivingSteps;
-    Composite cmp_bobSendingSteps;
-    Composite cmp_bobReceivingSteps;
-
-    Composite cmp_aliceSendingAlgorithm;
-    Composite cmp_aliceReceivingAlgorithm;
-    Composite cmp_bobSendingAlgorithm;
-    Composite cmp_bobReceivingAlgorithm;
-
-    String stepGroupDescription = Messages.DoubleRatchet_stepGroupDescription;
-    String btn_NextDescription = Messages.DoubleRatchet_buttonNext;
-    String btn_PreviousDescription = Messages.DoubleRatchet_buttonBack;
-
-    StackLayout sl_aliceSteps;
-    StackLayout sl_bobSteps;
-
-    StackLayout sl_aliceAlgorithm;
-    StackLayout sl_bobAlgorithm;
+    private StackLayout sl_aliceSteps;
+    private StackLayout sl_bobSteps;
+    private StackLayout sl_aliceAlgorithm;
+    private StackLayout sl_bobAlgorithm;
 
     private DoubleRatchetView instance;
-    private DoubleRatchetAliceSendingLogic signalEncryptionUiState;
+    private DoubleRatchetController signalEncryptionUiState;
+    private DoubleRatchetAliceSendingContent aliceSendingContent;
+    private DoubleRatchetAliceReceivingContent aliceReceivingContent;
 
+    private Composite cmp_body;
+    private Composite cmp_alice;
+    private Composite cmp_bob;
     private Composite cmp_buttons;
     private Composite cmp_header;
     private Composite cmp_bobWaitingInitialLabel;
@@ -75,6 +69,11 @@ public class DoubleRatchetView extends Composite {
     private Composite cmp_aliceSendingLabel;
     private Composite cmp_aliceSendingInitialLabel;
     private Composite cmp_aliceWaitingLabel;
+
+    private String stepGroupDescription = Messages.DoubleRatchet_stepGroupDescription;
+    private String btn_NextDescription = Messages.DoubleRatchet_buttonNext;
+    private String btn_PreviousDescription = Messages.DoubleRatchet_buttonBack;
+
 
     DoubleRatchetView(Composite parent, int style) {
         super(parent, style);
@@ -88,7 +87,7 @@ public class DoubleRatchetView extends Composite {
         createBobComposite();
         showAliceView();
 
-        signalEncryptionUiState = new DoubleRatchetAliceSendingLogic(this);
+        signalEncryptionUiState = new DoubleRatchetController(this);
 
     }
 
@@ -424,6 +423,7 @@ public class DoubleRatchetView extends Composite {
         return aliceReceivingContent;
     }
 
+    /** Represents the center algorithm text on step 0 (when nothing is visible yet) */
     enum CenterDescriptionType {
         ALICE_INIT(Messages.Name_Alice_Space + Messages.DoubleRatchet_sendingInitialMessage),
         ALICE_SENDING(Messages.Name_Alice_Space + Messages.DoubleRatchet_sendingAnyMessage),
@@ -442,6 +442,8 @@ public class DoubleRatchetView extends Composite {
             return this.text;
         }
     }
+
+    /** Whether Alice or Bob are currently sending. */
     public enum UiSendStatus {
         BOB_SEND_MSG("..." + Messages.DoubleRatchet_TopBarStatusSending),
         BOB_RECEIVE_MSG("..." + Messages.DoubleRatchet_TopBarStatusReceiving),
@@ -454,5 +456,4 @@ public class DoubleRatchetView extends Composite {
             this.statusMessage = statusMessage;
         }
     }
-
 }

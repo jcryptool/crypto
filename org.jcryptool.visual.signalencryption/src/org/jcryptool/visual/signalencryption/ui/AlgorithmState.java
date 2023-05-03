@@ -1,5 +1,6 @@
 package org.jcryptool.visual.signalencryption.ui;
 
+import org.jcryptool.visual.signalencryption.communication.EncryptionAlgorithm;
 import org.jcryptool.visual.signalencryption.communication.SignalCommunication;
 import org.jcryptool.visual.signalencryption.util.ToHex;
 
