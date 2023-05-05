@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Signal-Protokoll – Double Ratchet-Verschlüsselung</title>
+    <style>
+    tr:nth-child(even) { background-color: #D6EEEE; }
+    figure { margin-left: 5%; }
+    figcaption {font-style: italic; margin-left: 5%; margin-top: 10px; margin-right: auto}
+    span.caption {color: #4d50f5; font-weight: bold; }
+    img.grid {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 90%;
+      min-width: 150px;
+      max-width: 250px;
+      text-align: center
+    }
+
+    </style>
+
+</head>
+
+<body>
+<h1>Signal Protocol – Double Ratchet encryption</h1>
+
+<p>
+    This plug-in visualized the <b>Double Ratchet</b> algorithm of the Signal protocol. It is used in the
+    messengers Signal and WhatsApp for end-to-end (e2e) encryption of the communication.
+</p>
+
+<p>The plug-in is available through the menu <b>Visuals</b> oder through the <i>Crypto Explorer</i>.</p>
+
+<h2>Usage</h2>
+
+<p>There are two views which can be navigated by the top left menu.</p>
+
+<ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#doubleratchet">Double Ratchet encryptio</a></li>
+</ul>
+
+<p>All values (in case they are not text) are hexadecimal values.</p>
+
+<h3 id="overview">Tab "Overview"</h3>
+
+<p>
+    The overview tab provides an introduction and general information. The parties identities respectively their
+    keys can be viewed and recreated. By clicking on the lense symbol a persons  pre key bundles can be viewed.
+    Clicking on the button "Show Double Ratchet visualization" switches to the algorithm visualization as well.
+</p>
+
+<figure>
+    <img src="images/overview.png" style="width: 90%; min-width: 1000px; max-width: 2200px"
+         alt="1. Tab. On Top a general description. Left a column with identity keys descriptions;
+         Right double ratchet information">
+    <figcaption>
+        Figure 1 – Overview: <span class="caption">1</span> Navigation between Overview and Double Ratchet visualization;
+        <span class="caption">2</span>Information about the communication entities' public keys and steps necessary
+        before sending messages;  <span class="caption">3</span> General information about the Double Ratchet algorithm
+    </figcaption>
+</figure>
+
+<p>The Q&A elements can be expanded via clicking them; they contain additional information.</p>
+
+<figure>
+    <img src="images/qa-expander.png" style="width: 41%; min-width: 300px; max-width: 700px"
+         alt="An expanded Q&A element with details about identities / pre key bundles">
+    <figcaption>Figure 2 – Details can be shown via clicking the question.</figcaption>
+</figure>
+
+<h3 id="doubleratchet">Tab „Double Ratchet“</h3>
+
+<p>
+    This tab visualizes the Double Ratchet algorithm. The top part contains the control buttons.
+    Below are the textual descriptions of the steps; the current one is always highlighted.
+</p>
+
+<figure>
+    <img src="images/double-ratchet.png" style="width: 90%; min-width: 1000px; max-width: 2200px;"
+         alt="2. Tab with main view of the double ratchet algorithm. On Top the buttons Alice, Back, Next, Bob;
+         Center: textual description of steps; Bottom: Flowchart, nodes are connected via directed arrows">
+    <figcaption>
+        Figure 3 — Double Ratchet visualization: <span class="caption">1</span> Control panel with the navigation buttons;
+        <span class="caption">2</span>Description of the algorithm steps; <span class="caption">3</span>
+        Flowchart
+    </figcaption>
+</figure>
+<p>
+    In the lower section, the algorithm is shown in the form of a flowchart. The buttons
+    "Next" and "Back" can be used to navigate through the algorithm. The "Alice" and "Bob" buttons can be used to switch
+    the view between the communication partners.
+</p>
+
+<p>
+    The diagram consists of simple values and operations. The operations are specially marked by gears.
+    Clicking the magnifying glass displays the value of a normal node or the results of the operation.
+</p>
+
+<div class="flex-container" style="display: flex;">
+    <div>
+        <figure style="margin-left: 10%">
+            <img src="images/node-value.png" class="grid" alt="Node in the flowchart">
+            <figcaption>Figure 4 – Value node in the flowchart.</figcaption>
+        </figure>
+    </div>
+    <div>
+        <figure style="margin-left: 10%">
+            <img src="images/node-operation.png" class="grid" alt="Node in the flowchart with gears">
+            <figcaption>Figure 5 – Operation node in the flowchart</figcaption>
+        </figure>
+    </div>
+</div>
+
+<p>
+    In this visualization, Alice and Bob each take turns sending messages to each other. Alice is on the left and Bob
+    on the right. 9 steps per message are displayed for encryption and decryption. decryption are displayed.
+</p>
+<p>
+    In real life of course, the communication participants do not have to take turns. In the case that Alice writes
+    several messages in succession to Bob, she performs a Diffie-Hellman ratchet step each time using Bob's last known
+    public DH key.
+</p>
+<p>
+    After "sending" the message the view changes automatically to the receiver. It can be changed at any time
+    by using the "Alice" and "Bob" buttons.
+</p>
+
+<h2>Details about the implementation</h2>
+
+<p>
+    This JCrypTool plug-in uses the standard Java implementation of the Signal protocol <a href="#ref1"> [1]</a>.
+    It has been slightly adapted to allow the visualization of the internal values.
+    The original specification contains more details <a href="#ref2"> [2]</a>.
+</p>
+
+<p>This implementation uses the following algorithms</p>
+
+<table>
+    <tr>
+        <th>Operation</th>
+        <th>Algorithm</th>
+        <th>Key length</th>
+    </tr>
+    <tr>
+        <td>Diffie-Hellman</td>
+        <td>Elliptic curve Curve25519</td>
+        <td>32 byte (256 bit)</td>
+    </tr>
+    <tr>
+        <td>Key derivation function (KDF)</td>
+        <td>HKDF (HMAC based KDF)</td>
+        <td>arbitrary</td>
+    </tr>
+    <tr>
+        <td>Symmetric encryption algorithm</td>
+        <td>AES-256 with Hmac-SHA256 in CBC mode with PKCS5-Padding</td>
+        <td>32 Byte (256 Bit) key length<br>16 Byte (128 Bit) block length</td>
+    </tr>
+</table>
+
+<p>
+    Byte array operations (e.g. in the X3DH algorithm or for the input to the KDFs) the bytes are simply
+    concatenated 0x02, 0x04 || 0x0A, 0x0B = 0x02, 0x04, 0x0A, 0x0B.
+</p>
+
+<h2>Security of the algorithm</h2>
+
+<p>
+    An important property of the protocol is <b>forward secrecy</b>: compromised messages do not allow
+    decryption of subsequent communication. An important part of this are the ratchets,
+    which are always linked to the previous message. If the chain keys are deleted (which is
+    strongly recommended), the key derivation for the next message can no longer be traced.
+</p>
+
+<p>
+    Additional considerations about the algorithm's security can be found in the original specification
+    <a href="#ref3"> [3]</a>.
+</p>
+
+<h2>References</h2>
+
+[1] <a id="ref1" href="https://github.com/signalapp/libsignal-protocol-java">libsignal-protocol-java at github.com</a>
+<br>
+[2] <a id="ref2" href="https://signal.org/docs/">Signal protocol specification</a><br>
+[3] <a id="ref3" href="https://signal.org/docs/specifications/doubleratchet/#security-considerations">Security
+    considerations in the original specification</a>
+
+</body>
+</html>

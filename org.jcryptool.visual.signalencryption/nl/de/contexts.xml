@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+   <context id="view" title="Signal-Protokoll">
+      <description>Diese Visualisierung demonstriert das Double Ratchet Verfahren des Signal-Protokolls.</description>
+      <topic href="$nl$/help/content/deSignal.html" label="Signal-Protokoll"/>
+   </context>
+</contexts>
