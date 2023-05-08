@@ -41,9 +41,7 @@ public class SignalCommunication {
         this.algorithm = algorithm;
         messageContexts = new LinkedList<>();
 
-        messageContexts.add(initialContextWithSender(CommunicationEntity.ALICE,
-                algorithm.getInitializationCaptures().getAliceCapture(),
-                algorithm.getInitializationCaptures().getBobCapture()));
+        messageContexts.add(initialContextWithSender(CommunicationEntity.ALICE, algorithm.getInitialAliceCapture()));
         i = 0;
         newPreInitializedCapturer();
     }
@@ -220,6 +218,7 @@ public class SignalCommunication {
 
             if (isPreKeyMessage) {
                 var preKeyMessage = new PreKeySignalMessage(ciphertextMessage);
+                // TODO initialize from message instead
                 decryptedMessage = new String(
                         decryptingCipher.decrypt(preKeyMessage, receivingCapture, nextSendCapturer));
                 return new CipherTextContext(preKeyMessage, decryptedMessage);
@@ -252,8 +251,10 @@ public class SignalCommunication {
                 .build();
     }
 
-    private MessageContext initialContextWithSender(CommunicationEntity sendingEntity, JCrypToolCapturer sendingCapture,
-            JCrypToolCapturer receivingCapture) {
+    private MessageContext initialContextWithSender(
+            CommunicationEntity sendingEntity,
+            JCrypToolCapturer sendingCapture
+    ) {
         // Some explanation why we call encrypt here without message.
         // This call to encrypt more or less runs through the whole algorithm
         // calculating all values and ending up with the symmetric key.
@@ -261,9 +262,12 @@ public class SignalCommunication {
         // a handler. This allows us to use the values already before
         // actually encrypting anything. The callback is set in the context
         // and can be accessed and used to get the cipher-text.
-        return new MessageContext.Builder(sendingEntity).sendingCapture(sendingCapture)
-                .receivingCapture(receivingCapture).aliceSessionCipher(algorithm.getAliceSessionCipher())
-                .bobSessionCipher(algorithm.getBobSessionCipher()).build();
+        return new MessageContext.Builder(sendingEntity)
+                .sendingCapture(sendingCapture)
+                .receivingCapture(JCrypToolCapturer.DEFERED_CAPTURE)
+                .aliceSessionCipher(algorithm.getAliceSessionCipher())
+                .bobSessionCipher(SessionCipher.DEFERED_SESSION_CIPHER)
+                .build();
     }
 
     /**

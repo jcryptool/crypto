@@ -317,7 +317,8 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
         txt_plainText.setTextLimit(256);
         txt_plainText.setEditable(true);
 
-        drw_outgoingMailIcon = ImageComponent.on(cmp_aliceSendingAlgorithm).relativeTo(txt_cipherText, Side.EAST)
+        drw_outgoingMailIcon = ImageComponent.on(cmp_aliceSendingAlgorithm)
+                .relativeTo(txt_cipherText, Side.EAST)
                 .offsetX(ViewConstants.MAIL_ICON_X_OFFSET).outgoingMailRight();
 
         // This one is a special spacer: it doesn't have any content but ensures that

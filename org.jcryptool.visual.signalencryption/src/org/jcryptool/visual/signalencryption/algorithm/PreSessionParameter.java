@@ -4,14 +4,16 @@ import java.util.List;
 
 import org.whispersystems.libsignal.SessionBuilder;
 import org.whispersystems.libsignal.SignalProtocolAddress;
-import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.state.IdentityKeyStore;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.PreKeyStore;
 import org.whispersystems.libsignal.state.SessionStore;
 import org.whispersystems.libsignal.state.SignedPreKeyStore;
-import org.whispersystems.libsignal.state.impl.*;
+import org.whispersystems.libsignal.state.impl.InMemoryIdentityKeyStore;
+import org.whispersystems.libsignal.state.impl.InMemoryPreKeyStore;
+import org.whispersystems.libsignal.state.impl.InMemorySessionStore;
+import org.whispersystems.libsignal.state.impl.InMemorySignedPreKeyStore;
 
 public class PreSessionParameter {
 
@@ -27,7 +29,6 @@ public class PreSessionParameter {
     private SignalProtocolAddress address;
     private PreKeyBundle preKeyBundle;
 
-    private ECPublicKey preKeyRecord;
 
     private final SignalProtocolAddress remoteAddress;
 
@@ -42,11 +43,8 @@ public class PreSessionParameter {
         this.sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore, identityStore,
                 remoteAddress);
 
-        this.preKeyRecord = person.getPreKeys().get(person.getPreKeyID()).getKeyPair().getPublicKey();
-
-        this.preKeyBundle = new PreKeyBundle(person.getRegistrationId(), deviceId, person.getPreKeyID(), preKeyRecord,
-                person.getSignedPreKeyID(), person.getSignedPublicPreKey(),
-                person.getSignedPreKeyRecord().getSignature(), person.getIdentityKey());
+        //this.preKeyRecord = person.getPreKeys().get(person.getPreKeyID()).getKeyPair().getPublicKey();
+        person.nextPreKey();
     }
 
     public SessionBuilder getSession() {

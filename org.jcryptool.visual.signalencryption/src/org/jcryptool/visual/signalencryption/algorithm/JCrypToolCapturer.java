@@ -1,11 +1,15 @@
 package org.jcryptool.visual.signalencryption.algorithm;
 
+/** A data class which allows to store any relevant Double Ratchet calculation values inside it. */
 import org.whispersystems.libsignal.ecc.ECPrivateKey;
 import org.whispersystems.libsignal.ecc.ECPublicKey;
 import org.whispersystems.libsignal.kdf.DerivedRootSecrets;
 import org.whispersystems.libsignal.ratchet.MessageKeys;
 
 public class JCrypToolCapturer {
+    /** An empty instance for representative usage only. */
+    public static final JCrypToolCapturer DEFERED_CAPTURE = new JCrypToolCapturer();
+
     // Diffie-Hellman-Ratchet
     public ECPublicKey publicDiffieHellmanRatchetKey;
     public ECPrivateKey privateDiffieHellmanRatchetKey;
@@ -29,4 +33,5 @@ public class JCrypToolCapturer {
         // MessageKey
         public MessageKeys messageKey;
     }
+
 }

@@ -1,9 +1,10 @@
 package org.jcryptool.visual.signalencryption.communication;
 
+import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
 import org.jcryptool.visual.signalencryption.algorithm.SessionManager;
-import org.jcryptool.visual.signalencryption.algorithm.SessionManager.Captures;
 import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SignalProtocolAddress;
+import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
 import org.whispersystems.libsignal.state.PreKeyBundle;
 
 /** Manages sessions, identites and keys. */
@@ -13,14 +14,14 @@ public class EncryptionAlgorithm {
 
     private SessionCipher bobSessionCipher;
     private SessionCipher aliceSessionCipher;
-    private Captures currentInitializationCaptures;
+    private JCrypToolCapturer initialAliceCapture;
 
     private SignalProtocolAddress aliceAddress;
     private SignalProtocolAddress bobAddress;
 
     public EncryptionAlgorithm() {
-        this.session = new SessionManager();
-        this.currentInitializationCaptures = session.createSessionBoth();
+        this.session = new SessionManager().newIdentities();
+        this.initialAliceCapture = session.alicesSession();
         this.bobSessionCipher = session.getBobSessionCipher();
         this.aliceSessionCipher = session.getAliceSessionCipher();
 
@@ -57,7 +58,7 @@ public class EncryptionAlgorithm {
     }
 
     public void generateBoth() {
-        session.createSessionBoth();
+        session.newIdentities();
         bobSessionCipher = session.getBobSessionCipher();
         aliceSessionCipher = session.getAliceSessionCipher();
 
@@ -66,21 +67,25 @@ public class EncryptionAlgorithm {
     }
 
     public void generateAlice() {
-        session.createSessionAlice();
+        session.newIdentityAlice();
 
         aliceSessionCipher = session.getAliceSessionCipher();
         aliceAddress = session.getAliceAddress();
     }
 
     public void generateBob() {
-        session.createSessionBob();
+        session.newIdentityBob();
 
         bobSessionCipher = session.getBobSessionCipher();
         bobAddress = session.getBobAddress();
     }
 
-    public Captures getInitializationCaptures() {
-        return currentInitializationCaptures;
+    public JCrypToolCapturer getInitialAliceCapture() {
+        return initialAliceCapture;
+    }
+
+    public JCrypToolCapturer getBobsCaptureFromInitialMessage(PreKeySignalMessage message) {
+        return session.bobsSessionFromInitialMessage(message);
     }
 
 }
