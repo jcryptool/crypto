@@ -193,19 +193,19 @@ public class OverviewView extends Composite {
     }
 
     public void generateBoth() {
-        AlgorithmState.get().getSignalEncryptionAlgorithm().generateBoth();
+        AlgorithmState.get().getSignalEncryptionAlgorithm().newIdentities();
         parentView.resetDoubleRatchetView();
         updateValues();
     }
 
     public void generateAlice() {
-        AlgorithmState.get().getSignalEncryptionAlgorithm().generateAlice();
+        AlgorithmState.get().getSignalEncryptionAlgorithm().newIdentityAlice();
         parentView.resetDoubleRatchetView();
         updateValues();
     }
 
     public void generateBob() {
-        AlgorithmState.get().getSignalEncryptionAlgorithm().generateBob();
+        AlgorithmState.get().getSignalEncryptionAlgorithm().newIdentityBob();
         parentView.resetDoubleRatchetView();
         updateValues();
     }

@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
-import org.jcryptool.visual.signalencryption.algorithm.SessionManager;
 import org.jcryptool.visual.signalencryption.ui.Messages;
 import org.jcryptool.visual.signalencryption.util.Templating;
+import org.jcryptool.visual.signalencryption.algorithm.EncryptionAlgorithm;
 import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SessionCipher.EncryptCallbackHandler;
 import org.whispersystems.libsignal.SignalProtocolAddress;
@@ -40,35 +40,16 @@ public class MessageContext {
     /**
      * Dataclass for Double-Ratchet value, key and message information for one
      * message exchange.
-     *
-     * @param isAliceSending         Whether Alice is sending (true) or Bob is
-     *                               sending (false).
-     * @param message                A plain String message, can be changed as long
-     *                               as the encrypted value is not set.
-     * @param aliceDiffieHellmanKeys Alice' keys/information in the DH ratchet step
-     * @param bob                    DiffieHellmanKeys Bob's keys/information in the
-     *                               DH ratchet step
-     * @param aliceRootChain         Alice' keys/information in the root chain
-     * @param bobRootChain           Bob's keys/information in the root chain
-     * @param aliceSendReceiveChain  Alice' keys/information in the send or receive
-     *                               chain (does not matter which)
-     * @param bobSendReceiveChain    Bob's keys/information in the send or receive
-     *                               chain (does not matter which)
-     * @param
      */
-    private MessageContext(CommunicationEntity sendingEntity, String message, JCrypToolCapturer sendingCapture,
-            JCrypToolCapturer receivingCapture, EncryptCallbackHandler encryptHandler) {
+    private MessageContext(
+    		CommunicationEntity sendingEntity, String message, JCrypToolCapturer sendingCapture,
+            JCrypToolCapturer receivingCapture, EncryptCallbackHandler encryptHandler
+    ) {
         this.sendingEntity = sendingEntity;
         this.message = message;
         this.sendingCapture = sendingCapture;
         this.receivingCapture = receivingCapture;
         this.encryptHandler = encryptHandler;
-    }
-
-    public static MessageContext createWithKeysFromSessionStore(SessionManager sessionManager,
-            SignalProtocolAddress aliceAddress, SignalProtocolAddress bobAddress, CommunicationEntity sendingEntity,
-            JCrypToolCapturer sendingCapture) {
-        return new MessageContext.Builder(sendingEntity).sendingCapture(sendingCapture).build();
     }
 
     public boolean isAlreadyEncrypted() {
@@ -130,7 +111,7 @@ public class MessageContext {
      * @param encryptedMessage
      * @param decryptedMessage
      *
-     * @throws An {@link IllegalStateException} if already encrypted.
+     * @throws IllegalStateException if already encrypted.
      * @see #isAlreadyEncrypted()
      */
     public void setEncryptedMessageAndSeal(byte[] encryptedMessage, String decryptedMessage) {
