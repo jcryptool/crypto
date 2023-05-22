@@ -17,7 +17,7 @@ Export-Package: org.jcryptool.crypto.classic.alphabets,
  org.jcryptool.crypto.classic.alphabets.preferences,
  org.jcryptool.crypto.classic.alphabets.tools,
  org.jcryptool.crypto.classic.alphabets.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: org.jcryptool.crypto.ui.textmodify.wizard,
  org.jcryptool.core.logging.utils,
  org.jcryptool.core.util.directories

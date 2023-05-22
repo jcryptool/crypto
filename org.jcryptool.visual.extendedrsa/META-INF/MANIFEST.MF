@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.ui,
  bcprov;bundle-version="[1.68.0,
  1.68.0]"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: org.jcryptool.core.logging.utils,
  org.jcryptool.core.util.colors,
  org.jcryptool.core.util.fonts

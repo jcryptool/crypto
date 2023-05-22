@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.jcryptool.core.util,
  bcprov;bundle-version="[1.68.0,
  1.68.0]"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Import-Package: de.flexiprovider.core.dsa,
  de.flexiprovider.core.rsa,

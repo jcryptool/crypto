@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.jcryptool.core.operations,
  org.jcryptool.core.util,
  org.eclipse.swt
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.jcryptool.visual.euclid,

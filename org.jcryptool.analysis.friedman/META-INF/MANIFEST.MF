@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.jcryptool.core.util,
  org.jcryptool.crypto.ui
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.jcryptool.analysis.friedman,
  org.jcryptool.analysis.friedman.calc,
