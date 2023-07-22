@@ -26,4 +26,4 @@ Export-Package: org.jcryptool.visual.elGamal,
  org.jcryptool.visual.elGamal.ui,
  org.jcryptool.visual.elGamal.ui.wizards,
  org.jcryptool.visual.elGamal.ui.wizards.wizardpages
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

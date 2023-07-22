@@ -19,4 +19,4 @@ Export-Package: org.jcryptool.visual.arc4,
  org.jcryptool.visual.arc4.handlers,
  org.jcryptool.visual.arc4.ui,
  org.jcryptool.visual.arc4.wizard
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

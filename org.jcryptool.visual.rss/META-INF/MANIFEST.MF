@@ -36,4 +36,4 @@ Automatic-Module-Name: org.jcryptool.visual.rss
 Bundle-ClassPath: lib/xmlrss-all-1.0-SNAPSHOT.jar,
  lib/xstream-1.4.17.jar,
  .
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

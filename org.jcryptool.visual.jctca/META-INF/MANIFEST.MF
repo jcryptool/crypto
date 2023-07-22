@@ -30,4 +30,4 @@ Export-Package: org.jcryptool.visual.jctca,
  org.jcryptool.visual.jctca.tabs
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.jcryptool.visual.jctca
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

@@ -16,4 +16,4 @@ Automatic-Module-Name: org.jcryptool.visual.rabin
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jcryptool.visual.rabin,
  org.jcryptool.visual.rabin.ui
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

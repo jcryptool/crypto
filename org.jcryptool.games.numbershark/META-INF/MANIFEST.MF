@@ -25,4 +25,4 @@ Bundle-Classpath: .,
  deps/moshi-1.11.0.jar,
  deps/moshi-adapters-1.11.0.jar,
  deps/okio-1.17.5.jar
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

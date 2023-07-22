@@ -5,4 +5,4 @@ Bundle-SymbolicName: org.jcryptool.analysis;singleton:=true
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.jcryptool.analysis
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

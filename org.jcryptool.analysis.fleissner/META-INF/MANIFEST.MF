@@ -31,4 +31,4 @@ Export-Package: org.jcryptool.analysis.fleissner,
  org.jcryptool.analysis.fleissner.logic,
  org.jcryptool.analysis.fleissner.views
 Bundle-Vendor: %Bundle-Vendor
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

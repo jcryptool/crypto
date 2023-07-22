@@ -15,4 +15,4 @@ Export-Package: org.jcryptool.crypto.modern.stream.lfsr,
  org.jcryptool.crypto.modern.stream.lfsr.ui
 Import-Package: org.jcryptool.core.logging.utils
 Automatic-Module-Name: org.jcryptool.crypto.modern.stream.lfsr
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

@@ -17,4 +17,4 @@ Export-Package: org.jcryptool.crypto.modern.sha3,
  org.jcryptool.crypto.modern.sha3.skein.algorithm,
  org.jcryptool.crypto.modern.sha3.skein.threefish,
  org.jcryptool.crypto.modern.sha3.ui
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

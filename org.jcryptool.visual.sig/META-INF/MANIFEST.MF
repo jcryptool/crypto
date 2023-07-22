@@ -26,4 +26,4 @@ Export-Package: org.jcryptool.visual.sig,
  org.jcryptool.visual.sig.ui.wizards
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.jcryptool.visual.sig
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

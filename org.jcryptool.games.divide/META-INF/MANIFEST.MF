@@ -21,4 +21,4 @@ Export-Package: org.jcryptool.games.divide,
  org.jcryptool.games.divide.util,
  org.jcryptool.games.divide.views
 Automatic-Module-Name: org.jcryptool.games.divide
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

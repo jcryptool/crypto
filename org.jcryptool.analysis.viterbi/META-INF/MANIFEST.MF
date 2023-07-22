@@ -20,4 +20,4 @@ Import-Package: org.jcryptool.core.logging.utils,
  org.jcryptool.core.util.directories,
  org.jcryptool.core.util.fonts
 Automatic-Module-Name: org.jcryptool.analysis.viterbi
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

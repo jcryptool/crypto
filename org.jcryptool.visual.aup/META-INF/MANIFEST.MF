@@ -18,4 +18,4 @@ Export-Package: org.jcryptool.visual.aup,
  org.jcryptool.visual.aup.PermBruteForce,
  org.jcryptool.visual.aup.handlers,
  org.jcryptool.visual.aup.views
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

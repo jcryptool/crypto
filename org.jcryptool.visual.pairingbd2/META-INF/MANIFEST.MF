@@ -21,4 +21,4 @@ Export-Package: org.jcryptool.visual.PairingBDII,
  org.jcryptool.visual.PairingBDII.basics,
  org.jcryptool.visual.PairingBDII.handlers,
  org.jcryptool.visual.PairingBDII.ui
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

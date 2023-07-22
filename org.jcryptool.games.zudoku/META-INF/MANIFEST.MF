@@ -16,4 +16,4 @@ Export-Package: edu.kit.iks.zudoku,
  org.jcryptool.games.zudoku,
  org.jcryptool.games.zudoku.handler,
  org.jcryptool.games.zudoku.views
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

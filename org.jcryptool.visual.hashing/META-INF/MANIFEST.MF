@@ -20,4 +20,4 @@ Export-Package: org.jcryptool.visual.hashing,
  org.jcryptool.visual.hashing.algorithms,
  org.jcryptool.visual.hashing.handlers,
  org.jcryptool.visual.hashing.views
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722

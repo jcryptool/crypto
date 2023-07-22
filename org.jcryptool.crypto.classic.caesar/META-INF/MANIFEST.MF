@@ -20,4 +20,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: org.jcryptool.core.logging.utils,
  org.jcryptool.crypto.classic.model.ui.wizard
 Automatic-Module-Name: org.jcryptool.crypto.classic.caesar
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230722
