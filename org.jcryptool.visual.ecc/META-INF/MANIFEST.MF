@@ -2,7 +2,6 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.visual.ecc; singleton:=true
-Bundle-Version: 1.0.8.27-20230130
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jcryptool.core.operations,
@@ -22,3 +21,4 @@ Export-Package: org.jcryptool.visual.ecc,
  org.jcryptool.visual.ecc.algorithm,
  org.jcryptool.visual.ecc.handlers,
  org.jcryptool.visual.ecc.ui
+Bundle-Version: 1.0.9

@@ -1,6 +1,5 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Version: 1.0.8.27-20230130
 Bundle-Name: %BundleName
 Bundle-SymbolicName: org.jcryptool.crypto.modern.sha3;singleton:=true
 Bundle-ActivationPolicy: lazy
@@ -18,3 +17,4 @@ Export-Package: org.jcryptool.crypto.modern.sha3,
  org.jcryptool.crypto.modern.sha3.skein.algorithm,
  org.jcryptool.crypto.modern.sha3.skein.threefish,
  org.jcryptool.crypto.modern.sha3.ui
+Bundle-Version: 1.0.9

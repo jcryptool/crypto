@@ -2,7 +2,6 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.visual.errorcorrectingcodes;singleton:=true
-Bundle-Version: 1.0.8.27-20230130
 Bundle-Activator: org.jcryptool.visual.errorcorrectingcodes.EccPlugin
 Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.ui,
@@ -32,3 +31,4 @@ Export-Package: org.jcryptool.visual.errorcorrectingcodes,
  org.jcryptool.visual.errorcorrectingcodes.ui.binding,
  org.jcryptool.visual.errorcorrectingcodes.ui.views,
  org.jcryptool.visual.errorcorrectingcodes.ui.widget
+Bundle-Version: 1.0.9

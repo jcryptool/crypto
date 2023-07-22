@@ -2,7 +2,6 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.jcryptool.visual.he;singleton:=true
-Bundle-Version: 1.0.8.27-20230130
 Bundle-Activator: org.jcryptool.visual.he.HEPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -34,3 +33,4 @@ Export-Package: org.jcryptool.visual.he,
  org.jcryptool.visual.he.ui,
  org.jcryptool.visual.he.wizards,
  org.jcryptool.visual.he.wizards.pages
+Bundle-Version: 1.0.9

@@ -1,5 +1,5 @@
 <feature 
-id="org.jcryptool.analysis.feature" label="JCrypTool Analysis Feature" version="1.0.8.27-20230130" provider-name="jcryptool.org" plugin="org.jcryptool.analysis">
+id="org.jcryptool.analysis.feature" label="JCrypTool Analysis Feature" version="1.0.9" provider-name="jcryptool.org" plugin="org.jcryptool.analysis">
     <description url="https://github.com/jcryptool/crypto">
         <!-- keep this in one line -->
         <!-- version:this -->
@@ -215,36 +215,27 @@ litigation.
     <!-- <url> -->
     <!--    <update label="JCrypTool.org" url="https://www.cryptool.org/jct/update"/> -->
     <!-- </url> -->
+    <plugin id="org.jcryptool.analysis.freqanalysis" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    </plugin>
+    <plugin id="org.jcryptool.analysis.friedman" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    </plugin>
+    <plugin id="org.jcryptool.analysis.textmodify" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    </plugin>
+    <plugin id="org.jcryptool.analysis" download-size="0" install-size="0" version="1.0.9" unpack="false"/>
+    <plugin id="org.jcryptool.analysis.graphtools" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    </plugin>
+    <plugin id="org.jcryptool.analysis.entropy" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    </plugin>
     <plugin 
-    id="org.jcryptool.analysis.freqanalysis" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
+    id="org.jcryptool.analysis.transpositionanalysis" download-size="0" install-size="0" version="1.0.9" unpack="false">
 </plugin>
-    <plugin 
-    id="org.jcryptool.analysis.friedman" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
-</plugin>
-    <plugin 
-    id="org.jcryptool.analysis.textmodify" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
-</plugin>
-    <plugin id="org.jcryptool.analysis" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false"/>
-    <plugin 
-    id="org.jcryptool.analysis.graphtools" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
-</plugin>
-    <plugin 
-    id="org.jcryptool.analysis.entropy" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
-</plugin>
-    <plugin 
-    id="org.jcryptool.analysis.transpositionanalysis" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
-</plugin>
-    <plugin 
-    id="org.jcryptool.analysis.vigenere" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
-</plugin>
-    <plugin id="org.jcryptool.crypto.ui" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false"/>
-    <plugin 
-    id="org.jcryptool.analysis.substitution" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
-</plugin>
-    <plugin 
-    id="org.jcryptool.analysis.viterbi" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
-</plugin>
-    <plugin 
-    id="org.jcryptool.analysis.fleissner" download-size="0" install-size="0" version="1.0.8.27-20230130" unpack="false">
-</plugin>
+    <plugin id="org.jcryptool.analysis.vigenere" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    </plugin>
+    <plugin id="org.jcryptool.crypto.ui" download-size="0" install-size="0" version="1.0.9" unpack="false"/>
+    <plugin id="org.jcryptool.analysis.substitution" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    </plugin>
+    <plugin id="org.jcryptool.analysis.viterbi" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    </plugin>
+    <plugin id="org.jcryptool.analysis.fleissner" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    </plugin>
 </feature>
