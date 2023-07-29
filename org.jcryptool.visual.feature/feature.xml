@@ -293,5 +293,5 @@ litigation.
     <plugin id="org.jcryptool.visual.jctca" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false"/>
     <plugin id="org.jcryptool.visual.jctca" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false"/>
     <plugin id="org.jcryptool.visual.rabin" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false"/>
-    <!-- <plugin id="org.jcryptool.visual.signalencryption" download-size="0" install-size="0" version="1.0.8" unpack="false"/> -->
+    <plugin id="org.jcryptool.visual.signalencryption" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false"/>
 </feature>
