@@ -66,6 +66,11 @@ public class ImageComponent implements Component {
         this.visible = visible;
     }
 
+    @Override
+    public void dispose() {
+        image.dispose();
+    }
+
     /** Sets the position of where to draw the image relative to an existing Control. */
     public void setRelativeTo(Control to, Side side) {
         this.location.anchor = new Anchor(to, side);
@@ -80,6 +85,10 @@ public class ImageComponent implements Component {
     }
 
     private Image loadImage(String path) {
+        // Dispose if already loaded. (Should not happen, but I've seen some errors related to it)
+        if (image != null) {
+            dispose();
+        }
         var image = ImageService.getImage(SignalEncryptionView.ID, path);
         if (image == null) {
             LogUtil.logWarning(String.format("Could not load image '%s'. Displaying empty instead...%n", path));

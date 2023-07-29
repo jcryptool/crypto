@@ -80,13 +80,20 @@ public class ArrowComponent implements Component {
         return visible;
     }
 
+    @Override
+    public void dispose() {
+        // nothing to dispose in this class.
+    }
+
     public String getId() {
         return id;
     }
 
     @Override
     public void draw(GC gc) {
-        gc.fillPath(ArrowComponent.createPath(properties));
+        var path = ArrowComponent.createPath(properties);
+        gc.fillPath(path);
+        path.dispose();
     }
 
     @Override

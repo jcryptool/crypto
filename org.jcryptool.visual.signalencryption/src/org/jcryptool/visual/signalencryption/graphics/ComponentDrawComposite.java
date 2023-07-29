@@ -60,4 +60,13 @@ public class ComponentDrawComposite extends Canvas {
         rgb.blue = Math.max(0, Math.min(255, rgb.blue));
         return rgb;
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        // We must dispose of the non-SWT children (Components) as well, because they partly use SWT resources.
+        for (var component : componentsToDraw) {
+            component.dispose();
+        }
+    }
 }

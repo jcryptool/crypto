@@ -16,4 +16,6 @@ public interface Component {
 
     void draw(GC gc);
 
+    void dispose();
+
 }
