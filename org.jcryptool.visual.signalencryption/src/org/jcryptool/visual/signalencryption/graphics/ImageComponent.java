@@ -10,6 +10,7 @@ import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.visual.signalencryption.graphics.Positioning.Anchor;
 import org.jcryptool.visual.signalencryption.graphics.Positioning.Side;
 import org.jcryptool.visual.signalencryption.ui.SignalEncryptionView;
+import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 /**
  * Draws images on the canvas which can be easily hidden via {@link #setVisible(boolean)}.
@@ -133,7 +134,7 @@ public class ImageComponent implements Component {
         private Side xOffsetSide = Side.WEST;
         private int offsetX = 0;
         private int offsetY = 0;
-        private final String colorScheme = Display.isSystemDarkTheme() ? LIGHT_ICON_PATH : DARK_ICON_PATH;
+        private final String colorScheme = UiUtils.isDarkTheme() ? LIGHT_ICON_PATH : DARK_ICON_PATH;
 
         public ImageComponentBuilder(ComponentDrawComposite canvas) {
             this.canvas = canvas;

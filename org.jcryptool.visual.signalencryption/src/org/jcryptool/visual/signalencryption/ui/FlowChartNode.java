@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Text;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.core.util.ui.layout.GridDataBuilder;
+import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 /**
  * The main component of the flowchart. A node with a title and a button, which shows a pop-up when clicked.
@@ -27,7 +28,8 @@ public class FlowChartNode extends Composite {
 
     private static final int POPUP_STYLE = SWT.MODELESS | SWT.SHADOW_ETCHED_OUT | SWT.BORDER;
     private static final Image BUTTON_IMAGE = ImageService.getImage(SignalEncryptionView.ID, "icons/searchIcon.png");
-    private static final Image OPERATION_IMAGE = ImageService.getImage(SignalEncryptionView.ID, "icons/gear.png");
+    private static final String GEAR_ICON_NAME = UiUtils.isDarkTheme() ? "icons/gear_light.png" : "icons/gear_dark.png";
+    private static final Image OPERATION_IMAGE = ImageService.getImage(SignalEncryptionView.ID, GEAR_ICON_NAME);
     /** The spacing between the gear symbol and the lense icon */
     private static final int HORIZONTAL_SPACING = 17;
     /** How long to keep the lense-button disabled when the window is closing (prevents immediate re-opening) */
