@@ -187,12 +187,25 @@ public class DoubleRatchetBobSendingLogic {
             public DoubleRatchetStep next(DoubleRatchetView swtParent) {
                 var communication = AlgorithmState.get().getCommunication();
 
-                if (!communication.current().isAlreadyEncrypted()) {
-                    passMessageToEncryption(swtParent);
-                }
+                try {
+                    if (!communication.current().isAlreadyEncrypted()) {
+                        getMessageAndEncrypt(swtParent);
+                    }
 
-                STEP_5_SENDING.switchState(swtParent);
-                return STEP_5_SENDING;
+                    var nextStep = peekForward();
+                    nextStep.switchState(swtParent);
+                    return nextStep;
+                } catch (SignalAlgorithmException e) {
+                    LogUtil.logError(
+                            SignalEncryptionPlugin.PLUGIN_ID,
+                            Messages.SignalEncryption_Error,
+                            e,
+                            true);
+                    swtParent.getRootView().resetView();;
+
+                }
+                // In case of error we go to the initial step
+                return DoubleRatchetAliceSendingLogic.AliceSendingStep.STEP_0;
             }
 
             @Override
@@ -475,20 +488,17 @@ public class DoubleRatchetBobSendingLogic {
         }
     }
 
+    
     /**
      * Get user input from UI and give it to the encryption algorithm.
+     * @throws SignalAlgorithmException in any case of algorithmic errors.
      */
-    private static void passMessageToEncryption(DoubleRatchetView view) {
+    private static void getMessageAndEncrypt(DoubleRatchetView view) throws SignalAlgorithmException {
         var message = view.getBobSendingContent().txt_plainText.getText();
         var communication = AlgorithmState.get().getCommunication();
-        try {
-            communication.encrypt(message);
-        } catch (SignalAlgorithmException e) {
-            LogUtil.logError(SignalEncryptionPlugin.PLUGIN_ID, "Sorry, that shouldn't have happened, must restart", e,
-                    true);
-            view.resetView();
-        }
+        communication.encrypt(message);
     }
+
 
     private static void updateSendingKeyDisplayInformation(DoubleRatchetView view) {
         var bobContent = view.getBobSendingContent();

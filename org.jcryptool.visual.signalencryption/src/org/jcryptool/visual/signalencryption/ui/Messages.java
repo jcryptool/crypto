@@ -27,6 +27,7 @@ public class Messages extends NLS {
 
     public static String SignalEncryption_Title;
     public static String SignalEncryption_Description;
+    public static String SignalEncryption_Error;
 
     public static String Name_Alice;
     public static String Name_Bob;

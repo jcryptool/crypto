@@ -61,7 +61,7 @@ public class SignalEncryptionView extends ViewPart {
         }));
 
         overviewView = new OverviewView(tabFolder, SWT.NONE, this);
-        doubleRatchetView = new DoubleRatchetView(tabFolder, SWT.NONE);
+        doubleRatchetView = new DoubleRatchetView(tabFolder, SWT.NONE, this);
         tbtmOverview.setControl(overviewView);
 
         scrolledComposite.setContent(tabFolder);

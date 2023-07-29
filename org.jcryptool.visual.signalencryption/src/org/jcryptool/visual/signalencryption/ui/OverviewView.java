@@ -17,10 +17,13 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
+import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.util.colors.ColorService;
 import org.jcryptool.core.util.fonts.FontService;
 import org.jcryptool.core.util.ui.TitleAndDescriptionComposite;
 import org.jcryptool.core.util.ui.layout.GridDataBuilder;
+import org.jcryptool.visual.signalencryption.SignalEncryptionPlugin;
+import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException;
 import org.jcryptool.visual.signalencryption.ui.SignalEncryptionView.Tab;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 import org.whispersystems.libsignal.state.PreKeyBundle;
@@ -30,7 +33,7 @@ public class OverviewView extends Composite {
 
     private static final int KEY_SIZE = 32;
 
-    private final SignalEncryptionView parentView;
+    private final SignalEncryptionView rootView;
 
     private Composite headerComposite;
     private Composite overViewComposite;
@@ -49,9 +52,9 @@ public class OverviewView extends Composite {
     private StyledText txt_doubleRatchetExplanation;
 
     /** First tab (overview tab) content **/
-    public OverviewView(Composite parent, int style, SignalEncryptionView parentView) {
+    public OverviewView(Composite parent, int style, SignalEncryptionView rootView) {
         super(parent, style);
-        this.parentView = parentView;
+        this.rootView = rootView;
         setLayout(new GridLayout());
         setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
@@ -63,8 +66,9 @@ public class OverviewView extends Composite {
     /**
      * Create a title and description box.
      * <p/>
-     * <b>Note</b> that I don't use the premade {@link TitleAndDescriptionComposite} because this made layout problems
-     * with the wrapping of the text in {@link #createDoubleRatchetInformation()}
+     * <b>Note</b> that I don't use the premade {@link TitleAndDescriptionComposite}
+     * because this made layout problems with the wrapping of the text in
+     * {@link #createDoubleRatchetInformation()}
      */
     private void createTitleAndDescription() {
         var layout = new GridLayout();
@@ -77,12 +81,12 @@ public class OverviewView extends Composite {
 
         title = new StyledText(headerComposite, SWT.READ_ONLY);
         title.setText(Messages.SignalEncryption_Title);
-        title.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true ,false).get());
+        title.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true, false).get());
         title.setFont(FontService.getHugeBoldFont());
         title.setCaret(null);
         description = new StyledText(headerComposite, SWT.READ_ONLY | SWT.WRAP);
         description.setText(Messages.SignalEncryption_Description);
-        description.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true ,false).get());
+        description.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true, false).get());
         description.setCaret(null);
     }
 
@@ -154,12 +158,10 @@ public class OverviewView extends Composite {
 
         createScrollableExplainers(grp_identitiesInfo, List.of(
                 new SimpleEntry<>(Messages.Overview_QuestionPreKeyBundle, Messages.Overview_AnswerPreKeyBundle),
-                new SimpleEntry<>(Messages.Overview_QuestionX3DH, Messages.Overview_AnswerX3DH)
-        ));
+                new SimpleEntry<>(Messages.Overview_QuestionX3DH, Messages.Overview_AnswerX3DH)));
     }
 
     private void createDoubleRatchetInformation() {
-
 
         txt_doubleRatchetExplanation = new StyledText(grp_doubleRatchetInfo, SWT.BORDER | SWT.WRAP | SWT.MULTI);
         txt_doubleRatchetExplanation.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -169,9 +171,8 @@ public class OverviewView extends Composite {
         btn_switchToDoubleRatchetView.setFont(FontService.getNormalBoldFont());
         btn_switchToDoubleRatchetView.setText(Messages.Overview_showDoubleRatchet);
         btn_switchToDoubleRatchetView.setLayoutData(
-                GridDataBuilder.with(SWT.CENTER, SWT.TOP, false, false).heightHint(40).get()
-        );
-        btn_switchToDoubleRatchetView.addSelectionListener(onSelection(e -> parentView.setTab(Tab.DOUBLE_RATCHET)));
+                GridDataBuilder.with(SWT.CENTER, SWT.TOP, false, false).heightHint(40).get());
+        btn_switchToDoubleRatchetView.addSelectionListener(onSelection(e -> rootView.setTab(Tab.DOUBLE_RATCHET)));
 
         insertHorizontalSeparator(grp_doubleRatchetInfo);
         createScrollableExplainers(grp_doubleRatchetInfo, List.of(
@@ -193,21 +194,44 @@ public class OverviewView extends Composite {
     }
 
     public void generateBoth() {
-        AlgorithmState.get().getSignalEncryptionAlgorithm().newIdentities();
-        parentView.resetDoubleRatchetView();
-        updateValues();
+        try {
+            AlgorithmState.get().getSignalEncryptionAlgorithm().newIdentities();
+            rootView.resetDoubleRatchetView();
+            updateValues();
+        } catch (SignalAlgorithmException e) {
+            handleUnexpectedAlgorithmError(e);
+        }
     }
 
     public void generateAlice() {
-        AlgorithmState.get().getSignalEncryptionAlgorithm().newIdentityAlice();
-        parentView.resetDoubleRatchetView();
-        updateValues();
+        try {
+
+            AlgorithmState.get().getSignalEncryptionAlgorithm().newIdentityAlice();
+            rootView.resetDoubleRatchetView();
+            updateValues();
+        } catch (SignalAlgorithmException e) {
+            handleUnexpectedAlgorithmError(e);
+        }
     }
 
     public void generateBob() {
-        AlgorithmState.get().getSignalEncryptionAlgorithm().newIdentityBob();
-        parentView.resetDoubleRatchetView();
-        updateValues();
+        try {
+            AlgorithmState.get().getSignalEncryptionAlgorithm().newIdentityBob();
+            rootView.resetDoubleRatchetView();
+            updateValues();
+        } catch (SignalAlgorithmException e) {
+            handleUnexpectedAlgorithmError(e);
+        }
+    }
+
+    private void handleUnexpectedAlgorithmError(SignalAlgorithmException e) {
+        LogUtil.logError(
+                    SignalEncryptionPlugin.PLUGIN_ID,
+                    Messages.SignalEncryption_Error,
+                    e,
+                    true
+            );
+        rootView.resetView();
     }
 
     /**
@@ -234,8 +258,7 @@ public class OverviewView extends Composite {
         return List.of(
                 new SimpleEntry<>(Messages.Overview_IdentityPublicKey, identityKey),
                 new SimpleEntry<>(Messages.Overview_PreKey, preKey),
-                new SimpleEntry<>(Messages.Overview_PreKeySignature, signedPreKey)
-        );
+                new SimpleEntry<>(Messages.Overview_PreKeySignature, signedPreKey));
     }
 
     private Text createIdentityText(Composite parent) {
@@ -277,7 +300,8 @@ public class OverviewView extends Composite {
         container.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.TOP, true, true).get());
         scroller.setContent(container);
 
-        // This function sets the minimum height before scrolling to the actual size of the current children.
+        // This function sets the minimum height before scrolling to the actual size of
+        // the current children.
         ScrollableSize sizeCallback = () -> {
             var children = container.getChildren();
             int size = 0;
@@ -289,11 +313,11 @@ public class OverviewView extends Composite {
 
         for (var questionAnswerPair : content) {
             new QuestionAnswerExpander(
-                   container, SWT.NONE,
-                   questionAnswerPair.getKey(),
-                   questionAnswerPair.getValue())
-                .setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1))
-                .setScrollerCalback(sizeCallback);
+                    container, SWT.NONE,
+                    questionAnswerPair.getKey(),
+                    questionAnswerPair.getValue())
+                    .setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1))
+                    .setScrollerCalback(sizeCallback);
         }
         // Initially set the min-height to its own size, so it does not have to scroll
         scroller.setMinHeight(scroller.getSize().y + 10);

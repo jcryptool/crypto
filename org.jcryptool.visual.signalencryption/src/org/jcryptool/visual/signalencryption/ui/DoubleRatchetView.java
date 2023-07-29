@@ -73,10 +73,12 @@ public class DoubleRatchetView extends Composite {
     private String stepGroupDescription = Messages.DoubleRatchet_stepGroupDescription;
     private String btn_NextDescription = Messages.DoubleRatchet_buttonNext;
     private String btn_PreviousDescription = Messages.DoubleRatchet_buttonBack;
+    private SignalEncryptionView rootView;
 
 
-    DoubleRatchetView(Composite parent, int style) {
+    DoubleRatchetView(Composite parent, int style, SignalEncryptionView rootView) {
         super(parent, style);
+        this.rootView = rootView;
 
         this.instance = this;
         this.setLayout(new GridLayout(1, false));
@@ -421,6 +423,10 @@ public class DoubleRatchetView extends Composite {
 
     public DoubleRatchetAliceReceivingContent getAliceReceivingContent() {
         return aliceReceivingContent;
+    }
+    
+    public SignalEncryptionView getRootView() {
+        return rootView;
     }
 
     /** Represents the center algorithm text on step 0 (when nothing is visible yet) */
