@@ -73,7 +73,8 @@ public class SignalEncryptionView extends ViewPart {
         // is on a Text with one or more of the following tags: SWT.READ_ONLY,
         // SWT.V_SCROLL or SWT.H_SCROLL.
         SmoothScroller.scrollSmooth(scrolledComposite);
-        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.signalecryption.view");
+
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(scrolledComposite, "org.jcryptool.visual.signalencryption.view");
     }
 
     public void setTab(int tabIndex) {
