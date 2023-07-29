@@ -40,7 +40,8 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
     Text txt_plainText;
     Text txt_cipherText;
 
-    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Templating.forAlice(Messages.DoubleRatchet_Step5Receiving);
+    private String step5 = Messages.DoubleRatchet_Step + " 5 "
+            + Templating.forAlice(Messages.DoubleRatchet_Step5Receiving);
     private String step6 = Messages.DoubleRatchet_Step + " 6 " + Templating.forAlice(Messages.DoubleRatchet_Step6);
     private String step7 = Messages.DoubleRatchet_Step + " 7 " + Templating.forAlice(Messages.DoubleRatchet_Step7);
     private String step8 = Messages.DoubleRatchet_Step + " 8 " + Templating.forAlice(Messages.DoubleRatchet_Step8);
@@ -152,7 +153,8 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
                 .incomingDirection(Side.EAST).on(cmp_aliceReceivingAlgorithm).create();
 
         txt_diffieHellmanMid = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelMid)
-                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY)).operationNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY))
+                .operationNode();
         txt_diffieHellmanMid.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_diffieHellmanBot = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelBot)
@@ -214,7 +216,8 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
                 .create();
 
         txt_rootChainBot = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY)).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY))
+                .valueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_rootChain3 = ArrowComponent
@@ -340,9 +343,9 @@ public class DoubleRatchetAliceReceivingContent implements DoubleRatchetEntityCo
                 .to(txt_receivingChainMid, txt_receivingChainMid).east()
                 .on(cmp_aliceReceivingAlgorithm)
                 .breakBetween()
-                    .first(grp_rootChain, Side.EAST)
-                    .second(grp_receivingChain, Side.WEST)
-                    .at(ArrowComponent.BREAK_CENTER)
+                .first(grp_rootChain, Side.EAST)
+                .second(grp_receivingChain, Side.WEST)
+                .at(ArrowComponent.BREAK_CENTER)
                 .create();
 
         arr_space3 = ArrowComponent.from(txt_receivingChainMid).west().to(grp_decryptedMessage, txt_messageKeys).east()

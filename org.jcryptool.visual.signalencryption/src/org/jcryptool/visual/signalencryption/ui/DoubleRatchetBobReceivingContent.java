@@ -46,7 +46,8 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
     private String step8Initial = Messages.DoubleRatchet_Step + " 8 " + Messages.DoubleRatchet_Step8Initial;
     private String step9Initial = Messages.DoubleRatchet_Step + " 9 " + Messages.DoubleRatchet_Step9Initial;
 
-    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Templating.forBob(Messages.DoubleRatchet_Step5Receiving);
+    private String step5 = Messages.DoubleRatchet_Step + " 5 "
+            + Templating.forBob(Messages.DoubleRatchet_Step5Receiving);
     private String step6 = Messages.DoubleRatchet_Step + " 6 " + Templating.forBob(Messages.DoubleRatchet_Step6);
     private String step7 = Messages.DoubleRatchet_Step + " 7 " + Templating.forBob(Messages.DoubleRatchet_Step7);
     private String step8 = Messages.DoubleRatchet_Step + " 8 " + Templating.forBob(Messages.DoubleRatchet_Step8);
@@ -157,14 +158,17 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
 
     private void createMailIcon() {
         drw_incomingMailIcon = ImageComponent.on(cmp_bobReceivingAlgorithm)
-                .xOffsetFromEast() // so we don't have to subtract the width of the img ourself (we draw to the left)
+                .xOffsetFromEast() // so we don't have to subtract the width of the img ourself (we draw to the
+                                   // left)
                 .offsetX(-ViewConstants.MAIL_ICON_X_OFFSET) // minus because we want to draw to the left
                 .setAnchorLater() // defer setting the location until the object is created
                 .incomingMail();
 
-        // This one is a special spacer: it doesn't have any content but ensures that the image drawn
+        // This one is a special spacer: it doesn't have any content but ensures that
+        // the image drawn
         // (which does NOT have a concept of layouting) has enough space to be drawn.
-        // This is necessary because the icon is the first (left-most) element of the view.
+        // This is necessary because the icon is the first (left-most) element of the
+        // view.
         // The x offset is taken twice, so we have even distance left and right
         var requiredWidth = drw_incomingMailIcon.imageWidth() + (ViewConstants.MAIL_ICON_X_OFFSET * 2)
                 - ViewConstants.CANVAS_SPACING;
@@ -211,7 +215,8 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
                 .create();
 
         txt_diffieHellmanMid = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelMid)
-                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY)).operationNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY))
+                .operationNode();
         txt_diffieHellmanMid.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_diffieHellmanBot = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelBot)
@@ -266,7 +271,8 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
         UiUtils.insertSpacers(grp_rootChain, 1);
 
         txt_rootChainBot = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY)).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY))
+                .valueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
         arr_rootChain2 = ArrowComponent
                 .from(txt_rootChainTop).south()
@@ -370,9 +376,9 @@ public class DoubleRatchetBobReceivingContent implements DoubleRatchetEntityCont
                 .to(txt_receivingChainMid, txt_receivingChainMid).west()
                 .on(cmp_bobReceivingAlgorithm)
                 .breakBetween()
-                    .first(grp_rootChain, Side.EAST)
-                    .second(grp_receivingChain, Side.WEST)
-                    .at(ArrowComponent.BREAK_CENTER)
+                .first(grp_rootChain, Side.EAST)
+                .second(grp_receivingChain, Side.WEST)
+                .at(ArrowComponent.BREAK_CENTER)
                 .create();
 
         arr_space3 = ArrowComponent

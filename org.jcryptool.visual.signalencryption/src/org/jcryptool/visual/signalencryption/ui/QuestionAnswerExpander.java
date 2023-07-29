@@ -63,8 +63,9 @@ public class QuestionAnswerExpander {
     }
 
     /**
-     * If the this class lives in a {@link ScrolledComposite} there are some layouting issues.
-     * One can pass in a callback which adjusts the parents ScrolledComposite on expand/collapse events.
+     * If the this class lives in a {@link ScrolledComposite} there are some
+     * layouting issues. One can pass in a callback which adjusts the parents
+     * ScrolledComposite on expand/collapse events.
      */
     public QuestionAnswerExpander setScrollerCalback(ScrollableSize callback) {
         this.callback = callback;
@@ -94,11 +95,14 @@ public class QuestionAnswerExpander {
                     // Good, set that estimated size and layout it.
                     collapsable.setHeight(estimatedSize.y);
                     parent.layout();
-                    // Now since the text has space, it gets actually resized to its proper size (which is usually
-                    // smaller than the estimatedSize). So let's get its actual size and set it as height.
+                    // Now since the text has space, it gets actually resized to its proper size
+                    // (which is usually
+                    // smaller than the estimatedSize). So let's get its actual size and set it as
+                    // height.
                     var actualSize = descriptionText.getSize();
                     collapsable.setHeight(actualSize.y + EXPANDED_MARGIN);
-                    // Now layout again and tell an any outer scrollable (if exists) to adjust its height as well.
+                    // Now layout again and tell an any outer scrollable (if exists) to adjust its
+                    // height as well.
                     parent.layout();
                     scrollableSizeCallback();
                 });

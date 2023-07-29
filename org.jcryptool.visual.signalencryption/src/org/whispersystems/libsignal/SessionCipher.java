@@ -5,27 +5,6 @@
  */
 package org.whispersystems.libsignal;
 
-import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
-import org.whispersystems.libsignal.ecc.Curve;
-import org.whispersystems.libsignal.ecc.ECKeyPair;
-import org.whispersystems.libsignal.ecc.ECPublicKey;
-import org.whispersystems.libsignal.protocol.CiphertextMessage;
-import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
-import org.whispersystems.libsignal.protocol.SignalMessage;
-import org.whispersystems.libsignal.ratchet.ChainKey;
-import org.whispersystems.libsignal.ratchet.MessageKeys;
-import org.whispersystems.libsignal.ratchet.RootKey;
-import org.whispersystems.libsignal.state.SignalProtocolStore;
-import org.whispersystems.libsignal.state.IdentityKeyStore;
-import org.whispersystems.libsignal.state.PreKeyStore;
-import org.whispersystems.libsignal.state.SessionRecord;
-import org.whispersystems.libsignal.state.SessionState;
-import org.whispersystems.libsignal.state.SessionStore;
-import org.whispersystems.libsignal.state.SignedPreKeyStore;
-import org.whispersystems.libsignal.util.ByteUtil;
-import org.whispersystems.libsignal.util.Pair;
-import org.whispersystems.libsignal.util.guava.Optional;
-
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
@@ -39,7 +18,26 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import static org.whispersystems.libsignal.state.SessionState.UnacknowledgedPreKeyMessageItems;
+import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
+import org.whispersystems.libsignal.ecc.Curve;
+import org.whispersystems.libsignal.ecc.ECKeyPair;
+import org.whispersystems.libsignal.ecc.ECPublicKey;
+import org.whispersystems.libsignal.protocol.CiphertextMessage;
+import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
+import org.whispersystems.libsignal.protocol.SignalMessage;
+import org.whispersystems.libsignal.ratchet.ChainKey;
+import org.whispersystems.libsignal.ratchet.MessageKeys;
+import org.whispersystems.libsignal.ratchet.RootKey;
+import org.whispersystems.libsignal.state.IdentityKeyStore;
+import org.whispersystems.libsignal.state.PreKeyStore;
+import org.whispersystems.libsignal.state.SessionRecord;
+import org.whispersystems.libsignal.state.SessionState;
+import org.whispersystems.libsignal.state.SessionState.UnacknowledgedPreKeyMessageItems;
+import org.whispersystems.libsignal.state.SessionStore;
+import org.whispersystems.libsignal.state.SignalProtocolStore;
+import org.whispersystems.libsignal.state.SignedPreKeyStore;
+import org.whispersystems.libsignal.util.Pair;
+import org.whispersystems.libsignal.util.guava.Optional;
 
 /**
  * The main entry point for Signal Protocol encrypt/decrypt operations.
@@ -52,6 +50,7 @@ import static org.whispersystems.libsignal.state.SessionState.UnacknowledgedPreK
  */
 public class SessionCipher {
 
+    public static final SessionCipher DEFERED_SESSION_CIPHER = new SessionCipher(null, null);
     public static final Object SESSION_LOCK = new Object();
 
     private final SessionStore sessionStore;

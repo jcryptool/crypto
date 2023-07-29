@@ -17,7 +17,6 @@ import org.jcryptool.visual.signalencryption.util.ToHex;
  */
 public class DoubleRatchetAliceSendingLogic {
 
-
     public enum AliceSendingStep implements DoubleRatchetStep {
         /**
          * Initial, blank step. Showing Alice's view
@@ -34,7 +33,6 @@ public class DoubleRatchetAliceSendingLogic {
                 aliceContent.setAllVisible(false);
                 bobContent.setAllVisible(false);
 
-
                 // Initial value only valid for initial message
                 if (AlgorithmState.get().getCommunication().isBeginning()) {
                     swtParent.showAliceSendingInitialLabel();
@@ -47,7 +45,8 @@ public class DoubleRatchetAliceSendingLogic {
                     aliceContent.setNormalStepDescriptions();
                     bobContent.setNormalStepDescriptions();
                 }
-                // Hide Steps (this is done after setting the initial/normal descriptions to prevent weird behaviour)
+                // Hide Steps (this is done after setting the initial/normal descriptions to
+                // prevent weird behaviour)
                 aliceContent.showStep(this);
                 bobContent.showStep(this);
             }
@@ -215,13 +214,26 @@ public class DoubleRatchetAliceSendingLogic {
             public DoubleRatchetStep next(DoubleRatchetView swtParent) {
                 var communication = AlgorithmState.get().getCommunication();
 
-                if (!communication.current().isAlreadyEncrypted()) {
-                    passMessageToEncryption(swtParent);
-                }
+                try {
+                    if (!communication.current().isAlreadyEncrypted()) {
+                        getMessageAndEncrypt(swtParent);
+                    }
 
-                var nextStep = peekForward();
-                nextStep.switchState(swtParent);
-                return nextStep;
+                    var nextStep = peekForward();
+                    nextStep.switchState(swtParent);
+                    return nextStep;
+                } catch (SignalAlgorithmException e) {
+                    LogUtil.logError(
+                            SignalEncryptionPlugin.PLUGIN_ID,
+                            Messages.SignalEncryption_Error,
+                            e,
+                            true);
+                    swtParent.getRootView().resetView();
+
+                }
+                // In case of error we go to the initial step
+                return DoubleRatchetAliceSendingLogic.AliceSendingStep.STEP_0;
+
             }
 
             @Override
@@ -451,7 +463,8 @@ public class DoubleRatchetAliceSendingLogic {
                     aliceContent.setNormalStepDescriptions();
                     bobContent.setNormalStepDescriptions();
                 }
-                // Show Steps (this is done after setting the initial/normal descriptions to prevent weird behaviour)
+                // Show Steps (this is done after setting the initial/normal descriptions to
+                // prevent weird behaviour)
                 aliceContent.showStep(this);
                 bobContent.showStep(this);
             }
@@ -501,17 +514,13 @@ public class DoubleRatchetAliceSendingLogic {
 
     /**
      * Get user input from UI and give it to the encryption algorithm.
+     * 
+     * @throws SignalAlgorithmException in any case of algorithmic errors.
      */
-    private static void passMessageToEncryption(DoubleRatchetView view) {
+    private static void getMessageAndEncrypt(DoubleRatchetView view) throws SignalAlgorithmException {
         var message = view.getAliceSendingContent().txt_plainText.getText();
         var communication = AlgorithmState.get().getCommunication();
-        try {
-            communication.encrypt(message);
-        } catch (SignalAlgorithmException e) {
-            LogUtil.logError(SignalEncryptionPlugin.PLUGIN_ID,
-                    "Sorry, that shouldn't have happened. Please restart the plug-in", e, true);
-            view.resetView();
-        }
+        communication.encrypt(message);
     }
 
     private static void updateSenderKeyDisplayInformation(DoubleRatchetView view) {
@@ -526,7 +535,7 @@ public class DoubleRatchetAliceSendingLogic {
         aliceContent.txt_rootChainBot.getPopupProvider().setValue(ctx.senderRootNewRootChainKey());
         aliceContent.txt_sendingChainTop.getPopupProvider().setValue(ctx.senderChainChainKey());
         aliceContent.txt_sendingChainConst.getPopupProvider().setValue(ctx.senderChainConstantInput());
-        aliceContent.txt_sendingChainMid.getPopupProvider().setValue(ctx.senderChainOutput());
+        aliceContent.txt_sendingChainMid.getPopupProvider().setValues(ctx.senderChainOutput());
         aliceContent.txt_sendingChainBot.getPopupProvider().setValue(ctx.senderChainNewChainKey());
         aliceContent.txt_messageKeys.getPopupProvider().setValues(ctx.senderChainMessageKey());
     }
@@ -543,7 +552,7 @@ public class DoubleRatchetAliceSendingLogic {
         bobContent.txt_rootChainBot.getPopupProvider().setValue(ctx.receiverRootNewRootChainKey());
         bobContent.txt_receivingChainTop.getPopupProvider().setValue(ctx.receiverChainChainKey());
         bobContent.txt_receivingChainConst.getPopupProvider().setValue(ctx.receiverChainConstantInput());
-        bobContent.txt_receivingChainMid.getPopupProvider().setValue(ctx.receiverChainOutput());
+        bobContent.txt_receivingChainMid.getPopupProvider().setValues(ctx.receiverChainOutput());
         bobContent.txt_receivingChainBot.getPopupProvider().setValue(ctx.receiverChainNewChainKey());
         bobContent.txt_messageKeys.getPopupProvider().setValues(ctx.receiverChainMessageKey());
     }

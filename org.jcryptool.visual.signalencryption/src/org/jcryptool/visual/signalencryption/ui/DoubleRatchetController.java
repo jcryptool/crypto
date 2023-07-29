@@ -8,8 +8,9 @@ import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 import org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.AliceSendingStep;
 
 /**
- * A state machine that manages the DoubleRatchet steps and provides the interface to advance/go back.
- * This class is a central component of coordinating the UI and its interfaces to the algorithm.
+ * A state machine that manages the DoubleRatchet steps and provides the
+ * interface to advance/go back. This class is a central component of
+ * coordinating the UI and its interfaces to the algorithm.
  */
 public class DoubleRatchetController {
 
@@ -20,12 +21,11 @@ public class DoubleRatchetController {
         currentStep.switchState(swtParent);
     }
 
-
     /**
-     * Advances to the next step.
-     * Automatically changes the entity if end of one message encryption/decryption cycle is reached.
-     * Does a view change instead of a step forward if the incorrect view is currently showing.
-     * */
+     * Advances to the next step. Automatically changes the entity if end of one
+     * message encryption/decryption cycle is reached. Does a view change instead of
+     * a step forward if the incorrect view is currently showing.
+     */
     public void stepForward(DoubleRatchetView swtParent) {
         if (isShowingCorrectView(swtParent, FORWARD) || stateChangeIncludesViewChange(FORWARD)) {
             currentStep = currentStep.next(swtParent);
@@ -35,10 +35,10 @@ public class DoubleRatchetController {
     }
 
     /**
-     * Goes back a step.
-     * Automatically changes the entity if beginning of one message encryption/decryption cycle is reached.
-     * Does a view change instead of a step forward if the incorrect view is currently showing.
-     * Calling this if already at the initial step 0 is safe and does nothing.
+     * Goes back a step. Automatically changes the entity if beginning of one
+     * message encryption/decryption cycle is reached. Does a view change instead of
+     * a step forward if the incorrect view is currently showing. Calling this if
+     * already at the initial step 0 is safe and does nothing.
      */
     public void stepBack(DoubleRatchetView swtParent) {
         if (isShowingCorrectView(swtParent, BACKWARD) || stateChangeIncludesViewChange(BACKWARD)) {
@@ -48,7 +48,10 @@ public class DoubleRatchetController {
         }
     }
 
-    /** Sets back the DoubleRatchet viz to its initial state. This may not include all algorithmic resets necessary */
+    /**
+     * Sets back the DoubleRatchet viz to its initial state. This may not include
+     * all algorithmic resets necessary
+     */
     public void reset(DoubleRatchetView swtParent) {
         currentStep = AliceSendingStep.STEP_0.setInitialState(swtParent);
     }
@@ -123,7 +126,5 @@ public class DoubleRatchetController {
             view.showBobView();
         }
     }
-
-
 
 }

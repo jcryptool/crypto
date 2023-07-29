@@ -141,7 +141,8 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
 
     private void createOutgoingMailIcon() {
         drw_outgoingMailIcon = ImageComponent.on(cmp_bobSendingAlgorithm)
-                .xOffsetFromEast() // so we don't have to subtract the width of the img ourself (we draw to the left)
+                .xOffsetFromEast() // so we don't have to subtract the width of the img ourself (we draw to the
+                                   // left)
                 .setAnchorLater() // defer setting the location until the object is created
                 .offsetX(-ViewConstants.MAIL_ICON_X_OFFSET) // minus because we want to draw to the left
                 .outgoingMailLeft();
@@ -150,9 +151,10 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         // the image drawn
         // (which does NOT have a concept of layouting) has enough space to be drawn.
         // This is necessary because the icon is the last element of the view.
-        //var requiredWidth = drw_outgoingMailIcon.imageWidth() + ViewConstants.MAIL_ICON_X_OFFSET
-        //        - ViewConstants.CANVAS_SPACING;
-        //UiUtils.insertSpacers(cmp_bobSendingAlgorithm, 1, requiredWidth - 5);
+        // var requiredWidth = drw_outgoingMailIcon.imageWidth() +
+        // ViewConstants.MAIL_ICON_X_OFFSET
+        // - ViewConstants.CANVAS_SPACING;
+        // UiUtils.insertSpacers(cmp_bobSendingAlgorithm, 1, requiredWidth - 5);
 
     }
 
@@ -166,7 +168,8 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         txt_diffieHellmanTop.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_diffieHellmanMid = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelMid)
-                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY)).operationNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY))
+                .operationNode();
         txt_diffieHellmanMid.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_diffieHellmanBot = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelBot)
@@ -213,7 +216,8 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         UiUtils.insertSpacers(grp_rootChain, 1, ViewConstants.BOX_WIDTH_SLIM);
 
         txt_rootChainBot = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY)).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY))
+                .valueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_rootChain1 = ArrowComponent
@@ -289,7 +293,8 @@ public class DoubleRatchetBobSendingContent implements DoubleRatchetEntityConten
         arr_sendingChain2.setVisible(visible);
         arr_sendingChain3.setVisible(visible);
         arr_space3.setVisible(visible);
-        // Part of what we consider the chain is already part in the MessageBox composite
+        // Part of what we consider the chain is already part in the MessageBox
+        // composite
         cmp_messageBox.setVisible(visible);
         txt_messageKeys.setVisible(visible);
         txt_plainText.setVisible(!visible);

@@ -11,8 +11,9 @@ import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException
 import org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.AliceSendingStep;
 
 /**
- * All state changes necesssary to represent Bob sending a message to Alice.
- * I know that this class is kind of redundant, but I don't have the time to refactor it.
+ * All state changes necesssary to represent Bob sending a message to Alice. I
+ * know that this class is kind of redundant, but I don't have the time to
+ * refactor it.
  *
  * @see DoubleRatchetAliceSendingLogic
  */
@@ -187,12 +188,26 @@ public class DoubleRatchetBobSendingLogic {
             public DoubleRatchetStep next(DoubleRatchetView swtParent) {
                 var communication = AlgorithmState.get().getCommunication();
 
-                if (!communication.current().isAlreadyEncrypted()) {
-                    passMessageToEncryption(swtParent);
-                }
+                try {
+                    if (!communication.current().isAlreadyEncrypted()) {
+                        getMessageAndEncrypt(swtParent);
+                    }
 
-                STEP_5_SENDING.switchState(swtParent);
-                return STEP_5_SENDING;
+                    var nextStep = peekForward();
+                    nextStep.switchState(swtParent);
+                    return nextStep;
+                } catch (SignalAlgorithmException e) {
+                    LogUtil.logError(
+                            SignalEncryptionPlugin.PLUGIN_ID,
+                            Messages.SignalEncryption_Error,
+                            e,
+                            true);
+                    swtParent.getRootView().resetView();
+                    ;
+
+                }
+                // In case of error we go to the initial step
+                return DoubleRatchetAliceSendingLogic.AliceSendingStep.STEP_0;
             }
 
             @Override
@@ -477,17 +492,13 @@ public class DoubleRatchetBobSendingLogic {
 
     /**
      * Get user input from UI and give it to the encryption algorithm.
+     * 
+     * @throws SignalAlgorithmException in any case of algorithmic errors.
      */
-    private static void passMessageToEncryption(DoubleRatchetView view) {
+    private static void getMessageAndEncrypt(DoubleRatchetView view) throws SignalAlgorithmException {
         var message = view.getBobSendingContent().txt_plainText.getText();
         var communication = AlgorithmState.get().getCommunication();
-        try {
-            communication.encrypt(message);
-        } catch (SignalAlgorithmException e) {
-            LogUtil.logError(SignalEncryptionPlugin.PLUGIN_ID, "Sorry, that shouldn't have happened, must restart", e,
-                    true);
-            view.resetView();
-        }
+        communication.encrypt(message);
     }
 
     private static void updateSendingKeyDisplayInformation(DoubleRatchetView view) {
@@ -502,7 +513,7 @@ public class DoubleRatchetBobSendingLogic {
         bobContent.txt_rootChainBot.getPopupProvider().setValue(ctx.senderRootNewRootChainKey());
         bobContent.txt_sendingChainTop.getPopupProvider().setValue(ctx.senderChainChainKey());
         bobContent.txt_sendingChainConst.getPopupProvider().setValue(ctx.senderChainConstantInput());
-        bobContent.txt_sendingChainMid.getPopupProvider().setValue(ctx.senderChainOutput());
+        bobContent.txt_sendingChainMid.getPopupProvider().setValues(ctx.senderChainOutput());
         bobContent.txt_sendingChainBot.getPopupProvider().setValue(ctx.senderChainNewChainKey());
         bobContent.txt_messageKeys.getPopupProvider().setValues(ctx.senderChainMessageKey());
     }
@@ -519,7 +530,7 @@ public class DoubleRatchetBobSendingLogic {
         aliceContent.txt_rootChainBot.getPopupProvider().setValue(ctx.receiverRootNewRootChainKey());
         aliceContent.txt_receivingChainTop.getPopupProvider().setValue(ctx.receiverChainChainKey());
         aliceContent.txt_receivingChainConst.getPopupProvider().setValue(ctx.receiverChainConstantInput());
-        aliceContent.txt_receivingChainMid.getPopupProvider().setValue(ctx.receiverChainOutput());
+        aliceContent.txt_receivingChainMid.getPopupProvider().setValues(ctx.receiverChainOutput());
         aliceContent.txt_receivingChainBot.getPopupProvider().setValue(ctx.receiverChainNewChainKey());
         aliceContent.txt_messageKeys.getPopupProvider().setValues(ctx.receiverChainMessageKey());
     }

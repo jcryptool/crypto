@@ -12,7 +12,8 @@ public class Positioning {
     }
 
     /**
-     * Specifies a Point of a Control on the given Composite. Those can resolve to X or Y coordinates independently.
+     * Specifies a Point of a Control on the given Composite. Those can resolve to X
+     * or Y coordinates independently.
      *
      * <pre>
      * {@code
@@ -149,8 +150,9 @@ public class Positioning {
         abstract int getY(Control control, Control anchor);
 
         /**
-         * Traverse all parents until the drawing canvas to get a correct absolute position of things.
-         * There is actually a out-of-the-box method for this, but I did not know about that before.
+         * Traverse all parents until the drawing canvas to get a correct absolute
+         * position of things. There is actually a out-of-the-box method for this, but I
+         * did not know about that before.
          */
         public static Rectangle correctedBounds(Control control, Control drawingCanvas) {
             Rectangle innerBounds = control.getBounds();
