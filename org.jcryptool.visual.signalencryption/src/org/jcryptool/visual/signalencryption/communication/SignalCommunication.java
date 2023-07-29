@@ -7,29 +7,39 @@ import java.util.function.Consumer;
 import org.jcryptool.visual.signalencryption.algorithm.EncryptionAlgorithm;
 import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
 import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException;
-import org.jcryptool.visual.signalencryption.ui.AlgorithmState;
-import org.whispersystems.libsignal.*;
+import org.whispersystems.libsignal.DuplicateMessageException;
+import org.whispersystems.libsignal.IdentityKey;
+import org.whispersystems.libsignal.InvalidKeyException;
+import org.whispersystems.libsignal.InvalidKeyIdException;
+import org.whispersystems.libsignal.InvalidMessageException;
+import org.whispersystems.libsignal.InvalidVersionException;
+import org.whispersystems.libsignal.LegacyMessageException;
+import org.whispersystems.libsignal.NoSessionException;
+import org.whispersystems.libsignal.SessionCipher;
+import org.whispersystems.libsignal.UntrustedIdentityException;
 import org.whispersystems.libsignal.protocol.CiphertextMessage;
 import org.whispersystems.libsignal.protocol.PreKeySignalMessage;
 import org.whispersystems.libsignal.protocol.SignalMessage;
 
 /**
  * Interface between UI "frontend" and algorithm "backend".
- *
- * Handles multiple messages and the keys used to encryt/decrypt them. Provides a list-like interface
- * to advance through the messages (this is important if the user switches forth and back between states).
+ * <p>
+ * Handles multiple messages and the keys used to encryt/decrypt them. Provides
+ * a list-like interface to advance through the messages (this is important if
+ * the user switches forth and back between states).
  */
 public class SignalCommunication {
 
-    private List<MessageContext> messageContexts;
+    private final List<MessageContext> messageContexts;
+    private final EncryptionAlgorithm algorithm;
+
     private JCrypToolCapturer preInitializedCapturer;
     private boolean inProgress = false;
     private int i;
-    private EncryptionAlgorithm algorithm;
 
     /**
      * Interface between UI "frontend" and algorithm "backend".
-     *
+     * <p>
      * Handle multiple messages and the keys used to encryt/decrypt them. Provide as
      * a simple-to-use class with methods similar to an iterator.
      */
@@ -159,7 +169,8 @@ public class SignalCommunication {
         var decrypt = (alice ? algorithm.getBobSessionCipher() : algorithm.getAliceSessionCipher()).orElse(null);
 
         //
-        Consumer<IdentityKey> trustVerifier = (alice ? algorithm::checkIdentityTrustedByBob : algorithm::checkIdentityTrustedByAlice);
+        Consumer<IdentityKey> trustVerifier = (alice ? algorithm::checkIdentityTrustedByBob
+                : algorithm::checkIdentityTrustedByAlice);
 
         // We encrypt and decrypt in the same go. The user doesn't know that and doesn't
         // have to. In the end, it makes our lives easier.
@@ -168,8 +179,7 @@ public class SignalCommunication {
                 decrypt,
                 message.getBytes(),
                 trustVerifier,
-                getPreInitializedCapturer()
-        );
+                getPreInitializedCapturer());
         current().setEncryptedMessageAndSeal(cipherTextContext.ciphertextMessage(),
                 cipherTextContext.decryptedMessage());
     }
@@ -205,8 +215,9 @@ public class SignalCommunication {
      * @param context          the encryptionContext
      * @param decryptingCipher the keys to use for decryption
      * @param message          the plaintext to encrypt
-     * @param trustVerifier    a method which prevents {@link UntrustedIdentityException}
-     *                         communication (a so called PreKeyMessage)
+     * @param trustVerifier    a method which prevents
+     *                         {@link UntrustedIdentityException} communication (a
+     *                         so called PreKeyMessage)
      * @return a data object containing the encrypted and the already decrypted
      *         message.
      * @throws SignalAlgorithmException if an algorithm error occurs.
@@ -216,8 +227,7 @@ public class SignalCommunication {
             SessionCipher decryptingCipher,
             byte[] message,
             Consumer<IdentityKey> trustVerifier,
-            JCrypToolCapturer nextSendCapturer
-    ) throws SignalAlgorithmException {
+            JCrypToolCapturer nextSendCapturer) throws SignalAlgorithmException {
         CiphertextMessage ciphertextMessage;
         String decryptedMessage;
         byte[] cipherTextMessageBytes;
@@ -230,13 +240,12 @@ public class SignalCommunication {
 
             if (isPreKeyMessage) {
                 var preKeyMessage = new PreKeySignalMessage(cipherTextMessageBytes);
-                decryptingCipher = algorithm.createSessionCipherForBobFromMessage(
-                        algorithm.getAliceAddress(),
-                        preKeyMessage
-                );
+                decryptingCipher = algorithm.createReceivingSessionCipherForBob(algorithm.getAliceAddress());
 
-                // If the other side changed their keys, we could run into an UntrustedIdentity exception.
-                // We would rather just notify that the key changed, as the messengers do as well.
+                // If the other side changed their keys, we could run into an UntrustedIdentity
+                // exception.
+                // We would rather just notify that the key changed, as the messengers do as
+                // well.
                 // Note that this is currently not consumed by the UI.
                 trustVerifier.accept(preKeyMessage.getIdentityKey());
 
@@ -267,8 +276,7 @@ public class SignalCommunication {
 
     private MessageContext newContextWithSender(
             CommunicationEntity sendingEntity,
-            JCrypToolCapturer preInitializedSendingCapturer
-    ) {
+            JCrypToolCapturer preInitializedSendingCapturer) {
         SessionCipher aliceCipher;
         SessionCipher bobCipher = algorithm.getBobSessionCipher().orElse(null);
         if (algorithm.getAliceSessionCipher().isEmpty()) {
@@ -303,10 +311,10 @@ public class SignalCommunication {
     /**
      * Simple data class holding a pair of information.
      */
-    private class CipherTextContext {
+    private static class CipherTextContext {
 
-        private byte[] ciphertextMessage;
-        private String decryptedMessage;
+        private final byte[] ciphertextMessage;
+        private final String decryptedMessage;
 
         public CipherTextContext(PreKeySignalMessage preKeySignalMessage, String decryptedMessage) {
             this.ciphertextMessage = preKeySignalMessage.serialize();

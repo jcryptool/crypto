@@ -43,7 +43,10 @@ public class ComponentDrawComposite extends Canvas {
         componentsToDraw.remove(component);
     }
 
-    /** Build a draw color. Uses {@link SWT#COLOR_WIDGET_FOREGROUND} which is slightly adjusted towards the middle. */
+    /**
+     * Build a draw color. Uses {@link SWT#COLOR_WIDGET_FOREGROUND} which is
+     * slightly adjusted towards the middle.
+     */
     private static Color buildDrawColor() {
         var baseColor = ColorService.getColor(SWT.COLOR_WIDGET_FOREGROUND);
         var rgb = baseColor.getRGB();
@@ -64,7 +67,8 @@ public class ComponentDrawComposite extends Canvas {
     @Override
     public void dispose() {
         super.dispose();
-        // We must dispose of the non-SWT children (Components) as well, because they partly use SWT resources.
+        // We must dispose of the non-SWT children (Components) as well, because they
+        // partly use SWT resources.
         for (var component : componentsToDraw) {
             component.dispose();
         }

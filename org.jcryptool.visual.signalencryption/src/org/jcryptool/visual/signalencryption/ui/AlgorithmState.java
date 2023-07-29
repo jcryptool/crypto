@@ -4,7 +4,10 @@ import org.jcryptool.visual.signalencryption.algorithm.EncryptionAlgorithm;
 import org.jcryptool.visual.signalencryption.communication.SignalCommunication;
 import org.jcryptool.visual.signalencryption.util.ToHex;
 
-/** Singleton which globally handles the current state of the plug-in. Kind of on the edge between UI and algorithm. */
+/**
+ * Singleton which globally handles the current state of the plug-in. Kind of on
+ * the edge between UI and algorithm.
+ */
 public class AlgorithmState {
 
     private static AlgorithmState instance;

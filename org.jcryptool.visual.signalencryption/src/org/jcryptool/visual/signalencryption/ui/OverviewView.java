@@ -226,11 +226,10 @@ public class OverviewView extends Composite {
 
     private void handleUnexpectedAlgorithmError(SignalAlgorithmException e) {
         LogUtil.logError(
-                    SignalEncryptionPlugin.PLUGIN_ID,
-                    Messages.SignalEncryption_Error,
-                    e,
-                    true
-            );
+                SignalEncryptionPlugin.PLUGIN_ID,
+                Messages.SignalEncryption_Error,
+                e,
+                true);
         rootView.resetView();
     }
 

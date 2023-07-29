@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException;
 import org.whispersystems.libsignal.IdentityKey;
 import org.whispersystems.libsignal.IdentityKeyPair;
 import org.whispersystems.libsignal.InvalidKeyException;
@@ -45,14 +46,12 @@ public class AlgorithmBaseParameters {
         return preKeys.prekeys;
     }
 
-    public SignedPreKeyRecord getSignedPreKeyRecord() {
+    public SignedPreKeyRecord getSignedPreKeyRecord() throws SignalAlgorithmException {
         return cache.computeIfAbsent(getPreKeyID(), (i) -> {
             try {
                 return KeyHelper.generateSignedPreKey(identityKeyPair, i);
             } catch (InvalidKeyException e) {
-                // ignored
-                System.out.println(e);
-                return null;
+                throw new SignalAlgorithmException();
             }
         });
     }

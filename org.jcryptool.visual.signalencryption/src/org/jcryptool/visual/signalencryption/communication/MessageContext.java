@@ -11,14 +11,13 @@ import java.util.Optional;
 import org.jcryptool.visual.signalencryption.algorithm.JCrypToolCapturer;
 import org.jcryptool.visual.signalencryption.ui.Messages;
 import org.jcryptool.visual.signalencryption.util.Templating;
-import org.jcryptool.visual.signalencryption.algorithm.EncryptionAlgorithm;
 import org.whispersystems.libsignal.SessionCipher;
 import org.whispersystems.libsignal.SessionCipher.EncryptCallbackHandler;
-import org.whispersystems.libsignal.SignalProtocolAddress;
 import org.whispersystems.libsignal.ratchet.MessageKeys;
 
 /**
- * Dataclass for Double-Ratchet and message information for one message exchange.
+ * Dataclass for Double-Ratchet and message information for one message
+ * exchange.
  *
  * Contains relevant key information and allows the storage of the raw input
  * message, the ciphertext (encrypted message) and the decrypted message.
@@ -42,9 +41,8 @@ public class MessageContext {
      * message exchange.
      */
     private MessageContext(
-    		CommunicationEntity sendingEntity, String message, JCrypToolCapturer sendingCapture,
-            JCrypToolCapturer receivingCapture, EncryptCallbackHandler encryptHandler
-    ) {
+            CommunicationEntity sendingEntity, String message, JCrypToolCapturer sendingCapture,
+            JCrypToolCapturer receivingCapture, EncryptCallbackHandler encryptHandler) {
         this.sendingEntity = sendingEntity;
         this.message = message;
         this.sendingCapture = sendingCapture;
@@ -58,10 +56,6 @@ public class MessageContext {
 
     public boolean isAliceSending() {
         return sendingEntity == ALICE;
-    }
-
-    public boolean isBobSending() {
-        return sendingEntity == BOB;
     }
 
     public EncryptCallbackHandler getEncryptHandler() {
@@ -99,17 +93,16 @@ public class MessageContext {
 
     /**
      * Set the encrypted message and its decrypted counterpart in one go.
-     *
-     * Make sure to actually encrypt/decrypt and not just pass the undecrypted
+     * <p>
+     * Make sure to actually encrypt/decrypt and not just pass the plaintext 
      * message again, since that would be cheating.
-     *
+     * <p>
      * Since the encryption can't be rolled back, a change to the message afterwards
-     * brings it in an inconsistent state. That's why
-     * {@link #setEncryptedMessageAndSeal(byte[], String)} will throw an exception
-     * if it is called more than once.
+     * brings it in an inconsistent state. That's why a {@link IllegalStateException}
+     * will be thrown if it is called more than once.
      *
-     * @param encryptedMessage
-     * @param decryptedMessage
+     * @param encryptedMessage The ciphertext (SignalMessage or PreKeySignalMessage) in serialized form
+     * @param decryptedMessage The decrypted message again as plain test
      *
      * @throws IllegalStateException if already encrypted.
      * @see #isAlreadyEncrypted()
@@ -130,7 +123,8 @@ public class MessageContext {
     // Diffie-Hellman Getters
     /////////////////////////
     public String diffieHellmanSenderPublicKey() {
-        // For some reason Signal preprends a 05 for this key (33) bytes, so we ignore that here.
+        // For some reason Signal preprends a 05 for this key (33) bytes, so we ignore
+        // that here.
         return toHex(sendingCapture.publicDiffieHellmanRatchetKey.serialize(), 1, EC_PUBLIC_KEY_SIZE);
     }
 
@@ -143,7 +137,8 @@ public class MessageContext {
     }
 
     public String diffieHellmanReceiverPublicKey() {
-        // For some reason Signal preprends a 05 for this key (33) bytes, so we ignore that here.
+        // For some reason Signal preprends a 05 for this key (33) bytes, so we ignore
+        // that here.
         return toHex(receivingCapture.publicDiffieHellmanRatchetKey.serialize(), 1, EC_PUBLIC_KEY_SIZE);
     }
 
@@ -171,8 +166,7 @@ public class MessageContext {
         var chainOutput = toHex(sendingCapture.rootKdfOutput.getChainKey());
         return List.of(
                 new SimpleEntry<>(Messages.DoubleRatchet_TypeNewRootChainKey, newRootKey),
-                new SimpleEntry<>(Messages.DoubleRatchet_TypeRootOutput, chainOutput)
-        );
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeRootOutput, chainOutput));
     }
 
     public String senderRootNewRootChainKey() {
@@ -192,8 +186,7 @@ public class MessageContext {
         var chainOutput = toHex(receivingCapture.rootKdfOutput.getChainKey());
         return List.of(
                 new SimpleEntry<>(Messages.DoubleRatchet_TypeNewRootChainKey, newRootKey),
-                new SimpleEntry<>(Messages.DoubleRatchet_TypeRootOutput, chainOutput)
-        );
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeRootOutput, chainOutput));
     }
 
     public String receiverRootNewRootChainKey() {
@@ -216,8 +209,7 @@ public class MessageContext {
         var chainOutput = toHex(sendingCapture.sendChain.kdfOutput);
         return List.of(
                 new SimpleEntry<>(Messages.DoubleRatchet_MessageKeyLabel, chainOutput),
-                new SimpleEntry<>(Messages.DoubleRatchet_TypeNewChainKey, newChainKey)
-        );
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeNewChainKey, newChainKey));
     }
 
     public List<SimpleEntry<String, String>> senderChainMessageKey() {
@@ -241,8 +233,7 @@ public class MessageContext {
         var chainOutput = toHex(receivingCapture.receiveChain.kdfOutput);
         return List.of(
                 new SimpleEntry<>(Messages.DoubleRatchet_MessageKeyLabel, chainOutput),
-                new SimpleEntry<>(Messages.DoubleRatchet_TypeNewChainKey, newChainKey)
-        );
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeNewChainKey, newChainKey));
     }
 
     public List<SimpleEntry<String, String>> receiverChainMessageKey() {
@@ -258,19 +249,18 @@ public class MessageContext {
                 new SimpleEntry<>(Messages.DoubleRatchet_TypeSymmAes, toHex(key.getCipherKey().getEncoded())),
                 new SimpleEntry<>(Messages.DoubleRatchet_TypeSymmCount, Integer.toString(key.getCounter())),
                 new SimpleEntry<>(Messages.DoubleRatchet_TypeSymmIv, toHex(key.getIv().getIV())),
-                new SimpleEntry<>(Messages.DoubleRatchet_TypeSymmMac, toHex(key.getMacKey().getEncoded()))
-        );
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeSymmMac, toHex(key.getMacKey().getEncoded())));
 
     }
 
     public String getMessage() {
-        return message.toString();
+        return message;
     }
 
     public static class Builder {
 
         private static final String DEFAULT_MSG_ALICE = Templating.forAlice(Messages.DoubleRatchet_DefaultPlainText);
-        private static final String DEFAULT_MSG_BOB =  Templating.forBob(Messages.DoubleRatchet_DefaultPlainText);
+        private static final String DEFAULT_MSG_BOB = Templating.forBob(Messages.DoubleRatchet_DefaultPlainText);
 
         private final CommunicationEntity sendingEntity;
         private final String message;
@@ -306,7 +296,7 @@ public class MessageContext {
 
         public MessageContext build() {
             // Don't call build() without setting these values
-            assert sendingCapture != null || aliceCipher != null || bobCipher != null;
+            assert sendingCapture != null && aliceCipher != null && bobCipher != null;
 
             EncryptCallbackHandler encryptHandler;
             if (sendingEntity == ALICE) {
@@ -317,47 +307,5 @@ public class MessageContext {
 
             return new MessageContext(sendingEntity, message, sendingCapture, receivingCapture, encryptHandler);
         }
-
     }
-
-    public static class DiffieHellmanRatchetKeys {
-        final String theirPublicKey;
-        final String agreedKey;
-        final String ourPrivateKey;
-
-        public DiffieHellmanRatchetKeys(String theirPublicKey, String agreedKey, String ourPrivateKey) {
-            this.theirPublicKey = theirPublicKey;
-            this.agreedKey = agreedKey;
-            this.ourPrivateKey = ourPrivateKey;
-        }
-    }
-
-    public static class RootChainKeys {
-        final String rootKey;
-        final String input;
-        final String output;
-        final String newRootKey;
-
-        public RootChainKeys(String rootKey, String input, String output, String newRootKey) {
-            this.rootKey = rootKey;
-            this.input = input;
-            this.output = output;
-            this.newRootKey = newRootKey;
-        }
-    }
-
-    public static class SendReceiveChainKeys {
-        String chainKey;
-        String input;
-        String output;
-        String newChainKey;
-
-        public SendReceiveChainKeys(String chainKey, String input, String output, String newChainKey) {
-            this.chainKey = chainKey;
-            this.input = input;
-            this.output = output;
-            this.newChainKey = newChainKey;
-        }
-    }
-
 }

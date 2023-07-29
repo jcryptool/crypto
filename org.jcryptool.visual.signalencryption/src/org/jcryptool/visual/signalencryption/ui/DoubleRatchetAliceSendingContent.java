@@ -60,7 +60,8 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     private String step2 = Messages.DoubleRatchet_Step + " 2 " + Templating.forAlice(Messages.DoubleRatchet_Step2);
     private String step3 = Messages.DoubleRatchet_Step + " 3 " + Templating.forAlice(Messages.DoubleRatchet_Step3);
     private String step4 = Messages.DoubleRatchet_Step + " 4 " + Templating.forAlice(Messages.DoubleRatchet_Step4);
-    private String step5 = Messages.DoubleRatchet_Step + " 5 " + Templating.forAlice(Messages.DoubleRatchet_Step5Sending);
+    private String step5 = Messages.DoubleRatchet_Step + " 5 "
+            + Templating.forAlice(Messages.DoubleRatchet_Step5Sending);
 
     private String DiffieHellmanLabelTop = Templating.forAlice(Messages.DoubleRatchet_DiffieHellmanLabelTop);
     private String DiffieHellmanLabelMid = Templating.forAlice(Messages.DoubleRatchet_DiffieHellmanLabelMid);
@@ -73,7 +74,6 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
     private String SendingChainLabelBot = Messages.DoubleRatchet_SendingChainLabelBot;
     private String ChainLabelConst = Messages.DoubleRatchet_ChainLabelConst;
     private String MessageKeyLabel = Messages.DoubleRatchet_MessageKeyLabel;
-
 
     private String step = Messages.DoubleRatchet_Step;
     private String DiffieHellmanGroupDescription = step + " 1" + Messages.DoubleRatchet_DiffieHellmanGroupDescription;
@@ -167,7 +167,8 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
         txt_diffieHellmanTop.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_diffieHellmanMid = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelMid)
-                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY)).operationNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeSharedSecret, DUMMY))
+                .operationNode();
         txt_diffieHellmanMid.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_diffieHellmanBot = new FlowChartNode.Builder(grp_diffieHellman).title(DiffieHellmanLabelBot)
@@ -219,7 +220,8 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
         UiUtils.insertSpacers(grp_rootChain, 1);
 
         txt_rootChainBot = new FlowChartNode.Builder(grp_rootChain).title(RootChainLabelBot)
-                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY)).valueNode();
+                .popupProvider(FlowChartNodePopup.create(Messages.DoubleRatchet_TypeNewRootChainKey, DUMMY))
+                .valueNode();
         txt_rootChainBot.setLayoutData(Layout.gd_algorithmNodes());
 
         arr_rootChain2 = ArrowComponent
@@ -307,7 +309,7 @@ public class DoubleRatchetAliceSendingContent implements DoubleRatchetEntityCont
         txt_plainText.setLayoutData(Layout.gd_Messagebox());
 
         txt_messageKeys = new FlowChartNode.Builder(cmp_messageBox).title(MessageKeyLabel)
-                .popupProvider(FlowChartNodePopup.create(MessageKeyLabel ,DUMMY)).valueNode();
+                .popupProvider(FlowChartNodePopup.create(MessageKeyLabel, DUMMY)).valueNode();
         txt_messageKeys.setLayoutData(Layout.gd_algorithmNodes());
 
         txt_cipherText = new Text(cmp_messageBox, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.READ_ONLY);

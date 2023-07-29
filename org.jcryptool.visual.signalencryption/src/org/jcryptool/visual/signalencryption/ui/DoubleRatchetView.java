@@ -20,7 +20,10 @@ import org.jcryptool.core.util.ui.layout.GridDataBuilder;
 import org.jcryptool.visual.signalencryption.communication.CommunicationEntity;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
-/** Main view of the Double Ratchet tab containing the flowchart with explanation. */
+/**
+ * Main view of the Double Ratchet tab containing the flowchart with
+ * explanation.
+ */
 public class DoubleRatchetView extends Composite {
 
     private Button btn_alice;
@@ -74,7 +77,6 @@ public class DoubleRatchetView extends Composite {
     private String btn_NextDescription = Messages.DoubleRatchet_buttonNext;
     private String btn_PreviousDescription = Messages.DoubleRatchet_buttonBack;
     private SignalEncryptionView rootView;
-
 
     DoubleRatchetView(Composite parent, int style, SignalEncryptionView rootView) {
         super(parent, style);
@@ -424,12 +426,14 @@ public class DoubleRatchetView extends Composite {
     public DoubleRatchetAliceReceivingContent getAliceReceivingContent() {
         return aliceReceivingContent;
     }
-    
+
     public SignalEncryptionView getRootView() {
         return rootView;
     }
 
-    /** Represents the center algorithm text on step 0 (when nothing is visible yet) */
+    /**
+     * Represents the center algorithm text on step 0 (when nothing is visible yet)
+     */
     enum CenterDescriptionType {
         ALICE_INIT(Messages.Name_Alice_Space + Messages.DoubleRatchet_sendingInitialMessage),
         ALICE_SENDING(Messages.Name_Alice_Space + Messages.DoubleRatchet_sendingAnyMessage),

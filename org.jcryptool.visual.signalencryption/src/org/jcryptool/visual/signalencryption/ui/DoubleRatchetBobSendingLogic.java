@@ -11,8 +11,9 @@ import org.jcryptool.visual.signalencryption.exceptions.SignalAlgorithmException
 import org.jcryptool.visual.signalencryption.ui.DoubleRatchetAliceSendingLogic.AliceSendingStep;
 
 /**
- * All state changes necesssary to represent Bob sending a message to Alice.
- * I know that this class is kind of redundant, but I don't have the time to refactor it.
+ * All state changes necesssary to represent Bob sending a message to Alice. I
+ * know that this class is kind of redundant, but I don't have the time to
+ * refactor it.
  *
  * @see DoubleRatchetAliceSendingLogic
  */
@@ -201,7 +202,8 @@ public class DoubleRatchetBobSendingLogic {
                             Messages.SignalEncryption_Error,
                             e,
                             true);
-                    swtParent.getRootView().resetView();;
+                    swtParent.getRootView().resetView();
+                    ;
 
                 }
                 // In case of error we go to the initial step
@@ -488,9 +490,9 @@ public class DoubleRatchetBobSendingLogic {
         }
     }
 
-    
     /**
      * Get user input from UI and give it to the encryption algorithm.
+     * 
      * @throws SignalAlgorithmException in any case of algorithmic errors.
      */
     private static void getMessageAndEncrypt(DoubleRatchetView view) throws SignalAlgorithmException {
@@ -498,7 +500,6 @@ public class DoubleRatchetBobSendingLogic {
         var communication = AlgorithmState.get().getCommunication();
         communication.encrypt(message);
     }
-
 
     private static void updateSendingKeyDisplayInformation(DoubleRatchetView view) {
         var bobContent = view.getBobSendingContent();

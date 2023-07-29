@@ -21,8 +21,9 @@ import org.jcryptool.core.util.ui.layout.GridDataBuilder;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 /**
- * The main component of the flowchart. A node with a title and a button, which shows a pop-up when clicked.
- * This class requires two async execution hooks for the smooth pop-up opening and closing.
+ * The main component of the flowchart. A node with a title and a button, which
+ * shows a pop-up when clicked. This class requires two async execution hooks
+ * for the smooth pop-up opening and closing.
  */
 public class FlowChartNode extends Composite {
 
@@ -32,20 +33,24 @@ public class FlowChartNode extends Composite {
     private static final Image OPERATION_IMAGE = ImageService.getImage(SignalEncryptionView.ID, GEAR_ICON_NAME);
     /** The spacing between the gear symbol and the lense icon */
     private static final int HORIZONTAL_SPACING = 17;
-    /** How long to keep the lense-button disabled when the window is closing (prevents immediate re-opening) */
+    /**
+     * How long to keep the lense-button disabled when the window is closing
+     * (prevents immediate re-opening)
+     */
     private static final long BUTTON_DISABLE_TIME_IN_MS = 80;
     /**
      * How long to block closing of the pop-up after gaining the focus.
      * <p>
-     * Compared to {@link #DISPOSE_AFTER_MS} this value should be enough long that both
-     * focusGained and focusLost events can fire, but not too long to make it
+     * Compared to {@link #DISPOSE_AFTER_MS} this value should be enough long that
+     * both focusGained and focusLost events can fire, but not too long to make it
      * unresponsive.
      */
     private static final long PREVENT_CLOSING_FOR_MS = 50;
     private static final long DISPOSE_AFTER_MS = 15;
 
     static {
-        // Make definitely sure that the pop-up closes before enable the open-button again
+        // Make definitely sure that the pop-up closes before enable the open-button
+        // again
         assert BUTTON_DISABLE_TIME_IN_MS > DISPOSE_AFTER_MS;
     }
 
@@ -67,8 +72,7 @@ public class FlowChartNode extends Composite {
             String title,
             String popupTooltip,
             FlowChartNodePopup popupProvider,
-            Type type
-    ) {
+            Type type) {
         super(parent, style);
         this.popupProvider = popupProvider;
         this.parentShell = getShell();

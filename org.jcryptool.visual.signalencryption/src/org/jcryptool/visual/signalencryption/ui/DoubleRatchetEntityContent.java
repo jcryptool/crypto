@@ -29,7 +29,8 @@ public interface DoubleRatchetEntityContent {
     void showStep(DoubleRatchetStep step);
 
     default void showStep(DoubleRatchetStep step, List<StyledText> stepDescriptions, int offset) {
-        // Last visible step if offset by one, as STEP_0 does not show a step description
+        // Last visible step if offset by one, as STEP_0 does not show a step
+        // description
         int lastVisibleStep = step.getStepIndex() - 1;
         for (int i = offset; i < stepDescriptions.size() + offset; ++i) {
             StyledText description = stepDescriptions.get(i - offset);

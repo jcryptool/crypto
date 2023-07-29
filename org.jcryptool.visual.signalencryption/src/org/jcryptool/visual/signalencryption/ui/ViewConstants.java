@@ -4,12 +4,14 @@ package org.jcryptool.visual.signalencryption.ui;
 public class ViewConstants {
 
     /**
-     * Height of the plug-in as a whole (this is important for the scrolling of the plug-in)
+     * Height of the plug-in as a whole (this is important for the scrolling of the
+     * plug-in)
      */
     public static final int PLUGIN_HEIGTH = 780;
 
     /**
-     * width of the plug-in as a whole (this is important for the scrolling of the plug-in)
+     * width of the plug-in as a whole (this is important for the scrolling of the
+     * plug-in)
      */
     public static final int PLUGIN_WIDTH = 1715;
 
@@ -29,8 +31,9 @@ public class ViewConstants {
     public static final int ENTITY_BUTTON_WIDTH = 150;
 
     /**
-     * I don't know why, but this offset seems to work best when to compute the height of the explainers textbox
-     * */
+     * I don't know why, but this offset seems to work best when to compute the
+     * height of the explainers textbox
+     */
     public static final int EXPLAINER_HEIGHT_OFFSET = 63;
     /**
      * This is the width hint of the algorithm boxes, a major part of the plugin's
@@ -69,8 +72,8 @@ public class ViewConstants {
     public static final int HORIZONTAL_SPACING = 5;
 
     /**
-     * The horizontal spacing between canvas elements
-     * (e.g. between Root and Sending Chain or Sending Chain and MessageBox)
+     * The horizontal spacing between canvas elements (e.g. between Root and Sending
+     * Chain or Sending Chain and MessageBox)
      */
     public static final int CANVAS_SPACING = 38;
 

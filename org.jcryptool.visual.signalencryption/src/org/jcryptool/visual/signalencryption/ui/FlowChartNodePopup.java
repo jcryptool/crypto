@@ -35,8 +35,7 @@ public class FlowChartNodePopup implements BiFunction<Composite, Integer, Compos
     public static FlowChartNodePopup create(String k1, String v1, String k2, String v2) {
         List<SimpleEntry<String, String>> keyValuePairs = List.of(
                 new SimpleEntry<>(k1, v1),
-                new SimpleEntry<>(k2, v2)
-        );
+                new SimpleEntry<>(k2, v2));
         return new FlowChartNodePopup(keyValuePairs);
     }
 
@@ -83,8 +82,8 @@ public class FlowChartNodePopup implements BiFunction<Composite, Integer, Compos
             label.setText(keyValuePair.getKey());
             label.setLayoutData(GridDataBuilder.with(SWT.FILL, SWT.CENTER, false, false).get());
             txt.setLayoutData(
-                    GridDataBuilder.with(SWT.FILL, SWT.TOP, true, true).widthHint(ViewConstants.POPUP_TEXT_WIDTH).get()
-            );
+                    GridDataBuilder.with(SWT.FILL, SWT.TOP, true, true).widthHint(ViewConstants.POPUP_TEXT_WIDTH)
+                            .get());
             txt.setFont(FontService.getNormalMonospacedFont());
             txt.setText(keyValuePair.getValue());
         }

@@ -17,7 +17,6 @@ import org.jcryptool.visual.signalencryption.util.ToHex;
  */
 public class DoubleRatchetAliceSendingLogic {
 
-
     public enum AliceSendingStep implements DoubleRatchetStep {
         /**
          * Initial, blank step. Showing Alice's view
@@ -34,7 +33,6 @@ public class DoubleRatchetAliceSendingLogic {
                 aliceContent.setAllVisible(false);
                 bobContent.setAllVisible(false);
 
-
                 // Initial value only valid for initial message
                 if (AlgorithmState.get().getCommunication().isBeginning()) {
                     swtParent.showAliceSendingInitialLabel();
@@ -47,7 +45,8 @@ public class DoubleRatchetAliceSendingLogic {
                     aliceContent.setNormalStepDescriptions();
                     bobContent.setNormalStepDescriptions();
                 }
-                // Hide Steps (this is done after setting the initial/normal descriptions to prevent weird behaviour)
+                // Hide Steps (this is done after setting the initial/normal descriptions to
+                // prevent weird behaviour)
                 aliceContent.showStep(this);
                 bobContent.showStep(this);
             }
@@ -464,7 +463,8 @@ public class DoubleRatchetAliceSendingLogic {
                     aliceContent.setNormalStepDescriptions();
                     bobContent.setNormalStepDescriptions();
                 }
-                // Show Steps (this is done after setting the initial/normal descriptions to prevent weird behaviour)
+                // Show Steps (this is done after setting the initial/normal descriptions to
+                // prevent weird behaviour)
                 aliceContent.showStep(this);
                 bobContent.showStep(this);
             }
@@ -514,6 +514,7 @@ public class DoubleRatchetAliceSendingLogic {
 
     /**
      * Get user input from UI and give it to the encryption algorithm.
+     * 
      * @throws SignalAlgorithmException in any case of algorithmic errors.
      */
     private static void getMessageAndEncrypt(DoubleRatchetView view) throws SignalAlgorithmException {

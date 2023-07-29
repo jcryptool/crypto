@@ -4,7 +4,6 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.jcryptool.core.logging.utils.LogUtil;
 import org.jcryptool.core.util.images.ImageService;
 import org.jcryptool.visual.signalencryption.graphics.Positioning.Anchor;
@@ -13,8 +12,9 @@ import org.jcryptool.visual.signalencryption.ui.SignalEncryptionView;
 import org.jcryptool.visual.signalencryption.util.UiUtils;
 
 /**
- * Draws images on the canvas which can be easily hidden via {@link #setVisible(boolean)}.
- * Image position can be conveniently specified via the {@link Positioning} utility.
+ * Draws images on the canvas which can be easily hidden via
+ * {@link #setVisible(boolean)}. Image position can be conveniently specified
+ * via the {@link Positioning} utility.
  */
 public class ImageComponent implements Component {
 
@@ -71,7 +71,9 @@ public class ImageComponent implements Component {
         image.dispose();
     }
 
-    /** Sets the position of where to draw the image relative to an existing Control. */
+    /**
+     * Sets the position of where to draw the image relative to an existing Control.
+     */
     public void setRelativeTo(Control to, Side side) {
         this.location.anchor = new Anchor(to, side);
     }
@@ -85,7 +87,8 @@ public class ImageComponent implements Component {
     }
 
     private Image loadImage(String path) {
-        // Dispose if already loaded. (Should not happen, but I've seen some errors related to it)
+        // Dispose if already loaded. (Should not happen, but I've seen some errors
+        // related to it)
         if (image != null) {
             dispose();
         }
@@ -99,9 +102,15 @@ public class ImageComponent implements Component {
 
     /** Dataclass which holds all details where to draw the image. */
     private class LocationProps {
-        /** Canvas anchor where the image shall be drawn (uses center y coordinate instead of a corner) */
+        /**
+         * Canvas anchor where the image shall be drawn (uses center y coordinate
+         * instead of a corner)
+         */
         private Anchor anchor;
-        /** Use WEST or EAST to indicate if the offset shall be added to the left or east side of the image */
+        /**
+         * Use WEST or EAST to indicate if the offset shall be added to the left or east
+         * side of the image
+         */
         final Side imageAnchor;
         /** An additional offset if you want it somewhere off of the anchor. */
         final Point offset;
@@ -120,8 +129,8 @@ public class ImageComponent implements Component {
         }
 
         /**
-         * Gets the current point where the image should be drawn.
-         * Note that this resolving anchors at the image's west point, instead of north-west.
+         * Gets the current point where the image should be drawn. Note that this
+         * resolving anchors at the image's west point, instead of north-west.
          */
         Point resolve(Image image) {
             var imageBounds = image.getBounds();
