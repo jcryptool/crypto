@@ -11,6 +11,8 @@ package org.jcryptool.visual.signalencryption.ui;
 
 import static org.jcryptool.visual.signalencryption.util.UiUtils.onSelection;
 
+import org.eclipse.ui.PlatformUI;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
@@ -71,6 +73,7 @@ public class SignalEncryptionView extends ViewPart {
         // is on a Text with one or more of the following tags: SWT.READ_ONLY,
         // SWT.V_SCROLL or SWT.H_SCROLL.
         SmoothScroller.scrollSmooth(scrolledComposite);
+        PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, "org.jcryptool.visual.signalecryption.view");
     }
 
     public void setTab(int tabIndex) {

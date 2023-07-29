@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <contexts>
-   <context id="view" title="Signal-Protokoll">
-      <description>Diese Visualisierung demonstriert das Double Ratchet Verfahren des Signal-Protokolls.</description>
-      <topic href="$nl$/help/content/deSignal.html" label="Signal-Protokoll"/>
+   <context id="view" title="Signal-Verschlüsselung">
+      <description>Dieses Plugin zeigt die Signal-Verschlüsselung.</description>
+      <topic href="$nl$/help/content/index.html" label="Signal-Verschlüsselung"/>
    </context>
 </contexts>
