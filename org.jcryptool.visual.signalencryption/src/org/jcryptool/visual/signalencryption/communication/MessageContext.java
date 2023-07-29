@@ -211,8 +211,13 @@ public class MessageContext {
         return toHex(sendingCapture.sendChain.chainConstantInput);
     }
 
-    public String senderChainOutput() {
-        return toHex(sendingCapture.sendChain.kdfOutput);
+    public List<SimpleEntry<String, String>> senderChainOutput() {
+        var newChainKey = toHex(sendingCapture.sendChain.newChainKey);
+        var chainOutput = toHex(sendingCapture.sendChain.kdfOutput);
+        return List.of(
+                new SimpleEntry<>(Messages.DoubleRatchet_MessageKeyLabel, chainOutput),
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeNewChainKey, newChainKey)
+        );
     }
 
     public List<SimpleEntry<String, String>> senderChainMessageKey() {
@@ -231,8 +236,13 @@ public class MessageContext {
         return toHex(receivingCapture.receiveChain.chainConstantInput);
     }
 
-    public String receiverChainOutput() {
-        return toHex(receivingCapture.receiveChain.kdfOutput);
+    public List<SimpleEntry<String, String>> receiverChainOutput() {
+        var newChainKey = toHex(receivingCapture.receiveChain.newChainKey);
+        var chainOutput = toHex(receivingCapture.receiveChain.kdfOutput);
+        return List.of(
+                new SimpleEntry<>(Messages.DoubleRatchet_MessageKeyLabel, chainOutput),
+                new SimpleEntry<>(Messages.DoubleRatchet_TypeNewChainKey, newChainKey)
+        );
     }
 
     public List<SimpleEntry<String, String>> receiverChainMessageKey() {

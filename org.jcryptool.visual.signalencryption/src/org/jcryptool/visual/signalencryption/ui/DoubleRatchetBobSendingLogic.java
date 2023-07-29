@@ -512,7 +512,7 @@ public class DoubleRatchetBobSendingLogic {
         bobContent.txt_rootChainBot.getPopupProvider().setValue(ctx.senderRootNewRootChainKey());
         bobContent.txt_sendingChainTop.getPopupProvider().setValue(ctx.senderChainChainKey());
         bobContent.txt_sendingChainConst.getPopupProvider().setValue(ctx.senderChainConstantInput());
-        bobContent.txt_sendingChainMid.getPopupProvider().setValue(ctx.senderChainOutput());
+        bobContent.txt_sendingChainMid.getPopupProvider().setValues(ctx.senderChainOutput());
         bobContent.txt_sendingChainBot.getPopupProvider().setValue(ctx.senderChainNewChainKey());
         bobContent.txt_messageKeys.getPopupProvider().setValues(ctx.senderChainMessageKey());
     }
@@ -529,7 +529,7 @@ public class DoubleRatchetBobSendingLogic {
         aliceContent.txt_rootChainBot.getPopupProvider().setValue(ctx.receiverRootNewRootChainKey());
         aliceContent.txt_receivingChainTop.getPopupProvider().setValue(ctx.receiverChainChainKey());
         aliceContent.txt_receivingChainConst.getPopupProvider().setValue(ctx.receiverChainConstantInput());
-        aliceContent.txt_receivingChainMid.getPopupProvider().setValue(ctx.receiverChainOutput());
+        aliceContent.txt_receivingChainMid.getPopupProvider().setValues(ctx.receiverChainOutput());
         aliceContent.txt_receivingChainBot.getPopupProvider().setValue(ctx.receiverChainNewChainKey());
         aliceContent.txt_messageKeys.getPopupProvider().setValues(ctx.receiverChainMessageKey());
     }
