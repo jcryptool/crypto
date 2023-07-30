@@ -13,7 +13,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        java: [ '17', '17.0.7' ]
     steps:
     - name: Checkout core repository
       uses: actions/checkout@v2
@@ -27,10 +29,10 @@ jobs:
           repository: jcryptool/crypto
           path: crypto
           
-    - name: Set up JDK 11
+    - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
-        distribution: 'adopt'
+        java-version: ${{ matrix.java }}
+        distribution: 'zulu'
     - name: Build with Maven
       run: mvn clean package --file $GITHUB_WORKSPACE/core/org.jcryptool.releng/pom.xml
