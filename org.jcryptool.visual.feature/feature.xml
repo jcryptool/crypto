@@ -1,5 +1,5 @@
 <feature 
-id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.9.1-20230722" provider-name="jcryptool.org" plugin="org.jcryptool.visual">
+id="org.jcryptool.visual.feature" label="JCrypTool Visual Feature" version="1.0.9.2-20230730" provider-name="jcryptool.org" plugin="org.jcryptool.visual">
     <description url="https://github.com/jcryptool/crypto">
         <!-- keep this in one line -->
         <!-- version:this -->
@@ -293,5 +293,7 @@ litigation.
     <plugin id="org.jcryptool.visual.jctca" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false"/>
     <plugin id="org.jcryptool.visual.jctca" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false"/>
     <plugin id="org.jcryptool.visual.rabin" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false"/>
-    <plugin id="org.jcryptool.visual.signalencryption" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false"/>
+    <plugin 
+    id="org.jcryptool.visual.signalencryption" download-size="0" install-size="0" version="1.0.9.2-20230730" unpack="false">
+</plugin>
 </feature>
