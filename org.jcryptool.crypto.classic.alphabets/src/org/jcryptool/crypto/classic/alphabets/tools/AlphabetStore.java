@@ -376,8 +376,13 @@ public class AlphabetStore extends AbstractAlphabetStore {
     @Override
 	public void storeAlphabets() throws IOException {
         if (alphaPath == null || new File(alphaPath).canWrite()) {
-            AlphabetPersistence.saveAlphabetsToXML(alphabets, new OutputStreamWriter(new FileOutputStream(alphaPath),
+            try {
+                AlphabetPersistence.saveAlphabetsToXML(alphabets, new OutputStreamWriter(new FileOutputStream(alphaPath),
                     Charset.forName(IConstants.UTF8_ENCODING)));
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+
         } else {
             throw new IOException("Either no alphabet path was initialized or writing access is denied."); //$NON-NLS-1$
         }
