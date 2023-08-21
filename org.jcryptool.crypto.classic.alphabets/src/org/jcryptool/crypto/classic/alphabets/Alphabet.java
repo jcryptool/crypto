@@ -21,19 +21,19 @@ import org.jcryptool.core.operations.alphabets.AbstractAlphabet;
  */
 public class Alphabet extends AbstractAlphabet {
 
-	private String name = "";
+	public String name = "";
 
-	private char substituteCharacter = ' ';
+	public char substituteCharacter = ' ';
 
-	private int displayMissingCharacters;
+	public int displayMissingCharacters;
 
-	private char[] characterSet;
+	public char[] characterSet;
 
-	private boolean defaultAlphabet = false;
+	public boolean defaultAlphabet = false;
 
-	private boolean basic = false;
+	public boolean basic = false;
 
-	private String shortName = "";
+	public String shortName = "";
 	
 	public Alphabet() {
 		this.name = "";
