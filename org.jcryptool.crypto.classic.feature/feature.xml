@@ -1,5 +1,5 @@
 <feature 
-id="org.jcryptool.crypto.classic.feature" label="JCrypTool Classic Algorithms Feature" version="1.0.9.1-20230722" provider-name="jcryptool.org" plugin="org.jcryptool.crypto.classic">
+id="org.jcryptool.crypto.classic.feature" label="JCrypTool Classic Algorithms Feature" version="1.0.9.3-20230901" provider-name="jcryptool.org" plugin="org.jcryptool.crypto.classic">
     <description url="https://github.com/jcryptool/crypto">
         <!-- keep this in one line -->
         <!-- version:this -->
@@ -219,7 +219,7 @@ litigation.
     id="org.jcryptool.crypto.classic.adfgvx" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false">
 </plugin>
     <plugin 
-    id="org.jcryptool.crypto.classic.alphabets" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false">
+    id="org.jcryptool.crypto.classic.alphabets" download-size="0" install-size="0" version="1.0.9.3-20230901" unpack="false">
 </plugin>
     <plugin 
     id="org.jcryptool.crypto.classic.caesar" download-size="0" install-size="0" version="1.0.9.1-20230722" unpack="false">
