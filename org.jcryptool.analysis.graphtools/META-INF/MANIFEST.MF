@@ -9,4 +9,4 @@ Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.ui
 Automatic-Module-Name: org.jcryptool.analysis.graphtools
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

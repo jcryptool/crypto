@@ -14,4 +14,4 @@ Export-Package: org.jcryptool.algorithm,
  org.jcryptool.visual.sidechannelattack,
  org.jcryptool.visual.sidechannelattack.spa.handlers,
  org.jcryptool.visual.sidechannelattack.spa.views
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

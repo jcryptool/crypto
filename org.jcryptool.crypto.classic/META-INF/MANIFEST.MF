@@ -5,4 +5,4 @@ Bundle-SymbolicName: org.jcryptool.crypto.classic;singleton:=true
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.jcryptool.crypto.classic
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

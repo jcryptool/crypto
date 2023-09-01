@@ -27,4 +27,4 @@ Export-Package: org.jcryptool.visual.sphincsplus,
  org.jcryptool.visual.sphincsplus.interfaces,
  org.jcryptool.visual.sphincsplus.ui
 Bundle-Vendor: %Bundle-Vendor.0
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

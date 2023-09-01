@@ -23,4 +23,4 @@ Export-Package: org.jcryptool.analysis.substitution,
  org.jcryptool.analysis.substitution.ui.modules,
  org.jcryptool.analysis.substitution.ui.modules.utils,
  org.jcryptool.analysis.substitution.views
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

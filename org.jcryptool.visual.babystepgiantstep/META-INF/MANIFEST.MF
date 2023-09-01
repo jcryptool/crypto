@@ -15,4 +15,4 @@ Automatic-Module-Name: org.jcryptool.visual.babystepgiantstep
 Export-Package: org.jcryptool.visual.babystepgiantstep.algorithm,
  org.jcryptool.visual.babystepgiantstep.handlers,
  org.jcryptool.visual.babystepgiantstep.views
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

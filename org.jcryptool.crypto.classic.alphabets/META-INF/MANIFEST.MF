@@ -21,4 +21,4 @@ Import-Package: org.jcryptool.crypto.ui.textmodify.wizard,
  org.jcryptool.core.logging.utils,
  org.jcryptool.core.util.directories
 Automatic-Module-Name: org.jcryptool.crypto.classic.alphabets
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

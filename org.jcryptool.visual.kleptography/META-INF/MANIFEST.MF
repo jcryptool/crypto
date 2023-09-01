@@ -17,4 +17,4 @@ Export-Package: org.jcryptool.visual.kleptography,
  org.jcryptool.visual.kleptography.handlers,
  org.jcryptool.visual.kleptography.ui
 Automatic-Module-Name: org.jcryptool.visual.kleptography
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

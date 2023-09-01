@@ -25,4 +25,4 @@ Import-Package: org.eclipse.core.databinding,
  org.eclipse.wb.swt,
  org.jcryptool.core.util.fonts
 Automatic-Module-Name: org.jcryptool.visual.sphincs
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

@@ -15,4 +15,4 @@ Export-Package: org.jcryptool.visual.merkleHellman,
  org.jcryptool.visual.merkleHellman.algorithm,
  org.jcryptool.visual.merkleHellman.handlers,
  org.jcryptool.visual.merkleHellman.views
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

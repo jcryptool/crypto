@@ -16,4 +16,4 @@ Export-Package: org.jcryptool.visual.secretsharing,
  org.jcryptool.visual.secretsharing.algorithm,
  org.jcryptool.visual.secretsharing.handler,
  org.jcryptool.visual.secretsharing.views
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

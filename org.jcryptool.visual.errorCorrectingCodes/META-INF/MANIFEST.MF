@@ -31,4 +31,4 @@ Export-Package: org.jcryptool.visual.errorcorrectingcodes,
  org.jcryptool.visual.errorcorrectingcodes.ui.binding,
  org.jcryptool.visual.errorcorrectingcodes.ui.views,
  org.jcryptool.visual.errorcorrectingcodes.ui.widget
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

@@ -24,4 +24,4 @@ Export-Package: org.jcryptool.analysis.vigenere,
  org.jcryptool.analysis.vigenere.interfaces,
  org.jcryptool.analysis.vigenere.ui,
  org.jcryptool.analysis.vigenere.views
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

@@ -25,4 +25,4 @@ Import-Package: org.jcryptool.analysis.graphtools,
  org.jcryptool.crypto.ui.textloader.ui.wizard,
  org.jcryptool.crypto.ui.textsource
 Automatic-Module-Name: org.jcryptool.analysis.friedman
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

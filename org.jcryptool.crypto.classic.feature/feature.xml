@@ -1,5 +1,5 @@
 <feature 
-id="org.jcryptool.crypto.classic.feature" label="JCrypTool Classic Algorithms Feature" version="1.0.9" provider-name="jcryptool.org" plugin="org.jcryptool.crypto.classic">
+id="org.jcryptool.crypto.classic.feature" label="JCrypTool Classic Algorithms Feature" version="1.0.9.1-20230901" provider-name="jcryptool.org" plugin="org.jcryptool.crypto.classic">
     <description url="https://github.com/jcryptool/crypto">
         <!-- keep this in one line -->
         <!-- version:this -->
@@ -215,37 +215,47 @@ litigation.
     <!-- <url> -->
     <!--    <update label="JCrypTool.org" url="https://www.cryptool.org/jct/update"/> -->
     <!-- </url> -->
-    <plugin id="org.jcryptool.crypto.classic.adfgvx" download-size="0" install-size="0" version="1.0.9" unpack="false">
-    </plugin>
-    <plugin id="org.jcryptool.crypto.classic.alphabets" download-size="0" install-size="0" version="1.0.9" unpack="false">
-    </plugin>
-    <plugin id="org.jcryptool.crypto.classic.caesar" download-size="0" install-size="0" version="1.0.9" unpack="false">
-    </plugin>
     <plugin 
-    id="org.jcryptool.crypto.classic.substitution" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    id="org.jcryptool.crypto.classic.adfgvx" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
 </plugin>
     <plugin 
-    id="org.jcryptool.crypto.classic.transposition" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    id="org.jcryptool.crypto.classic.alphabets" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
 </plugin>
-    <plugin id="org.jcryptool.crypto.classic.vigenere" download-size="0" install-size="0" version="1.0.9" unpack="false">
-    </plugin>
-    <plugin id="org.jcryptool.crypto.classic.xor" download-size="0" install-size="0" version="1.0.9" unpack="false">
-    </plugin>
+    <plugin 
+    id="org.jcryptool.crypto.classic.caesar" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
+    <plugin 
+    id="org.jcryptool.crypto.classic.substitution" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
+    <plugin 
+    id="org.jcryptool.crypto.classic.transposition" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
+    <plugin 
+    id="org.jcryptool.crypto.classic.vigenere" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
+    <plugin 
+    id="org.jcryptool.crypto.classic.xor" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
     <plugin id="com.thoughtworks.xstream" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-    <plugin id="org.jcryptool.crypto.classic" download-size="0" install-size="0" version="1.0.9" unpack="false"> </plugin>
-    <plugin 
-    id="org.jcryptool.crypto.classic.autovigenere" download-size="0" install-size="0" version="1.0.9" unpack="false">
-</plugin>
-    <plugin id="org.jcryptool.crypto.classic.delastelle" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    <plugin id="org.jcryptool.crypto.classic" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
     </plugin>
     <plugin 
-    id="org.jcryptool.crypto.classic.doppelkasten" download-size="0" install-size="0" version="1.0.9" unpack="false">
+    id="org.jcryptool.crypto.classic.autovigenere" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
 </plugin>
-    <plugin id="org.jcryptool.crypto.classic.playfair" download-size="0" install-size="0" version="1.0.9" unpack="false">
-    </plugin>
-    <plugin id="org.jcryptool.crypto.classic.model" download-size="0" install-size="0" version="1.0.9" unpack="false">
-    </plugin>
-    <plugin id="org.jcryptool.crypto.ui" download-size="0" install-size="0" version="1.0.9" unpack="false"/>
-    <plugin id="org.jcryptool.crypto.classic.model" download-size="0" install-size="0" version="1.0.9" unpack="false">
-    </plugin>
+    <plugin 
+    id="org.jcryptool.crypto.classic.delastelle" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
+    <plugin 
+    id="org.jcryptool.crypto.classic.doppelkasten" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
+    <plugin 
+    id="org.jcryptool.crypto.classic.playfair" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
+    <plugin 
+    id="org.jcryptool.crypto.classic.model" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
+    <plugin id="org.jcryptool.crypto.ui" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false"/>
+    <plugin 
+    id="org.jcryptool.crypto.classic.model" download-size="0" install-size="0" version="1.0.9.1-20230901" unpack="false">
+</plugin>
 </feature>

@@ -20,4 +20,4 @@ Export-Package: org.jcryptool.visual.crt,
  org.jcryptool.visual.crt.handlers,
  org.jcryptool.visual.crt.views,
  org.jcryptool.visual.crt.xeuclid
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901

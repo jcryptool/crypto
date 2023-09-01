@@ -21,4 +21,4 @@ Export-Package: org.jcryptool.crypto.modern.stream.arc4,
  org.jcryptool.crypto.modern.stream.arc4.algorithm,
  org.jcryptool.crypto.modern.stream.arc4.ui
 Automatic-Module-Name: org.jcryptool.crypto.modern.stream.arc4
-Bundle-Version: 1.0.9
+Bundle-Version: 1.0.9.1-20230901
