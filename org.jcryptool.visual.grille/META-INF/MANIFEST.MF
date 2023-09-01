@@ -17,4 +17,4 @@ Export-Package: org.jcryptool.visual.grille,
  org.jcryptool.visual.grille.algorithm,
  org.jcryptool.visual.grille.handlers,
  org.jcryptool.visual.grille.ui
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

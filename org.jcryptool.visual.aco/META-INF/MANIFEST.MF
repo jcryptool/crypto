@@ -24,4 +24,4 @@ Export-Package: org.jcryptool.visual.aco,
  org.jcryptool.visual.aco.model,
  org.jcryptool.visual.aco.view,
  org.jcryptool.visual.aco.wizard
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

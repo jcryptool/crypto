@@ -25,4 +25,4 @@ Export-Package: org.jcryptool.visual.ssl.handler,
  org.jcryptool.visual.ssl.protocol,
  org.jcryptool.visual.ssl.views
 Bundle-Activator: org.jcryptool.visual.ssl.SslPlugin
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

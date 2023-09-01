@@ -17,4 +17,4 @@ Automatic-Module-Name: org.jcryptool.visual.des
 Export-Package: org.jcryptool.visual.des.algorithm,
  org.jcryptool.visual.des.handlers,
  org.jcryptool.visual.des.view
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

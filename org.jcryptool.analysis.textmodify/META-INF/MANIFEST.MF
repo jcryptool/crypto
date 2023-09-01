@@ -16,4 +16,4 @@ Import-Package: org.jcryptool.core.logging.dialogs,
 Automatic-Module-Name: org.jcryptool.analysis.textmodify
 Export-Package: org.jcryptool.analysis.textmodify,
  org.jcryptool.analysis.textmodify.commands
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

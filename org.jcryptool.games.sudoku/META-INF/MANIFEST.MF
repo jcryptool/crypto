@@ -17,4 +17,4 @@ Automatic-Module-Name: org.jcryptool.games.sudoku
 Export-Package: org.jcryptool.games.sudoku,
  org.jcryptool.games.sudoku.handler,
  org.jcryptool.games.sudoku.views
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

@@ -29,4 +29,4 @@ Export-Package: org.jcryptool.analysis.transpositionanalysis,
  org.jcryptool.analysis.transpositionanalysis.ui.wizards.inputs,
  org.jcryptool.analysis.transpositionanalysis.views
 Automatic-Module-Name: org.jcryptool.analysis.transpositionanalysis
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

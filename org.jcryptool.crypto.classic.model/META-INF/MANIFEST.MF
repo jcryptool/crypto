@@ -25,4 +25,4 @@ Bundle-Activator: org.jcryptool.crypto.classic.model.ClassicCryptoModelPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor
 Automatic-Module-Name: org.jcryptool.crypto.classic.model
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

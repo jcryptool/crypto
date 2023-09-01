@@ -18,4 +18,4 @@ Import-Package: org.jcryptool.core.logging.utils,
  org.jcryptool.core.util.directories,
  org.jcryptool.core.util.fonts
 Automatic-Module-Name: org.jcryptool.visual.euclid
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

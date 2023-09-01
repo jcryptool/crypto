@@ -23,4 +23,4 @@ Export-Package: org.jcryptool.visual.huffmanCoding,
  org.jcryptool.visual.huffmanCoding.algorithm,
  org.jcryptool.visual.huffmanCoding.handlers,
  org.jcryptool.visual.huffmanCoding.views
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

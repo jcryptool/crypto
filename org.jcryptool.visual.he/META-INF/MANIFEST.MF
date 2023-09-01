@@ -33,4 +33,4 @@ Export-Package: org.jcryptool.visual.he,
  org.jcryptool.visual.he.ui,
  org.jcryptool.visual.he.wizards,
  org.jcryptool.visual.he.wizards.pages
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

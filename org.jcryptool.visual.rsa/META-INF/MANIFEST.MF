@@ -28,4 +28,4 @@ Export-Package: org.jcryptool.visual.rsa,
  org.jcryptool.visual.rsa.ui,
  org.jcryptool.visual.rsa.ui.wizards,
  org.jcryptool.visual.rsa.ui.wizards.wizardpages
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

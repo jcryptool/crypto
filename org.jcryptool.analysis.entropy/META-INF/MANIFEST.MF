@@ -19,4 +19,4 @@ Export-Package: org.jcryptool.analysis.entropy,
  org.jcryptool.analysis.entropy.calc,
  org.jcryptool.analysis.entropy.ui,
  org.jcryptool.analysis.entropy.views
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

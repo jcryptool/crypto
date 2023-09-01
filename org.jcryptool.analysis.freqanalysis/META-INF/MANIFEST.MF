@@ -23,4 +23,4 @@ Export-Package: org.jcryptool.analysis.freqanalysis,
  org.jcryptool.analysis.freqanalysis.views
 Bundle-Vendor: %Bundle-Vendor.0
 Automatic-Module-Name: org.jcryptool.analysis.freqanalysis
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

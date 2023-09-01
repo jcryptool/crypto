@@ -22,4 +22,4 @@ Automatic-Module-Name: org.jcryptool.visual.rainbow
 Export-Package: org.jcryptool.visual.rainbow,
  org.jcryptool.visual.rainbow.algorithm,
  org.jcryptool.visual.rainbow.ui
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

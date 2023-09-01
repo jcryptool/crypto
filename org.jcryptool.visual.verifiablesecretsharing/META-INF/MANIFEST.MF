@@ -18,4 +18,4 @@ Export-Package: org.jcryptool.visual.verifiablesecretsharing,
  org.jcryptool.visual.verifiablesecretsharing.algorithm,
  org.jcryptool.visual.verifiablesecretsharing.handler,
  org.jcryptool.visual.verifiablesecretsharing.views
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9

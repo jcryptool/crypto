@@ -69,4 +69,4 @@ Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.ui
 Automatic-Module-Name: org.jcryptool.visual.verifiablesecretsharing.lib
-Bundle-Version: 1.0.9.1-20230722
+Bundle-Version: 1.0.9
